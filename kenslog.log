@@ -1,0 +1,100 @@
+dBASE PLUS Project Explorer Log: kenslog.log
+Project name: kenslog
+
+=================================================================
+REBUILD ALL process started: 09/22/2021 22:20:36
+dBASE 2019 13.20  b2618 (11/26/2019-EN191126)
+Project Explorer b1071 (05/07/2019)
+-----------------------------------------------------------------
+Compile results for:
+C:\KENSLOG\IDSSYS\KENSLOG.WFM
+0 warnings, 0 errors
+
+Compile results for:
+C:\KENSLOG\IDSSYS\KENSLOGS.MNU
+0 warnings, 0 errors
+
+C:\kenslog\idssys\kenslogs.mno copied to DEO Target: C:\kenslog\idssys\deploy\kenslogs.mno
+
+Compile results for:
+C:\KENSLOG\IDSSYS\KENSLOGS.WFM
+0 warnings, 0 errors
+
+C:\kenslog\idssys\KENSLOGS.wfo copied to DEO Target: C:\kenslog\idssys\deploy\KENSLOGS.wfo
+
+Compile results for:
+C:\KENSLOG\IDSSYS\QBEERR.PRG
+0 warnings, 0 errors
+
+C:\kenslog\idssys\qbeerR.pro copied to DEO Target: C:\kenslog\idssys\deploy\qbeerR.pro
+
+Compile results for:
+C:\KENSLOG\IDSSYS\SAMPPROC.PRG
+0 warnings, 0 errors
+
+C:\kenslog\idssys\SAMPPROC.PRo copied to DEO Target: C:\kenslog\idssys\deploy\SAMPPROC.PRo
+
+C:\kenslog\idssys\KENGROUP.DBF copied to DEO Target: C:\kenslog\idssys\deploy\KENGROUP.DBF
+
+C:\kenslog\idssys\KENGROUP.mdx copied to DEO Target: C:\kenslog\idssys\deploy\KENGROUP.mdx
+
+C:\kenslog\idssys\KENSLOG.DBF copied to DEO Target: C:\kenslog\idssys\deploy\KENSLOG.DBF
+
+C:\kenslog\idssys\KENSLOG.mdx copied to DEO Target: C:\kenslog\idssys\deploy\KENSLOG.mdx
+
+C:\kenslog\idssys\KENSLOG.dbt copied to DEO Target: C:\kenslog\idssys\deploy\KENSLOG.dbt
+
+C:\kenslog\idssys\KENSLOG1.DBF copied to DEO Target: C:\kenslog\idssys\deploy\KENSLOG1.DBF
+
+C:\kenslog\idssys\KENSLOGD.DBF copied to DEO Target: C:\kenslog\idssys\deploy\KENSLOGD.DBF
+
+C:\kenslog\idssys\KENSLOGD.mdx copied to DEO Target: C:\kenslog\idssys\deploy\KENSLOGD.mdx
+
+C:\kenslog\idssys\KENSLOGX.DBF copied to DEO Target: C:\kenslog\idssys\deploy\KENSLOGX.DBF
+
+C:\kenslog\idssys\KENTRYLG.DBF copied to DEO Target: C:\kenslog\idssys\deploy\KENTRYLG.DBF
+
+C:\kenslog\idssys\KENTRYLG.mdx copied to DEO Target: C:\kenslog\idssys\deploy\KENTRYLG.mdx
+
+C:\kenslog\idssys\querrors.DBF copied to DEO Target: C:\kenslog\idssys\deploy\querrors.DBF
+
+C:\kenslog\idssys\transerr.DBF copied to DEO Target: C:\kenslog\idssys\deploy\transerr.DBF
+
+Compile results for:
+C:\KENSLOG\IDSSYS\KENSLOG.DMD
+0 warnings, 0 errors
+
+C:\kenslog\idssys\KENSLOG.DMo copied to DEO Target: C:\kenslog\idssys\deploy\KENSLOG.DMo
+
+C:\kenslog\idssys\IMAGELOG.BMP copied to DEO Target: C:\kenslog\idssys\deploy\IMAGELOG.BMP
+
+C:\kenslog\idssys\Mugs.ico copied to DEO Target: C:\kenslog\idssys\deploy\Mugs.ico
+
+Compile results for:
+C:\KENSLOG\IDSSYS\PASSWDC.CC
+0 warnings, 0 errors
+
+C:\kenslog\idssys\PASSWDC.Co copied to DEO Target: C:\kenslog\idssys\deploy\PASSWDC.Co
+
+Compile results for:
+C:\KENSLOG\IDSSYS\PASSWORD.CC
+0 warnings, 0 errors
+
+C:\kenslog\idssys\PASSWORD.Co copied to DEO Target: C:\kenslog\idssys\deploy\PASSWORD.Co
+
+Compile results for:
+C:\KENSLOG\IDSSYS\PASWDCON.CC
+0 warnings, 0 errors
+
+C:\kenslog\idssys\PASWDCON.Co copied to DEO Target: C:\kenslog\idssys\deploy\PASWDCON.Co
+
+C:\kenslog\idssys\logo.bmp copied to DEO Target: C:\kenslog\idssys\deploy\logo.bmp
+
+Process completed at: 22:20:38 (2 seconds elapsed)
+File compiles attempted: 9
+File compile errors: 0
+DEO files copied: 24
+Executable file: C:\kenslog\idssys\deploy\kenslog.exe
+Executable file size: 223,946
+C:\kenslog\idssys\deploy\kenslog.ini created or updated.
+

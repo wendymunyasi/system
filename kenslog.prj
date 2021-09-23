@@ -1,0 +1,159 @@
+Project File generated 09/22/2021 18:36:22
+
+[Project]
+Name=kenslog
+DefaultDir=.
+MainProjectFileName=kenslog.wfm
+Parameters=
+Author=Wendy
+Description=Just a test.
+Preprocessor=
+LogFileName=C:\kenslog\idssys\kenslog.log
+PrefPathFormat=R
+TargetFileName=C:\kenslog\idssys\deploy\kenslog.exe
+IconFileName=Mugs.ico
+SplashFileName=
+MostRecentSelectedFileName=
+WebApplication=false
+DeoOption=True
+enableUAC=1
+inioption=1
+runtimeinbuild=0
+bdeoption=1
+
+[Contents]
+kenslog.wfm,0,0,0, 
+kenslogs.mnu,1,0,1,0
+KENSLOGS.wfm,1,0,1,0
+qbeerR.prg,1,0,1,0
+SAMPPROC.PRG,1,0,1,0
+KENGROUP.DBF,0,0,1,0
+KENSLOG.DBF,0,0,1,0
+KENSLOG1.DBF,0,0,1,0
+KENSLOGD.DBF,0,0,1,0
+KENSLOGX.DBF,0,0,1,0
+KENTRYLG.DBF,0,0,1,0
+querrors.DBF,0,0,1,0
+transerr.DBF,0,0,1,0
+KENSLOG.DMD,1,0,1,0
+IMAGELOG.BMP,0,0,1,0
+Mugs.ico,0,0,1,0
+PASSWDC.CC,1,0,1,0
+PASSWORD.CC,1,0,1,0
+PASWDCON.CC,1,0,1,0
+logo.bmp,0,0,1,0
+
+[DEO]
+DEO0=C:\kenslog\idssys\deploy
+
+[INNO]
+ProjectExeFileName=C:\kenslog\idssys\deploy\kenslog.exe
+ProjectMainFileName=\Project\Explorer.iss
+ProjectdBaseVersion=dBASE 2019 13.20  b2618 (11/26/2019-EN191126)
+DefaultDirName={pf}\{#AppName}
+AppName=kenslog
+AppVersion=1.0.0.0
+SM_dBASERuntime=false
+dBPlus=true
+dBSeparat=false
+Resource=false
+dBASELang=EN
+dBaseRuntimeInstDir=
+dBaseRuntimeDir=C:\Program Files\dBASE\PLUS\Runtime
+INNO_RBoption=3
+bdeonlyinstall=false
+bdeinstallfile=
+XPLook=false
+dBaseBuild=2083
+dBaseVersion=2610
+SetupLang=en
+SepDestDir=false
+BDEGroupEntries=false
+dBProgressbar=false
+dBProgressbox=false
+dBSilent=false
+dBDestRuntime=
+dBDestBDE=
+SourceFolder=C:\kenservice\idssys
+InnoScriptname=\Project\Explorer.iss
+LastDBVersion=2610
+LastDBLanguage=EN
+LastCreateDate=
+IncDispGroup=true
+IncUninsEntry=true
+IncDesktopEntry=false
+IncQuickEntry=false
+ENLicense=
+ENBefore=
+ENAfter=
+DELicense=
+DEBefore=
+DEAfter=
+ESLicense=
+ESBefore=
+ESAfter=
+ITLicense=
+ITBefore=
+ITAfter=
+JALicense=
+JABefore=
+JAAfter=
+FRLicense=
+FRBefore=
+FRAfter=
+DKLicense=
+DKBefore=
+DKAfter=
+PLLicense=
+PLBefore=
+PLAfter=
+NLLicense=
+NLBefore=
+NLAfter=
+UninsHS=true
+UninsHSAppName=
+UninsHSAppId=
+UninsHSLanguages=All
+BDEUseSettings=false
+BDEMaxFileHandle=255
+BDELangDriver='ascii' ANSI
+BDELevel=7
+BDEMemoBlockSize=1024
+BDEMDXBlockSize=1024
+INNOINI=false
+INIERRORHANDLING=false
+INITRAP=true
+ININOBDE=false
+INIAPPTHEMETYPE=4
+INIFULLTHEMENAME=4 - Office2 Blue
+INILARGEBUTTONS=true
+UACRB=1
+CURRENTVSF=windows
+IMAGETOPRIGHT=
+IMAGESIDE=
+Icon1={group}\{#AppName} >> {app}\kenslog.exe
+Files1=KENGROUP.DBF >> DestDir: {app}
+Files2=KENGROUP.mdx >> DestDir: {app}
+Files3=KENSLOG.DBF >> DestDir: {app}
+Files4=KENSLOG.mdx >> DestDir: {app}
+Files5=KENSLOG.dbt >> DestDir: {app}
+Files6=KENSLOG1.DBF >> DestDir: {app}
+Files7=KENSLOGD.DBF >> DestDir: {app}
+Files8=KENSLOGD.mdx >> DestDir: {app}
+Files9=KENSLOGX.DBF >> DestDir: {app}
+Files10=KENTRYLG.DBF >> DestDir: {app}
+Files11=KENTRYLG.mdx >> DestDir: {app}
+Files12=querrors.DBF >> DestDir: {app}
+Files13=transerr.DBF >> DestDir: {app}
+Files14=IMAGELOG.BMP >> DestDir: {app}
+Files15=Mugs.ico >> DestDir: {app}
+Files16=kenslogs.mnO >> DestDir: {app}
+Files17=KENSLOGS.wfO >> DestDir: {app}
+Files18=qbeerR.prO >> DestDir: {app}
+Files19=SAMPPROC.PRO >> DestDir: {app}
+Files20=KENSLOG.DMO >> DestDir: {app}
+Files21=PASSWDC.CO >> DestDir: {app}
+Files22=PASSWORD.CO >> DestDir: {app}
+Files23=PASWDCON.CO >> DestDir: {app}
+Files24=C:\kenslog\idssys\deploy\kenslog.exe >> DestDir: {app}
+Files25=logo.bmp >> DestDir: {app}

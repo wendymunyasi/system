@@ -1,0 +1,804 @@
+
+******************************************************************************
+*  PROGRAM:      KENSLOGS.mnu
+*
+*  WRITTEN BY:   W NYONGESA
+*
+*  DATE:        05/2010
+*
+*  UPDATED:      10/2014
+*
+*  REVISION:     $Revision:   1.0 $
+*
+*  VERSION:      Visual dBASE
+*
+*  DESCRIPTION:  This menu file is used by KENSLOGS.WFM  WITH form.BLUSER,FORM.BLEVEL for controlling the running 
+*                of the KENPAY KENSLOGS system.
+*
+*  PARAMETERS:   FormObj -- the form to which this menu is attached.
+*
+*  CALLS:        None
+*
+*  USAGE:        form.menuFile = "KENSLOGS.MNU"
+*
+*******************************************************************************
+#include <Messdlg.h>
+
+** END HEADER -- do not remove this line*
+* Generated on 17/10/2000
+*
+Parameter FormObj
+NEW KENSLOGSMENU(FormObj,"Root")
+CLASS KENSLOGSMENU(FormObj,Name) OF MENUBAR(FormObj,Name)
+
+   
+   DEFINE MENU FILE OF THIS;
+       PROPERTY; 
+        StatusMessage "Leave Kenserve FMS.",;
+         Text "&FILE"
+        
+
+         DEFINE MENU QUITS OF THIS.FILE;
+             PROPERTY; 
+               StatusMessage "Leave Kenserve FMS.",;
+               Text "EXIT",;
+               ShortCut "F8",;
+               OnClick CLASS::QUITALL
+  
+       DEFINE MENU SEPARATOR0 OF THIS.FILE;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+   if blevel = 1 .OR. (BLEVEL = 5 .and. .not. blnuser) && SERVICE PROVIDER/IT
+      IF BLEVEL = 1
+       DEFINE MENU ADMIN OF THIS.FILE;
+              PROPERTY; 
+              StatusMessage "CREATE NEW USERS.",;
+              Text "&1. CREATE NEW USERS",;
+              OnClick {;do kENSLOG1.WFM  WITH form.BLUSER,FORM.BLEVEL}  
+              
+              DEFINE MENU SEPARATOR2001 OF THIS.FILE;
+            PROPERTY;
+            Separator .T.,;
+            Text ""
+            ENDIF
+
+       DEFINE MENU ADMIN00 OF THIS.FILE;
+              PROPERTY; 
+              StatusMessage "DELETE USERS.",;
+              Text "&2. DELETE USERS",;
+              OnClick {;do kENSLOGD.WFM  WITH form.BLUSER,FORM.BLEVEL}  
+              
+                 DEFINE MENU SEPARATORX001 OF THIS.FILE;
+            PROPERTY;
+            Separator .T.,;
+            Text ""
+            
+             
+   DEFINE MENU ADMINEN00ST1 OF THIS.FILE;
+              PROPERTY; 
+              StatusMessage "RESET USER PASSWORDS.",;
+              Text "&3. RESET USER PASSWORDS",;
+              OnClick {;do kENSLOGR.WFM  WITH form.BLUSER,FORM.BLEVEL}  
+              
+                 DEFINE MENU SEPARATORSTM1 OF THIS.FILE;
+            PROPERTY;
+            Separator .T.,;
+            Text ""
+  
+   
+    DEFINE MENU ADMINEN00ST2 OF THIS.FILE;
+              PROPERTY; 
+              StatusMessage "CHANGE USER GROUPS.",;
+              Text "&4. CHANGE USER GROUPS",;
+              OnClick {;do kENSLOGL.WFM  WITH form.BLUSER,FORM.BLEVEL}  
+              
+                   DEFINE MENU SEPARATO1021RSTM1 OF THIS.FILE;
+            PROPERTY;
+            Separator .T.,;
+            Text ""
+  
+   endif
+   if blevel = 2 .and. .not. bladmin .and. .not. blnuser  && Territory Manager
+      DEFINE MENU ADMIN2 OF THIS.FILE;
+             PROPERTY; 
+             StatusMessage "CREATE NEW USERS.",;
+             Text "&1. CREATE USERS",;
+             OnClick {;do kENSLOG2.WFM  WITH form.BLUSER,FORM.BLEVEL}     
+                  
+     DEFINE MENU SEPARATOR21 OF THIS.FILE;
+            PROPERTY;
+            Separator .T.,;
+            Text ""
+             
+             DEFINE MENU ADMIN200 OF THIS.FILE;
+             PROPERTY; 
+             StatusMessage "DELETE USERS.",;
+             Text "&2. DELETE USERS",;
+             OnClick {;do kENSLOG6.WFM  WITH form.BLUSER,FORM.BLEVEL}     
+*                  
+     DEFINE MENU SEPARATOR2100X OF THIS.FILE;
+            PROPERTY;
+            Separator .T.,;
+            Text ""
+            
+             
+             DEFINE MENU ADMINENATMIT1 OF THIS.FILE;
+             PROPERTY; 
+             StatusMessage "RESET USER PASSWORDS.",;
+             Text "&3. RESET USER PASSWORDS",;
+             OnClick {;do kENSLOGA.WFM  WITH form.BLUSER,FORM.BLEVEL}     
+*                  
+     DEFINE MENU SEPARATORTMIT01 OF THIS.FILE;
+            PROPERTY;
+            Separator .T.,;
+            Text ""
+            
+             DEFINE MENU ADMINENATMIT2 OF THIS.FILE;
+             PROPERTY; 
+             StatusMessage "CHANGE USER GROUPS.",;
+             Text "&4. CHANGE USER GROUPS",;
+             OnClick {;do kENSLOG9.WFM  WITH form.BLUSER,FORM.BLEVEL}     
+             
+                  DEFINE MENU SEPAR2000STM1 OF THIS.FILE;
+            PROPERTY;
+            Separator .T.,;
+            Text ""
+  
+*      
+   endif
+   if  blevel = 3 .and.  bladmin .and. .not. blnuser && FD
+   
+      DEFINE MENU ADMIN223 OF THIS.FILE;
+             PROPERTY; 
+             StatusMessage "CREATE NEW USERS.",;
+             Text "&1. CREATE USERS",;
+             OnClick {;do kENSLOG4.WFM  WITH form.BLUSER,FORM.BLEVEL}     
+                  
+      DEFINE MENU SEPARATOR2XC1 OF THIS.FILE;
+             PROPERTY;
+             Separator .T.,;
+             Text ""
+             
+             DEFINE MENU ADMIN2X000X OF THIS.FILE;
+             PROPERTY; 
+             StatusMessage "DELETE USERS.",;
+             Text "&2. DELETE USERS",;
+             OnClick {;do kENSLOG5.WFM  WITH form.BLUSER,FORM.BLEVEL}     
+      
+               DEFINE MENU SEPARENABATOR2XC1 OF THIS.FILE;
+             PROPERTY;
+             Separator .T.,;
+             Text ""
+                 
+             DEFINE MENU ADMINENAFD1 OF THIS.FILE;
+             PROPERTY; 
+             StatusMessage "RESET USER PASSWORDS.",;
+             Text "&3. RESET USER PASSWORDS",;
+             OnClick {;do kENSLOGB.WFM  WITH form.BLUSER,FORM.BLEVEL}     
+             
+              DEFINE MENU SEPARENABAFD2 OF THIS.FILE;
+             PROPERTY;
+             Separator .T.,;
+             Text ""
+             
+             DEFINE MENU ADMINENAFD2 OF THIS.FILE;
+             PROPERTY; 
+             StatusMessage "CHANGE USER GROUPS.",;
+             Text "&4. CHANGE USER GROUPS",;
+             OnClick {;do kENSLOG0.WFM  WITH form.BLUSER,FORM.BLEVEL}  
+                  DEFINE MENU SEPAR30000TM1 OF THIS.FILE;
+            PROPERTY;
+            Separator .T.,;
+            Text ""
+  
+       
+   endif
+   IF BLEVEL = 1 .OR. (BLEVEL = 3 .and. bladmin) .OR. (BLEVEL = 2 .and. .not. bladmin) ;
+   .OR. BLEVEL = 5 .OR. BLEVEL = 4  .or. blevel = 7 .OR. BLEVEL = 6
+      if  blevel < 4 
+    DEFINE MENU SETPRINTER OF THIS.FILE;
+             PROPERTY; 
+             Text "&6. RESET PRINTER",;
+              StatusMessage "RESET PRINTER.",;
+             OnClick {; do fgprint.wfm WITH FORM.BLUSER, FORM.BLEVEL}
+             
+     DEFINE MENU SEPARINDESX OF THIS.FILE;
+             PROPERTY;
+             Separator .T.,;
+             Text ""
+           endif
+    
+if    (.not. validdrive("Z:") .and.  .not. validdrive("W:");
+.and.  .not. validdrive("Y:") .AND. .not. validdrive("X:")) .or. bldrn
+    DEFINE MENU REINDEX OF THIS.FILE;
+             PROPERTY; 
+             Text "&7. REBUILD TABLES"
+             
+                DEFINE MENU VEND591a OF THIS.FILE.REINDEX;
+                PROPERTY; 
+                Text "1. Restore",;
+                OnClick {;do shrest.prg WITH FORM.BLUSER, FORM.BLEVEL}
+                        
+                DEFINE MENU SEPAREINDEX1 OF THIS.FILE.REINDEX;
+                PROPERTY;
+                Separator .T.,;
+                Text ""
+          
+                DEFINE MENU VEND5912 OF THIS.FILE.REINDEX;
+                PROPERTY; 
+                Text "2. Chart of Accounts",;
+                OnClick {;do fgmast.wfm WITH FORM.BLUSER, FORM.BLEVEL}
+                        
+                DEFINE MENU SEPAREINDEX2 OF THIS.FILE.REINDEX;
+                PROPERTY;
+                Separator .T.,;
+                Text ""
+                
+                 DEFINE MENU VEND5913 OF THIS.FILE.REINDEX;
+                PROPERTY; 
+                Text "3. Customers",;
+                OnClick {;do frigtmes.wfm WITH FORM.BLUSER, FORM.BLEVEL}
+                        
+                DEFINE MENU SEPAREINDEX3 OF THIS.FILE.REINDEX;
+                PROPERTY;
+                Separator .T.,;
+                Text ""
+                
+                 DEFINE MENU VEND5914 OF THIS.FILE.REINDEX;
+                PROPERTY; 
+                Text "4. Vendors",;
+                OnClick {;do vennames.wfm WITH FORM.BLUSER, FORM.BLEVEL}
+                        
+                DEFINE MENU SEPAREINDEX4 OF THIS.FILE.REINDEX;
+                PROPERTY;
+                Separator .T.,;
+                Text ""
+                
+                IF BLEVEL = 1   
+                                
+                DEFINE MENU KENRftrmatchxyz OF THIS.FILE.REINDEX;
+              property;
+              TEXT "5. Rebuild Debtors Matching Databases",;
+        enabled .F.,;
+        ONCLICK {; DO frpcrcds.prg WITH FORM.BLUSER,FORM.BLEVEL}
+        
+           DEFINE MENU kencmatxyz OF THIS.FILE.REINDEX;
+             PROPERTY;
+             Separator .T.,;
+             Text ""
+             
+                    DEFINE MENU KENRESTSALES OF THIS.FILE.REINDEX;
+              property;
+                   TEXT "6. Reset Sales Performance Report",;
+        enabled .T.,;
+        ONCLICK {; DO fgshcatp.PRG WITH FORM.BLUSER,FORM.BLEVEL}
+     
+       DEFINE MENU kencmatxyzwpstemp99 OF THIS.FILE.REINDEX;
+             PROPERTY;
+             Separator .T.,;
+             Text ""
+                
+               DEFINE MENU KENRftrmwms OF THIS.FILE.REINDEX;
+              property;
+            TEXT "7. Rebuild Monthly Stock Movement",;
+        enabled .T.,;
+        ONCLICK {; DO fgshmths.prg WITH FORM.BLUSER,FORM.BLEVEL}
+         
+           DEFINE MENU kencmatxyzwps OF THIS.FILE.REINDEX;
+             PROPERTY;
+             Separator .T.,;
+             Text ""
+             endif
+             
+             IF BLEVEL = 1 
+                DEFINE MENU KENRfshiftid OF THIS.FILE.REINDEX;
+              property;
+            TEXT "8. Change File Structures.",;
+        enabled .T.,;
+        ONCLICK {; DO fgshid.prg WITH FORM.BLUSER,FORM.BLEVEL}
+         
+           DEFINE MENU kencmatxyzwpstemp OF THIS.FILE.REINDEX;
+             PROPERTY;
+             Separator .T.,;
+             Text ""
+               
+                    DEFINE MENU KENRVENACCS OF THIS.FILE.REINDEX;
+              property;
+                   TEXT "9. Rebuild Vendor Ledger Accounts",;
+        enabled .T.,;
+        ONCLICK {; DO vnbuild.prg WITH FORM.BLUSER,FORM.BLEVEL}
+         
+         DEFINE MENU kencmatxyzempVN OF THIS.FILE.REINDEX;
+             PROPERTY;
+             Separator .T.,;
+             Text ""
+          
+              DEFINE MENU KENRACRECCS OF THIS.FILE.REINDEX;
+              property;
+                   TEXT "1&0. Rebuild Debtors Ledger Accounts",;
+        enabled .T.,;
+        ONCLICK {; DO frbuild.prg WITH FORM.BLUSER,FORM.BLEVEL}
+         
+         DEFINE MENU kencACREC OF THIS.FILE.REINDEX;
+             PROPERTY;
+             Separator .T.,;
+             Text ""
+             
+         *       DEFINE MENU KENRACRECCS11 OF THIS.FILE.REINDEX;
+              property;
+                   TEXT "11. Rebuild &Vendor Statements",;
+        enabled .T.,;
+        ONCLICK {; DO fgvenst.prg WITH FORM.BLUSER,FORM.BLEVEL}
+         
+       *  DEFINE MENU kencACREC11 OF THIS.FILE.REINDEX;
+             PROPERTY;
+             Separator .T.,;
+             Text ""
+             
+             endif
+             endif
+             
+          ENDIF   
+ 
+  IF BLEVEL = 1 .OR. (BLEVEL = 3 .AND. BLADMIN) .or. blevel = 2 && TM
+  IF BLEVEL = 1 
+  
+   DEFINE MENU SEPARDATRAS OF THIS.FILE;
+             PROPERTY;
+             Separator .T.,;
+             Text ""
+
+if    (.not. validdrive("Z:") .and.  .not. validdrive("W:");
+.and.  .not. validdrive("Y:") .and.  .not. validdrive("X:")) .or. bldrn
+
+  DEFINE MENU INITIALSETUP OF THIS.FILE;
+     PROPERTY;
+        TEXT "8. INITIALIZE DATABASES"
+        
+           DEFINE MENU FGSETUP1 OF THIS.FILE.INITIALSETUP;
+              property;
+              TEXT "1. Forecourt Databases - Change Dealership",;
+        enabled .T.,;
+        ONCLICK {; DO FGSETUPT.PRG WITH FORM.BLUSER,FORM.BLEVEL}
+        
+           DEFINE MENU SEPARfgsetpu1 OF THIS.FILE.INITIALSETUP;
+             PROPERTY;
+             Separator .T.,;
+             Text ""
+DEFINE MENU FnglTUP1 OF THIS.FILE.INITIALSETUP;
+              property;
+              TEXT "2. General Ledger Databases - WITHOUT JOURNALS",;
+        enabled .T.,;
+        ONCLICK {; DO nglsetup.PRG WITH FORM.BLUSER,FORM.BLEVEL}
+        
+           DEFINE MENU SEPARfgsetpu2 OF THIS.FILE.INITIALSETUP;
+             PROPERTY;
+             Separator .T.,;
+             Text ""
+
+DEFINE MENU payseUP1 OF THIS.FILE.INITIALSETUP;
+              property;
+              TEXT "3. Payroll Databases",;
+        enabled .T.,;
+        ONCLICK {; DO paysetup.PRG WITH FORM.BLUSER,FORM.BLEVEL}
+        
+           DEFINE MENU payARfgsetpu1 OF THIS.FILE.INITIALSETUP;
+             PROPERTY;
+             Separator .T.,;
+             Text ""
+
+   DEFINE MENU FGSETUPn1 OF THIS.FILE.INITIALSETUP;
+              property;
+              TEXT "4. Forecourt Databases - New Site",;
+        enabled .T.,;
+        ONCLICK {; DO FGSETUPN.PRG WITH FORM.BLUSER,FORM.BLEVEL}
+        
+           DEFINE MENU SEPARfgsetpun1 OF THIS.FILE.INITIALSETUP;
+             PROPERTY;
+             Separator .T.,;
+             Text ""
+             
+if blevel = 1 
+DEFINE MENU KENRfgshcat OF THIS.FILE.INITIALSETUP;
+              property;
+              TEXT "5. Reset Sales Performance Report",;
+        enabled .T.,;
+        ONCLICK {; DO fgshcatp.PRG WITH FORM.BLUSER,FORM.BLEVEL}
+        
+           DEFINE MENU kencatpar OF THIS.FILE.INITIALSETUP;
+             PROPERTY;
+             Separator .T.,;
+             Text ""
+             
+             DEFINE MENU KENRfgshmas OF THIS.FILE.INITIALSETUP;
+              property;
+              TEXT "6. Rebuild Monthly White Products Stock Movement",;
+        enabled .T.,;
+        ONCLICK {; DO fgshmths.prg WITH FORM.BLUSER,FORM.BLEVEL}
+        
+           DEFINE MENU kencasgsftpar OF THIS.FILE.INITIALSETUP;
+             PROPERTY;
+             Separator .T.,;
+             Text ""
+             
+              DEFINE MENU KENRftrnas OF THIS.FILE.INITIALSETUP;
+              property;
+              TEXT "7. Rebuild Daily Aged Analysis",;
+        enabled .T.,;
+        ONCLICK {; DO frtrns.prg WITH FORM.BLUSER,FORM.BLEVEL}
+        
+           DEFINE MENU kencasgsftpar7b OF THIS.FILE.INITIALSETUP;
+             PROPERTY;
+             Separator .T.,;
+             Text ""
+             
+              DEFINE MENU KENRftrnas7b OF THIS.FILE.INITIALSETUP;
+              property;
+              TEXT "7&b. Rebuild Monthly Aged Analysis",;
+        enabled .f.,;
+        ONCLICK {; DO frmtrns.prg WITH FORM.BLUSER,FORM.BLEVEL}
+        
+           DEFINE MENU kencfrtanspar OF THIS.FILE.INITIALSETUP;
+             PROPERTY;
+             Separator .T.,;
+             Text ""
+             
+                DEFINE MENU KENRftrmatch OF THIS.FILE.INITIALSETUP;
+              property;
+              TEXT "8. Rebuild Debtors Matching Databases",;
+        enabled .T.,;
+        ONCLICK {; DO frpcrcds.prg WITH FORM.BLUSER,FORM.BLEVEL}
+        
+           DEFINE MENU kencmat OF THIS.FILE.INITIALSETUP;
+             PROPERTY;
+             Separator .T.,;
+             Text "" 
+             
+            DEFINE MENU FnglTUP19 OF THIS.FILE.INITIALSETUP;
+              property;
+              TEXT "9. General Ledger Databases - WITH JOURNALS",;
+        enabled .T.,;
+        ONCLICK {; DO nglsetAL.PRG WITH FORM.BLUSER,FORM.BLEVEL}
+        
+           DEFINE MENU SEPARfgsetpu29 OF THIS.FILE.INITIALSETUP;
+             PROPERTY;
+             Separator .T.,;
+             Text ""
+             
+               
+              DEFINE MENU KENvisint OF THIS.FILE.INITIALSETUP;
+              property;
+              TEXT "10&a. Update Previous Shift Master Sales.",;
+        enabled .T.,;
+        ONCLICK {; DO st15fmes.prg WITH FORM.BLUSER,FORM.BLEVEL}
+              
+             DEFINE MENU kencmatsepara OF THIS.FILE.INITIALSETUP;
+             PROPERTY;
+             Separator .T.,;
+             Text "" 
+             
+               
+           *     DEFINE MENU KENfginvsupdte OF THIS.FILE.INITIALSETUP;
+              property;
+              TEXT "1&0. Update Vendor Statements",;
+        enabled .T.,;
+        ONCLICK {; DO fgvenst.prg WITH FORM.BLUSER,FORM.BLEVEL}
+        
+        *  DEFINE MENU kenfginvssep OF THIS.FILE.INITIALSETUP;
+             PROPERTY;
+             Separator .T.,;
+             Text "" 
+               
+               DEFINE MENU KENt15fmtrup OF THIS.FILE.INITIALSETUP;
+              property;
+              TEXT "11. Fix vn payments",;
+        enabled .f.,;
+        ONCLICK {; DO fgapcor.prg WITH FORM.BLUSER,FORM.BLEVEL}
+        
+           DEFINE MENU kenst15fpar OF THIS.FILE.INITIALSETUP;
+             PROPERTY;
+             Separator .T.,;
+             Text "" 
+             
+                 DEFINE MENU KENcaspos OF THIS.FILE.INITIALSETUP;
+              property;
+              TEXT "12. Update Daily/Monthly Cash &Positions",;
+        enabled .f.,;
+        ONCLICK {; DO fgupcas.prg WITH FORM.BLUSER,FORM.BLEVEL}
+        
+           DEFINE MENU kenscaspopar OF THIS.FILE.INITIALSETUP;
+             PROPERTY;
+             Separator .T.,;
+             Text "" 
+             
+           
+                 DEFINE MENU KENcasposOPC OF THIS.FILE.INITIALSETUP;
+              property;
+              TEXT "13. Rebuild Vendor Ledger Accounts",;
+        enabled .T.,;
+        ONCLICK {; DO vnbuild.prg WITH FORM.BLUSER,FORM.BLEVEL}
+        
+           DEFINE MENU kenscaspoparOPC OF THIS.FILE.INITIALSETUP;
+             PROPERTY;
+             Separator .T.,;
+             Text "" 
+          
+                   
+           
+                 DEFINE MENU KENcasposOPCfstr OF THIS.FILE.INITIALSETUP;
+              property;
+              TEXT "14. Change File Structures.",;
+        enabled .T.,;
+        ONCLICK {; DO fgshid.prg WITH FORM.BLUSER,FORM.BLEVEL}
+        
+           DEFINE MENU kenscaspoparOPCfstr OF THIS.FILE.INITIALSETUP;
+             PROPERTY;
+             Separator .T.,;
+             Text "" 
+    
+  *    ONCLICK {; DO fixshift.prg WITH FORM.BLUSER,FORM.BLEVEL}
+    *   ONCLICK {; DO fixsals.prg WITH FORM.BLUSER,FORM.BLEVEL}
+       
+    
+                DEFINE MENU KENfix OF THIS.FILE.INITIALSETUP;
+              property;
+              TEXT "15. Fix 8% VAT OF FUELS Databases",;
+        enabled .T.,;
+        ONCLICK {; DO fix8pvat.prg WITH FORM.BLUSER,FORM.BLEVEL}
+        
+          DEFINE MENU kenscaspoparfix OF THIS.FILE.INITIALSETUP;
+             PROPERTY;
+             Separator .T.,;
+             Text "" 
+    
+             
+       *         DEFINE MENU KENfix2 OF THIS.FILE.INITIALSETUP;
+              property;
+              TEXT "16. Fix Non-Stock Product Sales for April and May 2011.",;
+        enabled .T.,;
+        ONCLICK {; DO fixcrsal.prg WITH FORM.BLUSER,FORM.BLEVEL}
+        
+        *  DEFINE MENU kenscaspoparfix2 OF THIS.FILE.INITIALSETUP;
+             PROPERTY;
+             Separator .T.,;
+             Text ""   
+        endif
+        ENDIF
+        
+        
+          DEFINE MENU SEPARDATRAS21 OF THIS.FILE;
+             PROPERTY;
+             Separator .T.,;
+             Text ""
+ENDIF
+   IF .NOT. BLEVEL = 1
+                
+          DEFINE MENU SEPARDATRAS21NEWS OF THIS.FILE;
+             PROPERTY;
+             Separator .T.,;
+             Text ""
+             ENDIF
+       
+     if blevel = 1 .or. (blevel < 4 .and. .not. blnuser)
+         DEFINE MENU INITIALSETUP21 OF THIS.FILE;
+     PROPERTY;
+        TEXT "9. SPECIAL FUNCTIONS",;
+        enabled .T.,;
+        ONCLICK {; DO KENSLOGF.WFM WITH FORM.BLUSER,FORM.BLEVEL}
+endif
+           ENDIF    
+         
+          DEFINE MENU SEPARKEBYS OF THIS.FILE;
+             PROPERTY;
+             Separator .T.,;
+             Text ""
+
+ *   DEFINE MENU KENSYSABOUT OF THIS.FILE;
+                           PROPERTY; 
+                           Text "10&. About Kenserve FMS",;
+                           OnClick {;do kensys.wfm WITH FORM.BLUSER, FORM.BLEVEL}
+               
+               
+   DEFINE MENU COYINFO OF THIS;
+       PROPERTY; 
+         Text "&TASKS" 
+IF  BLBKDATE = DATE() .OR. (.NOT. BLBKDATE = DATE() .AND.  (LEFT(TIME(),5) < "07:30" .OR. LEFT(TIME(),5) > "08:30")) ;
+.or.  blevel = 8 .or.  blevel = 2 .or.  blevel = 5 .or.  blevel = 6 .or. blevel = 1 ;
+ .or. (validdrive("Z:") .or.  validdrive("W:") .or.  validdrive("Y:") .or.  validdrive("X:"))
+   if .not. blevel = 8 .and. .not.  (blevel = 2 .and. bladmin) .and. .not. (blevel = 3 .and. .not. bladmin)
+      DEFINE MENU COYINFO OF THIS.COYINFO;
+             PROPERTY; 
+             Text "&1. COMPANY INFO",;
+             OnClick {;do kencoy.WFM WITH form.BLUSER,FORM.BLEVEL,FORM.BLNOMASTER,;
+             FORM.BLNOREVPRV,form.blsystem,FORM.BLADMIN,FORM.BLGLEDGER,;
+             FORM.BLADJSTSTK,FORM.BLHQS,FORM.BLCSV,FORM.BLGD,FORM.BLNCC,FORM.BLNVC,FORM.BLYVEH,FORM.BLYVISA,form.blmeter}
+       
+      DEFINE MENU SEPARATORcoyinfo OF THIS.COYINFO;
+             PROPERTY;
+              Separator .T.,;
+              Text ""
+   endif
+   if .not. blsystem
+   if blevel = 1  .or. blevel=4 .or. blevel=7 .or. blshift .OR. (BLEVEL = 3 .AND. BLADMIN)
+      DEFINE MENU STAFFALOC OF THIS.COYINFO;
+          PROPERTY; 
+          Text "&2. ALLOCATE OFFICERS",;
+          OnClick {;do KENALLOC.WFM  WITH form.BLUSER,FORM.BLEVEL,FORM.BLJORDER}
+   
+      DEFINE MENU SEPARATORSTAFF OF THIS.COYINFO;
+          PROPERTY;
+          Separator .T.,;
+          Text ""
+   endif     
+   if (blevel < 3   .or. blevel =4 .or. blevel= 7 .OR. (BLEVEL = 3 .AND. BLADMIN)) .and. .not. plpurch
+      DEFINE MENU PURCHASES OF THIS.COYINFO;
+             PROPERTY; 
+             Text "&3. PURCHASES",;
+       OnClick {;do KENPURCH.WFM  WITH;
+       form.BLUSER,FORM.BLEVEL,form.BLGLEDGER,form.BLADMIN,FORM.BLMISREPORTS,FORM.BLNOREVPRV,;
+       form.blsalepit,form.blsaletyc,form.plvenpay,form.plrpurs, form.blfuel}
+        
+        
+      DEFINE MENU SEPARATORPURCH OF THIS.COYINFO;
+             PROPERTY;
+             Separator .T.,;
+             Text ""
+   endif
+   if blevel= 1  .OR. ((BLEVEL = 3 .and. bladmin) .or. blevel=8 .or. blevel=5 .or. blevel= 4 .OR. ;
+   BLSALES .OR. BLREVCRSAL .or. (bldoc13 .and. blevel = 2))
+      DEFINE MENU CURRSSALE OF THIS.COYINFO;
+          PROPERTY; 
+          Text "&4. REVERSALS (SALES)",;
+          OnClick {;do KENSALES.WFM  WITH FORM.BLUSER,FORM.BLEVEL,FORM.BLSALES,;
+          FORM.BLREVCRSAL,FORM.BLADMIN, FORM.BLJORDER,FORM.BLLPGD,FORM.BLHQS,FORM.BLSALS,FORM.PLRSALS,form.blnorjc}
+       
+      DEFINE MENU SEPARATORCSSALE OF THIS.COYINFO;
+          PROPERTY;
+          Separator .T.,;
+          Text ""
+   endif
+   If blevel =1 .or. (((blevel= 2 .and. .not. bladmin) .or. (blevel=3 .and. bladmin) ;
+   .or. blevel= 4 .or. blevel= 7)) .and. .not.   plstktrans
+      DEFINE MENU TRNSADJSASSY OF THIS.COYINFO;
+             PROPERTY; 
+             Text "&5. TRANSFERS,ADJS,ASSY",;
+         OnClick {;do KENDDE.WFM  WITH ;
+         form.BLUSER,FORM.BLEVEL,FORM.BLADJSTSTK,FORM.BLADMIN,form.BLNOTRANASSY,form.BLGLEDGER,FORM.BLNOREVPRV,form.blsalepit,form.blsaletyc}
+    
+      DEFINE MENU SEPARATORTRNSASYY OF THIS.COYINFO;
+             PROPERTY;
+             Separator .T.,;
+             Text ""
+   endif 
+   
+   if (blevel = 1 .or. (((blevel = 2 .and. .not. bladmin) .or. (blevel =3 .and. bladmin);
+   .or. blevel=4 .or. blevel=7 .or. (blevel= 9 .AND. blshift)))) .and. .not. plcustrec
+      DEFINE MENU RECSDNTSCNTS OF THIS.COYINFO;
+          PROPERTY; 
+          Text "&6. RECEIPTS,CRNTS,DRNTS",;
+          OnClick {;do KENRECPY.WFM  WITH form.BLUSER,FORM.BLEVEL,FORM.BLADMIN,FORM.BLMISREPORTS,;
+          FORM.BLNOMASTER,FORM.BLHQS,FORM.BLDOC13}
+            
+      DEFINE MENU SEPARATORRCSDNTSCNTS OF THIS.COYINFO;
+          PROPERTY;
+          Separator .T.,;
+          Text ""
+   endif    
+   
+   if  blevel = 1 .or. blevel =3 .or. blevel = 2 .OR. (blevel = 4 .or. blevel =7  .OR. BLSHIFT);
+   .AND. .NOT. (validdrive("X:"))
+       DEFINE MENU FCMENU OF THIS.COYINFO;
+              PROPERTY; 
+              Text "&7. FORECOURT SHIFT PROCESSING",;
+              OnClick {;do KENFC.WFM  WITH form.BLUSER,FORM.BLEVEL,FORM.BLSHIFT,;
+              FORM.BLADMIN,FORM.BLJORDER,FORM.BLWKS,FORM.BLFINANCIALS}
+
+       DEFINE MENU SEPARATORRFCMMN OF THIS.COYINFO;
+              PROPERTY;
+              Separator .T.,;
+              Text ""
+   endif
+ 
+   if (.not. blevel = 8  .or. blshift) .AND. .NOT. (BLEVEL > 3 .AND. validdrive("X:"))
+      DEFINE MENU MISREPORTSFC OF THIS.COYINFO;
+          PROPERTY; 
+          Text "&8. MIS",;
+          OnClick {;do KENMIS.WFM  WITH form.BLUSER,FORM.BLEVEL,FORM.BLMISREPORTS,form.BLGLEDGER,form.blmoney}
+         
+      DEFINE MENU SEPARATORKENMIS OF THIS.COYINFO;
+          PROPERTY;
+          Separator .T.,;
+          Text ""
+   endif
+
+endif
+ENDIF
+
+
+ if .not. blevel = 8  .and. .not. (blevel = 3 .and. .not. bladmin)
+  DEFINE MENU BACKEXT OF THIS.COYINFO;
+       PROPERTY; 
+       Text "1&0. BACKUP DATA (EXTERNAL)"
+       
+       DEFINE MENU SEPARATORBACKUP1 OF THIS.COYINFO.BACKEXT;
+       PROPERTY;
+       Separator .T.,;
+       Text ""
+    DEFINE MENU BACKEXT1 OF THIS.COYINFO.BACKEXT;
+       PROPERTY; 
+       Text "1. &DAILY.",;
+       OnClick {;do KENAUTOS.WFM  WITH form.BLUSER,FORM.BLEVEL,1}
+       
+   DEFINE MENU SEPARATORBACKUP2 OF THIS.COYINFO.BACKEXT;
+       PROPERTY;
+       Separator .T.,;
+       Text ""
+    DEFINE MENU BACKEXT2 OF THIS.COYINFO.BACKEXT;
+       PROPERTY; 
+       Text "2. &MONTHLY.",;
+       OnClick {;do KENAUTOS.WFM  WITH form.BLUSER,FORM.BLEVEL,2}
+           
+   DEFINE MENU SEPARATORBACKUP3 OF THIS.COYINFO.BACKEXT;
+       PROPERTY;
+       Separator .T.,;
+       Text ""
+    DEFINE MENU BACKEXT3 OF THIS.COYINFO.BACKEXT;
+       PROPERTY; 
+       Text "3. &YEARLY.",;
+       OnClick {;do KENAUTOS.WFM  WITH form.BLUSER,FORM.BLEVEL,3}
+            
+            
+ 
+       
+DEFINE MENU SEPARATORBACKUP OF THIS.COYINFO;
+       PROPERTY;
+       Separator .T.,;
+       Text ""
+endif
+
+              
+      DEFINE MENU AUDITTRAIL OF THIS.COYINFO;
+             PROPERTY; 
+             Text "12. &AUDIT TRAILS",;
+             enabled .T.,;
+             OnClick {; DO KENAUDIT.WFM WITH form.BLUSER,FORM.BLEVEL,FORM.bladmin}
+    *   ENDIF
+         DEFINE MENU SEPARATOR922 OF THIS.COYINFO;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+              
+   *
+   IF BLEVEL < 5
+     DEFINE MENU KRAREPORTS OF THIS.COYINFO;
+             PROPERTY; 
+             Text "13. &KRA",;
+             enabled .T.,;
+             OnClick {; DO KENKRA.WFM WITH form.BLUSER,FORM.BLEVEL}
+    *   ENDIF
+         DEFINE MENU SEPARATOR922KRA OF THIS.COYINFO;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+       ENDIF        
+   procedure ViewEditOnClick
+   
+   * Toggle View/Edit modes.
+   ****************************************************************************
+   
+   form.ViewEdit()
+    ****************************************************************************
+   
+   procedure OnExitALL
+   
+  
+   ****************************************************************************
+   *      form.close()  
+     form.Release()
+      QUIT
+   Procedure QUITALL
+            form.Release()
+            QUIT
+   
+ENDCLASS

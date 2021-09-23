@@ -1,0 +1,552 @@
+////////////////////////////////////////////////////////////////////////////////
+// Output Filename: C:\KENSERVICE\IDSSYS\KENSLOG1_FCV.WFM                     //
+// Created By:      dBASE Form Converter Wizard                               //
+// Created On:      Thursday June 9, 2016 At 17:05:36                         //
+// Object Count:    15                                                        //
+////////////////////////////////////////////////////////////////////////////////
+ *******************************************************************************
+*  PROGRAM:      KENSLOG1.wfm
+*
+*  WRITTEN BY:   W Nyongesa
+*
+*  DATE:         05/2000
+*
+*  UPDATED:     07/2014
+*
+*  REVISION:     $Revision:   1.0
+*
+*  VERSION:      Visual dBASE
+*
+*  DESCRIPTION:  This program maintains the Stores master file
+*
+*  PARAMETERS:   None
+*
+*  CALLS:        KENSLOG1.mnu         (Menu file)
+*                KBUTTONS.CC          (Custom Controls file)
+*                USER No..qbe         (View of tables)
+*
+*  USAGE:        DO KENSLOG1.wfm
+*
+*******************************************************************************
+#include <messdlg.h>
+shell(.F.)
+create session
+set talk off
+set century on
+set exact on
+_app.FrameWin.Visible = .F.
+set design off
+_app.FrameWin.Text = "KENSLOG1"
+set ldCheck off && To avoid language driver conflicts
+#define Maxcoy 999
+** END HEADER -- do not remove this line
+//
+// Generated on 23/09/2021
+//
+parameter bModal
+local f
+f = new KENSLOG1FORM()
+if (bModal)
+   f.mdi = false // ensure not MDI
+   f.readModal()
+else
+   f.open()
+endif
+
+class KENSLOG1FORM of FORM
+   with (this)
+      onClose = class::ONCLOSE
+      open = class::OPEN
+      metric = 6	// Pixels
+      colorNormal = "n+"
+      height = 932.0
+      left = 46.0
+      top = 0.0
+      width = 1280.0
+      text = "CREATE NEW USERS"
+      windowState = 0	// Normal
+      mdi = false
+      sizeable = false
+      moveable = false
+      view = "KENSLOG1.QBE"
+      menuFile = "KENSLOG1.MNU"
+      escExit = false
+      mousePointer = 1	// Arrow
+      maximize = false
+      minimize = false
+   endwith
+
+   this.RECTANGLE1 = new RECTANGLE(this)
+   with (this.RECTANGLE1)
+      left = 24.0
+      top = 44.0
+      width = 576.0
+      height = 352.0
+      text = "NEW USER PROFILE INFORMATION"
+      colorNormal = "white/0x808040"
+      fontName = "MS Sans Serif"
+      fontSize = 12.0
+      fontBold = true
+   endwith
+
+   this.USER_TEXT = new TEXTLABEL(this)
+   with (this.USER_TEXT)
+      height = 26.0
+      left = 76.0
+      top = 98.0
+      width = 84.0
+      text = "User"
+      colorNormal = "N/W"
+      fontName = "MS Sans Serif"
+      fontSize = 12.0
+      fontBold = true
+      alignVertical = 2	// Bottom
+   endwith
+
+   this.SUSER = new ENTRYFIELD(this)
+   with (this.SUSER)
+      onChange = class::USER_ONCHANGE
+      dataLink = "KENSLOG1->KEN_USER"
+      enabled = false
+      height = 26.0
+      left = 76.0
+      top = 132.0
+      width = 323.0
+      function = "!"
+      colorNormal = "N/W+"
+      colorHighLight = "N/W+"
+      fontName = "MS Sans Serif"
+      fontSize = 12.0
+      fontBold = true
+   endwith
+
+   this.TEXT2 = new TEXTLABEL(this)
+   with (this.TEXT2)
+      height = 26.0
+      left = 76.0
+      top = 166.0
+      width = 72.0
+      text = "Group:"
+      colorNormal = "N/W"
+      fontName = "MS Sans Serif"
+      fontSize = 12.0
+      fontBold = true
+      alignVertical = 2	// Bottom
+   endwith
+
+   this.SGROUP = new COMBOBOX(this)
+   with (this.SGROUP)
+      onChange = class::SGROUP_ONCHANGE1
+      dataLink = "KENSLOG1->KEN_GROUP"
+      height = 24.0
+      left = 76.0
+      top = 208.0
+      width = 324.0
+      fontName = "MS Sans Serif"
+      fontBold = true
+      colorNormal = "N/W+"
+      dataSource = "FIELD KENGROUP->KEN_GROUP"
+      style = 2	// DropDownList
+      dropDownHeight = 132.0
+   endwith
+
+   this.TEXT1 = new TEXTLABEL(this)
+   with (this.TEXT1)
+      height = 26.0
+      left = 77.0
+      top = 242.0
+      width = 144.0
+      text = "Full Name:"
+      colorNormal = "N/W"
+      fontName = "MS Sans Serif"
+      fontSize = 12.0
+      fontBold = true
+      alignVertical = 2	// Bottom
+   endwith
+
+   this.USER_NAME = new ENTRYFIELD(this)
+   with (this.USER_NAME)
+      onChange = class::USER_NAME_ONCHANGE
+      dataLink = "KENSLOG1->USER_NAME"
+      enabled = false
+      height = 26.0
+      left = 77.0
+      top = 286.0
+      width = 336.0
+      function = "!"
+      colorNormal = "N/W+"
+      colorHighLight = "N/W+"
+      fontName = "MS Sans Serif"
+      fontSize = 12.0
+      fontBold = true
+   endwith
+
+   this.SOK = new PUSHBUTTON(this)
+   with (this.SOK)
+      onClick = class::SOK_ONCLICK
+      enabled = false
+      height = 34.0
+      left = 84.0
+      top = 330.0
+      width = 115.0
+      text = "OK"
+      fontBold = true
+      group = true
+   endwith
+
+   this.SCLOSE = new PUSHBUTTON(this)
+   with (this.SCLOSE)
+      onClick = {; form.close();}
+      enabled = false
+      height = 34.0
+      left = 245.0
+      top = 330.0
+      width = 112.0
+      text = "CLOSE"
+      fontBold = true
+      group = true
+   endwith
+
+
+   procedure Open
+   ****************************************************************************
+
+   private CodeField
+   form.firstime = .T.
+       FORM.BLUSER=BUSER
+   FORM.BLEVEL=BLEVEL
+   FORM.HUSER = ""
+   FORM.HGROUP = ""
+   FORM.HUNAME = ""
+   form.hpswd  = ""
+   form.psuser=""
+   form.psgroup =""
+   form.puser_name =""
+   form.sgroup.value =''
+   IF EMPTY(FORM.BLUSER) .OR. EMPTY(FORM.BLEVEL)
+      QUIT
+      ENDIF
+   if type("form.init") = "U"
+      form.init = .T.
+
+      set skip to                     && KENSLOG1.qbe contains set skip to gldtl
+      set exact on                   && the .qbe file contains SET EXACT ON
+
+      set procedure to sampProc.prg additive
+    Form.duplicate = .F.
+      form.inEditMode = .F.           && indicator of view/edit state
+      form.changesMade = .F.          && indicator of changes made to field values
+      form.previousRecord = .F.       && Save record number when appending
+        *** do calculations in another area so form doesn't get updated
+        select kengroup
+        set order to group
+        SELECT KENSLOG
+        SET ORDER TO  NAME
+        set safety off
+          SELECT KENSLOG1
+          zap
+          set safety on
+
+       GO TOP                                  && new Receipts
+    endif
+   * form.CoyInfoButton.KenpName = "KENSLOG1.WFM"
+   *form.root.Report.f5rtn.enabled = .f.
+   form::Open()                         && Now the form actually opens
+   *    form.BrowseOnNavigate()              && calculate totals
+   *       form.codingerrors()                        && check coding errors
+
+   *      form.next.setfocus()
+   form.sok.enabled = .f.
+   ****************************************************************************
+
+   procedure OnClose
+        CLOSE DATABASES
+
+     close procedure SAMPProc.prg, DATAbuttons.cc
+   form.close()
+   do passsect.prg
+   ****************************************************************************
+
+
+   ****************************************************************************
+
+   procedure ChangesMade
+
+   * Indicate that changes have been made to the current record
+   ****************************************************************************
+   Form.ChangesMade = .T.
+    if .not. empty(kenslog1->ken_user) .and. .not. empty(kenslog1->ken_group) ;
+            .and. .not. empty(kenslog1->user_name) ;
+             .and. kenslog1->ken_level > 0 .and. kenslog1->ken_level <=9
+              FORM.SOK.ENABLED = .T.
+              ELSE
+              FORM.SOK.ENABLED = .F.
+              ENDIF
+   ****************************************************************************
+
+   procedure CheckCommit (newInEditMode)
+
+      ****************************************************************************
+    private CodeField, changesMade
+     local lk1
+     changesMade = form.changesMade
+     *form.root.Report.f5rtn.enabled = .f.
+    if form.changesMade
+       CodeField = field(1)  && Field period
+   *    if     ConfirmationMessage("Commit changes?",;
+                 FormatStr("User %1",&CodeField)) = YES
+        *       commit()
+           if .not. empty(kenslog1->ken_user) .and. .not. empty(kenslog1->ken_group) ;
+            .and. .not. empty(kenslog1->user_name)  ;
+             .and. kenslog1->ken_level > 0 .and. kenslog1->ken_level <=9
+
+                   SELECT KENSLOG
+   SEEK FORM.HUSER
+   IF FOUND()
+   InformationMessage("User Already Exists.", "Sorry!!")
+   FORM.CHANGESMADE = .T.
+   ELSE
+   APPEND BLANK
+   REPLACE KEN_USER WITH FORM.HUSER
+   REPLACE KEN_GROUP WITH FORM.HGROUP
+   REPLACE KEN_PWD WITH form.hpswd
+   *REPLACE KEN_LDATE WITH DATE()
+
+   REPLACE USER_NAME WITH FORM.HUNAME
+   pkgroup = FORM.BLUSER
+           appMid = ""
+          mCount = 1
+          do while mCount <= len(trim(pkgroup))
+   MCHUCK = (chr(asc(substr(trim(pkgroup),mCount,1))+128))
+   appmId = appmId + mChuck
+   mCount = mCount + 1
+   enddo
+   REPLACE KEN_NAME WITH appmId
+   REPLACE KEN_LEVEL WITH KENSLOG1->KEN_LEVEL
+   REPLACE KEN_DATE WITH DATE()
+   REPLACE KEN_TIME WITH TIME()
+   REPLACE DATE_LEFT WITH {}
+   REPLACE RESET WITH  'Y'
+   REPLACE KEN_ACTIVE WITH 'Y'
+  
+   SELECT KENSLOGD
+      APPEND BLANK
+      REPLACE KEN_USER WITH KENSLOG1->KEN_USER
+      REPLACE KEN_GROUP WITH KENSLOG1->KEN_GROUP
+      REPLACE KEN_LEVEL WITH KENSLOG1->KEN_LEVEL
+      REPLACE KEN_DATE WITH KENSLOG->KEN_DATE
+      REPLACE KEN_TIME WITH KENSLOG->KEN_TIME
+      REPLACE KEN_NAME  WITH FORM.BLUSER
+      REPLACE USER_NAME WITH KENSLOG1->UsER_NAME
+      REPLACE KEN_ABLE WITH "NEW USER"
+
+   SELECT KENSLOG1
+   go top
+   delete
+   SET SAFETY ON
+   GO TOP
+   FLUSH
+   COMMIT()
+   REFRESH
+   InformationMessage("New User Created.", "Ok!")
+   FORM.CHANGESMADE = .F.
+   ENDIF
+
+              endif
+
+
+      if form.inEditMode .and. newInEditMode
+          begintrans()
+   endif
+   *     form.changesMade = .F.
+    endif
+    if form.inEditMode <> newInEditMode
+            form.inEditMode = newInEditMode
+    endif
+
+    * form.root.Receipt.add.enabled = .T.
+    *form.codingerrors()
+    ****************************************************************************
+
+   procedure ViewEdit
+
+   * Toggle between View and Edit modes.
+   ****************************************************************************
+   local inEditMode, editMenu, control
+
+   editMenu = form.root.KENSLOG1.VIEWEdit
+
+   *** If ending edit mode then close transaction, otherwise open it.
+   if form.inEditMode
+      form.checkChanged(.F.)
+      editMenu.text = "&Edit"
+      editMenu.shortcut = "Ctrl-E"
+      editMenu.statusMessage = "Edit data."
+   *   form.root.KENSLOG1.delete.enabled = .F.      && disabled in view mode
+      form.CheckCommit(.F.)                        && Check transaction and
+      form.text = "CREATE NEW USERS -- View Mode"          && change mode to View
+      *form.notes.colorNormal = "N/W"
+      *form.childBrowse.modify = .F.
+      form.statusmessage = "In View Mode. " + ;
+                           "Select USER No. - Edit menu to " + ;
+                           "edit/delete data."
+
+
+   else                                            && Switch to edit mode
+      editMenu.text = "Vi&ew"
+      editMenu.shortcut = "Ctrl-E"
+      editMenu.statusMessage = "View data."
+   *      form.root.KENSLOG1.delete.enabled = .f.      && enabled in edit mode
+      form.CheckCommit(.T.)                        && Check transaction and
+      form.text = "CREATE NEW USERS -- Edit Mode"          && change mode to Edit
+
+      form.statusmessage = "In Edit Mode.  " + ;
+                           "Select menu USER No. - View to switch " + ;
+                           "to View mode."
+    *  endif
+
+   inEditMode = form.inEditMode     && Faster if we don't reference a form
+   control = form.first             &&    variable each time through the loop
+   do
+      if .not. control.className $ "BROWSE,EDITOR,NEXTBUTTON,PREVBUTTON,PUSHBUTTON,IMAGE,TEXT"
+         control.enabled = inEditMode
+      endif
+      control = control.before
+   until control.name = form.first.name
+
+   endif
+
+     if .not. empty(kenslog1->ken_user) .and. .not. empty(kenslog1->ken_group) ;
+            .and. .not. empty(kenslog1->user_name) ;
+             .and. kenslog1->ken_level > 0 .and. kenslog1->ken_level <=9
+              FORM.SOK.ENABLED = .T.
+              ELSE
+              FORM.SOK.ENABLED = .F.
+              ENDIF
+         ****************************************************************************
+
+   procedure CheckChanged(callCommit)
+
+    * Check if changes have been made to the current entryfield.  This procedure
+   * is called from menu routines to make sure the form.changesMade gets
+   * updated when a menu is selected while the changed control has focus.
+   ****************************************************************************
+   private control, fieldValue, controlValue, typeText, typeValue
+
+   if form.inEditMode
+      control = form.activeControl
+      if type("control.datalink") <> "U"
+         fieldValue = control.datalink          && name of table field
+
+         typeText = type("control.text")
+         typeValue = type("control.value")
+         do case
+            case typeValue = "C"
+               controlValue = control.value
+            case typeValue $ "LU" .and. typeText = "C"
+               controlValue = control.text
+            otherwise
+               controlValue = Null
+         endcase
+         if controlValue <> &fieldValue
+            form.changesMade = .T.
+         endif
+      endif
+   endif
+   if form.changesMade .and. callCommit
+      CLASS::CheckCommit(form.inEditMode)     && Check transactions
+   endif
+
+   ****************************************************************************
+
+   Procedure USER_OnChange
+         SELECT KENSLOG1
+        REPLACE KEN_USER WITH THIS.VALUE
+        form.psuser = this.value
+        FORM.CHANGESMADE = .T.
+    if .not. empty(kenslog1->ken_user) .and. .not. empty(kenslog1->ken_group) ;
+               .and. .not. empty(kenslog1->user_name) ;
+                .and. kenslog1->ken_level > 0 .and. kenslog1->ken_level <=9
+                 FORM.SOK.ENABLED = .T.
+                 ELSE
+                 FORM.SOK.ENABLED = .F.
+                 ENDIF
+
+                  pkenuser = THIS.VALUE
+                  appMid = ""
+                mCount = 1
+         do while mCount <= len(trim(pkenuser))
+         MCHUCK = (chr(asc(substr(trim(pkenuser),mCount,1))+128))
+         appmId = appmId + mChuck
+         mCount = mCount + 1
+         enddo
+          FORM.HUSER =  appmId
+
+   Procedure USER_NAME_OnChange
+         form.changesmade = .t.
+       form.puser_name = this.value
+         *form.root.Report.f5rtn.enabled = .f.
+    if .not. empty(kenslog1->ken_user) .and. .not. empty(kenslog1->ken_group) ;
+               .and. .not. empty(kenslog1->user_name)  ;
+                .and. kenslog1->ken_level > 0 .and. kenslog1->ken_level <=9
+                 FORM.SOK.ENABLED = .T.
+                 ELSE
+                 FORM.SOK.ENABLED = .F.
+                 ENDIF
+
+                   pkenuser = THIS.VALUE
+                  appMid = ""
+                mCount = 1
+         do while mCount <= len(trim(pkenuser))
+         MCHUCK = (chr(asc(substr(trim(pkenuser),mCount,1))+128))
+         appmId = appmId + mChuck
+         mCount = mCount + 1
+         enddo
+          FORM.HUNAME =  appmId
+
+   Procedure SOK_OnClick
+      FORM.CheckCommit()
+
+   Procedure SGROUP_OnChange1
+   form.psgroup = this.value
+     select kengroup
+         seek this.value
+        if .not. found()
+           InformationMessage("Invalid User Group", "Sorry!")
+           select kenslog1
+           if .not. eof()
+           replace ken_group with ""
+           replace ken_level with 0
+           endif
+           else
+          select kenslog1
+             if .not. eof()
+         replace ken_group with this.value
+          replace ken_level with kengroup->ken_level
+          endif
+        endif
+        select kenslog1
+        form.changesmade = .t.
+           if .not. empty(kenslog1->ken_user) .and. .not. empty(kenslog1->ken_group) ;
+               .and. .not. empty(kenslog1->user_name) ;
+                .and. kenslog1->ken_level > 0 .and. kenslog1->ken_level <=9
+                 FORM.SOK.ENABLED = .T.
+                 ELSE
+                 FORM.SOK.ENABLED = .F.
+                 ENDIF
+
+
+                    pkenuser = THIS.VALUE
+                  appMid = ""
+                mCount = 1
+         do while mCount <= len(trim(pkenuser))
+         MCHUCK = (chr(asc(substr(trim(pkenuser),mCount,1))+128))
+         appmId = appmId + mChuck
+         mCount = mCount + 1
+         enddo
+          FORM.HGROUP =  appmId
+
+   Procedure SNPWD_Key(nChar, nPosition,bShift,bControl)
+
+endclass
+

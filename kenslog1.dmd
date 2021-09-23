@@ -1,0 +1,60 @@
+** END HEADER -- do not remove this line
+//
+// Generated on 23/09/2021
+//
+class Kenslog1DataModule of DATAMODULE
+
+   this.SESSION1 = new Session()
+   this.SESSION1.parent = this
+   with (this.SESSION1)
+      top = 0
+   endwith
+
+   this.KENSLOG11 = new Query()
+   this.KENSLOG11.parent = this
+   with (this.KENSLOG11)
+      top = 2
+      session = parent.SESSION1
+      sql = 'select * from "\kenslog\idssys\KENSLOG1.DBF"'
+      active = true
+   endwith
+
+   this.KENSLOG1 = new Query()
+   this.KENSLOG1.parent = this
+   with (this.KENSLOG1)
+      top = 4
+      session = parent.SESSION1
+      sql = 'select * from "\kenslog\idssys\KENSLOG.DBF"'
+      active = true
+   endwith
+
+   this.KENGROUP1 = new Query()
+   this.KENGROUP1.parent = this
+   with (this.KENGROUP1)
+      top = 6
+      session = parent.SESSION1
+      sql = 'select * from "\kenslog\idssys\KENGROUP.DBF"'
+      active = true
+   endwith
+
+   this.KENSLOGD1 = new Query()
+   this.KENSLOGD1.parent = this
+   with (this.KENSLOGD1)
+      top = 8
+      session = parent.SESSION1
+      sql = 'select * from "\kenslog\idssys\KENSLOGD.DBF"'
+      active = true
+   endwith
+
+   this.KENSLOGT1 = new Query()
+   this.KENSLOGT1.parent = this
+   with (this.KENSLOGT1)
+      top = 10
+      session = parent.SESSION1
+      sql = 'select * from "C:\KENSERVICE\DATA\KENSLOGT.DBF"'
+      active = true
+   endwith
+
+   this.rowset = this.KENSLOG1.rowset
+
+endclass

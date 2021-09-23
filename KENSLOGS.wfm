@@ -1,0 +1,110 @@
+////////////////////////////////////////////////////////////////////////////////
+// Output Filename: C:\KENSERVICE\IDSSYS\KENSLOGS_FCV.WFM                     //
+// Created By:      dBASE Form Converter Wizard                               //
+// Created On:      Tuesday June 7, 2016 At 22:31:14                          //
+// Object Count:    0                                                         //
+////////////////////////////////////////////////////////////////////////////////
+**************************************************************************
+*  PROGRAM:      KENSLOGS.wfm
+*
+*
+*******************************************************************************
+ shell(.F.)
+create session
+set talk off
+set ldCheck off
+_app.FrameWin.Visible = .F.
+_app.FrameWin.Text = "Kenserve Integrated Systems Main Menu Form"
+_app.FrameWin.Moveable = .f.
+shell(.F.)
+** END HEADER -- do not remove this line*
+* Generated on 07/06/2016
+*
+parameter BUSER,BLEVEL,BLSALES,BLREVCRSAL,BLSHIFT,BLMISREPORTS,;
+BLNOTRANASSY,BLNOMASTER,BLNOREVPRV,BLPAYROLL,BLGLEDGER,blADJSTSTK,;
+blsystem,BLFINANCIALS,BLADMIN,bLBkdate,BLJORDER,blwks,bllpgd,blmoney,bldrn,;
+blhqs,blsals,blcsv,blgd,blsalepit,blsaletyc,plcustrec,plvenpay,plgljnls, plstktrans,plpurch,plrsals,plrpurs,bldoc13,bldoc14,bModal
+local f
+f = new KENSLOGSFORM()
+if (bModal)
+   f.mdi = .F. && ensure not MDI
+   f.ReadModal()
+else
+   f.Open()
+endif
+CLASS KENSLOGSFORM OF FORM
+   this.Metric = 6  // Pixels
+   this.OnOpen = CLASS::ONOPEN
+   this.Moveable = .F.
+   this.MDI = .F.
+   this.OnClose = CLASS::ONCLOSE
+   this.Left = 113
+   this.Top = 0
+   this.Text = "Kenserve Integrated  Systems Main Menu Form"
+   this.ColorNormal = "N+"
+   this.WindowState = 2
+   this.EscExit = .F.
+   this.MenuFile = "KENSLOGS.MNU"
+   this.MousePointer = 1
+   this.Minimize = .F.
+   this.Maximize = .F.
+   this.Height = 302
+   this.Width = 506
+
+   procedure OnOpen
+   FORM.BLUSER = BUSER
+  FORM.BLEVEL = BLEVEL
+  FORM.BLSALES =  BLSALES
+  FORM.BLREVCRSAL = BLREVCRSAL
+  FORM.BLSHIFT = BLSHIFT
+  FORM.BLMISREPORTS = BLMISREPORTS
+  FORM.BLNOTRANASSY = BLNOTRANASSY
+  FORM.BLNOMASTER = BLNOMASTER
+  FORM.BLNOREVPRV = BLNOREVPRV
+  FORM.BLPAYROLL = BLPAYROLL
+  FORM.BLGLEDGER = BLGLEDGER
+  FORM.BLADJSTSTK = BLADJSTSTK
+  form.blsystem =  blsystem
+  FORM.BLFINANCIALS = BLFINANCIALS
+  FORM.BLADMIN = BLADMIN
+  form.BLBKDATE = BLBKDATE
+  form.Bljorder = Bljorder
+  FORM.blwks = blwks
+  form.bllpgd = bllpgd
+  form.blmoney = blmoney
+  form.bldrn = bldrn
+  form.blhqs = blhqs
+  FORM.BLSALS = BLSALS
+  form.blcsv = blcsv
+  form.blgd = blgd
+  form.blsalepit=blsalepit
+  form.blsaletyc=blsaletyc
+  form.plcustrec=plcustrec
+  form.plvenpay=plvenpay
+  form.plgljnls=plgljnls
+  form.plstktrans=plstktrans
+  form.plpurch=plpurch
+  form.plrsals = plrsals
+  form.plrpurs = plrpurs
+  form.bldoc13 = bldoc13
+  form.bldoc14 = bldoc14
+  
+     if empty(form.bluser) 
+     wait" Bad User"
+     quit
+     endif
+     if empty(form.blevel)
+     wait "Bad Level"
+   quit
+   endif
+    
+   ********************************************************************************
+
+   procedure OnClose                                                     
+   ********************************************************************************
+      form.close()
+    ********************************************************************************
+
+
+ENDCLASS
+

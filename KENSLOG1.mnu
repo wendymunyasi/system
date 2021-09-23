@@ -1,0 +1,159 @@
+******************************************************************************
+*  PROGRAM:      KENSLOG1.mnu
+*
+*  WRITTEN BY:   W Nyongesa
+*
+*  DATE:         03/2001
+*
+*  UPDATED:      07/2014
+*
+*  REVISION:     $Revision:   1.58  $
+*
+*  VERSION:      Visual dBASE
+*
+*  DESCRIPTION:  This is a menu file used by KENSLOG1.WFM for
+*                performing simple tasks.  It allows adding and deleting
+*                records, searching for a value in the Pump field of the
+*                current table viewed, and exiting the form in view.
+*
+*  PARAMETERS:   FormObj -- the form to which this menu will belong.
+*
+*  CALLS:        None
+*
+*  USAGE:        form.menuFile = "KENSLOG1.mnu"
+*
+*******************************************************************************
+#include <messdlg.h>
+
+** END HEADER -- do not remove this line*
+* Generated on 07/03/2001
+*
+Parameter FormObj
+NEW KENSLOG1(FormObj,"Root")
+CLASS KENSLOG1(FormObj,Name) OF MENUBAR(FormObj,Name)
+   this.Text = ""
+   this.OnInit = {;set procedure to SampProc.prg}
+
+   DEFINE MENU FILE OF THIS;
+       PROPERTY;
+         Text "&FILE"
+
+         DEFINE MENU EXIT OF THIS.FILE;
+             PROPERTY;
+               OnClick CLASS::ONEXIT,;
+               Text "&Return to Previous Menu",;
+               ShortCut "F4",;
+               StatusMessage "Leave User Maintenance form."
+
+
+
+         DEFINE MENU SEPARATOR1fils OF THIS.FILE;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+
+         DEFINE MENU QUITALL OF THIS.FILE;
+             PROPERTY;
+               OnClick CLASS::ONQUITALL,;
+               Text "EXIT",;
+               ShortCut "F8",;
+               StatusMessage "Leave Kenserve Integrated System."
+   DEFINE MENU KENSLOG1 OF THIS;
+       PROPERTY;
+         Text "NEW"
+
+         DEFINE MENU VIEWEDIT OF THIS.KENSLOG1;
+             PROPERTY;
+               OnClick CLASS::VIEWEDITONCLICK,;
+               Text "&Edit",;
+               Shortcut "Ctrl-E",;
+               StatusMessage "Edit data."
+
+         DEFINE MENU SEPARATOR1 OF THIS.KENSLOG1;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+
+         DEFINE MENU ADD OF THIS.KENSLOG1;
+             PROPERTY;
+               OnClick CLASS::ADDONCLICK,;
+               Text "USER",;
+               Enabled .T.,;
+               Shortcut "F3",;
+               StatusMessage "Add a new USER."
+
+
+ DEFINE MENU REPORT OF THIS;
+    PROPERTY;
+       TEXT "REPORTS"
+
+ DEFINE MENU listusers OF THIS.report;
+       PROPERTY;
+         Text "1. List &Users",;
+         enabled .t.,;
+           OnClick {;create session ;set lock off ;report form kenusers}
+              
+               DEFINE MENU SEPARATORx2 OF THIS.REPORT;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+
+     
+       DEFINE MENU listgrps OF THIS.report;
+       PROPERTY;
+         Text "2. List User &Groups and Access Levels",;
+         enabled .t.,;
+           OnClick {;create session ;set lock off ;report form kengroup}
+    
+
+   ****************************************************************************
+   procedure AddOnClick
+
+   * Add new record.
+   ****************************************************************************
+   private addForm, newStore, inEditMode
+   form.CheckChanged(.T.)
+   if ConfirmationMessage("Are you sure you want to add a USER?",;
+                          "Confirmation") = YES
+      inEditMode = iif(type("form.curPage") <> "U", form.curPage.inEditMode,;
+                                                    form.inEditMode)
+      if .not. inEditMode
+         form.ViewEdit() && Make sure record is editable
+      endif              && and begin a transaction
+      form.changesMade = .F.            && Since we are adding a record
+      form.previousRecord = recno()   
+      SELECT KENSLOG1
+      go top
+      if eof()
+      append blank
+      FORM.SUSER.SETFOCUS()
+   
+   endif
+   endif
+   ***************************************************************************
+   procedure ViewEditOnClick
+   ****************************************************************************
+
+   form.ViewEdit()
+
+
+
+
+   ****************************************************************************
+   procedure OnQuitall
+   ****************************************************************************
+  
+    form.Release()
+       quit
+    procedure OnExit
+   ****************************************************************************
+  
+    form.Release()
+   
+
+
+
+ENDCLASS
+
+
+

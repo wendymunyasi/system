@@ -1,0 +1,980 @@
+//////////////////////////////////////////////////////////////////////////////
+// Output Filename: C:\KENSERVICE\IDSSYS\KENSLOG.WFM                      //
+// Created By:      dBASE Form Converter Wizard                               //
+// Created On:      Thursday June 9, 2016 At 20:09:04                         //
+// Object Count:    18                                                        //
+////////////////////////////////////////////////////////////////////////////////
+******************************************************************************
+*  PROGRAM:      KENSLOG.WFM
+*  WRITTEN BY:   W Nyongesa
+*  DATE:         08/2008
+*
+*  UPDATED:      01/2013
+*
+*  REVISION:     $Revision:   1.97  $
+*
+*  VERSION:      Visual dBASE
+*
+*  DESCRIPTION:  This form displays information about an order from a company.
+*                It allows traversing through KENSLOG and going to the top and
+*                bottom.  This form also has a corresponding menu, OrdCust.mnu,
+*                which allows adding,deleting and searching for an order.
+*                When an unknown customer number is entered, a dialog will come
+*                up asking you if you want to add a new customer.  If you
+*                selecte the Yes button, the customer form (in stcusj.Wfm)
+*                will be opened, so a new customer can be added.
+*
+*  PARAMETERS:   None
+*
+*  CALLS:        KENSLOG.mnu       (Menu file)
+*                Buttons.cc       (Custom controls file)
+*                stcusj.Wfm     (Form for displaying customer information)
+*                KENSLOG.qbe       (View of tables)
+*
+*  USAGE:        DO KENSLOG.WFM    && Note that you can also DO stcusj.Wfm
+*
+*******************************************************************************
+#include <Messdlg.h>
+shell(.F.)
+create session
+set talk off
+SET EXACT ON
+SET CENTURY ON
+SET DATE TO BRITISH
+*ET DESIGN OFF
+*if .not. user() = "WYCLIFFE"
+#define BACKSPACE_KEY     8     && -- ASCII value of Backspace key
+#define DELETE_KEY        127   && -- ASCII value of Delete key
+#define PASSWORD_CHAR     "*"   && -- Character to be displayed for each entered
+
+_app.FrameWin.Visible = .f.
+set design off
+*ENDIF
+_app.FrameWin.Text = "KENSLOG.WFM"
+set ldCheck off                        && To avoid language driver conflicts
+*SET DBTYPE TO PARADOX
+SET CUAENTER OFF
+SET CENTURY ON
+set date to british
+** END HEADER -- do not remove this line
+//
+// Generated on 09/22/2021
+//
+parameter bModal
+local f
+f = new LOGINFORM()
+if (bModal)
+   f.mdi = false // ensure not MDI
+   f.readModal()
+else
+   f.open()
+endif
+
+class LOGINFORM of FORM
+   set procedure to KENSLOG.DMD additive
+   set procedure to PASWDCON.CC additive
+   set procedure to PASSWDC.CC additive
+   set procedure to PASSWORD.CC additive
+   with (this)
+      onClose = class::ONCLOSE
+      open = class::OPEN
+      scaleFontSize = 10.0
+      metric = 6	// Pixels
+      colorNormal = "N+"
+      height = 749.0
+      left = 2.0
+      top = 0.0
+      width = 1284.0
+      text = "KENSERVE INTEGRATED SYSTEMS MAIN LOGIN MENU FORM"
+      topMost = true
+      windowState = 0	// Normal
+      mdi = false
+      moveable = false
+      sysMenu = false
+      view = ""
+      maximize = false
+      minimize = false
+   endwith
+
+   this.KENSLOGDATAMODULE1 = new KENSLOGDATAMODULE()
+   this.KENSLOGDATAMODULE1.parent = this
+   with (this.KENSLOGDATAMODULE1)
+      left = 14.0
+      top = 11.0
+      width = 100.0
+      height = 37.0
+   endwith
+
+   this.RECTANGLE3 = new RECTANGLE(this)
+   with (this.RECTANGLE3)
+      left = 217.0
+      top = 220.0
+      width = 266.0
+      height = 55.0
+      text = "Rectangle3"
+   endwith
+
+   this.RECTANGLE2 = new RECTANGLE(this)
+   with (this.RECTANGLE2)
+      left = 140.0
+      top = 0.0
+      width = 532.0
+      height = 517.0
+      text = ""
+      colorNormal = "N+"
+      fontName = "MS Sans Serif"
+      fontSize = 8.0
+   endwith
+
+   this.RECTANGLE1 = new RECTANGLE(this)
+   with (this.RECTANGLE1)
+      left = 180.0
+      top = 20.0
+      width = 318.0
+      height = 486.0
+      text = "Login Information"
+      colorNormal = "0xff8000/silver"
+      fontName = "MS Sans Serif"
+      fontSize = 12.0
+      fontBold = true
+   endwith
+
+   this.TEXT2 = new TEXTLABEL(this)
+   with (this.TEXT2)
+      height = 20.0
+      left = 216.0
+      top = 40.0
+      width = 56.0
+      text = "&User:"
+      colorNormal = "W+/0xc08000"
+      fontName = "MS Sans Serif"
+   endwith
+
+   this.SUSER = new ENTRYFIELD(this)
+   with (this.SUSER)
+      onChange = class::SUSER_ONCHANGE
+      dataLink = form.kenslogdatamodule1.kenslog31.rowset.fields["ken_user"]
+      height = 24.0
+      left = 216.0
+      top = 60.0
+      width = 264.0
+      function = "!"
+      colorNormal = "N/W+"
+      colorHighLight = "N/W+"
+      fontName = "MS Sans Serif"
+      fontBold = true
+   endwith
+
+   this.TEXT1 = new TEXTLABEL(this)
+   with (this.TEXT1)
+      height = 20.0
+      left = 216.0
+      top = 100.0
+      width = 72.0
+      text = "&Group:"
+      colorNormal = "W+/0xc08000"
+      fontName = "MS Sans Serif"
+      fontBold = true
+   endwith
+
+   this.SGROUP = new ENTRYFIELD(this)
+   with (this.SGROUP)
+      dataLink = form.kenslogdatamodule1.kenslog31.rowset.fields["ken_group"]
+      enabled = false
+      height = 24.0
+      left = 216.0
+      top = 120.0
+      width = 208.0
+      function = "!"
+      colorNormal = "N/W+"
+      colorHighLight = "N/W+"
+      fontName = "MS Sans Serif"
+      fontBold = true
+   endwith
+
+   this.TEXT3 = new TEXTLABEL(this)
+   with (this.TEXT3)
+      height = 20.0
+      left = 216.0
+      top = 150.0
+      width = 72.0
+      text = "&Password :"
+      colorNormal = "W+/0xc08000"
+      fontName = "MS Sans Serif"
+      fontBold = true
+   endwith
+
+   this.SPWD = new PASSWORDENTRY(this)
+   with (this.SPWD)
+      onLostFocus = class::SPWD_ONLOSTFOCUS
+      onChange = class::SPWD_ONCHANGE
+      key = class::SPASS_KEY
+      dataLink = form.kenslogdatamodule1.kenslog31.rowset.fields["ken_pwd"]
+      height = 25.0
+      left = 216.0
+      top = 180.0
+      width = 264.0
+      function = "!"
+      fontName = "MS Sans Serif"
+      fontSize = 10.0
+      fontBold = true
+   endwith
+
+   this.STCPWD = new TEXTLABEL(this)
+   with (this.STCPWD)
+      height = 20.0
+      left = 217.0
+      top = 308.0
+      width = 136.0
+      text = "&Change Password :"
+      colorNormal = "W+/0xc08000"
+      fontName = "MS Sans Serif"
+      fontBold = true
+   endwith
+
+   this.SCBOX = new COMBOBOX(this)
+   with (this.SCBOX)
+      onLostFocus = class::SCBOX_ONLOSTFOCUS
+      onChange = class::SCBOX_ONCHANGE
+      dataLink = form.kenslogdatamodule1.kenslog31.rowset.fields["purch"]
+      height = 24.0
+      left = 357.0
+      top = 308.0
+      width = 64.0
+      fontName = "MS Sans Serif"
+      dataSource = 'array {"","No","Yes"}'
+      style = 2	// DropDownList
+      dropDownHeight = 132.0
+   endwith
+
+   this.STNPWD = new TEXTLABEL(this)
+   with (this.STNPWD)
+      visible = false
+      height = 20.0
+      left = 210.0
+      top = 352.0
+      width = 120.0
+      text = "&New Password :"
+      colorNormal = "W+/0xc08000"
+      fontName = "MS Sans Serif"
+      fontBold = true
+   endwith
+
+   this.SNPWD = new NPASSWORDENTRY(this)
+   with (this.SNPWD)
+      onChange = class::SNPWD_ONCHANGE
+      key = class::SNPASS_KEY
+      dataLink = form.kenslogdatamodule1.kenslog31.rowset.fields["purch"]
+      height = 25.0
+      left = 210.0
+      top = 385.0
+      width = 264.0
+      function = "!"
+      fontName = "MS Sans Serif"
+      fontSize = 15.0
+      fontBold = true
+   endwith
+
+   this.STFPWD = new TEXTLABEL(this)
+   with (this.STFPWD)
+      visible = false
+      height = 20.0
+      left = 210.0
+      top = 429.0
+      width = 152.0
+      text = "Con&firm Password :"
+      colorNormal = "W+/0xc08000"
+      fontName = "MS Sans Serif"
+      fontBold = true
+   endwith
+
+   this.SCPWD = new CNPASSWORDENTRY(this)
+   with (this.SCPWD)
+      onChange = class::SCPWD_ONCHANGE
+      key = class::SCPWD_KEY
+      dataLink = form.kenslogdatamodule1.kenslog31.rowset.fields["purch"]
+      height = 25.0
+      left = 210.0
+      top = 462.0
+      width = 264.0
+      function = "!"
+      fontName = "MS Sans Serif"
+      fontSize = 15.0
+      fontBold = true
+   endwith
+
+   this.IMAGE1 = new IMAGE(this)
+   with (this.IMAGE1)
+      height = 100.0
+      left = 35.0
+      top = 528.0
+      width = 768.0
+      dataSource = "FILENAME C:\KENSLOG\IDSSYS\IMAGELOG.BMP"
+      borderStyle = 3	// None
+   endwith
+
+   this.SVERIFY = new PUSHBUTTON(this)
+   with (this.SVERIFY)
+      onClick = class::SVERIFY_ONCLICK
+      height = 24.0
+      left = 518.0
+      top = 132.0
+      width = 119.0
+      text = "OK"
+   endwith
+
+   this.SCLOSE = new PUSHBUTTON(this)
+   with (this.SCLOSE)
+      onClick = {;form.close();}
+      height = 24.0
+      left = 518.0
+      top = 209.0
+      width = 114.0
+      text = "CLOSE"
+   endwith
+
+   this.TEXTLABEL1 = new TEXTLABEL(this)
+   with (this.TEXTLABEL1)
+      height = 20.0
+      left = 224.0
+      top = 220.0
+      width = 189.0
+      text = "&Reset Password"
+      colorNormal = "W+/0xc08000"
+      fontName = "MS Sans Serif"
+      fontBold = true
+   endwith
+
+   this.SRESET = new ENTRYFIELD(this)
+   with (this.SRESET)
+      dataLink = form.kenslogdatamodule1.kenslog31.rowset.fields["reset"]
+      enabled = false
+      height = 22.0
+      left = 259.0
+      top = 253.0
+      width = 28.0
+      colorNormal = "black/white"
+   endwith
+
+   this.rowset = this.kenslogdatamodule1.kenslog31.rowset
+
+   procedure Open
+    set procedure to Sampproc.prg additive
+   form.trials = 0
+   form.spwd.value = ""
+   form.snpwd.visible = .f.
+   form.stnpwd.visible = .f.
+   form.stfpwd.visible = .f.
+   form.scpwd.visible = .f.
+   form.scbox.visible =.f.
+   form.sreset.visible = .f.
+   form.stcpwd.visible = .f.
+   form.hcnpswd = ""
+    form.pswds = ""
+    FORM.EPSWD = ""
+    FORM.ENPSWD = ""
+    FORM.ECNPWD = ""
+    form.euser = ""
+    form.egroup = ""
+    form.hopwd = ""
+    form.hNpwd = ""
+    FORM.HUSER = ""
+    form.hnpswd = ""
+    FORM.HGROUP = ""
+    FORM.EUNAME = ""
+   form::Open()
+
+   procedure OnClose
+    *   QUIT
+
+   Procedure SCBOX_OnLostFocus
+         if this.value = "Yes" .and. form.HOpwd = kenslog->ken_pwd
+            form.stnpwd.visible = .t.
+            form.stfpwd.visible = .t.
+            form.snpwd.visible = .t.
+            form.scpwd.visible = .t.
+            form.snpwd.setfocus()
+         else
+            form.stnpwd.visible = .f.
+            form.stfpwd.visible = .f.
+            form.snpwd.visible = .f.
+            form.scpwd.visible = .f.
+            form.scpwd.value = ""
+            form.snpwd.value = ""
+            form.enpswd =""
+            form.hnpswd =""
+         endif
+
+   Procedure SPWD_OnLostFocus
+     *    form.shpwd.value = this.value
+ *    if .not. kenslog->reset  = 'Y'
+  *       if .not. form.hopwd = kenslog->ken_pwd
+     form.scbox.enabled = .f.
+     form.snpwd.enwbled = .f.
+     form.scpwd.enabled =.f.
+*     else
+      form.scbox.enabled = .t.
+     form.snpwd.enwbled = .t.
+     form.scpwd.enabled =.t.
+ *  endif
+  * endif
+
+   Procedure SNPWD_OnLostFocus
+
+             form.snpwd.value=""
+
+   Procedure SCPWD_OnLostFocus
+            form.scpwd.value=""
+
+   Procedure SVERIFY_OnClick
+             LOCAL LPL1,LPL2,LPL3,lp14
+             pkpswd = FORM.EPSWD
+
+             LPl1 = form.euser
+             LPl2 = FORM.EPSWD
+             lp14 = form.egroup
+             LPl3 = 0
+         
+                  p1 = 'wycliffe'
+                   p2 = '1'
+                   p3 = 'pwd'
+                   p4 = 1
+                   p5 = P1
+                   p6 = 'Wycliffe'
+             
+             LOCAL LPUSER,LPLEVEL,LPL3,LPACTIVE,LPADMIN,LP_FC,LP_GL,LP_PAYROLL
+         *     pluser1 = KENSLOG->KEN_USER && encrypted
+               appMid = ""
+             PLPUSER = 'wycliffe'
+             PLPLEVEL = 1
+      *       PLSALES = KENSLOG->SALES
+      *       PLREVCRSAL = KENSLOG->REVCRSAL
+      *      PLSHIFT = KENSLOG->SHIFT
+      *       PLMISREPORTS = KENSLOG->MISREPORTS
+      *       PLNOTRANASSY = KENSLOG->NOTRANASSY
+      *       PLNOMASTER = KENSLOG->NOMASTER
+      *       PLNOREVPRV = KENSLOG->NOREVPRV
+      *       PLGLEDGER = KENSLOG->GLEDGER
+      *       PLPAYROLL = KENSLOG->PAYROLL
+      *       plADJSTSTK = kenslog->ADJSTSTK
+      *       PLFINANCIALS = KENSLOG->FINANCIALS
+      *       PLADMIN = KENSLOG->ADMIN
+      *       plbkdate = KENBEXTN->back_date
+      *       plcustrec = KENSLOG->custrec
+      *       plvenpay = KENSLOG->venpay
+      *       plgljnls = KENSLOG->gljnls
+      *       plstktrans = KENSLOG->stktrans
+      *       plpurch = KENSLOG->purch
+      *        plrsals = kenslog->other1
+      *       plrpurs = kenslog->other2
+      *       plsystem = kenslog->system
+      *       Lpl3 = KENSLOG->ken_level
+             form.windowstate=1
+             form.maximize=.f.
+      *       pljorder = fgcoy->cashiers
+      *       pllpgd = val(fgcoy->unitname)
+      *       plmoney = fgcoy->sacname
+      *       blhqs = fgcoy->ashipname
+      *       blsals = fgcoy->phsname
+      *       blcsv = fgcoy->shipname
+      *      PLPAYROLL = fgcoy->py
+      *       PLGLEDGER = fgcoy->tcode
+      *       blgd = FGCOY->DISCNAME
+      *       blsalepit = fgcoy->salepit
+      *       blsaletyc = fgcoy->saletyc
+      *       bldoc13 = fgcoy->doc13
+      *       bldoc14= fgcoy->doc14
+             plwks = .t.
+             pldrn = .f.
+             *? pl3
+             *cancel
+      *wycliffe	         quit
+             close databases
+             DO KENSLOGS.WFM WITH PLPUSER,PLPLEVEL
+            
+
+   Procedure SPWD_OnChange
+    pkpswd = upper(this.enteredPassword)
+    FORM.EPSWD = pkpswd
+
+               appMid = ""
+             mCount = 1
+      do while mCount <= len(trim(pkpswd))
+      MCHUCK = (chr(asc(substr(trim(pkpswd),mCount,1))+128))
+      appmId = appmId + mChuck
+      mCount = mCount + 1
+      enddo
+   form.hopwd = appmId
+  *   IF .NOT. appmId = KENSLOG->KEN_PWD
+     form.scbox.enabled = .f.
+     form.snpwd.enwbled = .f.
+     form.scpwd.enabled =.f.
+     form.snpwd.visible = .f.
+     form.scpwd.visible =.f.
+     form.stcpwd.visible = .f.
+     form.scpwd.visible =.f.
+     form.stnpwd.visible = .f.
+     form.stfpwd.visible = .f.
+  *   else
+      form.scbox.enabled = .t.
+     form.snpwd.enwbled = .f.
+    form.scpwd.enabled =.f.
+      form.scbox.visible = .t.
+     form.snpwd.visible = .f.
+     form.scpwd.visible =.f.
+     form.stnpwd.visible = .f.
+     form.stfpwd.visible = .f.
+     form.stcpwd.visible = .t.
+ *  endif
+
+     Procedure SNPWD_OnChange
+    pkpswd = upper(this.enteredNPassword)
+    FORM.ENPSWD = pkpswd
+
+               appMid = ""
+             mCount = 1
+      do while mCount <= len(trim(pkpswd))
+      MCHUCK = (chr(asc(substr(trim(pkpswd),mCount,1))+128))
+      appmId = appmId + mChuck
+      mCount = mCount + 1
+      enddo
+      FORM.HNPSWD = appmId
+    if form.scbox.value= "Yes" .and. FORM.HNPSWD = kenslog->ken_pwd
+        InformationMessage("Please Enter New Password DIFFERENT FROM OLD ONE!", "Sorry!!")
+        FORM.HNPSWD = ""
+        this.enteredNPassword = ""
+        FORM.ENPSWD = ""
+        ELSE
+         if LEN(LTRIM(FORM.ENPSWD)) < 7
+         InformationMessage("Password Too Short!", "Sorry!!")
+         FORM.HNPSWD = ""
+         this.enteredNPassword = ""
+         FORM.ENPSWD = ""
+       else
+        pkpswd = upper(this.enteredNPassword)  && new password
+
+   pknum = 0
+   pkalpha = 0
+   pkbad = .F.
+   pkall = len(trim(pkpswd)) && all characters
+    LOCAL L0,l1,l2,l3,l4,l5,l6,l7,l8,l9,l10,lp1,lp2,lp3,lp4,lp5,lp6,lp7,lp8,lp9,lp10,lerr,l11,l12,l13,l14,l15,;
+    lp11,lp12,lp13,lp14,lp15
+   lerr =.f.
+   L0 = trim(pkpswd)  && 123456789012345
+   l1 = left(L0,1) && 1
+   l0  = right(L0,14) && 23456789012345
+   l2 = left(L0,1) && 2
+   L0 = RIGHT(L0,13) &&  3456789012345
+   L3 = LEFT(L0,1) && 3
+   L0 = RIGHT(L0,12) &&  456789012345
+   L4 = LEFT(L0,1) && 4
+   L0 = RIGHT(L0,11) &&  56789012445
+   L5 = LEFT(L0,1) && 5
+   L0 = RIGHT(L0,10) &&  6789012345
+   L6 = LEFT(L0,1) && 6
+   L0 = RIGHT(L0,9) &&  789012345
+   L7 = LEFT(L0,1) && 7
+   L0 = RIGHT(L0,8) &&  89012345
+   L8 = LEFT(L0,1) && 8
+   L0 = RIGHT(L0,7) &&  9012345
+   L9 = LEFT(L0,1) && 9
+   L0 = RIGHT(L0,6) && 012345
+   ** new
+   L10 = LEFT(L0,1) && 10
+   L0 = RIGHT(L0,5) && 12345
+   L11 = LEFT(L0,1) && 11
+   L0 = RIGHT(L0,4) && 2345
+   L12 = LEFT(L0,1) && 12
+   L0 = RIGHT(L0,3) && 345
+   L13 = LEFT(L0,1) && 13
+   L0 = RIGHT(L0,2) && 45
+   L14 = LEFT(L0,1) && 14
+   L0 = RIGHT(L0,1) && 5
+
+     perr=""
+
+
+
+
+   if L1 >= "0" .and. L1 <= "9"
+   PKBAD = .T.
+    perr="5"+pkpswd
+   ENDIF
+
+
+
+      IF   PKBAD
+      InformationMessage("Password Must Start With Alpha", perr)
+        FORM.HNPSWD = ""
+         this.enteredNPassword = ""
+         FORM.ENPSWD = ""
+         endif
+
+
+     ENDIF
+     endif
+
+      *   form.snpwd.value=""
+
+   Procedure SCPWD_OnChange
+    pkpswd = UPPER(this.enteredCNPassword)
+    FORM.ENPSWD = pkpswd
+
+               appMid = ""
+             mCount = 1
+      do while mCount <= len(trim(pkpswd))
+      MCHUCK = (chr(asc(substr(trim(pkpswd),mCount,1))+128))
+      appmId = appmId + mChuck
+      mCount = mCount + 1
+      enddo
+      FORM.HCNPSWD = appmId
+
+   FORM.ECNPWD = pkpswd
+    if .not. FORM.ECNPWD = form.ENPSWD .or. .NOT. FORM.HCNPSWD = FORM.HNPSWD
+        InformationMessage("Confirmed Password Different from  Entered New Password!", "Sorry!!")
+        endif
+
+   Procedure SUSER_OnChange
+    pkenuser = this.value
+    pmuser = pkenuser
+               appMid = ""
+             mCount = 1
+      do while mCount <= len(trim(pkenuser))
+      MCHUCK = (chr(asc(substr(trim(pkenuser),mCount,1))+128))
+      appmId = appmId + mChuck
+      mCount = mCount + 1
+      enddo
+       form.euser = pkenuser
+       FORM.HUSER =  appmId
+   Again=.t.
+   form.sverify.enabled = .t.
+   select kenslog
+   set order to name
+   seek appmId
+*  if .not. found()
+ *         InformationMessage("User Name Does Not Exist", "Sorry!!")
+  *         form.sverify.enabled = .f.
+   *       else
+   *       if date() - ken_date > 30
+   *        InformationMessage("Please Change Your Password Now.", "Sorry!!")
+          * replace reset with .t.
+   *         endif
+   *         endif
+
+   pkgroup = kenslog->ken_group
+   FORM.HGROUP = pkgroup
+               appMid = ""
+             mCount = 1
+      do while mCount <= len(trim(pkgroup))
+      MCHUCK = (chr(asc(substr(trim(pkgroup),mCount,1))-128))
+      appmId = appmId + mChuck
+      mCount = mCount + 1
+      enddo
+      form.sgroup.value = appmId
+      form.egroup =  appmId
+
+   pkpwds = kenslog->ken_pwd
+               appMid = ""
+             mCount = 1
+      do while mCount <= len(trim(pkpwds))
+      MCHUCK = (chr(asc(substr(trim(pkpwds),mCount,1))-128))
+      appmId = appmId + mChuck
+      mCount = mCount + 1
+      enddo
+      form.pswds = appmId
+
+      pkpwds = kenslog->USER_NAME
+               appMid = ""
+             mCount = 1
+      do while mCount <= len(trim(pkpwds))
+      MCHUCK = (chr(asc(substr(trim(pkpwds),mCount,1))-128))
+      appmId = appmId + mChuck
+      mCount = mCount + 1
+      enddo
+      FORM.EUNAME = appmId
+
+   if kenslog->reset    = 'Y'
+   form.scbox.value = "Yes"
+   form.sreset.visible = .t.
+   else
+   form.scbox.value = "No"
+   form.sreset.visible = .f.
+   endif
+
+     if form.scbox.value = "Yes"  && reset password
+            form.stnpwd.visible = .t.
+            form.stfpwd.visible = .t.
+            form.snpwd.visible = .t.
+            form.scpwd.visible = .t.
+            form.spwd.enabled = .f.
+            FORM.SCBOX.ENABLED = .F.
+         else
+            form.stnpwd.visible = .f.
+            form.stfpwd.visible = .f.
+            form.snpwd.visible = .f.
+            form.scpwd.visible = .f.
+            form.scpwd.value = ""
+            form.snpwd.value = ""
+             form.spwd.enabled = .t.
+             FORM.SCBOX.ENABLED = .T.
+         endif
+    *SET REPROCESS TO 10
+   select kentrylg &&SHARED  && exclusive off
+   *  IF FLOCK()        && Can dBASE Lock the file?
+      go botto
+      IF BOF()
+         mLOG=0
+      ELSE
+         mLOG=VAL(LOG_NO)
+      ENDIF
+      IF mLOG<9
+         mLOG_NO='000000000'+LTRIM(STR(mLOG+1))
+      ELSE
+         IF mLOG<99
+            mLOG_NO='00000000'+LTRIM(STR(mLOG+1))
+         ELSE
+            IF mLOG<999
+               mLOG_NO='0000000'+LTRIM(STR(mLOG+1))
+            ELSE
+               IF mLOG<9999
+                  mLOG_NO='000000'+LTRIM(STR(mLOG+1))
+               ELSE
+                  IF mLOG<99999
+                     mLOG_NO='00000'+LTRIM(STR(mLOG+1))
+                  ELSE
+                     IF mLOG<999999
+                        mLOG_NO='0000'+LTRIM(STR(mLOG+1))
+                     ELSE
+                        IF mLOG<9999999
+                           mLOG_NO='000'+LTRIM(STR(mLOG+1))
+                        ELSE
+                           IF mLOG<99999999
+                              mLOG_NO='00'+LTRIM(STR(mLOG+1))
+                           ELSE
+                              IF mLOG<999999999
+                                 mLOG_NO='0'+LTRIM(STR(mLOG+1))
+                              ELSE
+                                 IF mLOG<9999999999
+                                    mLOG_NO=LTRIM(STR(mLOG+1))
+                                 ELSE
+                                           mLOG_NO='0000000000'
+                                  ENDIF
+                              ENDIF
+                           ENDIF
+                        ENDIF
+                     ENDIF
+                  ENDIF
+               ENDIF
+            ENDIF
+         ENDIF
+      ENDIF
+      appe blank
+      REPLACE LOG_NO WITH mLOG_NO
+      REPLACE KEN_USER WITH pmuser
+      REPLACE DATE WITH DATE()
+      REPLACE TIME WITH TIME()
+      REPLACE KEN_REMARK WITH "Fail"
+      SELECT KENSLOG
+      RecordWasRead=.t.
+      Again=.f.
+
+                       && the file.
+
+    Procedure SPASS_Key(nChar, nPosition)
+
+       * Handles keys entered in the password entryfield
+      ****************************************************************************
+      private enteredChar, returnValue
+
+      enteredChar = chr(nChar)
+      returnValue = .T.                 && By default output whatever key was typed
+      do case                           && Check for keys that modify the value
+         case nChar = BACKSPACE_KEY
+            this.enteredPassword = ;
+               stuff(this.enteredPassword, nPosition - 1, 1, "")
+         case nChar = DELETE_KEY
+            this.enteredPassword = ;
+               stuff(this.enteredPassword, nPosition, 1, "")
+         otherwise
+            if CLASS::IsValidChar(enteredChar)     && Check if alphanumeric
+               this.enteredPassword = ;
+                  stuff(this.enteredPassword, nPosition, 1, enteredChar)
+               returnValue = asc(PASSWORD_CHAR)    && Output camouflage character
+            endif
+      endcase
+
+      return returnValue
+
+     ****************************************************************************
+
+   Procedure IsValidChar(char)
+
+   * Make sure entered key is alphanumeric
+   ****************************************************************************
+   private returnValue
+
+   do case
+      case isalpha(char)                        && Letter?
+         returnValue = .T.
+      case char >= "0" .and. char <= "9"        && Digit?
+         returnValue = .T.
+      case char = "`" .or. char ="~" .or. char ="!" .or. char = "@" .or. char = "#" ;
+       .or. char = "$" .or. char = "%" .or. char = "^" .or. char = "&" .or. char="*" ;
+        .or. char = "(" .or. char = ")" .or. char = "_" .or. char = "-" .or. char ="=" ;
+         .or. char = "+" .or. char = "|" .or. char = "\" .or. char = "," .or. char = "<" ;
+         .or. char = ">" .or. char = "." .or. char = "/" .or. char = "?" ;
+         .or. char = ";" .or. char = ":" .or. char = "'" .or. char = '"' ;
+         .or. char = "|" .or. char = "'"
+       returnValue = .t.
+      otherwise                                 && Invalid?
+         returnValue = .f.
+   endcase
+
+   return returnValue
+
+    ****************************************************************************
+
+   Procedure SNPASS_KEY(nChar, nPosition)
+
+   * Handles keys entered in the password entryfield
+   ****************************************************************************
+   private NenteredChar, NreturnValue
+
+   NenteredChar = chr(nChar)
+   NreturnValue = .T.                 && By default output whatever key was typed
+   do case                           && Check for keys that modify the value
+      case nChar = BACKSPACE_KEY
+         this.enteredNPassword = ;
+            stuff(this.enteredNPassword, nPosition - 1, 1, "")
+      case nChar = DELETE_KEY
+         this.enteredNPassword = ;
+            stuff(this.enteredNPassword, nPosition, 1, "")
+      otherwise
+         if CLASS::IsValidNChar(NenteredChar)     && Check if alphanumeric
+            this.enteredNPassword = ;
+               stuff(this.enteredNPassword, nPosition, 1, NenteredChar)
+            NreturnValue = asc(PASSWORD_CHAR)    && Output camouflage character
+               endif
+   endcase
+
+   return NreturnValue
+
+
+   ****************************************************************************
+
+   Procedure IsValidNChar(char)
+
+   * Make sure entered key is alphanumeric
+   ****************************************************************************
+   private NreturnValue
+
+   do case
+      case isalpha(char)                        && Letter?
+         NreturnValue = .T.
+      case char >= "0" .and. char <= "9"        && Digit?
+         NreturnValue = .T.
+           case char = "`" .or. char ="~" .or. char ="!" .or. char = "@" .or. char = "#" ;
+       .or. char = "$" .or. char = "%" .or. char = "^" .or. char = "&" .or. char="*" ;
+        .or. char = "(" .or. char = ")" .or. char = "_" .or. char = "-" .or. char ="=" ;
+         .or. char = "+" .or. char = "|" .or. char = "\" .or. char = "," .or. char = "<" ;
+         .or. char = ">" .or. char = "." .or. char = "/" .or. char = "?" ;
+         .or. char = ";" .or. char = ":" .or. char = "'" .or. char = '"' ;
+         .or. char = "|" .or. char = "'"
+       nreturnValue = .t.
+      otherwise                                 && Invalid?
+         NreturnValue = .F.
+   endcase
+
+   return NreturnValue
+
+   Procedure SCLOSE_OnClick
+      QUIT
+
+   Procedure SCPWD_Key(nChar, nPosition)
+    * Handles keys entered in the password entryfield
+      ****************************************************************************
+      private CNenteredChar, CNreturnValue
+
+      CNenteredChar = chr(nChar)
+      CNreturnValue = .T.                 && By default output whatever key was typed
+      do case                           && Check for keys that modify the value
+         case nChar = BACKSPACE_KEY
+            this.enteredCNPassword = ;
+               stuff(this.enteredCNPassword, nPosition - 1, 1, "")
+         case nChar = DELETE_KEY
+            this.enteredCNPassword = ;
+               stuff(this.enteredCNPassword, nPosition, 1, "")
+         otherwise
+            if CLASS::IsValidCNChar(CNenteredChar)     && Check if alphanumeric
+               this.enteredCNPassword = ;
+                  stuff(this.enteredCNPassword, nPosition, 1, CNenteredChar)
+               CNreturnValue = asc(PASSWORD_CHAR)    && Output camouflage character
+            endif
+      endcase
+
+      return CNreturnValue
+
+
+      ****************************************************************************
+
+      Procedure IsValidCNChar(char)
+
+      * Make sure entered key is alphanumeric
+      ****************************************************************************
+      private CNreturnValue
+
+      do case
+         case isalpha(char)                        && Letter?
+            CNreturnValue = .T.
+         case char >= "0" .and. char <= "9"        && Digit?
+            CNreturnValue = .T.
+        case char = "`" .or. char ="~" .or. char ="!" .or. char = "@" .or. char = "#" ;
+       .or. char = "$" .or. char = "%" .or. char = "^" .or. char = "&" .or. char="*" ;
+        .or. char = "(" .or. char = ")" .or. char = "_" .or. char = "-" .or. char ="=" ;
+         .or. char = "+" .or. char = "|" .or. char = "\" .or. char = "," .or. char = "<" ;
+         .or. char = ">" .or. char = "." .or. char = "/" .or. char = "?" ;
+         .or. char = ";" .or. char = ":" .or. char = "'" .or. char = '"' ;
+         .or. char = "|" .or. char = "'"
+       CnreturnValue = .t.
+         otherwise                                 && Invalid?
+            CNreturnValue = .F.
+      endcase
+
+      return CNreturnValue
+
+   Procedure SCBOX_OnChange
+    if this.value = "Yes" .and. form.HOpwd = kenslog->ken_pwd
+            form.stnpwd.visible = .t.
+            form.stfpwd.visible = .t.
+            form.snpwd.visible = .t.
+            form.scpwd.visible = .t.
+            form.snpwd.setfocus()
+         else
+            form.stnpwd.visible = .f.
+            form.stfpwd.visible = .f.
+            form.snpwd.visible = .f.
+            form.scpwd.visible = .f.
+            form.scpwd.value = ""
+            form.snpwd.value = ""
+            form.enpswd =""
+            form.hnpswd =""
+         endif
+
+endclass
+
+ procedure newpwd
+    parameter pk1,pk2,pk3,pk4,pk5,pk6
+    close databases
+    use \kenservice\idssys\kenslogd.dbf
+      SELECT KENSLOGD
+      APPEND BLANK
+      REPLACE KEN_USER WITH pk1
+      REPLACE KEN_GROUP WITH pk2
+      REPLACE KEN_LEVEL WITH pk4
+      REPLACE KEN_DATE WITH date()
+      REPLACE KEN_TIME WITH time()
+      REPLACE KEN_NAME  WITH pk5
+      REPLACE USER_NAME WITH pk6
+      REPLACE KEN_ABLE WITH "CHANGED PWD"
+    CLOSE DATABASES
+

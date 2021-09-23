@@ -1,0 +1,78 @@
+* Visual dBASE .QBE file 9
+if .not. file("\kenslog\idssys\transerr.DBF")
+COPY TABLE \kenserve\idssys\transerr.DBF TO \kenslog\idssys\transerr dBase
+endif 
+if .not. file("\kenslog\idssys\querrors.DBF")
+COPY TABLE \kenserve\idssys\querrors.DBF TO \kenslog\idssys\querrors dBase
+endif 
+if .not. file("\kenslog\idssys\KENSLOG.DBF")
+COPY TABLE \kenserve\idssys\kenslog.DBF TO \kenslog\idssys\KENSLOG dBase
+endif 
+if .not. file("\kenslog\idssys\KENGROUP.DBF")
+COPY TABLE \kenserve\idssys\kengroup.DBF TO \kenslog\idssys\KENGROUP dBase
+endif 
+if .not. file("\kenslog\idssys\KENSLOGX.DBF")
+COPY TABLE \kenserve\idssys\kenslogx.DBF TO \kenslog\idssys\KENSLOGX dBase
+endif 
+if .not. file("\kenslog\idssys\KENSLOGD.DBF")
+COPY TABLE \kenserve\idssys\kenslogd.DBF TO \kenslog\idssys\KENSLOGD dBase
+endif 
+if .not. file("\kenslog\idssys\KENSLOG1.DBF")
+COPY TABLE \kenserve\idssys\kenslog1.DBF TO \kenslog\idssys\KENSLOG1 dBase
+endif 
+if .not. file("\kenslog\idssys\KENTRYLG.DBF")
+COPY TABLE \kenserve\idssys\kentrylg.DBF TO \kenslog\idssys\KENTRYLG dBase
+endif 
+close databases
+ON ERROR DO KENSLSTR.PRG
+USE \kenslog\idssys\KENSLOG.DBF
+? other10
+CLOSE DATABASES
+ON ERROR DO FGCOYSTR.PRG
+USE \KENSERVICE\DATA\FGCOYS.DBF
+? venpay
+on error do KENBEXTN.prg
+USE \KENSERVICE\DATA\KENBEXTN.DBF
+close databases
+CLOSE DATABASES
+        ON ERROR DO qbeerR WITH ERROR(), MESSAGE(),;
+PROGRAM(), LINENO()
+
+CLOSE DATABASES
+SET EXACT ON
+
+
+USE \kenslog\idssys\KENSLOG.DBF
+Set filter to ken_user = 'WYCLIFFE'
+Go top
+If .not. eof()
+Do passsec.prg
+endif
+CLOSE DATABASES
+SET EXACT ON
+select 8
+IF .NOT. FILE ("\KENSERVICE\DATA\KENBEXTN.DBF")
+USE \KENSERVE\IDSSYS\KENBEXTN.DBF
+COPY STRU TO \KENSERVICE\DATA\KENBEXTN DBASE PROD
+ENDIF
+USE \KENSERVICE\DATA\KENBEXTN.DBF
+go top
+if eof()
+append blank
+endif
+SELECT 1
+USE \kenslog\idssys\KENSLOG.DBF order tag mkey
+select 2
+USE \kenslog\idssys\KENSLOG.DBF order tag mkey ALIAS KENSLOG2
+SET FILTER TO KEN_ACTIVE
+SELECT 3
+USE \kenslog\idssys\KENSLOG.DBF order tag mkey ALIAS KENSLOG3
+SET FILTER TO KEN_ACTIVE
+select 4
+use \kenslog\idssys\Kentrylg.DBF
+select 5
+use \kenservice\data\fgcoy.DBF
+replace all doc17 with .f., doc18 with .f.
+ SELECT 1
+SET FILTER TO KEN_ACTIVE
+GO TOP

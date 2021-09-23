@@ -1,0 +1,95 @@
+** END HEADER -- do not remove this line
+//
+// Generated on 09/22/2021
+//
+class KenslogDataModule of DATAMODULE
+   this.SESSION1 = new SESSION(this)
+   with (this.SESSION1)
+      left = 433.0
+      top = 45.0
+      width = 115.0
+      height = 112.0
+   endwith
+
+   this.KENTRYLG1 = new QUERY(this)
+   with (this.KENTRYLG1)
+      left = 741.0
+      top = 45.0
+      width = 114.0
+      height = 124.0
+      session = form.session1
+      sql = 'select * from "C:\KENSLOG\IDSSYS\KENTRYLG.DBF"'
+      active = true
+   endwith
+
+   this.KENSLOG1 = new QUERY(this)
+   with (this.KENSLOG1)
+      left = 279.0
+      top = 45.0
+      width = 114.0
+      height = 124.0
+      session = form.session1
+      sql = 'select * from "C:\KENSLOG\IDSSYS\KENSLOG.DBF"'
+      active = true
+   endwith
+
+   with (this.KENSLOG1.rowset)
+      indexName = "MKEY"
+   endwith
+
+   this.KENSLOG21 = new QUERY(this)
+   with (this.KENSLOG21)
+      left = 587.0
+      top = 45.0
+      width = 114.0
+      height = 124.0
+      session = form.session1
+      sql = 'select * from "C:\KENSLOG\IDSSYS\KENSLOG.DBF"'
+      active = true
+   endwith
+
+   with (this.KENSLOG21.rowset)
+      indexName = "MKEY"
+   endwith
+
+   this.KENSLOG31 = new QUERY(this)
+   with (this.KENSLOG31)
+      left = 433.0
+      top = 45.0
+      width = 114.0
+      height = 124.0
+      session = form.session1
+      sql = 'select * from "C:\KENSLOG\IDSSYS\KENSLOG.DBF"'
+      active = true
+   endwith
+
+   with (this.KENSLOG31.rowset)
+      indexName = "MKEY"
+   endwith
+
+   this.FGCOY1 = new QUERY(this)
+   with (this.FGCOY1)
+      left = 125.0
+      top = 45.0
+      width = 114.0
+      height = 124.0
+      session = form.session1
+      sql = 'select * from "C:\KENSERVICE\DATA\FGCOY.DBF"'
+      active = true
+   endwith
+
+   this.KENBEXTN1 = new QUERY(this)
+   with (this.KENBEXTN1)
+      left = 895.0
+      top = 45.0
+      width = 114.0
+      height = 124.0
+      session = form.session1
+      sql = 'select * from "C:\KENSERVICE\DATA\KENBEXTN.DBF"'
+      active = true
+   endwith
+
+   this.rowset = this.kenslog1.rowset
+
+endclass
+
