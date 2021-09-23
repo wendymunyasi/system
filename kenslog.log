@@ -2,7 +2,7 @@ dBASE PLUS Project Explorer Log: kenslog.log
 Project name: kenslog
 
 =================================================================
-REBUILD ALL process started: 09/22/2021 22:20:36
+REBUILD ALL process started: 09/23/2021 22:02:23
 dBASE 2019 13.20  b2618 (11/26/2019-EN191126)
 Project Explorer b1071 (05/07/2019)
 -----------------------------------------------------------------
@@ -90,11 +90,29 @@ C:\kenslog\idssys\PASWDCON.Co copied to DEO Target: C:\kenslog\idssys\deploy\PAS
 
 C:\kenslog\idssys\logo.bmp copied to DEO Target: C:\kenslog\idssys\deploy\logo.bmp
 
-Process completed at: 22:20:38 (2 seconds elapsed)
-File compiles attempted: 9
+Compile results for:
+C:\KENSLOG\IDSSYS\KENSLOG1.WFM
+0 warnings, 0 errors
+
+C:\kenslog\idssys\kenslog1.wfo copied to DEO Target: C:\kenslog\idssys\deploy\kenslog1.wfo
+
+Compile results for:
+C:\KENSLOG\IDSSYS\KENSLOG1.MNU
+0 warnings, 0 errors
+
+C:\kenslog\idssys\KENSLOG1.mno copied to DEO Target: C:\kenslog\idssys\deploy\KENSLOG1.mno
+
+Compile results for:
+C:\KENSLOG\IDSSYS\KENSLOG1.QBE
+0 warnings, 0 errors
+
+C:\kenslog\idssys\kenslog1.qbo copied to DEO Target: C:\kenslog\idssys\deploy\kenslog1.qbo
+
+Process completed at: 22:02:25 (2 seconds elapsed)
+File compiles attempted: 12
 File compile errors: 0
-DEO files copied: 24
+DEO files copied: 27
 Executable file: C:\kenslog\idssys\deploy\kenslog.exe
-Executable file size: 223,946
+Executable file size: 223,937
 C:\kenslog\idssys\deploy\kenslog.ini created or updated.
 

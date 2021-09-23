@@ -47,7 +47,7 @@ set ldCheck off && To avoid language driver conflicts
 parameter bModal
 local f
 f = new KENSLOG1FORM()
-if (bModal) = .T.
+if (bModal)
    f.mdi = false // ensure not MDI
    f.readModal()
 else

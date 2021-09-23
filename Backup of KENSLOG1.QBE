@@ -1,0 +1,31 @@
+* Visual dBASE .QBE file 9
+ON ERROR DO QBEERR WITH ERROR(), MESSAGE(),;
+PROGRAM(), LINENO()
+CLOSE DATABASES
+set safety off
+use \kenslog\idssys\kenslog.dbf
+copy stru to \kenslog\idssys\kenslogz dbase prod
+use  \kenslog\idssys\kenslogz.dbf 
+copy stru to  \kenservice\data\kenslogt dbase prod
+set safety off
+set safety on
+appe from \kenslog\idssys\kenslog.dbf
+close databases
+use \kenservice\data\kenslogt.dbf
+appe from \kenslog\idssys\kenslog.dbf
+close databases
+close databases
+SET EXACT ON
+SELECT 2
+USE \kenslog\idssys\KENSLOG.DBF
+SELECT 3
+USE \kenslog\idssys\KENGROUP.DBF
+SET FILTER TO KEN_LEVEL > 1
+SELECT 1
+USE \kenslog\idssys\KENSLOG1.DBF EXCLUSIVE
+SELECT 4
+USE \kenslog\idssys\KENSLOGD.DBF EXCLUSIVE
+select 5
+use \kenservice\data\kenslogt.dbf
+SELECT 2
+GO TOP
