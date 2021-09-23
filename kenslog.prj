@@ -1,4 +1,4 @@
-Project File generated 09/22/2021 18:36:22
+Project File generated 09/23/2021 20:57:43
 
 [Project]
 Name=kenslog
@@ -42,6 +42,9 @@ PASSWDC.CC,1,0,1,0
 PASSWORD.CC,1,0,1,0
 PASWDCON.CC,1,0,1,0
 logo.bmp,0,0,1,0
+kenslog1.wfm,1,0,1,0
+KENSLOG1.mnu,1,0,1,0
+kenslog1.qbe,1,0,1,0
 
 [DEO]
 DEO0=C:\kenslog\idssys\deploy
@@ -157,3 +160,6 @@ Files22=PASSWORD.CO >> DestDir: {app}
 Files23=PASWDCON.CO >> DestDir: {app}
 Files24=C:\kenslog\idssys\deploy\kenslog.exe >> DestDir: {app}
 Files25=logo.bmp >> DestDir: {app}
+Files26=kenslog1.wfO >> DestDir: {app}
+Files27=KENSLOG1.mnO >> DestDir: {app}
+Files28=kenslog1.qbO >> DestDir: {app}
