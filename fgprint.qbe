@@ -1,0 +1,10 @@
+* Visual dBASE .QBE file 9
+close databases
+         ON ERROR DO qbeerR WITH ERROR(), MESSAGE(),;
+PROGRAM(), LINENO()
+
+CLOSE DATABASES
+SET EXACT ON
+SELECT 1
+USE \kenservice\data\fgprint.DBf
+GO TOP

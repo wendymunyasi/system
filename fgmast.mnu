@@ -1,0 +1,222 @@
+******************************************************************************
+*  PROGRAM:      FGMAST.mnu
+*
+*  WRITTEN BY:   W Nyongesa
+*
+*  DATE:         03/2001
+*
+*  UPDATED:      09/2012
+*
+*  REVISION:     $Revision:   1.58  $
+*
+*  VERSION:      Visual dBASE
+*
+*  DESCRIPTION:  This is a menu file used by FGMAST.WFM for
+*                performing simple tasks.  It allows adding and deleting
+*                records, searching for a value in the Masterfile field of the
+*                current table viewed, and exiting the form in view.
+*
+*  PARAMETERS:   FormObj -- the form to which this menu will belong.
+*
+*  CALLS:        None
+*
+*  USAGE:        form.menuFile = "FGMAST.mnu"
+*
+*******************************************************************************
+#include <messdlg.h>
+
+** END HEADER -- do not remove this line*
+* Generated on 07/03/2001
+*
+Parameter FormObj
+NEW Masterfile(FormObj,"Root")
+
+CLASS Masterfile(FormObj,Name) OF MENUBAR(FormObj,Name)
+   this.Text = ""
+   this.OnInit = {;set procedure to SampProc.prg}
+
+   DEFINE MENU FILE OF THIS;
+       PROPERTY;
+         Text "&File"
+         
+DEFINE MENU EXIT OF THIS.FILE;
+             PROPERTY; 
+               StatusMessage "Return to the Previous Menu.",;
+               Text "&Return to Previous Menu",;
+               ShortCut "F4",;
+               OnClick CLASS::ONEXITALL
+
+        
+       DEFINE MENU SEPARATOR000 OF THIS.FILE;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+
+
+         DEFINE MENU QUITS OF THIS.FILE;
+             PROPERTY; 
+               StatusMessage "Leave Kenserve Integrated System.",;
+               Text "Exit",;
+               ShortCut "F8",;
+               OnClick CLASS::QUITALL
+               
+
+   DEFINE MENU FGMAST OF THIS;
+       PROPERTY;
+         Text "Account"
+
+         DEFINE MENU VIEWEDIT OF THIS.FGMAST;
+             PROPERTY;
+               OnClick CLASS::VIEWEDITONCLICK,;
+               Text "&Edit",;
+               Shortcut "Ctrl-E",;
+               enabled .f.,;
+               StatusMessage "Edit data."
+
+         DEFINE MENU SEPARATOR1 OF THIS.FGMAST;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+
+    
+         DEFINE MENU SEARCH OF THIS.FGMAST;
+             PROPERTY;
+               OnClick CLASS::SEARCHONCLICK,;
+               Text "&Search ...",;
+               Shortcut "Ctrl-S",;
+               StatusMessage "Search for a Masterfile Item."
+        
+                 
+
+         DEFINE MENU SEPARATOR3 OF THIS.FGMAST;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+
+
+  DEFINE MENU REPORT OF THIS;
+       PROPERTY;
+         Text "&Reports"
+         
+            DEFINE MENU SEPARAREP1 OF THIS.REPORT;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+ 
+         DEFINE MENU STOCKHOLDINGREPORT OF THIS.REPORT;
+             PROPERTY;
+               OnClick {;create session ;set lock off ;report form Fg15h},;
+               Text "1. Stock Holding"
+               
+ DEFINE MENU SEPARAREP2 OF THIS.REPORT;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+          
+     DEFINE MENU STOCKPOSITIONREPORT OF THIS.REPORT;
+             PROPERTY;
+               OnClick {;create session ;set lock off ;report form Fg15p},;
+               Text "2. Stock Position"
+               
+                DEFINE MENU SEPARAREP3 OF THIS.REPORT;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+               
+     DEFINE MENU CHHARTSTOCKPOSITIONREPORT OF THIS.REPORT;
+             PROPERTY;
+               OnClick {;create session ;set lock off ;report form fgChart},;
+               Text "3. Chart of Accounts"
+               
+                DEFINE MENU SEPARAREP4 OF THIS.REPORT;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+               
+       
+ DEFINE MENU SEPARAREP6 OF THIS.REPORT;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+               
+
+
+   ****************************************************************************
+   procedure SearchOnClick
+
+   * Bring up Search.WFM.
+   ****************************************************************************
+   private searchForm, searchItem, saveRec, saveFilt, searchtyp,;
+           searchcla, searchcod
+      local l1,l2,l3,l4,l5,l6
+   if reccount() = 0                     && If table is empty, don't search
+      InformationMessage("This table is empty.", "Sorry!")
+   else
+      form.CheckChanged(.T.)
+      set procedure to Search.WFM additive
+      searchForm = new SearchForm()
+      searchForm.keyName = "TypeClassCode"  && Indicator of key expression
+        searchForm.formatting = "@X"
+      searchForm.mdi = .F.
+      searchItem = searchForm.Readmodal()
+      if type("searchItem") = "O" .and. searchItem.id <> 0
+                                      && If search wasn't cancelled
+         saveRec = Bookmark()            && save current record in case seek is
+                                      && unsuccessful
+       l1 = left(searchform.value,6)  &&999999
+       SearchTyp = left(l1,2) && 99
+       l1 = right(l1,4)
+       Searchcla = left(l1,2)
+      SearchCod = right(l1,2)
+         form.enabled = .F.
+       go top
+        seek Searchtyp+Searchcla+SearchCod
+         if .not. found()
+            InformationMessage(FormatStr("Masterfile Item %1 \n Was not Found.",;
+                                         searchForm.value),;
+                               "Info")
+            if .not. eof()
+               go saverec()
+            else
+               go bottom
+            endif
+         endif
+         form.enabled = .T.
+      endif
+
+      searchForm.Release()
+      close procedure Search.WFM
+   endif
+
+
+ 
+   ***************************************************************************
+   procedure ViewEditOnClick
+   ****************************************************************************
+
+   form.ViewEdit()
+
+   ****************************************************************************
+   procedure OnExit
+   ****************************************************************************
+  
+    form.Release()
+   
+  
+  
+****************************************************************************
+     procedure OnExitALL
+   
+  
+   ****************************************************************************
+   *      form.close()  
+     form.Release()
+   Procedure QUITALL
+            form.Release()
+            QUIT
+  
+
+ENDCLASS
+
+
+

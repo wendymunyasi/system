@@ -1,0 +1,51 @@
+* Visual dBASE .QBE file 9
+ON ERROR DO QBEERR WITH ERROR(), MESSAGE(),;
+PROGRAM(), LINENO()
+CLOSE DATABASES
+SET EXACT ON
+*sET  ON
+Set safety off
+SELECT 1
+USE \KENSERVICE\data\NLTYP.DBF EXCLUSIVE
+SELECT 2
+USE \KENSERVICE\DATA\NLCLA.DBF EXCLUSIVE
+SELECT 3
+USE \KENSERVICE\data\NLACC.DBF  exclusive
+select 4
+USE \kenservice\data\NLBS.DBF EXCLUSIVE
+select 5
+USE \kenservice\data\NLIE.DBF EXCLUSIVE
+select 7
+USE \kenservice\data\NLTA.DBF EXCLUSIVE
+select 8
+USE \kenservice\data\NLIELEV.DBF EXCLUSIVE
+select 9
+USE \kenservice\data\NLBSLEV.DBF EXCLUSIVE
+select 10
+USE \kenservice\data\NLTALEV.DBF EXCLUSIVE
+select 11
+USE \kenservice\data\NLBSLEL.DBF EXCLUSIVE
+select 12
+USE \kenservice\data\NLTALEL.DBF EXCLUSIVE
+SELECT 13
+USE \KENSERVICE\DATA\fgtyp.DBf
+repl all actype with '1' for left(typ,1) =  '7'
+go top
+SELECT 14
+USE \KENSERVICE\DATA\fgcla.DBf
+SELECT 15
+USE \KENSERVICE\DATA\fgcod.DBf
+select 16
+USE \kenservice\data\NLTALE3.DBF 
+select 17
+use \kenservice\data\nlcoy.dbf  
+select 18
+use \kenservice\data\nlaccs.dbf  EXCLUSIVE
+SELECT 19
+USE  \KENSERVICE\DATA\NGLACCP.DBF EXCLUSIVE
+select 20
+use  \kenservice\data\nlcc.dbf
+select 21
+use \kenservice\data\fgcoy.dbf
+SELECT 23
+USE \KENSERVICE\DATA\FGMAST.DBF

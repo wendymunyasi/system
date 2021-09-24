@@ -1,0 +1,523 @@
+////////////////////////////////////////////////////////////////////////////////
+// Output Filename: C:\KENSERVICE\IDSSYS\FGPRINT_FCV.WFM                      //
+// Created By:      dBASE Form Converter Wizard                               //
+// Created On:      Friday October 7, 2016 At 08:38:28                        //
+// Object Count:    8                                                         //
+////////////////////////////////////////////////////////////////////////////////
+******************************************************************************
+*  PROGRAM:      Fgprint.wfm
+*
+*  WRITTEN BY:   W Nyongesa
+*
+*  DATE:         05/2000
+*
+*  UPDATED:     11/2010
+*
+*  REVISION:     $Revision:   1.0
+*
+*  VERSION:      Visual dBASE
+*
+*  DESCRIPTION:  This program maintains the companies master file
+*
+*  PARAMETERS:   None
+*
+*  CALLS:        Fgprint.mnu         (Menu file)
+*                Buttons.CC          (Custom Controls file)
+*                Shifts.qbe         (View of tables)
+*
+*  USAGE:        DO Fgprint.wfm
+*
+*******************************************************************************
+#include <messdlg.h>
+shell(.F.)
+create session
+set talk off
+set design off
+_app.FrameWin.Visible = .F.
+_app.FrameWin.Text = "Fgprint"
+set century on
+set ldCheck off && To avoid language driver conflicts
+#define Maxcoy 999
+** END HEADER -- do not remove this line*
+* Generated on 13/11/2010
+*
+parameter bUser,bLevel,bModal
+local f
+f = new FgprintFORM()
+if (bModal)
+   f.mdi = .F. && ensure not MDI
+   f.ReadModal()
+else
+   f.Open()
+endif
+CLASS FgprintFORM OF FORM
+    this.Metric = 6  // Pixels
+   this.Left = 31
+   this.Top = 12
+   this.OnClose = CLASS::ONCLOSE
+   this.Text = "Printer Device Maintenance"
+   this.MDI = .F.
+   this.WindowState = 2
+   this.EscExit = .F.
+   this.View = "Fgprint.QBE"
+   this.ColorNormal = "N+"
+   this.MenuFile = "FGPRINT.MNU"
+   this.MousePointer = 1
+   this.Minimize = .F.
+   this.Maximize = .F.
+   this.Height = 334
+   this.Moveable = .F.
+   this.Width = 351
+   this.Sizeable = .F.
+
+   DEFINE TEXTLABEL CODETEXT OF THIS;
+       PROPERTY;
+         Left 48,;
+         Top 34,;
+         FontSize 12,;
+         Text "Server Printer Device:",;
+         ColorNormal "B/BtnFace",;
+         Height 21,;
+         Width 192,;
+       FontName "MS Sans Serif",;
+       FontBold .T.,;
+       AlignHorizontal 2,;
+       AlignVertical 1
+
+   DEFINE COMBOBOX PTYP OF THIS;
+       PROPERTY;
+         Left 264,;
+         Top 34,;
+         FontSize 12,;
+         DataSource 'ARRAY {"LPT1","DEFAULT","CHOOSE","COM1","COM2","COM3"}',;
+         Style 2,;
+         DataLink "FGPRINT->PRINTER_1",;
+         FontBold .F.,;
+         OnChange CLASS::PTYP_ONCHANGE1,;
+         Height 28,;
+         Width 300,;
+       FontName "MS Sans Serif"
+
+    this.PREVBUTTON = new PUSHBUTTON(this)
+   with (this.PREVBUTTON)
+      height = 26.0
+      left = 8.0
+      top =476
+      width = 85.0
+      OnClick = CLASS::PREVIOUS
+      text = "&PREVIOUS"
+      FontName = "MS Sans Serif"
+       FontSize = 8
+       FontBold  = .T.
+   endwith
+
+          this.NEXTBUTTON = new PUSHBUTTON(this)
+   with (this.NEXTBUTTON)
+      height = 26.0
+      left = 98
+      top =476
+      width = 85.0
+      OnClick = CLASS::NEXT
+      text = "&NEXT"
+      FontName = "MS Sans Serif"
+       FontSize = 8
+       FontBold  = .T.
+   endwith
+
+     this.FIRSTBUTTON = new PUSHBUTTON(this)
+   with (this.FIRSTBUTTON)
+      height = 26.0
+      left = 186
+      top =476
+      width = 85.0
+      OnClick = {;go top;}
+      text = "F&IRST"
+      FontName = "MS Sans Serif"
+       FontSize = 8
+       FontBold  = .T.
+   endwith
+
+    this.LASTBUTTON = new PUSHBUTTON(this)
+   with (this.LASTBUTTON)
+      height = 26.0
+      left = 276
+      top =476
+      width = 85.0
+      OnClick = {;go bottom;}
+      text = "&LAST"
+      FontName = "MS Sans Serif"
+       FontSize = 8
+       FontBold  = .T.
+   endwith
+
+   DEFINE TEXTLABEL TEXT1 OF THIS;
+       PROPERTY;
+         Left 48,;
+         Top 85,;
+         FontSize 12,;
+         Text "Remote Printer Device:",;
+         ColorNormal "B/BtnFace",;
+         Height 21,;
+         Width 192,;
+       FontName "MS Sans Serif",;
+       FontBold .T.,;
+       AlignHorizontal 2,;
+       AlignVertical 1
+
+   DEFINE COMBOBOX SRP OF THIS;
+       PROPERTY;
+         Left 264,;
+         Top 85,;
+         FontSize 12,;
+         DataSource 'ARRAY {"LPT1","DEFAULT","CHOOSE","COM1","COM2","COM3"}',;
+         Style 2,;
+         DataLink "FGPRINT->PRINTER_2",;
+         FontBold .F.,;
+         OnChange CLASS::SRP_ONCHANGE,;
+         Height 28,;
+         Width 300,;
+       FontName "MS Sans Serif"
+
+   procedure Open
+   ****************************************************************************
+   private CodeField
+   form.firstime = .T.
+     FORM.BLUSER=BUSER
+   FORM.BLEVEL=BLEVEL
+   IF EMPTY(FORM.BLUSER) .OR. EMPTY(FORM.BLEVEL)
+      QUIT
+      ENDIF
+   if type("form.init") = "U"
+      form.init = .T.
+
+      set skip to                     && Fgprint.qbe contains set skip to gldtl
+      set exact off                   && the .qbe file contains SET EXACT ON
+
+      set procedure to sampProc.prg additive
+    Form.duplicate = .F.
+      form.inEditMode = .F.           && indicator of view/edit state
+      form.changesMade = .F.          && indicator of changes made to field values
+      form.previousRecord = .F.       && Save record number when appending
+        *** do calculations in another area so form doesn't get updated
+        form.updated = .f.
+      use \KENSERVICE\DATA\Fgprint.DBf again in select() alias temp
+      select temp
+      CodeField = field(1)         && company field
+   *   set order to &CodeField      && period -- tag name is same as field
+      use in temp
+
+      select Fgprint
+    GO TOP
+    if eof()
+    append blank
+    replace printer_1 with _Pdriver
+    endif
+
+
+      *** Open table for calculating totals and balance due in another work area
+      *** so that datalinks are not affected by record movements
+
+
+      ***
+    *  if type("form.parentpayeeForm") <> "U" && Esc ok if have parent
+    *     form.escExit = .T.
+   *   endif
+
+   endif
+   * form.CoyInfoButton.KenpName = "Fgprint.WFM"
+
+   form::Open()                         && Now the form actually opens
+   *    form.BrowseOnNavigate()              && calculate totals
+   *       form.codingerrors()                        && check coding errors
+
+   *      form.next.setfocus()
+   ****************************************************************************
+
+   procedure OnClose
+
+   * Clean up.
+   ****************************************************************************
+
+   if this.inEditMode
+      form.ViewEdit()                      && Finish transaction
+   endif
+   commit()
+     close databases
+     close procedure SAMPProc.prg
+
+   ****************************************************************************
+
+   procedure BrowseOnNavigate
+   ****************************************************************************
+
+       if eof()
+      form.root.Fgprint.viewEdit.enabled = .F.
+   else
+      form.root.Fgprint.viewEdit.enabled = .T.
+   endif
+
+
+
+   ****************************************************************************
+
+   procedure ChangesMade
+
+   * Indicate that changes have been made to the current record
+   ****************************************************************************
+   Form.ChangesMade = .T.
+   ****************************************************************************
+
+  procedure Next
+
+   * Go to next record.
+   ****************************************************************************
+
+   form.CheckCommit(form.inEditMode)
+   if .not. empty(dbf())  .and. .not. eof()      && if a table is open in the current workarea
+      skip
+      if eof()
+         go bottom
+         AlertMessage("At the last record","Alert")
+      endif
+   else
+      InformationMessage("There is no table open in the current workarea.",;
+         "Info")
+   endif
+    ****************************************************************************
+
+   procedure Previous
+
+   * Go to previous record.
+   ****************************************************************************
+
+   form.CheckCommit(form.inEditMode)
+ if .not. empty(dbf())  .and. .not. eof() && if a table is open in the current workarea
+      skip - 1
+      if bof()
+         go top
+         AlertMessage("At the first record","Alert")
+      endif
+   else
+      InformationMessage("There is no table open in the current workarea.",;
+         "Info")
+   endif
+
+   procedure CheckCommit (newInEditMode)
+
+        * Finish transaction, if it has been started.
+   ****************************************************************************
+   private CodeField, changesMade
+    local lk1
+    lk1 = form.ptyp.value
+   changesMade = form.changesMade
+   if form.changesMade
+      CodeField = field(1)  && Field period
+      if     ConfirmationMessage("Commit changes?",;
+                FormatStr("Shift Code %1",&CodeField)) = YES
+         commit()
+
+      else
+         rollback()
+         if .not. bof()
+       *  if .not. empty(form.previousRecord)
+   *            go bookmark()
+           * form.previousRecord
+            form.previousRecord = .F.
+         endif
+      endif
+
+       form.ptyp.enabled = .F.
+    if form.inEditMode .and. newInEditMode
+         begintrans()
+                  ON ERROR DO transerR WITH ERROR(), MESSAGE(),;
+   PROGRAM(), LINENO()
+
+      endif
+      form.changesMade = .F.
+   endif
+   if form.inEditMode <> newInEditMode
+      if newInEditMode                       && Going to Edit mode
+         begintrans()
+                  ON ERROR DO transerR WITH ERROR(), MESSAGE(),;
+   PROGRAM(), LINENO()
+
+      else                                   && Going to View mode
+         if .not. changesMade .AND. .NOT. FORM.DUPLICATE
+            rollback()
+         endif
+      endif
+      form.inEditMode = newInEditMode
+   endif
+
+   * form.root.Receipt.add.enabled = .T.
+   *form.codingerrors()
+   ****************************************************************************
+
+   procedure ViewEdit
+
+   * Toggle between View and Edit modes.
+   ****************************************************************************
+   local inEditMode, editMenu, control
+
+   editMenu = form.root.Fgprint.VIEWEdit
+
+   *** If ending edit mode then close transaction, otherwise open it.
+   if form.inEditMode
+      form.checkChanged(.F.)
+      editMenu.text = "&Edit"
+      editMenu.shortcut = "Ctrl-E"
+      editMenu.statusMessage = "Edit data."
+      form.root.Fgprint.delete.enabled = .F.      && disabled in view mode
+      form.CheckCommit(.F.)                        && Check transaction and
+      form.text = "Printer Device Maintenance --  View Mode"          && change mode to View
+       *form.notesEditor.colorNormal = "N/W"
+   *      form.childBrowse.modify = .F.
+     *form.notesEditor.modify = .F.
+      form.statusmessage = "In View Mode. " + ;
+                           "Select Shifts - Edit menu to " + ;
+                           "edit/delete data."
+   *   form.nextCOYBUTTON.SetFocus()
+   else                                            && Switch to edit mode
+      editMenu.text = "Vi&ew"
+      editMenu.shortcut = "Ctrl-E"
+      editMenu.statusMessage = "View data."
+      form.root.Fgprint.delete.enabled = .f.      && enabled in edit mode
+      form.CheckCommit(.T.)                        && Check transaction and
+      form.text = "Printer Device Maintenance --  Edit Mode"          && change mode to Edit
+
+   *     *form.notesEditor.modify = .T.
+      form.statusmessage = "In Edit Mode.  " + ;
+                           "Select menu Printers -- View to switch " + ;
+                           "to View mode."
+
+   endif
+
+   inEditMode = form.inEditMode     && Faster if we don't reference a form
+   control = form.first             &&    variable each time through the loop
+   do
+      if .not. control.className $ "BROWSE,EDITOR,NEXTBUTTON,PREVBUTTON,PUSHBUTTON,IMAGE,TEXT"
+         control.enabled = inEditMode
+      endif
+      control = control.before
+   until control.name = form.first.name
+   *           form.gltyp.enabled = .f.
+   *    form.glname.Enabled = .F.
+
+
+
+   ****************************************************************************
+
+   procedure CheckChanged(callCommit)
+
+   * Check if changes have been made to the current entryfield.  This procedure
+   * is called from menu routines to make sure the form.changesMade gets
+   * updated when a menu is selected while the changed control has focus.
+   ****************************************************************************
+   private control, fieldValue, controlValue, typeText, typeValue
+
+   if form.inEditMode
+      control = form.activeControl
+      if type("control.datalink") <> "U"
+         fieldValue = control.datalink          && name of table field
+
+         typeText = type("control.text")
+         typeValue = type("control.value")
+         do case
+            case typeValue = "C"
+               controlValue = control.value
+            case typeValue $ "LU" .and. typeText = "C"
+               controlValue = control.text
+            otherwise
+               controlValue = Null
+         endcase
+         if controlValue <> &fieldValue
+            form.changesMade = .T.
+         endif
+      endif
+   endif
+   if form.changesMade .and. callCommit
+      CLASS::CheckCommit(form.inEditMode)     && Check transactions
+   endif
+
+
+
+   ****************************************************************************
+
+   Procedure Check_code
+    local lcode
+    lcode = form.ptyp.value
+    If (val(lcode) = 0) .or. val(lcode) > maxcoy .or. Isblank(lcode)
+    Isvalid = .F.
+       else
+    Isvalid = .T.
+     endif
+
+    Return isvalid
+
+   Procedure Change_Coy
+       local lcode
+          lcode = this.value
+         IF KEYMATCH(LCODE) = .F.
+         form.duplicate = .F.
+          Form.ChangesMade = .T.
+          else
+          Form.duplicate = .T.
+        ENDIF
+    RETURN
+
+   Procedure RADIOBUTTON1_OnChange
+      form.changesmade = .t.
+
+   Procedure RADIOBUTTON2_OnChange
+      form.changesmade = .t.
+
+   Procedure YES_OnChange
+      Form.ChangesMade = .t.
+
+   Procedure RADIOBUTTON4_OnChange
+      Form.ChangesMade = .t.
+
+      Procedure change_name
+      if .not. empty(this.value)
+      form.changesmade = .t.
+      form.updated = .t.
+      endif
+
+      Procedure valid_name
+      if empty(this.value) .or. this.value > date()+7
+      isvalid = .f.
+      else
+      isvalid = .t.
+      endif
+      return isvalid
+
+   Procedure GLTYP_OnChange
+         form.changesmade = .t.
+
+   Procedure EFDAT_OnChange
+      Form.ChangesMade = .t.
+
+   Procedure RMKS_OnChange
+    Form.ChangesMade = .t.
+
+
+
+   Procedure SST_OnChange
+         form.changesmade = .t.
+
+   Procedure PTYP_OnChange
+         form.changesmade = .t.
+
+   Procedure PTYP_OnChange1
+         FORM.CHANGESMADE = .T.
+
+   Procedure COMBOBOX1_OnChange
+   FORM.CHANGESMADE = .T.
+
+   Procedure SPAPER_OnChange
+         FORM.CHANGESMADE = .T.
+
+   Procedure SRP_OnChange
+      form.changesmade = .t.
+
+ENDCLASS

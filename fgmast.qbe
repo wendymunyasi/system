@@ -1,0 +1,56 @@
+* Visual dBASE .QBE file 9
+on error do fgcodsr.prg
+use  \kenservice\data\fgcod.dbf
+? NMATNAME
+ON ERROR DO FGMSTR.PRG
+USE \KENSERVICE\DATA\FGCEN.DBF
+? plant_code
+close databases
+ON ERROR DO QBEERR WITH ERROR(), MESSAGE(),;
+PROGRAM(), LINENO()
+CLOSE DATABASES
+SET EXACT ON
+SELECT 1
+USE \KENSERVICE\DATA\fgmast.DBf
+SELECT 99
+USE \KENSERVICE\DATA\FGTRAN.DBF ORDER TAG MKEY2
+SELECT 9
+USE \KENSERVICE\DATA\fgtyp.DBf order tag typ
+SELECT 2
+USE \KENSERVICE\DATA\fgCOY.DBf order tag coy
+SELECT 4
+USE \KENSERVICE\DATA\fgDIV.DBf order tag mkey
+SELECT 6
+USE \KENSERVICE\DATA\fgcla.DBf order tag mkey
+SELECT 5
+USE \KENSERVICE\DATA\fgCEN.DBf order tag mkey
+SELECT 7
+USE \KENSERVICE\DATA\fgcod.DBf order tag mkey
+replace all cost_unit with cost_price for .not. cost_price = cost_unit
+replace all std_cost with cost_price for .not. cost_price = std_cost
+go top
+select 26
+use \kenservice\data\ststo.dbf  order tag STO
+SELECT 1
+SET RELATION TO Typ INTO fgtyp,  Coy INTO FgCOY, Coy+div INTO ;
+FgDIV, Typ+cla INTO fgcla, Coy+div+cen INTO FgCEN, typ+cla+cod INTO fgcod, ;
+ COY+DIV+CEN+STO+TYP+CLA+COD INTO FGTRAN CONSTRAIN, STO INTO STSTO
+SELECT 12
+USE \KENSERVICE\DATA\fgcodS.DBF
+SELECT 14
+USE \KENSERVICE\DATA\fgCEN.DBF again alias fgcens
+SELECT 20
+USE \KENSERVICE\DATA\fgmast.DBf again alias fgmast2
+select 23
+use \kenservice\data\glbankbl.dbf
+go top
+select 24
+use \kenservice\data\fgmasts.dbf
+SELECT 25
+USE \KENSERVICE\DATA\FGMASTP.DBF 
+select 27
+use \kenservice\data\fgmastt.dbf
+go top
+select 28
+use  \kenservice\data\nlcc.dbf
+GO TOP

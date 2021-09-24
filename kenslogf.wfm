@@ -1,0 +1,1639 @@
+////////////////////////////////////////////////////////////////////////////////
+// Output Filename: C:\KENSERVICE\IDSSYS\KENSLOGF_FCV.WFM                     //
+// Created By:      dBASE Form Converter Wizard                               //
+// Created On:      Friday October 7, 2016 At 08:04:06                        //
+// Object Count:    31                                                        //
+////////////////////////////////////////////////////////////////////////////////
+  *******************************************************************************
+*  PROGRAM:      KENSLOGf.wfm
+*
+*  WRITTEN BY:   W Nyongesa
+*
+*  DATE:         05/2000
+*
+*  UPDATED:     07/2014
+*
+*  REVISION:     $Revision:   1.0
+*
+*  VERSION:      Visual dBASE
+*
+*  DESCRIPTION:  This program maintains the Stores master file
+*
+*  PARAMETERS:   None
+*
+*  CALLS:        KENSLOGD.mnu         (Menu file)
+*                KBUTTONS.CC          (Custom Controls file)
+*                USER No..qbe         (View of tables)
+*
+*  USAGE:        DO KENSLOGf.wfm
+*
+*******************************************************************************
+#include <messdlg.h>
+shell(.F.)
+create session
+set talk off
+set century on
+_app.FrameWin.Visible = .F.
+set design off
+_app.FrameWin.Text = "KENSLOGF"
+set ldCheck off && To avoid language driver conflicts
+#define Maxcoy 999
+** END HEADER -- do not remove this line
+//
+// Generated on 27/06/2016
+//
+parameter bUser,bLevel,bModal
+local f
+f = new KENSLOGDFORM()
+if (bModal)
+   f.mdi = false // ensure not MDI
+   f.readModal()
+else
+   f.open()
+endif
+
+class KENSLOGDFORM of FORM
+   with (this)
+      onClose = class::ONCLOSE
+      open = class::OPEN
+      metric = 6	// Pixels
+      colorNormal = "n+"
+      height = 700.0
+      left = 0.0
+      top = 0.0
+      width = 1260.0
+      text = "CHANGE SPECIAL FUNCTIONS OF USERS (SYSTEM TEAM)"
+      windowState = 2	// Normal
+      mdi = false
+      sizeable = false
+      moveable = false
+      view = "KENSLOGf.qbe"
+      menuFile = "KENSLOGD.MNU"
+      escExit = false
+      mousePointer = 1	// Arrow
+      maximize = false
+      minimize = false
+   endwith
+
+   this.RECTANGLE1 = new RECTANGLE(this)
+   with (this.RECTANGLE1)
+      left = 28.0
+      top = 11.0
+      width = 767.0
+      height = 759.0
+      text = "CHANGE SPECIAL FUNCTIONS OF USER PROFILE INFORMATION"
+      colorNormal = "W+/silver"
+      fontName = "MS Sans Serif"
+      fontSize = 12.0
+      fontBold = true
+   endwith
+
+   this.TEXT3 = new TEXTLABEL(this)
+   with (this.TEXT3)
+      height = 26.0
+      left = 48.0
+      top = 37.0
+      width = 84.0
+      text = "User"
+      colorNormal = "W+/0xc08000"
+      fontName = "MS Sans Serif"
+      fontSize = 12.0
+      fontBold = true
+      alignVertical = 2	// Bottom
+   endwith
+
+   this.EUSER = new ENTRYFIELD(this)
+   with (this.EUSER)
+      enabled = false
+      height = 26.0
+      left = 156.0
+      top = 37.0
+      width = 300.0
+      function = "!"
+      colorNormal = "N/GB+"
+      colorHighLight = "N/GB+"
+      fontName = "MS Sans Serif"
+      fontSize = 12.0
+      fontBold = true
+      value = "EUSER"
+   endwith
+
+   this.TEXT4 = new TEXTLABEL(this)
+   with (this.TEXT4)
+      height = 26.0
+      left = 48.0
+      top = 71.0
+      width = 60.0
+      text = "Group:"
+      colorNormal = "W+/0xc08000"
+      fontName = "MS Sans Serif"
+      fontSize = 12.0
+      fontBold = true
+      alignVertical = 2	// Bottom
+   endwith
+
+   this.EGROUP = new ENTRYFIELD(this)
+   with (this.EGROUP)
+      enabled = false
+      height = 26.0
+      left = 156.0
+      top = 71.0
+      width = 300.0
+      function = "!"
+      colorNormal = "N/GB+"
+      colorHighLight = "N/GB+"
+      fontName = "MS Sans Serif"
+      fontSize = 12.0
+      fontBold = true
+      value = "EGROUP"
+   endwith
+
+   this.TEXT5 = new TEXTLABEL(this)
+   with (this.TEXT5)
+      height = 26.0
+      left = 48.0
+      top = 105.0
+      width = 96.0
+      text = "Full Name:"
+      colorNormal = "W+/0xc08000"
+      fontName = "MS Sans Serif"
+      fontSize = 12.0
+      fontBold = true
+      alignVertical = 2	// Bottom
+   endwith
+
+   this.EUNAME = new ENTRYFIELD(this)
+   with (this.EUNAME)
+      enabled = false
+      height = 26.0
+      left = 156.0
+      top = 105.0
+      width = 300.0
+      function = "!"
+      colorNormal = "N/GB+"
+      colorHighLight = "N/GB+"
+      fontName = "MS Sans Serif"
+      fontSize = 12.0
+      fontBold = true
+      value = "EUNAME"
+   endwith
+
+   this.RECTANGLE2 = new RECTANGLE(this)
+   with (this.RECTANGLE2)
+      left = 35.0
+      top = 154.0
+      width = 741.0
+      height = 539.0
+      text = "CHANGE SPECIAL FUNCTIONS"
+      colorNormal = "white/teal"
+      fontName = "MS Sans Serif"
+      fontBold = true
+   endwith
+
+   this.PREVBUTTON = new PUSHBUTTON(this)
+   with (this.PREVBUTTON)
+      onClick = class::PREVIOUS
+      height = 26.0
+      left = 224.0
+      top = 715.0
+      width = 85.0
+      text = "&PREVIOUS"
+      fontName = "MS Sans Serif"
+      fontSize = 8.0
+      fontBold = true
+   endwith
+
+   this.NEXTBUTTON = new PUSHBUTTON(this)
+   with (this.NEXTBUTTON)
+      onClick = class::NEXT
+      height = 26.0
+      left = 308.0
+      top = 715.0
+      width = 85.0
+      text = "&NEXT"
+      fontName = "MS Sans Serif"
+      fontSize = 8.0
+      fontBold = true
+   endwith
+
+   this.FIRSTBUTTON = new PUSHBUTTON(this)
+   with (this.FIRSTBUTTON)
+      onClick = class::GO_FIRST
+      height = 26.0
+      left = 399.0
+      top = 715.0
+      width = 85.0
+      text = "F&IRST"
+      fontName = "MS Sans Serif"
+      fontSize = 8.0
+      fontBold = true
+   endwith
+
+   this.LASTBUTTON = new PUSHBUTTON(this)
+   with (this.LASTBUTTON)
+      onClick = class::GO_LAST
+      height = 26.0
+      left = 490.0
+      top = 715.0
+      width = 85.0
+      text = "&LAST"
+      fontName = "MS Sans Serif"
+      fontSize = 8.0
+      fontBold = true
+   endwith
+
+   this.RECTANGLE3 = new RECTANGLE(this)
+   with (this.RECTANGLE3)
+      left = 56.0
+      top = 209.0
+      width = 168.0
+      height = 55.0
+      text = "Cash Sales/Invoices"
+      fontBold = true
+   endwith
+
+   this.YSALES = new RADIOBUTTON(this)
+   with (this.YSALES)
+      onGotFocus = class::YSALES_ONGOTFOCUS
+      dataLink = "KENSLOG->SALES"
+   *   enabled = false
+      height = 24.0
+      left = 84.0
+      top = 231.0
+      width = 42.0
+      text = "Y"
+      fontBold = true
+      group = true
+   endwith
+
+   this.NSALES = new RADIOBUTTON(this)
+   with (this.NSALES)
+      onGotFocus = class::NSALES_ONGOTFOCUS
+      dataLink = "KENSLOG->SALES"
+     * enabled = false
+      height = 24.0
+      left = 161.0
+      top = 231.0
+      width = 42.0
+      text = "N"
+      fontBold = true
+   endwith
+
+   this.RECTANGLE4 = new RECTANGLE(this)
+   with (this.RECTANGLE4)
+      left = 231.0
+      top = 209.0
+      width = 168.0
+      height = 55.0
+      text = "Reverse Credit Sales"
+      fontBold = true
+   endwith
+
+   this.YRVCRS = new RADIOBUTTON(this)
+   with (this.YRVCRS)
+      onGotFocus = class::YRVCRS_ONGOTFOCUS
+      dataLink = "KENSLOG->REVCRSAL"
+      *enabled = false
+      height = 24.0
+      left = 266.0
+      top = 231.0
+      width = 42.0
+      text = "Y"
+      fontBold = true
+      group = true
+   endwith
+
+   this.NRVCRS = new RADIOBUTTON(this)
+   with (this.NRVCRS)
+      onGotFocus = class::NRVCRS_ONGOTFOCUS
+      dataLink = "KENSLOG->REVCRSAL"
+      *enabled = false
+      height = 24.0
+      left = 336.0
+      top = 231.0
+      width = 42.0
+      text = "N"
+      fontBold = true
+   endwith
+
+   this.RECTANGLE5 = new RECTANGLE(this)
+   with (this.RECTANGLE5)
+      left = 406.0
+      top = 209.0
+      width = 168.0
+      height = 55.0
+      text = "Shift Processing"
+      fontBold = true
+   endwith
+
+   this.YSHIFT = new RADIOBUTTON(this)
+   with (this.YSHIFT)
+      onGotFocus = class::YSHIFT_ONGOTFOCUS
+      dataLink = "KENSLOG->SHIFT"
+      *enabled = false
+      height = 24.0
+      left = 434.0
+      top = 231.0
+      width = 42.0
+      text = "Y"
+      fontBold = true
+      group = true
+   endwith
+
+   this.NSHIFT = new RADIOBUTTON(this)
+   with (this.NSHIFT)
+      onGotFocus = class::NSHIFT_ONGOTFOCUS
+      dataLink = "KENSLOG->SHIFT"
+      *enabled = false
+      height = 24.0
+      left = 511.0
+      top = 231.0
+      width = 42.0
+      text = "N"
+      fontBold = true
+   endwith
+
+   this.RECTANGLE6 = new RECTANGLE(this)
+   with (this.RECTANGLE6)
+      left = 581.0
+      top = 209.0
+      width = 168.0
+      height = 55.0
+      text = "MIS Reports"
+      fontBold = true
+   endwith
+
+   this.YMIS = new RADIOBUTTON(this)
+   with (this.YMIS)
+      onGotFocus = class::YMIS_ONGOTFOCUS
+      dataLink = "KENSLOG->MISREPORTS"
+  *    enabled = false
+      height = 24.0
+      left = 609.0
+      top = 231.0
+      width = 42.0
+      text = "Y"
+      fontBold = true
+      group = true
+   endwith
+
+   this.NMIS = new RADIOBUTTON(this)
+   with (this.NMIS)
+      onGotFocus = class::NMIS_ONGOTFOCUS
+      dataLink = "KENSLOG->MISREPORTS"
+    *  enabled = false
+      height = 24.0
+      left = 686.0
+      top = 231.0
+      width = 42.0
+      text = "N"
+      fontBold = true
+   endwith
+
+   this.RECTANGLE7 = new RECTANGLE(this)
+   with (this.RECTANGLE7)
+      left = 56.0
+      top = 308.0
+      width = 168.0
+      height = 55.0
+      text = "No Transfer/Assembly"
+      fontBold = true
+   endwith
+
+   this.YSTRNS = new RADIOBUTTON(this)
+   with (this.YSTRNS)
+      onGotFocus = class::YSTRNS_ONGOTFOCUS
+      dataLink = "KENSLOG->NOTRANASSY"
+      *enabled = false
+      height = 24.0
+      left = 84.0
+      top = 330.0
+      width = 42.0
+      text = "Y"
+      fontBold = true
+      group = true
+   endwith
+
+   this.NSTRNS = new RADIOBUTTON(this)
+   with (this.NSTRNS)
+      onGotFocus = class::NSTRNS_ONGOTFOCUS
+      dataLink = "KENSLOG->NOTRANASSY"
+      *enabled = false
+      height = 24.0
+      left = 161.0
+      top = 330.0
+      width = 42.0
+      text = "N"
+      fontBold = true
+   endwith
+
+   this.RECTANGLE8 = new RECTANGLE(this)
+   with (this.RECTANGLE8)
+      left = 231.0
+      top = 308.0
+      width = 168.0
+      height = 55.0
+      text = "No STO Pur/FC Transfer "
+      fontBold = true
+   endwith
+
+   this.YNOREV = new RADIOBUTTON(this)
+   with (this.YNOREV)
+      onGotFocus = class::YNOREV_ONGOTFOCUS
+      dataLink = "KENSLOG->NOREVPRV"
+      *enabled = false
+      height = 24.0
+      left = 259.0
+      top = 330.0
+      width = 42.0
+      text = "Y"
+      fontBold = true
+      group = true
+   endwith
+
+   this.NSNORV = new RADIOBUTTON(this)
+   with (this.NSNORV)
+      onGotFocus = class::NSNORV_ONGOTFOCUS
+      dataLink = "KENSLOG->NOREVPRV"
+      *enabled = false
+      height = 24.0
+      left = 336.0
+      top = 330.0
+      width = 42.0
+      text = "N"
+      fontBold = true
+   endwith
+
+   this.RECTANGLE9 = new RECTANGLE(this)
+   with (this.RECTANGLE9)
+      left = 406.0
+      top = 308.0
+      width = 168.0
+      height = 55.0
+      text = "Payroll System"
+      fontBold = true
+   endwith
+
+   this.YPY = new RADIOBUTTON(this)
+   with (this.YPY)
+      onGotFocus = class::YPY_ONGOTFOCUS
+      dataLink = "KENSLOG->PAYROLL"
+      *enabled = false
+      height = 24.0
+      left = 434.0
+      top = 330.0
+      width = 42.0
+      text = "Y"
+      fontBold = true
+      group = true
+   endwith
+
+   this.NPY = new RADIOBUTTON(this)
+   with (this.NPY)
+      onGotFocus = class::NPY_ONGOTFOCUS
+      dataLink = "KENSLOG->PAYROLL"
+      *enabled = false
+      height = 24.0
+      left = 511.0
+      top = 330.0
+      width = 42.0
+      text = "N"
+      fontBold = true
+   endwith
+
+   this.RECTANGLE10 = new RECTANGLE(this)
+   with (this.RECTANGLE10)
+      left = 581.0
+      top = 308.0
+      width = 168.0
+      height = 55.0
+      text = "General Ledger System"
+      fontBold = true
+   endwith
+
+   this.YGL = new RADIOBUTTON(this)
+   with (this.YGL)
+      onGotFocus = class::YGL_ONGOTFOCUS
+      dataLink = "KENSLOG->GLEDGER"
+      *enabled = false
+      height = 24.0
+      left = 609.0
+      top = 330.0
+      width = 42.0
+      text = "Y"
+      fontBold = true
+      group = true
+   endwith
+
+   this.NGL = new RADIOBUTTON(this)
+   with (this.NGL)
+      onGotFocus = class::NGL_ONGOTFOCUS
+      dataLink = "KENSLOG->GLEDGER"
+      *enabled = false
+      height = 24.0
+      left = 686.0
+      top = 330.0
+      width = 42.0
+      text = "N"
+      fontBold = true
+   endwith
+
+   this.RECTANGLE11 = new RECTANGLE(this)
+   with (this.RECTANGLE11)
+      left = 49.0
+      top = 407.0
+      width = 168.0
+      height = 55.0
+      text = "Adjust Stock"
+      fontBold = true
+   endwith
+
+   this.YADJ = new RADIOBUTTON(this)
+   with (this.YADJ)
+      onGotFocus = class::YADJ_ONGOTFOCUS
+      dataLink = "KENSLOG->ADJSTSTK"
+      *enabled = false
+      height = 24.0
+      left = 77.0
+      top = 429.0
+      width = 42.0
+      text = "Y"
+      fontBold = true
+      group = true
+   endwith
+
+   this.NADJ = new RADIOBUTTON(this)
+   with (this.NADJ)
+      onGotFocus = class::NADJ_ONGOTFOCUS
+      dataLink = "KENSLOG->ADJSTSTK"
+      *enabled = false
+      height = 24.0
+      left = 154.0
+      top = 429.0
+      width = 42.0
+      text = "N"
+      fontBold = true
+   endwith
+
+   this.RECTANGLE12 = new RECTANGLE(this)
+   with (this.RECTANGLE12)
+      left = 224.0
+      top = 407.0
+      width = 168.0
+      height = 55.0
+      text = "No FC System"
+      fontBold = true
+   endwith
+
+   this.YNFMS = new RADIOBUTTON(this)
+   with (this.YNFMS)
+      onGotFocus = class::YNFMS_ONGOTFOCUS
+      dataLink = "KENSLOG->SYSTEM"
+      *enabled = false
+      height = 24.0
+      left = 252.0
+      top = 429.0
+      width = 42.0
+      text = "Y"
+      fontBold = true
+      group = true
+   endwith
+
+   this.NNFMS = new RADIOBUTTON(this)
+   with (this.NNFMS)
+      onGotFocus = class::NNFMS_ONGOTFOCUS
+      dataLink = "KENSLOG->SYSTEM"
+      *enabled = false
+      height = 24.0
+      left = 329.0
+      top = 429.0
+      width = 42.0
+      text = "N"
+      fontBold = true
+   endwith
+
+   this.RECTANGLE13 = new RECTANGLE(this)
+   with (this.RECTANGLE13)
+      left = 399.0
+      top = 407.0
+      width = 168.0
+      height = 55.0
+      text = "No Banking"
+      fontBold = true
+   endwith
+
+   this.YFY = new RADIOBUTTON(this)
+   with (this.YFY)
+      onGotFocus = class::YFY_ONGOTFOCUS
+      dataLink = "KENSLOG->FINANCIALS"
+      *enabled = false
+      height = 24.0
+      left = 427.0
+      top = 429.0
+      width = 42.0
+      text = "Y"
+      fontBold = true
+      group = true
+   endwith
+
+   this.NFY = new RADIOBUTTON(this)
+   with (this.NFY)
+      onGotFocus = class::NFY_ONGOTFOCUS
+      dataLink = "KENSLOG->FINANCIALS"
+      *enabled = false
+      height = 24.0
+      left = 504.0
+      top = 429.0
+      width = 42.0
+      text = "N"
+      fontBold = true
+   endwith
+
+   this.RECTANGLE14 = new RECTANGLE(this)
+   with (this.RECTANGLE14)
+      left = 574.0
+      top = 407.0
+      width = 168.0
+      height = 55.0
+      text = "Financial Dealer"
+      fontBold = true
+   endwith
+
+   this.YADMIN = new RADIOBUTTON(this)
+   with (this.YADMIN)
+      onGotFocus = class::YADMIN_ONGOTFOCUS
+      dataLink = "KENSLOG->ADMIN"
+      *enabled = false
+      height = 24.0
+      left = 602.0
+      top = 429.0
+      width = 42.0
+      text = "Y"
+      fontBold = true
+      group = true
+   endwith
+
+   this.NADMIN = new RADIOBUTTON(this)
+   with (this.NADMIN)
+      onGotFocus = class::NADMIN_ONGOTFOCUS
+      dataLink = "KENSLOG->ADMIN"
+      *enabled = false
+      height = 24.0
+      left = 679.0
+      top = 429.0
+      width = 42.0
+      text = "N"
+      fontBold = true
+   endwith
+
+   this.RECTANGLE15 = new RECTANGLE(this)
+   with (this.RECTANGLE15)
+      left = 49.0
+      top = 517.0
+      width = 168.0
+      height = 55.0
+      text = "No Cust. Credit Notes"
+      fontBold = true
+   endwith
+
+   this.YCUSTREC = new RADIOBUTTON(this)
+   with (this.YCUSTREC)
+      onGotFocus = class::YCUSTREC_ONGOTFOCUS
+      dataLink = "KENSLOG->CUSTREC"
+      *enabled = false
+      height = 24.0
+      left = 77.0
+      top = 539.0
+      width = 42.0
+      text = "Y"
+      fontBold = true
+      group = true
+   endwith
+
+   this.NCUSTREC = new RADIOBUTTON(this)
+   with (this.NCUSTREC)
+      onGotFocus = class::NCUSTREC_ONGOTFOCUS
+      dataLink = "KENSLOG->CUSTREC"
+      *enabled = false
+      height = 24.0
+      left = 161.0
+      top = 539.0
+      width = 42.0
+      text = "N"
+      fontBold = true
+   endwith
+
+   this.RECTANGLE16 = new RECTANGLE(this)
+   with (this.RECTANGLE16)
+      left = 224.0
+      top = 517.0
+      width = 168.0
+      height = 55.0
+      text = "No Vendor Payments"
+      fontBold = true
+   endwith
+
+   this.YVEN = new RADIOBUTTON(this)
+   with (this.YVEN)
+      onGotFocus = class::YVEN_ONGOTFOCUS
+      dataLink = "KENSLOG->VENPAY"
+      *enabled = false
+      height = 24.0
+      left = 252.0
+      top = 539.0
+      width = 42.0
+      text = "Y"
+      fontBold = true
+      group = true
+   endwith
+
+   this.NVEN = new RADIOBUTTON(this)
+   with (this.NVEN)
+      onGotFocus = class::NVEN_ONGOTFOCUS
+      dataLink = "KENSLOG->VENPAY"
+      *enabled = false
+      height = 24.0
+      left = 329.0
+      top = 539.0
+      width = 42.0
+      text = "N"
+      fontBold = true
+   endwith
+
+   this.RECTANGLE17 = new RECTANGLE(this)
+   with (this.RECTANGLE17)
+      left = 399.0
+      top = 517.0
+      width = 168.0
+      height = 55.0
+      text = "No GLedger Jounals"
+      fontBold = true
+   endwith
+
+   this.YGLJNL = new RADIOBUTTON(this)
+   with (this.YGLJNL)
+      onGotFocus = class::YGLJNL_ONGOTFOCUS
+      dataLink = "KENSLOG->GLJNLS"
+      *enabled = false
+      height = 24.0
+      left = 427.0
+      top = 539.0
+      width = 42.0
+      text = "Y"
+      fontBold = true
+      group = true
+   endwith
+
+   this.NGLJNL = new RADIOBUTTON(this)
+   with (this.NGLJNL)
+      onGotFocus = class::NGLJNL_ONGOTFOCUS
+      dataLink = "KENSLOG->GLJNLS"
+      *enabled = false
+      height = 24.0
+      left = 504.0
+      top = 539.0
+      width = 42.0
+      text = "N"
+      fontBold = true
+   endwith
+
+   this.RECTANGLE18 = new RECTANGLE(this)
+   with (this.RECTANGLE18)
+      left = 574.0
+      top = 517.0
+      width = 168.0
+      height = 55.0
+      text = "No Stock Transfers"
+      fontBold = true
+   endwith
+
+   this.YSTKTR = new RADIOBUTTON(this)
+   with (this.YSTKTR)
+      onGotFocus = class::YSTKTR_ONGOTFOCUS
+      dataLink = "KENSLOG->STKTRANS"
+      *enabled = false
+      height = 24.0
+      left = 602.0
+      top = 539.0
+      width = 42.0
+      text = "Y"
+      fontBold = true
+      group = true
+   endwith
+
+   this.NSTKTRAN = new RADIOBUTTON(this)
+   with (this.NSTKTRAN)
+      onGotFocus = class::NSTKTRAN_ONGOTFOCUS
+      dataLink = "KENSLOG->STKTRANS"
+      *enabled = false
+      height = 24.0
+      left = 679.0
+      top = 539.0
+      width = 42.0
+      text = "N"
+      fontBold = true
+   endwith
+
+   this.RECTANGLE19 = new RECTANGLE(this)
+   with (this.RECTANGLE19)
+      left = 56.0
+      top = 616.0
+      width = 168.0
+      height = 55.0
+      text = "No Purchases"
+      fontBold = true
+   endwith
+
+   this.YPR = new RADIOBUTTON(this)
+   with (this.YPR)
+      onGotFocus = class::YPR_ONGOTFOCUS
+      dataLink = "KENSLOG->PURCH"
+      *enabled = false
+      height = 24.0
+      left = 84.0
+      top = 638.0
+      width = 42.0
+      text = "Y"
+      fontBold = true
+      group = true
+   endwith
+
+   this.NPR = new RADIOBUTTON(this)
+   with (this.NPR)
+      onGotFocus = class::NPR_ONGOTFOCUS
+      dataLink = "KENSLOG->PURCH"
+      *enabled = false
+      height = 24.0
+      left = 161.0
+      top = 638.0
+      width = 42.0
+      text = "N"
+      fontBold = true
+   endwith
+
+   this.RECTANGLE20 = new RECTANGLE(this)
+   with (this.RECTANGLE20)
+      left = 231.0
+      top = 616.0
+      width = 168.0
+      height = 55.0
+      text = "No Reversal of Sales"
+      fontBold = true
+   endwith
+
+   this.YO1 = new RADIOBUTTON(this)
+   with (this.YO1)
+      onGotFocus = class::YO1_ONGOTFOCUS
+      dataLink = "KENSLOG->OTHER1"
+      *enabled = false
+      height = 24.0
+      left = 259.0
+      top = 638.0
+      width = 42.0
+      text = "Y"
+      fontBold = true
+      group = true
+   endwith
+
+   this.NO1 = new RADIOBUTTON(this)
+   with (this.NO1)
+      onGotFocus = class::NO1_ONGOTFOCUS
+      dataLink = "KENSLOG->OTHER1"
+      *enabled = false
+      height = 24.0
+      left = 336.0
+      top = 638.0
+      width = 42.0
+      text = "N"
+      fontBold = true
+   endwith
+
+   this.RECTANGLE21 = new RECTANGLE(this)
+   with (this.RECTANGLE21)
+      left = 406.0
+      top = 616.0
+      width = 168.0
+      height = 55.0
+      text = "No Purchase Reversal"
+      fontBold = true
+   endwith
+
+   this.YO2 = new RADIOBUTTON(this)
+   with (this.YO2)
+      onGotFocus = class::YO2_ONGOTFOCUS
+      dataLink = "KENSLOG->OTHER2"
+      *enabled = false
+      height = 24.0
+      left = 434.0
+      top = 638.0
+      width = 42.0
+      text = "Y"
+      fontBold = true
+      group = true
+   endwith
+
+   this.NO2 = new RADIOBUTTON(this)
+   with (this.NO2)
+      onGotFocus = class::NO2_ONGOTFOCUS
+      dataLink = "KENSLOG->OTHER2"
+      *enabled = false
+      height = 24.0
+      left = 511.0
+      top = 638.0
+      width = 42.0
+      text = "N"
+      fontBold = true
+   endwith
+
+   this.RECTANGLE22 = new RECTANGLE(this)
+   with (this.RECTANGLE22)
+      left = 581.0
+      top = 616.0
+      width = 168.0
+      height = 55.0
+      text = "No Master Creation/Edit"
+      fontBold = true
+   endwith
+
+   this.YNOMAST = new RADIOBUTTON(this)
+   with (this.YNOMAST)
+      onGotFocus = class::YNOMAST_ONGOTFOCUS
+      dataLink = "KENSLOG->NOMASTER"
+      *enabled = false
+      height = 24.0
+      left = 609.0
+      top = 638.0
+      width = 42.0
+      text = "Y"
+      fontBold = true
+      group = true
+   endwith
+
+   this.NNMAST = new RADIOBUTTON(this)
+   with (this.NNMAST)
+      onGotFocus = class::NNMAST_ONGOTFOCUS
+      dataLink = "KENSLOG->NOMASTER"
+      *enabled = false
+      height = 24.0
+      left = 686.0
+      top = 638.0
+      width = 42.0
+      text = "N"
+      fontBold = true
+   endwith
+
+
+   procedure Open
+   ****************************************************************************
+
+   private CodeField
+   form.firstime = .T.
+   form.changesmade =.f.
+   buser='w'
+   blevel=1
+           FORM.BLUSER=BUSER
+   FORM.BLEVEL=BLEVEL
+   IF EMPTY(FORM.BLUSER) .OR. EMPTY(FORM.BLEVEL)
+      QUIT
+      ENDIF
+   
+   if type("form.init") = "U"
+      form.init = .T.
+
+      set skip to                     && KENSLOGd.qbe contains set skip to gldtl
+      set exact off                   && the .qbe file contains SET EXACT ON
+
+      set procedure to sampProc.prg additive
+    Form.duplicate = .F.
+      form.inEditMode = .F.           && indicator of view/edit state
+      form.changesMade = .F.          && indicator of changes made to field values
+      form.previousRecord = .F.       && Save record number when appending
+        *** do calculations in another area so form doesn't get updated
+        endif
+         SELECT KENSLOG
+        SET ORDER TO  mkey
+       GO TOP
+     form::Open()                         && Now the form actually opens
+        form.egroup.VALUE =  ""
+     form.EUNAME.VALUE = ""
+     form.euser.VALUE = ""
+   SELECT KENSLOG
+   IF .NOT. EOF()
+   pkenuser = KENSLOG->KEN_USER
+    pmuser = pkenuser
+               appMid = ""
+             mCount = 1
+      *do while mCount <= len(trim(pkenuser))
+      *MCHUCK = (chr(asc(substr(trim(pkenuser),mCount,1))-128))
+      *appmId = appmId + mChuck
+      *mCount = mCount + 1
+      *enddo
+       form.euser.VALUE = appmId
+   pkgroup = kenslog->ken_group
+               appMid = ""
+             mCount = 1
+      *do while mCount <= len(trim(pkgroup))
+      *MCHUCK = (chr(asc(substr(trim(pkgroup),mCount,1))-128))
+      *appmId = appmId + mChuck
+      *mCount = mCount + 1
+      *enddo
+      form.egroup.VALUE =  appmId
+
+   pkpwds = kenslog->USER_NAME
+               appMid = ""
+             mCount = 1
+      *do while mCount <= len(trim(pkpwds))
+      *MCHUCK = (chr(asc(substr(trim(pkpwds),mCount,1))-128))
+      *appmId = appmId + mChuck
+      *mCount = mCount + 1
+      *enddo
+      form.EUNAME.VALUE = appmId
+      ENDIF
+
+   ****************************************************************************
+
+   procedure OnClose
+  commit()
+   * Clean up.
+   ****************************************************************************
+
+     close procedure SAMPProc.prg
+   *   CLOSE DATABASESES
+   form.close()
+
+   ****************************************************************************
+
+   procedure BrowseOnNavigate
+   ****************************************************************************
+
+
+
+
+   ****************************************************************************
+
+   procedure ChangesMade
+
+   * Indicate that changes have been made to the current record
+   ****************************************************************************
+   Form.ChangesMade = .T.
+   ****************************************************************************
+
+   procedure Go_Last
+
+   form.CheckCommit(form.inEditMode)
+   go bottom
+
+         form.user_rtn()
+
+   procedure Go_First
+           form.CheckCommit(form.inEditMode)
+   go top
+         form.user_rtn()
+
+   procedure Next
+
+   form.CheckCommit(form.inEditMode)
+   if .not. empty(dbf())  .and. .not. eof()      && if a table is open in the current workarea
+      skip
+      if eof()
+         go bottom
+         AlertMessage("At the last record","Alert")
+         else
+         form.user_rtn()
+      endif
+   else
+      InformationMessage("There is no table open in the current workarea.",;
+         "Info")
+   endif
+
+    Procedure User_rtn
+
+   * SELECT KENSLOG
+   IF .NOT. EOF()
+   pkenuser = KENSLOG->KEN_USER
+    pmuser = pkenuser
+               appMid = ""
+             mCount = 1
+      *do while mCount <= len(trim(pkenuser))
+      *MCHUCK = (chr(asc(substr(trim(pkenuser),mCount,1))-128))
+      *appmId = appmId + mChuck
+      *mCount = mCount + 1
+      *enddo
+       form.euser.VALUE = appmId
+   pkgroup = kenslog->ken_group
+               appMid = ""
+             mCount = 1
+      *do while mCount <= len(trim(pkgroup))
+      *MCHUCK = (chr(asc(substr(trim(pkgroup),mCount,1))-128))
+      *appmId = appmId + mChuck
+      *mCount = mCount + 1
+      *enddo
+      form.egroup.VALUE =  appmId
+
+   pkpwds = kenslog->USER_NAME
+               appMid = ""
+             mCount = 1
+      *do while mCount <= len(trim(pkpwds))
+      *MCHUCK = (chr(asc(substr(trim(pkpwds),mCount,1))-128))
+      *appmId = appmId + mChuck
+      *mCount = mCount + 1
+      *enddo
+      form.EUNAME.VALUE = appmId
+      ENDIF
+
+   procedure Previous
+
+ 
+   * Go to previous record.
+   ****************************************************************************
+
+   form.CheckCommit(form.inEditMode)
+ if .not. empty(dbf())  .and. .not. eof() && if a table is open in the current workarea
+      skip - 1
+      if bof()
+         go top
+         AlertMessage("At the first record","Alert")
+         else
+         form.user_rtn()
+      endif
+   else
+      InformationMessage("There is no table open in the current workarea.",;
+         "Info")
+   endif
+
+   procedure CheckCommit (newInEditMode)
+    private CodeField, changesMade
+     changesMade = form.changesMade
+                         if .not. empty(dbf())
+                         	if .not. eof()
+       IF FORM.CHANGESMADE
+          if ConfirmationMessage("Are you sure you want to CHANGE SPECIAL FUNCTIONS OF THIS USER",;
+                          "Confirm") = YES
+                          select kenslog
+              PK1 = FORM.EUSER.VALUE
+              PK2 = FORM.EGROUP.VALUE
+              PK3 = ""
+              PK4 = KEN_LEVEL
+              PK5 = KEN_DATE
+              PK6 = KEN_TIME
+              PK7 = KEN_NAME
+              PK8 = FORM.EUNAME.VALUE
+              PK9 = SALES
+              PK10 = REVCRSAL
+              PK11 = SHIFT
+              PK12 = MISREPORTS
+              PK13 = NOTRANASSY
+              PK14 = NOMASTER
+              PK15 = NOREVPRV
+              PK16 = PAYROLL
+              PK17 = GLEDGER
+              PK18 = ADJSTSTK
+              PK19 = SYSTEM
+              PK20 = FINANCIALS
+              PK21 = ADMIN
+
+      IF .NOT. EMPTY(PK1)
+      SELECT KENSLOGD
+      APPEND BLANK
+      REPLACE KEN_GROUP WITH PK2
+      REPLACE KEN_PWD WITH PK3
+      REPLACE KEN_LEVEL WITH PK4
+      REPLACE KEN_USER WITH PK1
+      REPLACE KEN_DATE WITH date()
+      REPLACE KEN_TIME WITH time()
+      REPLACE KEN_NAME  WITH FORM.BLUSER
+      REPLACE USER_NAME WITH pk8
+      REPLACE KEN_DDATE WITH DATE()
+      REPLACE KEN_DTIME WITH TIME()
+      REPLACE SALES WITH PK9
+      REPLACE REVCRSAL WITH PK10
+      REPLACE SHIFT WITH PK11
+      REPLACE MISREPORTS WITH PK12
+      REPLACE NOTRANASSY WITH PK13
+      REPLACE NOMASTER WITH PK14
+      REPLACE NOREVPRV WITH PK15
+      REPLACE PAYROLL WITH PK16
+      REPLACE GLEDGER WITH PK17
+      REPLACE ADJSTSTK WITH PK18
+      REPLACE SYSTEM WITH PK19
+      REPLACE FINANCIALS WITH PK20
+      REPLACE ADMIN WITH PK21
+      REPLACE KEN_DUSER WITH FORM.BLUSER
+
+      REPLACE KEN_ABLE WITH "SPECIAL FUNCTION"
+      ENDIF
+
+      SELECT KENSLOG
+      REPLACE KEN_DATE WITH DATE()
+      REPLACE KEN_TIME WITH TIME()
+      commit()
+      form.changesMade = .F.
+      ELSE
+      SELECT KENSLOG
+      ROLLBACK()
+        form.changesMade = .F.
+      ENDIF
+      ELSE
+      SELECT KENSLOG
+      ROLLBACK()
+      FORM.CHANGESMADE =.f.
+      ENDIF
+
+       if newInEditMode                       && Going to Edit mode
+         begintrans()
+      else                                   && Going to View mode
+         if .not. changesMade
+            rollback()
+         endif
+      endif
+      form.inEditMode = newInEditMode
+                       endif
+                       endif
+   REFRESH
+
+   procedure ViewEdit
+
+   * Toggle between View and Edit modes.
+   ****************************************************************************
+   local inEditMode, editMenu, control
+
+   editMenu = form.root.KENSLOGd.VIEWEdit
+
+   *** If ending edit mode then close transaction, otherwise open it.
+   if form.inEditMode
+      form.checkChanged(.F.)
+      editMenu.text = "&Edit"
+      editMenu.shortcut = "Ctrl-E"
+      editMenu.statusMessage = "Edit data."
+      form.CheckCommit(.F.)                        && Check transaction and
+      form.text = "CHANGE SPECIAL FUNCTIONS OF USERS (SYSTEM TEAM) -- View Mode"          && change mode to View
+        form.statusmessage = "In View Mode. " + ;
+                           "CHANGE SPECIAL FUNCTIONS OF USERS (SYSTEM TEAM) - Edit menu to " + ;
+                           "edit/delete data."
+   else                                            && Switch to edit mode
+      editMenu.text = "Vi&ew"
+      editMenu.shortcut = "Ctrl-E"
+      editMenu.statusMessage = "View data."
+      form.CheckCommit(.T.)                        && Check transaction and
+      form.text = "CHANGE SPECIAL FUNCTIONS OF USERS (SYSTEM TEAM) -- Edit Mode"          && change mode to Edit
+
+       form.statusmessage = "In Edit Mode.  " + ;
+                           "CHANGE SPECIAL FUNCTIONS OF USERS (SYSTEM TEAM) - View to switch " + ;
+                           "to View mode."
+
+
+   endif
+
+   inEditMode = form.inEditMode     && Faster if we don't reference a form
+   control = form.first             &&    variable each time through the loop
+   do
+      if .not. control.className $ "BROWSE,EDITOR,NEXTBUTTON,PREVBUTTON,PUSHBUTTON,IMAGE,TEXT"
+         control.enabled = inEditMode
+      endif
+      control = control.before
+   until control.name = form.first.name
+
+
+             FORM.EUSER.ENABLED = .F.
+             FORM.EGROUP.ENABLED = .F.
+             FORM.EUNAME.ENABLED = .F.
+             FORM.EGROUP.ENABLED =.F.
+          
+
+   ****************************************************************************
+
+   function YADJ_onGotFocus
+       select kenslog
+      replace adjststk with .t.
+      form.changesmade = .t.
+      return
+
+   function YADMIN_onGotFocus
+      select kenslog
+      replace admin with .t.
+      form.changesmade = .t.
+      return
+
+   function YCUSTREC_onGotFocus
+           select kenslog
+      replace custrec with .t.
+      form.changesmade = .t.
+      return
+
+   function YFY_onGotFocus
+        select kenslog
+      replace financials with .t.
+      form.changesmade = .t.
+      return
+
+   function YGLJNL_onGotFocus
+         select kenslog
+      replace gljnls   with .t.
+      form.changesmade = .t.
+      return
+
+   function YGL_onGotFocus
+                  select kenslog
+      replace gledger with .t.
+      form.changesmade = .t.
+      return
+
+   function YMIS_onGotFocus
+        select kenslog
+      replace misreports   with .t.
+      form.changesmade = .t.
+      return
+
+   function YNFMS_onGotFocus
+           select kenslog
+      replace system with .t.
+      form.changesmade = .t.
+      return
+
+   function YNOMAST_onGotFocus
+       select kenslog
+      replace nomaster   with .t.
+      form.changesmade = .t.
+      return
+
+   function YNOREV_onGotFocus
+               select kenslog
+      replace norevprv with .t.
+      form.changesmade = .t.
+      return
+
+   function YO1_onGotFocus
+         select kenslog
+      replace other1 with .t.
+      form.changesmade = .t.
+      return
+
+   function YO2_onGotFocus
+          select kenslog
+      replace other2 with .t.
+      form.changesmade = .t.
+      return
+
+   function YPR_onGotFocus
+        select kenslog
+      replace purch  with .t.
+      form.changesmade = .t.
+      return
+
+   function YPY_onGotFocus
+                select kenslog
+      replace payroll with .t.
+      form.changesmade = .t.
+      return
+
+   function YRVCRS_onGotFocus
+      select kenslog
+      replace revcrsal with .t.
+      form.changesmade = .t.
+      return
+
+   function YSALES_onGotFocus
+      select kenslog
+      replace sales with .t.
+      form.changesmade = .t.
+      return
+
+   function YSHIFT_onGotFocus
+         select kenslog
+      replace shift   with .t.
+      form.changesmade = .t.
+      return
+
+   function YSTKTR_onGotFocus
+         select kenslog
+      replace stktrans  with .t.
+      form.changesmade = .t.
+      return
+
+   function YSTRNS_onGotFocus
+          select kenslog
+      replace notranassy   with .t.
+      form.changesmade = .t.
+      return
+
+   function YVEN_onGotFocus
+             select kenslog
+      replace venpay   with .t.
+      form.changesmade = .t.
+      return
+
+   procedure CheckChanged(callCommit)
+
+    * Check if changes have been made to the current entryfield.  This procedure
+   * is called from menu routines to make sure the form.changesMade gets
+   * updated when a menu is selected while the changed control has focus.
+   ****************************************************************************
+   private control, fieldValue, controlValue, typeText, typeValue
+
+   if form.inEditMode
+      control = form.activeControl
+      if type("control.datalink") <> "U"
+         fieldValue = control.datalink          && name of table field
+
+         typeText = type("control.text")
+         typeValue = type("control.value")
+         do case
+            case typeValue = "C"
+               controlValue = control.value
+            case typeValue $ "LU" .and. typeText = "C"
+               controlValue = control.text
+            otherwise
+               controlValue = Null
+         endcase
+         endif
+   endif
+
+   ****************************************************************************
+
+   Procedure SOK_OnClick
+   if form.changesmade
+    form.CheckCommit(form.inEditMode)
+    endif
+
+   Procedure SALES_OnChange
+      FORM.CHANGESMADE =.T.
+
+   Procedure REVCRSAL_OnChange
+      FORM.CHANGESMADE =.T.
+
+   Procedure SHIFT_OnChange
+      FORM.CHANGESMADE =.T.
+
+   Procedure MISREPORTS_OnChange
+      FORM.CHANGESMADE =.T.
+
+   function NADJ_onGotFocus
+           select kenslog
+      replace adjststk with .f.
+      form.changesmade = .t.
+      return
+
+   function NADMIN_onGotFocus
+           select kenslog
+      replace admin with .f.
+      form.changesmade = .t.
+      return
+
+   function NCUSTREC_onGotFocus
+            select kenslog
+      replace custrec with .f.
+      form.changesmade = .t.
+      return
+
+   Procedure STRNS_OnChange
+   FORM.CHANGESMADE =.T.
+
+   Procedure SNOMASTER_OnChange
+         FORM.CHANGESMADE = .T.
+
+   Procedure SNOREV_OnChange
+      FORM.CHANGESMADE = .T.
+
+   Procedure SGL_OnChange
+      FORM.CHANGESMADE = .T.
+
+   Procedure SPY_OnChange
+   FORM.CHANGESMADE = .T.
+
+   Procedure SSTKADJ_OnChange
+      FORM.CHANGESMADE =.T.
+
+   Procedure SNOFMS_OnChange
+      FORM.CHANGESMADE = .T.
+
+   Procedure SFY_OnChange
+   FORM.CHANGESMADE = .T.
+
+   Procedure SDEALER_OnChange
+   FORM.CHANGESMADE = .T.
+
+   Procedure NCUST_OnGotFocus
+   form.changesmade = .t.
+
+   function NFY_onGotFocus
+      select kenslog
+      replace financials with .f.
+      form.changesmade = .t.
+      return
+
+   function NGLJNL_onGotFocus
+         select kenslog
+      replace gljnls   with .f.
+      form.changesmade = .t.
+      return
+
+   Procedure NVEN_OnGotFocus
+   form.changesmade = .t.
+
+   function NVEN_onGotFocus
+         select kenslog
+      replace venpay   with .f.
+      form.changesmade = .t.
+      return
+
+   Procedure NGL_OnGotFocus
+   form.changesmade = .t.
+
+   function NGL_onGotFocus
+       select kenslog
+      replace gledger with .f.
+      form.changesmade = .t.
+      return
+
+   function NMIS_onGotFocus
+          select kenslog
+      replace misreports   with .f.
+      form.changesmade = .t.
+      return
+
+   function NNFMS_onGotFocus
+        select kenslog
+      replace system with .f.
+      form.changesmade = .t.
+      return
+
+   function NNMAST_onGotFocus
+       select kenslog
+      replace nomaster   with .f.
+      form.changesmade = .t.
+      return
+
+   function NO1_onGotFocus
+          select kenslog
+      replace other1 with .f.
+      form.changesmade = .t.
+      return
+
+   function NO2_onGotFocus
+          select kenslog
+      replace other2 with .f.
+      form.changesmade = .t.
+      return
+
+   function NPR_onGotFocus
+         select kenslog
+      replace purch  with .f.
+      form.changesmade = .t.
+      return
+
+   Procedure NSTK_OnGotFocus
+   form.changesmade = .t.
+
+   function NSTRNS_onGotFocus
+       select kenslog
+      replace notranassy   with .f.
+      form.changesmade = .t.
+      return
+
+   Procedure NPUR_OnGotFocus
+   form.changesmade = .t.
+
+   function NPY_onGotFocus
+                  select kenslog
+      replace payroll with .f.
+      form.changesmade = .t.
+      return
+
+   Procedure NRSAL_OnGotFocus
+   FORM.CHANGESMADE = .T.
+
+   function NRVCRS_onGotFocus
+         select kenslog
+      replace revcrsal with .f.
+      form.changesmade = .t.
+      return
+
+   function NSALES_onGotFocus
+      select kenslog
+      replace sales with .f.
+      form.changesmade = .t.
+      return
+
+   function NSHIFT_onGotFocus
+        select kenslog
+      replace shift   with .f.
+      form.changesmade = .t.
+      return
+
+   function NSNORV_onGotFocus
+                select kenslog
+      replace norevprv with .f.
+      form.changesmade = .t.
+      return
+
+   function NSTKTRAN_onGotFocus
+        select kenslog
+      replace stktrans  with .f.
+      form.changesmade = .t.
+      return
+
+   Procedure NRPUR_OnGotFocus
+   FORM.CHANGESMADE = .T.
+
+endclass
+

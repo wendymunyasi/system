@@ -1,0 +1,98 @@
+******************************************************************************
+*  PROGRAM:      KENSLOGD.mnu
+*
+*  WRITTEN BY:   W Nyongesa
+*
+*  DATE:         03/2001
+*
+*  UPDATED:      10/2011
+*
+*  REVISION:     $Revision:   1.58  $
+*
+*  VERSION:      Visual dBASE
+*
+*  DESCRIPTION:  This is a menu file used by KENSLOGD.WFM for
+*                performing simple tasks.  It allows adding and deleting
+*                records, searching for a value in the Pump field of the
+*                current table viewed, and exiting the form in view.
+*
+*  PARAMETERS:   FormObj -- the form to which this menu will belong.
+*
+*  CALLS:        None
+*
+*  USAGE:        form.menuFile = "KENSLOGD.mnu"
+*
+*******************************************************************************
+#include <messdlg.h>
+
+** END HEADER -- do not remove this line*
+* Generated on 07/03/2001
+*
+Parameter FormObj
+NEW KENSLOGD(FormObj,"Root")
+CLASS KENSLOGD(FormObj,Name) OF MENUBAR(FormObj,Name)
+   this.Text = ""
+   this.OnInit = {;set procedure to SampProc.prg}
+
+   DEFINE MENU FILE OF THIS;
+       PROPERTY;
+         Text "&FILE"
+
+         DEFINE MENU EXIT OF THIS.FILE;
+             PROPERTY;
+               OnClick CLASS::ONEXIT,;
+               Text "&Return to Previous Menu",;
+               ShortCut "F4",;
+               StatusMessage "Leave User Maintenance form."
+
+
+         DEFINE MENU SEPARATOR1fils OF THIS.FILE;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+
+         DEFINE MENU QUITALL OF THIS.FILE;
+             PROPERTY;
+               OnClick CLASS::ONQUITALL,;
+               Text "EXIT",;
+               ShortCut "F8",;
+               StatusMessage "Leave Kenserve Integrated System."
+   DEFINE MENU KENSLOGD OF THIS;
+       PROPERTY;
+         Text "&USER"
+
+         DEFINE MENU VIEWEDIT OF THIS.KENSLOGD;
+             PROPERTY;
+               OnClick CLASS::VIEWEDITONCLICK,;
+               Text "&Edit",;
+               Shortcut "Ctrl-E",;
+               StatusMessage "Edit data."
+
+        
+
+  
+ 
+    ***************************************************************************
+   procedure ViewEditOnClick
+   ****************************************************************************
+
+   form.ViewEdit()
+
+   ****************************************************************************
+   procedure OnQuitall
+   ****************************************************************************
+  
+    form.Release()
+       quit
+    procedure OnExit
+   ****************************************************************************
+  
+    form.Release()
+   
+
+
+
+ENDCLASS
+
+
+
