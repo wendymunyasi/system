@@ -2,7 +2,7 @@ dBASE PLUS Project Explorer Log: kenslog.log
 Project name: kenslog
 
 =================================================================
-REBUILD ALL process started: 09/23/2021 22:02:23
+REBUILD ALL process started: 09/24/2021 20:55:19
 dBASE 2019 13.20  b2618 (11/26/2019-EN191126)
 Project Explorer b1071 (05/07/2019)
 -----------------------------------------------------------------
@@ -108,11 +108,101 @@ C:\KENSLOG\IDSSYS\KENSLOG1.QBE
 
 C:\kenslog\idssys\kenslog1.qbo copied to DEO Target: C:\kenslog\idssys\deploy\kenslog1.qbo
 
-Process completed at: 22:02:25 (2 seconds elapsed)
-File compiles attempted: 12
+Compile results for:
+C:\KENSLOG\IDSSYS\FGMAST.WFM
+0 warnings, 0 errors
+
+C:\kenslog\idssys\Fgmast.wfo copied to DEO Target: C:\kenslog\idssys\deploy\Fgmast.wfo
+
+Compile results for:
+C:\KENSLOG\IDSSYS\FGPRINT.WFM
+0 warnings, 0 errors
+
+C:\kenslog\idssys\Fgprint.wfo copied to DEO Target: C:\kenslog\idssys\deploy\Fgprint.wfo
+
+Compile results for:
+C:\KENSLOG\IDSSYS\KENSLOGD.WFM
+0 warnings, 0 errors
+
+C:\kenslog\idssys\KENSLOGD.wfo copied to DEO Target: C:\kenslog\idssys\deploy\KENSLOGD.wfo
+
+Compile results for:
+C:\KENSLOG\IDSSYS\KENSLOGF.WFM
+0 warnings, 0 errors
+
+C:\kenslog\idssys\kenslogf.wfo copied to DEO Target: C:\kenslog\idssys\deploy\kenslogf.wfo
+
+Compile results for:
+C:\KENSLOG\IDSSYS\KENSLOGL.WFM
+0 warnings, 0 errors
+
+C:\kenslog\idssys\KENSLOGL.wfo copied to DEO Target: C:\kenslog\idssys\deploy\KENSLOGL.wfo
+
+Compile results for:
+C:\KENSLOG\IDSSYS\NGLPARM.PRG
+0 warnings, 0 errors
+
+C:\kenslog\idssys\nglparm.pro copied to DEO Target: C:\kenslog\idssys\deploy\nglparm.pro
+
+Compile results for:
+C:\KENSLOG\IDSSYS\SHREST.PRG
+0 warnings, 0 errors
+
+C:\kenslog\idssys\SHREST.pro copied to DEO Target: C:\kenslog\idssys\deploy\SHREST.pro
+
+Compile results for:
+C:\KENSLOG\IDSSYS\FGMAST.QBE
+0 warnings, 0 errors
+
+C:\kenslog\idssys\fgmast.qbo copied to DEO Target: C:\kenslog\idssys\deploy\fgmast.qbo
+
+Compile results for:
+C:\KENSLOG\IDSSYS\FGPRINT.QBE
+0 warnings, 0 errors
+
+C:\kenslog\idssys\fgprint.qbo copied to DEO Target: C:\kenslog\idssys\deploy\fgprint.qbo
+
+Compile results for:
+C:\KENSLOG\IDSSYS\FGMAST.MNU
+0 warnings, 0 errors
+
+C:\kenslog\idssys\fgmast.mno copied to DEO Target: C:\kenslog\idssys\deploy\fgmast.mno
+
+Compile results for:
+C:\KENSLOG\IDSSYS\FGPRINT.MNU
+0 warnings, 0 errors
+
+C:\kenslog\idssys\fgprint.mno copied to DEO Target: C:\kenslog\idssys\deploy\fgprint.mno
+
+Compile results for:
+C:\KENSLOG\IDSSYS\KENSLOGD.MNU
+0 warnings, 0 errors
+
+C:\kenslog\idssys\KENSLOGD.mno copied to DEO Target: C:\kenslog\idssys\deploy\KENSLOGD.mno
+
+Compile results for:
+C:\KENSLOG\IDSSYS\KENSLOGD.QBE
+0 warnings, 0 errors
+
+C:\kenslog\idssys\KENSLOGd.QBo copied to DEO Target: C:\kenslog\idssys\deploy\KENSLOGd.QBo
+
+Compile results for:
+C:\KENSLOG\IDSSYS\NGLPARM.QBE
+0 warnings, 0 errors
+
+C:\kenslog\idssys\nglparm.qbo copied to DEO Target: C:\kenslog\idssys\deploy\nglparm.qbo
+
+Compile results for:
+C:\KENSLOG\IDSSYS\KENSLOGF.QBE
+0 warnings, 0 errors
+
+C:\kenslog\idssys\kenslogf.qbo copied to DEO Target: C:\kenslog\idssys\deploy\kenslogf.qbo
+
+Process completed at: 20:55:21 (2 seconds elapsed)
+File compiles attempted: 27
 File compile errors: 0
-DEO files copied: 27
+DEO files copied: 42
 Executable file: C:\kenslog\idssys\deploy\kenslog.exe
-Executable file size: 223,937
+Executable file size: 223,960
 C:\kenslog\idssys\deploy\kenslog.ini created or updated.
 

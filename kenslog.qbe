@@ -1,31 +1,31 @@
 * Visual dBASE .QBE file 9
-if .not. file("\kenslog\idssys\transerr.DBF")
-COPY TABLE \kenserve\idssys\transerr.DBF TO \kenslog\idssys\transerr dBase
+if .not. file("\kenserve\idssys\transerr.DBF")
+COPY TABLE \kenserve\idssys\transerr.DBF TO \kenserve\idssys\transerr dBase
 endif 
-if .not. file("\kenslog\idssys\querrors.DBF")
-COPY TABLE \kenserve\idssys\querrors.DBF TO \kenslog\idssys\querrors dBase
+if .not. file("\kenserve\idssys\querrors.DBF")
+COPY TABLE \kenserve\idssys\querrors.DBF TO \kenserve\idssys\querrors dBase
 endif 
-if .not. file("\kenslog\idssys\KENSLOG.DBF")
-COPY TABLE \kenserve\idssys\kenslog.DBF TO \kenslog\idssys\KENSLOG dBase
+if .not. file("\kenserve\idssys\kenserve.DBF")
+COPY TABLE \kenserve\idssys\kenserve.DBF TO \kenserve\idssys\kenserve dBase
 endif 
-if .not. file("\kenslog\idssys\KENGROUP.DBF")
-COPY TABLE \kenserve\idssys\kengroup.DBF TO \kenslog\idssys\KENGROUP dBase
+if .not. file("\kenserve\idssys\KENGROUP.DBF")
+COPY TABLE \kenserve\idssys\kengroup.DBF TO \kenserve\idssys\KENGROUP dBase
 endif 
-if .not. file("\kenslog\idssys\KENSLOGX.DBF")
-COPY TABLE \kenserve\idssys\kenslogx.DBF TO \kenslog\idssys\KENSLOGX dBase
+if .not. file("\kenserve\idssys\kenserveX.DBF")
+COPY TABLE \kenserve\idssys\kenservex.DBF TO \kenserve\idssys\kenserveX dBase
 endif 
-if .not. file("\kenslog\idssys\KENSLOGD.DBF")
-COPY TABLE \kenserve\idssys\kenslogd.DBF TO \kenslog\idssys\KENSLOGD dBase
+if .not. file("\kenserve\idssys\kenserveD.DBF")
+COPY TABLE \kenserve\idssys\kenserved.DBF TO \kenserve\idssys\kenserveD dBase
 endif 
-if .not. file("\kenslog\idssys\KENSLOG1.DBF")
-COPY TABLE \kenserve\idssys\kenslog1.DBF TO \kenslog\idssys\KENSLOG1 dBase
+if .not. file("\kenserve\idssys\kenserve1.DBF")
+COPY TABLE \kenserve\idssys\kenserve1.DBF TO \kenserve\idssys\kenserve1 dBase
 endif 
-if .not. file("\kenslog\idssys\KENTRYLG.DBF")
-COPY TABLE \kenserve\idssys\kentrylg.DBF TO \kenslog\idssys\KENTRYLG dBase
+if .not. file("\kenserve\idssys\KENTRYLG.DBF")
+COPY TABLE \kenserve\idssys\kentrylg.DBF TO \kenserve\idssys\KENTRYLG dBase
 endif 
 close databases
 ON ERROR DO KENSLSTR.PRG
-USE \kenslog\idssys\KENSLOG.DBF
+USE \kenserve\idssys\kenserve.DBF
 ? other10
 CLOSE DATABASES
 ON ERROR DO FGCOYSTR.PRG
@@ -42,7 +42,7 @@ CLOSE DATABASES
 SET EXACT ON
 
 
-USE \kenslog\idssys\KENSLOG.DBF
+USE \kenserve\idssys\kenserve.DBF
 Set filter to ken_user = 'WYCLIFFE'
 Go top
 If .not. eof()
@@ -52,7 +52,7 @@ CLOSE DATABASES
 SET EXACT ON
 select 8
 IF .NOT. FILE ("\KENSERVICE\DATA\KENBEXTN.DBF")
-USE \KENSERVE\IDSSYS\KENBEXTN.DBF
+USE \kenserve\IDSSYS\KENBEXTN.DBF
 COPY STRU TO \KENSERVICE\DATA\KENBEXTN DBASE PROD
 ENDIF
 USE \KENSERVICE\DATA\KENBEXTN.DBF
@@ -61,15 +61,15 @@ if eof()
 append blank
 endif
 SELECT 1
-USE \kenslog\idssys\KENSLOG.DBF order tag mkey
+USE \kenserve\idssys\kenserve.DBF order tag mkey
 select 2
-USE \kenslog\idssys\KENSLOG.DBF order tag mkey ALIAS KENSLOG2
+USE \kenserve\idssys\kenserve.DBF order tag mkey ALIAS kenserve2
 SET FILTER TO KEN_ACTIVE
 SELECT 3
-USE \kenslog\idssys\KENSLOG.DBF order tag mkey ALIAS KENSLOG3
+USE \kenserve\idssys\kenserve.DBF order tag mkey ALIAS kenserve3
 SET FILTER TO KEN_ACTIVE
 select 4
-use \kenslog\idssys\Kentrylg.DBF
+use \kenserve\idssys\Kentrylg.DBF
 select 5
 use \kenservice\data\fgcoy.DBF
 replace all doc17 with .f., doc18 with .f.
