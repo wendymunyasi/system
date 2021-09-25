@@ -2,7 +2,7 @@ dBASE PLUS Project Explorer Log: kenslog.log
 Project name: kenslog
 
 =================================================================
-REBUILD ALL process started: 09/24/2021 20:55:19
+REBUILD ALL process started: 09/25/2021 15:03:28
 dBASE 2019 13.20  b2618 (11/26/2019-EN191126)
 Project Explorer b1071 (05/07/2019)
 -----------------------------------------------------------------
@@ -198,11 +198,71 @@ C:\KENSLOG\IDSSYS\KENSLOGF.QBE
 
 C:\kenslog\idssys\kenslogf.qbo copied to DEO Target: C:\kenslog\idssys\deploy\kenslogf.qbo
 
-Process completed at: 20:55:21 (2 seconds elapsed)
-File compiles attempted: 27
+Compile results for:
+C:\KENSLOG\IDSSYS\SEARCH.WFM
+0 warnings, 0 errors
+
+C:\kenslog\idssys\search.wfo copied to DEO Target: C:\kenslog\idssys\deploy\search.wfo
+
+Compile results for:
+C:\KENSLOG\IDSSYS\FRIGTMES.WFM
+0 warnings, 0 errors
+
+C:\kenslog\idssys\FRIGTMES.WFo copied to DEO Target: C:\kenslog\idssys\deploy\FRIGTMES.WFo
+
+Compile results for:
+C:\KENSLOG\IDSSYS\FRISTR.PRG
+0 warnings, 0 errors
+
+C:\kenslog\idssys\FRISTR.PRo copied to DEO Target: C:\kenslog\idssys\deploy\FRISTR.PRo
+
+Compile results for:
+C:\KENSLOG\IDSSYS\FGCOYPUP.PRG
+0 warnings, 0 errors
+
+C:\kenslog\idssys\FGCOYPUP.PRo copied to DEO Target: C:\kenslog\idssys\deploy\FGCOYPUP.PRo
+
+Compile results for:
+C:\KENSLOG\IDSSYS\DDEERR.PRG
+0 warnings, 0 errors
+
+C:\kenslog\idssys\DDEERR.PRo copied to DEO Target: C:\kenslog\idssys\deploy\DDEERR.PRo
+
+Compile results for:
+C:\KENSLOG\IDSSYS\BUTTONS.CC
+0 warnings, 0 errors
+
+C:\kenslog\idssys\BUTTONS.Co copied to DEO Target: C:\kenslog\idssys\deploy\BUTTONS.Co
+
+Compile results for:
+C:\KENSLOG\IDSSYS\DATABUTTONS.CC
+0 warnings, 0 errors
+
+C:\kenslog\idssys\DATABUTTONS.Co copied to DEO Target: C:\kenslog\idssys\deploy\DATABUTTONS.Co
+
+Compile results for:
+C:\KENSLOG\IDSSYS\SAMPLE.CFM
+0 warnings, 0 errors
+
+C:\kenslog\idssys\sample.cfo copied to DEO Target: C:\kenslog\idssys\deploy\sample.cfo
+
+Compile results for:
+C:\KENSLOG\IDSSYS\FRIGTMES.MNU
+0 warnings, 0 errors
+
+C:\kenslog\idssys\FRIGTMES.MNo copied to DEO Target: C:\kenslog\idssys\deploy\FRIGTMES.MNo
+
+Compile results for:
+C:\KENSLOG\IDSSYS\FRIGTMES.QBE
+0 warnings, 0 errors
+
+C:\kenslog\idssys\FRIGTMES.QBo copied to DEO Target: C:\kenslog\idssys\deploy\FRIGTMES.QBo
+
+Process completed at: 15:03:31 (3 seconds elapsed)
+File compiles attempted: 37
 File compile errors: 0
-DEO files copied: 42
+DEO files copied: 52
 Executable file: C:\kenslog\idssys\deploy\kenslog.exe
-Executable file size: 223,960
+Executable file size: 223,939
 C:\kenslog\idssys\deploy\kenslog.ini created or updated.
 

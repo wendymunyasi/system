@@ -4,13 +4,13 @@ procedure SHREST
    SET SAFETY OFF
    set desig off
    buser='e'
-   blvel=1
+   blevel=1
    blUSER = BUSER
    blLEVEL = BLEVEL
    IF EMPTY(blUSER) .OR. EMPTY(bLEVEL)
       QUIT
    ENDIF
-   USE \kenslog\idssys\KENSLOG.DBF EXCLUSIVE
+   USE \kenslog\idssys\KENSLOG.DBF
    *PACK
    
    

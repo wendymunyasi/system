@@ -20,7 +20,7 @@ SourceDir=C:\kenslog\idssys
 
 ; ----------------------------------------------------------
 ; Application folder, C:\Program Files (x86)\kenslog\idssys
-DefaultDirName={pf}\kenslog
+DefaultDirName={pf}\kenslog\idssys
 ; Don't allow user to select paths
 DisableDirPage=yes
 
