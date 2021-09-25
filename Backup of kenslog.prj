@@ -1,4 +1,4 @@
-Project File generated 09/24/2021 20:55:08
+Project File generated 09/25/2021 15:00:43
 
 [Project]
 Name=kenslog
@@ -60,6 +60,16 @@ KENSLOGD.mnu,1,0,1,0
 KENSLOGd.QBE,1,0,1,0
 nglparm.qbe,1,0,1,0
 kenslogf.qbe,1,0,1,0
+search.wfm,1,0,1,0
+FRIGTMES.WFM,1,0,1,0
+FRISTR.PRG,1,0,1,0
+FGCOYPUP.PRG,1,0,1,0
+DDEERR.PRG,1,0,1,0
+BUTTONS.CC,1,0,1,0
+DATABUTTONS.CC,1,0,1,0
+sample.cfm,1,0,1,0
+FRIGTMES.MNU,1,0,1,0
+FRIGTMES.QBE,1,0,1,0
 
 [DEO]
 DEO0=C:\kenslog\idssys\deploy
@@ -151,45 +161,54 @@ IMAGETOPRIGHT=
 IMAGESIDE=
 Icon1={group}\{#AppName} >> {app}\kenslog.exe
 Files1=KENGROUP.DBF >> DestDir: {app}
-Files2=KENGROUP.mdx >> DestDir: {app}
-Files3=KENSLOG.DBF >> DestDir: {app}
-Files4=KENSLOG.mdx >> DestDir: {app}
-Files5=KENSLOG.dbt >> DestDir: {app}
-Files6=KENSLOG1.DBF >> DestDir: {app}
-Files7=KENSLOGD.DBF >> DestDir: {app}
-Files8=KENSLOGD.mdx >> DestDir: {app}
-Files9=KENSLOGX.DBF >> DestDir: {app}
-Files10=KENTRYLG.DBF >> DestDir: {app}
-Files11=KENTRYLG.mdx >> DestDir: {app}
-Files12=querrors.DBF >> DestDir: {app}
-Files13=transerr.DBF >> DestDir: {app}
-Files14=IMAGELOG.BMP >> DestDir: {app}
-Files15=Mugs.ico >> DestDir: {app}
-Files16=kenslogs.mnO >> DestDir: {app}
-Files17=KENSLOGS.wfO >> DestDir: {app}
-Files18=qbeerR.prO >> DestDir: {app}
-Files19=SAMPPROC.PRO >> DestDir: {app}
-Files20=KENSLOG.DMO >> DestDir: {app}
-Files21=PASSWDC.CO >> DestDir: {app}
-Files22=PASSWORD.CO >> DestDir: {app}
-Files23=PASWDCON.CO >> DestDir: {app}
-Files24=C:\kenslog\idssys\deploy\kenslog.exe >> DestDir: {app}
-Files25=logo.bmp >> DestDir: {app}
-Files26=kenslog1.wfO >> DestDir: {app}
-Files27=KENSLOG1.mnO >> DestDir: {app}
-Files28=kenslog1.qbO >> DestDir: {app}
-Files29=Fgmast.wfO >> DestDir: {app}
-Files30=Fgprint.wfO >> DestDir: {app}
-Files31=KENSLOGD.wfO >> DestDir: {app}
-Files32=kenslogf.wfO >> DestDir: {app}
-Files33=KENSLOGL.wfO >> DestDir: {app}
-Files34=nglparm.prO >> DestDir: {app}
-Files35=SHREST.prO >> DestDir: {app}
-Files36=fgmast.qbO >> DestDir: {app}
-Files37=fgprint.qbO >> DestDir: {app}
-Files38=fgmast.mnO >> DestDir: {app}
-Files39=fgprint.mnO >> DestDir: {app}
-Files40=KENSLOGD.mnO >> DestDir: {app}
-Files41=KENSLOGd.QBO >> DestDir: {app}
-Files42=nglparm.qbO >> DestDir: {app}
-Files43=kenslogf.qbO >> DestDir: {app}
+Files2=KENSLOG.DBF >> DestDir: {app}
+Files3=KENSLOG.mdx >> DestDir: {app}
+Files4=KENSLOG.dbt >> DestDir: {app}
+Files5=KENSLOG1.DBF >> DestDir: {app}
+Files6=KENSLOGD.DBF >> DestDir: {app}
+Files7=KENSLOGD.mdx >> DestDir: {app}
+Files8=KENSLOGX.DBF >> DestDir: {app}
+Files9=KENTRYLG.DBF >> DestDir: {app}
+Files10=KENTRYLG.mdx >> DestDir: {app}
+Files11=querrors.DBF >> DestDir: {app}
+Files12=transerr.DBF >> DestDir: {app}
+Files13=IMAGELOG.BMP >> DestDir: {app}
+Files14=Mugs.ico >> DestDir: {app}
+Files15=kenslogs.mnO >> DestDir: {app}
+Files16=KENSLOGS.wfO >> DestDir: {app}
+Files17=qbeerR.prO >> DestDir: {app}
+Files18=SAMPPROC.PRO >> DestDir: {app}
+Files19=KENSLOG.DMO >> DestDir: {app}
+Files20=PASSWDC.CO >> DestDir: {app}
+Files21=PASSWORD.CO >> DestDir: {app}
+Files22=PASWDCON.CO >> DestDir: {app}
+Files23=C:\kenslog\idssys\deploy\kenslog.exe >> DestDir: {app}
+Files24=logo.bmp >> DestDir: {app}
+Files25=kenslog1.wfO >> DestDir: {app}
+Files26=KENSLOG1.mnO >> DestDir: {app}
+Files27=kenslog1.qbO >> DestDir: {app}
+Files28=Fgmast.wfO >> DestDir: {app}
+Files29=Fgprint.wfO >> DestDir: {app}
+Files30=KENSLOGD.wfO >> DestDir: {app}
+Files31=kenslogf.wfO >> DestDir: {app}
+Files32=KENSLOGL.wfO >> DestDir: {app}
+Files33=nglparm.prO >> DestDir: {app}
+Files34=SHREST.prO >> DestDir: {app}
+Files35=fgmast.qbO >> DestDir: {app}
+Files36=fgprint.qbO >> DestDir: {app}
+Files37=fgmast.mnO >> DestDir: {app}
+Files38=fgprint.mnO >> DestDir: {app}
+Files39=KENSLOGD.mnO >> DestDir: {app}
+Files40=KENSLOGd.QBO >> DestDir: {app}
+Files41=nglparm.qbO >> DestDir: {app}
+Files42=kenslogf.qbO >> DestDir: {app}
+Files43=search.wfO >> DestDir: {app}
+Files44=FRIGTMES.WFO >> DestDir: {app}
+Files45=FRISTR.PRO >> DestDir: {app}
+Files46=FGCOYPUP.PRO >> DestDir: {app}
+Files47=DDEERR.PRO >> DestDir: {app}
+Files48=BUTTONS.CO >> DestDir: {app}
+Files49=DATABUTTONS.CO >> DestDir: {app}
+Files50=sample.cfO >> DestDir: {app}
+Files51=FRIGTMES.MNO >> DestDir: {app}
+Files52=FRIGTMES.QBO >> DestDir: {app}

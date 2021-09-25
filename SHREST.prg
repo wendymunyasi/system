@@ -10,7 +10,7 @@ procedure SHREST
    IF EMPTY(blUSER) .OR. EMPTY(bLEVEL)
       QUIT
    ENDIF
-   USE \kenslog\idssys\KENSLOG.DBF EXCLUSIVE
+*   USE \kenslog\idssys\KENSLOG.DBF EXCLUSIVE
    *PACK
    
    

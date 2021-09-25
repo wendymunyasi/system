@@ -1,0 +1,104 @@
+////////////////////////////////////////////////////////////////////////////////
+// Output Filename: C:\KENSERVICE\IDSSYS\SEARCH_FCV.WFM                       //
+// Created By:      dBASE Form Converter Wizard                               //
+// Created On:      Saturday September 25, 2021 At 12:53:42                   //
+// Object Count:    0                                                         //
+////////////////////////////////////////////////////////////////////////////////
+*****************************************************************************
+*  PROGRAM:      Search.wfm
+*
+*  WRITTEN BY:   Borland Samples Group
+*
+*  DATE:         5/93
+*
+*  UPDATED:      6/95
+*
+*  REVISION:     $Revision:   1.36  $
+*
+*  VERSION:      Visual dBASE
+*
+*  DESCRIPTION:  This form executes a simple search.  It will accept a value
+*                and search for it using the current index.  It allows the
+*                calling program to handle the results.  The entered value
+*                is attached to the OkButton, so the calling program can
+*                search for it in whatever way it needs.
+*
+*  PARAMETERS:   None
+*
+*  CALLS:        Buttons.cc         (Custom Controls file)
+*
+*  USAGE:        DO Search.wfm
+*                or
+*                (this is how Search is called from Orders.mnu and Customer.mnu)
+*                set procedure to Search.wfm additive
+*                local f
+*                f = new SearchForm()
+*                f.mdi = .F.       && modal forms cannot be mdi
+*                selected = f.ReadModal()
+*                seek f.value
+*
+*******************************************************************************
+*#include <Messdlg.h>
+set ldCheck off
+** END HEADER -- do not remove this line
+//
+// Generated on 25/09/2021
+//
+parameter bModal
+local f
+f = new SEARCHFORM()
+if (bModal)
+   f.mdi = false // ensure not MDI
+   f.readModal()
+else
+   f.open()
+endif
+
+class SEARCHFORM of SEARCHFORMCLASS from "SAMPLE.CFM"
+   set procedure to C:\kenslog\IDSSYS\BUTTONS.CC additive
+   with (this)
+      onSelection = class::FORM_ONSELECTION
+      onOpen = class::FORM_ONOPEN
+      onClose = class::FORM_ONCLOSE
+      metric = 6	// Pixels
+      height = 100.0
+      left = 200.0
+      top = 68.0
+      width = 250.0
+      windowState = 0	// Normal
+      enabled = true
+   endwith
+
+
+   procedure Form_OnOpen
+   ****************************************************************************
+   set procedure to SampProc.prg additive
+                                    && if Search was called from customer/
+   if type("this.keyName") <> "U"   && orders with the keyName property assigned
+      this.text = FormatStr("Search -- %1", this.keyName)
+    *  this.searchEntry.picture = this.formatting
+   endif
+   this.searchEntry.SetFocus()
+
+
+   ****************************************************************************
+
+   procedure Form_OnClose
+   ****************************************************************************
+
+   clear program
+
+   ****************************************************************************
+
+   procedure Form_OnSelection(controlId)
+
+   * If value was specified, save it and close form.
+   ****************************************************************************
+
+   if controlId <> 0   && If Cancel wasn't selected
+      form.value = form.searchEntry.value
+   endif
+   form.Close()
+
+endclass
+

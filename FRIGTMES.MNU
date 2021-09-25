@@ -1,0 +1,269 @@
+******************************************************************************
+*  PROGRAM:      Frigtmes.mnu
+*
+*  WRITTEN BY:   W Nyongesa
+*
+*  DATE:         03/2001
+*
+*  UPDATED:      09/2012
+*
+*  REVISION:     $Revision:   1.58  $
+*
+*  VERSION:      Visual dBASE
+*
+*  DESCRIPTION:  This is a menu file used by Frigtmes.wfm for
+*                performing simple tasks.  It allows adding and deleting
+*                records, searching for a value in the Frighter field of the
+*                current table viewed, and exiting the form in view.
+*
+*  PARAMETERS:   FormObj -- the form to which this menu will belong.
+*
+*  CALLS:        None
+*
+*  USAGE:        form.menuFile = "Frigtmes.mnu"
+*
+*******************************************************************************
+#include <messdlg.h>
+blevel=1
+** END HEADER -- do not remove this line*
+* Generated on 07/03/2001
+*
+Parameter FormObj
+NEW FrigTMES(FormObj,"Root")
+
+CLASS FrigTMES(FormObj,Name) OF MENUBAR(FormObj,Name)
+   this.Text = ""
+   this.OnInit = {;set procedure to SampProc.prg}
+
+   DEFINE MENU FILE OF THIS;
+       PROPERTY;
+         Text "&File"
+
+        DEFINE MENU EXIT OF THIS.FILE;
+             PROPERTY; 
+               StatusMessage "Return to the Previous Menu.",;
+               Text "&Return to Previous Menu",;
+               ShortCut "F4",;
+               OnClick CLASS::ONEXITALL
+
+        
+       DEFINE MENU SEPARATOR000 OF THIS.FILE;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+
+
+         DEFINE MENU QUITS OF THIS.FILE;
+             PROPERTY; 
+               StatusMessage "Leave Kenserve Integrated System.",;
+               Text "Exit",;
+               ShortCut "F8",;
+               OnClick CLASS::QUITALL
+
+   DEFINE MENU Frighter OF THIS;
+       PROPERTY;
+         Text "Customer"
+
+         DEFINE MENU VIEWEDIT OF THIS.Frighter;
+             PROPERTY;
+               OnClick CLASS::VIEWEDITONCLICK,;
+               Text "&Edit",;
+               Shortcut "Ctrl-E",;
+               StatusMessage "Edit data."
+
+         DEFINE MENU SEPARATOR1 OF THIS.Frighter;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+
+       
+         DEFINE MENU SEARCH OF THIS.Frighter;
+             PROPERTY;
+               OnClick CLASS::SEARCHONCLICK,;
+               Text "&Search ...",;
+               Shortcut "Ctrl-S",;
+               StatusMessage "Search for a Customer Accounts."
+
+
+  DEFINE MENU SEPARATOR41 OF THIS.Frighter;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+if bLevel < 4 .OR. (BLYVISA .AND. BLEVEL < 7)
+  DEFINE MENU cust4 OF  THIS.Frighter;
+                           PROPERTY; 
+                           Text "&Generate Visa (POS) Receipt Numbers for Current Customer",;
+                           OnClick {;do fgvisnos.prg WITH FORM.BLUSER, FORM.BLEVEL}
+                           
+              DEFINE MENU SEPARATOR42 OF THIS.Frighter;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+endif
+
+ DEFINE MENU REPORT OF THIS;
+       PROPERTY;
+         Text "&Reports"
+
+         DEFINE MENU ERRORCustomerREPORT OF THIS.REPORT;
+             PROPERTY;
+               OnClick {;create session ;set lock off ;report form Frighter},;
+               Text "&1. Listing of Customers."
+               
+                 DEFINE MENU SEPARATORR OF THIS.REPORT;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+
+
+                DEFINE MENU ERRORCustomerREPORT2 OF THIS.REPORT;
+             PROPERTY;
+              OnClick {;create session ;set lock off ;report form frveregs},;
+                Text "&2. Listing of Customer Registered Vehicles."
+          
+          **
+             DEFINE MENU SEPARATORR3 OF THIS.REPORT;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+
+
+                DEFINE MENU ERRORCustomerREPORT3 OF THIS.REPORT;
+             PROPERTY;
+              OnClick {;create session ;set lock off ;report form fgvisnos},;
+                Text "&3. Listing of Customer Visa (POS) Receipt Numbers."
+          
+             DEFINE MENU SEPARATORR3B OF THIS.REPORT;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+
+          *
+            DEFINE MENU ERRORTypeSREPORT OF THIS.REPORT;
+             PROPERTY;
+               OnClick {;create session ;set lock off ;report form Fgregcds},;
+               Text "&4. List Card/Vehicles sorted by Customer."
+               
+                DEFINE MENU SEPARATOR4 OF THIS.REPORT;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+
+
+                DEFINE MENU ERRORTypeSREPORT2 OF THIS.REPORT;
+             PROPERTY;
+               OnClick {;create session ;set lock off ;report form Fgregcdv},;
+               Text "&5. List Card/Vehicles sorted by Vehicle."
+
+ DEFINE MENU SEPARATOR5 OF THIS.REPORT;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+
+         DEFINE MENU ERRORTypeSREPORT3 OF THIS.REPORT;
+             PROPERTY;
+               OnClick {;create session ;set lock off ;report form Fgregcdc},;
+               Text "&6. List Card/Vehicles sorted by Card Number."
+          
+               
+                  
+
+   ****************************************************************************
+   procedure SearchOnClick
+
+   * Bring up Search.WFM.
+   ****************************************************************************
+   private searchForm, searchItem, saveRec, saveFilt, Searchsource,;
+           Searchftyp, searchpmod,searchvno
+      local l1
+   if reccount() = 0                     && If table is empty, don't search
+      InformationMessage("This table is empty.", "Sorry!")
+   else
+      form.CheckChanged(.T.)
+   SET PROCEDURE TO SEARCH.WFM ADDITIVE
+  
+      searchForm = new SearchForm()
+      searchForm.keyName = "Customer"  && Indicator of key expression
+        searchForm.formatting = "@X"
+      searchForm.mdi = .F.
+      searchItem = searchForm.Readmodal()
+      if type("searchItem") = "O" .and. searchItem.id <> 0
+                                      && If search wasn't cancelled
+         saveRec = Bookmark()            && save current record in case seek is
+                                      && unsuccessful
+       Searchsource = left(searchform.value,1)
+       l1 = left(searchform.value,7)
+       SearchvNo = right(l1,4)
+       l1 = left(l1,3) && s,t,p
+       Searchpmod = right(l1,1)
+       l1 = left(l1,2)
+       Searchftyp = right(l1,1)
+     *  searchcen = right(searchform.value,6)
+       form.enabled = .F.
+       go top
+        seek Searchsource+Searchftyp+Searchpmod+SearchVNo
+* locate for period = SearchCtyp .and. doctype = SearchCustNo
+         if .not. found()
+            InformationMessage(FormatStr("Customer Accounts %1 \n Was not Found.",;
+                                         searchForm.value),;
+                               "Info")
+            if .not. eof()
+               go saverec()
+            else
+               go bottom
+            endif
+         endif
+         form.enabled = .T.
+      endif
+
+      searchForm.Release()
+      close procedure Search.WFM
+   endif
+    IF  FORM.BLEVEL  < 4 .and.  Frighter->source = "9" 
+       FORM.SVAGE.ENABLED = .t.
+       else
+       FORM.SVAGE.ENABLED = .f.
+       ENDIF
+       if FORM.BLEVEL  < 4
+       form.cname.enabled = .t.
+       else
+       form.cname.enabled = .f.
+       endif
+       if  FORM.BLEVEL  < 4 .and.  .not. (Frighter->source < "4" .or. Frighter->source = "9" .or. Frighter->source = "B")
+       FORM.SCLMT.ENABLED = .t.
+       else
+       FORM.SCLMT.ENABLED = .f.
+       endif
+
+  SELECT FGVISNOG
+      REPLACE FRIGHTER_N WITH FRIGHTER->FRIGHTER_N
+      REPLACE SOURCE WITH FRIGHTER->SOURCE
+      REPLACE FTYP WITH FRIGHTER->FTYP
+      REPLACE PMOD WITH FRIGHTER->PMOD
+      REPLACE MAXSERIAL WITH FRIGHTER->MAXSERIAL
+      REPLACE SERIALNO WITH FRIGHTER->SERIALNO
+      SELECT FRIGHTER
+   
+   ***************************************************************************
+
+   procedure ViewEditOnClick
+   ****************************************************************************
+
+   form.ViewEdit()
+
+   ****************************************************************************
+     procedure OnExitALL
+   
+  
+   ****************************************************************************
+   *      form.close()  
+     form.Release()
+   Procedure QUITALL
+            form.Release()
+            QUIT
+  
+   
+
+ENDCLASS
+
+
