@@ -1,0 +1,2414 @@
+Procedure fgsetupn
+PARAMETER BUSER,BLEVEL
+CLOSE DATABASES
+SET EXACT ON
+SET EXCLUSIVE ON
+set safety off
+set century on
+set date to BRITISH
+    PLUSER = BUSER  && PRIVATE VARIABLES
+    PLEVEL = BLEVEL
+    pshdate = {}
+    use \kenserve\idssys\keninit.dbf exclusive
+    go top
+    if plevel < 3 .and. day(ken_date) = 1 .and. month(ken_date) = month(date()) .and. ;
+    year(ken_date) = year(date()) .and. .not. eof() .and. empty(ken_init) .and. empty(ken_user) ;
+     .and. .not. empty(shift_date) 
+     pshdate = shift_date
+     pshno = "1"
+     pshid = "0"
+    replace ken_init with date()
+    replace ken_user with pluser
+    replace shift_date with {}
+use \kenserve\idssys\FMSSAGE.dbf
+copy stru to \kenservice\data\FMSSAGE dbase prod
+use \kenserve\idssys\FGSALPUR.dbf
+copy stru to \kenservice\data\FGSALPUR dbase prod
+ use \kenserve\idssys\fgmcclg.dbf
+copy stru to \kenservice\data\fgmcclg dbase prod
+use \kenserve\idssys\fgmcclb.dbf
+copy stru to \kenservice\data\fgmcclb dbase prod
+ USE  \KENSERVE\IDSSYS\ARDSCTRN.DBF
+COPY STRU TO \KENSERVICE\DATA\ARDSCTRN DBASE PROD
+use  \kenserve\idssys\ardscsn.dbf
+ USE  \kenserve\idssys\fgvisnos.dbf
+ copy stru to \kenservice\data\fgvisnos dbase prod
+ use \kenserve\idssys\frveregs.dbf
+copy stru to \kenservice\data\frveregs dbase prod
+use \kenserve\idssys\fgregcds.dbf
+copy stru to \kenservice\data\fgregcds dbase prod
+IF .NOT. FILE("\kenservice\data\FGSUMSLS.dbf")
+ USE  \kenserve\idssys\FGSUMSLS.dbf
+ copy stru to \kenservice\data\FGSUMSLS dbase prod
+ endif
+ USE \KENSERVICE\DATA\FGSUMSLS.DBF
+ ZAP
+set safety off
+USE  \KENSERVE\IDSSYS\JNDRCPST.DBF
+COPY STRU TO \KENSERVICE\DATA\JNDRCPST DBASE PROD
+USE  \KENSERVE\IDSSYS\JNDRECSN.DBF
+COPY STRU TO \KENSERVICE\DATA\JNDRECSN DBASE PROD
+use \kenserve\idssys\ngljnls.dbf
+copy stru to \kenservice\data\ngljnls dbase prod
+use \kenserve\idssys\glpurchs.dbf
+copy stru to \kenservice\data\glpurchs dbase prod
+use  \kenserve\idssys\glcbtrsn.dbf
+copy stru to \kenservice\data\glcbtrsn dbase prod
+set safety off
+USE \KENSERVICE\DATA\STSTO.DBF
+REPL ALL SALES_DISC WITH 'No',rate_on with 'No',f1cashr with 'No',sales_disc with 'No',Used with 'No',maxamt with 0,;
+day_rate with 0,night_rate with 0,tank_cap with 0
+USE \KENSERVICE\DATA\STSTOS.DBF
+REPL ALL SALES_DISC WITH 'No',rate_on with 'No',f1cashr with 'No',sales_disc with 'No',Used with 'No',maxamt with 0,;
+day_rate with 0,night_rate with 0,tank_cap with 0
+set safety off
+use \kenserve\idssys\FGLPGTRS.dbf
+copy stru to \kenservice\data\FGLPGTRS dbase prod
+use \kenserve\idssys\dacatsal.dbf
+copy stru to \kenservice\data\dacatsal   dbase prod
+use \kenserve\idssys\fgfuelcs.dbf
+copy stru to \kenservice\data\fgfuelcs dbase prod
+use \kenserve\idssys\FGINVTRS.dbf
+copy stru to \kenservice\data\fgINVTRS dbase prod
+ USE  \KENSERVE\IDSSYS\ARCRNPST.DBF
+COPY STRU TO \KENSERVICE\DATA\ARCRNPST DBASE PROD
+use \kenserve\idssys\ARWINVCE.dbf
+copy stru to \kenservice\data\ARWINVCE dbase prod
+use \kenserve\idssys\jnwinvce.dbf
+copy stru to \kenservice\data\jnwinvce dbase prod
+ USE  \KENSERVE\IDSSYS\JNINVSN.DBF
+ COPY STRU TO \KENSERVICE\DATA\JNINVSN DBASE PROD
+use \kenserve\idssys\paysrecv.dbf
+  copy stru to \kenservice\data\paysrecv dbase prod
+ 
+     use \kenserve\idssys\argrnsn.dbf
+copy stru to \kenservice\data\argrnsn dbase prod
+    use \kenserve\idssys\argjnlsn.dbf
+copy stru to \kenservice\data\argjnlsn dbase prod
+USE  \kenserve\idssys\glreplsn.dbf
+ copy stru to \kenservice\data\glreplsn dbase prod
+if .not. file('\kenservice\data\apdrcrsn.dbf')
+  use \kenserve\idssys\apdrcrsn.dbf
+  copy stru to \kenservice\data\apdrcrsn dbase prod
+  endif
+ use \kenservice\data\apdrcrsn.dbf
+ zap
+ if .not. file('\KENSERVICE\DATA\APGRASN.DBF')
+use \kenserve\idssys\APGRASN.dbf
+copy stru to \kenservice\data\APGRASN dbase prod
+endif
+ use \kenservice\data\APGRASN.dbf
+ zap
+if .not. file("\kenservice\data\frcustbl.dbf")
+use \kenserve\idssys\frcustbl.dbf
+copy stru to \kenservice\data\frcustbl dbase prod
+endif
+use \kenservice\data\frcustbl.dbf
+zap
+if .not. file("\kenservice\data\st15dmtr.dbf")
+use \kenserve\idssys\st15dmtr.dbf
+copy stru to \kenservice\data\st15dmtr dbase prod
+endif
+use \kenservice\data\st15dmtr.dbf
+zap
+     IF .NOT. FILE('\KENSERVICE\DATA\FGHQUPLD.DBF')
+USE  \KENSERVE\IDSSYS\FGHQUPLD.DBF
+COPY STRU TO \KENSERVICE\DATA\FGHQUPLD DBASE PROD
+ENDIF
+USE \KENSERVICE\DATA\FGHQUPLD.DBF
+ZAP
+       IF .NOT. FILE('\KENSERVICE\DATA\ARDRCPST.DBF')
+USE  \KENSERVE\IDSSYS\ARDRCPST.DBF
+COPY STRU TO \KENSERVICE\DATA\ARDRCPST DBASE PROD
+ENDIF
+USE \KENSERVICE\DATA\ARDRCPST.DBF
+ZAP
+    use \kenserve\idssys\frmtrbal.dbf
+copy stru to \kenservice\data\frmtrbal dbase prod
+ use \kenserve\idssys\frmtrage.dbf
+copy stru to \kenservice\data\frmtrage dbase prod
+
+    if .not. file("\kenservice\data\fgtransf.dbf")
+use \kenserve\idssys\fgtransf.dbf
+copy stru to \kenservice\data\fgtransf dbase prod
+endif
+USE \KENSERVICE\DATA\fgtransf.DBF  exclusive
+zap
+       if .not. file('\KENSERVICE\DATA\fgpaymts.DBF')
+use \kenserve\idssys\fgpaymts.dbf
+copy stru to \kenservice\data\fgpaymts dbase prod
+endif
+ use \kenservice\data\fgpaymts.dbf
+ zap
+     if .not. file('\KENSERVICE\DATA\fgynfsn.DBF')
+use \kenserve\idssys\fgynfsn.dbf
+copy stru to \kenservice\data\fgynfsn dbase prod
+endif
+ use \kenservice\data\fgynfsn.dbf
+ zap
+ if .not. file('\KENSERVICE\DATA\fgxnfsn.DBF')
+use \kenserve\idssys\fgxnfsn.dbf
+copy stru to \kenservice\data\fgxnfsn dbase prod
+endif
+ use \kenservice\data\fgxnfsn.dbf
+ zap
+ if .not. file('\KENSERVICE\DATA\fgwnfsn.DBF')
+use \kenserve\idssys\fgwnfsn.dbf
+copy stru to \kenservice\data\fgwnfsn dbase prod
+endif
+ use \kenservice\data\fgwnfsn.dbf
+ zap
+ if .not. file('\KENSERVICE\DATA\fgznfsn.DBF')
+use \kenserve\idssys\fgznfsn.dbf
+copy stru to \kenservice\data\fgznfsn dbase prod
+endif
+ use \kenservice\data\fgznfsn.dbf
+ zap
+ if .not. file('\KENSERVICE\DATA\fgcasnsn.DBF')
+use \kenserve\idssys\fgcasnsn.dbf
+copy stru to \kenservice\data\fgcasnsn dbase prod
+endif
+ use \kenservice\data\fgcasnsn.dbf
+ zap
+ 
+ 
+ 
+ 
+      if .not. file('\KENSERVICE\DATA\fgpurchs.DBF')
+use \kenserve\idssys\fgpurchs.dbf
+copy stru to \kenservice\data\fgpurchs dbase prod
+endif
+ use \kenservice\data\fgpurchs.dbf
+ zap
+     if .not. file('\KENSERVICE\DATA\fordersn.DBF')
+use \kenserve\idssys\fordersn.dbf
+copy stru to \kenservice\data\fordersn dbase prod
+endif
+ use \kenservice\data\fordersN.dbf
+ zap
+    IF .NOT. FILE("\kenservice\data\fgxfslsn.dbf")
+ USE  \kenserve\idssys\fgxfslsn.dbf
+ copy stru to \kenservice\data\fgxfslsn dbase prod
+ endif
+USE \Kenservice\data\fgxfslsn.DBF
+ ZAP
+  IF .NOT. FILE("\kenservice\data\fgyfslsn.dbf")
+ USE  \kenserve\idssys\fgyfslsn.dbf
+ copy stru to \kenservice\data\fgyfslsn dbase prod
+ endif
+USE \Kenservice\data\fgyfslsn.DBF
+ ZAP
+  IF .NOT. FILE("\kenservice\data\fgzfslsn.dbf")
+ USE  \kenserve\idssys\fgzfslsn.dbf
+ copy stru to \kenservice\data\fgzfslsn dbase prod
+ endif
+USE \Kenservice\data\fgzfslsn.DBF
+ ZAP
+     IF .NOT. FILE("\kenservice\data\fgxrlgsn.dbf")
+ USE  \kenserve\idssys\fgxrlgsn.dbf
+ copy stru to \kenservice\data\fgxrlgsn dbase prod
+ endif
+USE \Kenservice\data\fgxrlgsn.DBF
+ ZAP
+  IF .NOT. FILE("\kenservice\data\fgyrlgsn.dbf")
+ USE  \kenserve\idssys\fgyrlgsn.dbf
+ copy stru to \kenservice\data\fgyrlgsn dbase prod
+ endif
+USE \Kenservice\data\fgyrlgsn.DBF
+ ZAP
+  IF .NOT. FILE("\kenservice\data\fgzrlgsn.dbf")
+ USE  \kenserve\idssys\fgzrlgsn.dbf
+ copy stru to \kenservice\data\fgzrlgsn dbase prod
+ endif
+USE \Kenservice\data\fgzrlgsn.DBF
+ ZAP
+  IF .NOT. FILE("\kenservice\data\fgxrubsn.dbf")
+ USE  \kenserve\idssys\fgxrubsn.dbf
+ copy stru to \kenservice\data\fgxrubsn dbase prod
+ endif
+USE \Kenservice\data\fgxrubsn.DBF
+ ZAP
+  IF .NOT. FILE("\kenservice\data\fgyrubsn.dbf")
+ USE  \kenserve\idssys\fgyrubsn.dbf
+ copy stru to \kenservice\data\fgyrubsn dbase prod
+ endif
+USE \Kenservice\data\fgyrubsn.DBF
+ ZAP
+  IF .NOT. FILE("\kenservice\data\fgzrubsn.dbf")
+ USE  \kenserve\idssys\fgzrubsn.dbf
+ copy stru to \kenservice\data\fgzrubsn dbase prod
+ endif
+USE \Kenservice\data\fgzrubsn.DBF
+ ZAP
+ IF .NOT. FILE("\kenservice\data\fgnxcdsn.dbf")
+ USE  \kenserve\idssys\fgnxcdsn.dbf
+ copy stru to \kenservice\data\fgnxcdsn dbase prod
+ endif
+USE \Kenservice\data\fgnxcdsn.DBF
+ ZAP
+  IF .NOT. FILE("\kenservice\data\fgnycdsn.dbf")
+ USE  \kenserve\idssys\fgnycdsn.dbf
+ copy stru to \kenservice\data\fgnycdsn dbase prod
+ endif
+USE \Kenservice\data\fgnycdsn.DBF
+ ZAP
+  IF .NOT. FILE("\kenservice\data\fgnzcdsn.dbf")
+ USE  \kenserve\idssys\fgnzcdsn.dbf
+ copy stru to \kenservice\data\fgnzcdsn dbase prod
+ endif
+USE \Kenservice\data\fgnzcdsn.DBF
+ ZAP
+    IF .NOT. FILE("\kenservice\data\fgnwcdsn.dbf")
+ USE  \kenserve\idssys\fgnwcdsn.dbf
+ copy stru to \kenservice\data\fgnwcdsn dbase prod
+ endif
+USE \Kenservice\data\fgnwcdsn.DBF
+ ZAP
+ IF .NOT. FILE("\kenservice\data\arxcadns.dbf")
+ USE  \kenserve\idssys\arxcadns.dbf
+ copy stru to \kenservice\data\arxcadns dbase prod
+ endif
+USE \Kenservice\data\arxcadns.DBF
+ ZAP
+  IF .NOT. FILE("\kenservice\data\arycadns.dbf")
+ USE  \kenserve\idssys\arycadns.dbf
+ copy stru to \kenservice\data\arycadns dbase prod
+ endif
+USE \Kenservice\data\arycadns.DBF
+ ZAP
+  IF .NOT. FILE("\kenservice\data\arzcadns.dbf")
+ USE  \kenserve\idssys\arzcadns.dbf
+ copy stru to \kenservice\data\arzcadns dbase prod
+ endif
+USE \Kenservice\data\arzcadns.DBF
+ ZAP
+    IF .NOT. FILE("\kenservice\data\arwcadns.dbf")
+ USE  \kenserve\idssys\arwcadns.dbf
+ copy stru to \kenservice\data\arwcadns dbase prod
+ endif
+USE \Kenservice\data\arwcadns.DBF
+ ZAP
+     IF .NOT. FILE("\kenservice\data\arnxivsn.dbf")
+ USE  \kenserve\idssys\arnxivsn.dbf
+ copy stru to \kenservice\data\arnxivsn dbase prod
+ endif
+USE \Kenservice\data\arnxivsn.DBF
+ ZAP
+  IF .NOT. FILE("\kenservice\data\arnyivsn.dbf")
+ USE  \kenserve\idssys\arnyivsn.dbf
+ copy stru to \kenservice\data\arnyivsn dbase prod
+ endif
+USE \Kenservice\data\arnyivsn.DBF
+ ZAP
+  IF .NOT. FILE("\kenservice\data\arnzivsn.dbf")
+ USE  \kenserve\idssys\arnzivsn.dbf
+ copy stru to \kenservice\data\arnzivsn dbase prod
+ endif
+USE \Kenservice\data\arnzivsn.DBF
+ ZAP
+    IF .NOT. FILE("\kenservice\data\arnwivsn.dbf")
+ USE  \kenserve\idssys\arnwivsn.dbf
+ copy stru to \kenservice\data\arnwivsn dbase prod
+ endif
+USE \Kenservice\data\arnwivsn.DBF
+ ZAP
+ 
+       IF .NOT. FILE("\kenservice\data\arxcadsn.dbf")
+ USE  \kenserve\idssys\arxcadsn.dbf
+ copy stru to \kenservice\data\arxcadsn dbase prod
+ endif
+USE \Kenservice\data\arxcadsn.DBF
+ ZAP
+ IF .NOT. FILE("\kenservice\data\arycadsn.dbf")
+ USE  \kenserve\idssys\arycadsn.dbf
+ copy stru to \kenservice\data\arycadsn dbase prod
+ endif
+USE \Kenservice\data\arycadsn.DBF
+ ZAP
+ IF .NOT. FILE("\kenservice\data\arzcadsn.dbf")
+ USE  \kenserve\idssys\arzcadsn.dbf
+ copy stru to \kenservice\data\arzcadsn dbase prod
+ endif
+USE \Kenservice\data\arzcadsn.DBF
+ ZAP 
+IF .NOT. FILE("\kenservice\data\arxinvsn.dbf")
+ USE  \kenserve\idssys\arxinvsn.dbf
+ copy stru to \kenservice\data\arxinvsn dbase prod
+ endif
+USE \Kenservice\data\arxinvsn.DBF
+ ZAP
+ IF .NOT. FILE("\kenservice\data\aryinvsn.dbf")
+ USE  \kenserve\idssys\aryinvsn.dbf
+ copy stru to \kenservice\data\aryinvsn dbase prod
+ endif
+USE \Kenservice\data\aryinvsn.DBF
+ ZAP
+ IF .NOT. FILE("\kenservice\data\arzinvsn.dbf")
+ USE  \kenserve\idssys\arzinvsn.dbf
+ copy stru to \kenservice\data\arzinvsn dbase prod
+ endif
+USE \Kenservice\data\arzinvsn.DBF
+ ZAP
+     if .not. file('\kenservice\data\fgnlpgsn.dbf')
+ use \kenserve\idssys\fgnlpgsn.dbf
+ copy stru to \kenservice\data\fgnlpgsn dbase prod
+ endif
+ use \kenservice\data\fgnlpgsn.dbf
+ zap
+   if .not. file('\kenservice\data\fgnlubsn.dbf')
+ use \kenserve\idssys\fgnlubsn.dbf
+ copy stru to \kenservice\data\fgnlubsn dbase prod
+ endif
+ use \kenservice\data\fgnlubsn.dbf
+ zap
+    if .not. file('\kenservice\data\FGOFFCAS.dbf')
+ use \kenserve\idssys\FGOFFCAS.dbf
+ copy stru to \kenservice\data\FGOFFCAS dbase prod
+ endif
+ use \kenservice\data\FGOFFCAS.dbf
+ ZAP
+    if .not. file('\kenservice\data\ARINVSNS.dbf')
+ use \kenserve\idssys\ARINVSNS.dbf
+ copy stru to \kenservice\data\ARINVSNS dbase prod
+ endif
+ use \kenservice\data\ARINVSNS.dbf
+      if .not. file('\kenservice\data\ARICADNS.dbf')
+ use \kenserve\idssys\ARICADNS.dbf
+ copy stru to \kenservice\data\ARICADNS dbase prod
+ endif
+ use \kenservice\data\ARICADNS.dbf
+ zap
+       if  .not. file("\kenservice\data\fgdasals.dbf")
+use \kenserve\idssys\fgdasals.dbf
+copy stru to \kenservice\data\fgdasals dbase
+endif
+use \kenservice\data\fgdasals.dbf EXCLUSIVE
+zap
+      if  .not. file("\kenservice\data\fghqsals.dbf")
+use \kenserve\idssys\fghqsals.dbf
+copy stru to \kenservice\data\fghqsals dbase
+endif
+use \kenservice\data\fghqsals.dbf EXCLUSIVE
+zap
+ if  .not. file("\kenservice\data\fgplant.dbf")
+use \kenserve\idssys\fgplant.dbf
+copy stru to \kenservice\data\fgplant dbase
+endif
+use \kenservice\data\fgplant.dbf EXCLUSIVE
+zap
+ if  .not. file("\kenservice\data\fgplants.dbf")
+use \kenserve\idssys\fgplants.dbf
+copy stru to \kenservice\data\fgplants dbase
+endif
+use \kenservice\data\fgplants.dbf EXCLUSIVE
+zap
+ if  .not. file("\kenservice\data\fghqstrn.dbf")
+use \kenserve\idssys\fghqstrn.dbf
+copy stru to \kenservice\data\fghqstrn dbase
+endif
+use \kenservice\data\fghqstrn.dbf EXCLUSIVE
+zap
+set safety off
+ if  .not. file("\kenservice\data\fghqoff.dbf")
+use \kenserve\idssys\fghqoff.dbf
+copy stru to \kenservice\data\fghqoff dbase
+endif
+use \kenservice\data\fghqoff.dbf EXCLUSIVE
+zap
+ if  .not. file("\kenservice\data\fghqoffs.dbf")
+use \kenserve\idssys\fghqoffs.dbf
+copy stru to \kenservice\data\fghqoffs dbase
+endif
+use \kenservice\data\fghqoffs.dbf EXCLUSIVE
+zap
+IF .NOT. FILE("\kenservice\data\armbnksn.dbf")
+ USE  \kenserve\idssys\armbnksn.dbf
+ copy stru to \kenservice\data\armbnksn dbase prod
+ endif
+USE \Kenservice\data\armbnksn.DBF
+ ZAP
+ IF .NOT. FILE("\kenservice\data\armbnks.dbf")
+ USE  \KENSERVE\IDSSYS\armbnks.DBF
+ COPY STRU TO \KENSERVICE\DATA\armbnks DBASE PROD
+ ENDIF
+ use \kenservice\data\armbnks.dbf
+zap
+IF .NOT. FILE("\kenservice\data\armbnksd.dbf")
+ USE  \KENSERVE\IDSSYS\armbnksd.DBF
+ COPY STRU TO \KENSERVICE\DATA\armbnksd DBASE PROD
+ ENDIF
+use \kenservice\data\armbnksd.dbf
+zap
+IF .NOT. FILE("\kenservice\data\armbnksl.dbf")
+ USE  \KENSERVE\IDSSYS\armbnksl.DBF
+ COPY STRU TO \KENSERVICE\DATA\armbnksl DBASE PROD
+ ENDIF
+use \kenservice\data\armbnksl.dbf
+zap
+IF .NOT. FILE("\kenservice\data\armbnupd.dbf")
+ USE  \KENSERVE\IDSSYS\armbnupd.DBF
+ COPY STRU TO \KENSERVICE\DATA\armbnupd DBASE PROD
+ ENDIF
+ 
+use \kenservice\data\armbnupd.dbf
+zap
+IF .NOT. FILE("\kenservice\data\armbnkln.dbf")
+ USE  \KENSERVE\IDSSYS\armbnkln.DBF
+ COPY STRU TO \KENSERVICE\DATA\armbnkln DBASE PROD
+ ENDIF  
+IF .NOT. FILE("\kenservice\data\arcmpsn.dbf")
+ USE  \kenserve\idssys\arcmpsn.dbf
+ copy stru to \kenservice\data\arcmpsn dbase prod
+ endif
+USE \Kenservice\data\arcmpsn.DBF
+ ZAP
+ IF .NOT. FILE("\kenservice\data\arcmps.dbf")
+ USE  \KENSERVE\IDSSYS\arcmps.DBF
+ COPY STRU TO \KENSERVICE\DATA\arcmps DBASE PROD
+ ENDIF
+ use \kenservice\data\arcmps.dbf
+zap
+IF .NOT. FILE("\kenservice\data\arcmpsd.dbf")
+ USE  \KENSERVE\IDSSYS\arcmpsd.DBF
+ COPY STRU TO \KENSERVICE\DATA\arcmpsd DBASE PROD
+ ENDIF
+use \kenservice\data\arcmpsd.dbf
+zap
+IF .NOT. FILE("\kenservice\data\arcmpsl.dbf")
+ USE  \KENSERVE\IDSSYS\arcmpsl.DBF
+ COPY STRU TO \KENSERVICE\DATA\arcmpsl DBASE PROD
+ ENDIF
+use \kenservice\data\arcmpsl.dbf
+zap
+IF .NOT. FILE("\kenservice\data\arcmpdup.dbf")
+ USE  \KENSERVE\IDSSYS\arcmpdup.DBF
+ COPY STRU TO \KENSERVICE\DATA\arcmpdup DBASE PROD
+ ENDIF
+ 
+use \kenservice\data\arcmpdup.dbf
+zap
+IF .NOT. FILE("\kenservice\data\arcmpln.dbf")
+ USE  \KENSERVE\IDSSYS\arcmpln.DBF
+ COPY STRU TO \KENSERVICE\DATA\arcmpln DBASE PROD
+ ENDIF
+ 
+use \kenservice\data\arcmpln.dbf
+zap
+ if  .not. file("\kenservice\data\dayfgmas.dbf")
+use \kenserve\idssys\dayfgmas.dbf
+copy stru to \kenservice\data\dayfgmas dbase
+endif
+use \kenservice\data\dayfgmas.dbf EXCLUSIVE
+zap
+   IF .NOT.  FILE('\KENSERVICE\IDSSYS\KENSLOGD.DBF')
+ USE \KENSERVE\IDSSYS\KENSLOGD.DBF
+ COPY STRU TO \KENSERVICE\IDSSYS\KENSLOGD DBASE PROD
+ ENDIF
+     USE \KENSERVICE\IDSSYS\KENSLOGD.DBF
+zap
+   IF .NOT.  FILE('\KENSERVICE\IDSSYS\KENTRYLG.DBF')
+ USE \KENSERVE\IDSSYS\KENTRYLG.DBF
+ COPY STRU TO \KENSERVICE\IDSSYS\KENTRYLG DBASE PROD
+ ENDIF
+USE \KENSERVICE\IDSSYS\KENTRYLG.DBF
+zap
+ IF .NOT.  FILE('\KENSERVICE\IDSSYS\QUERRORS.DBF')
+ USE \KENSERVE\IDSSYS\QUERRORS.DBF
+ COPY STRU TO \KENSERVICE\IDSSYS\QUERRORS DBASE PROD
+ ENDIF
+USE \KENSERVICE\IDSSYS\QUERRORS.DBF
+zap
+ IF .NOT.  FILE('\KENSERVICE\IDSSYS\TRANSERR.DBF')
+ USE \KENSERVE\IDSSYS\TRANSERR.DBF
+ COPY STRU TO \KENSERVICE\IDSSYS\TRANSERR DBASE PROD
+ ENDIF
+USE \KENSERVICE\IDSSYS\TRANSERR.DBF
+zap
+
+
+    if .not. file("\kenservice\data\vendaudt.dbf")
+use \kenserve\idssys\vendaudt.dbf
+copy stru to \kenservice\data\vendaudt dbase prod
+endif
+use \kenservice\data\vendaudt.dbf
+zap
+   if .not. file("\kenservice\data\fgglpurs.dbf")
+    use \kenserve\idssys\fgglpurs.dbf
+copy stru to \kenservice\data\fgglpurs dbase prod
+endif
+USE \kenservice\data\fgglpurs.DBF
+ZAP
+    if .not. file("\kenservice\data\fgoffsal.dbf")
+    use \kenserve\idssys\fgoffsal.dbf
+copy stru to \kenservice\data\fgoffsal dbase prod
+endif
+USE \kenservice\data\fgoffsal.DBF
+ZAP
+   IF .NOT. FILE("\kenservice\data\st15fscn.dbf")
+ USE  \kenserve\idssys\st15fscn.dbf
+ copy stru to \kenservice\data\st15fscn dbase prod
+ endif
+USE \Kenservice\data\st15fscn.DBF
+ ZAP 
+IF .NOT. FILE("\kenservice\data\apdiscsn.dbf")
+ USE  \kenserve\idssys\apdiscsn.dbf
+ copy stru to \kenservice\data\apdiscsn dbase prod
+ endif
+USE \Kenservice\data\apdiscsn.DBF
+ ZAP
+  IF .NOT. FILE("\kenservice\data\apdiscs.dbf")
+ USE  \KENSERVE\IDSSYS\APDISCS.DBF
+ COPY STRU TO \KENSERVICE\DATA\APDISCS DBASE PROD
+ ENDIF
+ use \kenservice\data\apdiscs.dbf
+zap
+IF .NOT. FILE("\kenservice\data\apdiscsd.dbf")
+ USE  \KENSERVE\IDSSYS\apdiscsd.DBF
+ COPY STRU TO \KENSERVICE\DATA\apdiscsd DBASE PROD
+ ENDIF
+use \kenservice\data\apdiscsd.dbf
+zap
+IF .NOT. FILE("\kenservice\data\apdiscsl.dbf")
+ USE  \KENSERVE\IDSSYS\apdiscsl.DBF
+ COPY STRU TO \KENSERVICE\DATA\apdiscsl DBASE PROD
+ ENDIF
+use \kenservice\data\apdiscsl.dbf
+zap
+IF .NOT. FILE("\kenservice\data\apdisupd.dbf")
+ USE  \KENSERVE\IDSSYS\apdisupd.DBF
+ COPY STRU TO \KENSERVICE\DATA\apdisupd DBASE PROD
+ ENDIF
+ 
+use \kenservice\data\apdisupd.dbf
+zap
+IF .NOT. FILE("\kenservice\data\apdislin.dbf")
+ USE  \KENSERVE\IDSSYS\apdislin.DBF
+ COPY STRU TO \KENSERVICE\DATA\apdislin DBASE PROD
+ ENDIF
+ 
+use \kenservice\data\apdislin.dbf
+zap
+    IF .NOT. FILE("\kenservice\data\monsales.dbf")
+ USE  \kenserve\idssys\monsales.dbf
+ copy stru to \kenservice\data\monsales dbase prod
+ endif
+USE \Kenservice\data\monsales.DBF
+ ZAP
+ IF .NOT. FILE("\kenservice\data\monpurch.dbf")
+ USE  \kenserve\idssys\monpurch.dbf
+ copy stru to \kenservice\data\monpurch dbase prod
+ endif
+USE \Kenservice\data\monpurch.DBF
+ ZAP
+ 
+IF .NOT. FILE("\kenservice\data\ARWINVSn.dbf")
+ USE  \kenserve\idssys\ARWINVSn.dbf
+ copy stru to \kenservice\data\ARWINVSn dbase prod
+ endif
+USE \Kenservice\data\ARWINVSn.DBF
+ ZAP
+ use \kenservice\data\ARWINVS.dbf
+zap
+use \kenservice\data\ARWINVSd.dbf
+zap
+use \kenservice\data\ARWINVSl.dbf
+zap
+use \kenservice\data\ARWNVUP.dbf
+zap
+use \kenservice\data\ARWNLINE.dbf
+zap
+  if  .not. file("\kenservice\data\ARWINVCE.dbf")
+use \kenserve\idssys\ARWINVCE.dbf
+copy stru to \kenservice\data\ARWINVCE dbase
+endif
+use \kenservice\data\ARWINVCE.dbf EXCLUSIVE
+zap
+IF .NOT. file("\kenservice\data\arvcadsn.dbf")
+ USE  \kenserve\idssys\arvcadsn.dbf
+ copy stru to \kenservice\data\arvcadsn dbase prod
+ endif
+USE \Kenservice\data\arvcadsn.DBF
+ ZAP
+ use \kenservice\data\arvcads.dbf
+zap
+use \kenservice\data\arvcadsl.dbf
+zap
+use \kenservice\data\arvcdupd.dbf
+zap
+use \kenservice\data\arvcadln.dbf
+zap
+  if  .not. file("\kenservice\data\fgviscad.dbf")
+use \kenserve\idssys\fgviscad.dbf
+copy stru to \kenservice\data\fgviscad dbase
+endif
+use \kenservice\data\fgviscad.dbf
+zap
+IF .NOT. FILE("\kenservice\data\fgrlubsn.dbf")
+ USE  \kenserve\idssys\fgrlubsn.dbf
+ copy stru to \kenservice\data\fgrlubsn dbase prod
+ endif
+USE \Kenservice\data\fgrlubsn.DBF
+ ZAP
+ use \kenservice\data\fgrlubs.dbf
+zap
+use \kenservice\data\fgrlubsd.dbf
+zap
+use \kenservice\data\fgrlubsl.dbf
+zap
+use \kenservice\data\fgrlubup.dbf
+zap
+use \kenservice\data\fgruline.dbf
+zap
+IF .NOT. FILE("\kenservice\data\fgrlpgsn.dbf")
+ USE  \kenserve\idssys\fgrlpgsn.dbf
+ copy stru to \kenservice\data\fgrlpgsn dbase prod
+ endif
+USE \Kenservice\data\fgrlpgsn.DBF
+ ZAP
+ use \kenservice\data\fgrlpgs.dbf
+zap
+use \kenservice\data\fgrlpgsd.dbf
+zap
+use \kenservice\data\fgrlpgsl.dbf
+zap
+use \kenservice\data\fgrlpgup.dbf
+zap
+use \kenservice\data\fgrpline.dbf
+zap
+  if  .not. file("\kenservice\data\fglusals.dbf")
+use \kenserve\idssys\fglusals.dbf
+copy stru to \kenservice\data\fglusals dbase
+endif
+use \kenservice\data\fglusals.dbf EXCLUSIVE
+zap
+  if  .not. file("\kenservice\data\fglpsals.dbf")
+use \kenserve\idssys\fglpsals.dbf
+copy stru to \kenservice\data\fglpsals dbase
+endif
+use \kenservice\data\fglpsals.dbf EXCLUSIVE
+zap
+
+IF .NOT. FILE("\kenservice\data\FGFSALSn.dbf")
+ USE  \kenserve\idssys\FGFSALSn.dbf
+ copy stru to \kenservice\data\FGFSALSn dbase prod
+ endif
+ USE \KENSERVICE\DATA\FGFSALSN.DBF
+ ZAP
+ use \kenservice\data\FGFSALS.dbf
+zap
+use \kenservice\data\FGFSALSd.dbf
+zap
+use \kenservice\data\FGFSALSl.dbf
+zap
+use \kenservice\data\fgFsup.dbf
+zap
+use \kenservice\data\FGFSLIN.dbf
+zap
+IF FILE("\KENSERVICE\DATA\FRISTAT.DBF") 
+USE \KENSERVICE\DATA\FRISTAT.DBF
+ZAP
+ENDIF
+IF .NOT. FILE("\kenservice\data\FGJSALSn.dbf")
+ USE  \kenserve\idssys\fgjsalsn.dbf
+ copy stru to \kenservice\data\FGJSALSn dbase prod
+ endif
+ USE \kenservice\data\FGJSALSn.DBF
+ ZAP
+ use \kenservice\data\fgjsals.dbf
+zap
+use \kenservice\data\fgjsalsd.dbf
+zap
+use \kenservice\data\fgjsalsl.dbf
+zap
+use \kenservice\data\fgjcsdup.dbf
+zap
+use \kenservice\data\fgjsline.dbf
+zap
+  if  .not. file("\kenservice\data\fgjcsals.dbf")
+use \kenserve\idssys\fgjcsals.dbf
+copy stru to \kenservice\data\fgjcsals dbase
+endif
+use \kenservice\data\fgjcsals.dbf EXCLUSIVE
+zap
+  if  .not. file("\kenservice\data\scashjob.dbf")
+use \kenserve\idssys\scashjob.dbf
+copy stru to \kenservice\data\scashjob dbase
+endif
+use \kenservice\data\scashjob.dbf EXCLUSIVE
+zap
+  if  .not. file("\kenservice\data\fgjcsum.dbf")
+use \kenserve\idssys\fgjcsum.dbf
+copy stru to \kenservice\data\fgjcsum dbase
+endif
+use \kenservice\data\fgjcsum.dbf EXCLUSIVE
+zap
+
+use \kenserve\idssys\fgveh.dbf
+copy stru to \kenservice\data\fgveh dbase prod
+use \kenserve\idssys\fgvehs.dbf
+copy stru to \kenservice\data\fgvehs dbase prod
+use \kenserve\idssys\fgtrnsp.dbf
+copy stru to \kenservice\data\fgtrnsp dbase prod
+use \kenserve\idssys\fgtrnsps.dbf
+copy stru to \kenservice\data\fgtrnsps dbase prod
+        if  .not. file("\kenservice\data\ARGSALES.dbf")
+use \kenserve\idssys\ARGSALES.dbf
+copy stru to \kenservice\data\ARGSALES dbase prod
+endif
+use \kenservice\data\ARGSALES.dbf EXCLUSIVE
+zap
+   if .not. file("\kenservice\data\fgcquots.dbf")
+use \kenserve\idssys\fgcquots.dbf 
+copy stru to \kenservice\data\fgcquots dbase prod
+endif
+use \kenservice\data\fgcquots.dbf 
+zap
+    use \kenserve\idssys\fgsalrep.dbf
+copy stru to \kenservice\data\fgsalrep dbase prod
+   use \kenserve\idssys\fgmaschk.dbf
+copy stru to \kenservice\data\fgmaschk dbase prod
+IF FILE("\KENSERVICE\DATA\ST15FSMR.DBF") 
+USE \KENSERVICE\DATA\ST15FSMR.DBF
+ZAP
+ENDIF
+if .not. file("\kenservice\data\glpymtsn.dbf")
+use \kenserve\idssys\glpymtsn.dbf
+copy stru to \kenservice\data\glpymtsn dbase prod
+endif
+use \kenservice\data\glpymtsn.dbf
+zap
+  if .not. file("\kenservice\data\arodersn.dbf")
+use \kenserve\idssys\arodersn.dbf
+copy stru to \kenservice\data\arodersn dbase prod
+endif
+use \kenservice\data\arodersn.dbf
+zap
+ use \kenserve\IDSSYS\ASHSTCST.DBF
+COPY STRU TO \kenservice\data\ASHSTCST DBASE PROD
+    use \kenserve\IDSSYS\MSHSTCST.DBF
+COPY STRU TO   \kenservice\data\MSHSTCST DBASE PROD
+     USE \KENSERVE\IDSSYS\ARGSALES.DBF
+COPY STRU TO \KENSERVICE\DATA\ARGSALES DBASE PROD
+    IF FILE("\KENSERVICE\DATA\ST15FO.DBF") 
+USE \KENSERVICE\DATA\ST15FO.DBF
+ZAP
+ENDIF
+USE \KENSERVICE\DATA\OFTITLE.DBF
+ZAP
+USE \KENSERVICE\DATA\OFTITLES.DBF EXCL
+ZAP
+IF FILE("\KENSERVICE\DATA\MSHSTMAS.DB") 
+USE \KENSERVICE\DATA\MSHSTMAS.DB
+ZAP
+ENDIF
+  if .not. file("\kenservice\data\fgconreg.dbf")
+use \kenserve\idssys\fgconreg.dbf
+copy stru to \kenservice\data\fgconreg dbase prod
+endif
+use \kenservice\data\fgconreg.dbf
+zap
+  if .not. file("\kenservice\data\FGDATMAS.dbf")
+use \kenserve\idssys\FGDATMAS.dbf
+copy stru to \kenservice\data\FGDATMAS dbase prod
+endif
+use \kenservice\data\FGDATMAS.dbf
+zap
+  if .not. file("\kenservice\data\arorders.dbf")
+use \kenserve\idssys\arorders.dbf
+copy stru to \kenservice\data\arorders dbase prod
+endif
+use \kenservice\data\arorders.dbf
+zap
+use  \kenservice\data\aroders.dbf
+zap
+use  \kenservice\data\arodersl.dbf
+zap
+use  \kenservice\data\arodersd.dbf
+zap
+use  \kenservice\data\arodersn.dbf
+zap
+      if .not. file("\kenservice\data\fgcprice.dbf")
+use \kenserve\idssys\fgcprice.dbf
+copy stru to \kenservice\data\fgcprice dbase prod
+endif
+use \kenservice\data\fgcprice.dbf
+zap
+IF FILE("\KENSERVICE\DATA\FGJINVS.DBF")
+USE \KENSERVICE\DATA\FGJINVS.DBF
+ZAP
+ENDIF
+IF FILE("\KENSERVICE\DATA\FGJINVSN.DBF")
+USE \KENSERVICE\DATA\FGJINVSN.DBF
+ZAP
+ENDIF
+IF FILE("\KENSERVICE\DATA\FGJINVSD.DBF")
+USE \KENSERVICE\DATA\FGJINVSD.DBF
+ZAP
+ENDIF
+IF FILE("\KENSERVICE\DATA\FGJINVSLDBF")
+USE \KENSERVICE\DATA\FGJINVSLDBF
+ZAP
+ENDIF
+IF FILE("\KENSERVICE\DATA\FGJVLINE.DBF")
+USE \KENSERVICE\DATA\FGJVLINE.DBF
+ZAP
+ENDIF
+IF FILE("\KENSERVICE\DATA\FGJVDUP.DBF")
+USE \KENSERVICE\DATA\FGJVDUP.DBF
+ZAP
+ENDIF 
+    use \kenservice\data\fgoff.dbf
+zap
+use \kenserve\idssys\fghqoff.dbf
+copy stru to \kenservice\data\fghqoff dbase prod
+use \kenserve\idssys\fghqoffs.dbf
+copy stru to \kenservice\data\fghqoffs dbase prod
+use \kenservice\data\fgoffs.dbf
+zap
+use \kenservice\data\cashiers.dbf
+zap
+use \kenservice\data\fgcods.dbf
+zap
+use \kenservice\data\ststos.dbf
+zap
+use \kenservice\data\fgclas.dbf
+*zap
+use \kenservice\data\ARgsals.dbf
+zap
+use \kenservice\data\ARgsalsl.dbf
+zap
+use \kenserve\IDSSYS\ARgsalsn.dbf
+
+COPY STRU TO \kenservice\data\ARgsalsn DBASE PROD
+use \kenservice\data\ARgsalsd.dbf
+zap
+use \kenservice\data\ARgsalup.dbf
+zap
+use \kenservice\data\ARgsline.dbf
+zap
+USE \KENSERVE\IDSSYS\ARGSALSN.DBF
+COPY STRU TO \KENSERVICE\DATA\ARGSALSN DBASE PROD
+  if .not. file("\kenservice\data\FGJODERS.dbf")
+use \kenserve\idssys\FGJODERS.dbf
+copy stru to \kenservice\data\FGJODERS dbase prod
+endif
+use \kenservice\data\FGJODERS.dbf
+zap
+  if .not. file("\kenservice\data\FGVODERS.dbf")
+use \kenserve\idssys\FGVODERS.dbf
+copy stru to \kenservice\data\FGVODERS dbase prod
+endif
+use \kenservice\data\FGVODERS.dbf
+zap
+  if .not. file("\kenservice\data\FGJODLIN.dbf")
+use \kenserve\idssys\FGJODLIN.dbf
+copy stru to \kenservice\data\FGJODLIN dbase prod
+endif
+use \kenservice\data\FGJODLIN.dbf
+zap
+  if .not. file("\kenservice\data\FGVODLIN.dbf")
+use \kenserve\idssys\FGVODLIN.dbf
+copy stru to \kenservice\data\FGVODLIN dbase prod
+endif
+use \kenservice\data\FGVODLIN.dbf
+zap
+  if .not. file("\kenservice\data\FGVRGDAT.DBF")
+use \kenserve\idssys\FGVRGDAT.DBF
+copy stru to \kenservice\data\FGVRGDAT dbase prod
+endif
+use \kenservice\data\FGVRGDAT.DBF
+zap
+  if .not. file("\kenservice\data\FGVRGDAT.dbf")
+use \kenserve\idssys\FGVRGDAT.dbf
+copy stru to \kenservice\data\FGVRGDAT dbase prod
+endif
+use \kenservice\data\FGVRGDAT.dbf
+zap
+  use \kenservice\data\fgcod.dbf
+    use \kenservice\data\fgcen.dbf
+    replace all used with "No"
+    use \kenservice\data\ststo.dbf
+    repla all used with "No"
+ if file("\kenservice\data\fgmonsal.dbf")
+USE \KENSERVICE\DATA\fgmonsal.DBF EXCL
+ZAP
+endif
+ if file("\kenservice\data\fgdasal.dbf")
+USE \KENSERVICE\DATA\fgdasal.DBF EXCL
+ZAP
+endif
+  if .not.  file("\kenservice\data\ashstmas.dbf")
+    USE \KENSERVE\IDSSYS\ashstmas.DBF
+copy stru to \kenservice\data\ashstmas dBase prod
+endif
+use \kenservice\data\ashstmas.dbf
+zap
+    if .not.  file("\kenservice\data\fgtrand.dbf")
+    USE \KENSERVE\IDSSYS\FGTRAND.DBF
+copy stru to \kenservice\data\fgtrand dBase prod
+endif
+use \kenservice\data\fgtrand.dbf
+zap
+
+  if .not.  file("\kenservice\data\VENMAS.dbf")
+    USE \KENSERVE\IDSSYS\VENMAS.DBF
+copy stru to \kenservice\data\VENMAS dBase prod
+endif
+use \kenservice\data\VENMAS.dbf
+zap
+  if .not.  file("\kenservice\data\VENSTAT.dbf")
+    USE \KENSERVE\IDSSYS\VENSTAT.DBF
+copy stru to \kenservice\data\VENSTAT dBase prod
+endif
+ if .not.  file("\kenservice\data\ARJNLSN.dbf")
+    USE \KENSERVE\IDSSYS\ARJNLSN.DBF
+copy stru to \kenservice\data\ARJNLSN dBase prod
+endif
+if file("\kenservice\data\arjnls.dbf")
+use \kenservice\data\ARJNLS.dbf
+zap
+USE \KENSERVICE\DATA\ARJNLLIN.DBF
+zap
+use \kenservice\data\ARJNLUP.dbf
+zap
+use \kenservice\data\ARJNLSl.dbf
+zap
+use \kenservice\data\ARJNLSn.dbf
+zap
+use \kenservice\data\ARJNLSd.dbf
+ZAP
+endif
+use \kenservice\data\VENSTAT.dbf
+zap
+    USE \KENSERVICE\DATA\DACENSAL.DBF
+    ZAP
+    USE \KENSERVICE\DATA\FRDRBAL.DBF EXCL
+    ZAP
+    if file("\kenservice\data\FGCONST.dbf")
+    USE \KENSERVICE\DATA\FGCONST.DBF EXCL
+   ZAP
+    USE \KENSERVICE\DATA\FGCONSTS.DBF EXCL
+    ZAP
+    endif
+      if .not.  file("\kenservice\data\fgpurej.dbf")
+    USE \KENSERVE\IDSSYS\fgpurej.DBF
+copy stru to \kenservice\data\fgpurej dBase prod
+endif
+use \kenservice\data\fgpurej.dbf
+zap
+    USE \KENSERVICE\DATA\FGPADJS.DBF EXCL
+    ZAP
+       if .not.  file("\kenservice\data\FGUGSALS.dbf")
+    USE \KENSERVE\IDSSYS\FGUGSALS.DBF
+copy stru to \kenservice\data\FGUGSALS dBase prod
+endif
+use \kenservice\data\FGUGSALS.dbf
+zap
+   if .not.  file("\kenservice\data\FGUBSALS.dbf")
+    USE \KENSERVE\IDSSYS\FGUBSALS.DBF
+copy stru to \kenservice\data\FGUBSALS dBase prod
+endif
+use \kenservice\data\FGUBSALS.dbf
+zap
+  if .not.  file("\kenservice\data\FGBBSALS.dbf")
+    USE \KENSERVE\IDSSYS\FGBBSALS.DBF
+copy stru to \kenservice\data\FGBBSALS dBase prod
+endif
+use \kenservice\data\FGBBSALS.dbf
+zap
+use \kenserve\idssys\FRAGEEXT.DBF 
+copy stru to \KENSERVICE\DATA\FRAGEEXT dbase prod  && replace this table from kenserve\idssys
+  if file("\kenservice\data\Frcatsum.dbf") 
+USE \KENSERVICE\DATA\FRCATSUM.DBF EXCL
+ZAP
+endif
+USE \KENSERVICE\DATA\DAPURANA.DBF EXCL
+ZAP
+  if file("\kenservice\data\FGBRTSAL.dbf")
+ 
+USE \KENSERVICE\DATA\FGBRTSAL.DBF EXCL
+ZAP
+endif
+  if file("\kenservice\data\FGURTSAL.dbf")
+
+USE \KENSERVICE\DATA\FGURTSAL.DBF EXCL
+ZAP
+endif
+  if file("\kenservice\data\FRMASTDB.dbf")
+
+USE \KENSERVICE\DATA\FRMASTDB.DBF EXCL
+ZAP
+endif
+  if file("\kenservice\data\FRORDERS.dbf")
+
+USE \KENSERVICE\DATA\FRORDERS.DBF EXCL
+ZAP
+endif
+  if file("\kenservice\data\sdet.dbf")
+
+USE \KENSERVICE\DATA\SDET.DBF     EXCL
+ZAP
+endif
+ if file("\kenservice\data\fgbgsals.dbf")
+USE \KENSERVICE\DATA\FGBGSALS.DBF EXCL
+ZAP
+endif
+ if file("\kenservice\data\fgvatrep.dbf")
+USE \KENSERVICE\DATA\FGVATREP.DBF EXCL
+ZAP
+endif
+ if file("\kenservice\data\fgbasals.dbf")
+USE \KENSERVICE\DATA\FGBASALS.DBF EXCL
+ZAP
+endif
+ if file("\kenservice\data\fgdrtsal.dbf")
+USE \KENSERVICE\DATA\FGDRTSAL.DBF EXCL
+ZAP
+endif
+ if file("\kenservice\data\fgtrnrev.dbf")
+USE \KENSERVICE\DATA\FGTRNREV.DBF EXCL
+ZAP
+endif
+ if file("\kenservice\data\fgsroute.dbf")
+USE \KENSERVICE\DATA\FGSROUTE.DBF EXCL
+ZAP
+endif
+ if file("\kenservice\data\fgmonsal.dbf")
+USE \KENSERVICE\DATA\fgmonsal.DBF EXCL
+ZAP
+endif
+ if file("\kenservice\data\fgdasal.dbf")
+USE \KENSERVICE\DATA\fgdasal.DBF EXCL
+ZAP
+endif
+use \kenservice\data\fgjnlsn.dbf
+zap
+use \kenservice\data\fgjnlsup.dbf
+zap
+USE \KENSERVICE\DATA\fgnjcdsd.DBF
+zap
+USE \KENSERVICE\DATA\fgjnlsL.DBF
+zap
+use \kenservice\data\fgjnlsd.dbf
+zap
+USE \KENSERVICE\DATA\fgjnline.DBF
+zap
+USE \KENSERVICE\DATA\nglnlif.DBF 
+zap
+USE \KENSERVICE\DATA\NGFGNLIF.DBF
+ZAP
+use \kenservice\data\fgadasto.dbf 
+ZAP
+    use \kenservice\data\frCRDRUN.DBF
+    ZAP
+    USE \KENSERVE\IDSSYS\ARCCVISA.DBF
+    ZAP
+    COPY STRU TO \KENSERVICE\DATA\ARCCVISA DBASE PROD
+     if .NOT.  file("\kenservice\data\frlpos.dbf")
+    USE \KENSERVE\IDSSYS\FRLPOS.DBF
+    COPY STRU TO \KENSERVICE\DATA\FRLPOS DBASE PROD
+    ENDIF
+    use \kenservice\data\frlpos.dbf
+    zap
+    use \kenservice\data\frpaymts.dbf
+    zap
+        use  \kenserve\idssys\frbaldue.dbf
+copy stru to  \KENSERVICE\DATA\FRBALDUE dbase prod
+
+    USE \KENSERVICE\DATA\FRCONSPS.DBF
+    ZAP
+    USE \KENSERVICE\DATA\FRdrsDUE.DBF 
+    ZAP
+     USE \KENSERVICE\DATA\FGPITSVC.DBF
+    zap
+    use \kenservice\data\arccrts.dbf
+zap
+use \kenservice\data\arccrtsl.dbf
+zap
+use \kenservice\data\arccrtsn.dbf
+zap
+use \kenservice\data\arccrtsd.dbf
+zap
+use \kenservice\data\arccrupd.dbf
+zap
+use \kenservice\data\arccrlin.dbf
+zap
+use \kenservice\data\fggsals.dbf
+zap
+use \kenservice\data\fggsalsl.dbf
+zap
+use  \kenserve\IDSSYS\fggsalsn.dbf
+COPY STRU TO  \kenservice\data\fggsalsn DBASE PROD
+use \kenservice\data\fggsalsd.dbf
+zap
+use \kenservice\data\fggsalup.dbf
+zap
+use \kenservice\data\fggsline.dbf
+zap
+USE \kenserve\idssys\FGGSALES.dbf 
+copy stru to \kenservice\data\FGGSALES dbase prod
+USE \KENSERVICE\DATA\KENAUTOB.DBF
+zap
+USE \KENSERVICE\DATA\APOGERR.DBF 
+ZAP
+USE \KENSERVICE\DATA\fgjcerr.DBF 
+ZAP
+USE \KENSERVICE\DATA\arinverr.DBF 
+ZAP
+USE \KENSERVICE\DATA\arcaderr.DBF 
+ZAP
+USE \KENSERVICE\DATA\fgluberr.DBF 
+ZAP
+USE \KENSERVICE\DATA\fglpgerr.DBF 
+ZAP
+use \kenservice\data\fgcdline.dbf
+zap
+use \kenservice\data\fgcdscs.dbf
+zap
+use \kenservice\data\fgnfptmp.dbf
+zap
+use \kenservice\data\fgnfptmp.dbf
+zap
+use  \kenservice\data\fgjobtmp.dbf
+zap
+use \kenservice\data\custaudt.dbf
+zap
+use \kenservice\data\fginvtmp.dbf
+zap
+USE \KENSERVICE\DATA\SHIFTVAR.DBF 
+ZAP
+use \kenservice\data\shiftmtr.dbf
+zap
+use \kenservice\data\FGUcnts.dbf
+zap
+use \kenservice\data\FGUcntsl.dbf
+zap
+use \kenservice\data\FGUcntsd.dbf
+zap
+use \kenservice\data\FGUcntsn.dbf
+zap
+use \kenservice\data\FGUcnlin.dbf
+zap
+use \kenservice\data\FGUcrup.dbf
+zap
+USE \KENSERVICE\DATA\FGLUBCAD.DBF
+ZAP
+use \kenservice\data\fgclubs.dbf
+zap
+use \kenservice\data\fgclubsl.dbf
+zap
+use \kenservice\data\fgclubsd.dbf
+zap
+use \kenservice\data\fgclubsn.dbf
+zap
+use \kenservice\data\fglBline.dbf
+zap
+use \kenservice\data\fgclubup.dbf
+zap
+USE \KENSERVICE\DATA\frshtrn.dbf
+zap
+ USE \KENSERVICE\DATA\monthSAL.DBf exclusive
+ZAP
+use \kenservice\data\DAYSAL.DBF exclusive
+ZAP
+ USE \KENSERVICE\DATA\monthwst.DBf exclusive
+ZAP
+use \kenservice\data\shiftwst.dbf exclusive
+ZAP
+use \kenservice\data\shiftclP.DBF
+ZAP
+ USE \KENSERVICE\DATA\shiftWET.DBf exclusive
+ZAP
+use \kenservice\data\MONTHWET.dbf exclusive
+ZAP
+use \kenservice\data\shiftsal.dbf
+zap
+USE \KENSERVICE\DATA\pgrepls.DBF
+ZAP
+USE \KENSERVICE\DATA\pgreplsL.DBF
+ZAP
+USE \KENSERVICE\DATA\pgreplsD.DBF
+ZAP
+USE \KENSERVICE\DATA\pgreplsN.DBF
+ZAP
+USE \KENSERVICE\DATA\pgrepupd.DBF
+ZAP
+use \kenservice\data\pgreplin.dbf
+ZAP
+USE \KENSERVICE\DATA\GPCGRNS.DBF
+ZAP
+USE \KENSERVICE\DATA\GPCGRNSL.DBF
+ZAP
+USE \KENSERVICE\DATA\GPCGRNSD.DBF
+ZAP
+USE \KENSERVICE\DATA\GPCGRNSN.DBF
+ZAP
+USE \KENSERVICE\DATA\GPCgrlin.DBF
+ZAP
+use \kenservice\data\GPCgrnup.dbf
+ZAP
+USE \KENSERVICE\DATA\FGGLPUR.DBF
+ZAP
+USE \KENSERVICE\DATA\GPOGRNS.DBF
+ZAP
+USE \KENSERVICE\DATA\GPOGRNSL.DBF
+ZAP
+USE \KENSERVICE\DATA\GPOGRNSD.DBF
+ZAP
+USE \KENSERVICE\DATA\GPOGRNSN.DBF
+ZAP
+USE \KENSERVICE\DATA\Gpogrlin.DBF
+ZAP
+use \kenservice\data\Gpogrnup.dbf
+ZAP
+use \kenservice\data\fglprd.dbf
+zap
+use \kenservice\data\fglprds.dbf
+zap
+use \kenservice\data\fgglmth.dbf
+zap
+use \kenservice\data\fgglmths.dbf
+zap
+use \kenservice\data\fgapurs.dbf
+zap
+USE \KENSERVICE\DATA\FGAPRLIN.DBF
+zap
+use \kenservice\data\FGAPRNUP.dbf
+zap
+use \kenservice\data\fgapursl.dbf
+zap
+use \kenservice\data\fgapursn.dbf
+zap
+use \kenservice\data\fgapursd.dbf
+zap
+use \kenservice\data\FGNCLPGS.dbf
+zap
+USE \KENSERVICE\DATA\FGNLPLIN.DBF
+ZAP
+use \kenservice\data\fglcnts.dbf
+zap
+use \kenservice\data\fglcntsl.dbf
+zap
+use \kenservice\data\fglcntsd.dbf
+zap
+use \kenservice\data\fglcntsn.dbf
+zap
+use \kenservice\data\fglcnlin.dbf
+zap
+use \kenservice\data\fglcrup.dbf
+zap
+use \kenservice\data\fgclpgs.dbf
+zap
+use \kenservice\data\fgclpgsl.dbf
+zap
+use \kenservice\data\fgclpgsd.dbf
+zap
+use \kenservice\data\fgclpgsn.dbf
+zap
+use \kenservice\data\fglpline.dbf
+zap
+use \kenservice\data\fgclpgup.dbf
+zap
+USE \KENSERVICE\DATA\FGLPGCAD.DBF
+ZAP
+use \kenservice\data\arcinvs.dbf
+zap
+use \kenservice\data\arcinvsn.dbf
+zap
+use \kenservice\data\arcinvsd.dbf
+zap
+use \kenservice\data\arcinvsl.dbf
+zap
+use \kenservice\data\arcinvup.dbf
+zap
+use \kenservice\data\arciline.dbf
+zap
+use \kenservice\data\fgcinvs.dbf
+zap
+USE \KENSERVICE\DATA\FGFILTER.DBF
+ZAP
+USE \KENSERVICE\DATA\FGFCSALS.DBF
+ZAP
+use \kenservice\data\fgcenall.dbf
+zap
+USE \KENSERVICE\DATA\FGSHTRAN.DBF
+ZAP
+use \kenservice\data\fgpumsal.dbf
+zap
+use \kenservice\data\dasalsum.dbf
+zap
+USE \KENSERVICE\DATA\fgcrecs.DBF 
+zap
+USE \KENSERVICE\DATA\fgcrecln.DBF
+zap
+USE \KENSERVICE\DATA\fgcrecsL.DBF
+zap
+use \kenservice\data\fgcreupd.dbf
+zap
+ use \kenservice\data\fgcrecsn.dbf
+zap
+use \kenservice\data\fgddperf.dbf
+zap
+USE \KENSERVICE\DATA\SHIFTMN.DBF 
+ZAP
+USE \KENSERVICE\DATA\DSHIFTMN.DBF 
+ZAP
+use \kenservice\data\fgmmstks.dbf
+zap
+use \kenservice\data\fgmocash.dbf
+zap
+use \kenservice\data\fgdacash.dbf
+zap
+USE \KENSERVICE\DATA\FGMMPERF.DBF
+ZAP
+use \kenservice\data\fgshupdt.dbf
+zap
+use \kenservice\data\dafgmast.dbf
+zap
+use \kenservice\data\mofgmast.dbf
+zap
+use \kenservice\data\anfgmast.dbf
+zap
+use \kenservice\data\fgdivtrn.dbf
+zap
+USE \KENSERVICE\DATA\FGBSTRN.DBF
+ZAP
+USE \KENSERVICE\DATA\FGISTRN.DBF
+ZAP
+use \kenservice\data\fgCHQTRN.DBF
+ZAP
+use \kenservice\data\fgvistrn.dbf
+zap
+use \kenservice\DATA\FGINVTRN.DBF
+ZAP
+use \kenservice\data\fgjobcad.dbf
+zap
+use \kenservice\data\fgnfpur.dbf
+zap
+USE \KENSERVICE\DATA\FGADASTO.DBF
+ZAP
+use \kenservice\data\mocoysum
+zap
+use \kenservice\data\ancoysum
+zap
+USE \KENSERVICE\DATA\FGSTKNOS.DBF
+ZAP
+USE \KENSERVICE\DATA\FGSTKFLW.DBF
+ZAP
+use \kenservice\data\dacatpur.dbf
+zap
+use \kenservice\data\mocatpur.dbf
+zap
+use \kenservice\data\ancatpur.dbf
+zap
+use \kenservice\data\frageext excl
+zap
+USE \KENSERVICE\DATA\fragedrs.DBF exclusive
+zap
+use \kenservice\data\fragecrs.dbf exclusive
+zap
+USE \KENSERVICE\DATA\arninvsl.dbf
+zap
+USE \KENSERVICE\DATA\fgBCNTS.DBF exclusive
+ZAP
+USE \KENSERVICE\DATA\fgBCline.DBF exclusive
+ZAP
+use \kenservice\data\fgBCUPD.dbf exclusive
+ZAP
+use \kenservice\data\apojcads.dbf exclusive
+ZAP
+use \kenservice\data\fgBCNTSN.DBF         
+ZAP
+USE \KENSERVICE\DATA\PCPCNTS.DBF exclusive
+ZAP
+USE \KENSERVICE\DATA\PCPCLIN.DBF EXCLUSIVE
+ZAP
+use \kenservice\data\PCPCUP.dbf exclusive
+ZAP
+use \kenservice\data\apojcads.dbf exclusive
+ZAP
+USE \KENSERVICE\DATA\PCPCNTSN.DBF exclusive
+ZAP
+use \kenservice\data\fgtrnprv.dbf
+zap
+use \kenservice\data\fgtrnref.dbf
+zap
+use \kenservice\data\hicatpur.dbf
+zap
+use \kenservice\data\dacatpur.dbf
+zap
+use \kenservice\data\mocatpur.dbf
+zap
+use \kenservice\data\ARNICADS.dbf
+ZAP
+use \kenservice\data\ARNCDLIN.dbf
+ZAP
+USE \KENSERVICE\DATA\ARICADN.DBF exclusive
+ZAP
+USE \KENSERVICE\DATA\ARNCADLN.DBF exclusive
+ZAP
+use \kenservice\data\ARNCDUPD.dbf exclusive
+ZAP
+use \kenservice\data\ARICADND.dbf exclusive
+ZAP
+use \kenservice\data\ARICADNL.dbf exclusive
+ZAP
+use \kenservice\data\fgcYSALE.DBF
+zap
+USE \KENSERVICE\DATA\fgcYLS.DBF exclusive
+ZAP
+USE \KENSERVICE\DATA\fgcYLlin.DBF exclusive
+ZAP
+use \kenservice\data\fgCYLup.dbf exclusive
+ZAP
+use \kenservice\data\fgcYLSn.dbf exclusive
+ZAP
+use \kenservice\data\fgcsales.dbf
+zap
+USE \KENSERVICE\DATA\fgcashs.DBF exclusive
+ZAP
+USE \KENSERVICE\DATA\fgcaslin.DBF exclusive
+zap
+use \kenservice\data\fgcasup.dbf exclusive
+ZAP
+use \kenservice\data\fgcashsn.dbf exclusive
+zap
+use \kenservice\data\frmobal.dbf
+zap
+use \kenservice\data\SHTNMAST.dbf
+ZAP
+use \kenservice\data\shRENSUM.DBF
+ZAP
+use \kenservice\data\frtrnage.dbf
+zap
+use \kenservice\data\frcusmas.dbf
+zap
+use \kenservice\data\custyymm.dbf
+zap
+use \kenservice\data\custmmyy.dbf
+zap
+use \kenservice\data\shcongt0.dbf
+zap
+use \kenservice\data\shcongt1.dbf
+zap
+use \kenservice\data\shcongt2.dbf
+zap
+use \kenservice\data\shcongt3.dbf
+zap
+use \kenservice\data\shcongt4.dbf
+zap
+use \kenservice\data\shcongt5.dbf
+zap
+use \kenservice\data\fgstkcal.dbf
+zap
+USE \KENSERVICE\DATA\apcpyts.DBF exclusive
+ZAP
+USE \KENSERVICE\DATA\apcpylin.dbf exclusive
+zap
+use \kenservice\data\apcpyupd.dbf exclusive
+zap
+use \kenservice\data\apcpytsn.dbf 
+ZAP
+USE \KENSERVICE\DATA\ARBTRNS.DBF exclusive
+ZAP
+USE \KENSERVICE\DATA\ARBTlin.DBF exclusive
+ZAP
+use \kenservice\data\arBTRNup.dbf exclusive
+ZAP
+USE \KENSERVICE\DATA\ARBTRNSN.DBF
+ZAP
+use \kenservice\data\fgnewmth.dbf
+zap
+USE \KENSERVICE\DATA\ARBDPS.DBF exclusive
+ZAP
+USE \KENSERVICE\DATA\ARBDPLIN.DBF exclusive
+ZAP
+use \kenservice\data\arBDPSup.dbf exclusive
+ZAP
+USE \KENSERVICE\DATA\ARBDPSN.DBF
+ZAP
+USE \KENSERVICE\DATA\arBDEPS.DBF exclusive
+ZAP
+USE \KENSERVICE\DATA\arBDLINE.DBF exclusive
+zap
+use \kenservice\data\aRBDUPD.dbf exclusive
+ZAP
+USE \KENSERVICE\DATA\arBDEPSn.DBF exclusive
+ZAP
+USE \KENSERVICE\DATA\ARdrcsN.DBF exclusive
+ZAP
+USE \KENSERVICE\DATA\ARdrcs.DBF exclusive
+ZAP
+USE \KENSERVICE\DATA\ARdrclin.DBF exclusive
+zap
+use \kenservice\data\ardrcsup.dbf exclusive
+ZAP
+USE \KENSERVICE\DATA\apymts.DBF exclusive
+zap
+USE \KENSERVICE\DATA\apymtsN.DBF exclusive
+zap
+USE \KENSERVICE\DATA\apynlin.dbf exclusive
+zap
+use \kenservice\data\apymupd.dbf exclusive
+zap
+USE \KENSERVICE\DATA\ARSCNTS.DBF exclusive
+zap
+USE \KENSERVICE\DATA\vencustt.DBF
+zap
+USE \KENSERVICE\DATA\ARSCLINE.DBF exclusive
+ZAP
+use \kenservice\data\ARSCUPD.dbf exclusive
+ZAP
+USE \KENSERVICE\DATA\ARSCNTSN.DBF
+ZAP
+USE \KENSERVICE\DATA\ARSCNTSD.DBF
+ZAP
+USE \KENSERVICE\DATA\ARBINVS.DBF exclusive
+ZAP
+USE \KENSERVICE\DATA\ARBINLIN.DBF exclusive
+ZAP
+use \kenservice\data\arBINVUP.dbf exclusive
+ZAP
+USE \KENSERVICE\DATA\ARBINVSN.DBF
+ZAP
+USE \KENSERVICE\DATA\ARBINVSl.DBF
+ZAP
+USE \KENSERVICE\DATA\ARBINVSd.DBF
+ZAP
+USE \KENSERVICE\DATA\ARbcnts.DBF exclusive
+ZAP
+use \kenservice\data\arbcntsn.dbf
+zap
+use \kenservice\data\arbcntsD.dbf
+zap
+USE \KENSERVICE\DATA\ARBclINE.DBF exclusive
+zap
+use \kenservice\data\aRBcUPD.dbf exclusive
+zap
+USE \KENSERVICE\DATA\ARBSALS.DBF exclusive
+ZAP
+USE \KENSERVICE\DATA\ARBSLINE.DBF exclusive
+ZAP
+use \kenservice\data\aRBSUPD.dbf exclusive
+ZAP
+use \kenservice\data\aRBSALSN.dbf exclusive
+ZAP
+USE \KENSERVICE\DATA\FGAssy.DBF exclusive
+ZAP
+use \kenservice\data\fgprices.dbf
+zap
+use \kenservice\data\fgsprice.dbf
+zap
+use \kenservice\data\FGAssyUP.dbf exclusive
+ZAP
+USE \KENSERVICE\DATA\FGAssyn.DBF exclusive
+ZAP
+USE \KENSERVICE\DATA\FGAssyd.DBF exclusive
+ZAP
+USE \KENSERVICE\DATA\ARCARDS.DBF exclusive
+ZAP
+USE \KENSERVICE\DATA\ARCADLIN.DBF exclusive
+ZAP
+use \kenservice\data\ARCADUPD.dbf exclusive
+ZAP
+USE \KENSERVICE\DAtA\ARCARDSN.DBF
+ZAP
+USE \KENSERVICE\DAtA\ARCARDSd.DBF
+ZAP
+USE \kenservice\data\FGASSMS.DBf
+*ZAP
+USE \kenservice\data\FGASSMSS.DBF exclusive
+*zap
+USE \KENSERVICE\DATA\XODRLINE.DBF 
+ZAP
+USE \KENSERVICE\DATA\TODRLINE.DBF
+ZAP
+USE \KENSERVICE\DATA\Arvcntsn.DBF exclusive
+ZAP
+USE \KENSERVICE\DATA\Arvcntsd.DBF exclusive
+ZAP
+USE \KENSERVICE\DATA\arvcrnln.DBF exclusive
+zap
+use \kenservice\data\arvcrnup.dbf exclusive
+zap
+USE \KENSERVICE\DATA\Arqcntsn.DBF exclusive
+zap
+USE \KENSERVICE\DATA\Arqcntsd.DBF exclusive
+zap
+USE \KENSERVICE\DATA\arqcrnln.DBF exclusive
+zap
+use \kenservice\data\arqcrnup.dbf exclusive
+ZAP
+USE \KENSERVICE\DATA\arichqln.DBF exclusive
+zap
+use \kenservice\data\arichqpd.dbf exclusive
+zap
+USE \KENSERVICE\DATA\arichqsN.DBF
+ZAP
+USE \KENSERVICE\DATA\arichqsl.DBF
+ZAP
+USE \KENSERVICE\DATA\arichqsd.DBF
+ZAP
+USE \KENSERVICE\DATA\ARICADLN.DBF exclusive
+ZAP
+use \kenservice\data\ARICDUPD.dbf exclusive
+ZAP
+USE \KENSERVICE\DATA\ARICADSN.DBF
+ZAP
+USE \KENSERVICE\DATA\ARICADSl.DBF
+ZAP
+USE \KENSERVICE\DATA\ARICADSd.DBF
+ZAP
+USE \KENSERVICE\DATA\PCGRLIN.DBF EXCLUSIVE
+ZAP
+use \kenservice\data\PCGRUP.dbf exclusive
+ZAP
+USE \KENSERVICE\DATA\PCPURSN.DBF
+ZAP
+USE \KENSERVICE\DATA\PCPURSd.DBF
+ZAP
+USE \KENSERVICE\DATA\appynlin.dbf exclusive
+zap
+use \kenservice\data\appymupd.dbf exclusive
+zap
+use \kenservice\data\appymtsd.dbf
+zap
+use \kenservice\data\appymtsn.dbf
+zap
+USE \KENSERVICE\DATA\APOCRLIN.DBF EXCLUSIVE
+ZAP
+use \kenservice\data\APOCRLUP.dbf exclusive
+ZAP
+USE \KENSERVICE\DATA\APCRNTSN.DBF
+ZAP
+USE \KENSERVICE\DATA\APCRNTSd.DBF
+ZAP
+USE \KENSERVICE\DATA\pcreplin.dbf exclusive
+ZAP
+use \kenservice\data\pcrepupd.dbf exclusive
+ZAP
+USE \KENSERVICE\DATA\PCREPLSN.DBF
+ZAP
+USE \KENSERVICE\DATA\PCREPLSd.DBF
+ZAP
+ use \kenservice\data\ardrntsn.dbf
+ zap
+  use \kenservice\data\ardrntsd.dbf
+ zap
+use \kenservice\data\ARCRNTSN.dbf
+zap
+use \kenservice\data\ARCRNTSd.dbf
+zap
+USE \KENSERVICE\DATA\XODLINE.DBF 
+zap
+use \kenservice\data\XODupd.dbf exclusive
+ZAP
+use \kenserve\idssys\xordersn.dbf
+copy stru to  \kenservice\data\xordersn dbase prod
+use \kenservice\data\xordersd.dbf
+zap
+use \kenservice\data\arrinvsn.dbf
+zap
+use \kenservice\data\arrinvsd.dbf
+zap
+USE \KENSERVICE\DATA\ARcashs.DBF exclusive
+ZAP
+USE \KENSERVICE\DATA\ARcashsn.DBF exclusive
+ZAP
+USE \KENSERVICE\DATA\ARcashsd.DBF exclusive
+ZAP
+USE \KENSERVICE\DATA\aracasln.DBF exclusive
+zap
+use \kenservice\data\arcasupd.dbf exclusive
+zap
+use \kenservice\data\arcashsn.dbf
+zap
+USE \KENSERVICE\DATA\arNbnks.DBF
+ZAP
+USE \KENSERVICE\DATA\arNbnkln.DBF
+ZAP
+use \kenservice\data\arNbnupd.dbf 
+ZAP
+use \kenservice\data\arNbnksn.dbf
+zap
+use \kenservice\data\arNbnksn.dbf
+zap
+use \kenservice\data\arcbnksd.dbf
+zap
+use \kenservice\data\arcbnksn.dbf
+zap
+use \kenservice\data\arcbnksl.dbf
+zap
+USE \KENSERVICE\DATA\arcbnks.DBF 
+ZAP
+USE \KENSERVICE\DATA\arcbnkln.DBF
+zap
+use \kenservice\data\arcbnupd.dbf
+zap
+USE \KENSERVICE\DATA\FRCUCRS.DBF
+ZAP
+USE \KENSERVICE\DATA\ARcsdlin.DBF 
+zap
+use \kenservice\data\arcsdupd.dbf 
+ZAP
+use \kenservice\data\arcdntsn.dbf
+zap
+use \kenservice\data\arcdntsd.dbf
+zap
+use \kenservice\data\ardrnupd.dbf
+zap
+USE \KENSERVICE\DATA\ARcrecln.DBF
+zap
+use \kenservice\data\arCreupd.dbf
+zap
+use \kenservice\data\arcrecsn.dbf
+zap
+use \kenservice\data\arcrecsn.dbf
+zap
+ use \kenservice\data\ardrntsd.dbf
+ zap
+use \kenservice\data\arinvsn.dbf
+zap
+copy stru to \kenservice\data\armobsn dbase prod
+use \kenservice\data\arinvup.dbf
+zap
+use \kenservice\data\arinvsd.dbf
+zap
+use \kenservice\data\fraged.dbf
+zap
+USE \KENSERVICE\DATA\ARdrnln.DBF 
+zap
+use \kenservice\data\ardrnupd.dbf 
+ZAP
+USE \KENSERVICE\DATA\ardrecln.DBF
+zap
+use \kenservice\data\ardredup.dbf
+zap
+USE \KENSERVICE\DATA\arjrecln.DBF
+zap
+use \kenservice\data\arjrecsp.dbf
+zap
+set safety off
+use  \kenserve\idssys\arjrecsn.dbf
+copy stru to \kenservice\data\arjrecsn dbase prod
+ use \kenservice\data\arjrecsd.dbf
+ zap
+ use \kenservice\data\arjrecs.dbf
+zap
+ use \kenservice\data\arjrecsl.dbf
+zap
+ use \kenservice\data\ardrecsn.dbf
+ zap
+ use \kenservice\data\ardrecsd.dbf
+ zap
+use \kenservice\data\ARNINVSN.dbf
+zap
+use \kenservice\data\ARNINVSd.dbf
+zap
+use \kenservice\data\fgNJCDSN.dbf
+zap
+use \kenservice\data\fgNJCDSd.dbf
+zap
+use \kenservice\data\apogrnsn.dbf
+zap
+set safety off
+use \kenservice\data\apogrnsd.dbf
+zap
+use \kenservice\data\kensback.dbf
+zap
+use \kenservice\data\shcongts.dbf
+zap
+use \kenservice\data\FGADJSUP.dbf
+ZAP
+USE \KENSERVICE\DATA\FGADJSN.DBF
+ZAP
+set safety off
+USE \KENSERVICE\DATA\FGADJSD.DBF
+ZAP
+use \kenservice\data\arniNVSP.dbf
+ZAP
+use \kenservice\data\ARNINVSN.dbf
+ ZAP
+ use \kenservice\data\ARNINVSd.dbf
+ ZAP
+USE \KENSERVICE\DATA\FGJCRUP.DBF
+ZAP
+USE \KENSERVICE\DATA\FGJCNTSN.DBF
+ZAP
+set safety off
+USE \KENSERVICE\DATA\FGJCNTSd.DBF
+ZAP
+USE \KENSERVICE\DATA\ARrINvln.DBF 
+zap
+use \kenservice\data\arrinvsp.dbf
+zap
+use \kenservice\data\fgnjcup.dbf
+zap
+use \kenservice\data\apogrlin.dbf
+zap
+use \kenservice\data\apogrup.dbf
+zap
+ if .not. file('\kenservice\data\fgjcadns.dbf')
+ use \kenserve\idssys\fgjcadns.dbf
+ copy stru to \kenservice\data\fgjcadns dbase prod
+ endif
+ use \kenservice\data\fgjcadns.dbf
+ zap
+use \kenservice\data\fgjcadsn.dbf
+zap
+use \kenservice\data\fgjcdup.dbf
+zap
+USE \KENSERVICE\DATA\fgnjcdsd.DBF
+zap
+USE \KENSERVICE\DATA\fgnjcdsl.DBF
+zap
+use \kenservice\data\fgjcadsd.dbf
+zap
+USE \KENSERVICE\DATA\TORDERS.DBF 
+ZAP
+USE \KENSERVICE\DATA\TORDERSd.DBF 
+ZAP
+USE \KENSERVICE\DATA\TORDERSn.DBF 
+ZAP
+USE \KENSERVICE\DATA\TORDLINE.DBF 
+ZAP
+use \kenservice\data\TORDERUP.dbf 
+ZAP
+use \kenservice\data\XORDERUP.dbf 
+ZAP
+USE \KENSERVICE\DATA\ARcdnts.DBF 
+ZAP
+USE \KENSERVICE\DATA\ARcdntsd.DBF 
+ZAP
+USE \KENSERVICE\DATA\ARcdntsn.DBF 
+ZAP
+USE \KENSERVICE\DATA\ARcdlin.DBF
+zap
+use \kenservice\data\arcdup.dbf 
+zap
+USE \KENSERVICE\DATA\ardrnts.DBF 
+zap
+USE \KENSERVICE\DATA\ardrntsd.DBF 
+zap
+USE \KENSERVICE\DATA\ardrntsn.DBF 
+zap
+USE \KENSERVICE\DATA\ardrnlin.DBF 
+zap
+use \kenservice\data\ardrnup.dbf
+zap
+USE \KENSERVICE\DATA\ARCRECS.DBF 
+zap
+USE \KENSERVICE\DATA\ARCRLIN.DBF 
+zap
+use \kenservice\data\ARCRECup.dbf
+zap
+use \kenservice\data\ardrecup.dbf
+zap
+USE \KENSERVICE\DATA\arcrnts.DBF 
+zap
+USE \KENSERVICE\DATA\arcrntsd.DBF 
+zap
+USE \KENSERVICE\DATA\arcrntsn.DBF 
+zap
+USE \KENSERVICE\DATA\arcrnlin.DBF 
+zap
+use \kenservice\data\arcrnup.dbf
+zap
+use \kenservice\data\ARNIVCES.dbf
+zap
+use \kenservice\data\ARNICLIN.dbf
+zap
+use \kenservice\data\arninvs.dbf
+zap
+use \kenservice\data\arninvsn.dbf
+zap
+use \kenservice\data\arninvsd.dbf
+zap
+use \kenservice\data\arninvsl.dbf
+zap
+use \kenservice\data\arninlin.dbf
+zap
+use \kenservice\data\aricadup.dbf
+zap
+use \kenservice\data\arichqup.dbf
+zap
+use \kenservice\data\arinvup.dbf
+zap
+use \kenservice\data\arrinvup.dbf
+zap
+use \kenservice\data\arninvup.dbf
+zap
+use \kenservice\data\fgnjcdup.dbf
+zap
+use \kenservice\data\fgnjcads.dbf
+zap
+use \kenservice\data\fgnjcads.dbf
+zap
+USE \KENSERVICE\DATA\FGnjcdsl.dbf
+zap
+use \kenservice\data\fgnjclin.dbf
+zap
+use \kenservice\data\fgnjcds.dbf
+zap
+use \kenservice\data\fgnjcdsn.dbf
+zap
+use \kenservice\data\fgnjcdsd.dbf
+zap
+use \kenservice\data\fgnjcdln.dbf
+zap
+use \kenservice\data\arqcntsd.dbf
+zap
+use \kenservice\data\arqcntsn.dbf
+zap
+use \kenservice\data\fgjcdup.dbf
+zap
+use \kenservice\data\arqcnts.dbf
+zap
+use \kenservice\data\arcqline.dbf
+zap
+use \kenservice\data\arvcnts.dbf
+zap
+use \kenservice\data\arvline.dbf
+zap
+set safety off
+use \kenservice\data\hcashrec.dbf
+zap
+use \kenservice\data\apojcads.dbf
+zap
+use \kenservice\data\pcpurs.dbf
+zap
+use \kenservice\data\pcpursd.dbf
+zap
+use \kenservice\data\pcpursn.dbf
+zap
+use \kenservice\data\pcpuline.dbf
+zap
+use \kenservice\data\FGJCRS.DBF
+ZAP
+use \kenservice\data\pcreplsd.DBF
+zap
+use \kenservice\data\pcreplsn.DBF
+zap
+use \kenservice\data\pcrepls.DBF
+zap
+use \kenservice\data\pcrlin.DBF
+zap
+use \kenservice\data\APPYMTSd.DBF
+ZAP
+use \kenservice\data\APPYMTSn.DBF
+ZAP
+use \kenservice\data\APPYMTS.DBF
+ZAP
+use \kenservice\data\APPLIN.DBF 
+ZAP
+use \kenservice\data\fgjcNTS.DBF 
+ZAP
+use \kenservice\data\fgjcNTSn.DBF 
+ZAP
+use \kenservice\data\fgjcNTSd.DBF 
+ZAP
+use \kenservice\data\fgjcNLIN.DBF 
+ZAP
+use \kenservice\data\aricads.DBF 
+zap
+use \kenservice\data\aricadsd.DBF 
+zap
+use \kenservice\data\aricadsn.DBF 
+zap
+use \kenservice\data\aricline.DBF 
+zap
+use \kenservice\data\arichqs.DBF 
+zap
+use \kenservice\data\ariqline.DBF 
+zap
+use \kenservice\data\xorders.dbf
+zap
+use \kenservice\data\xordersd.dbf
+zap
+use \kenservice\data\xordersn.dbf
+zap
+use \kenservice\data\xordline.dbf
+zap
+use \kenservice\data\xorder13.DBF 
+zap
+use \kenservice\data\xordli13.DBF 
+zap
+use \kenservice\data\DACOYSAL.DBF
+ZAP
+use \kenservice\data\SHIFTCAS.DBF
+ZAP
+use \kenservice\data\APFGRNS.DBF 
+ZAP
+use \kenservice\data\APFGLINE.DBF 
+zap
+use \kenservice\data\APTGRNS.DBF 
+zAP
+use \kenservice\data\APTGLINE.DBF 
+zap
+use \kenservice\data\fgtyrveh.DBF
+zap
+use \kenservice\data\aptgrns.DBF 
+zap
+use \kenservice\data\aptgrns.DBF 
+zap
+use \kenservice\data\aptgrns.DBF 
+zap
+use \kenservice\data\aptgline.DBF
+zap
+use \kenservice\data\fgtyrmst.dbf
+zap
+use \kenservice\data\shiftbkh.dbf
+zap
+use \kenservice\data\hshiftbk.dbf
+zap
+use \kenservice\data\arnation.dbf
+zap
+use \kenservice\data\dacasrec.dbf
+zap
+use \kenservice\data\arrinlin.dbf
+zap
+use \kenservice\data\arrinvs.dbf
+zap
+use \kenservice\data\arrinvsn.dbf
+zap
+use \kenservice\data\arrinvsd.dbf
+zap
+use \kenservice\data\dacoysum.dbf
+zap
+use \kenservice\data\shiftbk.dbf
+zap
+use \kenservice\data\dshiftbk.dbf
+zap
+use \kenservice\data\mshiftbk.dbf
+zap
+use \kenservice\data\shiftdet.dbf
+zap
+use \kenservice\data\shiftid.dbf
+zap
+use \kenservice\data\shiftcla.dbf
+zap
+use \kenservice\data\shiftcoy.dbf
+zap
+use \kenservice\data\FGMASTP.DBF
+zap 
+use \kenservice\data\shiftcls.dbf
+zap
+SET SAFETY OFF
+use \kenserve\idssys\st15fhis.dbf
+copy stru to  \kenservice\data\st15fhis dbase prod
+use \kenserve\idssys\st15fwkf.dbf
+copy stru to  \kenservice\data\st15fwkf dbase prod
+
+if file("\kenservice\data\shiftcoy.db")
+delete table \KENSERVICE\DATA\Shiftcoy.db
+endif
+if file("\kenservice\data\sT15FHIS.db")
+delete table \KENSERVICE\DATA\ST15FHIS.db
+endif
+USE \KENSERVICE\DATA\Fgcoy.DBf
+REPLACE ALL START_DATE WITH PSHDATE
+REPLACE ALL END_DATE WITH START_DATE
+USE \KENSERVICE\DATA\FGSSHIFT.DBF
+GO TOP
+IF EOF()
+APPEND BLANK
+REPLACE SHIFT WITH "01"
+ENDIF
+ replace all shift_date with pshdate
+ replace all shift_no with "1"
+ replace all shift_id with "0"
+ IF .NOT. FILE('\KENSERVICE\SYSDATA\DATA\FGSSHIFT.DBF')
+ COPY STRU TO \KENSERVICE\SYSDATA\DATA\FGSSHIFT DBASE PROD
+ ENDIF
+ USE \KENSERVICE\SYSDATA\DATA\FGSSHIFT.DBF
+GO TOP
+IF EOF()
+APPEND BLANK
+REPLACE SHIFT WITH "01"
+ENDIF
+ replace all shift_date with pshdate
+ replace all shift_no with "1"
+ replace all shift_id with "0"
+ SET SAFETY OFF
+use \kenserve\idssys\st15f.dbf
+copy stru to  \kenservice\data\st15f dbase prod
+if file("\kenservice\data\St15f.db")
+delete table \kenservice\data\st15f.db
+endif
+use \kenservice\data\fgbsals.dbf
+zap
+use \kenservice\data\fgbsline.dbf
+zap
+use \kenservice\data\apcgrns.dbf
+zap
+use \kenservice\data\apcgline.dbf
+zap
+use \kenservice\data\apogrns.dbf
+zap
+use \kenservice\data\apogline.dbf
+zap
+set safety off
+use \kenserve\idssys\arpchqs.DBF
+copy stru to \kenservice\data\arpchqs dbase prod  && 18/02/2011
+use \kenserve\idssys\arpcqlin.DBF
+copy stru to \kenservice\data\arpcqlin dbase prod  && 18/02/2011
+use \kenservice\data\FRPCUCRS.DBF
+ZAP
+use \kenservice\data\FRCUCRS.DBF 
+ZAP
+use \kenservice\data\apcrnts.DBF
+ZAP
+use \kenservice\data\apcnline.DBF
+ZAP
+use \kenservice\data\FGSALES.DBF
+zap
+use \kenservice\data\FGpurch.DBF
+zap
+use \kenservice\data\ancatsum.dbf
+zap
+use \kenservice\data\hicatsum.dbf 
+zap
+use \kenservice\data\wshstmas.dbf
+zap
+use \kenservice\data\fg15s.dbf
+zap
+use \kenservice\data\fgshcat.dbf
+zap
+use \kenservice\data\ashstmas.dbf
+zap
+use \kenservice\data\hshstmas.dbf
+zap
+use \kenservice\data\ardnts.dbf
+zap
+use \kenservice\data\ardrecs.dbf
+zap
+use \kenservice\data\ardrlin.dbf
+zap
+use \kenservice\data\SHSTMAST.DBF
+ZAP
+use \kenservice\data\DSHSTMAS.DBF
+ZAP
+use \kenservice\data\SCASHREC.DBF
+zap
+use \kenservice\data\MSHSTMAS.DBF
+ZAP
+zap
+use \kenservice\data\SHCATSUM.DBF
+ZAP
+use \kenservice\data\DACATSUM.DBF
+ZAP
+use \kenservice\data\MOCATSUM.DBF
+ZAP
+use \kenservice\data\ardnlin.dbf
+zap
+use \kenserve\idssys\shiftana.dbf
+copy stru to  \kenservice\data\shiftana dbase prod && 19/02/2011
+use \kenservice\data\shifthis.dbf
+zap
+use \kenservice\data\fgmastf.dbf
+zap
+use \kenserve\idssys\DACASREC.dbf
+copy stru to  \kenservice\data\DACASREC dbase prod && 19/02/
+use \kenservice\data\fgjcads.DBF
+zap
+use \kenserve\idssys\vnstat.dbf
+copy stru to  \kenservice\data\vnstat dbase prod && 19/02/
+use \kenservice\data\vncount.dbf
+zap
+use \kenservice\data\vndocref.dbf
+zap
+use \kenservice\data\fgjcline.DBF
+zap
+use \kenservice\data\ARSODRS.dbf 
+         zap
+         use \kenservice\data\ARPSODRS.dbf 
+         zap     
+         use \kenservice\data\ARSOLINE.dbf 
+         zap  
+         use \kenservice\data\ARPSOLIN.dbf 
+         zap
+ use \kenservice\data\arpquots.dbf 
+         zap
+ use \kenservice\data\arqpline.dbf 
+         zap        
+use \kenservice\data\ARQUOTS.DBF 
+zap
+use \kenservice\data\ARQTLINE.DBF 
+zap
+use \kenservice\data\aporders.DBF
+zap
+use \kenservice\data\appline.DBF
+ZAP
+use \kenservice\data\APPLIN.DBF
+ZAP
+zap
+use \kenservice\data\AVPLINE.DBF
+zap
+use \kenservice\data\aporderl.dbf
+zap
+use \kenservice\data\FGMASTS.dbf
+zap
+use \kenservice\data\fgadjs.DBF
+zap
+use \kenservice\data\fgadjsl.dbf
+zap
+use \kenserve\idssys\fgtran.dbf
+copy stru to  \kenservice\data\fgtran dbase prod && 19/02/
+use \kenserve\idssys\frighter.dbf
+copy stru to  \kenservice\data\frighter dbase prod && 19/02/  
+use \kenservice\data\ARINVS.DBF
+zap
+use \kenservice\data\ARINLINE.DBF
+zap
+use \kenservice\data\vennames.dbf
+zap
+use \kenservice\data\glbankbl.dbf
+zap
+use \kenservice\data\arinvl.dbf
+zap
+ use \kenservice\data\ARINVS.dbf
+  zap         
+                 use \kenservice\data\arniNVSP.dbf
+         zap
+         use \kenservice\data\ARPINVS.dbf 
+         zap    
+         use \kenservice\data\ARINLINE.dbf
+         zap
+                  use \kenservice\data\ARIVLINE.dbf 
+         zap
+use \kenservice\data\ARPINVS.DBF 
+zap
+use \kenservice\data\ARIVLINE.DBF 
+zap
+use \kenservice\data\frcount.DBf 
+zap
+use \kenserve\idssys\frSTAT.DBf
+copy stru to \kenservice\data\frSTAT dbase prod
+zap
+use \kenservice\data\frdocref.dbf
+zap
+use \kenservice\data\frddebtp.dbf
+zap
+use \kenservice\data\frDEBTOR.DBF
+zap
+use \kenservice\data\FRMODEBT.DBF 
+zap
+use \kenservice\data\ardnts.DBF 
+zap
+use \kenservice\data\ardnline.DBF 
+zap
+use \kenservice\data\ardnl.dbf
+zap
+         use \kenservice\data\ardnts.dbf
+         zap   
+         use \kenservice\data\arpdnts.dbf 
+         zap
+         use \kenservice\data\ardnline.dbf
+         zap
+         use \kenservice\data\ardrline.dbf 
+         zap
+use \kenservice\data\arcnts.DBF
+zap
+use \kenservice\data\arcnline.DBF
+zap
+use \kenservice\data\arcnl.dbf
+zap
+         use \kenservice\data\ARCNTS.dbf
+         zap
+        use \kenserve\idssys\ARPCNTS.dbf 
+        copy stru to \kenservice\data\ARPCNTS dbase prod
+         use \kenservice\data\ARCNLINE.dbf   
+zap
+use \kenservice\data\fgmast.dbf
+zap 
+use \kenservice\data\fgtran.dbf
+zap
+       use \kenservice\data\ARCRECS.DBF
+zap
+use \kenservice\data\ARCURLIN.DBF
+zap
+use \kenservice\data\ARCRECSL.DBF
+zap
+use \kenservice\data\FGTRAN.DBF
+zap
+ use \kenservice\data\ARCRECS.dbf
+        zap
+         use \kenservice\data\ARPCRECS.dbf 
+         zap
+         use \kenservice\data\ARCURLIN.dbf
+        zap         
+use \kenservice\data\FRSTAT.DBF 
+zap
+use \kenservice\data\FRIGTMES.DBF
+zap
+use \kenservice\data\vendor.DBf
+zap   
+use \kenservice\data\aporders.DBF
+zap
+use \kenservice\data\appline.DBF
+zap
+use \kenservice\data\aporderl.dbf
+zap
+use \kenservice\data\AVPLINE.DBF
+zap
+use \kenservice\data\APGRNS.DBF
+zap
+use \kenservice\data\APGNLINE.DBF
+zap
+use \kenservice\data\AVPLINE.DBF
+zap
+use \kenservice\data\fgtran.dbf
+zap
+use \kenservice\data\apgrns.DBf
+zap
+use \kenservice\data\apgnline.DBf
+zap
+use \kenservice\data\fgtran.dbf
+zap
+use \kenserve\idssys\ARbnkS.DBF 
+copy stru to  \kenservice\data\ARbnkS dbase prod  && 19/02/2011
+use \kenserve\idssys\arbnklin.DBF 
+copy stru to \kenservice\data\arbnklin dbase prod  && 19/02/2011
+use \kenservice\data\Arpcvs.DBF 
+ZAP
+use \kenserve\idssys\arpcline.DBF 
+copy stru to \kenservice\data\arpcline dbase prod  && 19/02/2011
+use \kenservice\data\ARcashs.DBF 
+ZAP
+use \kenservice\data\arcshlin.DBF 
+ZAP
+use \kenservice\data\fgbsals.DBF 
+ZAP
+use \kenservice\data\fgbsalsN.DBF 
+ZAP
+use \kenservice\data\fgbsalsd.DBF 
+ZAP
+use \kenservice\data\fgbsupd.dbf
+ZAP
+use \kenservice\data\fgbsline.DBF 
+ZAP
+use \kenservice\data\APOGRNS.DBF 
+ZAP
+use \kenservice\data\APOGLINE.DBF 
+ZAP
+use \kenservice\data\apcgrns.DBF 
+ZAP
+use \kenservice\data\APcGLINE.DBF 
+ZAP
+use \kenservice\data\ARCRECS.DBF 
+ZAP
+use \kenservice\data\ARCURLIN.DBF 
+ZAP
+use \kenservice\data\PROGREP.DBF
+ZAP
+use \kenserve\idssys\fgvisnos.dbf
+copy stru to  \kenservice\data\fgvisnos dbase prod && 19/02/
+use \kenserve\idssys\frveregs.dbf
+copy stru to  \kenservice\data\frveregs dbase prod && 19/02/
+use \kenserve\idssys\fgregcds.dbf
+copy stru to \kenservice\data\fgregcds dbase prod
+
+ELSE
+quit
+ENDIF
+close DATABASES

@@ -1,0 +1,24 @@
+** END HEADER -- do not remove this line
+//
+// Generated on 22/09/2021
+//
+class FgprintDataModule of DATAMODULE
+
+   this.SESSION1 = new Session()
+   this.SESSION1.parent = this
+   with (this.SESSION1)
+      top = 0
+   endwith
+
+   this.FGPRINT1 = new Query()
+   this.FGPRINT1.parent = this
+   with (this.FGPRINT1)
+      top = 2
+      session = parent.SESSION1
+      sql = 'select * from "C:\KENSERVICE\DATA\FGPRINT.DBF"'
+      active = true
+   endwith
+
+   this.rowset = this.FGPRINT1.rowset
+
+endclass

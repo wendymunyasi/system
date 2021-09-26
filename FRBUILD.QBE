@@ -1,0 +1,21 @@
+* Visual dBASE .QBE file 9
+ON ERROR DO QBEERR WITH ERROR(), MESSAGE(),;
+PROGRAM(), LINENO()
+CLOSE DATABASES
+ USE \KENSERVICE\DATA\frshtrn.DBf 
+    GO TOP
+    IF .NOT. EOF()
+    QUIT
+    ENDIF
+SET SAFETY OFF
+    USE \KENSERVE\IDSSYS\FRIMAS.DBF
+copy stru to \kenservice\data\FRIMAS dBase prod
+SET SAFETY ON
+CLOSE DATABASES
+seT EXACT ON
+select 1
+use \kenservice\data\FRIMAS.dbf
+select 2
+use \kenservice\data\FRSTAT.dbf exclusive
+select 3
+use \kenserve\idssys\frstat.dbf alias frstat2
