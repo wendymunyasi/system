@@ -1,0 +1,2006 @@
+******************************************************************************
+*  PROGRAM:      FRIGTMES.WFM
+*
+*  WRITTEN BY:   W Nyongesa
+*
+*  DATE:         09/20110
+*
+*  UPDATED:     09/2012
+*
+*  REVISION:     $Revision:   1.0
+*
+*  VERSION:      Visual dBASE
+*
+*  DESCRIPTION:  This program maintains the Customer Account master file
+*
+*  PARAMETERS:   None
+*
+*  CALLS:        FRIGTMES.MNU         (Menu file)
+*                BUTTONS.CC          (Custom Controls file)
+*                Customer Account.qbe         (View of tables)
+*
+*  USAGE:        DO FRIGTMES.WFM      
+*
+*******************************************************************************
+#include <messdlg.h>
+shell(.F.)
+create session
+set talk off
+*bUser,bLevel,BLYVISA,bModal
+*et DBTYPE to PARADOX
+set century on
+*if .not. FORM.BLEVEL = 1
+set design off
+*endif
+_app.FrameWin.Visible = .F.
+_app.FrameWin.Text = "Frigtmes"
+set ldCheck off && To avoid language driver conflicts
+#define Maxcoy 999
+** END HEADER -- do not remove this line
+//
+// Generated on 25/09/2021
+//
+parameter bModal
+local f
+f = new FrighterFORM()
+if (bModal) = true
+   f.mdi = false // ensure not MDI
+   f.readModal()
+else
+   f.open()
+endif
+
+class FrighterFORM of FORM
+   set procedure to C:\kenslog\idssys\BUTTONS.CC additive
+   with (this)
+      onClose = class::ONCLOSE
+      open = class::OPEN
+      colorNormal = "N+"
+      height = 42.3636
+      left = 0.0
+      top = 0.6465
+      width = 185.1429
+      text = "Edit Customers"
+      windowState = 2	// Maximized
+      mdi = false
+      sizeable = false
+      moveable = false
+      view = "FRIGTMES.QBE"
+      menuFile = "FRIGTMES.MNU"
+      escExit = false
+      mousePointer = 1	// Arrow
+      maximize = false
+      minimize = false
+   endwith
+
+   this.TEXT2 = new TEXT(this)
+   with (this.TEXT2)
+      height = 1.0596
+      left = 0.0
+      top = 0.0
+      width = 6.0
+      colorNormal = "B/BtnFace"
+      alignVertical = 1	// Middle
+      alignHorizontal = 2	// Right
+      text = "Cat.:"
+   endwith
+
+   this.SSOURCE = new COMBOBOX(this)
+   with (this.SSOURCE)
+      dataLink = "fgcoy->SRCENAME"
+      enabled = false
+      height = 1.4688
+      left = 6.0
+      top = 0.0
+      width = 22.0
+      fontName = "Arial Black"
+      fontSize = 9.0
+      colorNormal = "B/BtnFace"
+      dataSource = "FIELD Frsourcs->NAME"
+      style = 2	// DropDownList
+   endwith
+
+   this.DSRCE = new ENTRYFIELD(this)
+   with (this.DSRCE)
+      dataLink = "Frighter->source"
+      enabled = false
+      height = 1.2354
+      left = 30.0
+      top = 0.0
+      width = 4.0
+      function = "!"
+      colorNormal = "N/BtnFace"
+      colorHighLight = "B+/W*"
+   endwith
+
+   this.TEXT5 = new TEXT(this)
+   with (this.TEXT5)
+      height = 1.0596
+      left = 34.8571
+      top = 0.0
+      width = 7.002
+      colorNormal = "B/BtnFace"
+      alignVertical = 1	// Middle
+      alignHorizontal = 2	// Right
+      text = "Type:"
+   endwith
+
+   this.SFTYP = new ENTRYFIELD(this)
+   with (this.SFTYP)
+      dataLink = "frittyp->NAME"
+      enabled = false
+      height = 1.2354
+      left = 42.4286
+      top = 0.0
+      width = 17.5
+      function = "!"
+      colorNormal = "N/BtnFace"
+      colorHighLight = "B+/W*"
+   endwith
+
+   this.DTYP = new ENTRYFIELD(this)
+   with (this.DTYP)
+      dataLink = "Frighter->ftyp"
+      enabled = false
+      height = 1.2354
+      left = 60.0
+      top = 0.0
+      width = 4.0
+      function = "!"
+      colorNormal = "N/BtnFace"
+      colorHighLight = "B+/W*"
+   endwith
+
+   this.TEXT7 = new TEXT(this)
+   with (this.TEXT7)
+      height = 1.0596
+      left = 64.0
+      top = 0.0
+      width = 12.0
+      colorNormal = "B/BtnFace"
+      text = "Sub-Type:"
+   endwith
+
+   this.SPMOD = new ENTRYFIELD(this)
+   with (this.SPMOD)
+      dataLink = "frpymod->NAME"
+      enabled = false
+      height = 1.2354
+      left = 76.4286
+      top = 0.0
+      width = 19.5
+      function = "!"
+      colorNormal = "N/BtnFace"
+      colorHighLight = "B+/W*"
+   endwith
+
+   this.DPMOD = new ENTRYFIELD(this)
+   with (this.DPMOD)
+      dataLink = "Frighter->pmod"
+      enabled = false
+      height = 1.2354
+      left = 96.0
+      top = 0.0
+      width = 4.0
+      function = "!"
+      colorNormal = "N/BtnFace"
+      colorHighLight = "B+/W*"
+   endwith
+
+   this.DFRIGHTER = new ENTRYFIELD(this)
+   with (this.DFRIGHTER)
+      dataLink = "Frighter->Frighter_N"
+      enabled = false
+      height = 1.4688
+      left = 100.1429
+      top = 0.0
+      width = 6.335
+      function = "!"
+      colorNormal = "N/BtnFace"
+      colorHighLight = "B+/W*"
+   endwith
+
+   this.SACC = new ENTRYFIELD(this)
+   with (this.SACC)
+      enabled = false
+      height = 1.2354
+      left = 107.2857
+      top = 0.0
+      width = 12.668
+      function = "!"
+      colorNormal = "N/W"
+      colorHighLight = "B+/W*"
+      value = "                                        "
+      maxLength = 40
+   endwith
+
+   this.RECTANGLE1 = new RECTANGLE(this)
+   with (this.RECTANGLE1)
+      left = -9.2857
+      top = 2.0
+      width = 142.0
+      height = 31.0
+      text = "Frighter Masterfile Information"
+      colorNormal = "B+/W"
+   endwith
+
+   this.SSNAME = new ENTRYFIELD(this)
+   with (this.SSNAME)
+      onChange = class::CHANGESMADE
+      dataLink = "frsource->NAME"
+      enabled = false
+      height = 1.2354
+      left = 2.4286
+      top = 3.0
+      width = 21.5
+      function = "!"
+      colorNormal = "N/BtnFace"
+      colorHighLight = "B+/W*"
+   endwith
+
+   this.FTNAME = new ENTRYFIELD(this)
+   with (this.FTNAME)
+      dataLink = "frittyp->NAME"
+      enabled = false
+      height = 1.2354
+      left = 24.4286
+      top = 3.0
+      width = 23.5
+      function = "!"
+      colorNormal = "N/BtnFace"
+      colorHighLight = "B+/W*"
+   endwith
+
+   this.FPNAME = new ENTRYFIELD(this)
+   with (this.FPNAME)
+      dataLink = "frpymod->NAME"
+      enabled = false
+      height = 1.2354
+      left = 50.0
+      top = 3.0
+      width = 28.0
+      function = "!"
+      colorNormal = "N/BtnFace"
+      colorHighLight = "B+/W*"
+   endwith
+
+   this.TEXT19 = new TEXT(this)
+   with (this.TEXT19)
+      height = 1.2354
+      left = 79.0
+      top = 2.9545
+      width = 15.0
+      colorNormal = "B/BtnFace"
+      text = "Hq Cus Acc:"
+   endwith
+
+   this.SCUSACC = new ENTRYFIELD(this)
+   with (this.SCUSACC)
+      dataLink = "FRIGHTER->CUS_ACC"
+      enabled = false
+      height = 1.2354
+      left = 96.0
+      top = 2.9545
+      width = 27.0
+      colorNormal = "N/BtnFace"
+      colorHighLight = "B+/W*"
+      validErrorMsg = "Name Required"
+   endwith
+
+   this.SOPENDATE = new ENTRYFIELD(this)
+   with (this.SOPENDATE)
+      dataLink = "Frighter->OPEN_DATE"
+      enabled = false
+      height = 1.2354
+      left = 123.0
+      top = 3.0
+      width = 15.0
+      function = "!"
+      colorNormal = "B+/BtnFace"
+      colorHighLight = "B+/W"
+      fontName = "Arial Black"
+   endwith
+
+   this.TEXT1 = new TEXT(this)
+   with (this.TEXT1)
+      height = 1.2354
+      left = 2.0
+      top = 4.3636
+      width = 18.0
+      colorNormal = "B/BtnFace"
+      text = "Name:"
+   endwith
+
+   this.CNAME = new ENTRYFIELD(this)
+   with (this.CNAME)
+      onChange = class::CNAME_ONCHANGE
+      dataLink = "Frighter->NAME"
+      enabled = false
+      height = 1.2354
+      left = 21.0
+      top = 4.3636
+      width = 113.0
+      function = "!"
+      colorNormal = "N/BtnFace"
+      colorHighLight = "B+/W*"
+      validErrorMsg = "Name Required"
+   endwith
+
+   this.TEXT10 = new TEXT(this)
+   with (this.TEXT10)
+      height = 1.2354
+      left = 2.0
+      top = 5.7727
+      width = 18.0
+      colorNormal = "B/BtnFace"
+      text = "Hq Cus Name:"
+   endwith
+
+   this.SHQCN = new ENTRYFIELD(this)
+   with (this.SHQCN)
+      dataLink = "FRIGHTER->CUS_NAME"
+      enabled = false
+      height = 1.2354
+      left = 21.0
+      top = 5.7727
+      width = 113.0
+      colorNormal = "N/BtnFace"
+      colorHighLight = "B+/W*"
+      validErrorMsg = "Name Required"
+   endwith
+
+   this.TEXT11 = new TEXT(this)
+   with (this.TEXT11)
+      height = 1.2354
+      left = 2.0
+      top = 7.2727
+      width = 26.0
+      colorNormal = "B/BtnFace"
+      text = "Select HQ Cus Name:"
+   endwith
+
+   this.SNHQN = new COMBOBOX(this)
+   with (this.SNHQN)
+      onChange = class::SNHQN_ONCHANGE
+      dataLink = "FRIGHTER->NCUSNAME"
+      enabled = false
+      height = 1.3516
+      left = 28.4286
+      top = 7.1364
+      width = 104.5
+      fontName = "Arial Black"
+      colorNormal = "B/BtnFace"
+      dataSource = "FIELD FGHQCUSS->CUS_NAME"
+      style = 1	// DropDown
+   endwith
+
+   this.TEXT14 = new TEXT(this)
+   with (this.TEXT14)
+      height = 1.2354
+      left = 2.0
+      top = 8.5909
+      width = 26.0
+      colorNormal = "B/BtnFace"
+      text = "Hq Cus Class:"
+   endwith
+
+   this.SHQCL = new ENTRYFIELD(this)
+   with (this.SHQCL)
+      dataLink = "FRIGHTER->CUS_CLA"
+      enabled = false
+      height = 1.2354
+      left = 28.4286
+      top = 8.5909
+      width = 57.5
+      colorNormal = "N/BtnFace"
+      colorHighLight = "B+/W*"
+      validErrorMsg = "Name Required"
+   endwith
+
+   this.TEXT17 = new TEXT(this)
+   with (this.TEXT17)
+      height = 1.2354
+      left = 87.0
+      top = 8.5909
+      width = 21.0
+      colorNormal = "B/BtnFace"
+      text = "Hq Pay Method:"
+   endwith
+
+   this.SHQPM = new ENTRYFIELD(this)
+   with (this.SHQPM)
+      dataLink = "FRIGHTER->PAYMETHOD"
+      enabled = false
+      height = 1.2354
+      left = 109.0
+      top = 8.5909
+      width = 28.0
+      colorNormal = "N/BtnFace"
+      colorHighLight = "B+/W*"
+      validErrorMsg = "Name Required"
+   endwith
+
+   this.TEXT16 = new TEXT(this)
+   with (this.TEXT16)
+      height = 1.2344
+      left = 2.0
+      top = 10.0
+      width = 26.0
+      colorNormal = "B/BtnFace"
+      text = "Hq Cus Class:"
+   endwith
+
+   this.SHQCAT = new ENTRYFIELD(this)
+   with (this.SHQCAT)
+      dataLink = "FRIGHTER->CUS_CAT"
+      enabled = false
+      height = 1.2344
+      left = 28.4286
+      top = 10.0
+      width = 57.5
+      colorNormal = "N/BtnFace"
+      colorHighLight = "B+/W*"
+      validErrorMsg = "Name Required"
+   endwith
+
+   this.TEXT18 = new TEXT(this)
+   with (this.TEXT18)
+      height = 1.0
+      left = 87.0
+      top = 10.1818
+      width = 21.0
+      colorNormal = "B/BtnFace"
+      alignVertical = 1	// Middle
+      alignHorizontal = 1	// Center
+      text = "HQ Credit Limit:"
+   endwith
+
+   this.SHQCRL = new ENTRYFIELD(this)
+   with (this.SHQCRL)
+      dataLink = "FRIGHTER->CR_LIMIT"
+      enabled = false
+      height = 1.1768
+      left = 109.0
+      top = 10.1818
+      width = 20.0
+      picture = "999,999,999.99"
+      function = "J"
+      colorNormal = "N/BtnFace"
+      colorHighLight = "B+/W*"
+   endwith
+
+   this.TEXT23 = new TEXT(this)
+   with (this.TEXT23)
+      height = 1.2344
+      left = 2.0
+      top = 12.0
+      width = 13.0
+      colorNormal = "B/BtnFace"
+      text = "Address:"
+   endwith
+
+   this.ADDRESS1 = new ENTRYFIELD(this)
+   with (this.ADDRESS1)
+      onChange = class::CHANGESMADE
+      valid = class::ADDRESS1_VALID
+      dataLink = "Frighter->Address1"
+      enabled = false
+      height = 1.2344
+      left = 16.0
+      top = 12.0
+      width = 48.0
+      function = "!"
+      colorNormal = "N/BtnFace"
+      colorHighLight = "B+/W*"
+      validErrorMsg = "Address Required"
+   endwith
+
+   this.TEXT15 = new TEXT(this)
+   with (this.TEXT15)
+      height = 1.2354
+      left = 65.2857
+      top = 11.8636
+      width = 8.668
+      colorNormal = "B/BtnFace"
+      text = "Phone:"
+   endwith
+
+   this.SPHONE = new ENTRYFIELD(this)
+   with (this.SPHONE)
+      onChange = class::ENTRYFIELD4_ONCHANGE
+      dataLink = "Frighter->PHONE"
+      enabled = false
+      height = 1.2354
+      left = 74.4286
+      top = 11.8636
+      width = 15.5
+      function = "!"
+      colorNormal = "N/BtnFace"
+      colorHighLight = "B+/W*"
+   endwith
+
+   this.TEXT32 = new TEXT(this)
+   with (this.TEXT32)
+      height = 1.2354
+      left = 2.0
+      top = 13.4091
+      width = 13.0
+      colorNormal = "B/BtnFace"
+      text = "Group:"
+   endwith
+
+   this.SGROUP = new COMBOBOX(this)
+   with (this.SGROUP)
+      onChange = class::SGROUP_ONCHANGE
+      dataLink = "Frighter->CATNAME"
+      enabled = false
+      height = 1.3516
+      left = 15.4286
+      top = 13.2273
+      width = 33.5
+      fontName = "Arial Black"
+      colorNormal = "B/BtnFace"
+      dataSource = "FIELD frcategS->NAME"
+      style = 1	// DropDown
+   endwith
+
+   this.TEXT6 = new TEXT(this)
+   with (this.TEXT6)
+      height = 1.2354
+      left = 50.2857
+      top = 13.4091
+      width = 18.668
+      colorNormal = "B/BtnFace"
+      text = "Staff A/C Type:"
+   endwith
+
+   this.SVAGE = new COMBOBOX(this)
+   with (this.SVAGE)
+      onChange = class::SVAGE_ONCHANGE
+      dataLink = "FRIGHTER->VAGE"
+      height = 1.3516
+      left = 70.0
+      top = 13.4091
+      width = 13.0
+      fontName = "Arial Black"
+      colorNormal = "B/BtnFace"
+      dataSource = 'array {"","S","C"}'
+      style = 1	// DropDown
+   endwith
+
+   this.TEXT9 = new TEXT(this)
+   with (this.TEXT9)
+      height = 1.2354
+      left = 2.0
+      top = 14.8636
+      width = 13.0
+      colorNormal = "B/BtnFace"
+      text = "PIN No.:"
+   endwith
+
+   this.SPIN = new ENTRYFIELD(this)
+   with (this.SPIN)
+      onChange = class::SPIN_ONCHANGE
+      dataLink = "Frighter->PIN"
+      enabled = false
+      height = 1.2354
+      left = 15.4286
+      top = 14.8636
+      width = 18.5
+      function = "!"
+      colorNormal = "N/BtnFace"
+      colorHighLight = "B+/W*"
+   endwith
+
+   this.TEXT20 = new TEXT(this)
+   with (this.TEXT20)
+      height = 1.0586
+      left = 34.0
+      top = 14.8636
+      width = 15.0
+      colorNormal = "B/BtnFace"
+      text = "Credit Days:"
+   endwith
+
+   this.SDAYS = new ENTRYFIELD(this)
+   with (this.SDAYS)
+      onChange = class::SDAYS_ONCHANGE
+      dataLink = "Frighter->CR_DAYS"
+      enabled = false
+      height = 1.293
+      left = 49.0
+      top = 14.8636
+      width = 13.0
+      picture = "999"
+      function = "J"
+      colorNormal = "N/BtnFace"
+      colorHighLight = "B+/W*"
+   endwith
+
+   this.TEXT3 = new TEXT(this)
+   with (this.TEXT3)
+      height = 1.0
+      left = 63.0
+      top = 14.8636
+      width = 14.0
+      colorNormal = "B/BtnFace"
+      alignVertical = 1	// Middle
+      alignHorizontal = 1	// Center
+      text = "Credit Limit:"
+   endwith
+
+   this.SCREDITLIMT = new ENTRYFIELD(this)
+   with (this.SCREDITLIMT)
+      onChange = class::SCREDITLIMT_ONCHANGE2
+      dataLink = "FRIGHTER->CREDIT_LMT"
+      enabled = false
+      height = 1.1768
+      left = 78.0
+      top = 14.8636
+      width = 20.0
+      picture = "999,999,999.99"
+      function = "J"
+      colorNormal = "N/BtnFace"
+      colorHighLight = "B+/W*"
+   endwith
+
+   this.TEXT8 = new TEXT(this)
+   with (this.TEXT8)
+      height = 1.2354
+      left = 99.0
+      top = 14.8636
+      width = 30.0
+      colorNormal = "B/BtnFace"
+      text = "ENFORCE CREDIT LIMIT:"
+   endwith
+
+   this.SCLMT = new COMBOBOX(this)
+   with (this.SCLMT)
+      onChange = class::SCLMT_ONCHANGE
+      dataLink = "FRIGHTER->VPURT"
+      height = 1.3516
+      left = 129.0
+      top = 14.8636
+      width = 10.0
+      fontName = "Arial Black"
+      colorNormal = "B/BtnFace"
+      dataSource = 'array {"Y","N"}'
+      style = 1	// DropDown
+   endwith
+
+   this.TEXT12 = new TEXT(this)
+   with (this.TEXT12)
+      height = 1.2354
+      left = 2.0
+      top = 16.2727
+      width = 13.0
+      colorNormal = "B/BtnFace"
+      text = "V.A.T. No.:"
+   endwith
+
+   this.SVAT = new ENTRYFIELD(this)
+   with (this.SVAT)
+      onChange = class::ENTRYFIELD8_ONCHANGE
+      dataLink = "Frighter->VAT"
+      enabled = false
+      height = 1.2354
+      left = 15.4286
+      top = 16.2727
+      width = 18.5
+      function = "!"
+      colorNormal = "N/BtnFace"
+      colorHighLight = "B+/W*"
+   endwith
+
+   this.TEXT29 = new TEXT(this)
+   with (this.TEXT29)
+      height = 1.0
+      left = 36.0
+      top = 16.2727
+      width = 8.0
+      colorNormal = "B/BtnFace"
+      alignVertical = 1	// Middle
+      alignHorizontal = 1	// Center
+      text = "Dep.:"
+   endwith
+
+   this.SCDEP = new ENTRYFIELD(this)
+   with (this.SCDEP)
+      onChange = class::SCDEP_ONCHANGE
+      dataLink = "Frighter->CDEP_AMT"
+      enabled = false
+      height = 1.0
+      left = 44.0
+      top = 16.2727
+      width = 18.0
+      picture = "99,999,999.99"
+      function = "J"
+      colorNormal = "N/BtnFace"
+      colorHighLight = "B+/W*"
+   endwith
+
+   this.TEXT13 = new TEXT(this)
+   with (this.TEXT13)
+      height = 1.0
+      left = 63.0
+      top = 16.2727
+      width = 14.0
+      colorNormal = "B/BtnFace"
+      alignVertical = 1	// Middle
+      alignHorizontal = 1	// Center
+      text = "Bal. Due:"
+   endwith
+
+   this.SBAL = new ENTRYFIELD(this)
+   with (this.SBAL)
+      dataLink = "Frighter->bal_due"
+      enabled = false
+      height = 1.1758
+      left = 78.0
+      top = 16.2727
+      width = 20.0
+      picture = "99,999,999.99"
+      function = "J"
+      colorNormal = "N/BtnFace"
+      colorHighLight = "B+/W*"
+   endwith
+
+   this.TEXT4 = new TEXT(this)
+   with (this.TEXT4)
+      height = 1.0596
+      left = 99.0
+      top = 16.4545
+      width = 20.0
+      colorNormal = "B/BtnFace"
+      text = "Date A/c Closed:"
+   endwith
+
+   this.SDCLOSE = new ENTRYFIELD(this)
+   with (this.SDCLOSE)
+      dataLink = "FRIGHTER->CLOSE_DATE"
+      enabled = false
+      height = 1.2354
+      left = 119.4286
+      top = 16.4545
+      width = 19.5
+      function = "!"
+      colorNormal = "B+/BtnFace"
+      colorHighLight = "B+/W"
+      fontName = "Arial Black"
+   endwith
+
+   this.TEXT26 = new TEXT(this)
+   with (this.TEXT26)
+      height = 1.0586
+      left = 2.0
+      top = 18.1364
+      width = 23.0
+      colorNormal = "B/BtnFace"
+      text = "Special Instructions"
+   endwith
+
+   this.NOTESEDITOR2 = new EDITOR(this)
+   with (this.NOTESEDITOR2)
+      onGotFocus = {;if this.Modify;this.colorNormal = "B+/W*";endif}
+      onLostFocus = {;if this.Modify;this.colorNormal = "N/BtnFace";endif}
+      onChange = class::CHANGESMADE
+      height = 2.0
+      left = 2.0
+      top = 19.0
+      width = 24.0
+      colorNormal = "N/BtnFace"
+      modify = false
+      dataLink = "Frighter->INST_SP"
+   endwith
+
+   this.NOTESEDITOR3 = new EDITOR(this)
+   with (this.NOTESEDITOR3)
+      onGotFocus = {;if this.Modify;this.colorNormal = "B+/W*";endif}
+      onLostFocus = {;if this.Modify;this.colorNormal = "N/BtnFace";endif}
+      onChange = class::NOTESEDITOR3_ONCHANGE
+      height = 2.1182
+      left = 2.0
+      top = 20.8636
+      width = 24.0
+      colorNormal = "N/BtnFace"
+      modify = false
+      dataLink = "Frighter->INST_DEL"
+   endwith
+
+   this.SDUSER = new ENTRYFIELD(this)
+   with (this.SDUSER)
+      dataLink = "FRIGHTER->CLOSE_USER"
+      enabled = false
+      height = 1.2354
+      left = 98.0
+      top = 17.8636
+      width = 21.0
+      function = "!"
+      colorNormal = "N/BtnFace"
+      colorHighLight = "B+/W*"
+   endwith
+
+   this.SDTIME = new ENTRYFIELD(this)
+   with (this.SDTIME)
+      dataLink = "FRIGHTER->CLOSE_TIME"
+      enabled = false
+      height = 1.2354
+      left = 120.0
+      top = 17.8636
+      width = 19.0
+      function = "!"
+      colorNormal = "N/BtnFace"
+      colorHighLight = "B+/W*"
+   endwith
+
+   this.CHILDBROWSE = new BROWSE(this)
+   with (this.CHILDBROWSE)
+      colorNormal = "W+/0x808040"
+      fontBold = true
+      height = 10.0
+      left = 2.0
+      top = 25.0
+      width = 120.0
+      append = false
+      alias = "FGTRAN"
+      fields = 'FGTRAN->ORDER_DATE\H="DATE"\10,FGTRAN->SYSTEM\H="SYS"\5\R,FGTRAN->DOCTYPE\H="DOC"\5\R,FGTRAN->ORDER_NO\H="REF"\9\R,FGTRAN->SHIFT_NO\H="SH"\4\R,FGTRAN->SHIFT_ID\H="ID"\4\R,FGTRAN->SERIALNO\H="SERIAL"\10\R,FGTRAN->LPO\H="OTH REF"\10\R,PROD = FGTRAN->COY+FGTRAN->DIV+FGTRAN->CEN+FGTRAN->STO+" - "+FGTRAN->TYP+FGTRAN->CLA+FGTRAN->COD\H="Itrem Code"\12,FGTRAN->QTY\H="QTY"\8\P="99,999.99"\R,FGTRAN->TOTAL\H="AMOUNT"\10\P="99,999,999.99"\R'
+      toggle = false
+      delete = false
+      modify = false
+      showRecNo = false
+      text = "RECENT TRANSACTIONS"
+   endwith
+
+   this.PREVCOYBUTTON = new PREVBUTTON(this)
+   with (this.PREVCOYBUTTON)
+      onClick = class::PREVIOUS
+      height = 1.5303
+      left = 1.3311
+      top = 35.2344
+      width = 14.168
+      default = true
+      group = true
+   endwith
+
+   this.NEXTCOYBUTTON = new NEXTBUTTON(this)
+   with (this.NEXTCOYBUTTON)
+      onClick = class::NEXT
+      height = 1.5303
+      left = 16.3311
+      top = 35.2344
+      width = 14.168
+   endwith
+
+   this.FIRFRIGHTERBUTTON = new PUSHBUTTON(this)
+   with (this.FIRFRIGHTERBUTTON)
+      onClick = class::FIRST_RTN
+      height = 1.5303
+      left = 33.0
+      top = 35.2273
+      width = 14.1641
+      text = "F&irst"
+      statusMessage = "Go to the first record."
+   endwith
+
+   this.LAFRIGHTERBUTTON = new PUSHBUTTON(this)
+   with (this.LAFRIGHTERBUTTON)
+      onClick = class::LAST_RTN
+      height = 1.5303
+      left = 48.0
+      top = 35.2273
+      width = 14.1641
+      text = "&Last"
+      statusMessage = "Go to the last Customer."
+   endwith
+
+   this.TEXT21 = new TEXT(this)
+   with (this.TEXT21)
+      height = 1.2354
+      left = 102.2857
+      top = 13.4091
+      width = 13.668
+      colorNormal = "B/BtnFace"
+      text = "GL Invoice:"
+   endwith
+
+   this.SGLCOD = new COMBOBOX(this)
+   with (this.SGLCOD)
+      onChange = class::SGLCOD_ONCHANGE
+      dataLink = "FRIGHTER->GLCOD"
+      height = 1.3516
+      left = 118.0
+      top = 13.4091
+      width = 13.0
+      fontName = "Arial Black"
+      colorNormal = "B/BtnFace"
+      dataSource = 'array {"","No","Yes"}'
+      style = 2	// DropDownList
+   endwith
+
+   this.TEXT22 = new TEXT(this)
+   with (this.TEXT22)
+      height = 1.2344
+      left = 96.0
+      top = 11.7273
+      width = 20.0
+      colorNormal = "B/BtnFace"
+      text = "Card/Veh Cntrl:"
+   endwith
+
+   this.SCARDCNTRL = new COMBOBOX(this)
+   with (this.SCARDCNTRL)
+      onChange = class::SCARD_ONCHANGE
+      dataLink = "FRIGHTER->CARDCNTRL"
+      height = 1.3516
+      left = 118.0
+      top = 11.7273
+      width = 13.0
+      fontName = "Arial Black"
+      colorNormal = "B/BtnFace"
+      dataSource = 'array {"","No","Yes"}'
+      style = 2	// DropDownList
+   endwith
+
+   this.TEXT24 = new TEXT(this)
+   with (this.TEXT24)
+      height = 1.2354
+      left = 70.0
+      top = 17.8636
+      width = 26.0
+      colorNormal = "B/BtnFace"
+      text = "VEHICLE DATABASE"
+   endwith
+
+   this.SVEH = new COMBOBOX(this)
+   with (this.SVEH)
+      onChange = class::SVEH_ONCHANGE
+      dataLink = "FRIGHTER->REG"
+      enabled = false
+      height = 1.3467
+      left = 75.0
+      top = 19.3182
+      width = 11.0
+      fontName = "Arial Black"
+      colorNormal = "B/BtnFace"
+      dataSource = "array {'" + '""' + "'," + '"' + "Yes" + '"' + "," + '"' + "No" + '"' + "}"
+      style = 2	// DropDownList
+   endwith
+
+   this.SSERIAL = new ENTRYFIELD(this)
+   with (this.SSERIAL)
+      onChange = class::SSERIAL_ONCHANGE
+      dataLink = "FRIGHTER->SERIALNO"
+      enabled = false
+      height = 1.2354
+      left = 113.4286
+      top = 19.5
+      width = 18.5
+      picture = "9999999999"
+      colorNormal = "N/BtnFace"
+      colorHighLight = "B+/W*"
+   endwith
+
+   this.TEXT25 = new TEXT(this)
+   with (this.TEXT25)
+      height = 1.2354
+      left = 87.0
+      top = 19.5
+      width = 25.0
+      colorNormal = "B/BtnFace"
+      text = "VISA RECEIPT NO:"
+   endwith
+
+   this.SMAXSERIAL = new ENTRYFIELD(this)
+   with (this.SMAXSERIAL)
+      onChange = class::SMAXSERIAL_ONCHANGE
+      dataLink = "FRIGHTER->MAXSERIAL"
+      enabled = false
+      height = 1.2354
+      left = 113.4286
+      top = 21.2273
+      width = 18.5
+      picture = "9999999999"
+      colorNormal = "N/BtnFace"
+      colorHighLight = "B+/W*"
+   endwith
+
+   this.TEXT27 = new TEXT(this)
+   with (this.TEXT27)
+      height = 1.2354
+      left = 87.0
+      top = 21.2273
+      width = 25.0
+      colorNormal = "B/BtnFace"
+      text = "MAX RECEIPT NO"
+   endwith
+
+   this.TEXT28 = new TEXT(this)
+   with (this.TEXT28)
+      height = 1.2354
+      left = 27.0
+      top = 17.8636
+      width = 30.0
+      colorNormal = "B/BtnFace"
+      text = "CASH SALE DISCOUNTS"
+   endwith
+
+   this.SDSC = new COMBOBOX(this)
+   with (this.SDSC)
+      onChange = class::SDSC_ONCHANGE
+      dataLink = "FRIGHTER->CASS_DISC"
+      enabled = false
+      height = 1.3516
+      left = 57.8571
+      top = 17.8636
+      width = 11.0313
+      fontName = "Arial Black"
+      colorNormal = "B/BtnFace"
+      dataSource = "array {'" + '""' + "'," + '"' + "Yes" + '"' + "," + '"' + "No" + '"' + "}"
+      style = 2	// DropDownList
+   endwith
+
+   this.SDRV = new ENTRYFIELD(this)
+   with (this.SDRV)
+      onChange = class::SDRV_ONCHANGE
+      dataLink = "FRIGHTER->DRV_RATE"
+      enabled = false
+      height = 1.2354
+      left = 61.4286
+      top = 19.5
+      width = 8.5
+      picture = "9.99"
+      colorNormal = "N/BtnFace"
+      colorHighLight = "B+/W*"
+   endwith
+
+   this.TEXT30 = new TEXT(this)
+   with (this.TEXT30)
+      height = 1.2354
+      left = 27.0
+      top = 19.5
+      width = 33.0
+      colorNormal = "B/BtnFace"
+      text = "Driver Discount Per Litr:"
+   endwith
+
+   this.TEXT31 = new TEXT(this)
+   with (this.TEXT31)
+      height = 1.2354
+      left = 27.0
+      top = 21.5455
+      width = 33.0
+      colorNormal = "B/BtnFace"
+      text = "Investor Discount Per Litr:"
+   endwith
+
+   this.SINV = new ENTRYFIELD(this)
+   with (this.SINV)
+      onChange = class::SINV_ONCHANGE
+      dataLink = "FRIGHTER->INV_RATE"
+      enabled = false
+      height = 1.2354
+      left = 61.4286
+      top = 21.5455
+      width = 8.5
+      picture = "9.99"
+      colorNormal = "N/BtnFace"
+      colorHighLight = "B+/W*"
+   endwith
+
+   this.TEXT33 = new TEXT(this)
+   with (this.TEXT33)
+      height = 1.2354
+      left = 58.0
+      top = 23.0
+      width = 22.0
+      colorNormal = "B/BtnFace"
+      text = "Purchase Order:"
+   endwith
+
+   this.SLPO = new COMBOBOX(this)
+   with (this.SLPO)
+      onChange = class::SLPO_ONCHANGE
+      dataLink = "FRIGHTER->LPO"
+      enabled = false
+      height = 1.3516
+      left = 81.0
+      top = 23.0
+      width = 11.0
+      fontName = "Arial Black"
+      colorNormal = "B/BtnFace"
+      dataSource = "array {'" + '""' + "'," + '"' + "Yes" + '"' + "," + '"' + "No" + '"' + "}"
+      style = 2	// DropDownList
+   endwith
+
+
+   procedure Open
+   ****************************************************************************
+   private TypeField,CodeField
+    ON ERROR DO ddeerr WITH ERROR(), MESSAGE(),;
+   PROGRAM(), LINENO()
+   buser = 'e'
+   blevel=1
+   blyvisa = .t.
+        FORM.BLEVEL = BLEVEL
+        form.bluser = buser
+        FORM.BLYVISA = BLYVISA
+   IF EMPTY(FORM.BLUSER) .OR. EMPTY(FORM.BLEVEL)
+   QUIT
+   ENDIF
+   
+   form.firstime = .T.
+   if type("form.init") = "U"
+      form.init = .T.
+   
+      set skip to                     && FRIGTMES.QBE contains set skip to gldtl
+      set exact off                   && the .qbe file contains SET EXACT ON
+   
+      set procedure to sampProc.prg additive
+    Form.duplicate = .F.
+      form.inEditMode = .F.           && indicator of view/edit state
+      form.changesMade = .F.          && indicator of changes made to field values
+      form.previousRecord = .F.       && Save record number when appending
+      form.updated = .f.
+      form.pnation = .f.
+      FORM.NALLOC = .F.
+      FORM.DSRCE.ENABLED = .F.
+   FORM.DPMOD.ENABLED = .F.
+   FORM.DTYP.ENABLED = .F.
+   FORM.DFrighter.ENABLED = .F.
+   
+      FORM.PDEPTYP = ""
+   FORM.PDEPCLA = ""
+   FORM.PDEPCOD = ""
+   FORM.PVTYP = ""
+   FORM.PVCLA = ""
+   FORM.PVCOD = ""
+   FORM.PDISCTYP = ""
+   FORM.PDISCCLA = ""
+   FORM.PDISCCOD = ""
+   FORM.PDTYP  = ""
+   FORM.PDCLA  = ""
+   FORM.PDCOD = ""
+   
+          form.psource= ""
+            FORM.PFTYP = ""
+            FORM.PPMOD = ""
+      form.cnt = 1
+       TypeField = field(1)         && company field
+      CodeField = field(2)
+   *   set order to &TypeField      && period -- tag name is same as field
+     SELECT FGVISNOG
+     GO TOP
+     IF EOF()
+        APPEND BLANK
+        ENDIF
+      select Frighter
+      set order to Frighter
+    GO TOP                                  && new Receipts
+   if empty(ftyp) .or. empty(Frighter_n) .or. empty(pmod) .or. empty(source)
+        delete
+   endif
+   select frighter2
+      set order to name
+      select frigtmes
+      set order to  frighter
+                    
+        *** do calculations in another area so form doesn't get updated
+               
+    FORM.PDEPTYP = "L0"
+   FORM.PDEPCLA = "00"
+   FORM.PDEPCOD = "01"
+   FORM.Pftyp = "L0"
+   FORM.PVCLA = "00"
+   FORM.PVCOD = "00"
+   FORM.PDISCTYP = "E0"
+   FORM.PDISCCLA = "00"
+   FORM.PDISCCOD = "00"
+    FORM.PDTYP = "C0"
+   FORM.PDCLA = "01"
+   FORM.PDCOD = "00"
+    
+     endif
+   select Frighter
+   go top
+   if FORM.BLEVEL < 4 .OR. (FORM.BLEVEL = 4 .AND. FORM.BLYVISA)
+     form.sserial.enabled = .t.
+     form.SMAXSERIAL.enabled = .t.
+       ENDIF
+        if FORM.BLEVEL > 3 
+       form.cname.enabled = .f.
+       FORM.SCLMT.ENABLED = .F.
+          FORM.SVAGE.ENABLED = .F.
+          form.sveh.enabled = .f.
+          form.slpo.enabled = .f.
+          FORM.SDSC.ENABLED = .F.
+          form.sdrv.enabled = .f.
+         FORM.sinv.ENABLED = .F.
+           form.sglcod.enabled = .f.
+           form.scardcntrl.enabled = .f.
+           FORM.SGROUP.EBABLED = .F.
+           
+       endif
+      SELECT FGVISNOG
+      REPLACE FRIGHTER_N WITH FRIGHTER->FRIGHTER_N
+      REPLACE SOURCE WITH FRIGHTER->SOURCE
+      REPLACE FTYP WITH FRIGHTER->FTYP
+      REPLACE PMOD WITH FRIGHTER->PMOD
+      REPLACE MAXSERIAL WITH FRIGHTER->MAXSERIAL
+      REPLACE SERIALNO WITH FRIGHTER->SERIALNO
+      SELECT FRIGHTER
+   form::Open()                         && Now the form actually opens
+       form.BrowseOnNavigate()              && calculate totals
+
+   procedure OnClose
+   
+   * Clean up.
+   ****************************************************************************
+   
+   if this.inEditMode
+      form.ViewEdit()                      && Finish transaction
+   endif
+      close procedure SAMPProc.prg
+      CLOSE PROCEDURE BUTTONS.CC
+*   if .not. validdrive("Z:") .and.  .not. validdrive("W:")  .and.  .not. validdrive("Y:")   .and. .not. validdrive("X:")
+      do Frighter_rtn WITH FORM.BLUSER
+ *     endif
+  * select frighter
+  * set filter to empty(name) .and. empty(l_inv_date) .and. empty(l_pay_date) ;
+   .and. bal_due = 0 .and. cdep_amt = 0
+  * go top
+  * delete all
+   form.close()
+   close databases
+   ****************************************************************************
+
+   procedure BrowseOnNavigate
+   ****************************************************************************
+    form.sacc.value = Frighter->source+Frighter->ftyp+Frighter->pmod+Frighter->Frighter_n
+     SELECT FGVISNOG
+      REPLACE FRIGHTER_N WITH FRIGHTER->FRIGHTER_N
+      REPLACE SOURCE WITH FRIGHTER->SOURCE
+      REPLACE FTYP WITH FRIGHTER->FTYP
+      REPLACE PMOD WITH FRIGHTER->PMOD
+      REPLACE MAXSERIAL WITH FRIGHTER->MAXSERIAL
+      REPLACE SERIALNO WITH FRIGHTER->SERIALNO
+      SELECT FRIGHTER
+   ****************************************************************************
+
+   procedure ChangesMade
+   
+   * Indicate that changes have been made to the current record
+   ****************************************************************************
+   Form.ChangesMade = .T.
+   ****************************************************************************
+
+   procedure Last_rtn
+   
+   * Go to next record.
+   ****************************************************************************
+   
+     form.CheckCommit(form.inEditMode)
+   if .not. eof() .and. .not. empty(frighter->name) .and. .not. empty(frighter->category)
+      go bottom
+    endif
+    form.BrowseOnNavigate()
+     IF  FORM.BLEVEL  < 4 .and.  Frighter->source = "9" 
+       FORM.SVAGE.ENABLED = .t.
+       form.sglcod.enabled = .t.
+         form.scardcntrl.enabled = .t.
+       else
+       FORM.SVAGE.ENABLED = .f.
+       form.sglcod.enabled = .f.
+         form.scardcntrl.enabled = .f.
+       ENDIF
+       if FORM.BLEVEL  < 4
+       form.cname.enabled = .t.
+        FORM.SCLMT.ENABLED = .T.
+         form.sveh.enabled = .t.
+         form.slpo.enabled = .t.
+         form.sdrv.enabled = .t.
+         FORM.sinv.ENABLED = .t.
+         form.sdrv.enabled = .t.
+         FORM.sinv.ENABLED = .t.
+         FORM.SDSC.ENABLED = .T.
+          FORM.SVAGE.ENABLED = .T.
+           form.sserial.enabled = .t.
+            Form.SMAXSERIAL.enabled = .t.
+          form.sglcod.enabled = .t.
+            form.scardcntrl.enabled = .t.
+           FORM.SGROUP.EBABLED = .T.
+       else
+       form.cname.enabled = .f.
+        FORM.SCLMT.ENABLED = .F.
+         form.sveh.enabled = .f.
+         form.slpo.enabled = .f.
+         form.sdrv.enabled = .f.
+         FORM.sinv.ENABLED = .F.
+         form.sdrv.enabled = .f.
+         FORM.sinv.ENABLED = .F.
+         FORM.SDSC.ENABLED = .F.
+          FORM.SVAGE.ENABLED = .F.
+          form.sglcod.enabled = .f.
+            form.scardcntrl.enabled = .f.
+           FORM.SGROUP.EBABLED = .F.
+       endif
+       if FORM.BLEVEL < 4 .OR. (FORM.BLEVEL = 4 .AND. FORM.BLYVISA)
+     form.sserial.enabled = .t.
+     form.SMAXSERIAL.enabled = .t.
+   endif
+
+   procedure first_rtn
+   
+   * Go to next record.
+   ****************************************************************************
+   
+     form.CheckCommit(form.inEditMode)
+   if .not. eof() .and. .not. empty(frighter->name) .and. .not. empty(frighter->category)
+     go top
+    endif
+    form.BrowseOnNavigate()
+     IF  FORM.BLEVEL  < 4 .and.  Frighter->source = "9" 
+       FORM.SVAGE.ENABLED = .t.
+       form.sglcod.enabled = .t.
+         form.scardcntrl.enabled = .t.
+         form.sveh.enabled = .t.
+         form.slpo.enabled = .t.
+         form.sdrv.enabled = .t.
+         FORM.sinv.ENABLED = .t.
+         form.sdrv.enabled = .t.
+         FORM.sinv.ENABLED = .t.
+         FORM.SDSC.ENABLED = .T.
+          form.sserial.enabled = .t.
+           Form.SMAXSERIAL.enabled = .t.
+       else
+       FORM.SVAGE.ENABLED = .f.
+       form.sglcod.enabled = .f.
+         form.scardcntrl.enabled = .f.
+         form.sveh.enabled = .f.
+         form.slpo.enabled = .f.
+         form.sdrv.enabled = .f.
+         FORM.sinv.ENABLED = .F.
+         form.sdrv.enabled = .f.
+         FORM.sinv.ENABLED = .F.
+         FORM.SDSC.ENABLED = .F.
+           ENDIF
+            if FORM.BLEVEL < 4 .OR. (FORM.BLEVEL = 4 .AND. FORM.BLYVISA)
+     form.sserial.enabled = .t.
+     form.SMAXSERIAL.enabled = .t.
+   endif
+       if FORM.BLEVEL  < 4
+       form.cname.enabled = .t.
+       form.sveh.enabled = .t.
+       form.slpo.enabled = .t.
+       FORM.SDSC.ENABLED = .T.
+       form.sdrv.enabled = .t.
+         FORM.sinv.ENABLED = .t.
+         else
+       form.cname.enabled = .f.
+       form.sveh.enabled = .f.
+       form.slpo.enabled = .f.
+       form.sdrv.enabled = .f.
+         FORM.sinv.ENABLED = .F.
+       FORM.SDSC.ENABLED = .F.
+        endif
+       if  FORM.BLEVEL  < 5 .and.  .not. (Frighter->source < "4" .or. Frighter->source = "B")
+       FORM.SCLMT.ENABLED = .t.
+   
+       else
+       FORM.SCLMT.ENABLED = .f.
+       
+       endif
+
+   procedure Next
+   
+   * Go to next record.
+   ****************************************************************************
+   
+     form.CheckCommit(form.inEditMode)
+   if .not. eof() .and. .not. empty(frighter->name) .and. .not. empty(frighter->category)
+      NEXTBUTTON::OnClick()
+    endif
+    form.BrowseOnNavigate()
+     IF  FORM.BLEVEL  < 4 .and.  Frighter->source = "9" 
+       FORM.SVAGE.ENABLED = .t.
+       form.sglcod.enabled = .t.
+         form.scardcntrl.enabled = .t.
+         form.sveh.enabled = .t.
+         form.slpo.enabled = .t.
+         FORM.SDSC.ENABLED = .T.
+         form.sdrv.enabled = .t.
+         FORM.sinv.ENABLED = .t.
+          form.sserial.enabled = .t.
+           Form.SMAXSERIAL.enabled = .t.
+       else
+       FORM.SVAGE.ENABLED = .f.
+       form.sglcod.enabled = .f.
+         form.scardcntrl.enabled = .f.
+         form.sveh.enabled = .f.
+         form.slpo.enabled = .f.
+         form.sdrv.enabled = .f.
+         FORM.sinv.ENABLED = .F.
+         FORM.SDSC.ENABLED = .F.
+             ENDIF
+               if FORM.BLEVEL < 4 .OR. (FORM.BLEVEL = 4 .AND. FORM.BLYVISA)
+     form.sserial.enabled = .t.
+     form.SMAXSERIAL.enabled = .t.
+   endif
+       if FORM.BLEVEL  < 4
+       form.cname.enabled = .t.
+       form.sveh.enabled = .t.
+       form.slpo.enabled = .t.
+       form.sdrv.enabled = .t.
+         FORM.sinv.ENABLED = .t.
+       FORM.SDSC.ENABLED = .T.
+        form.sserial.enabled = .t.
+         Form.SMAXSERIAL.enabled = .t.
+       else
+       form.cname.enabled = .f.
+       form.sveh.enabled = .f.
+       form.slpo.enabled = .f.
+       form.sdrv.enabled = .f.
+         FORM.sinv.ENABLED = .F.
+       FORM.SDSC.ENABLED = .F.
+          endif
+           if FORM.BLEVEL < 4 .OR. (FORM.BLEVEL = 4 .AND. FORM.BLYVISA)
+     form.sserial.enabled = .t.
+     form.SMAXSERIAL.enabled = .t.
+   endif
+       if  FORM.BLEVEL  < 4 .and.  .not. (Frighter->source < "4" .or. Frighter->source = "B")
+        FORM.SCLMT.ENABLED = .t.
+        
+       FORM.SCreditLIMT.ENABLED = .T.
+       else
+       FORM.SCLMT.ENABLED = .f.
+       FORM.SCreditLIMT.ENABLED = .F.
+       
+       endif
+   ****************************************************************************
+
+   procedure Previous
+   
+   * Go to previous record.
+   ****************************************************************************
+   
+      form.CheckCommit(form.inEditMode)
+   *form.slocbled = .F.
+   
+   *   form.Sclass.Enabled = .F.
+   if .not. empty(frighter->name) .and. .not. empty(frighter->category)
+     PREVBUTTON::OnClick()
+    form.BrowseOnNavigate()
+    endif
+     IF  FORM.BLEVEL  < 4 .and.  Frighter->source = "9" 
+       FORM.SVAGE.ENABLED = .t.
+       form.sglcod.enabled = .t.
+         form.scardcntrl.enabled = .t.
+       else
+       FORM.SVAGE.ENABLED = .f.
+       form.sglcod.enabled = .f.
+         form.scardcntrl.enabled = .f.
+       ENDIF
+       if FORM.BLEVEL  < 4
+       form.cname.enabled = .t.
+       form.sveh.enabled = .t.
+       form.slpo.enabled = .t.
+       form.sdrv.enabled = .t.
+         FORM.sinv.ENABLED = .t.
+       FORM.SDSC.ENABLED = .T.
+        form.sserial.enabled = .t.
+         Form.SMAXSERIAL.enabled = .t.
+       else
+       form.cname.enabled = .f.
+       form.sveh.enabled = .f.
+       form.slpo.enabled = .f.
+       form.sdrv.enabled = .f.
+         FORM.sinv.ENABLED = .F.
+       FORM.SDSC.ENABLED = .F.
+         endif
+          if FORM.BLEVEL < 4 .OR. (FORM.BLEVEL = 4 .AND. FORM.BLYVISA)
+     form.sserial.enabled = .t.
+     form.SMAXSERIAL.enabled = .t.
+   endif
+       if  FORM.BLEVEL  < 4 .and.  .not. (Frighter->source < "4" .or. Frighter->source = "B")
+        FORM.SCLMT.ENABLED = .t.
+       FORM.SCreditLIMT.ENABLED = .T.
+       
+       else
+       FORM.SCLMT.ENABLED = .f.
+       FORM.SCreditLIMT.ENABLED = .F.
+       
+       endif
+   
+   ****************************************************************************
+
+   procedure CheckCommit (newInEditMode)
+   
+        * Finish transaction, if it has been started.
+   ****************************************************************************
+   private CodeField, changesMade
+   changesMade = form.changesMade
+   if form.changesMade
+      CodeField = field(1)  && Field period
+      if     ConfirmationMessage("Commit changes?",;
+                FormatStr("Customer %1",&CodeField)) = YES
+                select frighter
+                replace vary_date with date()
+                replace vary_user with FORM.BLUSER
+                replace vary_time with time()
+                replace vsac with "Z"
+                
+         commit()
+       form.updated = .t.
+      else
+         rollback()
+         if .not. bof()
+             form.previousRecord = .F.
+         endif
+      endif
+    
+    if form.inEditMode .and. newInEditMode
+         begintrans()
+      endif
+      form.changesMade = .F.
+   endif
+   if form.inEditMode <> newInEditMode
+      if newInEditMode                       && Going to Edit mode
+         begintrans()
+      else                                   && Going to View mode
+         if .not. changesMade .AND. .NOT. FORM.DUPLICATE
+            rollback()
+         endif
+      endif
+      form.inEditMode = newInEditMode
+   endif
+     
+   * form.root.Receipt.add.enabled = .T.
+   *form.codingerrors()
+   ****************************************************************************
+
+   procedure ViewEdit
+   
+   * Toggle between View and Edit modes.
+   ****************************************************************************
+   local inEditMode, editMenu, control
+   
+   editMenu = form.root.frighter.VIEWEdit
+   
+   *** If ending edit mode then close transaction, otherwise open it.
+   if form.inEditMode
+      form.checkChanged(.F.)
+      editMenu.text = "&Edit"
+      editMenu.shortcut = "Ctrl-E"
+      editMenu.statusMessage = "Edit data."
+      form.CheckCommit(.F.)                        && Check transaction and
+      form.text = "Edit Customers -- View Mode"          && change mode to View
+           form.notesEditor3.colorNormal = "N/W"
+           form.notesEditor2.colorNormal = "N/W"
+        form.childBrowse.modify = .F.
+        form.notesEditor3.modify = .F.
+          form.notesEditor2.modify = .F.
+           form.address1.enabled = .f.
+   form.sphone.enabled = .f.
+   form.spin.enabled = .f.
+   form.svat.enabled = .f.
+      form.statusmessage = "In View Mode. " + ;
+                           "Select Customer Account - Edit menu to " + ;
+                           "edit/delete data."
+      form.nextCOYBUTTON.SetFocus()
+   else                                            && Switch to edit mode
+      editMenu.text = "Vi&ew"
+      editMenu.shortcut = "Ctrl-E"
+      editMenu.statusMessage = "View data."
+      form.CheckCommit(.T.)                        && Check transaction and
+      form.text = "Edit Customers -- Edit Mode"          && change mode to Edit
+   form.address1.enabled = .t.
+   form.sphone.enabled = .t.
+   form.spin.enabled = .t.
+   form.svat.enabled = .t.
+   
+          form.notesEditor3.modify = .T.
+         form.notesEditor2.modify = .T.
+      form.statusmessage = "In Edit Mode.  " + ;
+                           "Select menu Customer Account - View to switch " + ;
+                           "to View mode."
+        
+   endif
+   
+   inEditMode = form.inEditMode     && Faster if we don't reference a form
+   control = form.first             &&    variable each time through the loop
+   do
+      if .not. control.className $ "BROWSE,EDITOR,NEXTBUTTON,PREVBUTTON,PUSHBUTTON,IMAGE,TEXT"
+         control.enabled = inEditMode
+   
+      endif
+   
+      control = control.before
+   until control.name = form.first.name
+   
+   form.sopendate.enabled = .f.
+    IF FORM.BLEVEL < 2
+   FORM.SCDEP.ENABLED = .F.
+   ENDIF
+   FORM.DSRCE.ENABLED = .F.
+   FORM.DPMOD.ENABLED = .F.
+   FORM.DTYP.ENABLED = .F.
+   FORM.DFrighter.ENABLED = .F.
+   form.sacc.enabled = .f.
+   form.ftname.enabled = .f.
+   form.fpname.enabled = .f.
+   FORM.SFTYP.ENABLED = .F.
+   FORM.SPMOD.ENABLED = .F.
+   FORM.SSNAME.ENABLED = .F.
+   form.sbal.enabled = .f.
+      form.childBrowse.delete = .F.
+       form.childBrowse.append = .F.
+        form.childBrowse.modify = .F.
+       form.SSOURCE.enabled = .f.
+       form.sdclose.enabled = .f.
+       form.sduser.enabled = .f.
+       form.sdtime.enabled = .f.
+       IF  FORM.BLEVEL  < 4 .and.  Frighter->source = "9" 
+       FORM.SVAGE.ENABLED = .t.
+       form.sglcod.enabled = .t.
+         form.scardcntrl.enabled = .t.
+       else
+       FORM.SVAGE.ENABLED = .f.
+       form.sglcod.enabled = .f.
+         form.scardcntrl.enabled = .f.
+       ENDIF
+       if FORM.BLEVEL  < 4
+       form.cname.enabled = .t.
+       form.sveh.enabled = .t.
+       form.slpo.enabled = .t.
+       form.sdrv.enabled = .t.
+         FORM.sinv.ENABLED = .t.
+      FORM.SDSC.ENABLED = .T.
+        form.sserial.enabled = .t.
+         Form.SMAXSERIAL.enabled = .t.
+       FORM.SGROUP.ENABLED = .T.
+        FORM.SCLMT.ENABLED = .T.
+          FORM.SVAGE.ENABLED = .T.
+          form.sglcod.enabled = .t.
+            form.scardcntrl.enabled = .t.
+       else
+       form.cname.enabled = .f.
+       form.sveh.enabled = .f.
+       form.slpo.enabled = .f.
+       form.sdrv.enabled = .f.
+         FORM.sinv.ENABLED = .F.
+       FORM.SDSC.ENABLED = .F.
+        FORM.SGROUP.ENABLED = .F.
+          FORM.SCLMT.ENABLED = .F.
+          FORM.SVAGE.ENABLED = .F.
+          form.sglcod.enabled = .f.
+            form.scardcntrl.enabled = .f.
+       endif
+         if FORM.BLEVEL < 4 .OR. (FORM.BLEVEL = 4 .AND. FORM.BLYVISA)
+     form.sserial.enabled = .t.
+     form.SMAXSERIAL.enabled = .t.
+   endif
+       if  FORM.BLEVEL  < 4 .and.  .not. (Frighter->source < "4" .or. Frighter->source = "B")
+       FORM.SCLMT.ENABLED = .t.
+       FORM.SCreditLIMT.ENABLED = .T.
+       
+       else
+       FORM.SCLMT.ENABLED = .f.
+       FORM.SCreditLIMT.ENABLED = .F.
+       
+       endif
+       if form.blevel > 4
+       form.SNHQN.enabled = .f.
+        endif
+       FORM.SCUSACC.ENABLED = .F.
+        FORM.SHQCRL.ENABLED = .F.
+         FORM.SHQPM.ENABLED = .F.
+          FORM.SHQCL.ENABLED = .F.
+           FORM.SHQCN.ENABLED = .F.
+            FORM.SHQCAT.ENABLED = .F.
+          select Frighter
+          form.cname.SetFocus()  
+     
+   
+   ****************************************************************************
+
+   procedure CheckChanged(callCommit)
+   
+   * Check if changes have been made to the current entryfield.  This procedure
+   * is called from menu routines to make sure the form.changesMade gets
+   * updated when a menu is selected while the changed control has focus.
+   ****************************************************************************
+   private control, fieldValue, controlValue, typeText, typeValue
+   
+   if form.inEditMode
+      control = form.activeControl
+      if type("control.datalink") <> "U"
+         fieldValue = control.datalink          && name of table field
+   
+         typeText = type("control.text")
+         typeValue = type("control.value")
+         do case
+            case typeValue = "C"
+               controlValue = control.value
+            case typeValue $ "LU" .and. typeText = "C"
+               controlValue = control.text
+            otherwise
+               controlValue = Null
+         endcase
+         if controlValue <> &fieldValue
+            form.changesMade = .T.
+         endif
+      endif
+   endif
+   if form.changesMade .and. callCommit
+      CLASS::CheckCommit(form.inEditMode)     && Check transactions
+   endif
+
+   Procedure SCONTACT_OnChange
+        form.changesmade = .t.
+
+   Procedure SCreditLIMT_OnChange
+         form.changesmade = .t.
+
+   Procedure SCITY_OnChange
+      form.changesmade = .t.
+
+   Procedure SCOUNTRY_OnChange
+   form.changesmade = .t.
+
+   Procedure ENTRYFIELD4_OnChange
+   form.changesmade = .t.
+
+   Procedure SFAX_OnChange
+   form.changesmade = .t.
+
+   Procedure SEMAIL_OnChange
+   form.changesmade = .t.
+
+   Procedure SPIN_OnChange
+   form.changesmade = .t.
+
+   Procedure ENTRYFIELD8_OnChange
+   form.changesmade = .t.
+
+   Procedure SACCREF_OnChange
+      form.changesmade = .t.
+
+   Procedure NOTESEDITOR3_OnChange
+      form.changesmade =.t.
+
+   Procedure SOPEN_OnChange
+         form.changesmade = .t.
+
+   Procedure SCDEP_OnChange
+         form.changesmade = .t.
+
+   Procedure SCLIMIT_OnDesignOpen(bFromPalette)
+         form.changesmade = .t.
+
+    Procedure SDAYS_OnChange
+         form.changesmade = .t.
+
+    Procedure CNAME_OnChange
+   form.CNAME.value = ltrim(form.CNAME.value)
+      if .not. empty(this.value)
+   select frighter2
+   seek  form.CNAME.value 
+   if found()  .AND. .NOT. (SOURCE = FRIGHTER->SOURCE .AND. FRIGHTER_N = FRIGHTER->FRIGHTER_N)
+   InformationMessage("Duplicate Customer name not allowed", "Note!")
+   form.CNAME.value =""
+   else
+   form.changesmade = .t.
+   endif
+   endif
+   select frighter
+
+   Procedure ADDRESS1_Valid
+         if empty(this.value)
+         isvalid = .f.
+         else
+         isvalid = .t.
+         endif
+         return isvalid
+
+   Procedure CNAME_Valid
+     if empty(this.value) .and. .not. empty(Frighter->source)
+         isvalid = .f.
+         form.cnt = form.cnt + 1
+         else
+         isvalid = .t.
+         endif
+         if form.cnt > 2
+         isvalid = .t.
+         form.cnt = 0
+         endif
+         return isvalid
+
+   Procedure SGROUP_OnChange
+         select frcategs
+         seek this.value
+         select Frighter
+         replace catname with this.value
+         replace category with frcategs->category
+         form.changesmade = .t.
+
+   Procedure SCreditLIMT_OnChange1
+         form.changesmade = .t.
+
+   Procedure ENTRYFIELD2_OnChange
+      form.changesmade = .t.
+
+   Procedure SCreditLIMT_OnChange2
+      form.changesmade = .t.
+
+   Procedure SVAGE_OnChange
+      FORM.CHANGESMADE = .T.
+
+   Procedure SCLMT_OnChange
+         FORM.CHANGESMADE = .T.
+
+   Procedure SNHQN_OnChange
+   select fghqcuss
+   seek this.value
+   if found()
+   form.changesmade = .t.
+   select frighter
+   replace cus_name with this.value
+   replace cus_acc with fghqcuss->cus_acc
+   replace cus_cla with fghqcuss->cus_cla
+   replace cus_cat with fghqcuss->cus_cat
+   replace paymethod with fghqcuss->paymethod
+   replace cr_limit with  fghqcuss->cr_limit
+   endif
+   select frighter
+
+   Procedure SGLCOD_OnChange
+      form.changesmade = .t.
+
+   Procedure SCARD_OnChange
+      form.changesmade = .t.
+
+   Procedure SVEH_OnChange
+   form.changesmade = .t.
+
+   Procedure SSERIAL_OnChange
+   FORM.CHANGESMADE = .T.
+
+   Procedure SMAXSERIAL_OnChange
+   FORM.CHANGESMADE = .T.
+
+   Procedure SDSC_OnChange
+      FORM.CHANGESMADE = .T.
+
+   Procedure SDRV_OnChange
+    select frighter
+    if this.value > 0 .and. this.value < 3
+    replace drv_rate with this.value
+    else
+    replace drv_rate with 0
+    endif
+    form.changesmade = .t.
+
+   Procedure SINV_OnChange
+   select frighter
+    if this.value > 0 .and. this.value < 3
+    replace INV_rate with this.value
+    else
+    replace INV_rate with 0
+    endif
+    form.changesmade = .t.
+
+   Procedure SLPO_OnChange
+   form.changesmade = .t.
+
+endclass
+
+Procedure Frighter_rtn
+PARAMETER BUSER
+PLUSER = BUSER
+   eofFrighter = .f.
+   set safety off
+   select frigtmes
+   
+ set order to Frighter
+     set safety on
+   select Frighter
+     SET FILTER TO (.NOT. EMPTY(NAME) .AND. .NOT. EMPTY(CATEGORY) ;
+    .AND. .NOT. EMPTY(SOURCE) .AND. .NOT. EMPTY(FTYP) .AND. .NOT. EMPTY(PMOD) ;
+     .AND. .NOT. EMPTY(FRIGHTER_N) .and.  .not. (fgcoy->shipname = 'Hqs' .and. empty(cus_acc))) ;
+      .or. ((source='7' .or. source = '9') .and. .not. empty(name))
+  go top
+   if .not. eof()
+      do
+         do rtn2 
+         until eofFrighter
+     endif
+  
+   
+Procedure rtn2
+   local l1,l2,l3,l4
+   l1 = source
+   l2 = ftyp
+   l3 = pmod
+   l4 = Frighter_n
+   select frigtmes
+      seek l1+l2+l3+l4
+      if .not. found() .and. .not. empty(frighter->name) .and. .not. empty(frighter->category) ;
+       .and. .not. empty(frighter->ftyp) .and. .not. empty(frighter->pmod);
+        .and. .not. empty(frighter->source) .and. .not. empty(frighter->frighter_n) 
+      append blank
+      replace ftyp with Frighter->ftyp
+      replace Frighter_n with Frighter->Frighter_n
+      replace source with l1
+      replace pmod with l3
+      endif
+       replace DRV_RATE with frighter->DRV_RATE  
+        replace INV_RATE with frighter->INV_RATE  
+      replace CASS_DISC with frighter->CASS_DISC
+      replace visa_user with frighter->visa_user
+       replace visa_date with frighter->visa_date
+        replace visa_time with frighter->visa_time
+       replace glcod with frighter->glcod
+       replace cardcntrl with frighter->cardcntrl
+       replace reg with frighter->reg
+       replace lpo with frighter->lpo
+        replace serialno with frighter->serialno
+        replace MAXSERIAL with frighter->maxserial
+      replace name with ltrim(Frighter->name)
+      replace vpurt with frighter->vpurt
+      replace vship with frighter->vship
+      replace address1 with Frighter->address1
+      REPLACE VAGE WITH FRIGHTER->VAGE
+       replace category with frighter->category
+      replace close_date with  frighter->close_date
+       replace SACNAME with frighter->SACNAME
+   replace cus_acc with frighter->cus_acc
+   replace cus_name with frighter->cus_name
+   replace cus_cat with frighter->cus_cat
+   replace cus_cla with frighter->cus_cla
+   replace paymethod with frighter->paymethod
+   replace cr_limit with frighter->cr_limit
+   replace acc_ref with frighter->acc_ref
+   replace cdep_amt with frighter->cdep_amt
+          select Frighter
+          replace name with ltrim(name)
+          IF EMPTY(OPEN_DATE)
+          REPLACE OPEN_DATE WITH DATE()
+          REPLACE OPEN_USER WITH PLUSER
+          REPLACE OPEN_TIME WITH TIME()
+          ENDIF
+           if vsac = "Z"
+          replace vsac with ""
+          select custaudt
+          append blank
+          replace source with frighter->source
+          replace ftyp with frighter->ftyp
+          replace pmod with frighter->pmod
+          replace frighter_n with frighter->frighter_n
+          replace vary_date with  frighter->vary_date
+          replace vary_time with frighter->vary_time
+          replace vary_user with frighter->vary_user
+           replace close_date with  frighter->close_date
+          replace close_time with frighter->close_time
+          replace close_user with frighter->close_user
+           replace open_date with  frighter->open_date
+          replace open_time with frighter->open_time
+          replace open_user with frighter->open_user
+          replace bal_due with frighter->bal_due
+          replace cr_days with frighter->cr_days
+          replace category with frighter->category
+          replace cdep_amt with frighter->cdep_amt
+          replace credit_lmt with frighter->credit_lmt
+          replace name with frighter->name
+          replace phone  with frighter->phone
+          replace address1  with frighter->address1
+          replace address2 with frighter->address2
+          replace contact with frighter->contact
+          replace fax with frighter->fax
+          replace email with frighter->email
+          replace acc_ref  with frighter->acc_ref
+          endif
+        select Frighter
+   skip
+   if eof()
+   eofFrighter = .t.
+   endif
+     

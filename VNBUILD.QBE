@@ -1,0 +1,28 @@
+* Visual dBASE .QBE file 9
+ON ERROR DO QBEERR WITH ERROR(), MESSAGE(),;
+PROGRAM(), LINENO()
+CLOSE DATABASES
+SET SAFETY OFF
+    USE \KENSERVE\IDSSYS\VENSTAT.DBF
+copy stru to \kenservice\data\VENSTAT dBase prod
+    USE \KENSERVE\IDSSYS\VENMAS.DBF
+copy stru to \kenservice\data\VENMAS dBase prod
+USE \KENSERVICE\DATA\VENSTAT.DBF EXCL
+ZAP
+APPEND FROM \KENSERVICE\DATA\VNSTAT.DBF
+use \kenservice\data\venmas.dbf exclusive
+ZAP
+APPEND FROM \KENSERVICE\DATA\VENDOR.DBF
+use  \kenserve\idssys\vnstat.dbf
+copy stru to \kenservice\data\Vnstat dBase prod
+SET SAFETY ON
+CLOSE DATABASES
+seT EXACT ON
+select 1
+use \kenservice\data\venmas.dbf exclusive
+select 2
+use \kenservice\data\venstat.dbf exclusive
+select 3
+use \kenservice\data\vnstat.dbf exclusive
+select 4
+use \kenservice\data\vendor.dbf exclusive

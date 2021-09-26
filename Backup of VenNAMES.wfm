@@ -43,7 +43,7 @@ set ldCheck off && To avoid language driver conflicts
 #define Maxcoy 999
 ** END HEADER -- do not remove this line
 //
-// Generated on 26/09/2021
+// Generated on 09/26/2021
 //
 parameter bModal
 local f
@@ -62,10 +62,10 @@ class VendorFORM of FORM
       open = class::OPEN
       metric = 6	// Pixels
       colorNormal = "N+"
-      height = 932.0
+      height = 666.0
       left = -40.0
       top = -16.0
-      width = 1296.0
+      width = 1074.0
       text = "VENDOR INFORMATION"
       windowState = 2	// Maximized
       mdi = false
@@ -83,10 +83,10 @@ class VendorFORM of FORM
 
    this.RECTANGLE1 = new RECTANGLE(this)
    with (this.RECTANGLE1)
-      left = 23.0
+      left = 35.0
       top = 33.0
-      width = 740.0
-      height = 770.0
+      width = 784.0
+      height = 650.0
       text = "VENDOR MASTER INFORMATION"
       colorNormal = "R+/silver"
       fontName = "Garamond"
@@ -372,7 +372,7 @@ class VendorFORM of FORM
       onClick = class::PREVIOUS
       height = 30.0
       left = 42.0
-      top = 726.0
+      top = 600.0
       width = 166.0
       default = true
       fontName = "MS Sans Serif"
@@ -386,7 +386,7 @@ class VendorFORM of FORM
       onClick = class::NEXT
       height = 30.0
       left = 217.0
-      top = 726.0
+      top = 600.0
       width = 166.0
       fontName = "MS Sans Serif"
       fontSize = 8.0
@@ -398,7 +398,7 @@ class VendorFORM of FORM
       onClick = class::FIRST_RTN
       height = 30.0
       left = 413.0
-      top = 726.0
+      top = 600.0
       width = 166.0
       text = "F&irst"
       fontName = "MS Sans Serif"
@@ -412,7 +412,7 @@ class VendorFORM of FORM
       onClick = class::LAST_RTN
       height = 30.0
       left = 588.0
-      top = 726.0
+      top = 600.0
       width = 166.0
       text = "&Last"
       fontName = "MS Sans Serif"
@@ -1015,3 +1015,4 @@ Procedure rtn2
    if eof()
    eofVendor = .t.
    endif
+

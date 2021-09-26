@@ -38,12 +38,12 @@ set ldCheck off && To avoid language driver conflicts
 #define Maxcoy 999
 ** END HEADER -- do not remove this line
 //
-// Generated on 25/09/2021
+// Generated on 09/26/2021
 //
 parameter bModal
 local f
 f = new FrighterFORM()
-if (bModal) = true
+if (bModal)
    f.mdi = false // ensure not MDI
    f.readModal()
 else
@@ -51,15 +51,15 @@ else
 endif
 
 class FrighterFORM of FORM
-   set procedure to C:\kenslog\idssys\BUTTONS.CC additive
+   set procedure to BUTTONS.CC additive
    with (this)
       onClose = class::ONCLOSE
       open = class::OPEN
       colorNormal = "N+"
-      height = 42.3636
+      height = 30.2727
       left = 0.0
       top = 0.6465
-      width = 185.1429
+      width = 153.4286
       text = "Edit Customers"
       windowState = 2	// Maximized
       mdi = false
@@ -75,8 +75,8 @@ class FrighterFORM of FORM
 
    this.TEXT2 = new TEXT(this)
    with (this.TEXT2)
-      height = 1.0596
-      left = 0.0
+      height = 1.0
+      left = 1.4286
       top = 0.0
       width = 6.0
       colorNormal = "B/BtnFace"
@@ -89,10 +89,10 @@ class FrighterFORM of FORM
    with (this.SSOURCE)
       dataLink = "fgcoy->SRCENAME"
       enabled = false
-      height = 1.4688
-      left = 6.0
-      top = 0.0
-      width = 22.0
+      height = 1.0
+      left = 8.0
+      top = 0.0455
+      width = 21.2857
       fontName = "Arial Black"
       fontSize = 9.0
       colorNormal = "B/BtnFace"
@@ -104,7 +104,7 @@ class FrighterFORM of FORM
    with (this.DSRCE)
       dataLink = "Frighter->source"
       enabled = false
-      height = 1.2354
+      height = 1.0
       left = 30.0
       top = 0.0
       width = 4.0
@@ -115,7 +115,7 @@ class FrighterFORM of FORM
 
    this.TEXT5 = new TEXT(this)
    with (this.TEXT5)
-      height = 1.0596
+      height = 1.0
       left = 34.8571
       top = 0.0
       width = 7.002
@@ -129,7 +129,7 @@ class FrighterFORM of FORM
    with (this.SFTYP)
       dataLink = "frittyp->NAME"
       enabled = false
-      height = 1.2354
+      height = 1.0
       left = 42.4286
       top = 0.0
       width = 17.5
@@ -142,7 +142,7 @@ class FrighterFORM of FORM
    with (this.DTYP)
       dataLink = "Frighter->ftyp"
       enabled = false
-      height = 1.2354
+      height = 1.0
       left = 60.0
       top = 0.0
       width = 4.0
@@ -153,9 +153,9 @@ class FrighterFORM of FORM
 
    this.TEXT7 = new TEXT(this)
    with (this.TEXT7)
-      height = 1.0596
-      left = 64.0
-      top = 0.0
+      height = 1.0
+      left = 64.4286
+      top = -0.0455
       width = 12.0
       colorNormal = "B/BtnFace"
       text = "Sub-Type:"
@@ -165,10 +165,10 @@ class FrighterFORM of FORM
    with (this.SPMOD)
       dataLink = "frpymod->NAME"
       enabled = false
-      height = 1.2354
-      left = 76.4286
-      top = 0.0
-      width = 19.5
+      height = 1.0
+      left = 77.2857
+      top = -0.0455
+      width = 19.4286
       function = "!"
       colorNormal = "N/BtnFace"
       colorHighLight = "B+/W*"
@@ -178,8 +178,8 @@ class FrighterFORM of FORM
    with (this.DPMOD)
       dataLink = "Frighter->pmod"
       enabled = false
-      height = 1.2354
-      left = 96.0
+      height = 1.0
+      left = 97.4286
       top = 0.0
       width = 4.0
       function = "!"
@@ -191,10 +191,10 @@ class FrighterFORM of FORM
    with (this.DFRIGHTER)
       dataLink = "Frighter->Frighter_N"
       enabled = false
-      height = 1.4688
-      left = 100.1429
-      top = 0.0
-      width = 6.335
+      height = 1.0
+      left = 103.4286
+      top = -0.0455
+      width = 6.2857
       function = "!"
       colorNormal = "N/BtnFace"
       colorHighLight = "B+/W*"
@@ -203,10 +203,10 @@ class FrighterFORM of FORM
    this.SACC = new ENTRYFIELD(this)
    with (this.SACC)
       enabled = false
-      height = 1.2354
-      left = 107.2857
+      height = 1.0
+      left = 110.8571
       top = 0.0
-      width = 12.668
+      width = 12.7143
       function = "!"
       colorNormal = "N/W"
       colorHighLight = "B+/W*"
@@ -216,10 +216,10 @@ class FrighterFORM of FORM
 
    this.RECTANGLE1 = new RECTANGLE(this)
    with (this.RECTANGLE1)
-      left = -9.2857
-      top = 2.0
-      width = 142.0
-      height = 31.0
+      left = 0.8571
+      top = 1.9545
+      width = 126.1429
+      height = 26.4
       text = "Frighter Masterfile Information"
       colorNormal = "B+/W"
    endwith
@@ -229,10 +229,10 @@ class FrighterFORM of FORM
       onChange = class::CHANGESMADE
       dataLink = "frsource->NAME"
       enabled = false
-      height = 1.2354
-      left = 2.4286
-      top = 3.0
-      width = 21.5
+      height = 1.0
+      left = 3.5714
+      top = 2.9545
+      width = 16.8571
       function = "!"
       colorNormal = "N/BtnFace"
       colorHighLight = "B+/W*"
@@ -242,10 +242,10 @@ class FrighterFORM of FORM
    with (this.FTNAME)
       dataLink = "frittyp->NAME"
       enabled = false
-      height = 1.2354
-      left = 24.4286
-      top = 3.0
-      width = 23.5
+      height = 1.0
+      left = 23.1429
+      top = 2.9545
+      width = 18.0
       function = "!"
       colorNormal = "N/BtnFace"
       colorHighLight = "B+/W*"
@@ -255,10 +255,10 @@ class FrighterFORM of FORM
    with (this.FPNAME)
       dataLink = "frpymod->NAME"
       enabled = false
-      height = 1.2354
-      left = 50.0
-      top = 3.0
-      width = 28.0
+      height = 1.0
+      left = 43.4286
+      top = 2.9545
+      width = 20.8571
       function = "!"
       colorNormal = "N/BtnFace"
       colorHighLight = "B+/W*"
@@ -266,8 +266,8 @@ class FrighterFORM of FORM
 
    this.TEXT19 = new TEXT(this)
    with (this.TEXT19)
-      height = 1.2354
-      left = 79.0
+      height = 1.0
+      left = 66.4286
       top = 2.9545
       width = 15.0
       colorNormal = "B/BtnFace"
@@ -278,10 +278,10 @@ class FrighterFORM of FORM
    with (this.SCUSACC)
       dataLink = "FRIGHTER->CUS_ACC"
       enabled = false
-      height = 1.2354
-      left = 96.0
+      height = 1.0
+      left = 83.0
       top = 2.9545
-      width = 27.0
+      width = 24.5714
       colorNormal = "N/BtnFace"
       colorHighLight = "B+/W*"
       validErrorMsg = "Name Required"
@@ -291,10 +291,10 @@ class FrighterFORM of FORM
    with (this.SOPENDATE)
       dataLink = "Frighter->OPEN_DATE"
       enabled = false
-      height = 1.2354
-      left = 123.0
-      top = 3.0
-      width = 15.0
+      height = 1.0
+      left = 110.8571
+      top = 2.9545
+      width = 12.4286
       function = "!"
       colorNormal = "B+/BtnFace"
       colorHighLight = "B+/W"
@@ -303,10 +303,10 @@ class FrighterFORM of FORM
 
    this.TEXT1 = new TEXT(this)
    with (this.TEXT1)
-      height = 1.2354
-      left = 2.0
-      top = 4.3636
-      width = 18.0
+      height = 1.0
+      left = 3.5714
+      top = 4.0909
+      width = 16.5714
       colorNormal = "B/BtnFace"
       text = "Name:"
    endwith
@@ -316,10 +316,10 @@ class FrighterFORM of FORM
       onChange = class::CNAME_ONCHANGE
       dataLink = "Frighter->NAME"
       enabled = false
-      height = 1.2354
-      left = 21.0
-      top = 4.3636
-      width = 113.0
+      height = 1.0
+      left = 23.4286
+      top = 4.0909
+      width = 99.8571
       function = "!"
       colorNormal = "N/BtnFace"
       colorHighLight = "B+/W*"
@@ -328,10 +328,10 @@ class FrighterFORM of FORM
 
    this.TEXT10 = new TEXT(this)
    with (this.TEXT10)
-      height = 1.2354
-      left = 2.0
-      top = 5.7727
-      width = 18.0
+      height = 1.0
+      left = 3.5714
+      top = 5.2273
+      width = 16.8571
       colorNormal = "B/BtnFace"
       text = "Hq Cus Name:"
    endwith
@@ -340,10 +340,10 @@ class FrighterFORM of FORM
    with (this.SHQCN)
       dataLink = "FRIGHTER->CUS_NAME"
       enabled = false
-      height = 1.2354
-      left = 21.0
-      top = 5.7727
-      width = 113.0
+      height = 1.0
+      left = 23.2857
+      top = 5.2273
+      width = 100.1429
       colorNormal = "N/BtnFace"
       colorHighLight = "B+/W*"
       validErrorMsg = "Name Required"
@@ -351,10 +351,10 @@ class FrighterFORM of FORM
 
    this.TEXT11 = new TEXT(this)
    with (this.TEXT11)
-      height = 1.2354
-      left = 2.0
-      top = 7.2727
-      width = 26.0
+      height = 1.0
+      left = 3.5714
+      top = 6.3636
+      width = 19.4286
       colorNormal = "B/BtnFace"
       text = "Select HQ Cus Name:"
    endwith
@@ -364,10 +364,10 @@ class FrighterFORM of FORM
       onChange = class::SNHQN_ONCHANGE
       dataLink = "FRIGHTER->NCUSNAME"
       enabled = false
-      height = 1.3516
-      left = 28.4286
-      top = 7.1364
-      width = 104.5
+      height = 1.0
+      left = 24.5714
+      top = 6.3636
+      width = 98.8571
       fontName = "Arial Black"
       colorNormal = "B/BtnFace"
       dataSource = "FIELD FGHQCUSS->CUS_NAME"
@@ -376,10 +376,10 @@ class FrighterFORM of FORM
 
    this.TEXT14 = new TEXT(this)
    with (this.TEXT14)
-      height = 1.2354
-      left = 2.0
-      top = 8.5909
-      width = 26.0
+      height = 1.0
+      left = 3.5714
+      top = 7.5
+      width = 12.4286
       colorNormal = "B/BtnFace"
       text = "Hq Cus Class:"
    endwith
@@ -388,10 +388,10 @@ class FrighterFORM of FORM
    with (this.SHQCL)
       dataLink = "FRIGHTER->CUS_CLA"
       enabled = false
-      height = 1.2354
-      left = 28.4286
-      top = 8.5909
-      width = 57.5
+      height = 1.0
+      left = 17.8571
+      top = 7.5
+      width = 44.7143
       colorNormal = "N/BtnFace"
       colorHighLight = "B+/W*"
       validErrorMsg = "Name Required"
@@ -399,10 +399,10 @@ class FrighterFORM of FORM
 
    this.TEXT17 = new TEXT(this)
    with (this.TEXT17)
-      height = 1.2354
-      left = 87.0
-      top = 8.5909
-      width = 21.0
+      height = 1.0
+      left = 63.5714
+      top = 7.5
+      width = 21.4286
       colorNormal = "B/BtnFace"
       text = "Hq Pay Method:"
    endwith
@@ -411,9 +411,9 @@ class FrighterFORM of FORM
    with (this.SHQPM)
       dataLink = "FRIGHTER->PAYMETHOD"
       enabled = false
-      height = 1.2354
-      left = 109.0
-      top = 8.5909
+      height = 1.0
+      left = 86.1429
+      top = 7.5
       width = 28.0
       colorNormal = "N/BtnFace"
       colorHighLight = "B+/W*"
@@ -422,10 +422,10 @@ class FrighterFORM of FORM
 
    this.TEXT16 = new TEXT(this)
    with (this.TEXT16)
-      height = 1.2344
-      left = 2.0
-      top = 10.0
-      width = 26.0
+      height = 1.0
+      left = 3.5714
+      top = 8.6364
+      width = 12.4286
       colorNormal = "B/BtnFace"
       text = "Hq Cus Class:"
    endwith
@@ -434,10 +434,10 @@ class FrighterFORM of FORM
    with (this.SHQCAT)
       dataLink = "FRIGHTER->CUS_CAT"
       enabled = false
-      height = 1.2344
-      left = 28.4286
-      top = 10.0
-      width = 57.5
+      height = 1.0
+      left = 17.2857
+      top = 8.6364
+      width = 44.5714
       colorNormal = "N/BtnFace"
       colorHighLight = "B+/W*"
       validErrorMsg = "Name Required"
@@ -446,9 +446,9 @@ class FrighterFORM of FORM
    this.TEXT18 = new TEXT(this)
    with (this.TEXT18)
       height = 1.0
-      left = 87.0
-      top = 10.1818
-      width = 21.0
+      left = 62.8571
+      top = 8.6364
+      width = 16.4286
       colorNormal = "B/BtnFace"
       alignVertical = 1	// Middle
       alignHorizontal = 1	// Center
@@ -459,10 +459,10 @@ class FrighterFORM of FORM
    with (this.SHQCRL)
       dataLink = "FRIGHTER->CR_LIMIT"
       enabled = false
-      height = 1.1768
-      left = 109.0
-      top = 10.1818
-      width = 20.0
+      height = 1.0
+      left = 80.1429
+      top = 8.6364
+      width = 12.2857
       picture = "999,999,999.99"
       function = "J"
       colorNormal = "N/BtnFace"
@@ -471,10 +471,10 @@ class FrighterFORM of FORM
 
    this.TEXT23 = new TEXT(this)
    with (this.TEXT23)
-      height = 1.2344
-      left = 2.0
-      top = 12.0
-      width = 13.0
+      height = 1.0
+      left = 3.5714
+      top = 9.7727
+      width = 8.8571
       colorNormal = "B/BtnFace"
       text = "Address:"
    endwith
@@ -485,10 +485,10 @@ class FrighterFORM of FORM
       valid = class::ADDRESS1_VALID
       dataLink = "Frighter->Address1"
       enabled = false
-      height = 1.2344
-      left = 16.0
-      top = 12.0
-      width = 48.0
+      height = 1.0
+      left = 14.8571
+      top = 9.7727
+      width = 31.0
       function = "!"
       colorNormal = "N/BtnFace"
       colorHighLight = "B+/W*"
@@ -497,10 +497,10 @@ class FrighterFORM of FORM
 
    this.TEXT15 = new TEXT(this)
    with (this.TEXT15)
-      height = 1.2354
-      left = 65.2857
-      top = 11.8636
-      width = 8.668
+      height = 1.0
+      left = 46.5714
+      top = 9.7727
+      width = 6.8571
       colorNormal = "B/BtnFace"
       text = "Phone:"
    endwith
@@ -510,10 +510,10 @@ class FrighterFORM of FORM
       onChange = class::ENTRYFIELD4_ONCHANGE
       dataLink = "Frighter->PHONE"
       enabled = false
-      height = 1.2354
-      left = 74.4286
-      top = 11.8636
-      width = 15.5
+      height = 1.0
+      left = 54.4286
+      top = 9.7727
+      width = 15.4286
       function = "!"
       colorNormal = "N/BtnFace"
       colorHighLight = "B+/W*"
@@ -521,10 +521,10 @@ class FrighterFORM of FORM
 
    this.TEXT32 = new TEXT(this)
    with (this.TEXT32)
-      height = 1.2354
-      left = 2.0
-      top = 13.4091
-      width = 13.0
+      height = 1.0
+      left = 3.5714
+      top = 10.9091
+      width = 6.5714
       colorNormal = "B/BtnFace"
       text = "Group:"
    endwith
@@ -534,10 +534,10 @@ class FrighterFORM of FORM
       onChange = class::SGROUP_ONCHANGE
       dataLink = "Frighter->CATNAME"
       enabled = false
-      height = 1.3516
-      left = 15.4286
-      top = 13.2273
-      width = 33.5
+      height = 1.0
+      left = 12.1429
+      top = 10.9091
+      width = 25.2857
       fontName = "Arial Black"
       colorNormal = "B/BtnFace"
       dataSource = "FIELD frcategS->NAME"
@@ -546,10 +546,10 @@ class FrighterFORM of FORM
 
    this.TEXT6 = new TEXT(this)
    with (this.TEXT6)
-      height = 1.2354
-      left = 50.2857
-      top = 13.4091
-      width = 18.668
+      height = 1.0
+      left = 70.5714
+      top = 9.7727
+      width = 12.7143
       colorNormal = "B/BtnFace"
       text = "Staff A/C Type:"
    endwith
@@ -558,9 +558,9 @@ class FrighterFORM of FORM
    with (this.SVAGE)
       onChange = class::SVAGE_ONCHANGE
       dataLink = "FRIGHTER->VAGE"
-      height = 1.3516
-      left = 70.0
-      top = 13.4091
+      height = 1.0
+      left = 84.2857
+      top = 9.7727
       width = 13.0
       fontName = "Arial Black"
       colorNormal = "B/BtnFace"
@@ -570,10 +570,10 @@ class FrighterFORM of FORM
 
    this.TEXT9 = new TEXT(this)
    with (this.TEXT9)
-      height = 1.2354
-      left = 2.0
-      top = 14.8636
-      width = 13.0
+      height = 1.0
+      left = 39.1429
+      top = 10.9091
+      width = 8.0
       colorNormal = "B/BtnFace"
       text = "PIN No.:"
    endwith
@@ -583,10 +583,10 @@ class FrighterFORM of FORM
       onChange = class::SPIN_ONCHANGE
       dataLink = "Frighter->PIN"
       enabled = false
-      height = 1.2354
-      left = 15.4286
-      top = 14.8636
-      width = 18.5
+      height = 1.0
+      left = 48.1429
+      top = 10.9091
+      width = 15.5714
       function = "!"
       colorNormal = "N/BtnFace"
       colorHighLight = "B+/W*"
@@ -594,10 +594,10 @@ class FrighterFORM of FORM
 
    this.TEXT20 = new TEXT(this)
    with (this.TEXT20)
-      height = 1.0586
-      left = 34.0
-      top = 14.8636
-      width = 15.0
+      height = 1.0
+      left = 21.7143
+      top = 12.0909
+      width = 11.0
       colorNormal = "B/BtnFace"
       text = "Credit Days:"
    endwith
@@ -607,10 +607,10 @@ class FrighterFORM of FORM
       onChange = class::SDAYS_ONCHANGE
       dataLink = "Frighter->CR_DAYS"
       enabled = false
-      height = 1.293
-      left = 49.0
-      top = 14.8636
-      width = 13.0
+      height = 1.0
+      left = 33.4286
+      top = 12.0909
+      width = 7.4286
       picture = "999"
       function = "J"
       colorNormal = "N/BtnFace"
@@ -620,9 +620,9 @@ class FrighterFORM of FORM
    this.TEXT3 = new TEXT(this)
    with (this.TEXT3)
       height = 1.0
-      left = 63.0
-      top = 14.8636
-      width = 14.0
+      left = 41.4286
+      top = 12.0909
+      width = 12.0
       colorNormal = "B/BtnFace"
       alignVertical = 1	// Middle
       alignHorizontal = 1	// Center
@@ -634,10 +634,10 @@ class FrighterFORM of FORM
       onChange = class::SCREDITLIMT_ONCHANGE2
       dataLink = "FRIGHTER->CREDIT_LMT"
       enabled = false
-      height = 1.1768
-      left = 78.0
-      top = 14.8636
-      width = 20.0
+      height = 1.0
+      left = 54.0
+      top = 12.0455
+      width = 15.2857
       picture = "999,999,999.99"
       function = "J"
       colorNormal = "N/BtnFace"
@@ -646,21 +646,21 @@ class FrighterFORM of FORM
 
    this.TEXT8 = new TEXT(this)
    with (this.TEXT8)
-      height = 1.2354
-      left = 99.0
-      top = 14.8636
-      width = 30.0
+      height = 1.0
+      left = 92.8571
+      top = 10.9091
+      width = 17.2857
       colorNormal = "B/BtnFace"
-      text = "ENFORCE CREDIT LIMIT:"
+      text = "Enforce Credit Limit:"
    endwith
 
    this.SCLMT = new COMBOBOX(this)
    with (this.SCLMT)
       onChange = class::SCLMT_ONCHANGE
       dataLink = "FRIGHTER->VPURT"
-      height = 1.3516
-      left = 129.0
-      top = 14.8636
+      height = 1.0
+      left = 111.0
+      top = 10.9091
       width = 10.0
       fontName = "Arial Black"
       colorNormal = "B/BtnFace"
@@ -670,10 +670,10 @@ class FrighterFORM of FORM
 
    this.TEXT12 = new TEXT(this)
    with (this.TEXT12)
-      height = 1.2354
-      left = 2.0
-      top = 16.2727
-      width = 13.0
+      height = 1.0
+      left = 65.4286
+      top = 10.9091
+      width = 10.0
       colorNormal = "B/BtnFace"
       text = "V.A.T. No.:"
    endwith
@@ -683,10 +683,10 @@ class FrighterFORM of FORM
       onChange = class::ENTRYFIELD8_ONCHANGE
       dataLink = "Frighter->VAT"
       enabled = false
-      height = 1.2354
-      left = 15.4286
-      top = 16.2727
-      width = 18.5
+      height = 1.0
+      left = 76.7143
+      top = 10.9091
+      width = 14.4286
       function = "!"
       colorNormal = "N/BtnFace"
       colorHighLight = "B+/W*"
@@ -695,8 +695,8 @@ class FrighterFORM of FORM
    this.TEXT29 = new TEXT(this)
    with (this.TEXT29)
       height = 1.0
-      left = 36.0
-      top = 16.2727
+      left = 98.8571
+      top = 12.0909
       width = 8.0
       colorNormal = "B/BtnFace"
       alignVertical = 1	// Middle
@@ -710,9 +710,9 @@ class FrighterFORM of FORM
       dataLink = "Frighter->CDEP_AMT"
       enabled = false
       height = 1.0
-      left = 44.0
-      top = 16.2727
-      width = 18.0
+      left = 108.4286
+      top = 12.0455
+      width = 14.8571
       picture = "99,999,999.99"
       function = "J"
       colorNormal = "N/BtnFace"
@@ -722,9 +722,9 @@ class FrighterFORM of FORM
    this.TEXT13 = new TEXT(this)
    with (this.TEXT13)
       height = 1.0
-      left = 63.0
-      top = 16.2727
-      width = 14.0
+      left = 70.0
+      top = 12.0455
+      width = 10.2857
       colorNormal = "B/BtnFace"
       alignVertical = 1	// Middle
       alignHorizontal = 1	// Center
@@ -735,10 +735,10 @@ class FrighterFORM of FORM
    with (this.SBAL)
       dataLink = "Frighter->bal_due"
       enabled = false
-      height = 1.1758
-      left = 78.0
-      top = 16.2727
-      width = 20.0
+      height = 1.0
+      left = 81.4286
+      top = 12.0455
+      width = 15.8571
       picture = "99,999,999.99"
       function = "J"
       colorNormal = "N/BtnFace"
@@ -747,10 +747,10 @@ class FrighterFORM of FORM
 
    this.TEXT4 = new TEXT(this)
    with (this.TEXT4)
-      height = 1.0596
-      left = 99.0
-      top = 16.4545
-      width = 20.0
+      height = 1.0
+      left = 62.0
+      top = 14.3636
+      width = 14.5714
       colorNormal = "B/BtnFace"
       text = "Date A/c Closed:"
    endwith
@@ -759,10 +759,10 @@ class FrighterFORM of FORM
    with (this.SDCLOSE)
       dataLink = "FRIGHTER->CLOSE_DATE"
       enabled = false
-      height = 1.2354
-      left = 119.4286
-      top = 16.4545
-      width = 19.5
+      height = 1.0
+      left = 77.7143
+      top = 14.3636
+      width = 13.4286
       function = "!"
       colorNormal = "B+/BtnFace"
       colorHighLight = "B+/W"
@@ -771,10 +771,10 @@ class FrighterFORM of FORM
 
    this.TEXT26 = new TEXT(this)
    with (this.TEXT26)
-      height = 1.0586
-      left = 2.0
-      top = 18.1364
-      width = 23.0
+      height = 1.0
+      left = 3.5714
+      top = 12.0909
+      width = 17.1429
       colorNormal = "B/BtnFace"
       text = "Special Instructions"
    endwith
@@ -784,10 +784,10 @@ class FrighterFORM of FORM
       onGotFocus = {;if this.Modify;this.colorNormal = "B+/W*";endif}
       onLostFocus = {;if this.Modify;this.colorNormal = "N/BtnFace";endif}
       onChange = class::CHANGESMADE
-      height = 2.0
-      left = 2.0
-      top = 19.0
-      width = 24.0
+      height = 1.9545
+      left = 3.5714
+      top = 13.1364
+      width = 17.1429
       colorNormal = "N/BtnFace"
       modify = false
       dataLink = "Frighter->INST_SP"
@@ -798,10 +798,10 @@ class FrighterFORM of FORM
       onGotFocus = {;if this.Modify;this.colorNormal = "B+/W*";endif}
       onLostFocus = {;if this.Modify;this.colorNormal = "N/BtnFace";endif}
       onChange = class::NOTESEDITOR3_ONCHANGE
-      height = 2.1182
-      left = 2.0
-      top = 20.8636
-      width = 24.0
+      height = 2.0
+      left = 3.5714
+      top = 15.0
+      width = 17.1429
       colorNormal = "N/BtnFace"
       modify = false
       dataLink = "Frighter->INST_DEL"
@@ -811,9 +811,9 @@ class FrighterFORM of FORM
    with (this.SDUSER)
       dataLink = "FRIGHTER->CLOSE_USER"
       enabled = false
-      height = 1.2354
-      left = 98.0
-      top = 17.8636
+      height = 1.0
+      left = 70.1429
+      top = 13.2273
       width = 21.0
       function = "!"
       colorNormal = "N/BtnFace"
@@ -824,9 +824,9 @@ class FrighterFORM of FORM
    with (this.SDTIME)
       dataLink = "FRIGHTER->CLOSE_TIME"
       enabled = false
-      height = 1.2354
-      left = 120.0
-      top = 17.8636
+      height = 1.0
+      left = 91.5714
+      top = 13.2273
       width = 19.0
       function = "!"
       colorNormal = "N/BtnFace"
@@ -837,9 +837,9 @@ class FrighterFORM of FORM
    with (this.CHILDBROWSE)
       colorNormal = "W+/0x808040"
       fontBold = true
-      height = 10.0
-      left = 2.0
-      top = 25.0
+      height = 9.0909
+      left = 3.5714
+      top = 17.4545
       width = 120.0
       append = false
       alias = "FGTRAN"
@@ -854,10 +854,10 @@ class FrighterFORM of FORM
    this.PREVCOYBUTTON = new PREVBUTTON(this)
    with (this.PREVCOYBUTTON)
       onClick = class::PREVIOUS
-      height = 1.5303
-      left = 1.3311
-      top = 35.2344
-      width = 14.168
+      height = 1.3182
+      left = 35.0
+      top = 26.7273
+      width = 14.1429
       default = true
       group = true
    endwith
@@ -865,19 +865,19 @@ class FrighterFORM of FORM
    this.NEXTCOYBUTTON = new NEXTBUTTON(this)
    with (this.NEXTCOYBUTTON)
       onClick = class::NEXT
-      height = 1.5303
-      left = 16.3311
-      top = 35.2344
-      width = 14.168
+      height = 1.3182
+      left = 50.0
+      top = 26.7273
+      width = 14.1429
    endwith
 
    this.FIRFRIGHTERBUTTON = new PUSHBUTTON(this)
    with (this.FIRFRIGHTERBUTTON)
       onClick = class::FIRST_RTN
-      height = 1.5303
-      left = 33.0
-      top = 35.2273
-      width = 14.1641
+      height = 1.3182
+      left = 65.1429
+      top = 26.7273
+      width = 14.1429
       text = "F&irst"
       statusMessage = "Go to the first record."
    endwith
@@ -885,20 +885,20 @@ class FrighterFORM of FORM
    this.LAFRIGHTERBUTTON = new PUSHBUTTON(this)
    with (this.LAFRIGHTERBUTTON)
       onClick = class::LAST_RTN
-      height = 1.5303
-      left = 48.0
-      top = 35.2273
-      width = 14.1641
+      height = 1.3182
+      left = 80.1429
+      top = 26.7273
+      width = 14.1429
       text = "&Last"
       statusMessage = "Go to the last Customer."
    endwith
 
    this.TEXT21 = new TEXT(this)
    with (this.TEXT21)
-      height = 1.2354
-      left = 102.2857
-      top = 13.4091
-      width = 13.668
+      height = 1.0
+      left = 98.1429
+      top = 9.7727
+      width = 10.5714
       colorNormal = "B/BtnFace"
       text = "GL Invoice:"
    endwith
@@ -907,9 +907,9 @@ class FrighterFORM of FORM
    with (this.SGLCOD)
       onChange = class::SGLCOD_ONCHANGE
       dataLink = "FRIGHTER->GLCOD"
-      height = 1.3516
-      left = 118.0
-      top = 13.4091
+      height = 1.0
+      left = 109.2857
+      top = 9.7727
       width = 13.0
       fontName = "Arial Black"
       colorNormal = "B/BtnFace"
@@ -919,10 +919,10 @@ class FrighterFORM of FORM
 
    this.TEXT22 = new TEXT(this)
    with (this.TEXT22)
-      height = 1.2344
-      left = 96.0
-      top = 11.7273
-      width = 20.0
+      height = 1.0
+      left = 93.7143
+      top = 8.6364
+      width = 14.1429
       colorNormal = "B/BtnFace"
       text = "Card/Veh Cntrl:"
    endwith
@@ -931,9 +931,9 @@ class FrighterFORM of FORM
    with (this.SCARDCNTRL)
       onChange = class::SCARD_ONCHANGE
       dataLink = "FRIGHTER->CARDCNTRL"
-      height = 1.3516
-      left = 118.0
-      top = 11.7273
+      height = 1.0
+      left = 108.5714
+      top = 8.6364
       width = 13.0
       fontName = "Arial Black"
       colorNormal = "B/BtnFace"
@@ -943,12 +943,12 @@ class FrighterFORM of FORM
 
    this.TEXT24 = new TEXT(this)
    with (this.TEXT24)
-      height = 1.2354
-      left = 70.0
-      top = 17.8636
-      width = 26.0
+      height = 1.0
+      left = 53.1429
+      top = 13.2273
+      width = 15.8571
       colorNormal = "B/BtnFace"
-      text = "VEHICLE DATABASE"
+      text = "Vehicle Database:"
    endwith
 
    this.SVEH = new COMBOBOX(this)
@@ -956,10 +956,10 @@ class FrighterFORM of FORM
       onChange = class::SVEH_ONCHANGE
       dataLink = "FRIGHTER->REG"
       enabled = false
-      height = 1.3467
-      left = 75.0
-      top = 19.3182
-      width = 11.0
+      height = 1.0
+      left = 53.2857
+      top = 14.3636
+      width = 7.8571
       fontName = "Arial Black"
       colorNormal = "B/BtnFace"
       dataSource = "array {'" + '""' + "'," + '"' + "Yes" + '"' + "," + '"' + "No" + '"' + "}"
@@ -971,10 +971,10 @@ class FrighterFORM of FORM
       onChange = class::SSERIAL_ONCHANGE
       dataLink = "FRIGHTER->SERIALNO"
       enabled = false
-      height = 1.2354
-      left = 113.4286
-      top = 19.5
-      width = 18.5
+      height = 1.0
+      left = 107.8571
+      top = 14.3636
+      width = 15.7143
       picture = "9999999999"
       colorNormal = "N/BtnFace"
       colorHighLight = "B+/W*"
@@ -982,12 +982,12 @@ class FrighterFORM of FORM
 
    this.TEXT25 = new TEXT(this)
    with (this.TEXT25)
-      height = 1.2354
-      left = 87.0
-      top = 19.5
-      width = 25.0
+      height = 1.0
+      left = 92.1429
+      top = 14.3636
+      width = 14.7143
       colorNormal = "B/BtnFace"
-      text = "VISA RECEIPT NO:"
+      text = "Visa Receipt No.:"
    endwith
 
    this.SMAXSERIAL = new ENTRYFIELD(this)
@@ -995,10 +995,10 @@ class FrighterFORM of FORM
       onChange = class::SMAXSERIAL_ONCHANGE
       dataLink = "FRIGHTER->MAXSERIAL"
       enabled = false
-      height = 1.2354
-      left = 113.4286
-      top = 21.2273
-      width = 18.5
+      height = 1.0
+      left = 108.2857
+      top = 15.5455
+      width = 15.1429
       picture = "9999999999"
       colorNormal = "N/BtnFace"
       colorHighLight = "B+/W*"
@@ -1006,22 +1006,22 @@ class FrighterFORM of FORM
 
    this.TEXT27 = new TEXT(this)
    with (this.TEXT27)
-      height = 1.2354
-      left = 87.0
-      top = 21.2273
-      width = 25.0
+      height = 1.0
+      left = 92.1429
+      top = 15.5455
+      width = 15.4286
       colorNormal = "B/BtnFace"
-      text = "MAX RECEIPT NO"
+      text = "Max. Receipt No.:"
    endwith
 
    this.TEXT28 = new TEXT(this)
    with (this.TEXT28)
-      height = 1.2354
-      left = 27.0
-      top = 17.8636
-      width = 30.0
+      height = 1.0
+      left = 21.8571
+      top = 13.2273
+      width = 18.4286
       colorNormal = "B/BtnFace"
-      text = "CASH SALE DISCOUNTS"
+      text = "Cash Sale Discounts:"
    endwith
 
    this.SDSC = new COMBOBOX(this)
@@ -1029,10 +1029,10 @@ class FrighterFORM of FORM
       onChange = class::SDSC_ONCHANGE
       dataLink = "FRIGHTER->CASS_DISC"
       enabled = false
-      height = 1.3516
-      left = 57.8571
-      top = 17.8636
-      width = 11.0313
+      height = 1.0
+      left = 41.0
+      top = 13.2273
+      width = 11.0
       fontName = "Arial Black"
       colorNormal = "B/BtnFace"
       dataSource = "array {'" + '""' + "'," + '"' + "Yes" + '"' + "," + '"' + "No" + '"' + "}"
@@ -1044,10 +1044,10 @@ class FrighterFORM of FORM
       onChange = class::SDRV_ONCHANGE
       dataLink = "FRIGHTER->DRV_RATE"
       enabled = false
-      height = 1.2354
-      left = 61.4286
-      top = 19.5
-      width = 8.5
+      height = 1.0
+      left = 42.5714
+      top = 14.3636
+      width = 10.1429
       picture = "9.99"
       colorNormal = "N/BtnFace"
       colorHighLight = "B+/W*"
@@ -1055,20 +1055,20 @@ class FrighterFORM of FORM
 
    this.TEXT30 = new TEXT(this)
    with (this.TEXT30)
-      height = 1.2354
-      left = 27.0
-      top = 19.5
-      width = 33.0
+      height = 1.0
+      left = 21.8571
+      top = 14.3636
+      width = 20.1429
       colorNormal = "B/BtnFace"
       text = "Driver Discount Per Litr:"
    endwith
 
    this.TEXT31 = new TEXT(this)
    with (this.TEXT31)
-      height = 1.2354
-      left = 27.0
-      top = 21.5455
-      width = 33.0
+      height = 1.0
+      left = 21.8571
+      top = 15.5455
+      width = 21.8571
       colorNormal = "B/BtnFace"
       text = "Investor Discount Per Litr:"
    endwith
@@ -1078,10 +1078,10 @@ class FrighterFORM of FORM
       onChange = class::SINV_ONCHANGE
       dataLink = "FRIGHTER->INV_RATE"
       enabled = false
-      height = 1.2354
-      left = 61.4286
-      top = 21.5455
-      width = 8.5
+      height = 1.0
+      left = 44.2857
+      top = 15.5455
+      width = 9.5714
       picture = "9.99"
       colorNormal = "N/BtnFace"
       colorHighLight = "B+/W*"
@@ -1089,9 +1089,9 @@ class FrighterFORM of FORM
 
    this.TEXT33 = new TEXT(this)
    with (this.TEXT33)
-      height = 1.2354
-      left = 58.0
-      top = 23.0
+      height = 1.0
+      left = 54.5714
+      top = 15.5455
       width = 22.0
       colorNormal = "B/BtnFace"
       text = "Purchase Order:"
@@ -1102,9 +1102,9 @@ class FrighterFORM of FORM
       onChange = class::SLPO_ONCHANGE
       dataLink = "FRIGHTER->LPO"
       enabled = false
-      height = 1.3516
-      left = 81.0
-      top = 23.0
+      height = 1.0
+      left = 77.5714
+      top = 15.5455
       width = 11.0
       fontName = "Arial Black"
       colorNormal = "B/BtnFace"
@@ -2004,3 +2004,4 @@ Procedure rtn2
    eofFrighter = .t.
    endif
      
+

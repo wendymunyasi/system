@@ -1,0 +1,646 @@
+////////////////////////////////////////////////////////////////////////////////
+// Output Filename: C:\KENSERVICE\IDSSYS\KENSLOGR_FCV.WFM                     //
+// Created By:      dBASE Form Converter Wizard                               //
+// Created On:      Friday October 7, 2016 At 06:01:14                        //
+// Object Count:    11                                                        //
+////////////////////////////////////////////////////////////////////////////////
+  *******************************************************************************
+*  PROGRAM:      KENSLOGR.wfm
+*
+*  WRITTEN BY:   W Nyongesa
+*
+*  DATE:         05/2000
+*
+*  UPDATED:     11/2009
+*
+*  REVISION:     $Revision:   1.0
+*
+*  VERSION:      Visual dBASE
+*
+*  DESCRIPTION:  This program maintains the Stores master file
+*
+*  PARAMETERS:   None
+*
+*  CALLS:        KENSLOGD.mnu         (Menu file)
+*                KBUTTONS.CC          (Custom Controls file)
+*                USER No..qbe         (View of tables)
+*
+*  USAGE:        DO KENSLOGR.wfm
+*
+*******************************************************************************
+#include <messdlg.h>
+shell(.F.)
+create session
+set talk off
+set century on
+_app.FrameWin.Visible = .F.
+set design off
+_app.FrameWin.Text = "KENSLOGR"
+set ldCheck off && To avoid language driver conflicts
+#define Maxcoy 999
+** END HEADER -- do not remove this line
+//
+// Generated on 27/06/2016
+//
+parameter bUser,bLevel,bModal
+local f
+f = new KENSLOGDFORM()
+if (bModal)
+   f.mdi = false // ensure not MDI
+   f.readModal()
+else
+   f.open()
+endif
+
+class KENSLOGDFORM of FORM
+   with (this)
+      onClose = class::ONCLOSE
+      open = class::OPEN
+      metric = 6	// Pixels
+      colorNormal = "n+"
+      height = 932.0
+      left = 512.0
+      top = 0.0
+      width = 1284.0
+      text = "RESET USER PASSWORDS"
+      windowState = 2	// Normal
+      mdi = false
+      sizeable = false
+      moveable = false
+      view = "KENSLOGR.QBE"
+      menuFile = "KENSLOGD.MNU"
+      escExit = false
+      mousePointer = 1	// Arrow
+      maximize = false
+      minimize = false
+   endwith
+
+   this.RECTANGLE1 = new RECTANGLE(this)
+   with (this.RECTANGLE1)
+      left = 24.0
+      top = 0.0
+      width = 576.0
+      height = 510.0
+      text = "RESET USER PASSWORDS"
+      colorNormal = "black/silver"
+      fontName = "MS Sans Serif"
+      fontSize = 12.0
+      fontBold = true
+   endwith
+
+   this.RECTANGLE2 = new RECTANGLE(this)
+   with (this.RECTANGLE2)
+      left = 42.0
+      top = 275.0
+      width = 287.0
+      height = 77.0
+      text = "Reset/Unreset"
+      colorNormal = "blue/0xf0f0f0"
+      fontBold = true
+   endwith
+
+   this.TEXT3 = new TEXTLABEL(this)
+   with (this.TEXT3)
+      height = 26.0
+      left = 48.0
+      top = 43.0
+      width = 84.0
+      text = "User"
+      colorNormal = "W+/0xc08000"
+      fontName = "MS Sans Serif"
+      fontSize = 12.0
+      fontBold = true
+      alignVertical = 2	// Bottom
+   endwith
+
+   this.EUSER = new ENTRYFIELD(this)
+   with (this.EUSER)
+      enabled = false
+      height = 26.0
+      left = 36.0
+      top = 77.0
+      width = 300.0
+      function = "!"
+      colorNormal = "N/GB+"
+      colorHighLight = "N/GB+"
+      fontName = "MS Sans Serif"
+      fontSize = 12.0
+      fontBold = true
+      value = ""
+      maxLength = 15
+   endwith
+
+   this.TEXT4 = new TEXTLABEL(this)
+   with (this.TEXT4)
+      height = 26.0
+      left = 48.0
+      top = 111.0
+      width = 72.0
+      text = "Group:"
+      colorNormal = "W+/0xc08000"
+      fontName = "MS Sans Serif"
+      fontSize = 12.0
+      fontBold = true
+      alignVertical = 2	// Bottom
+   endwith
+
+   this.EGROUP = new ENTRYFIELD(this)
+   with (this.EGROUP)
+      enabled = false
+      height = 26.0
+      left = 36.0
+      top = 162.0
+      width = 300.0
+      function = "!"
+      colorNormal = "N/GB+"
+      colorHighLight = "N/GB+"
+      fontName = "MS Sans Serif"
+      fontSize = 12.0
+      fontBold = true
+      value = ""
+      maxLength = 15
+   endwith
+
+   this.TEXT5 = new TEXTLABEL(this)
+   with (this.TEXT5)
+      height = 26.0
+      left = 48.0
+      top = 196.0
+      width = 144.0
+      text = "Full Name:"
+      colorNormal = "W+/0xc08000"
+      fontName = "MS Sans Serif"
+      fontSize = 12.0
+      fontBold = true
+      alignVertical = 2	// Bottom
+   endwith
+
+   this.EUNAME = new ENTRYFIELD(this)
+   with (this.EUNAME)
+      enabled = false
+      height = 26.0
+      left = 36.0
+      top = 230.0
+      width = 300.0
+      function = "!"
+      colorNormal = "N/GB+"
+      colorHighLight = "N/GB+"
+      fontName = "MS Sans Serif"
+      fontSize = 12.0
+      fontBold = true
+      value = ""
+      maxLength = 35
+   endwith
+
+   this.PREVBUTTON = new PUSHBUTTON(this)
+   with (this.PREVBUTTON)
+      onClick = class::PREVIOUS
+      height = 26.0
+      left = 64.0
+      top = 421.0
+      width = 85.0
+      text = "&PREVIOUS"
+      fontName = "MS Sans Serif"
+      fontSize = 8.0
+      fontBold = true
+   endwith
+
+   this.NEXTBUTTON = new PUSHBUTTON(this)
+   with (this.NEXTBUTTON)
+      onClick = class::NEXT
+      height = 26.0
+      left = 154.0
+      top = 421.0
+      width = 85.0
+      text = "&NEXT"
+      fontName = "MS Sans Serif"
+      fontSize = 8.0
+      fontBold = true
+   endwith
+
+   this.FIRSTBUTTON = new PUSHBUTTON(this)
+   with (this.FIRSTBUTTON)
+      onClick = class::GO_FIRST
+      height = 26.0
+      left = 242.0
+      top = 421.0
+      width = 85.0
+      text = "F&IRST"
+      fontName = "MS Sans Serif"
+      fontSize = 8.0
+      fontBold = true
+   endwith
+
+   this.LASTBUTTON = new PUSHBUTTON(this)
+   with (this.LASTBUTTON)
+      onClick = class::GO_LAST
+      height = 26.0
+      left = 332.0
+      top = 421.0
+      width = 85.0
+      text = "&LAST"
+      fontName = "MS Sans Serif"
+      fontSize = 8.0
+      fontBold = true
+   endwith
+
+   this.SY = new RADIOBUTTON(this)
+   with (this.SY)
+      onGotFocus = class::SY_ONGOTFOCUS
+      dataLink = "KENSLOG->RESET"
+      enabled = false
+      height = 24.0
+      left = 91.0
+      top = 308.0
+      width = 42.0
+      text = "Y"
+      fontBold = true
+      group = true
+   endwith
+
+   this.SN = new RADIOBUTTON(this)
+   with (this.SN)
+      onGotFocus = class::SN_ONGOTFOCUS
+      dataLink = "KENSLOG->RESET"
+      enabled = false
+      height = 24.0
+      left = 245.0
+      top = 308.0
+      width = 42.0
+      text = "N"
+   endwith
+
+
+   procedure Open
+   ****************************************************************************
+
+   private CodeField
+   form.firstime = .T.
+   form.changesmade =.f.  
+   buser = 'wm'
+   blevel=1
+           FORM.BLUSER=BUSER
+   FORM.BLEVEL=BLEVEL
+   IF EMPTY(FORM.BLUSER) .OR. EMPTY(FORM.BLEVEL)
+      QUIT
+      ENDIF
+   if type("form.init") = "U"
+      form.init = .T.
+
+      set skip to                     && KENSLOGR.QBE contains set skip to gldtl
+      set exact off                   && the .qbe file contains SET EXACT ON
+
+      set procedure to sampProc.prg additive
+    Form.duplicate = .F.
+      form.inEditMode = .F.           && indicator of view/edit state
+      form.changesMade = .F.          && indicator of changes made to field values
+      form.previousRecord = .F.       && Save record number when appending
+        *** do calculations in another area so form doesn't get updated
+        endif
+         SELECT KENSLOG
+        SET ORDER TO  mkey
+       GO TOP
+   * form.CoyInfoButton.KenpName = "KENSLOGR.wfm"
+   ** form.root.Report.f5rtn.enabled = .f.
+   form::Open()                         && Now the form actually opens
+   *    form.BrowseOnNavigate()              && calculate totals
+   *       form.codingerrors()                        && check coding errors
+
+   *      form.next.setfocus()
+*     IF  BOF() .OR. EOF()
+  *   FORM.SOK.VISIBLE = .F.
+   *  ELSE
+    *    FORM.SOK.VISIBLE = .T.
+  * ENDIF
+    form.egroup.VALUE =  ""
+     form.EUNAME.VALUE = ""
+     form.euser.VALUE = ""
+   SELECT KENSLOG
+*   IF .NOT. EOF()
+ *  pkenuser = KENSLOG->KEN_USER
+  *  pmuser = pkenuser
+   *            appMid = ""
+    *         mCount = 1
+    *  do while mCount <= len(trim(pkenuser))
+    *  MCHUCK = (chr(asc(substr(trim(pkenuser),mCount,1))-128))
+    *  appmId = appmId + mChuck
+    *  mCount = mCount + 1
+    *  enddo
+    *   form.euser.VALUE = appmId
+  * pkgroup = kenslog->ken_group
+   *            appMid = ""
+   *          mCount = 1
+   *   do while mCount <= len(trim(pkgroup))
+   *   MCHUCK = (chr(asc(substr(trim(pkgroup),mCount,1))-128))
+   *   appmId = appmId + mChuck
+   *   mCount = mCount + 1
+   *   enddo
+   *   form.egroup.VALUE =  appmId
+
+  * pkpwds = kenslog->USER_NAME
+   *            appMid = ""
+   *          mCount = 1
+    *  do while mCount <= len(trim(pkpwds))
+    *  MCHUCK = (chr(asc(substr(trim(pkpwds),mCount,1))-128))
+    *  appmId = appmId + mChuck
+    *  mCount = mCount + 1
+    *  enddo
+    *  form.EUNAME.VALUE = appmId
+    *  ENDIF
+
+   ****************************************************************************
+
+   procedure OnClose
+    if this.inEditMode
+      form.ViewEdit()                      && Finish transaction
+   endif
+
+   * Clean up.
+   ****************************************************************************
+
+     close procedure SAMPProc.prg
+   *   CLOSE DATABASES
+   form.close()
+
+   ****************************************************************************
+
+   procedure BrowseOnNavigate
+   ****************************************************************************
+
+
+
+
+   ****************************************************************************
+
+   procedure ChangesMade
+
+   * Indicate that changes have been made to the current record
+   ****************************************************************************
+   Form.ChangesMade = .T.
+   ****************************************************************************
+
+    ****************************************************************************
+
+   procedure Go_Last
+
+   * Go to next record.
+   ****************************************************************************
+    form.CheckCommit(form.inEditMode)
+    go bottom
+  *form.user_rtn()
+   ****************************************************************************
+
+   procedure Go_First
+
+   * Go to next record.
+   ****************************************************************************
+    form.CheckCommit(form.inEditMode)
+    go Top
+   *form.user_rtn()
+
+   procedure Next
+
+      form.CheckCommit(form.inEditMode)
+   if .not. empty(dbf())  .and. .not. eof()      && if a table is open in the current workarea
+      skip
+      if eof()
+         go bottom
+         AlertMessage("At the last record","Alert")
+         else
+         *form.user_rtn()
+      endif
+   else
+      InformationMessage("There is no table open in the current workarea.",;
+         "Info")
+   endif
+
+  Procedure user_rtn
+   SELECT KENSLOG
+   IF .NOT. EOF()
+   pkenuser = KENSLOG->KEN_USER
+    pmuser = pkenuser
+               appMid = ""
+             mCount = 1
+      do while mCount <= len(trim(pkenuser))
+      MCHUCK = (chr(asc(substr(trim(pkenuser),mCount,1))-128))
+      appmId = appmId + mChuck
+      mCount = mCount + 1
+      enddo
+       form.euser.VALUE = appmId
+   pkgroup = kenslog->ken_group
+               appMid = ""
+             mCount = 1
+      do while mCount <= len(trim(pkgroup))
+      MCHUCK = (chr(asc(substr(trim(pkgroup),mCount,1))-128))
+      appmId = appmId + mChuck
+      mCount = mCount + 1
+      enddo
+      form.egroup.VALUE =  appmId
+
+   pkpwds = kenslog->USER_NAME
+               appMid = ""
+             mCount = 1
+      do while mCount <= len(trim(pkpwds))
+      MCHUCK = (chr(asc(substr(trim(pkpwds),mCount,1))-128))
+      appmId = appmId + mChuck
+      mCount = mCount + 1
+      enddo
+      form.EUNAME.VALUE = appmId
+      ENDIF
+
+   procedure Previous
+     * Go to previous record.
+   ****************************************************************************
+
+   form.CheckCommit(form.inEditMode)
+ if .not. empty(dbf())  .and. .not. eof() && if a table is open in the current workarea
+      skip - 1
+      if bof()
+         go top
+         AlertMessage("At the first record","Alert")
+         else
+         *form.user_rtn()
+      endif
+   else
+      InformationMessage("There is no table open in the current workarea.",;
+         "Info")
+   endif
+
+
+   ****************************************************************************
+
+   function SN_onGotFocus
+          SELECT KENSLOG
+      REPLACE RESET WITH .F.
+      FORM.CHANGESMADE = .T.
+      return
+
+   procedure CheckCommit (newInEditMode)
+
+     private CodeField, changesMade
+     changesMade = form.changesMade
+
+       IF FORM.CHANGESMADE
+       if ConfirmationMessage("Are you sure you want to RESET PASSWORD FOR THIS USER",;
+                          "Confirm") = YES
+              PK1 = FORM.EUSER.VALUE
+              PK2 = FORM.EGROUP.VALUE
+              PK3 = ""
+              PK4 = KEN_LEVEL
+              PK5 = KEN_DATE
+              PK6 = KEN_TIME
+              PK7 = FORM.EUNAME.VALUE
+              PK8 = PK7
+
+        IF .NOT. EMPTY(PK2)
+      SELECT KENSLOGD
+      APPEND BLANK
+      REPLACE KEN_USER WITH PK1
+      REPLACE KEN_GROUP WITH PK2
+      REPLACE KEN_PWD WITH PK3
+      REPLACE KEN_LEVEL WITH PK4
+      REPLACE KEN_DATE WITH date()
+      REPLACE KEN_TIME WITH time()
+      REPLACE KEN_NAME  WITH FORM.BLUSER
+      REPLACE USER_NAME WITH PK8
+      REPLACE KEN_DDATE WITH DATE()
+      REPLACE KEN_DTIME WITH TIME()
+      REPLACE KEN_DUSER WITH FORM.BLUSER
+      IF  KENSLOG->reset       = .T.
+      REPLACE KEN_ABLE WITH "RESET PASSWORD"
+      ELSE
+      REPLACE KEN_ABLE WITH "UNRESET PASSWORD"
+      ENDIF
+      ENDIF
+      SELECT KENSLOG
+      REPLACE KEN_DATE WITH DATE()
+      REPLACE KEN_TIME WITH TIME()
+       commit()
+      form.changesMade = .F.
+      ELSE
+      SELECT KENSLOG
+      ROLLBACK()
+        form.changesMade = .F.
+      ENDIF
+      ELSE
+      SELECT KENSLOG
+      ROLLBACK()
+      FORM.CHANGESMADE =.f.
+      ENDIF
+
+    *  if form.inEditMode <> newInEditMode
+      if newInEditMode                       && Going to Edit mode
+         begintrans()
+      else                                   && Going to View mode
+         if .not. changesMade
+            rollback()
+         endif
+      endif
+      form.inEditMode = newInEditMode
+   *  endif
+     if kenslog->RESET  = .T.
+     form.SY.ENABLED = .F.
+     ELSE
+     FORM.SN.ENABLED = .T.
+     ENDIF
+*    IF BOF() .OR. EOF()
+  *   FORM.SOK.VISIBLE = .F.
+   *  ELSE
+    *    FORM.SOK.VISIBLE = .T.
+  * ENDIF
+   REFRESH
+
+   procedure ViewEdit
+
+   * Toggle between View and Edit modes.
+   ****************************************************************************
+   local inEditMode, editMenu, control
+
+   editMenu = form.root.KENSLOGD.VIEWEdit
+
+   *** If ending edit mode then close transaction, otherwise open it.
+   if form.inEditMode
+      form.checkChanged(.F.)
+      editMenu.text = "&Edit"
+      editMenu.shortcut = "Ctrl-E"
+      editMenu.statusMessage = "Edit data."
+    *  form.root.KENSLOGD.delete.enabled = .F.      && disabled in view mode
+      form.CheckCommit(.F.)                        && Check transaction and
+      form.text = "RESET USER PASSWORDS -- View Mode"          && change mode to View
+      *form.notes.colorNormal = "N/W"
+      *form.childBrowse.modify = .F.
+      form.statusmessage = "In View Mode. " + ;
+                           "Select USER No. - Edit menu to " + ;
+                           "edit/delete data."
+
+
+   else                                            && Switch to edit mode
+      editMenu.text = "Vi&ew"
+      editMenu.shortcut = "Ctrl-E"
+      editMenu.statusMessage = "View data."
+    *  form.root.KENSLOGD.delete.enabled = .T.      && enabled in edit mode
+      form.CheckCommit(.T.)                        && Check transaction and
+      form.text = "RESET USER PASSWORDS -- Edit Mode"          && change mode to Edit
+
+      form.statusmessage = "In Edit Mode.  " + ;
+                           "Select menu USER No. - View to switch " + ;
+                           "to View mode."
+    *  endif
+
+   inEditMode = form.inEditMode     && Faster if we don't reference a form
+   control = form.first             &&    variable each time through the loop
+   do
+      if .not. control.className $ "BROWSE,EDITOR,NEXTBUTTON,PREVBUTTON,PUSHBUTTON,IMAGE,TEXT"
+         control.enabled = inEditMode
+      endif
+      control = control.before
+   until control.name = form.first.name
+
+   endif
+
+             FORM.EUSER.ENABLED = .F.
+             FORM.EGROUP.ENABLED = .F.
+             FORM.EUNAME.ENABLED = .F.
+*             FORM.SSTATUS.ENABLED =.F.
+   ****************************************************************************
+
+   procedure CheckChanged(callCommit)
+
+    * Check if changes have been made to the current entryfield.  This procedure
+   * is called from menu routines to make sure the form.changesMade gets
+   * updated when a menu is selected while the changed control has focus.
+   ****************************************************************************
+   private control, fieldValue, controlValue, typeText, typeValue
+
+   if form.inEditMode
+      control = form.activeControl
+      if type("control.datalink") <> "U"
+         fieldValue = control.datalink          && name of table field
+
+         typeText = type("control.text")
+         typeValue = type("control.value")
+         do case
+            case typeValue = "C"
+               controlValue = control.value
+            case typeValue $ "LU" .and. typeText = "C"
+               controlValue = control.text
+            otherwise
+               controlValue = Null
+         endcase
+    *     if controlValue <> &fieldValue
+     *       form.changesMade = .T.
+     *    endif
+      endif
+   endif
+
+   ****************************************************************************
+
+ 
+   function SY_onGotFocus
+      SELECT KENSLOG
+      REPLACE RESET WITH .F.
+      FORM.CHANGESMADE = .T.
+      return
+
+endclass
+

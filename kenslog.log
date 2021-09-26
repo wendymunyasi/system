@@ -2,7 +2,7 @@ dBASE PLUS Project Explorer Log: kenslog.log
 Project name: kenslog
 
 =================================================================
-REBUILD ALL process started: 09/26/2021 16:28:59
+REBUILD ALL process started: 09/26/2021 18:39:26
 dBASE 2019 13.20  b2618 (11/26/2019-EN191126)
 Project Explorer b1071 (05/07/2019)
 -----------------------------------------------------------------
@@ -284,11 +284,11 @@ C:\KENSLOG\IDSSYS\VENNAMES.QBE
 
 C:\kenslog\idssys\vennames.qbo copied to DEO Target: C:\kenslog\idssys\deploy\vennames.qbo
 
-Process completed at: 16:29:01 (3 seconds elapsed)
+Process completed at: 18:39:30 (4 seconds elapsed)
 File compiles attempted: 41
 File compile errors: 0
 DEO files copied: 57
 Executable file: C:\kenslog\idssys\deploy\kenslog.exe
-Executable file size: 223,947
+Executable file size: 223,961
 C:\kenslog\idssys\deploy\kenslog.ini created or updated.
 
