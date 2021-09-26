@@ -43,7 +43,7 @@ set ldCheck off && To avoid language driver conflicts
 parameter bModal
 local f
 f = new FrighterFORM()
-if (bModal)
+if (bModal) = true
    f.mdi = false // ensure not MDI
    f.readModal()
 else
