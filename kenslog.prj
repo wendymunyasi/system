@@ -1,4 +1,4 @@
-Project File generated 09/25/2021 15:01:03
+Project File generated 09/26/2021 16:25:28
 
 [Project]
 Name=kenslog
@@ -70,6 +70,11 @@ DATABUTTONS.CC,1,0,1,0
 sample.cfm,1,0,1,0
 FRIGTMES.MNU,1,0,1,0
 FRIGTMES.QBE,1,0,1,0
+VenNAMES.wfm,1,0,1,0
+venNAMES.MNU,1,0,1,0
+VNISTR.PRG,1,0,1,0
+MESSDLG.H,0,0,1,0
+vennames.qbe,1,0,1,0
 
 [DEO]
 DEO0=C:\kenslog\idssys\deploy
@@ -212,3 +217,8 @@ Files49=DATABUTTONS.CO >> DestDir: {app}
 Files50=sample.cfO >> DestDir: {app}
 Files51=FRIGTMES.MNO >> DestDir: {app}
 Files52=FRIGTMES.QBO >> DestDir: {app}
+Files53=VenNAMES.wfO >> DestDir: {app}
+Files54=venNAMES.MNO >> DestDir: {app}
+Files55=VNISTR.PRO >> DestDir: {app}
+Files56=MESSDLG.H >> DestDir: {app}
+Files57=vennames.qbO >> DestDir: {app}

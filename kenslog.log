@@ -2,7 +2,7 @@ dBASE PLUS Project Explorer Log: kenslog.log
 Project name: kenslog
 
 =================================================================
-REBUILD ALL process started: 09/25/2021 15:03:28
+REBUILD ALL process started: 09/26/2021 16:28:59
 dBASE 2019 13.20  b2618 (11/26/2019-EN191126)
 Project Explorer b1071 (05/07/2019)
 -----------------------------------------------------------------
@@ -258,11 +258,37 @@ C:\KENSLOG\IDSSYS\FRIGTMES.QBE
 
 C:\kenslog\idssys\FRIGTMES.QBo copied to DEO Target: C:\kenslog\idssys\deploy\FRIGTMES.QBo
 
-Process completed at: 15:03:31 (3 seconds elapsed)
-File compiles attempted: 37
+Compile results for:
+C:\KENSLOG\IDSSYS\VENNAMES.WFM
+0 warnings, 0 errors
+
+C:\kenslog\idssys\VenNAMES.wfo copied to DEO Target: C:\kenslog\idssys\deploy\VenNAMES.wfo
+
+Compile results for:
+C:\KENSLOG\IDSSYS\VENNAMES.MNU
+0 warnings, 0 errors
+
+C:\kenslog\idssys\venNAMES.MNo copied to DEO Target: C:\kenslog\idssys\deploy\venNAMES.MNo
+
+Compile results for:
+C:\KENSLOG\IDSSYS\VNISTR.PRG
+0 warnings, 0 errors
+
+C:\kenslog\idssys\VNISTR.PRo copied to DEO Target: C:\kenslog\idssys\deploy\VNISTR.PRo
+
+C:\kenslog\idssys\MESSDLG.H copied to DEO Target: C:\kenslog\idssys\deploy\MESSDLG.H
+
+Compile results for:
+C:\KENSLOG\IDSSYS\VENNAMES.QBE
+0 warnings, 0 errors
+
+C:\kenslog\idssys\vennames.qbo copied to DEO Target: C:\kenslog\idssys\deploy\vennames.qbo
+
+Process completed at: 16:29:01 (3 seconds elapsed)
+File compiles attempted: 41
 File compile errors: 0
-DEO files copied: 52
+DEO files copied: 57
 Executable file: C:\kenslog\idssys\deploy\kenslog.exe
-Executable file size: 223,939
+Executable file size: 223,947
 C:\kenslog\idssys\deploy\kenslog.ini created or updated.
 

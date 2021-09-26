@@ -50,7 +50,7 @@
 *                                 "Custom" page of the Controls Palette.>
 *
 *******************************************************************************
-*#include <Messdlg.h>
+#include <Messdlg.h>
 
 *******************************************************************************
 *******************************************************************************
@@ -190,7 +190,7 @@ class PrevButton(f,n) of Pushbutton(f,n) custom
          AlertMessage("At the first record","Alert")
       endif
    else
-      InformationMessage("There is no table open in the current workarea.",;
+     InformationMessage("There is no table open in the current workarea.",;
          "Info")
    endif
 
