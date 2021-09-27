@@ -58,7 +58,7 @@ SET CENTURY ON
 set date to british
 ** END HEADER -- do not remove this line
 //
-// Generated on 26/06/2016
+// Generated on 09/22/2021
 //
 parameter bModal
 local f
@@ -71,6 +71,7 @@ else
 endif
 
 class LOGINFORM of FORM
+   set procedure to KENSLOG.DMD additive
    set procedure to PASWDCON.CC additive
    set procedure to PASSWDC.CC additive
    set procedure to PASSWORD.CC additive
@@ -80,7 +81,7 @@ class LOGINFORM of FORM
       scaleFontSize = 10.0
       metric = 6	// Pixels
       colorNormal = "N+"
-      height = 932.0
+      height = 749.0
       left = 2.0
       top = 0.0
       width = 1284.0
@@ -90,9 +91,18 @@ class LOGINFORM of FORM
       mdi = false
       moveable = false
       sysMenu = false
-      view = "KENSLOG.qbe"
+      view = ""
       maximize = false
       minimize = false
+   endwith
+
+   this.KENSLOGDATAMODULE1 = new KENSLOGDATAMODULE()
+   this.KENSLOGDATAMODULE1.parent = this
+   with (this.KENSLOGDATAMODULE1)
+      left = 14.0
+      top = 11.0
+      width = 100.0
+      height = 37.0
    endwith
 
    this.RECTANGLE3 = new RECTANGLE(this)
@@ -143,6 +153,7 @@ class LOGINFORM of FORM
    this.SUSER = new ENTRYFIELD(this)
    with (this.SUSER)
       onChange = class::SUSER_ONCHANGE
+      dataLink = form.kenslogdatamodule1.kenslog31.rowset.fields["ken_user"]
       height = 24.0
       left = 216.0
       top = 60.0
@@ -152,7 +163,6 @@ class LOGINFORM of FORM
       colorHighLight = "N/W+"
       fontName = "MS Sans Serif"
       fontBold = true
-      value = "          "
    endwith
 
    this.TEXT1 = new TEXTLABEL(this)
@@ -169,6 +179,7 @@ class LOGINFORM of FORM
 
    this.SGROUP = new ENTRYFIELD(this)
    with (this.SGROUP)
+      dataLink = form.kenslogdatamodule1.kenslog31.rowset.fields["ken_group"]
       enabled = false
       height = 24.0
       left = 216.0
@@ -179,8 +190,6 @@ class LOGINFORM of FORM
       colorHighLight = "N/W+"
       fontName = "MS Sans Serif"
       fontBold = true
-      value = "          "
-      maxLength = 15
    endwith
 
    this.TEXT3 = new TEXTLABEL(this)
@@ -200,6 +209,7 @@ class LOGINFORM of FORM
       onLostFocus = class::SPWD_ONLOSTFOCUS
       onChange = class::SPWD_ONCHANGE
       key = class::SPASS_KEY
+      dataLink = form.kenslogdatamodule1.kenslog31.rowset.fields["ken_pwd"]
       height = 25.0
       left = 216.0
       top = 180.0
@@ -208,8 +218,6 @@ class LOGINFORM of FORM
       fontName = "MS Sans Serif"
       fontSize = 10.0
       fontBold = true
-      value = ""
-      maxLength = 15
    endwith
 
    this.STCPWD = new TEXTLABEL(this)
@@ -228,6 +236,7 @@ class LOGINFORM of FORM
    with (this.SCBOX)
       onLostFocus = class::SCBOX_ONLOSTFOCUS
       onChange = class::SCBOX_ONCHANGE
+      dataLink = form.kenslogdatamodule1.kenslog31.rowset.fields["purch"]
       height = 24.0
       left = 357.0
       top = 308.0
@@ -255,6 +264,7 @@ class LOGINFORM of FORM
    with (this.SNPWD)
       onChange = class::SNPWD_ONCHANGE
       key = class::SNPASS_KEY
+      dataLink = form.kenslogdatamodule1.kenslog31.rowset.fields["purch"]
       height = 25.0
       left = 210.0
       top = 385.0
@@ -263,8 +273,6 @@ class LOGINFORM of FORM
       fontName = "MS Sans Serif"
       fontSize = 15.0
       fontBold = true
-      value = ""
-      maxLength = 15
    endwith
 
    this.STFPWD = new TEXTLABEL(this)
@@ -284,6 +292,7 @@ class LOGINFORM of FORM
    with (this.SCPWD)
       onChange = class::SCPWD_ONCHANGE
       key = class::SCPWD_KEY
+      dataLink = form.kenslogdatamodule1.kenslog31.rowset.fields["purch"]
       height = 25.0
       left = 210.0
       top = 462.0
@@ -292,8 +301,6 @@ class LOGINFORM of FORM
       fontName = "MS Sans Serif"
       fontSize = 15.0
       fontBold = true
-      value = ""
-      maxLength = 15
    endwith
 
    this.IMAGE1 = new IMAGE(this)
@@ -302,14 +309,13 @@ class LOGINFORM of FORM
       left = 35.0
       top = 528.0
       width = 768.0
-      dataSource = "FILENAME IMAGELOG.BMP"
+      dataSource = "FILENAME C:\KENSLOG\IDSSYS\IMAGELOG.BMP"
       borderStyle = 3	// None
    endwith
 
    this.SVERIFY = new PUSHBUTTON(this)
    with (this.SVERIFY)
       onClick = class::SVERIFY_ONCLICK
-      enabled = false
       height = 24.0
       left = 518.0
       top = 132.0
@@ -341,7 +347,7 @@ class LOGINFORM of FORM
 
    this.SRESET = new ENTRYFIELD(this)
    with (this.SRESET)
-      dataLink = "KENSLOG->RESET"
+      dataLink = form.kenslogdatamodule1.kenslog31.rowset.fields["reset"]
       enabled = false
       height = 22.0
       left = 259.0
@@ -350,6 +356,7 @@ class LOGINFORM of FORM
       colorNormal = "black/white"
    endwith
 
+   this.rowset = this.kenslogdatamodule1.kenslog31.rowset
 
    procedure Open
     set procedure to Sampproc.prg additive
@@ -400,17 +407,17 @@ class LOGINFORM of FORM
 
    Procedure SPWD_OnLostFocus
      *    form.shpwd.value = this.value
-     if .not. kenslog->reset  = 'Y'
-         if .not. form.hopwd = kenslog->ken_pwd
+ *    if .not. kenslog->reset  = 'Y'
+  *       if .not. form.hopwd = kenslog->ken_pwd
      form.scbox.enabled = .f.
      form.snpwd.enwbled = .f.
      form.scpwd.enabled =.f.
-     else
+*     else
       form.scbox.enabled = .t.
      form.snpwd.enwbled = .t.
      form.scpwd.enabled =.t.
-   endif
-   endif
+ *  endif
+  * endif
 
    Procedure SNPWD_OnLostFocus
 
@@ -436,57 +443,54 @@ class LOGINFORM of FORM
                    p6 = 'Wycliffe'
              
              LOCAL LPUSER,LPLEVEL,LPL3,LPACTIVE,LPADMIN,LP_FC,LP_GL,LP_PAYROLL
-              pluser1 = KENSLOG->KEN_USER && encrypted
+         *     pluser1 = KENSLOG->KEN_USER && encrypted
                appMid = ""
              PLPUSER = 'wycliffe'
              PLPLEVEL = 1
-             PLSALES = KENSLOG->SALES
-             PLREVCRSAL = KENSLOG->REVCRSAL
-             PLSHIFT = KENSLOG->SHIFT
-             PLMISREPORTS = KENSLOG->MISREPORTS
-             PLNOTRANASSY = KENSLOG->NOTRANASSY
-             PLNOMASTER = KENSLOG->NOMASTER
-             PLNOREVPRV = KENSLOG->NOREVPRV
-             PLGLEDGER = KENSLOG->GLEDGER
-             PLPAYROLL = KENSLOG->PAYROLL
-             plADJSTSTK = kenslog->ADJSTSTK
-             PLFINANCIALS = KENSLOG->FINANCIALS
-             PLADMIN = KENSLOG->ADMIN
-             plbkdate = KENBEXTN->back_date
-             plcustrec = KENSLOG->custrec
-             plvenpay = KENSLOG->venpay
-             plgljnls = KENSLOG->gljnls
-             plstktrans = KENSLOG->stktrans
-             plpurch = KENSLOG->purch
-              plrsals = kenslog->other1
-             plrpurs = kenslog->other2
-             plsystem = kenslog->system
-             Lpl3 = KENSLOG->ken_level
+      *       PLSALES = KENSLOG->SALES
+      *       PLREVCRSAL = KENSLOG->REVCRSAL
+      *      PLSHIFT = KENSLOG->SHIFT
+      *       PLMISREPORTS = KENSLOG->MISREPORTS
+      *       PLNOTRANASSY = KENSLOG->NOTRANASSY
+      *       PLNOMASTER = KENSLOG->NOMASTER
+      *       PLNOREVPRV = KENSLOG->NOREVPRV
+      *       PLGLEDGER = KENSLOG->GLEDGER
+      *       PLPAYROLL = KENSLOG->PAYROLL
+      *       plADJSTSTK = kenslog->ADJSTSTK
+      *       PLFINANCIALS = KENSLOG->FINANCIALS
+      *       PLADMIN = KENSLOG->ADMIN
+      *       plbkdate = KENBEXTN->back_date
+      *       plcustrec = KENSLOG->custrec
+      *       plvenpay = KENSLOG->venpay
+      *       plgljnls = KENSLOG->gljnls
+      *       plstktrans = KENSLOG->stktrans
+      *       plpurch = KENSLOG->purch
+      *        plrsals = kenslog->other1
+      *       plrpurs = kenslog->other2
+      *       plsystem = kenslog->system
+      *       Lpl3 = KENSLOG->ken_level
              form.windowstate=1
              form.maximize=.f.
-             pljorder = fgcoy->cashiers
-             pllpgd = val(fgcoy->unitname)
-             plmoney = fgcoy->sacname
-             blhqs = fgcoy->ashipname
-             blsals = fgcoy->phsname
-             blcsv = fgcoy->shipname
-            PLPAYROLL = fgcoy->py
-             PLGLEDGER = fgcoy->tcode
-             blgd = FGCOY->DISCNAME
-             blsalepit = fgcoy->salepit
-             blsaletyc = fgcoy->saletyc
-             bldoc13 = fgcoy->doc13
-             bldoc14= fgcoy->doc14
+      *       pljorder = fgcoy->cashiers
+      *       pllpgd = val(fgcoy->unitname)
+      *       plmoney = fgcoy->sacname
+      *       blhqs = fgcoy->ashipname
+      *       blsals = fgcoy->phsname
+      *       blcsv = fgcoy->shipname
+      *      PLPAYROLL = fgcoy->py
+      *       PLGLEDGER = fgcoy->tcode
+      *       blgd = FGCOY->DISCNAME
+      *       blsalepit = fgcoy->salepit
+      *       blsaletyc = fgcoy->saletyc
+      *       bldoc13 = fgcoy->doc13
+      *       bldoc14= fgcoy->doc14
              plwks = .t.
              pldrn = .f.
              *? pl3
              *cancel
       *wycliffe	         quit
              close databases
-             DO KENSLOGS.WFM WITH PLPUSER,PLPLEVEL,PLSALES,PLREVCRSAL,PLSHIFT,PLMISREPORTS,PLNOTRANASSY,PLNOMASTER,;
-   PLNOREVPRV,PLPAYROLL,PLGLEDGER,plADJSTSTK,plsystem,PLFINANCIALS,PLADMIN,;
-   plbkdate,pljorder,plwks,pllpgd,plmoney,pldrn,blhqs,blsals,blcsv,blgd,blsalepit,blsaletyc,plcustrec,plvenpay,plgljnls,;
-   plstktrans,plpurch,plrsals,plrpurs,bldoc13,bldoc14
+             DO KENSLOGS.WFM WITH PLPUSER,PLPLEVEL
             
 
    Procedure SPWD_OnChange
@@ -501,7 +505,7 @@ class LOGINFORM of FORM
       mCount = mCount + 1
       enddo
    form.hopwd = appmId
-     IF .NOT. appmId = KENSLOG->KEN_PWD
+  *   IF .NOT. appmId = KENSLOG->KEN_PWD
      form.scbox.enabled = .f.
      form.snpwd.enwbled = .f.
      form.scpwd.enabled =.f.
@@ -511,7 +515,7 @@ class LOGINFORM of FORM
      form.scpwd.visible =.f.
      form.stnpwd.visible = .f.
      form.stfpwd.visible = .f.
-     else
+  *   else
       form.scbox.enabled = .t.
      form.snpwd.enwbled = .f.
     form.scpwd.enabled =.f.
@@ -521,7 +525,7 @@ class LOGINFORM of FORM
      form.stnpwd.visible = .f.
      form.stfpwd.visible = .f.
      form.stcpwd.visible = .t.
-   endif
+ *  endif
 
      Procedure SNPWD_OnChange
     pkpswd = upper(this.enteredNPassword)

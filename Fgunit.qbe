@@ -1,0 +1,15 @@
+* Visual dBASE .QBE file 9
+ON ERROR DO QBEERR WITH ERROR(), MESSAGE(),;
+PROGRAM(), LINENO()
+CLOSE DATABASES
+SET EXACT ON
+SELECT 1
+USE \kenservice\data\fgunit.DBf
+SELECT 3
+USE \KENSERVICE\DATA\fgunitS.DBF 
+select 5
+use \kenservice\data\fgcoy.dbf
+select 6
+USE \kenservice\data\fgunit.DBf again alias fgunit2
+SELECT 1
+GO TOP

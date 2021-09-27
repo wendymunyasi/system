@@ -1,0 +1,954 @@
+**************************************************************************
+*  PROGRAM:      KenFc.mnu
+*
+*  WRITTEN BY:   W Nyongesa
+*
+*  DATE:        05/2000
+*
+*  UPDATED:     064/2015
+*
+*  REVISION:     $Revision:   1.0 $
+*
+*  VERSION:      Visual dBASE
+*
+*  DESCRIPTION:  This menu file is used by KenFc.wfm for controlling the running 
+*                of the KENPAY Payroll system.
+*
+*  PARAMETERS:   FormObj -- the form to which this menu is attached.
+*
+*  CALLS:        None
+*
+*  USAGE:        form.menuFile = "KenFc.mnu"
+*
+*******************************************************************************
+#include <Messdlg.h>
+
+** END HEADER -- do not remove this line*
+* Generated on 17/10/2000
+*
+Parameter FormObj
+NEW KenFcMENU(FormObj,"Root")
+CLASS KenFcMENU(FormObj,Name) OF MENUBAR(FormObj,Name)
+
+
+   DEFINE MENU FILE OF THIS;
+       PROPERTY; 
+         Text "&FILE"
+         
+              
+   DEFINE MENU EXIT OF THIS.FILE;
+       PROPERTY; 
+          StatusMessage "Return to the Previous Menu.",;
+          Text "&RETURN TO PREVIOUS MENU",;
+          SHORTCUT "F4",;
+          OnClick CLASS::ONEXIT
+  
+      
+       DEFINE MENU SEPARATOR000 OF THIS.FILE;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+            
+   DEFINE MENU QUITALL OF THIS.FILE;
+       PROPERTY; 
+          StatusMessage "Leave Kenserve System.",;
+          Text "EXIT",;
+          SHORTCUT "F8",;
+          OnClick CLASS::ONQUITALL
+ 
+           if blevel = 1 .or. blevel = 4 .or. blevel = 7 .or. blevel= 9 .OR. BLSHIFT .or. blevel = 3 .or. blevel = 2
+         IF .not. validdrive("Z:") .and.  .not. validdrive("W:") .and.  .not. validdrive("Y:") .and.  .not. validdrive("X:")
+             IF BLEVEL < 8 .OR. BLWKS
+           DEFINE MENU fcmngt0 OF THIS;
+             PROPERTY; 
+             Text "POST"
+
+         DEFINE MENU shfcmr0 OF THIS.fcmngt0;
+             PROPERTY; 
+               Text "Transactions.",;
+               enabled .t.,;
+               OnClick {;do sh30pjcs.prg WITH FORM.BLUSER,FORM.BLEVEL}
+               ENDIF
+               ENDIF
+            IF .NOT.   BLJORDER = .t.
+             
+           
+           DEFINE MENU fcmngt3 OF THIS;
+             PROPERTY; 
+             Text "FUEL"
+
+         DEFINE MENU shfcmr1 OF THIS.fcmngt3;
+             PROPERTY; 
+               Text "Meters.",;
+               enabled .t.,;
+               OnClick {;do shfcmr.wfm WITH FORM.BLUSER,FORM.BLEVEL}
+               ENDIF
+             
+           DEFINE MENU fcmngt4 OF THIS;
+             PROPERTY; 
+             Text "LUBES"
+             DEFINE MENU shfclub1 OF THIS.fcmngt4;
+             PROPERTY; 
+               Text "Stocks.",;
+               enabled .t.,;
+               OnClick {;do shfclub.wfm WITH FORM.BLUSER,FORM.BLEVEL}
+        
+              
+               DEFINE MENU SEPARAfcmngt41 OF THIS.fcmngt4;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+               
+                 IF .NOT.   BLJORDER = .t.
+                  DEFINE MENU shfclmr1 OF THIS.fcmngt4;
+             PROPERTY; 
+               Text "Meters",;
+               enabled .t.,;
+               OnClick {;do shfclmr.wfm WITH FORM.BLUSER,FORM.BLEVEL}
+               ENDIF
+               
+                  
+                DEFINE MENU fcmngt5 OF THIS;
+             PROPERTY; 
+             Text "OTHER"
+             
+                DEFINE MENU shfclpg1 OF THIS.fcmngt5;
+             PROPERTY; 
+               Text "Stocks",;
+               enabled .t.,;
+               OnClick {;do shfclpg.wfm WITH FORM.BLUSER,FORM.BLEVEL}
+              
+                DEFINE MENU fcmngt8 OF THIS;
+             PROPERTY; 
+             Text "CASH"
+         
+           IF .not. validdrive("Z:") .and.  .not. validdrive("W:") .and.  .not. validdrive("Y:") .and.  .not. validdrive("X:")
+      
+          DEFINE MENU SHCASDRP1 OF THIS.fcmngt8;
+             PROPERTY; 
+               Text "&1. Drops.",;
+               enabled .t.,;
+               OnClick {;do SHCASDRP.wfm WITH FORM.BLUSER,FORM.BLEVEL}
+               
+                DEFINE MENU SEPARASHCASDRP1 OF THIS.fcmngt8;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+
+
+               DEFINE MENU SHCASDRP2 OF THIS.fcmngt8;
+             PROPERTY; 
+                Text "&2. Shortage.",;
+               OnClick {;do arcdnts.wfm WITH FORM.BLUSER,FORM.BLEVEL}
+               
+                    DEFINE MENU SEPARASHCASDRP2 OF THIS.fcmngt8;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+        DEFINE MENU SHCASDRP3 OF THIS.fcmngt8;
+             PROPERTY; 
+                Text "&3. Recovery.",;
+               enabled .t.,;
+               OnClick {;do arcrecs.wfm WITH FORM.BLUSER,FORM.BLEVEL}
+               
+                    DEFINE MENU SEPARASHCASDRP3 OF THIS.fcmngt8;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+               IF .NOT. BLFINANCIALS
+          DEFINE MENU SHCASDRP4 OF THIS.fcmngt8;
+             PROPERTY; 
+               Text "&4. Bank FC Cash to bank,Float.",;
+               enabled .t.,;
+               OnClick {;do arCbnks.wfm WITH FORM.BLUSER,FORM.BLEVEL}
+               
+                    DEFINE MENU SEPARASHCASDRP4 OF THIS.fcmngt8;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+               ENDIF
+           DEFINE MENU SHCASDRP5 OF THIS.fcmngt8;
+             PROPERTY; 
+                Text "&5. Actual Cash.",;
+               enabled .t.,;
+               OnClick {;do arcashs.wfm WITH FORM.BLUSER,FORM.BLEVEL}
+            DEFINE MENU SEPARASHCASDRP41 OF THIS.fcmngt8;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+    if blevel < 7 .AND. .NOT. BLFINANCIALS
+                  DEFINE MENU SHCASDRP51 OF THIS.fcmngt8;
+             PROPERTY; 
+                Text "&6. Cash Transfer (bank,liquid,capital to bank,capital,float).",;
+               enabled .t.,;
+               OnClick {;do arcbtrs.wfm WITH FORM.BLUSER,FORM.BLEVEL}
+          
+                   DEFINE MENU SEPARASHCASDRP3fc OF THIS.fcmngt8;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+
+   
+               DEFINE MENU SHCASDRP4fc OF THIS.fcmngt8;
+             PROPERTY; 
+               Text "&7. Bank Petty Cash.",;
+               enabled .t.,;
+               OnClick {;do arCbnkf.wfm WITH FORM.BLUSER,FORM.BLEVEL}
+                    DEFINE MENU SEPARASHCASDRP4fc OF THIS.fcmngt8;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+               endif
+               
+                 DEFINE MENU SHCASDRP4MPA OF THIS.fcmngt8;
+             PROPERTY; 
+               Text "&8. M-Deposits",;
+               enabled .t.,;
+               OnClick {;do arcmpsa.wfm WITH FORM.BLUSER,FORM.BLEVEL}
+                    DEFINE MENU SEPARASHCASDRPMPAS4fc OF THIS.fcmngt8;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+                   DEFINE MENU SHCASDRP4MPA9 OF THIS.fcmngt8;
+             PROPERTY; 
+               Text "&9. M-Withdrawals",;
+               enabled .t.,;
+               OnClick {;do armbnks.wfm WITH FORM.BLUSER,FORM.BLEVEL}
+                    DEFINE MENU SEPARASHCASDRPMPAS4fc9 OF THIS.fcmngt8;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+            if blevel < 7 .AND. .NOT. BLFINANCIALS
+                     DEFINE MENU SHCASDRPADJS9 OF THIS.fcmngt8;
+             PROPERTY; 
+               Text "1&0. Purchase Airtime Units Earned",;
+               enabled .t.,;
+               OnClick {;do fgpupesa.wfm WITH FORM.BLUSER,FORM.BLEVEL}
+               
+                    DEFINE MENU SEPARASHCASDRPMPAS4fc9adj OF THIS.fcmngt8;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+              
+                  DEFINE MENU SHCASDRP4MPA11 OF THIS.fcmngt8;
+             PROPERTY; 
+               Text "11. Transfer &Liquid Cash to FC Cash",;
+               enabled .t.,;
+               OnClick {;do arlqcsa.wfm WITH FORM.BLUSER,FORM.BLEVEL}
+               
+               
+                    DEFINE MENU SEPARASHCASDRPMPAS4fc11 OF THIS.fcmngt8;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+               
+                    DEFINE MENU SHCASDRP4MPA12 OF THIS.fcmngt8;
+             PROPERTY; 
+               Text "12. Transfer &FC Cash to Liquid Cash",;
+               enabled .t.,;
+               OnClick {;do arfccsa.wfm WITH FORM.BLUSER,FORM.BLEVEL}
+               endif
+               
+                    DEFINE MENU SEPARASHCASDRPMPAS4fc12 OF THIS.fcmngt8;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+          ENDIF
+                DEFINE MENU fcmngt9 OF THIS;
+             PROPERTY; 
+             Text "VERIFY"
+         
+        IF .not. validdrive("Z:") .and.  .not. validdrive("W:") .and.  .not. validdrive("Y:") .and.  .not. validdrive("X:")
+             DEFINE MENU FSHIFTOD1 OF THIS.fcmngt9;
+             PROPERTY; 
+               Text "01. Shift.",;
+               enabled .t.,;
+               OnClick {;do SHIFTID.wfm WITH FORM.BLUSER,FORM.BLEVEL,FORM.BLADMIN}
+               ENDIF
+         DEFINE MENU fcmngtB OF THIS;
+             PROPERTY; 
+             Text "REPORTS"
+             
+             DEFINE MENU fcmngtBm OF THIS.fcmngtb;
+             PROPERTY; 
+             Text "&1. MANDATORY"
+               DEFINE MENU ERRORDmoff OF THIS.fcmngtb.fcmngtBm;
+             PROPERTY;
+               OnClick {;create session ;set lock off ;report form shiftMRc},;
+               Text "M&0. Meter Movements by Cashier."
+                    DEFINE MENU SEPARAfcmngtBm00 OF THIS.fcmngtb.fcmngtBm;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+          DEFINE MENU ERRORDivisionSREPORT OF THIS.fcmngtb.fcmngtBm;
+             PROPERTY;
+               OnClick {;create session ;set lock off ;report form shiftMR},;
+               Text "M&1. Meter Movements by product."
+                    DEFINE MENU SEPARAfcmngtBm01 OF THIS.fcmngtb.fcmngtBm;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+        DEFINE MENU SLstockcalculators OF THIS.fcmngtb.fcmngtBm;
+             PROPERTY;
+               OnClick {;create session ;set lock off ;report form shiftsnu},;
+               Text "M&2. Shift Stock Calculations - With NO Ullage"
+                  DEFINE MENU SEPARAfcmngtBm02 OF THIS.fcmngtb.fcmngtBm;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+                      
+          DEFINE MENU STOCPOERRORDivisionSREPORT OF THIS.fcmngtb.fcmngtBm;
+             PROPERTY;
+               OnClick {;create session ;set lock off ;report form st15f2},;
+               Text "M&3. Inventory"
+                      DEFINE MENU SEPARAfcmngtBm03 OF THIS.fcmngtb.fcmngtBm;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+               
+               DEFINE MENU ScviavaasummshsTOCPOERRORDivisionSREPORT OF THIS.fcmngtb.fcmngtBm;
+             PROPERTY;
+               OnClick {;create session ;set lock off ;report form shcashr},;
+               Text "M&4. Cashiers Reconciliation sorted by Cashier"
+               
+                      DEFINE MENU SEPARAfcmngtBm04 OF THIS.fcmngtb.fcmngtBm;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+               
+                 
+               DEFINE MENU Scviavaas4 OF THIS.fcmngtb.fcmngtBm;
+             PROPERTY;
+               OnClick {;create session ;set lock off ;report form shcashr4},;
+               Text "M&4b. Cashiers Reconciliation sorted by Cashier"
+               
+                      DEFINE MENU SEPARA04b OF THIS.fcmngtb.fcmngtBm;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+               
+    DEFINE MENU ScashsTOCPOERRORDivisionSREPORT OF THIS.fcmngtb.fcmngtBm;
+             PROPERTY;
+               OnClick {;create session ;set lock off ;report form shCSm},;
+               Text "M&5. Cash Summary"
+               
+                      DEFINE MENU SEPARAfcmngtBm05 OF THIS.fcmngtb.fcmngtBm;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+                  
+              DEFINE MENU SmterauditREPORT OF THIS.fcmngtb.fcmngtBm;
+             PROPERTY;
+               OnClick {;create session ;set lock off ;report form shfmtr},;
+               Text "M&6. Fuel Meters Audit Report"
+         
+                    DEFINE MENU SEPARAfcmngtBm05ce OF THIS.fcmngtb.fcmngtBm;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+          DEFINE MENU SmterauditREPORTxt OF THIS.fcmngtb.fcmngtBm;
+             PROPERTY;
+               OnClick {;create session ;set lock off ;report form scashcod},;
+               Text "M&7. Daily Shift Transactions Summary By Item Type."
+                   DEFINE MENU SEPARAfcmngtBm05off OF THIS.fcmngtb.fcmngtBm;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+        DEFINE MENU SmterauditREPORTof OF THIS.fcmngtb.fcmngtBm;
+             PROPERTY;
+               OnClick {;create session ;set lock off ;report form scashoff},;
+               Text "M&8. Daily Shift Transactions Summary By Officer."
+               
+          
+                    DEFINE MENU SEPARAfcsum OF THIS.fcmngtb.fcmngtBm;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+               
+                  DEFINE MENU SHIFTSUMMARYREP OF THIS.fcmngtb.fcmngtBm;
+             PROPERTY;
+               OnClick {;create session ;set lock off ;do sshrep.prg with form.bluser},;
+               Text "M&9. Shift Reports - Combined - MUST CHOOSE A4 PAPER SIZE."
+               
+         DEFINE MENU SEPARAMANDSSHS OF  THIS.fcmngtb.fcmngtBm;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+                   DEFINE MENU SHIFTSUMMARYREP10 OF THIS.fcmngtb.fcmngtBm;
+            PROPERTY;
+               OnClick {;create session ;set lock off ;report form dayfgmas},;
+               Text "M1&0. Non-Forecourt Stock Position "
+                 
+                  DEFINE MENU SEPARAfcmngtBm0211 OF THIS.fcmngtb.fcmngtBm;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+       
+           
+       
+        DEFINE MENU SLstockcalculators11 OF THIS.fcmngtb.fcmngtBm;
+             PROPERTY;
+               OnClick {;create session ;set lock off ;report form shiftscl},;
+               Text "M11. Shift Stock Calculations - with &Ullage"
+               
+                      DEFINE MENU SEPARAfcmngtBm04cp OF THIS.fcmngtb.fcmngtBm;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+  
+      DEFINE MENU ScviavaBYCSHITEMCLA OF THIS.fcmngtb.fcmngtBm;
+             PROPERTY;
+               OnClick {;create session ;set lock off ;report form shcashrp},;
+               Text "M12. Cashiers &Reconciliation sorted by Cashier, Item Class"
+               
+                 *
+                     DEFINE MENU SEPARAfcmngtBm013  OF THIS.fcmngtb.fcmngtBm;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+       
+                 DEFINE MENU SHIFTSUMMARYREP13 OF THIS.fcmngtb.fcmngtBm;
+            PROPERTY;
+               OnClick {;create session ;set lock off ;report form arcasinv},;
+               Text "M13. Cashiers Invoices(Signed)."
+                 
+                  DEFINE MENU SEPARAfcmngtBm014A  OF THIS.fcmngtb.fcmngtBm;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+       
+            DEFINE MENU SHIFTSUMMARYREP14 OF THIS.fcmngtb.fcmngtBm;
+            PROPERTY;
+               OnClick {;create session ;set lock off ;report form arcasvis},;
+               Text "M14. Cashiers Credit Cards(Signed)"
+                 
+                  DEFINE MENU SEPARAfcmngtBm014  OF THIS.fcmngtb.fcmngtBm;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+       
+     DEFINE MENU fcmngtBO OF THIS.fcmngtb;
+             PROPERTY; 
+             Text "&2. OTHERS"
+                DEFINE MENU FLOATEXPENSES OF THIS.fcmngtb.fcmngtBO;
+             PROPERTY;
+               OnClick {;create session ;set lock off ;report form floatpy},;
+               Text "0&1. Float Expenses"
+               DEFINE MENU SEPARAfcmngtBO01 OF THIS.fcmngtb.fcmngtBO;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+ DEFINE MENU ScviavaashsTOCPOERRORDivisionSREPORT OF THIS.fcmngtb.fcmngtBO;
+             PROPERTY;
+               OnClick {;create session ;set lock off ;report form shiftvc},;
+               Text "0&2. Invoice Register - ordered by cashier"
+               
+               DEFINE MENU SEPARAfcmngtBO02 OF THIS.fcmngtb.fcmngtBO;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+               *
+            *    DEFINE MENU Scvib OF THIS.fcmngtb.fcmngtBO;
+             PROPERTY;
+               OnClick {;create session ;set lock off ;report form shinvcas},;
+               Text "0&2b. Invoice Register (New) - ordered by cashier"
+               
+             *  DEFINE MENU SEPARAfcmngtBO02b OF THIS.fcmngtb.fcmngtBO;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+               *
+                DEFINE MENU invoreg2 OF THIS.fcmngtb.fcmngtBO;
+             PROPERTY;
+               OnClick {;create session ;set lock off ;report form shiftvcc},;
+               Text "0&3. Invoice Register - ordered by customer"
+
+               DEFINE MENU SEPARAfcmngtBO03 OF THIS.fcmngtb.fcmngtBO;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+               *
+*                  DEFINE MENU invoreg2b OF THIS.fcmngtb.fcmngtBO;
+             PROPERTY;
+               OnClick {;create session ;set lock off ;report form shinvcus},;
+               Text "0&3b. Invoice Register (New) - ordered by customer"
+*
+ *              DEFINE MENU SEPARA03b OF THIS.fcmngtb.fcmngtBO;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+               *
+                DEFINE MENU invoreg2sern OF THIS.fcmngtb.fcmngtBO;
+             PROPERTY;
+               OnClick {;create session ;set lock off ;report form shiftvcn},;
+               Text "03B. &Invoice Register - ordered by Invoice Number."
+               
+     DEFINE MENU SEPARAfcsern OF THIS.fcmngtb.fcmngtBO;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+                DEFINE MENU serScviavaashsTOCPOERRORDivisionSREPORT OF THIS.fcmngtb.fcmngtBO;
+             PROPERTY;
+               OnClick {;create session ;set lock off ;report form shiftpos},;
+               Text "0&4. Job Cards Journal - ordered by CASHIER"
+               DEFINE MENU SEPARAfcmngtBO04 OF THIS.fcmngtb.fcmngtBO;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+              DEFINE MENU cashsales2 OF THIS.fcmngtb.fcmngtBO;
+             PROPERTY;
+               OnClick {;create session ;set lock off ;report form shiftpo2},;
+               Text "0&5. Job Cards Journal - ordered by SERIAL NUMBER"
+               DEFINE MENU SEPARAfcmngtBO05 OF THIS.fcmngtb.fcmngtBO;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+               
+             DEFINE MENU chqreg OF THIS.fcmngtb.fcmngtBO;
+             PROPERTY;
+               Text "0&6. Credit Cards Register - Summary by Item Code (Old)." ,;
+                  OnClick {;create session ;set lock off ;report form shiftpo5}
+   
+               DEFINE MENU SEPARAfcmngtBO06 OF THIS.fcmngtb.fcmngtBO;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+           *
+      *      DEFINE MENU chqregb OF THIS.fcmngtb.fcmngtBO;
+             PROPERTY;
+               Text "0&6b. Credit Cards Register - Summary by Item Code (New)." ,;
+                  OnClick {;create session ;set lock off ;report form shiftpob}
+   
+   *            DEFINE MENU SEPARAfcmngtBO06b OF THIS.fcmngtb.fcmngtBO;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+               *
+            DEFINE MENU Shiftbrs2 OF THIS.fcmngtb.fcmngtBO;
+               PROPERTY;
+               OnClick {;create session ;set lock off ;report form shiftpo3},;
+               Text "0&7. Job Cards Journal - Summary by Item Code"
+      
+               DEFINE MENU SEPARAfcmngtBO07 OF THIS.fcmngtb.fcmngtBO;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+           DEFINE MENU Shiftiss2 OF THIS.fcmngtb.fcmngtBO;
+             PROPERTY;
+               Text "0&8. Invoice Register - Summary by Item Code." ,;
+                  OnClick {;create session ;set lock off ;report form shiftpo4}
+ 
+               DEFINE MENU SEPARAfcmngtBO08 OF THIS.fcmngtb.fcmngtBO;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+
+ DEFINE MENU ERXPSAcashsTOCPOERRORDivisionSREPORT OF THIS.fcmngtb.fcmngtBO;
+             PROPERTY;
+               OnClick {;create session ;set lock off ;report form ishftcas},;
+               Text "0&9. Cash Sales Summary"
+               
+               DEFINE MENU SEPARAfcmngtBO09 OF THIS.fcmngtb.fcmngtBO;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+               
+ DEFINE MENU SLOSTOCPOERRORDivisionSREPORT OF THIS.fcmngtb.fcmngtBO;
+             PROPERTY;
+               OnClick {;create session ;set lock off ;report form shiftpay},;
+               Text "1&0. Purchases Journal - ORDERED BY PAY METHOD, CASHIER"
+               
+               DEFINE MENU SEPARAfcmngtBO10 OF THIS.fcmngtb.fcmngtBO;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+               
+ DEFINE MENU SHIFTPAY2 OF THIS.fcmngtb.fcmngtBO;
+             PROPERTY;
+               OnClick {;create session ;set lock off ;report form shiftpa2},;
+               Text "11. &Purchases Journal - ORDERED B&Y SYSTEM, SERIAL NO."
+               
+               DEFINE MENU SEPARAfcmngtBO11 OF THIS.fcmngtb.fcmngtBO;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+               
+  DEFINE MENU shiftrrec1 OF THIS.fcmngtb.fcmngtBO;
+             PROPERTY;
+               OnClick {;create session ;set lock off ;report form shiftrec},;
+               Text "12. Receipts &Journal - ORDERED BY PAY METHOD, CASHIER"
+                     
+               DEFINE MENU SEPARAfcmngtBO12 OF THIS.fcmngtb.fcmngtBO;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+               
+ DEFINE MENU shiftrec2 OF THIS.fcmngtb.fcmngtBO;
+             PROPERTY;
+               OnClick {;create session ;set lock off ;report form shiftre2},;
+               Text "13. Re&ceipts Journal - ORDERED BY SYSTEM, SERIAL NO."
+      
+               DEFINE MENU SEPARAfcmngtBO13 OF THIS.fcmngtb.fcmngtBO;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+                DEFINE MENU SLf1OSTOCPOERRmeterORDivisionSREPORT OF THIS.fcmngtb.fcmngtBO;
+             PROPERTY;
+               OnClick {;create session ;set lock off ;report form st15fmm},;
+               Text "14. M&eter Movements Variance Report"
+                            
+               DEFINE MENU SEPARAfcmngtBO14 OF THIS.fcmngtb.fcmngtBO;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+                DEFINE MENU SLsCYLINDERStockcalculators OF THIS.fcmngtb.fcmngtBO;
+             PROPERTY;
+               OnClick {;create session ;set lock off ;report form shiftCYL},;
+               Text "15. Shift &LPGS and Lubes - Cash Sales Ordered by Cashier"
+                     
+               DEFINE MENU SEPARAfcmngtBO15 OF THIS.fcmngtb.fcmngtBO;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+                 DEFINE MENU ShiftLMR2 OF THIS.fcmngtb.fcmngtBO;
+             PROPERTY;
+               OnClick {;create session ;set lock off ;report form shiftLMR},;
+               Text "16. METERED &SER&VICE BAY LUBES SALES"
+                          
+               DEFINE MENU SEPARAfcmngtBO16 OF THIS.fcmngtb.fcmngtBO;
+             PROPERTY;
+               Separator .T.,;
+               Text ""  
+                 DEFINE MENU Shifttrn2 OF THIS.fcmngtb.fcmngtBO;
+             PROPERTY;
+               OnClick {;create session ;set lock off ;report form shiftTRN},;
+               Text "17. STOCK TRA&NSFERS"
+                     
+               DEFINE MENU SEPARAfcmngtBO17 OF THIS.fcmngtb.fcmngtBO;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+                   DEFINE MENU nextshifta OF THIS.fcmngtb.fcmngtBO;
+             PROPERTY;
+               OnClick {;create session ;set lock off ;report form ARNINVPT},;
+               Text "18. NEXT SHI&FT INVOICES"
+        
+               DEFINE MENU SEPARAfcmngtBO18 OF THIS.fcmngtb.fcmngtBO;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+         DEFINE MENU nextshiftB OF THIS.fcmngtb.fcmngtBO;
+             PROPERTY;
+               OnClick {;create session ;set lock off ;report form FGNJCADt},;
+               Text "19. NEXT SHI&FT JOB CARDS"
+                     
+               DEFINE MENU SEPARAfcmngtBO19 OF THIS.fcmngtb.fcmngtBO;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+                     DEFINE MENU nextshiftC OF THIS.fcmngtb.fcmngtBO;
+             PROPERTY;
+               OnClick {;create session ;set lock off ;report form ARNcadPT},;
+               Text "20. NEXT SHIFT &CARDS"
+                     
+               DEFINE MENU SEPARAfcmngtBO20 OF THIS.fcmngtb.fcmngtBO;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+                        DEFINE MENU nextshiftLPG OF THIS.fcmngtb.fcmngtBO;
+             PROPERTY;
+               OnClick {;create session ;set lock off ;report form FGNLPGT},;
+               Text "21. NEXT SHIFT LPG and LU&BES CASH SALES"
+                           
+               DEFINE MENU SEPARAfcmngtBO21 OF THIS.fcmngtb.fcmngtBO;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+                 DEFINE MENU Shiftadjs OF THIS.fcmngtb.fcmngtBO;
+             PROPERTY;
+               OnClick {;create session ;set lock off ;report form shiftadj},;
+               Text "22. STOCK &ADJUSTMENTS/ASSEMBLY"
+                     
+               DEFINE MENU SEPARAfcmngtBO22 OF THIS.fcmngtb.fcmngtBO;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+               
+               DEFINE MENU visoreg2 OF THIS.fcmngtb.fcmngtBO;
+               PROPERTY;
+               OnClick {;create session ;set lock off ;report form shiftvs},;
+               Text "23. Credit Car&ds Register - ordered by cashier (Old)"
+                     
+               DEFINE MENU SEPARAfcmngtBO23 OF THIS.fcmngtb.fcmngtBO;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+               *
+*                DEFINE MENU visoreg2b OF THIS.fcmngtb.fcmngtBO;
+               PROPERTY;
+               OnClick {;create session ;set lock off ;report form shiftvsb},;
+               Text "23. Credit Car&ds Register - ordered by cashier (New)"
+                     
+ *              DEFINE MENU SEPARAfcmngtBO23b OF THIS.fcmngtb.fcmngtBO;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+               *
+                DEFINE MENU visoreg3 OF THIS.fcmngtb.fcmngtBO;
+             PROPERTY;
+               OnClick {;create session ;set lock off ;report form shiftvss},;
+               Text "24. Credit Cards  Re&gister - ordered by customer (Old)"
+                     
+               DEFINE MENU SEPARAfcmngtBO24 OF THIS.fcmngtb.fcmngtBO;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+               *
+  *                DEFINE MENU visoreg3b OF THIS.fcmngtb.fcmngtBO;
+             PROPERTY;
+               OnClick {;create session ;set lock off ;report form shiftvsc},;
+               Text "24. Credit Cards  Re&gister - ordered by customer (New)"
+                     
+   *            DEFINE MENU SEPARAfcmngtBO24b OF THIS.fcmngtb.fcmngtBO;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+               *
+                DEFINE MENU chqoreg3 OF THIS.fcmngtb.fcmngtBO;
+             PROPERTY;
+                 OnClick {;create session ;set lock off ;report form shiftaro},;
+                 enabled .f.,;
+               Text "25. Job Orders - ordered by Customer."
+                   DEFINE MENU SEPARAfcmngtBO25 OF THIS.fcmngtb.fcmngtBO;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+           
+                    DEFINE MENU chqoreg326 OF THIS.fcmngtb.fcmngtBO;
+             PROPERTY;
+                 OnClick {;create session ;set lock off ;report form shjcsals},;
+               Text "26. &Remote Work Station Job Cards Ordered by Cashier."
+                   DEFINE MENU SEPARAfcmngtBO26 OF THIS.fcmngtb.fcmngtBO;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+               
+                 DEFINE MENU shiftrBNK1 OF THIS.fcmngtb.fcmngtBO;
+             PROPERTY;
+               OnClick {;create session ;set lock off ;report form shiftreb},;
+               Text "27. Shift &Bankings - ORDERED BY PAY METHOD, CASHIER"
+                     
+               DEFINE MENU SEPARAfcmngtBNK2 OF THIS.fcmngtb.fcmngtBO;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+                  DEFINE MENU shiftrBNK1mob OF THIS.fcmngtb.fcmngtBO;
+             PROPERTY;
+               OnClick {;create session ;set lock off ;report form shmobmon},;
+               Text "28. Mobile Money - Transactions"
+                     
+               DEFINE MENU SEPARAfcmngtBNK2mob OF THIS.fcmngtb.fcmngtBO;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+                 DEFINE MENU shiftrBNK1mob29 OF THIS.fcmngtb.fcmngtBO;
+             PROPERTY;
+               OnClick {;create session ;set lock off ;report form shcaspos},;
+               Text "29. Monthly Shift Cash Position (detailed)"
+                     
+               DEFINE MENU SEPARAfcmngtBNK2mob29 OF THIS.fcmngtb.fcmngtBO;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+               
+                DEFINE MENU SLsCYLINDERStockca30 OF THIS.fcmngtb.fcmngtBO;
+             PROPERTY;
+               OnClick {;create session ;set lock off ;report form shiftlub},;
+               Text "30. Shift &LPGS and Lubes - Cash Sales Ordered by Item Type"
+                     
+               DEFINE MENU SEPARAfcmngtB30 OF THIS.fcmngtb.fcmngtBO;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+               
+                 DEFINE MENU SEPARAMANDSSHSUNPO OF THIS.fcmngtb;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+                 DEFINE MENU fcmngtunposted OF THIS.fcmngtb;
+             PROPERTY; 
+             Text "&3. UNPOSTED"
+             
+                DEFINE MENU SEPARAUNPOS00 OF THIS.fcmngtb.fcmngtunposted;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+               
+                DEFINE MENU UNPOSTED01 OF THIS.fcmngtb.fcmngtunposted;
+             PROPERTY;
+               OnClick {;create session ;set lock off ;report form shiftvup},;
+               Text "0&1. Invoices (old)"
+               
+               DEFINE MENU SEPARAUNPOS01 OF THIS.fcmngtb.fcmngtunposted;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+    *             DEFINE MENU UNPOSTED01b OF THIS.fcmngtb.fcmngtunposted;
+             PROPERTY;
+               OnClick {;create session ;set lock off ;report form arunpivs},;
+               Text "0&1b. Invoices (new)"
+               
+     *          DEFINE MENU SEPARAUNPOS01b OF THIS.fcmngtb.fcmngtunposted;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+               
+               
+                DEFINE MENU UNPOSTED02 OF THIS.fcmngtb.fcmngtunposted;
+             PROPERTY;
+               OnClick {;create session ;set lock off ;report form unppay},;
+               Text "0&2. Payments"
+               
+               DEFINE MENU SEPARAUNPOS02 OF THIS.fcmngtb.fcmngtunposted;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+                DEFINE MENU UNPOSTED03 OF THIS.fcmngtb.fcmngtunposted;
+             PROPERTY;
+               OnClick {;create session ;set lock off ;report form shiftvun},;
+               Text "0&3. Cards (Credit)"
+               
+               DEFINE MENU SEPARAUNPOS03 OF THIS.fcmngtb.fcmngtunposted;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+                DEFINE MENU UNPOSTED04 OF THIS.fcmngtb.fcmngtunposted;
+             PROPERTY;
+               OnClick {;create session ;set lock off ;report form shiftpou},;
+               Text "0&5. Job Cards"
+               
+               DEFINE MENU SEPARAUNPOS04 OF THIS.fcmngtb.fcmngtunposted;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+                DEFINE MENU UNPOSTED05 OF THIS.fcmngtb.fcmngtunposted;
+             PROPERTY;
+               OnClick {;create session ;set lock off ;report form unppur},;
+               Text "0&6. Purchases"
+               
+               DEFINE MENU SEPARAUNPOS05 OF THIS.fcmngtb.fcmngtunposted;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+                DEFINE MENU UNPOSTED07 OF THIS.fcmngtb.fcmngtunposted;
+             PROPERTY;
+               OnClick {;create session ;set lock off ;report form shiftCYU},;
+               Text "0&7. LPGS"
+               
+               DEFINE MENU SEPARAUNPOS07 OF THIS.fcmngtb.fcmngtunposted;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+                DEFINE MENU UNPOSTED08 OF THIS.fcmngtb.fcmngtunposted;
+             PROPERTY;
+               OnClick {;create session ;set lock off ;report form shiftCYB},;
+               Text "0&8. Lubes"
+               
+               DEFINE MENU SEPARAUNPOS08 OF THIS.fcmngtb.fcmngtunposted;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+                DEFINE MENU UNPOSTED09 OF THIS.fcmngtb.fcmngtunposted;
+             PROPERTY;
+               OnClick {;create session ;set lock off ;report form unprec},;
+               enabled .f.,;
+               Text "0&9. Receipts"
+               
+               DEFINE MENU SEPARAUNPOS09 OF THIS.fcmngtb.fcmngtunposted;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+                DEFINE MENU UNPOSTED10 OF THIS.fcmngtb.fcmngtunposted;
+             PROPERTY;
+               OnClick {;create session ;set lock off ;report form unptran},;
+               Text "1&0. Transfers"
+               
+               DEFINE MENU SEPARAUNPOS10 OF THIS.fcmngtb.fcmngtunposted;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+                DEFINE MENU UNPOSTED11 OF THIS.fcmngtb.fcmngtunposted;
+             PROPERTY;
+               OnClick {;create session ;set lock off ;report form unpdnote},;
+                enabled .f.,;
+               Text "11. &Debit Notes"
+               
+               DEFINE MENU SEPARAUNPOS11 OF THIS.fcmngtb.fcmngtunposted;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+                DEFINE MENU UNPOSTED12 OF THIS.fcmngtb.fcmngtunposted;
+             PROPERTY;
+               OnClick {;create session ;set lock off ;report form unpcnote},;
+                enabled .f.,;
+               Text "12. &Credit Notes"
+               
+               DEFINE MENU SEPARAUNPOS12 OF THIS.fcmngtb.fcmngtunposted;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+               
+               if .not. validdrive("Z:") .and.  .not. validdrive("W:")  .and.  .not. validdrive("Y:") .and.  .not. validdrive("X:")
+               
+             DEFINE MENU fcmngt10 OF THIS;
+             PROPERTY; 
+             Text "BACKUP"
+         
+           DEFINE MENU kensback1 OF THIS.fcmngt10;
+             PROPERTY; 
+               Text "01. DATA.",;
+               enabled .t.,;
+               OnClick {;do kensback.prg WITH FORM.BLUSER,FORM.BLEVEL}
+       
+          endif
+           
+
+ DEFINE MENU fcmngtA OF THIS;
+             PROPERTY; 
+             Text "CLOSE"
+           if .not. validdrive("Z:") .and.  .not. validdrive("W:") .and.  .not. validdrive("Y:") .and.  .not. validdrive("X:")
+          DEFINE MENU closeshift1 OF THIS.fcmngtA;
+             PROPERTY; 
+               Text "01 SHIFT.",;
+               enabled .t.,;
+               OnClick {;do st15fcm.wfm WITH FORM.BLUSER,FORM.BLEVEL}
+               endif
+                
+     ENDIF
+       
+     
+   procedure ViewEditOnClick
+   
+   * Toggle View/Edit modes.
+   ****************************************************************************
+   
+   form.ViewEdit()
+   
+   
+   ****************************************************************************
+    ****************************************************************************
+   
+   procedure OnExit
+   
+  
+   ****************************************************************************
+   
+     form.Release()
+
+    procedure OnQuitAll
+   
+     form.Release()
+
+ quit
+
+ENDCLASS

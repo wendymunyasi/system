@@ -1,0 +1,27 @@
+* Visual dBASE .QBE file 9
+ON ERROR DO QBEERR WITH ERROR(), MESSAGE(),;
+  PROGRAM(), LINENO()
+CLOSE DATABASES
+SET EXACT ON
+select 1
+USE \KENSERVICE\DATA\shcongt0.dbf 
+select 3
+USE \KENSERVICE\DATA\shcongt1.dbf 
+select 4
+USE \KENSERVICE\DATA\shcongt2.dbf 
+select 5
+USE \KENSERVICE\DATA\shcongt3.dbf 
+select 6
+USE \KENSERVICE\DATA\shcongt4.dbf 
+select 7
+USE \KENSERVICE\DATA\shcongt5.dbf 
+SELECT 8
+USE \KENSERVICE\DATA\fgshupst.dbf
+SELECT 9
+USE \KENSERVICE\DATA\fgshupiv.dbf
+SELECT 10
+USE \KENSERVICE\DATA\fgshupsl.dbf
+SELECT 11
+USE \KENSERVICE\DATA\fgshuppu.dbf
+SELECT 12
+USE \KENSERVICE\DATA\fgshupdr.dbf

@@ -1,0 +1,64 @@
+* Visual dBASE .QBE file 9
+close databases
+use \kenservice\data\dshstmas.dbf
+go top
+if plevel > 3 .and. .not. year(shift_date) = year(date())
+quit
+endif
+ON ERROR DO MSHSTCST.PRG
+USE \KENSERVICE\DATA\MSHSTCST.DBF
+ON ERROR DO QBEERR WITH ERROR(), MESSAGE(),;
+PROGRAM(), LINENO()
+CLOSE DATABASES
+use \kenserve\idssys\mshstmas.dbf
+set safety off
+copy stru to \kenservice\data\hshstmon dbase prod
+use \kenservice\data\hshstmon.dbf
+append from \kenservice\data\mshstmas.dbf for .not. phy = 0 
+copy stru to \kenservice\data\mshstmas dbase prod
+use \kenserve\idssys\ashstmas.dbf
+copy stru to \kenservice\data\ashstmas dbase prod
+if .not. file("\kenservice\data\FGDATMAS.DBF")
+use \kenserve\idssys\FGDATMAS.dbf
+copy stru to \kenservice\data\FGDATMAS dbase prod
+ENDIF
+USE \KENSERVICE\DATA\MSHSTCST.DBF EXCLUSIVE
+ZAP
+USE \KENSERVICE\DATA\ASHSTCST.DBF EXCLUSIVE
+ZAP
+close databases
+*SET EXCLUSIVE ON
+SET EXACT ON
+select 1
+use \kenservice\data\hshstmon.dbf EXCLUSIVE
+SELECT 5
+USE \KENSERVICE\DATA\DSHSTMAS.DBf EXCLUSIVE
+? SALE_PRICE
+*ZAP
+SELECT 10
+USE \KENSERVICE\DATA\MSHSTMAS.DBf EXCLUSIVE
+? SALE_PRICE
+*ZAP
+ SELECT 23
+USE \KENSERVICE\DATA\ASHSTMAS.DBf EXCLUSIVE
+? SALE_PRICE
+SELECT 24
+USE \KENSERVICE\DATA\FGDATMAS.DBF EXCLUSIVE
+SELECT 25 
+USE \KENSERVICE\DATA\MSHSTCST.DBF  EXCLUSIVE
+select 26
+use \kenservice\data\ashstcst.dbf exclusive
+SELECT 27
+USE \KENSERVICE\DATA\FGCOD.DBF
+SELECT 28
+USE \KENSERVICE\DATA\DACOYSUM.DBF
+*ZAP
+  select 29
+IF .not. file("\kenservice\data\fgmaschk.dbf")
+use \kenserve\idssys\fgmaschk.dbf
+copy stru to \kenservice\data\fgmaschk dbase prod
+endif
+use \kenservice\data\fgmaschk.dbf  exclusive
+zap
+
+set safety on

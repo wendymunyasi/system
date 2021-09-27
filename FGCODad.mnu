@@ -1,0 +1,417 @@
+******************************************************************************
+*  PROGRAM:      Fgcodad.mnu
+*
+*  WRITTEN BY:   W Nyongesa
+*
+*  DATE:         03/2001
+*
+*  UPDATED:      10/2012
+*
+*  REVISION:     $Revision:   1.58  $
+*
+*  VERSION:      Visual dBASE
+*
+*  DESCRIPTION:  This is a menu file used by Fgcod.WFM for
+*                performing simple tasks.  It allows adding and deleting
+*                records, searching for a value in the ProdCode field of the
+*                current table viewed, and exiting the form in view.
+*
+*  PARAMETERS:   FormObj -- the form to which this menu will belong.
+*
+*  CALLS:        None
+*
+*  USAGE:        form.menuFile = "Fgcodad.mnu"
+*
+*******************************************************************************
+#include <messdlg.h>
+
+** END HEADER -- do not remove this line*
+* Generated on 07/03/2001
+*
+Parameter FormObj
+NEW ProdCode(FormObj,"Root")
+CLASS ProdCode(FormObj,Name) OF MENUBAR(FormObj,Name)
+   this.Text = ""
+   this.OnInit = {;set procedure to SampProc.prg}
+
+   DEFINE MENU FILE OF THIS;
+       PROPERTY;
+         Text "&File"
+
+        
+         DEFINE MENU EXIT OF THIS.FILE;
+                PROPERTY; 
+          StatusMessage "Return to the Previous Menu.",;
+          Text "&RETURN TO PREVIOUS MENU",;
+          SHORTCUT "F4",;
+          OnClick CLASS::ONEXIT
+  
+      
+       DEFINE MENU SEPARATOR000 OF THIS.FILE;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+
+            
+   DEFINE MENU QUITALL OF THIS.FILE;
+       PROPERTY; 
+          StatusMessage "Leave Kenserve System.",;
+          Text "Exit",;
+          SHORTCUT "F8",;
+          OnClick CLASS::ONQUITALL
+   DEFINE MENU Fgcod OF THIS;
+       PROPERTY;
+         Text "Code"
+
+         DEFINE MENU VIEWEDIT OF THIS.Fgcod;
+             PROPERTY;
+               OnClick CLASS::VIEWEDITONCLICK,;
+               Text "&Edit",;
+               Shortcut "Ctrl-E",;
+               StatusMessage "Edit data."
+
+         DEFINE MENU SEPARATOR1 OF THIS.Fgcod;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+
+         DEFINE MENU ADD OF THIS.Fgcod;
+             PROPERTY;
+               OnClick CLASS::ADDONCLICK,;
+               Text "&Add",;
+               Enabled .F.,;
+               Shortcut "Ctrl-A",;
+               StatusMessage "Add a new Code."
+
+       
+         DEFINE MENU SEPARATOR2 OF THIS.Fgcod;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+
+       
+
+   DEFINE MENU REPORT OF THIS;
+       PROPERTY;
+         Text "&Reports"
+
+       DEFINE MENU ERRORProdCodeREPORT OF THIS.REPORT;
+             PROPERTY;
+               OnClick {;create session ;set lock off ;report form Fgcod},;
+               Text "1. List Codes sorted by code."
+               
+               
+         DEFINE MENU SEPARATORREP1 OF THIS.REPORT;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+
+               
+               DEFINE MENU ERRORProdCodeerrsT OF THIS.REPORT;
+             PROPERTY;
+               OnClick {;create session ;set lock off ;report form Fgcoder},;
+               Text "2. Error Codes."
+               
+                DEFINE MENU SEPARATORREP2 OF THIS.REPORT;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+               
+                 DEFINE MENU materialcodes OF THIS.REPORT;
+             PROPERTY;
+               OnClick {;create session ;set lock off ;report form Fgcodm},;
+               Text "3. Material Codes."
+               
+                DEFINE MENU SEPARATORREP3 OF THIS.REPORT;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+               
+             DEFINE MENU SERVICESCODES OF THIS.REPORT;
+             PROPERTY;
+               OnClick {;create session ;set lock off ;report form FgSVCES},;
+               Text "4. Revenue Services Codes."
+               
+                DEFINE MENU SEPARATORREP4 OF THIS.REPORT;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+
+       DEFINE MENU SERVICESCODESrev oF THIS.REPORT;
+             PROPERTY;
+               OnClick {;create session ;set lock off ;report form fgcodrev},;
+               Text "5. Revenue Service Classification Codes."
+
+    DEFINE MENU SEPARATORREP5 OF THIS.REPORT;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+      
+               DEFINE MENU ERRORProdCodename OF THIS.REPORT;
+             PROPERTY;
+               OnClick {;create session ;set lock off ;report form Fgcodnam},;
+               Text "6. List Codes sorted by name."
+               
+               
+         DEFINE MENU SEPARATORREP1nam OF THIS.REPORT;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+
+               
+ 
+
+   ****************************************************************************
+   procedure AddOnClick
+
+   * Add new record.
+   ****************************************************************************
+   private addForm, newProdCode, inEditMode,pTYP,PTYPN, PCLA,PCLAN,PPLERR2
+   PLERR = .F.
+      PTYP = ""
+      PCLA = ""
+      PCOD = ""
+      
+   form.CheckChanged(.T.)
+   if .not. empty(form.ptyp) .and. .not. empty(form.pcla)
+   if ConfirmationMessage("Are you sure you want to add an Item Id. Code?",;
+                          "Confirmation") = YES
+       inEditMode = iif(type("form.curPage") <> "U", form.curPage.inEditMode,;
+                                                    form.inEditMode)
+      if .not. inEditMode
+         form.ViewEdit()                 && Make sure record is editable
+         endif
+
+                                            && and begin a transaction
+      form.changesMade = .t.            && Since we are adding a record
+           form.previousRecord = recno()   
+   ptyp = FORM.ptyp
+      pcla = FORM.pcla
+      PTYPN = FORM.PTYPNAME
+      PCLAN = FORM.PCLANAME
+     LOCAL L1,l2
+           IF .NOT. EMPTY(PTYP) .AND. .NOT. EMPTY(PCLA) .AND. .NOT. EMPTY(PTYPN) ;
+            .AND. .NOT. EMPTY(PCLAN)
+             select Fgcod3
+             set filter to typ = PTYP .and. cla = PCLA
+             go bottom
+             IF EMPTY(COD)
+             L1 = 0
+             ELSE
+      L1 = VAL(Cod) + 1
+      ENDIF
+      IF L1 < 10
+     l2 = "0"+str(l1,1)
+     else
+     if l1 < 100
+     l2 = str(l1,2)
+     else
+     quit
+     endif
+    endif
+    PLERR2 = .f.
+    
+    if ptyp = "00" .and. .not. l2 = "00" 
+    PLERR2 = .t.
+    endif
+    if fgcoy->doc14 .and. .not. l2 = '00'
+    PLERR2 = .t.
+    endif
+ *   if ptyp > "75" .and. ptyp < "80" .and. .not. l2 = "00"
+ *   PLERR2 = .t.
+ *   endif
+    select fgcod4
+    go top
+    if .not. eof()
+    set filter to empty(name) .or. empty(scode) .or. ((empty(coy) ;
+     .or. empty(div) .or. empty(cen) .or. empty(sto) .OR. EMPTY(CEN)) .and. active = 'Yes') ;
+      .or. empty(qty) .or. empty(fcpurch) .or. empty(shs_auto) .OR. EMPTY(ACTIVE)
+      go top
+      if .not. eof()
+      plerr2 = .t.
+      endif
+      endif
+      PXXCOY = "1"
+      PXXDIV = ""
+      PXXCEN = ""
+      PXXSTO = ""
+      PXXCNAME = ""
+      PXXSTNAME = ""
+      pxunit=""
+      pxvolume = 1
+      pxuname = ""
+      
+      IF  LEFT(PTYP,1)="9"
+      SELECT FGCEN
+      SET FILTER TO DIV="1" .AND. (CEN="9" .OR. CEN="F") .AND. USED = "Yes"
+      go top
+      if .not. eof()
+         pxxcoy  = coy
+         pxxdiv = div
+         pxxcen = cen
+         pxxsto = "F1"
+         pxxstname = "FC STORES"
+         PXXCNAME = NAME
+         ENDIF
+         set filter to used = "Yes"
+         go top
+         select fgunits
+         set filter to volume = 1  .AND. UPPER(NAME) = "EACH"
+         go top
+         if .not. eof()
+         pxunit = unit
+         pxvolume = volume
+         pxuname = name
+         endif
+         set filter to
+         go top
+           endif
+            
+      IF  LEFT(PTYP,1) >"2"
+      select fgunits
+         set filter to volume = 1  .AND. UPPER(NAME) = "EACH"
+         go top
+         if .not. eof()
+         pxunit = unit
+         pxvolume = volume
+         pxuname = name
+         endif
+         set filter to
+         go top
+           endif
+           
+   
+      
+    if .not. PLERR2
+    
+     select fgcod
+     APPEND BLANK
+     replace cus_cla with 'Cash Customers'
+       replace typ WITH PTYP
+      replace cla WITH PCLA
+      replace cod WITH l2
+      replace items_unit with 1
+      replace rprice with 0
+      replace dprice with 0
+      replace wprice with 0
+      replace cost_unit with 0
+      replace min_stk with 0
+      replace REOrDR_STK with 0
+      replace comm_rate with 0
+     
+      replace shs_auto with "No"
+      replace active with "Yes"
+      replace part_no with "99999"
+      IF TYP > "00" .AND. TYP <= "9Z" .AND. .NOT. (LEFT(TYP,1) = "7" .AND. RIGHT(TYP,1) > "4")
+      REPLACE QTY WITH "Yes"
+      endif
+      select fgtyp
+      seek fgcod->typ
+        select fgcla
+    seek fgcod->typ+fgcod->cla
+     
+       select Fgcod
+       replace item_use with fgtyp->use
+       IF .NOT. TYP = '10'
+       if empty(unitname)
+     replace unitname with fgcod3->unitname
+     endif
+     if empty(unit)
+     replace unit  with fgcod3->unit
+     endif
+     if empty(volume)
+     replace volume  with fgcod3->volume
+     endif
+     if empty(unit_name)
+     replace unit_name  with fgcod3->unit_name
+     endif
+     ENDIF
+      if empty(unit) .AND. .NOT. TYP = '10'
+     replace unit  with '22'
+     replace volume  with 1
+     replace unit_name  with 'Each'
+      replace unitname  with 'Each'
+     ENDIF
+     if empty(taxname)
+     replace taxname  with fgcod3->taxname
+     endif
+     if empty(tax_type)
+     replace tax_type  with fgcod3->tax_type
+     endif
+     if empty(vat)
+     replace vat  with fgcod3->vat
+     endif
+     if empty(tax_name)
+     replace tax_name  with fgcod3->tax_name
+     endif
+     if empty(stoname)
+     replace stoname  with fgcod3->stoname
+     endif
+     if empty(sto)
+     replace sto with fgcod3->sto
+     endif
+     if empty(cname)
+     replace cname  with fgcod3->cname
+     endif
+     if empty(coy)
+     replace coy  with fgcod3->coy
+     endif
+     if empty(div)
+     replace div with fgcod3->div
+     endif
+     REPLACE DATE_CREAT WITH DATE()
+     REPLACE USENAME WITH FORM.BLUSER
+     if empty(cen)
+     replace cen with fgcod3->cen
+     endif
+     
+     replace usename with fgcod3->usename
+     replace item_use with fgcod3->item_use
+     if empty(fcpurch)
+     replace fcpurch with fgcod3->fcpurch
+     endif
+     IF EMPTY(FCPURCH)
+     REPLACE FCPURCH WITH "No"
+     endif
+     if empty(qty)
+     replace qty with fgcod3->qty
+     endif
+     if empty(qty)
+     replace qty with "No"
+     endif
+     replace typname with  fgcod3->typname
+     replace claname  with fgcod3->claname
+     replace items_unit with 1
+     if form.blevel > 3
+     form.ptyp = ""
+     form.pcla = ""
+     form.root.FGCOD.add.enabled = .F.
+      endif
+   form.sname.SetFocus()  
+     endif
+     endif
+     endif
+     endif
+   ***************************************************************************
+   procedure ViewEditOnClick
+   ****************************************************************************
+
+   form.ViewEdit()
+
+  
+   ****************************************************************************
+    procedure OnExit
+     form.Release()
+
+    procedure OnQuitAll
+   
+     form.Release()
+
+ quit
+
+   
+
+ENDCLASS
+
+
+

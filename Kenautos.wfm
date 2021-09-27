@@ -1,0 +1,124 @@
+////////////////////////////////////////////////////////////////////////////////
+// Output Filename: C:\KENSERVICE\IDSSYS\KENAUTOS_FCV.WFM                     //
+// Created By:      dBASE Form Converter Wizard                               //
+// Created On:      Monday September 27, 2021 At 06:32:45                     //
+// Object Count:    1                                                         //
+////////////////////////////////////////////////////////////////////////////////
+**************************************************************************
+*  PROGRAM:      Kenautos.wfm
+*
+*
+*******************************************************************************
+
+
+
+create session
+set talk off
+set ldCheck off
+_app.FrameWin.Visible = .F.
+_app.FrameWin.Text = "Kenautos"
+*if .not. access() = 1
+set design off
+ON ERROR DO QBEERR WITH ERROR(), MESSAGE(),;
+PROGRAM(), LINENO()
+*endif
+shell(.F.)
+** END HEADER -- do not remove this line*
+* Generated on 02/02/2005
+*
+parameter BUSER,BLEVEL,B1D2M3A,bModal
+local f
+local f
+f = new KenautosFORM()
+if (bModal)
+   f.mdi = .F. && ensure not MDI
+   f.ReadModal()
+else
+   f.Open()
+endif
+CLASS KenautosFORM OF FORM
+   this.Metric = 6  // Pixels
+   this.OnOpen = CLASS::ONOPEN
+   this.MDI = .F.
+   this.ScrollBar = 0
+   this.Text = "Security Back Up To External Disk"
+   this.Top = 0
+   this.WindowState = 2
+   this.EscExit = .F.
+    this.view = "st15fc06.qbe"
+   this.MousePointer = 11
+   this.SysMenu = .f.
+   this.Moveable = .F.
+   this.Minimize = .F.
+    this.Sizeable = .F.
+   this.Maximize = .t.
+   this.ColorNormal = "n+"
+   this.Left = 113
+   this.Height = 302
+   this.Width = 506
+
+
+   DEFINE IMAGE IMAGE1 OF THIS;
+       PROPERTY;
+         Left 24,;
+         Top 357,;
+         DataSource "FILENAME IMAGELOG.BMP",;
+         Height 68,;
+         Width 576,;
+       BorderStyle 3
+
+
+   procedure OnOpen
+    form.bluser = buser
+      form.blevel = blevel
+      FORM.BTYPE = B1D2M3A
+      IF EMPTY(FORM.BLUSER) .OR. EMPTY(FORM.BLEVEL)
+      QUIT
+      ENDIF
+
+    SELECT SHCONGT0
+    GO TOP
+    IF .NOT. EOF()
+    wait "Error encountered during shift closing in phase 0!"
+    QUIT
+    ENDIF
+    SELECT SHCONGT1
+    GO TOP
+    IF .NOT. EOF()
+    wait "Error encountered during shift closing in phase 1!"
+    QUIT
+    ENDIF
+    SELECT SHCONGT2
+    GO TOP
+    IF .NOT. EOF()
+    wait "Error encountered during shift closing in phase 2!"
+    QUIT
+    ENDIF
+    SELECT SHCONGT3
+    GO TOP
+    IF .NOT. EOF()
+    wait "Error encountered during shift closing in phase 3!"
+    QUIT
+    ENDIF
+    SELECT SHCONGT4
+    GO TOP
+    IF .NOT. EOF()
+    wait "Error encountered during shift closing in phase 4!"
+    QUIT
+    ENDIF
+    SELECT SHCONGT5
+    GO TOP
+    IF .NOT. EOF()
+    wait "Error encountered during shift closing in phase 5!"
+    QUIT
+    ENDIF
+
+   CLOSE DATABASES
+   do kenauto.prg with form.bluser,form.blevel,FORM.BTYPE
+   quit
+
+     ********************************************************************************
+
+
+ENDCLASS
+

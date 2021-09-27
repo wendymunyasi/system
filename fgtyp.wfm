@@ -1,0 +1,747 @@
+////////////////////////////////////////////////////////////////////////////////
+// Output Filename: C:\KENSERVICE\IDSSYS\FGTYP_FCV.WFM                        //
+// Created By:      dBASE Form Converter Wizard                               //
+// Created On:      Monday June 13, 2016 At 07:23:35                          //
+// Object Count:    20                                                        //
+////////////////////////////////////////////////////////////////////////////////
+*******************************************************************************
+*  PROGRAM:      fgtyp.wfm
+*
+*  WRITTEN BY:   W Nyongesa
+*
+*  DATE:         05/2000
+*
+*  UPDATED:     12/2012
+*
+*  REVISION:     $Revision:   1.0
+*
+*  VERSION:      Visual dBASE
+*
+*  DESCRIPTION:  This program maintains the companies master file
+*
+*  PARAMETERS:   None
+*
+*  CALLS:        fgtyp.mnu         (Menu file)
+*                KBUTTONS.CC          (Custom Controls file)
+*                Item Types.qbe         (View of tables)
+*
+*  USAGE:        DO fgtyp.wfm
+*
+*******************************************************************************
+#include <messdlg.h>
+shell(.F.)
+create session
+set talk off
+set design off
+_app.FrameWin.Visible = .F.
+_app.FrameWin.Text = "fgtyp"
+set century on
+set ldCheck off && To avoid language driver conflicts
+#define Maxcoy 999
+** END HEADER -- do not remove this line
+//
+// Generated on 13/07/2016
+//
+parameter bUser,bLevel,bModal
+local f
+f = new fgtypFORM()
+if (bModal)
+   f.mdi = false // ensure not MDI
+   f.readModal()
+else
+   f.open()
+endif
+
+class fgtypFORM of FORM
+   with (this)
+      onClose = class::ONCLOSE
+      open = class::OPEN
+      metric = 6	// Pixels
+      colorNormal = "N+"
+      height = 751.0
+      left = 33.0
+      top = 20.0
+      width = 1150.0
+      text = "Item Types Maintenance Form"
+      windowState = 2	// Maximized
+      mdi = false
+      sizeable = false
+      moveable = false
+      sysMenu = true
+      view = "fgtyp.QBE"
+      menuFile = "FGTYP.MNU"
+      escExit = false
+      mousePointer = 1	// Arrow
+      scrollBar = 0	// Off
+      maximize = false
+      minimize = false
+   endwith
+
+   this.CODETEXT = new TEXTLABEL(this)
+   with (this.CODETEXT)
+      height = 21.0
+      left = 7.0
+      top = 7.0
+      width = 78.0
+      text = "Item Type:"
+      colorNormal = "B/BtnFace"
+      fontName = "MS Sans Serif"
+      fontBold = true
+      alignVertical = 1	// Middle
+      alignHorizontal = 2	// Right
+   endwith
+
+   this.PTYP = new ENTRYFIELD(this)
+   with (this.PTYP)
+      dataLink = "FGTYP->TYP"
+      enabled = false
+      height = 26.0
+      left = 104.0
+      top = 7.0
+      width = 49.0
+      picture = "99.99"
+      colorNormal = "N/BtnFace"
+      colorHighLight = "B+/W*"
+      fontName = "MS Sans Serif"
+      fontBold = true
+   endwith
+
+   this.LNAMETEXT = new TEXTLABEL(this)
+   with (this.LNAMETEXT)
+      height = 22.0
+      left = 7.0
+      top = 60.0
+      width = 89.0
+      text = "Name:"
+      colorNormal = "B/BtnFace"
+      fontName = "MS Sans Serif"
+      fontBold = true
+      alignVertical = 1	// Middle
+      alignHorizontal = 2	// Right
+   endwith
+
+   this.LNAMEENTRY = new ENTRYFIELD(this)
+   with (this.LNAMEENTRY)
+      onChange = class::CHANGE_NAME
+      valid = class::VALID_NAME
+      dataLink = "fgtyp->name"
+      enabled = false
+      height = 28.0
+      left = 118.0
+      top = 51.0
+      width = 494.0
+      function = "!"
+      colorNormal = "N/BtnFace"
+      colorHighLight = "B+/W*"
+      fontName = "MS Sans Serif"
+      fontBold = true
+      validErrorMsg = "Name of Company Required"
+   endwith
+
+   this.TEXT6 = new TEXTLABEL(this)
+   with (this.TEXT6)
+      height = 22.0
+      left = 7.0
+      top = 94.0
+      width = 89.0
+      text = "Short Name:"
+      colorNormal = "B/BtnFace"
+      fontName = "MS Sans Serif"
+      fontBold = true
+      alignVertical = 1	// Middle
+      alignHorizontal = 2	// Right
+   endwith
+
+   this.SLNAME = new ENTRYFIELD(this)
+   with (this.SLNAME)
+      onChange = class::SSHORT_ONCHANGE
+      valid = class::SLNAME_VALID
+      dataLink = "FGTYP->LNAME"
+      enabled = false
+      height = 28.0
+      left = 118.0
+      top = 85.0
+      width = 218.0
+      function = "!"
+      colorNormal = "N/BtnFace"
+      colorHighLight = "B+/W*"
+      fontName = "MS Sans Serif"
+      fontBold = true
+      validErrorMsg = "Name of Company Required"
+   endwith
+
+   this.TEXT1 = new TEXTLABEL(this)
+   with (this.TEXT1)
+      height = 21.0
+      left = 1.0
+      top = 138.0
+      width = 141.0
+      text = "Select GL A/C Type:"
+      colorNormal = "B/BtnFace"
+      fontName = "MS Sans Serif"
+      fontBold = true
+      alignVertical = 1	// Middle
+      alignHorizontal = 2	// Right
+   endwith
+
+   this.SGLACT = new COMBOBOX(this)
+   with (this.SGLACT)
+      onLostFocus = class::SGLACT_ONLOSTFOCUS
+      dataLink = "FGTYPS->GL_AC_NAME"
+      enabled = false
+      height = 24.0
+      left = 154.0
+      top = 134.0
+      width = 485.0
+      fontName = "MS Sans Serif"
+      colorNormal = "WindowText/W"
+      dataSource = "FIELD GLTYP->LNAME"
+      style = 1	// DropDown
+      dropDownHeight = 132.0
+   endwith
+
+   this.TEXT2 = new TEXTLABEL(this)
+   with (this.TEXT2)
+      height = 21.0
+      left = 1.0
+      top = 172.0
+      width = 141.0
+      text = "Default Usage:"
+      colorNormal = "B/BtnFace"
+      fontName = "MS Sans Serif"
+      fontBold = true
+      alignVertical = 1	// Middle
+      alignHorizontal = 2	// Right
+   endwith
+
+   this.SUS = new COMBOBOX(this)
+   with (this.SUS)
+      onLostFocus = class::SUS_ONLOSTFOCUS
+      dataLink = "FGTYP->USENAME"
+      enabled = false
+      height = 24.0
+      left = 154.0
+      top = 168.0
+      width = 482.0
+      fontName = "MS Sans Serif"
+      colorNormal = "WindowText/W"
+      dataSource = "FIELD FGITEMUS->NAME"
+      style = 1	// DropDown
+      dropDownHeight = 132.0
+   endwith
+
+   this.TEXT5 = new TEXTLABEL(this)
+   with (this.TEXT5)
+      height = 21.0
+      left = 1.0
+      top = 206.0
+      width = 141.0
+      text = "Default Qty Entry:"
+      colorNormal = "B/BtnFace"
+      fontName = "MS Sans Serif"
+      fontBold = true
+      alignVertical = 1	// Middle
+      alignHorizontal = 2	// Right
+   endwith
+
+   this.SQTY = new COMBOBOX(this)
+   with (this.SQTY)
+      onChange = class::SQTY_ONCHANGE
+      dataLink = "FGTYP->QTY"
+      enabled = false
+      height = 24.0
+      left = 154.0
+      top = 202.0
+      width = 98.0
+      fontName = "MS Sans Serif"
+      colorNormal = "WindowText/W"
+      dataSource = 'array {"Yes","No"}'
+      style = 1	// DropDown
+      dropDownHeight = 132.0
+   endwith
+
+   this.TEXT3 = new TEXTLABEL(this)
+   with (this.TEXT3)
+      height = 21.0
+      left = 1.0
+      top = 240.0
+      width = 141.0
+      text = "Default Tax Type:"
+      colorNormal = "B/BtnFace"
+      fontName = "MS Sans Serif"
+      fontBold = true
+      alignVertical = 1	// Middle
+      alignHorizontal = 2	// Right
+   endwith
+
+   this.STAX = new COMBOBOX(this)
+   with (this.STAX)
+      onLostFocus = class::STAX_ONLOSTFOCUS
+      dataLink = "FGTYP->TAXNAME"
+      enabled = false
+      height = 24.0
+      left = 154.0
+      top = 236.0
+      width = 485.0
+      fontName = "MS Sans Serif"
+      colorNormal = "WindowText/W"
+      dataSource = "FIELD FGTAXTYP->NAME"
+      style = 1	// DropDown
+      dropDownHeight = 132.0
+   endwith
+
+   this.TEXT4 = new TEXTLABEL(this)
+   with (this.TEXT4)
+      height = 21.0
+      left = 1.0
+      top = 272.0
+      width = 141.0
+      text = "Tax Rate:"
+      colorNormal = "B/BtnFace"
+      fontName = "MS Sans Serif"
+      fontBold = true
+      alignVertical = 1	// Middle
+      alignHorizontal = 2	// Right
+   endwith
+
+   this.SRATE = new ENTRYFIELD(this)
+   with (this.SRATE)
+      onChange = class::SRATE_ONCHANGE
+      dataLink = "FGTYP->RATE"
+      enabled = false
+      height = 26.0
+      left = 152.0
+      top = 272.0
+      width = 49.0
+      picture = "99.99"
+      colorNormal = "N/BtnFace"
+      colorHighLight = "B+/W*"
+      fontName = "MS Sans Serif"
+      fontBold = true
+   endwith
+
+   this.PREVBUTTON = new PUSHBUTTON(this)
+   with (this.PREVBUTTON)
+      onClick = class::PREVIOUS
+      height = 26.0
+      left = 119.0
+      top = 396.0
+      width = 85.0
+      text = "&PREVIOUS"
+      fontName = "MS Sans Serif"
+      fontSize = 8.0
+      fontBold = true
+   endwith
+
+   this.NEXTBUTTON = new PUSHBUTTON(this)
+   with (this.NEXTBUTTON)
+      onClick = class::NEXT
+      height = 26.0
+      left = 203.0
+      top = 396.0
+      width = 85.0
+      text = "&NEXT"
+      fontName = "MS Sans Serif"
+      fontSize = 8.0
+      fontBold = true
+   endwith
+
+   this.FIRSTBUTTON = new PUSHBUTTON(this)
+   with (this.FIRSTBUTTON)
+      onClick = {; form.CheckCommit(form.inEditMode);GO TOP;}
+      height = 26.0
+      left = 294.0
+      top = 396.0
+      width = 85.0
+      text = "F&IRST"
+      fontName = "MS Sans Serif"
+      fontSize = 8.0
+      fontBold = true
+   endwith
+
+   this.LASTBUTTON = new PUSHBUTTON(this)
+   with (this.LASTBUTTON)
+      onClick = {; form.CheckCommit(form.inEditMode);GO BOTTOM;}
+      height = 26.0
+      left = 385.0
+      top = 396.0
+      width = 85.0
+      text = "&LAST"
+      fontName = "MS Sans Serif"
+      fontSize = 8.0
+      fontBold = true
+   endwith
+
+
+   procedure Open
+   ****************************************************************************
+   private CodeField
+   form.firstime = .T.
+     FORM.BLUSER=BUSER
+   FORM.BLEVEL=BLEVEL
+   IF EMPTY(FORM.BLUSER) .OR. EMPTY(FORM.BLEVEL)
+      QUIT
+      ENDIF
+   if type("form.init") = "U"
+      form.init = .T.
+
+      set skip to                     && fgtyp.qbe contains set skip to gldtl
+      set exact off                   && the .qbe file contains SET EXACT ON
+
+      set procedure to sampProc.prg additive
+    Form.duplicate = .F.
+      form.inEditMode = .F.           && indicator of view/edit state
+      form.changesMade = .F.          && indicator of changes made to field values
+      form.previousRecord = .F.       && Save record number when appending
+        *** do calculations in another area so form doesn't get updated
+        select fgtyp3
+      set order to typ
+      select fgtyp
+      set order to typ
+    GO TOP                                  && new Receipts
+   if empty(typ)
+   delete
+   endif
+   go top
+   if eof()
+      form.norecs = .t.
+      else
+      form.norecs = .f.
+    endif
+
+   FORM.LNAMEENTRY.ENABLED = .F.
+
+      *** Open table for calculating totals and balance due in another work area
+      *** so that datalinks are not affected by record movements
+
+
+      ***
+    *  if type("form.parentpayeeForm") <> "U" && Esc ok if have parent
+    *     form.escExit = .T.
+   *   endif
+
+   endif
+   * form.CoyInfoButton.KenpName = "fgtyp.WFM"
+
+   form::Open()                         && Now the form actually opens
+   *    form.BrowseOnNavigate()              && calculate totals
+   *       form.codingerrors()                        && check coding errors
+
+   *      form.next.setfocus()
+   ****************************************************************************
+
+   procedure OnClose
+
+   * Clean up.
+   ****************************************************************************
+
+   if this.inEditMode
+      form.ViewEdit()                      && Finish transaction
+   endif
+   select fgtyp
+   set filter to
+   delete all for Empty(typ)
+   go top
+   if .not. eof()
+   do fgtyps_rtn
+   endif
+   close databases
+     close procedure SAMPProc.prg
+
+
+
+
+   ****************************************************************************
+
+   procedure ChangesMade
+
+   * Indicate that changes have been made to the current record
+   ****************************************************************************
+   Form.ChangesMade = .T.
+   ****************************************************************************
+
+  procedure Next
+
+   * Go to next record.
+   ****************************************************************************
+
+   form.CheckCommit(form.inEditMode)
+   if .not. empty(dbf())  .and. .not. eof()      && if a table is open in the current workarea
+      skip
+      if eof()
+         go bottom
+         AlertMessage("At the last record","Alert")
+      endif
+   else
+      InformationMessage("There is no table open in the current workarea.",;
+         "Info")
+   endif
+    ****************************************************************************
+
+   procedure Previous
+
+   * Go to previous record.
+   ****************************************************************************
+
+   form.CheckCommit(form.inEditMode)
+ if .not. empty(dbf())  .and. .not. eof() && if a table is open in the current workarea
+      skip - 1
+      if bof()
+         go top
+         AlertMessage("At the first record","Alert")
+      endif
+   else
+      InformationMessage("There is no table open in the current workarea.",;
+         "Info")
+   endif
+
+   ****************************************************************************
+
+   procedure CheckCommit (newInEditMode)
+
+        * Finish transaction, if it has been started.
+   ****************************************************************************
+   private CodeField, changesMade
+    local lk1
+    lk1 = form.ptyp.value
+   changesMade = form.changesMade
+   if form.changesMade
+      CodeField = field(1)  && Field period
+      if     ConfirmationMessage("Commit changes?",;
+                FormatStr("Company %1",&CodeField)) = YES
+         commit()
+
+      else
+         rollback()
+         if .not. bof()
+       *  if .not. empty(form.previousRecord)
+   *            go bookmark()
+           * form.previousRecord
+            form.previousRecord = .F.
+         endif
+      endif
+
+       form.ptyp.enabled = .F.
+    if form.inEditMode .and. newInEditMode
+         begintrans()
+      endif
+      form.changesMade = .F.
+   endif
+   if form.inEditMode <> newInEditMode
+      if newInEditMode                       && Going to Edit mode
+         begintrans()
+      else                                   && Going to View mode
+         if .not. changesMade .AND. .NOT. FORM.DUPLICATE
+            rollback()
+         endif
+      endif
+      form.inEditMode = newInEditMode
+   endif
+
+   * form.root.Receipt.add.enabled = .T.
+   *form.codingerrors()
+   ****************************************************************************
+
+   procedure ViewEdit
+
+   * Toggle between View and Edit modes.
+   ****************************************************************************
+   local inEditMode, editMenu, control
+
+   editMenu = form.root.FGTYP.VIEWEdit
+
+   *** If ending edit mode then close transaction, otherwise open it.
+   if form.inEditMode
+      form.checkChanged(.F.)
+      editMenu.text = "&Edit"
+      editMenu.shortcut = "Ctrl-E"
+      editMenu.statusMessage = "Edit data."
+      form.CheckCommit(.F.)                        && Check transaction and
+      form.text = "Item Types Maintenance -- View Mode"          && change mode to View
+   *      form.notesEditor.colorNormal = "N/W"
+   *      form.childBrowse.modify = .F.
+   *      form.notesEditor.modify = .F.
+      form.statusmessage = "In View Mode. " + ;
+                           "Select Item Types - Edit menu to " + ;
+                           "edit/delete data."
+      *form.nextCOYBUTTON.SetFocus()
+   else                                            && Switch to edit mode
+      editMenu.text = "Vi&ew"
+      editMenu.shortcut = "Ctrl-E"
+      editMenu.statusMessage = "View data."
+      form.CheckCommit(.T.)                        && Check transaction and
+      form.text = "Item Types Maintenance -- Edit Mode"          && change mode to Edit
+
+   *     form.notesEditor.modify = .T.
+      form.statusmessage = "In Edit Mode.  " + ;
+                           "Select menu Item Types - View to switch " + ;
+                           "to View mode."
+        form.ptyp.Enabled = .F.
+
+   
+   endif
+
+   inEditMode = form.inEditMode     && Faster if we don't reference a form
+   control = form.first             &&    variable each time through the loop
+   do
+*      if .not. control.claslname $ "BROWSE,EDITOR,NEXTBUTTON,PREVBUTTON,PUSHBUTTON,IMAGE,TEXT"
+        control.enabled = inEditMode
+   *   endif
+      control = control.before
+   until control.name = form.first.name
+    *       form.gltyp.enabled = .f.
+    * form.glname.Enabled = .F.
+    form.srate.enabled = .f.
+    if form.blevel > 1
+    form.LNAMEENTRY.enabled = .f.
+    endif
+    form.sglact.enabled = .f.
+    form.sus.enabled = .f.
+    form.sqty.enabled = .f.
+    form.stax.enabled = .f.
+    form.srate.enabled = .f.
+       form.LnameEntry.SetFocus()
+
+
+   ****************************************************************************
+
+   procedure CheckChanged(callCommit)
+
+   * Check if changes have been made to the current entryfield.  This procedure
+   * is called from menu routines to make sure the form.changesMade gets
+   * updated when a menu is selected while the changed control has focus.
+   ****************************************************************************
+   private control, fieldValue, controlValue, typeText, typeValue
+
+   if form.inEditMode
+      control = form.activeControl
+      if type("control.datalink") <> "U"
+         fieldValue = control.datalink          && name of table field
+
+         typeText = type("control.text")
+         typeValue = type("control.value")
+         do case
+            case typeValue = "C"
+               controlValue = control.value
+            case typeValue $ "LU" .and. typeText = "C"
+               controlValue = control.text
+            otherwise
+               controlValue = Null
+         endcase
+         if controlValue <> &fieldValue
+            form.changesMade = .T.
+         endif
+      endif
+   endif
+   if form.changesMade .and. callCommit
+      CLASS::CheckCommit(form.inEditMode)     && Check transactions
+   endif
+
+      Procedure change_name
+      select fgtyp
+      replace name with this.value
+      if .not. empty(this.value)
+      form.changesmade = .t.
+      form.updated = .t.
+      endif
+      if empty(form.slname.value) .and. .not. empty(this.value)
+      form.slname.value = this.value
+      endif
+
+      Procedure valid_name
+      if empty(this.value)
+      isvalid = .f.
+      else
+      isvalid = .t.
+      endif
+      return isvalid
+
+   Procedure SGLACT_OnLostFocus
+         select GLTYP
+         seek this.value
+         if found()
+         select fgtyp
+         replace actype with GLTYP->actype
+         else
+         select fgtyp
+         replace actype with ""
+         endif
+         form.changesmade = .t.
+
+   Procedure SUS_OnLostFocus
+         select fgitemus
+         seek this.value
+         select fgtyp
+         replace use with fgitemus->use
+         if this.value = "STOCK ITEM"
+         REPLACE QTY WITH "Yes"
+         endif
+         form.changesmade = .t.
+
+   Procedure STAX_OnLostFocus
+         select fgtaxtyp
+         seek this.value
+         select fgtyp
+         replace tax_type with fgtaxtyp->tax_type
+         replace rate with fgtaxtyp->rate
+         replace vat with rate
+         form.changesmade = .t.
+
+   Procedure SQTY_OnChange
+         form.changesmade = .t.
+
+   function SRATE_onChange
+      select fgtyp
+      replace  rate with this.value
+      form.changesmade = .t.
+      return
+
+   Procedure SSHORT_OnChange
+   select fgtyp
+   replace lname with this.value
+         form.changesmade = .t.
+
+   Procedure SLNAME_Valid
+         if empty(this.value)
+            isvalid = .f.
+            else
+            isvalid = .t.
+            endif
+            return isvalid
+
+endclass
+
+Procedure fgtyps_rtn
+   private eoffgtyp,p1,p2
+   eoffgtyp = .f.
+   set safety off
+   select fgtyps
+    set order to typ
+    zap
+     set safety on
+   select fgtyp
+   go top
+   if .not. eof()
+      do
+         do rtn1
+         until eoffgtyp
+     endif
+
+procedure rtn1
+       p1 = fgtyp->name
+       p2 = fgtyp->typ
+      if .not. empty(p1)
+      do rtn2
+      endif
+   select fgtyp
+   skip
+   if eof()
+   eoffgtyp = .t.
+   endif
+
+Procedure rtn2
+   select fgtyps
+      append blank
+       replace typ with p2
+       replace name with p1
+       replace lname with fgtyp->lname

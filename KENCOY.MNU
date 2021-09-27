@@ -1,0 +1,659 @@
+******************************************************************************
+*  PROGRAM:      KenCoy.mnu
+*
+*  WRITTEN BY:   W Nyongesa
+*
+*  DATE:        06/2000
+*
+*  UPDATED:      03/2014
+*
+*  REVISION:     $Revision:   1.0 $
+*
+*  VERSION:      Visual dBASE
+*
+*  DESCRIPTION:  This menu file is used by KenCoy.wfm for controlling the running 
+*                of the KENPAY Payroll system.
+*
+*  PARAMETERS:   FormObj -- the form to which this menu is attached.
+*
+*  CALLS:        None
+*
+*  USAGE:        form.menuFile = "KenCoy.mnu"
+*
+*******************************************************************************
+#include <Messdlg.h>
+
+** END HEADER -- do not remove this line*
+* Generated on 17/10/2000
+*
+Parameter FormObj
+NEW KenCoyMENU(FormObj,"Root")
+CLASS KenCoyMENU(FormObj,Name) OF MENUBAR(FormObj,Name)
+   DEFINE MENU FILE OF THIS;
+          PROPERTY; 
+          Text "&FILE",;
+          OnClick CLASS::FILE_ONCLICK
+          
+          DEFINE MENU EXIT OF THIS.FILE;
+             PROPERTY; 
+               StatusMessage "Return to the Previous Menu.",;
+                ShortCut "F4",;
+               Text "&Return to Previous Menu",;
+               OnClick CLASS::ONEXITALL
+
+        
+       DEFINE MENU SEPARATOR000 OF THIS.FILE;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+       DEFINE MENU QUITS OF THIS.FILE;
+             PROPERTY; 
+               StatusMessage "Return to the Previous Menu.",;
+               Text "EXIT",;
+               ShortCut "F8",;
+               OnClick CLASS::QUITALL
+   
+  if (.not. validdrive("Z:") .and.  .not. validdrive("W:") .AND.;
+  .NOT. validdrive("Y:") .AND. .NOT. validdrive("X:")) .OR. BLEVEL = 1 .OR. BLEVEL = 3 
+    
+   DEFINE MENU COYinfo1 OF THIS;
+          PROPERTY; 
+          Text "LOCATIONS"
+         
+             IF  blevel < 5 .and. .not. blmeter
+          DEFINE MENU COY1 OF THIS.COYinfo1;
+                 PROPERTY; 
+                 Text "1. COMPANIES"
+                
+                 DEFINE MENU COY2 OF THIS.COYinfo1.COY1;
+                        PROPERTY; 
+                        Text "Edit.",;
+                        OnClick {;do fgcoy.wfm WITH form.BLUSER, form.BLEVEL}
+                                    
+       DEFINE MENU SEPARCOYinfo100 OF THIS.COYinfo1;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+                 IF BLEVEL = 1
+                 DEFINE MENU DIV1 OF THIS.COYinfo1;
+                        PROPERTY; 
+                        Text "2. DIVISIONS"
+                                 
+                 DEFINE MENU DIV3 OF THIS.COYinfo1.DIV1;
+                        PROPERTY; 
+                        Text "Edit.",;
+                        OnClick {;do fgdiv.wfm WITH form.BLUSER, form.BLEVEL}
+                                    
+       DEFINE MENU SEPARCOYinfo102 OF THIS.COYinfo1;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+
+                        ENDIF
+              endif
+                       
+            if blevel = 1 .or. (((blevel = 2 .AND. .NOT. BLADMIN) .or. (blevel  = 3 .AND. BLADMIN)) .or. blevel = 4;
+            .AND. .NOT. BLNOMASTER)
+                 DEFINE MENU CEN1 OF THIS.COYinfo1;
+                        PROPERTY; 
+                        Text "3. CENTRES"
+                             
+                 DEFINE MENU CEN3 OF THIS.COYinfo1.cen1;
+                        PROPERTY; 
+                        Text "Edit.",;
+                        OnClick {;do fgcen.wfm WITH form.BLUSER, form.BLEVEL}
+                        
+                          DEFINE MENU SEPARCOYinfo103 OF THIS.COYinfo1;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+  
+                        endif
+                                    
+         *                    if blevel = 1
+        *
+         *    DEFINE MENU fgstn OF THIS.COYinfo1;
+             PROPERTY; 
+               Text "4. Station IDS",;
+               OnClick {;do fgstn.wfm WITH form.BLUSER, form.BLEVEL}
+               
+          *       DEFINE MENU SEPARpuminfo103stn OF THIS.COYinfo1;
+             PROPERTY;
+          *     Separator .T.,;
+               Text ""
+    *  endif
+              
+         
+             
+      
+                   if blevel = 1 .or. (((blevel = 2 .AND. .NOT. BLADMIN) .or. (blevel  = 3 .AND. BLADMIN)) .or. blevel = 4;
+            .AND. .NOT. BLNOMASTER)
+             DEFINE MENU STO1 OF THIS.COYinfo1;
+                        PROPERTY; 
+                        Text "4. STORES"
+                                   
+                 DEFINE MENU STO2 OF THIS.COYinfo1.STO1;
+                        PROPERTY; 
+                        Text "Edit.",;
+                        OnClick {;do STSTO.wfm WITH FORM.BLUSER, FORM.BLEVEL, form.BLADMIN}
+                                    
+       DEFINE MENU SEPARCOYinfo105 OF THIS.COYinfo1;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+
+    
+             endif
+*      if (blevel = 1 .or. blevel = 2) .and. blcsv = 'Yes'
+ *            DEFINE MENU PLANTO1 OF THIS.COYinfo1;
+                        PROPERTY; 
+                        Text "6. PLANTS"
+  *                                 
+   *              DEFINE MENU PLANTO2 OF THIS.COYinfo1.PLANTO1;
+                        PROPERTY; 
+                        Text "Edit.",;
+                        OnClick {;do fgplant.wfm WITH FORM.BLUSER, FORM.BLEVEL}
+                                    
+    *   DEFINE MENU SEPARCOYinfo106 OF THIS.COYinfo1;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+
+ *   DEFINE MENU CUSTTO1 OF THIS.COYinfo1;
+                        PROPERTY; 
+                        Text "7. CUSTOMER NOS"
+                                   
+  *               DEFINE MENU CUSTTO2 OF THIS.COYinfo1.CUSTTO1;
+                        PROPERTY; 
+                        Text "Edit.",;
+                        OnClick {;do fgmcust.wfm WITH FORM.BLUSER, FORM.BLEVEL}
+                                    
+   *    DEFINE MENU SEPARCOYCUST106 OF THIS.COYinfo1;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+
+            
+           
+*else
+      if blevel < 4
+          
+                                                      
+   *   DEFINE MENU SEPARCOYinfo106O8 OF THIS.COYinfo1;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+                        
+           *             DEFINE MENU CUSTTO1O8 OF THIS.COYinfo1;
+                        PROPERTY; 
+                        Text "&6. HQCust"
+                                  
+          *       DEFINE MENU CUSTTO2O8 OF THIS.COYinfo1.CUSTTO1O8;
+                        PROPERTY; 
+                        Text "Edit.",;
+                        OnClick {;do fghqcus.wfm WITH FORM.BLUSER, FORM.BLEVEL}
+                                    
+       DEFINE MENU SEPARCOYCUST106O OF THIS.COYinfo1;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+               
+          **
+           DEFINE MENU CUSTTO1O87 OF THIS.COYinfo1;
+                        PROPERTY; 
+                        Text "&5. Top Up Card Vehicles"
+                                  
+                 DEFINE MENU CUSTTO2O87 OF THIS.COYinfo1.CUSTTO1O87;
+                        PROPERTY; 
+                        Text "&Edit.",;
+                        OnClick {;do fgregcds.wfm WITH FORM.BLUSER, FORM.BLEVEL}
+                        *
+                           DEFINE MENU SEPARCOYCUST106O8 OF THIS.COYinfo1;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+      
+               ENDIF
+  IF BLYVEH .OR. BLEVEL < 4
+                        
+                         DEFINE MENU CUSTTO1O88 OF THIS.COYinfo1;
+                        PROPERTY; 
+                        Text "&6. Register CRT Vehicles"
+                                  
+                 DEFINE MENU CUSTTO2O88 OF THIS.COYinfo1.CUSTTO1O88;
+                        PROPERTY; 
+                        Text "&Edit.",;
+                        OnClick {;do frveregs.wfm WITH FORM.BLUSER, FORM.BLEVEL}
+                        
+                                    
+       DEFINE MENU SEPARCOYCUST106O7 OF THIS.COYinfo1;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+               **
+               
+             endif
+        *      endif
+              
+                  
+                 DEFINE MENU COYINFO2 OF THIS;
+                        PROPERTY; 
+                        Text "ITEM"
+              if blevel = 1 .or. (((blevel = 2 .AND. .NOT. BLADMIN)  .or. (blevel  = 3 .AND. BLADMIN));
+            .AND. .NOT. BLNOMASTER)
+         
+                 DEFINE MENU unit1 OF THIS.COYINFO2;
+                        PROPERTY; 
+                        Text "1. Units.",;
+                        OnClick {;do fgunit.wfm WITH form.BLUSER, form.BLEVEL}
+                        
+                        DEFINE MENU SEPARCOYINFO201 OF THIS.COYINFO2;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+          
+                 DEFINE MENU tax1 OF THIS.COYINFO2;
+                        PROPERTY; 
+                        Text "2. Taxes.",;
+                        OnClick {;do fgtaxtyp.wfm  WITH form.BLUSER, form.BLEVEL}
+                                    DEFINE MENU SEPARCOYINFO202 OF THIS.COYINFO2;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+            
+              ENDIF
+              
+              if blevel  < 4
+                 DEFINE MENU TYP1 OF THIS.COYINFO2;
+                        PROPERTY; 
+                        Text "3. Types.",;
+                        OnClick {;do fgtyp.wfm WITH FORM.BLUSER,FORM.BLEVEL}
+                                    DEFINE MENU SEPARCOYINFO203 OF THIS.COYINFO2;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+            
+              endif
+            
+                       DEFINE MENU CLA1 OF THIS.COYinfo2;
+                     PROPERTY; 
+                     Text "4. CLASSES"
+                     
+              if blevel = 1 .or. (((blevel = 2 .AND. .NOT. BLADMIN) .OR. BLEVEL = 4 ;
+              .or. (blevel  = 3 .AND. BLADMIN)) .AND. .NOT. BLNOMASTER)
+           
+              DEFINE MENU CLA2 OF THIS.COYinfo2.CLA1;
+                     PROPERTY; 
+                     Text "1. Edit.",;
+                     OnClick {;do FGCLA.wfm WITH FORM.BLUSER, FORM.BLEVEL}
+                 ENDIF
+                       DEFINE MENU SEPARCLA101 OF THIS.COYINFO2;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+            
+                DEFINE MENU COD1 OF THIS.COYinfo2;
+                     PROPERTY; 
+                     Text "5. CODES"
+      
+             if (.not. validdrive("Z:") .and.  .not. validdrive("W:") .AND. .NOT. validdrive("Y:") .AND. .NOT. validdrive("X:"));
+             .OR. BLEVEL = 1 
+                if blevel = 1 .or. ((blevel = 4 .OR. (BLEVEL = 3 .AND. BLADMIN)) .AND. .NOT. BLNOMASTER) 
+              DEFINE MENU COD2 OF THIS.COYinfo2.COD1;
+                     PROPERTY; 
+                     Text "1. Create.",;
+                     OnClick {;do FGCODAD.wfm with form.bluser, form.blevel}
+                    DEFINE MENU SEPARCOD201 OF THIS.COYinfo2.COD1;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+            
+            endif
+             if blevel = 1 .or. (((blevel = 2 .AND. .NOT. BLADMIN) .or. (blevel  = 3 .AND. BLADMIN) ;
+              .OR. BLEVEL = 7 .or. blevel= 9 .or. blevel = 4) .AND. .NOT. BLNOMASTER)
+           
+              DEFINE MENU COD3 OF THIS.COYinfo2.COD1;
+                     PROPERTY; 
+                     Text "2. Edit.",;
+                     OnClick {;do FGCOD.wfm with form.bluser, form.blevel}
+                     
+                             DEFINE MENU SEPARCOD202 OF THIS.COYinfo2.COD1;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+            
+                     endif
+                     endif
+                        IF blevel = 1 .or. (((blevel = 2 .and. .not. bladmin)  .or. (blevel = 3 .and. bladmin) .or. blevel = 6;
+          .or. blevel = 5) .AND. .NOT. BLNOMASTER)
+                 DEFINE MENU COD4 OF THIS.COYinfo2.COD1;
+                        PROPERTY; 
+                        Text "3. Audit.",;
+                        OnClick {;do FGCODprc.wfm with form.bluser, form.blevel}
+            
+              ENDIF
+                       DEFINE MENU SEPARMTYP999 OF THIS.COYINFO2;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+                     
+                        if (blevel = 1 .or. (((blevel = 2 .AND. .NOT. BLADMIN) .OR. BLEVEL = 4 ;
+              .or. (blevel  = 3 .AND. BLADMIN)) .AND. .NOT. BLNOMASTER)) .and. blcsv = 'Yes'
+           
+                     DEFINE MENU MTYP1 OF THIS.COYinfo2;
+                     PROPERTY; 
+                     Text "6. MATERIAL TYPES"
+                     
+           
+              DEFINE MENU MTYP2 OF THIS.COYinfo2.MTYP1;
+                     PROPERTY; 
+                     Text "1. Edit.",;
+                        enabled .f.,;
+                     OnClick {;do FGMTYP.wfm WITH FORM.BLUSER, FORM.BLEVEL}
+                
+                       DEFINE MENU SEPARMTYP101 OF THIS.COYINFO2;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+              
+                DEFINE MENU MCOD1 OF THIS.COYinfo2;
+                     PROPERTY; 
+                   Text "7. MATERIAL CODES"
+                     
+              DEFINE MENU MCOD2 OF THIS.COYinfo2.MCOD1;
+                     PROPERTY; 
+                     Text "1. Edit.",;
+                      enabled .f.,;
+                     OnClick {;do FGMCOD.wfm WITH FORM.BLUSER, FORM.BLEVEL}
+                
+                  
+                ENDIF
+                
+                  if blevel = 1
+           
+                     DEFINE MENU MTYP1O OF THIS.COYinfo2;
+                     PROPERTY; 
+                     Text "8. HQTypes"
+                     
+           
+              DEFINE MENU MTYP2 OF THIS.COYinfo2.MTYP1O;
+                     PROPERTY; 
+                     Text "1. Edit.",;
+                     enabled .f.,;
+                     OnClick {;do fghqtyp.wfm WITH FORM.BLUSER, FORM.BLEVEL}
+                
+                       DEFINE MENU SEPARMTYP101O OF THIS.COYINFO2;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+              
+                DEFINE MENU MCOD1O OF THIS.COYinfo2;
+                     PROPERTY; 
+                   Text "9. HQClasses"
+                     
+              DEFINE MENU MCOD2O OF THIS.COYinfo2.MCOD1O;
+                     PROPERTY; 
+                     Text "1. Edit.",;
+                     enabled .f.,;
+                     OnClick {;do fghqcla.wfm WITH FORM.BLUSER, FORM.BLEVEL}
+                     
+                                DEFINE MENU SEPARMTYP101O8 OF THIS.COYINFO2;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+              
+                DEFINE MENU MCOD1O8 OF THIS.COYinfo2;
+                     PROPERTY; 
+                   Text "10. HQCodes"
+                     
+              DEFINE MENU MCOD2O8 OF THIS.COYinfo2.MCOD1O8;
+                     PROPERTY; 
+                     Text "1. Edit.",;
+                     enabled .f.,;
+                     OnClick {;do fghqcod.wfm WITH FORM.BLUSER, FORM.BLEVEL}
+                
+                  
+                ENDIF
+               
+                       DEFINE MENU SEPARfgmast105 OF THIS.COYINFO2;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+            
+             if (.not. validdrive("Z:") .and.  .not. validdrive("W:") .AND. .NOT. validdrive("Y:").AND. .NOT. validdrive("X:"));
+             .OR. BLEVEL = 1  
+                    if blevel = 1 .or. blevel = 4 .or. (blevel = 3 .and. bladmin);
+                    .or. blevel = 7 .or. blevel = 6 .or. blevel = 5 .OR. (BLEVEL = 2 .and. .not. bladmin)
+                 DEFINE MENU fgmast1 OF THIS.COYINFO2;
+                        PROPERTY; 
+                        Text "11. Chart Of Accounts.",;
+                        OnClick {;do fgmast.wfm with form.BLUSER, FORM.BLEVEL}
+             *                    DEFINE MENU SEPARCOD204 OF THIS.COYinfo2.COD1;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+            
+              ENDIF
+              ENDIF
+              DEFINE MENU COYOFF1 OF THIS;
+                     PROPERTY; 
+                     Text "OFFICER"
+                 If blevel  < 5 
+           if blevel < 4
+              DEFINE MENU dtitles1 OF THIS.COYOFF1;
+                     PROPERTY; 
+                     Text "1. Titles.",;
+                     OnClick {;do oftitle.wfm WITH FORM.BLUSER, FORM.BLEVEL}
+                                   
+       DEFINE MENU SEPARCOYOFF100 OF THIS.COYOFF1;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+               endif
+              DEFINE MENU soff1 OF THIS.COYOFF1;
+                     PROPERTY; 
+                     Text "2. Names.",;
+                     OnClick {;do fgoff.wfm WITH FORM.BLUSER, FORM.BLEVEL}
+                                                  
+       DEFINE MENU SEPARCOYOFF102 OF THIS.COYOFF1;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+        
+                if blevel < 4
+              DEFINE MENU CASHRS1 OF THIS.COYOFF1;
+                     PROPERTY; 
+                     Text "3. Points.",;
+                     OnClick {;do cashiers.wfm WITH FORM.BLUSER, FORM.BLEVEL}
+       
+        ENDIF
+        endif
+        
+              DEFINE MENU tranREASONS of THIS;
+                     PROPERTY; 
+                     Text "REASONS"
+                  If blevel = 1 
+              DEFINE MENU adjresons OF THIS.tranREASONS;
+                     PROPERTY; 
+                     Text "1. Adjustments"
+                  
+                                             
+       DEFINE MENU SEPARtranREASONS00 OF THIS.tranREASONS;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+              endif
+                 
+              DEFINE MENU COYSHIFTM1 OF THIS;
+                     PROPERTY; 
+                     Text "SHIFT"
+          if (.not. validdrive("Z:") .and.  .not. validdrive("W:") .AND. .NOT. validdrive("Y:").AND. .NOT. validdrive("X:"));
+             .OR. BLEVEL = 1 .OR. BLEVEL = 3 
+                     if blevel = 1 .or. (((blevel = 2 .AND. .NOT. BLADMIN) .or. (blevel = 3 .AND. BLADMIN)) .AND. .NOT. BLSYSTEM) ;
+       .OR.   BLEVEL = 4 .or. blevel = 7 .or. blevel= 9
+                 DEFINE MENU fg15fs1 OF THIS.COYSHIFTM1;
+                        PROPERTY; 
+                        Text "1. Master",;
+                        OnClick {;do fst15f.wfm WITH FORM.BLUSER, FORM.BLEVEL, form.BLADMIN}
+              endif
+              ENDIF
+               if (.not. validdrive("Z:") .and.  .not. validdrive("W:");
+               .AND. .NOT. validdrive("Y:").AND. .NOT. validdrive("X:"))     .OR. BLEVEL = 1 
+            
+              DEFINE MENU COYSHIFTM2 OF THIS;
+                     PROPERTY; 
+                     Text "CUSTOMER"
+              if blevel = 1 .or. (((blevel = 4  .and. .not. blncc) .OR. (BLEVEL = 2 .and. .not. bladmin) .OR. (BLEVEL = 3 .and. bladmin));
+              .AND. .NOT. BLNOMASTER) .OR. ((BLEVEL = 7 .or. blevel= 9) .AND. BLADJSTSTK )
+                 DEFINE MENU cust1 OF THIS.COYSHIFTM2;
+                        PROPERTY; 
+                        Text "1.Create",;
+                        OnClick {;do frighter.wfm WITH FORM.BLUSER, FORM.BLEVEL,FORM.BLHQS}
+                                                                
+       DEFINE MENU SEPARCOYSHIFTM200 OF THIS.COYSHIFTM2;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+
+                        endif
+      if blevel = 1 .or. (blevel = 3 .AND. BLADMIN) .or. blevel = 4;
+      .or. blevel = 7 .or. blevel= 9 .or. blevel = 5 .or. (blevel = 2 .AND. .NOT. BLADMIN)
+                      
+                 DEFINE MENU cust2 OF THIS.COYSHIFTM2;
+                        PROPERTY; 
+                        Text "2. Edit",;
+                        OnClick {;do frigtmes.wfm WITH FORM.BLUSER, FORM.BLEVEL,FORM.BLYVISA}
+                        
+                         DEFINE MENU SEPARCOYSHIFTM202 OF THIS.COYSHIFTM2;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+
+                        endif
+                        
+                 if blevel < 4
+                    DEFINE MENU cust3 OF THIS.COYSHIFTM2;
+                           PROPERTY; 
+                           Text "3. Close",;
+                           OnClick {;do frigtcls.wfm WITH FORM.BLUSER, FORM.BLEVEL}
+                           
+                                        DEFINE MENU SEPARCOYSHIFTM204 OF THIS.COYSHIFTM2;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+               
+               **
+             
+                 endif
+                 
+                 DEFINE MENU COYSHIFTM3 OF THIS;
+                        PROPERTY; 
+                        Text "VENDOR"
+         if blevel = 1 .or. (((blevel = 4 .and. .not. blnvc).OR. (BLEVEL = 2 .and. .not. bladmin) .OR. (BLEVEL = 3 .and. bladmin));
+              .AND. .NOT. BLNOMASTER) .OR. ((BLEVEL = 7 .or. blevel= 9))
+                     DEFINE MENU VEND1 OF THIS.COYSHIFTM3;
+                        PROPERTY; 
+                        Text "Create",;
+                        OnClick {;do VENDOR.wfm WITH FORM.BLUSER, FORM.BLEVEL}
+                         DEFINE MENU SEPARCOYSHIFTM300 OF THIS.COYSHIFTM3;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+                          endif
+                          
+       if blevel = 1 .or. (blevel = 3 .AND. BLADMIN) .or. blevel = 4 .or.;
+       blevel = 7 .or. blevel = 5 .or. (blevel = 2 .AND. .NOT. BLADMIN) .or. blevel > 8
+                        
+                 DEFINE MENU VEND2 OF THIS.COYSHIFTM3;
+                        PROPERTY; 
+                        Text "Edit",;
+                        OnClick {;do VENNAMES.wfm WITH FORM.BLUSER, FORM.BLEVEL}
+                endif
+                                
+                 if blevel < 5
+                   DEFINE MENU SEPARCOYSHIFTven2 OF THIS.COYSHIFTM3;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+                    DEFINE MENU vent3 OF THIS.COYSHIFTM3;
+                           PROPERTY; 
+                           Text "Close",;
+                           OnClick {;do venncls.wfm WITH FORM.BLUSER, FORM.BLEVEL}
+                 endif
+                        
+                         endif
+                    DEFINE MENU COYSHIFTM44 OF THIS;
+                           PROPERTY; 
+                           Text "PERIODS"
+                           
+               if (BLEVEL = 1 .or. blevel= 9 .or. blevel=4 .or. blevel = 3) 
+                               
+                    DEFINE MENU MONTHSGL OF THIS.COYSHIFTM44;
+                           PROPERTY; 
+                           Text "1. Months Info",;
+                           enabled .f.,;
+                           OnClick {;do fgglmth.wfm WITH FORM.BLUSER, FORM.BLEVEL}
+                                        
+                                       DEFINE MENU SEPARCOYSHIFTM444 OF THIS.COYSHIFTM44;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+               
+                           endif
+  
+             
+                    DEFINE MENU PERIODSGL OF THIS.COYSHIFTM44;
+                           PROPERTY; 
+                           Text "2. EDIT",;
+                           OnClick {;do fglprd.wfm WITH FORM.BLUSER, FORM.BLEVEL}
+                                        
+                                       DEFINE MENU SEPARCOYSHIFTM445 OF THIS.COYSHIFTM44;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+  
+               
+                 if (BLEVEL = 1 .or. blevel=4 .or. blevel = 3) 
+                
+                    DEFINE MENU COYrgtnprv OF THIS;
+                           PROPERTY; 
+                           Text "CREDIT"
+                       DEFINE MENU TRNREF1 OF THIS.COYrgtnprv;
+                              PROPERTY; 
+                              Text "&1. REFERENCE",;
+                              OnClick {;do fgtrnprv.wfm WITH FORM.BLUSER, FORM.BLEVEL}
+                              
+                               DEFINE MENU SEPARPFOINV OF THIS.COYrgtnprv;
+                            PROPERTY;
+                           Separator .T.,;
+                              Text ""
+
+    
+                     endif
+          
+             ENDIF
+             
+   procedure ViewEditOnClick
+   
+   * Toggle Edit modes.
+   ****************************************************************************
+   
+   form.ViewEdit()
+   
+   
+   ****************************************************************************
+   
+    procedure OnExitALL
+   
+  
+   ****************************************************************************
+   *      form.close()  
+     form.Release()
+   Procedure QUITALL
+            form.Release()
+            QUIT
+  
+   
+   Procedure FILE_OnClick
+   
+ENDCLASS

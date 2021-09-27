@@ -1,0 +1,160 @@
+////////////////////////////////////////////////////////////////////////////////
+// Output Filename: C:\KENSERVICE\IDSSYS\KENSALES_FCV.WFM                     //
+// Created By:      dBASE Form Converter Wizard                               //
+// Created On:      Monday September 27, 2021 At 05:38:14                     //
+// Object Count:    0                                                         //
+////////////////////////////////////////////////////////////////////////////////
+**************************************************************************
+*  PROGRAM:      KENSALES.wfm
+*
+*
+******************************************************************************
+create session
+set talk off
+set ldCheck off
+SET CENTURY ON
+SET DATE TO BRITISH
+_app.FrameWin.Visible = .F.
+_app.FrameWin.Text = "KENSALES"
+*if .not. access() = 1
+set design off
+
+ON ERROR DO QBEERR WITH ERROR(), MESSAGE(),;
+PROGRAM(), LINENO()
+*endif
+shell(.F.)
+** END HEADER -- do not remove this line*
+* Generated on 02/02/2005
+*
+parameter buser,blevel,BLSALES,BLREVCRSAL,BLADMIN,;
+BLJORDER,BLLPGD,BLHQS,BLSALS,plrsals,PLNORJC,bModal
+local f
+f = new KENSALESFORM()
+if (bModal)
+   f.mdi = .F. && ensure not MDI
+   f.ReadModal()
+else
+   f.Open()
+endif
+CLASS KENSALESFORM OF FORM
+   this.Metric = 6  // Pixels
+   this.OnOpen = CLASS::ONOPEN
+   this.MDI = .F.
+   this.OnClose = CLASS::ONCLOSE
+   this.ScrollBar = 0
+   this.Text = "CURRENT SHIFT SALES CAPTURE"
+   this.Top = 0
+   this.WindowState = 2
+    this.EscExit = .F.
+   this.view = "st15fc06.qbe"
+   this.MenuFile = "KENSALES.MNU"
+   this.MousePointer = 2
+   this.SysMenu = .T.
+   this.Moveable = .F.
+   this.Minimize = .F.
+    this.Sizeable = .F.
+   this.Maximize = .F.
+    this.ColorNormal = "n+"
+   this.Left = 113
+   this.Height = 302
+   this.Width = 506
+   procedure OnOpen
+      form.bluser = buser
+      form.blevel = blevel
+      FORM.BLSALES = BLSALES
+      FORM.BLREVCRSAL = BLREVCRSAL
+      FORM.BLADMIN = BLADMIN
+      FORM.BLJORDER = BLJORDER
+      form.BLLPGD = BLLPGD
+      FORM.BLHQS = BLHQS
+      FORM.BLSALS = BLSALS
+      form.plrsals = plrsals
+      FORM.PLNOJC = PLNORJC
+      FORM.CDATE = DATE()
+      FORM.CTIME = TIME() && HH:MM:SSSS
+      IF EMPTY(FORM.BLUSER) .OR. EMPTY(FORM.BLEVEL)
+      QUIT
+      ENDIF
+      
+    SELECT SHCONGT0
+    GO TOP
+    IF .NOT. EOF()
+    wait "Error encountered during shift closing in phase 0!"
+    QUIT
+    ENDIF
+    SELECT SHCONGT1
+    GO TOP
+    IF .NOT. EOF()
+    wait "Error encountered during shift closing in phase 1!"
+    QUIT
+    ENDIF
+    SELECT SHCONGT2
+    GO TOP
+    IF .NOT. EOF()
+    wait "Error encountered during shift closing in phase 2!"
+    QUIT
+    ENDIF
+    SELECT SHCONGT3
+    GO TOP
+    IF .NOT. EOF()
+    wait "Error encountered during shift closing in phase 3!"
+    QUIT
+    ENDIF
+    SELECT SHCONGT4
+    GO TOP
+    IF .NOT. EOF()
+    wait "Error encountered during shift closing in phase 4!"
+    QUIT
+    ENDIF
+    SELECT SHCONGT5
+    GO TOP
+    IF .NOT. EOF()
+    wait "Error encountered during shift closing in phase 5!"
+    QUIT
+    ENDIF
+    select fgshupsl
+    go top
+    if .not. eof()
+     wait "Update Sales Reports First!"
+    QUIT
+    ENDIF
+    select fgshupdr
+    go top
+    if .not. eof()
+     wait "Update Debtors Reports First!"
+    QUIT
+    ENDIF
+    select fgshupiv
+    go top
+    if .not. eof()
+     wait "Update Inventory Reports First!"
+    QUIT
+    ENDIF
+    select fgshuppu
+    go top
+    if .not. eof()
+     wait "Update Purchases Reports First!"
+    QUIT
+    ENDIF
+    select fgshupst
+    go top
+    if .not. eof()
+     wait "Update Stocks Reports First!"
+    QUIT
+    ENDIF
+
+
+       if empty(form.bluser)
+   quit
+   endif
+
+   CLOSE DATABASES
+
+    procedure OnClose
+   ********************************************************************************
+      form.close()
+  CLOSE DATABASES
+   ********************************************************************************
+
+ENDCLASS
+

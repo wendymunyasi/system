@@ -1,0 +1,94 @@
+////////////////////////////////////////////////////////////////////////////////
+// Output Filename: C:\KENSERVICE\IDSSYS\KENFC_FCV.WFM                        //
+// Created By:      dBASE Form Converter Wizard                               //
+// Created On:      Monday September 27, 2021 At 06:02:12                     //
+// Object Count:    0                                                         //
+////////////////////////////////////////////////////////////////////////////////
+**************************************************************************
+*  PROGRAM:      kENFC.wfm
+*
+*
+*******************************************************************************
+
+
+
+create session
+
+set talk off
+set ldCheck off
+SET DATE TO BRITISH
+SET CENTURY ON
+_app.FrameWin.Visible = .F.
+_app.FrameWin.Text = "KenFc"
+set design off
+
+ON ERROR DO QBEERR WITH ERROR(), MESSAGE(),;
+PROGRAM(), LINENO()
+#include <Messdlg.h>
+shell(.F.)
+** END HEADER -- do not remove this line*
+* Generated on 02/02/2005
+*
+parameter buser,blevel,BLSHIFT,BLADMIN,BLJORDER,BLWKS,BLFINANCIALS,bModal
+local f
+f = new kENFCFORM()
+if (bModal)
+   f.mdi = .F. && ensure not MDI
+   f.ReadModal()
+else
+   f.Open()
+endif
+CLASS kENFCFORM OF FORM
+   this.Metric = 6  // Pixels
+   this.OnOpen = CLASS::ONOPEN
+   this.MDI = .F.
+   this.OnClose = CLASS::ONCLOSE
+   this.ScrollBar = 0
+   this.Text = "FORECOURT MANAGEMENT MAIN MENU FORM"
+   this.Top = 0
+   this.WindowState = 2
+   this.EscExit = .F.
+   this.MenuFile = "kENFC.MNU"
+   this.MousePointer = 1
+   this.SysMenu = .t.
+   this.Moveable = .F.
+   this.Minimize = .F.
+    this.Sizeable = .F.
+   this.Maximize = .f.
+   this.ColorNormal = "n+"
+   this.Left = 113
+   this.Height = 302
+   this.Width = 506
+   this.sysmenu = .T.
+    this.Moveable = .F.
+   this.Minimize = .F.
+    this.Sizeable = .F.
+
+
+
+   procedure OnOpen
+    form.bluser = buser
+      form.blevel = blevel
+      form.blshift = blshift
+      FORM.BLADMIN = BLADMIN
+      FORM.BLJORDER = BLJORDER
+         FORM.BLFINANCIALS = BLFINANCIALS
+      FORM.blwks = blwks
+      IF EMPTY(FORM.BLUSER) .OR. EMPTY(FORM.BLEVEL)
+      QUIT
+      ENDIF
+
+   
+
+   ********************************************************************************
+
+   procedure OnClose
+   ********************************************************************************
+      form.close()
+      CLOSE DATABASES
+    *    QUIT
+   ********************************************************************************
+
+
+ENDCLASS
+

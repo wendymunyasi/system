@@ -1,0 +1,3267 @@
+////////////////////////////////////////////////////////////////////////////////
+// Output Filename: C:\KENSERVICE\IDSSYS\FGCODAD_FCV.WFM                      //
+// Created By:      dBASE Form Converter Wizard                               //
+// Created On:      Monday June 13, 2016 At 16:12:28                          //
+// Object Count:    77                                                        //
+////////////////////////////////////////////////////////////////////////////////
+*****************************************************************************
+*  PROGRAM:      FGCODad.wfm
+*
+*  WRITTEN BY:   W Nyongesa
+*
+*  DATE:         05/2000
+*
+*  UPDATED:     07/2013
+*
+*  REVISION:     $Revision:   1.0
+*
+*  VERSION:      Visual dBASE
+*
+*  DESCRIPTION:  This program maintains the Code master file
+*
+*  PARAMETERS:   None
+*
+*  CALLS:        FGCODad.mnu         (Menu file)
+*                KBUTTONS.CC          (Custom Controls file)
+*                Code Code.qbe         (View of tables)
+*
+*  USAGE:        DO FGCODad.wfm
+*
+*******************************************************************************
+#include <messdlg.h>
+shell(.F.)
+create session
+set talk off
+set design off
+set century on
+_app.FrameWin.Visible = .F.
+_app.FrameWin.Text = "FGCODAD"
+set ldCheck off && To avoid language driver conflicts
+#define Maxcoy 999
+** END HEADER -- do not remove this line
+//
+// Generated on 10/07/2016
+//
+parameter bUser,bLevel,bModal
+local f
+f = new FGCODFORM()
+if (bModal)
+   f.mdi = false // ensure not MDI
+   f.readModal()
+else
+   f.open()
+endif
+
+class FGCODFORM of FORM
+   with (this)
+      onClose = class::ONCLOSE
+      open = class::OPEN
+      metric = 6	// Pixels
+      colorNormal = "N+"
+      height = 932.0
+      left = 0.0
+      top = 3.0
+      width = 1284.0
+      text = "CREATE NEW  ITEM CODES/PRICES Form"
+      windowState = 2	// Normal
+      mdi = false
+      sizeable = false
+      moveable = false
+      sysMenu = false
+      view = "FGCODAD.QBE"
+      menuFile = "FGCODAD.MNU"
+      escExit = false
+      mousePointer = 1	// Arrow
+      minimize = false
+   endwith
+
+   this.CODETEXT = new TEXTLABEL(this)
+   with (this.CODETEXT)
+      height = 18.0
+      left = 15.0
+      top = 17.0
+      width = 82.0
+      text = "Item Type:"
+      colorNormal = "B/BtnFace"
+      fontName = "MS Sans Serif"
+      fontBold = true
+      borderStyle = 7	// Client
+      alignVertical = 1	// Middle
+   endwith
+
+   this.STYP = new COMBOBOX(this)
+   with (this.STYP)
+      onChange = class::STYP_ONCHANGE
+      dataLink = "FGCODTEM->TYPNAME"
+      enabled = false
+      height = 23.0
+      left = 14.0
+      top = 38.0
+      width = 231.0
+      fontName = "Arial Black"
+      fontSize = 8.0
+      fontBold = true
+      colorNormal = "black/white"
+      dataSource = "FIELD fgtypS->NAME"
+      style = 1	// DropDown
+      dropDownHeight = 132.0
+   endwith
+
+   this.TEXT6 = new TEXTLABEL(this)
+   with (this.TEXT6)
+      height = 18.0
+      left = 14.0
+      top = 64.0
+      width = 87.0
+      text = "Item Class:"
+      colorNormal = "B/BtnFace"
+      fontName = "MS Sans Serif"
+      fontBold = true
+      borderStyle = 7	// Client
+      alignVertical = 1	// Middle
+   endwith
+
+   this.SCLA = new COMBOBOX(this)
+   with (this.SCLA)
+      onChange = class::SCLA_ONCHANGE
+      dataLink = "FGCODTEM->CLANAME"
+      enabled = false
+      height = 23.0
+      left = 13.0
+      top = 85.0
+      width = 230.0
+      fontName = "Arial Black"
+      fontSize = 8.0
+      fontBold = true
+      colorNormal = "black/white"
+      dataSource = "FIELD fgclaS->NAME"
+      style = 1	// DropDown
+      dropDownHeight = 132.0
+   endwith
+
+   this.TEXT20 = new TEXTLABEL(this)
+   with (this.TEXT20)
+      height = 18.0
+      left = 260.0
+      top = 25.0
+      width = 85.0
+      text = "Item Type:"
+      colorNormal = "B/0xffff80"
+      fontName = "MS Sans Serif"
+      fontBold = true
+      borderStyle = 7	// Client
+      alignVertical = 1	// Middle
+   endwith
+
+   this.SITYP = new ENTRYFIELD(this)
+   with (this.SITYP)
+      dataLink = "FGTYP->NAME"
+      enabled = false
+      height = 21.0
+      left = 348.0
+      top = 24.0
+      width = 360.0
+      function = "!"
+      colorNormal = "WindowText/0xffff80"
+      colorHighLight = "WindowText/W"
+      fontName = "MS Sans Serif"
+      fontBold = true
+   endwith
+
+   this.TEXT21 = new TEXTLABEL(this)
+   with (this.TEXT21)
+      height = 18.0
+      left = 261.0
+      top = 54.0
+      width = 85.0
+      text = "Item Class:"
+      colorNormal = "B/0xffff80"
+      fontName = "MS Sans Serif"
+      fontBold = true
+      borderStyle = 7	// Client
+      alignVertical = 1	// Middle
+   endwith
+
+   this.SICLA = new ENTRYFIELD(this)
+   with (this.SICLA)
+      dataLink = "FGCLA->NAME"
+      enabled = false
+      height = 21.0
+      left = 348.0
+      top = 53.0
+      width = 360.0
+      function = "!"
+      colorNormal = "WindowText/0xffff80"
+      colorHighLight = "WindowText/W"
+      fontName = "MS Sans Serif"
+      fontBold = true
+   endwith
+
+   this.TEXT26 = new TEXTLABEL(this)
+   with (this.TEXT26)
+      height = 17.0
+      left = 260.0
+      top = 74.0
+      width = 153.0
+      text = "Item Descriptions:"
+      colorNormal = "B/0xffff80"
+      fontName = "MS Sans Serif"
+      fontBold = true
+      borderStyle = 7	// Client
+      alignVertical = 1	// Middle
+   endwith
+
+   this.TEXT1 = new TEXTLABEL(this)
+   with (this.TEXT1)
+      height = 18.0
+      left = 259.0
+      top = 93.0
+      width = 71.0
+      text = "Name:"
+      colorNormal = "B/BtnFace"
+      fontName = "MS Sans Serif"
+      fontBold = true
+      borderStyle = 7	// Client
+      alignVertical = 1	// Middle
+   endwith
+
+   this.SNAME = new ENTRYFIELD(this)
+   with (this.SNAME)
+      onChange = class::SNAME_ONCHANGE
+      dataLink = "FGCOD->NAME"
+      enabled = false
+      height = 21.0
+      left = 348.0
+      top = 92.0
+      width = 360.0
+      function = "!"
+      colorNormal = "WindowText/W"
+      fontName = "MS Sans Serif"
+      fontBold = true
+   endwith
+
+   this.TEXT4 = new TEXTLABEL(this)
+   with (this.TEXT4)
+      height = 18.0
+      left = 260.0
+      top = 166.0
+      width = 136.0
+      text = "Item LookUp Code:"
+      colorNormal = "B/0xffff80"
+      fontName = "MS Sans Serif"
+      fontBold = true
+      borderStyle = 7	// Client
+      alignVertical = 1	// Middle
+   endwith
+
+   this.SSCODE = new ENTRYFIELD(this)
+   with (this.SSCODE)
+      onChange = class::SSCODE_ONCHANGE
+      dataLink = "FGCOD->SCODE"
+      enabled = false
+      height = 21.0
+      left = 400.0
+      top = 166.0
+      width = 104.0
+      function = "!"
+      colorNormal = "WindowText/0xffff80"
+      colorHighLight = "WindowText/W"
+      fontName = "MS Sans Serif"
+      fontBold = true
+   endwith
+
+   this.TEXT32 = new TEXTLABEL(this)
+   with (this.TEXT32)
+      height = 18.0
+      left = 512.0
+      top = 166.0
+      width = 102.0
+      text = "Item Id. Code:"
+      colorNormal = "B/0xffff80"
+      fontName = "MS Sans Serif"
+      fontBold = true
+      borderStyle = 7	// Client
+      alignVertical = 1	// Middle
+   endwith
+
+   this.SDTYP = new ENTRYFIELD(this)
+   with (this.SDTYP)
+      dataLink = "FGCOD->TYP"
+      enabled = false
+      height = 21.0
+      left = 616.0
+      top = 166.0
+      width = 32.0
+      function = "!"
+      colorNormal = "WindowText/0xffff80"
+      colorHighLight = "WindowText/W"
+      fontName = "MS Sans Serif"
+      fontBold = true
+   endwith
+
+   this.SDCLA = new ENTRYFIELD(this)
+   with (this.SDCLA)
+      dataLink = "FGCOD->CLA"
+      enabled = false
+      height = 21.0
+      left = 652.0
+      top = 166.0
+      width = 32.0
+      function = "!"
+      colorNormal = "WindowText/0xffff80"
+      colorHighLight = "WindowText/W"
+      fontName = "MS Sans Serif"
+      fontBold = true
+   endwith
+
+   this.SDCOD = new ENTRYFIELD(this)
+   with (this.SDCOD)
+      dataLink = "FGCOD->COD"
+      enabled = false
+      height = 21.0
+      left = 688.0
+      top = 166.0
+      width = 32.0
+      function = "!"
+      colorNormal = "WindowText/0xffff80"
+      colorHighLight = "WindowText/W"
+      fontName = "MS Sans Serif"
+      fontBold = true
+   endwith
+
+   this.TEXT5 = new TEXTLABEL(this)
+   with (this.TEXT5)
+      height = 18.0
+      left = 15.0
+      top = 136.0
+      width = 82.0
+      text = "Unit:"
+      colorNormal = "B/BtnFace"
+      fontName = "MS Sans Serif"
+      fontBold = true
+      borderStyle = 7	// Client
+      alignVertical = 1	// Middle
+   endwith
+
+   this.SUNIT = new COMBOBOX(this)
+   with (this.SUNIT)
+      onChange = class::SUNIT_ONCHANGE
+      dataLink = "FGCOD->UNITNAME"
+      enabled = false
+      height = 23.0
+      left = 102.0
+      top = 136.0
+      width = 141.0
+      fontName = "Arial Black"
+      fontSize = 8.0
+      fontBold = true
+      colorNormal = "B/BtnFace"
+      dataSource = "FIELD FGUNITS->NAME"
+      style = 1	// DropDown
+      dropDownHeight = 132.0
+   endwith
+
+   this.TEXT7 = new TEXTLABEL(this)
+   with (this.TEXT7)
+      height = 18.0
+      left = 16.0
+      top = 162.0
+      width = 92.0
+      text = "Vol./#/Unit:"
+      colorNormal = "B/BtnFace"
+      fontName = "MS Sans Serif"
+      fontBold = true
+      borderStyle = 7	// Client
+      alignVertical = 1	// Middle
+   endwith
+
+   this.SVOL = new ENTRYFIELD(this)
+   with (this.SVOL)
+      dataLink = "FGUNITS->VOLUME"
+      enabled = false
+      height = 21.0
+      left = 108.0
+      top = 162.0
+      width = 72.0
+      function = "J"
+      colorNormal = "N/W+"
+      colorHighLight = "WindowText/W"
+      fontName = "MS Sans Serif"
+      fontBold = true
+   endwith
+
+   this.SITEMUNIT = new ENTRYFIELD(this)
+   with (this.SITEMUNIT)
+      onChange = class::SITEMUNIT_ONCHANGE
+      dataLink = "FGCOD->ITEMS_UNIT"
+      enabled = false
+      height = 21.0
+      left = 180.0
+      top = 162.0
+      width = 68.0
+      function = "J"
+      colorNormal = "N/W+"
+      colorHighLight = "WindowText/W"
+      fontName = "MS Sans Serif"
+      fontBold = true
+   endwith
+
+   this.TEXT8 = new TEXTLABEL(this)
+   with (this.TEXT8)
+      height = 18.0
+      left = 15.0
+      top = 187.0
+      width = 132.0
+      text = "Cost Price/Unit:"
+      colorNormal = "B/BtnFace"
+      fontName = "MS Sans Serif"
+      fontBold = true
+      borderStyle = 7	// Client
+      alignVertical = 1	// Middle
+   endwith
+
+   this.SCUNIT = new ENTRYFIELD(this)
+   with (this.SCUNIT)
+      onChange = class::SCUNIT_ONCHANGE
+      dataLink = "FGCOD->COST_PRICE"
+      enabled = false
+      height = 21.0
+      left = 155.0
+      top = 187.0
+      width = 93.0
+      picture = "99,999,999.99"
+      function = "J"
+      colorNormal = "N/W+"
+      colorHighLight = "WindowText/W"
+      fontName = "MS Sans Serif"
+      fontSize = 8.0
+      fontBold = true
+   endwith
+
+   this.TEXT23 = new TEXTLABEL(this)
+   with (this.TEXT23)
+      height = 18.0
+      left = 15.0
+      top = 288.0
+      width = 132.0
+      text = "Proposed Price:"
+      colorNormal = "B/BtnFace"
+      fontName = "MS Sans Serif"
+      fontBold = true
+      borderStyle = 7	// Client
+      alignVertical = 1	// Middle
+   endwith
+
+   this.SNP = new ENTRYFIELD(this)
+   with (this.SNP)
+      onChange = class::SNP_ONCHANGE
+      dataLink = "FGCOD->NEW_P"
+      enabled = false
+      height = 21.0
+      left = 155.0
+      top = 285.0
+      width = 93.0
+      picture = "99,999,999.99"
+      function = "J"
+      colorNormal = "N/W+"
+      colorHighLight = "WindowText/W"
+      fontName = "MS Sans Serif"
+      fontSize = 8.0
+      fontBold = true
+   endwith
+
+   this.TEXT24 = new TEXTLABEL(this)
+   with (this.TEXT24)
+      height = 18.0
+      left = 15.0
+      top = 309.0
+      width = 132.0
+      text = "Sales Price:"
+      colorNormal = "B/BtnFace"
+      fontName = "MS Sans Serif"
+      fontBold = true
+      borderStyle = 7	// Client
+      alignVertical = 1	// Middle
+   endwith
+
+   this.SPRICE = new ENTRYFIELD(this)
+   with (this.SPRICE)
+      onChange = class::SPRICE_ONCHANGE1
+      dataLink = "FGCOD->SALE_PRICE"
+      enabled = false
+      height = 21.0
+      left = 155.0
+      top = 310.0
+      width = 93.0
+      picture = "99,999,999.99"
+      function = "J"
+      colorNormal = "N/W+"
+      colorHighLight = "WindowText/W"
+      fontName = "MS Sans Serif"
+      fontSize = 8.0
+      fontBold = true
+   endwith
+
+   this.TEXT12 = new TEXTLABEL(this)
+   with (this.TEXT12)
+      height = 18.0
+      left = 15.0
+      top = 353.0
+      width = 82.0
+      text = "Tax Type:"
+      colorNormal = "B/BtnFace"
+      fontName = "MS Sans Serif"
+      fontBold = true
+      borderStyle = 7	// Client
+      alignVertical = 1	// Middle
+   endwith
+
+   this.STAXTYP = new COMBOBOX(this)
+   with (this.STAXTYP)
+      onLostFocus = class::STAXTYP_ONLOSTFOCUS
+      onChange = class::STAXTYP_ONCHANGE
+      dataLink = "FGCOD->TAXNAME"
+      enabled = false
+      height = 23.0
+      left = 102.0
+      top = 353.0
+      width = 141.0
+      fontName = "Arial Black"
+      fontSize = 8.0
+      fontBold = true
+      colorNormal = "B/BtnFace"
+      dataSource = "FIELD FGTAXTYP->NAME"
+      style = 2	// DropDownList
+      dropDownHeight = 132.0
+   endwith
+
+   this.TEXT13 = new TEXTLABEL(this)
+   with (this.TEXT13)
+      height = 18.0
+      left = 15.0
+      top = 378.0
+      width = 132.0
+      text = "Tax Rate:"
+      colorNormal = "B/BtnFace"
+      fontName = "MS Sans Serif"
+      fontBold = true
+      borderStyle = 7	// Client
+      alignVertical = 1	// Middle
+   endwith
+
+   this.STAX = new ENTRYFIELD(this)
+   with (this.STAX)
+      onChange = class::STAX_ONCHANGE
+      dataLink = "FGCOD->VAT"
+      enabled = false
+      height = 21.0
+      left = 155.0
+      top = 378.0
+      width = 93.0
+      picture = "999.99"
+      function = "J"
+      colorNormal = "N/W+"
+      colorHighLight = "WindowText/W"
+      fontName = "MS Sans Serif"
+      fontSize = 8.0
+      fontBold = true
+   endwith
+
+   this.TEXT14 = new TEXTLABEL(this)
+   with (this.TEXT14)
+      visible = false
+      height = 18.0
+      left = 15.0
+      top = 403.0
+      width = 147.0
+      text = "S/Rep Comm. Rate:"
+      colorNormal = "B/BtnFace"
+      fontName = "MS Sans Serif"
+      fontBold = true
+      borderStyle = 7	// Client
+      alignVertical = 1	// Middle
+   endwith
+
+   this.SCOMMRATE = new ENTRYFIELD(this)
+   with (this.SCOMMRATE)
+      onChange = class::SCOMMRATE_ONCHANGE
+      dataLink = "FGCOD->COMM_RATE"
+      visible = false
+      enabled = false
+      height = 21.0
+      left = 172.0
+      top = 402.0
+      width = 76.0
+      picture = "99.99"
+      function = "J"
+      colorNormal = "N/W+"
+      colorHighLight = "WindowText/W"
+      fontName = "MS Sans Serif"
+      fontSize = 8.0
+      fontBold = true
+   endwith
+
+   this.TEXT35 = new TEXTLABEL(this)
+   with (this.TEXT35)
+      height = 18.0
+      left = 8.0
+      top = 433.0
+      width = 112.0
+      text = "Material No:"
+      colorNormal = "B/0xffff80"
+      fontName = "MS Sans Serif"
+      fontBold = true
+      borderStyle = 7	// Client
+      alignVertical = 1	// Middle
+   endwith
+
+   this.SMAT = new ENTRYFIELD(this)
+   with (this.SMAT)
+      onChange = class::SMAT_ONCHANGE
+      dataLink = "FGCOD->MAT_CODE"
+      enabled = false
+      height = 21.0
+      left = 132.0
+      top = 432.0
+      width = 108.0
+      picture = "99999"
+      colorNormal = "RG+/0x808040"
+      colorHighLight = "WindowText/W"
+      fontName = "MS Sans Serif"
+      fontBold = true
+   endwith
+
+   this.TEXT28 = new TEXTLABEL(this)
+   with (this.TEXT28)
+      height = 21.0
+      left = 264.0
+      top = 210.0
+      width = 72.0
+      text = "Qty Entry:"
+      colorNormal = "B/BtnFace"
+      fontName = "MS Sans Serif"
+      fontBold = true
+      borderStyle = 7	// Client
+      alignVertical = 1	// Middle
+   endwith
+
+   this.SQTYENTRY = new COMBOBOX(this)
+   with (this.SQTYENTRY)
+      onChange = class::SQTYENTRY_ONCHANGE
+      dataLink = "FGCOD->QTY"
+      enabled = false
+      height = 23.0
+      left = 336.0
+      top = 208.0
+      width = 60.0
+      fontName = "Arial Black"
+      fontSize = 8.0
+      fontBold = true
+      colorNormal = "B/BtnFace"
+      dataSource = 'array {"Yes","No"}'
+      style = 2	// DropDownList
+      dropDownHeight = 132.0
+   endwith
+
+   this.TEXT27 = new TEXTLABEL(this)
+   with (this.TEXT27)
+      height = 21.0
+      left = 408.0
+      top = 210.0
+      width = 72.0
+      text = "FC Purch.:"
+      colorNormal = "B/BtnFace"
+      fontName = "MS Sans Serif"
+      fontBold = true
+      borderStyle = 7	// Client
+      alignVertical = 1	// Middle
+   endwith
+
+   this.SFCP = new COMBOBOX(this)
+   with (this.SFCP)
+      onChange = class::SFCP_ONCHANGE
+      dataLink = "FGCOD->FCPURCH"
+      enabled = false
+      height = 23.0
+      left = 480.0
+      top = 208.0
+      width = 60.0
+      fontName = "Arial Black"
+      fontSize = 8.0
+      fontBold = true
+      colorNormal = "B/BtnFace"
+      dataSource = 'array {"Yes","No"}'
+      style = 2	// DropDownList
+      dropDownHeight = 132.0
+   endwith
+
+   this.TEXT33 = new TEXTLABEL(this)
+   with (this.TEXT33)
+      height = 21.0
+      left = 264.0
+      top = 244.0
+      width = 108.0
+      text = "Metered Sale:"
+      colorNormal = "B/BtnFace"
+      fontName = "MS Sans Serif"
+      fontBold = true
+      borderStyle = 7	// Client
+      alignVertical = 1	// Middle
+   endwith
+
+   this.SMSAL = new COMBOBOX(this)
+   with (this.SMSAL)
+      onChange = class::SMSAL_ONCHANGE
+      dataLink = "FGCOD->SHS_AUTO"
+      enabled = false
+      height = 23.0
+      left = 384.0
+      top = 242.0
+      width = 60.0
+      fontName = "Arial Black"
+      fontSize = 8.0
+      fontBold = true
+      colorNormal = "B/BtnFace"
+      dataSource = 'array {"Yes","No","Ccc","Grs","Dcn","Gas","Ccf"}'
+      style = 1	// DropDown
+      dropDownHeight = 132.0
+   endwith
+
+   this.TEXT34 = new TEXTLABEL(this)
+   with (this.TEXT34)
+      height = 21.0
+      left = 444.0
+      top = 244.0
+      width = 60.0
+      text = "Active:"
+      colorNormal = "B/BtnFace"
+      fontName = "MS Sans Serif"
+      fontBold = true
+      borderStyle = 7	// Client
+      alignVertical = 1	// Middle
+   endwith
+
+   this.SUSED = new COMBOBOX(this)
+   with (this.SUSED)
+      onChange = class::SUSED_ONCHANGE
+      dataLink = "FGCOD->active"
+      enabled = false
+      height = 23.0
+      left = 504.0
+      top = 242.0
+      width = 60.0
+      fontName = "Arial Black"
+      fontSize = 8.0
+      fontBold = true
+      colorNormal = "B/BtnFace"
+      dataSource = 'array {"Yes","No"}'
+      style = 2	// DropDownList
+      dropDownHeight = 132.0
+   endwith
+
+   this.TEXT17 = new TEXTLABEL(this)
+   with (this.TEXT17)
+      height = 17.0
+      left = 268.0
+      top = 269.0
+      width = 172.0
+      text = "Minimum Stock Level:"
+      colorNormal = "B/BtnFace"
+      fontName = "MS Sans Serif"
+      fontBold = true
+      borderStyle = 7	// Client
+      alignVertical = 1	// Middle
+   endwith
+
+   this.SMIN = new ENTRYFIELD(this)
+   with (this.SMIN)
+      onChange = class::SMIN_ONCHANGE
+      dataLink = "FGCOD->MIN_STK"
+      enabled = false
+      height = 21.0
+      left = 448.0
+      top = 266.0
+      width = 93.0
+      picture = "99,999,999.99"
+      function = "J"
+      colorNormal = "N/W+"
+      colorHighLight = "WindowText/W"
+      fontName = "MS Sans Serif"
+      fontSize = 8.0
+      fontBold = true
+   endwith
+
+   this.TEXT18 = new TEXTLABEL(this)
+   with (this.TEXT18)
+      height = 18.0
+      left = 268.0
+      top = 290.0
+      width = 171.0
+      text = "Item Reorder Level:"
+      colorNormal = "B/BtnFace"
+      fontName = "MS Sans Serif"
+      fontBold = true
+      borderStyle = 7	// Client
+      alignVertical = 1	// Middle
+   endwith
+
+   this.SREORDER = new ENTRYFIELD(this)
+   with (this.SREORDER)
+      onChange = class::SREORDER_ONCHANGE
+      dataLink = "FGCOD->REORDR_STK"
+      enabled = false
+      height = 21.0
+      left = 448.0
+      top = 291.0
+      width = 93.0
+      picture = "99,999,999.99"
+      function = "J"
+      colorNormal = "N/W+"
+      colorHighLight = "WindowText/W"
+      fontName = "MS Sans Serif"
+      fontSize = 8.0
+      fontBold = true
+   endwith
+
+   this.TEXT22 = new TEXTLABEL(this)
+   with (this.TEXT22)
+      height = 21.0
+      left = 261.0
+      top = 350.0
+      width = 145.0
+      text = "Traditional Location:"
+      colorNormal = "B+/W"
+      fontName = "MS Sans Serif"
+      fontBold = true
+      borderStyle = 7	// Client
+      alignVertical = 1	// Middle
+   endwith
+
+   this.TEXT31 = new TEXTLABEL(this)
+   with (this.TEXT31)
+      height = 21.0
+      left = 413.0
+      top = 339.0
+      width = 55.0
+      text = "Store:"
+      colorNormal = "B+/G+"
+      fontName = "MS Sans Serif"
+      fontBold = true
+      borderStyle = 7	// Client
+      alignVertical = 1	// Middle
+   endwith
+
+   this.SSTO = new COMBOBOX(this)
+   with (this.SSTO)
+      onLostFocus = class::SSTO_ONLOSTFOCUS
+      onChange = class::SSTO_ONCHANGE
+      dataLink = "FGCOD->STONAME"
+      enabled = false
+      height = 23.0
+      left = 480.0
+      top = 340.0
+      width = 240.0
+      fontName = "Arial Black"
+      fontSize = 8.0
+      fontBold = true
+      colorNormal = "B/BtnFace"
+      dataSource = "FIELD STSTOS->NAME"
+      style = 1	// DropDown
+      dropDownHeight = 132.0
+   endwith
+
+   this.TEXT30 = new TEXTLABEL(this)
+   with (this.TEXT30)
+      height = 21.0
+      left = 408.0
+      top = 367.0
+      width = 65.0
+      text = "Centre:"
+      colorNormal = "B+/G+"
+      fontName = "MS Sans Serif"
+      fontBold = true
+      borderStyle = 7	// Client
+      alignVertical = 1	// Middle
+   endwith
+
+   this.SLOCA = new COMBOBOX(this)
+   with (this.SLOCA)
+      onLostFocus = class::SLOCA_ONLOSTFOCUS
+      onChange = class::SLOCA_ONCHANGE
+      dataLink = "FGCOD->CNAME"
+      enabled = false
+      height = 23.0
+      left = 480.0
+      top = 368.0
+      width = 240.0
+      fontName = "Arial Black"
+      fontSize = 8.0
+      fontBold = true
+      colorNormal = "B/BtnFace"
+      dataSource = "FIELD FGCEN->NAME"
+      style = 1	// DropDown
+      dropDownHeight = 132.0
+   endwith
+
+   this.PREVBUTTON = new PUSHBUTTON(this)
+   with (this.PREVBUTTON)
+      onClick = class::PREVIOUS
+      height = 26.0
+      left = 105.0
+      top = 528.0
+      width = 85.0
+      text = "&PREVIOUS"
+      fontName = "MS Sans Serif"
+      fontSize = 8.0
+      fontBold = true
+   endwith
+
+   this.NEXTBUTTON = new PUSHBUTTON(this)
+   with (this.NEXTBUTTON)
+      onClick = class::NEXT
+      height = 26.0
+      left = 189.0
+      top = 528.0
+      width = 85.0
+      text = "&NEXT"
+      fontName = "MS Sans Serif"
+      fontSize = 8.0
+      fontBold = true
+   endwith
+
+   this.FIRSTBUTTON = new PUSHBUTTON(this)
+   with (this.FIRSTBUTTON)
+      onClick = class::FIRST_RTN
+      height = 26.0
+      left = 280.0
+      top = 528.0
+      width = 85.0
+      text = "F&IRST"
+      fontName = "MS Sans Serif"
+      fontSize = 8.0
+      fontBold = true
+   endwith
+
+   this.LASTBUTTON = new PUSHBUTTON(this)
+   with (this.LASTBUTTON)
+      onClick = class::LAST_RTN
+      height = 26.0
+      left = 371.0
+      top = 528.0
+      width = 85.0
+      text = "&LAST"
+      fontName = "MS Sans Serif"
+      fontSize = 8.0
+      fontBold = true
+   endwith
+
+   this.SVOLUME = new ENTRYFIELD(this)
+   with (this.SVOLUME)
+      dataLink = "FGCOD->VOLUME"
+      enabled = false
+      height = 21.0
+      left = 252.0
+      top = 136.0
+      width = 84.0
+      picture = "99,999.999"
+      colorNormal = "N/W+"
+      colorHighLight = "WindowText/W"
+      fontName = "MS Sans Serif"
+      fontBold = true
+   endwith
+
+   this.TEXT2 = new TEXTLABEL(this)
+   with (this.TEXT2)
+      height = 23.0
+      left = 264.0
+      top = 312.0
+      width = 180.0
+      text = "Assembly Code:"
+      colorNormal = "B/0xffff80"
+      fontName = "MS Sans Serif"
+      fontBold = true
+      borderStyle = 7	// Client
+      alignVertical = 1	// Middle
+   endwith
+
+   this.SASSY = new COMBOBOX(this)
+   with (this.SASSY)
+      onChange = class::SASSY_ONCHANGE1
+      dataLink = "FGCOD->USENAME"
+      enabled = false
+      height = 23.0
+      left = 450.0
+      top = 313.0
+      width = 156.0
+      fontName = "Arial Black"
+      fontSize = 8.0
+      fontBold = true
+      colorNormal = "B/BtnFace"
+      dataSource = 'array {"","CC","GREASE","ACID","TTM","BF","ATF","FLUSH OIL","COOLANT","WATER"}'
+      style = 2	// DropDownList
+      dropDownHeight = 132.0
+   endwith
+
+
+   procedure Open
+   ****************************************************************************
+   private CodeField,pftyp,PFDUIV
+   form.firstime = .T.
+      FORM.BLUSER=BUSER
+   FORM.BLEVEL=BLEVEL
+   IF EMPTY(FORM.BLUSER) .OR. EMPTY(FORM.BLEVEL)
+      QUIT
+      ENDIF
+         select fgcod
+         set order to mkey
+      select fgcodtem
+      go top
+      if eof()
+      append blank
+      endif
+       replace claname with ''
+      replace typname with ''
+   if type("form.init") = "U"
+      form.init = .T.
+
+      set skip to                     && FGCOD.qbe contains set skip to gldtl
+      set exact off                   && the .qbe file contains SET EXACT ON
+
+      set procedure to sampProc.prg additive
+    Form.duplicate = .F.
+      form.inEditMode = .F.           && indicator of view/edit state
+      form.changesMade = .F.          && indicator of changes made to field values
+      form.previousRecord = .F.       && Save record number when appending
+      form.updated = .f.
+        *** do calculations in another area so form doesn't get updated
+      
+        select st15f
+        set order to mkey
+        go top
+        if .not. eof()
+        select fgsshift
+        go top
+        if eof()
+        append blank
+        endif
+        replace shift_date with st15f->shift_date
+        replace shift_no with st15f->shift_no
+        replace shift_id with st15f->shift_id
+        replace shift with "01"
+        else
+           SELECT FGSSHIFT
+           GO TOP
+           IF EOF()  && CANNOT BE EMPTY
+           ? "error 1"
+           QUIT
+      ENDIF
+      IF EMPTY(SHIFT_DATE) .OR. EMPTY(SHIFT_No) .OR. EMPTY(SHIFT_ID)
+      ? "error 2"
+      QUIT
+      ENDIF
+        endif
+               select fgtaxtyp
+        set order to name
+        select fgunits
+        set order to name
+            SELECT FGCOD3
+   SET ORDER TO MKEY
+        SELECT fgclaS
+        SET ORDER TO NAME
+        SELECT fgtypS
+        SET ORDER TO NAME
+        GO TOP
+        IF EOF()
+        form.root.FGCOD.add.enabled = .F.
+        ELSE
+        FORM.ptyp = typ
+        pftyp = typ
+        SELECT fgclaS
+        GO TOP
+        IF EOF()
+         form.root.FGCOD.add.enabled = .F.
+         ELSE
+         SELECT fgclaS
+         GO TOP
+         IF EOF()
+          form.root.FGCOD.add.enabled = .F.
+          ENDIF
+          ENDIF
+          ENDIF
+        FORM.PTYP = ""
+         FORM.PCLA = ""
+         form.pcod = ''
+         FORM.PTYPNAME = ""
+         FORM.PCLANAME = ""
+
+      select FGCOD
+      SET ORDER TO MKEY
+      CodeField = field(1)         && Type field
+   if .not. eof() .and. .not. bof()
+     if empty(typ) .or. empty(cla) .OR. EMPTY(Cod)
+   delete
+   endif
+   endif
+
+
+      *** Open table for calculating totals and balance due in another work area
+      *** so that datalinks are not affected by record movements
+
+
+      ***
+    *  if type("form.parentpayeeForm") <> "U" && Esc ok if have parent
+    *     form.escExit = .T.
+   *   endif
+
+   endif
+   * form.CoyInfoButton.KenpName = "FGCODad.wfm"
+   GO TOP
+   form::Open()                         && Now the form actually opens
+       form.BrowseOnNavigate()              && calculate totals
+   *       form.codingerrors()                        && check coding errors
+
+   *      form.next.setfocus()
+   ****************************************************************************
+
+   procedure OnClose
+
+   * Clean up.
+   ****************************************************************************
+
+   if this.inEditMode
+      form.ViewEdit()                      && Finish transaction
+   endif
+      if form.updated
+      select fgcoy
+      FORM.MOUSEPOINTER = 11
+      go top
+      if .not. eof()
+    do FGCODs_rtn WITH FORM.BLUSER,FORM.BLEVEL
+    CLOSE TABLES
+   * DO NGLPARM.PRG
+     endif
+     endif
+     close procedure SAMPProc.prg
+   close databases
+
+   ****************************************************************************
+
+   procedure BrowseOnNavigate
+   ****************************************************************************
+       form.STYP.Enabled = .F.
+       form.scla.enabled = .F.
+
+
+
+
+   *****************************************
+   ***********************************
+
+   procedure ChangesMade
+
+   * Indicate that changes have been made to the current record
+   ****************************************************************************
+   Form.ChangesMade = .T.
+   ****************************************************************************
+
+   Procedure first_rtn
+   form.CheckCommit(form.inEditMode)
+   if .not.  empty(name) .and.  .not.  empty(scode) .and.  .not.  empty(coy) ;
+     .and.  .not.  empty(div) .and.  .not.  empty(cen);
+     .and.  .not.  empty(sto) .and.  .not.  empty(taxname) ;
+      .and.  .not.  empty(cen) .AND. .NOT. EMPTY(ACTIVE);
+       .AND. .NOT. (TYP >= "00" .AND. TYP < "30" .AND. EMPTY(PART_NO))
+   go top
+   endif
+   if .not.  fgcod->typ = "00"
+       form.snp.enabled = .f.
+       endif
+
+        Procedure last_rtn
+
+   form.CheckCommit(form.inEditMode)
+   if .not.  empty(name) .and.  .not.  empty(scode) .and.  .not.  empty(coy) ;
+     .and.  .not.  empty(div) .and.  .not.  empty(cen);
+     .and.  .not.  empty(sto) .and.  .not.  empty(taxname) ;
+      .and.  .not.  empty(cen) .AND. .NOT. EMPTY(ACTIVE) ;
+       .AND. .NOT. (TYP >= "00" .AND. TYP < "30" .AND. EMPTY(PART_NO))
+   go bottom
+   endif
+   if .not.  fgcod->typ = "00"
+       form.snp.enabled = .f.
+       endif
+
+    procedure Next
+
+   * Go to next record.
+   ****************************************************************************
+
+   form.CheckCommit(form.inEditMode)
+   if .not.  empty(name) .and.  .not.  empty(scode) .and.  .not.  empty(coy) ;
+     .and.  .not.  empty(div) .and.  .not.  empty(cen);
+     .and.  .not.  empty(sto) .and.  .not.  empty(taxname) ;
+      .and.  .not.  empty(cen) .AND. .NOT. EMPTY(ACTIVE) ;
+       .AND. .NOT. (TYP >= "00" .AND. TYP < "30" .AND. EMPTY(PART_NO))
+   if .not. empty(dbf())  .and. .not. eof()      && if a table is open in the current workarea
+      skip
+      if eof()
+         go bottom
+         AlertMessage("At the last record","Alert")
+      endif
+   else
+      InformationMessage("There is no table open in the current workarea.",;
+         "Info")
+   endif
+   endif
+    if .not.  fgcod->typ = "00"
+       form.snp.enabled = .f.
+       endif
+    ****************************************************************************
+
+   procedure Previous
+
+   * Go to previous record.
+   ****************************************************************************
+
+    form.CheckCommit(form.inEditMode)
+   if .not.  empty(name) .and.  .not.  empty(scode) .and.  .not.  empty(coy) ;
+     .and.  .not.  empty(div) .and.  .not.  empty(cen);
+     .and.  .not.  empty(sto) .and.  .not.  empty(taxname) ;
+      .and.  .not.  empty(cen) .AND. .NOT. EMPTY(ACTIVE) ;
+       .AND. .NOT. (TYP >= "00" .AND. TYP < "30" .AND. EMPTY(PART_NO))
+ if .not. empty(dbf())  .and. .not. eof() && if a table is open in the current workarea
+      skip - 1
+      if bof()
+         go top
+         AlertMessage("At the first record","Alert")
+      endif
+   else
+      InformationMessage("There is no table open in the current workarea.",;
+         "Info")
+   endif
+   endif
+  if .not.  fgcod->typ = "00"
+       form.snp.enabled = .f.
+       endif
+   ****************************************************************************
+
+   procedure CheckCommit (newInEditMode)
+
+        * Finish transaction, if it has been started.
+   ****************************************************************************
+   private CodeField, changesMade
+    local lk1,lk2
+      changesMade = form.changesMade
+   if form.changesMade
+      CodeField = field(2)  && Field FGCOD
+      if     ConfirmationMessage("Commit changes?",;
+                FormatStr("Code %1",&CodeField)) = YES
+         commit()
+       form.updated = .t.
+      else
+         rollback()
+         if .not. bof()
+       *  if .not. empty(form.previousRecord)
+   *            go bookmark()
+           * form.previousRecord
+            form.previousRecord = .F.
+         endif
+      endif
+
+       form.STYP.enabled = .F.
+       form.scla.enabled = .F.
+    if form.inEditMode .and. newInEditMode
+         begintrans()
+      endif
+      form.changesMade = .F.
+   endif
+   if form.inEditMode <> newInEditMode
+      if newInEditMode                       && Going to Edit mode
+         begintrans()
+      else                                   && Going to View mode
+         if .not. changesMade .AND. .NOT. FORM.DUPLICATE
+            rollback()
+         endif
+      endif
+      form.inEditMode = newInEditMode
+   endif
+
+   * form.root.Receipt.add.enabled = .T.
+   *form.codingerrors()
+   ****************************************************************************
+
+   procedure ViewEdit
+
+   * Toggle between View and Edit modes.
+   ****************************************************************************
+   local inEditMode, editMenu, control
+
+   editMenu = form.root.FGCOD.VIEWEdit
+
+   *** If ending edit mode then close transaction, otherwise open it.
+   if form.inEditMode
+      form.checkChanged(.F.)
+      editMenu.text = "&Edit"
+      editMenu.shortcut = "Ctrl-E"
+      editMenu.statusMessage = "Edit data."
+      form.CheckCommit(.F.)                        && Check transaction and
+      form.text = "CREATE NEW ITEM CODES/PRICES -- View Mode"          && change mode to View
+      form.statusmessage = "In View Mode. " + ;
+                           "Select Code Code - Edit menu to " + ;
+                           "edit/delete data."
+     else                                            && Switch to edit mode
+      editMenu.text = "Vi&ew"
+      editMenu.shortcut = "Ctrl-E"
+      editMenu.statusMessage = "View data."
+      form.CheckCommit(.T.)                        && Check transaction and
+      form.text = "CREATE NEW ITEM CODES/PRICES -- Edit Mode"          && change mode to Edit
+
+   *     form.notesEditor.modify = .T.
+      form.statusmessage = "In Edit Mode.  " + ;
+                           "Select menu Code Code - View to switch " + ;
+                           "to View mode."
+        form.STYP.Enabled = .F.
+         form.scla.enabled = .F.
+   *         form.coydisplay.enabled =.F.
+
+        form.sname.SetFocus()
+
+   endif
+
+   inEditMode = form.inEditMode     && Faster if we don't reference a form
+   control = form.first             &&    variable each time through the loop
+   do
+      if .not. control.className $ "BROWSE,EDITOR,NEXTBUTTON,PREVBUTTON,PUSHBUTTON,IMAGE,TEXT"
+         control.enabled = inEditMode
+      endif
+      control = control.before
+   until control.name = form.first.name
+    * form.scla.enabled = .F.
+    * form.sscode.enabled=.f.
+     FORM.STAX.ENABLED = .F.
+     form.sicla.enabled = .f.
+     form.sityp.enabled = .f.
+     form.svol.enabled = .f.
+     form.sdtyp.enabled = .f.
+     form.sdcla.enabled = .f.
+     form.sdcod.enabled = .f.
+       if .not.  fgcod->typ = "00"
+       form.snp.enabled = .f.
+       endif
+          FORM.SVOLUME.ENABLED = .F.
+         form.svol.enabled = .f.
+         form.sitemunit.enabled = .f.
+              form.sSCODE.SetFocus()
+
+
+   ****************************************************************************
+
+   procedure CheckChanged(callCommit)
+
+   * Check if changes have been made to the current entryfield.  This procedure
+   * is called from menu routines to make sure the form.changesMade gets
+   * updated when a menu is selected while the changed control has focus.
+   ****************************************************************************
+   private control, fieldValue, controlValue, typeText, typeValue
+
+   if form.inEditMode
+      control = form.activeControl
+      if type("control.datalink") <> "U"
+         fieldValue = control.datalink          && name of table field
+
+         typeText = type("control.text")
+         typeValue = type("control.value")
+         do case
+            case typeValue = "C"
+               controlValue = control.value
+            case typeValue $ "LU" .and. typeText = "C"
+               controlValue = control.text
+            otherwise
+               controlValue = Null
+         endcase
+         if controlValue <> &fieldValue
+            form.changesMade = .T.
+         endif
+      endif
+   endif
+   if form.changesMade .and. callCommit
+      CLASS::CheckCommit(form.inEditMode)     && Check transactions
+   endif
+
+
+
+   ****************************************************************************
+
+   Procedure Change_typ
+         local lcode1,lcode2
+            lcode1 = THIS.VALUE
+            SELECT fgtypS
+            SEEK LCODE1
+            pftyp = typ
+            FORM.ptyp = typ
+            FORM.PTYPNAME = THIS.VALUE
+            SELECT fgclaS
+            set filter to typ = pftyp
+            GO TOP
+            IF  EOF()
+             form.root.FGCOD.add.enabled = .F.
+             ELSE
+            SET FILTER TO typ = pftyp
+            GO TOP
+            IF EOF()
+             form.root.FGCOD.add.enabled = .F.
+             ELSE
+              form.root.FGCOD.add.enabled = .T.
+              ENDIF
+              ENDIF
+              form.root.FGCOD.add.enabled = .F.
+              SELECT FGCOD
+
+   Procedure Change_Cla
+        form.changesmade = .t.
+
+   Procedure scla_onChange
+         pftyp = FORM.ptyp
+         LOCAL L1
+         L1 = THIS.VALUE
+         SELECT fgclaS
+         SEEK THIS.VALUE
+         pfcla = cla
+         FORM.pcla = cla
+         FORM.PCLANAME = THIS.VALUE
+         IF typ = FORM.ptyp
+         form.root.FGCOD.add.enabled = .T.
+         ELSE
+         form.root.FGCOD.add.enabled = .F.
+         ENDIF
+         SELECT FGCOD
+
+   Procedure UNIT_OnChange
+         FORM.CHANGESMADE = .T.
+
+   Procedure SCODE_OnChange
+      form.changesmade = .t.
+      select fgcod
+      if empty(this.value)
+      replace scode with ltrim(name)
+      else
+      replace scode with ltrim(this.value)
+      endif
+
+   Procedure COMBOBOX1_OnChange
+         form.changesmade = .t.
+
+   Procedure ENTRYFIELD1_OnChange
+         form.changesmade = .t.
+
+   Procedure COMBOBOX2_OnChange
+         form.changesmade = .t.
+
+   Procedure ENTRYFIELD2_OnChange
+   form.changesmade = .t.
+
+   Procedure ENTRYFIELD4_OnChange
+   form.changesmade  = .t.
+
+   Procedure ENTRYFIELD5_OnChange
+   form.changesmade = .t.
+
+   Procedure COMBOBOX3_OnChange
+         form.changesmade = .t.
+
+   Procedure COMBOBOX4_OnChange
+         form.changesmade = .t.
+
+   Procedure COMBOBOX5_OnChange
+      form.changesmade = .t.
+
+   Procedure change_pricing
+   local l1,l2,l3,l4,l5,l6
+
+         select fgcla
+         seek FGCOD->typ+FGCOD->cla
+         if found()
+          form.changesmade = .t.
+
+          endif
+
+          select FGCOD
+
+   Procedure SPRICE_OnChange
+      form.changesmade = .t.
+
+   Procedure SNAME_OnChange
+   form.SNAME.value = ltrim(form.SNAME.value)
+         form.changesmade = .t.
+         select temp
+         set order to name
+   seek  form.SNAME.value
+   if found()  .AND. .NOT. (typ = fgcod->typ .AND. cod = fgcod->cod .AND. cla = fgcod->cla)
+   InformationMessage("Duplicate Product name not allowed", "Note!")
+   form.SNAME.value =""
+   else
+   select fgcod
+   replace name with this.value
+   replace scode with this.value
+   endif
+   select  fgcod
+
+
+         if empty(form.sscode.value)
+         form.sscode.value = left(form.SNAME.value,4)
+         endif
+
+   Procedure SNAME_Valid
+         if empty(this.value)
+         isvalid = .f.
+         else
+         isvalid = .t.
+         endif
+         return isvalid
+
+   Procedure ENTRYFIELD2_OnChange1
+         form.changesmade = .t.
+
+   Procedure ENTRYFIELD2_Valid
+     if empty(this.value)
+         isvalid = .f.
+         else
+         isvalid = .t.
+         endif
+         return isvalid
+
+   Procedure ENTRYFIELD1_Valid
+     if empty(this.value)
+         isvalid = .f.
+         else
+         isvalid = .t.
+         endif
+         return isvalid
+
+   Procedure SACTIVE_OnGotFocus
+         form.changesmade = .t.
+
+   Procedure SNACTIVE_OnGotFocus
+         form.changesmade = .t.
+
+   Procedure SUNIT_ONCHANGE
+         select fgunits
+         seek this.value
+         IF FOUND()
+         select fgcod
+           replace unit with fgunits->unit
+         replace volume with fgunits->volume
+         replace unit_name with fgunits->name
+         replace unitname with this.value
+          form.changesmade = .t.
+         ENDIF
+         select fgcod
+
+   Procedure STAXTYP_OnLostFocus
+
+   function STAXTYP_onChange
+   if .not. empty(dbf())
+      select fgtaxtyp
+         seek this.value
+         select fgcod
+          if  .not. eof()  
+         replace tax_type with fgtaxtyp->tax_type
+         replace vat with fgtaxtyp->rate
+         replace tax_name with fgtaxtyp->name
+         replace    taxname with this.value
+         form.changesmade = .t.
+         endif
+                                endif
+      return
+
+   function STAX_onChange
+      select fgcod
+      replace vat with this.value
+      form.changesmade = .t.
+      return
+
+   function STYP_onChange
+       local lcode1,lcode2
+            lcode1 = THIS.VALUE
+            SELECT fgtypS
+            SEEK LCODE1
+            pftyp = typ
+            FORM.ptyp = typ
+            FORM.PTYPNAME = THIS.VALUE
+            SELECT fgclaS
+            set filter to typ = pftyp
+            GO TOP
+            IF  EOF()
+             form.root.FGCOD.add.enabled = .F.
+             ELSE
+            SET FILTER TO typ = pftyp
+            GO TOP
+            IF EOF()
+             form.root.FGCOD.add.enabled = .F.
+             ELSE
+              form.root.FGCOD.add.enabled = .T.
+              ENDIF
+              ENDIF
+              form.root.FGCOD.add.enabled = .F.
+              SELECT FGCOD
+             
+     *return
+
+   Procedure SITEMUNIT_OnChange
+            form.changesmade = .t.
+            select fgcod
+            replace items_unit with this.value
+
+   Procedure SCUNIT_OnChange
+         form.changesmade = .t.
+         select fgcod
+         replace cost_price with this.value
+        * if std_cost = 0
+         replace std_cost with cost_price
+        * endif
+        replace cost_unit with std_cost
+
+   Procedure SRPRICE_OnChange
+   form.changesmade =.t.
+   select fgcod
+   replace sale_price with this.value
+   if .not. this.value = 0 .and. form.swprice.value = 0
+   form.swprice.value = this.value
+   endif
+   if .not. this.value = 0 .and. form.sdprice.value = 0
+   form.sdprice.value = this.value
+   endif
+
+   Procedure SWPRICE_OnChange
+   form.changesmade = .t.
+
+   Procedure SDPRICE_OnChange
+      form.changesmade = .t.
+
+   Procedure SCOMMRATE_OnChange
+   select fgcod
+   replace comm_rate with this.value
+         form.changesmade = .t.
+
+   Procedure SMIN_OnChange
+         form.changesmade = .t.
+         select fgcod
+         replace min_stk with this.value
+
+   Procedure SREORDER_OnChange
+         form.changesmade = .t.
+           select fgcod
+         replace reordr_stk with this.value
+
+   Procedure SLOCA_OnLostFocus
+
+   function SLOCA_onChange
+            select fgcen
+         seek this.value
+         if found()
+         select fgcod
+         replace coy with fgcen->coy
+         replace div with fgcen->div
+         replace cen with fgcen->cen
+         replace cname with this.value
+         else
+         select fgcod
+         replace coy with ''
+         replace div with ''
+         replace cen with  ''
+         replace cname with ''
+      endif
+         form.changesmade = .t.
+
+      return
+
+   Procedure SSCODE_OnChange
+      select fgcod
+     replace scode with this.value
+     if empty(scode)
+     replace scode with name
+     endif
+         FORM.CHANGESMADE = .T.
+
+   Procedure SNP_OnChange
+         if fgcod->typ = "00"
+         select fgcod
+         replace new_p with this.value
+         form.changesmade = .t.
+         else
+         select fgcod
+         replace new_p with 0
+         endif
+         form.changesmade = .t.
+
+   Procedure SPRICE_OnChange1
+         form.changesmade = .t.
+         select fgcod
+         replace sale_price with this.value
+         if  new_p < 60
+         replace new_p with sale_price
+         endif
+
+   Procedure SSTD_OnChange
+         form.changesmade = .t.
+
+   Procedure SQTYENTRY_OnChange
+   select fgcod
+   replace qty with this.value
+         form.changesmade = .t.
+
+   Procedure SFCP_OnChange
+   select fgcod
+   replace fcpurch with this.value
+         form.changesmade = .t.
+
+   Procedure SFCDIV_OnChange
+         form.changesmade = .t.
+
+   Procedure SSTO_OnLostFocus
+
+   function SSTO_onChange
+        select ststos
+         seek this.value
+         if found()
+         select fgcod
+         replace sto with ststos->sto
+         replace stoname with this.value
+         else
+         replace sto with ''
+         replace stoname with ''
+         endif
+         select fgcod
+         form.changesmade = .t.
+
+      return
+
+   Procedure SPNAME_OnChange
+         form.changesmade = .t.
+
+   Procedure SMSAL_OnChange
+   select fgcod
+   replace shs_auto with this.value
+         form.changesmade = .t.
+
+   Procedure SUSED_OnChange
+      select fgcod
+   replace active with this.value
+         form.changesmade = .t.
+
+   Procedure SMAT_OnChange
+   form.changesmade = .t.
+   SELECT FGCOD
+   REPLACE MAT_CODE WITH LTRIM(THIS.VALUE)
+
+   Procedure SREV_OnChange
+    SELECT FGSVCES
+      SEEK THIS.VALUE
+      IF FOUND()
+      SELECT FGCOD
+      REPLACE COST_MODE WITH FGSVCES->COST_MODE
+      REPLACE COSTNAME WITH THIS.VALUE
+      ELSE
+      SELECT FGCOD
+      REPLACE COST_MODE WITH ""
+      REPLACE COSTNAME WITH ""
+      ENDIF
+      FORM.CHANGESMADE = .T.
+
+   Procedure SASSY_OnChange1
+     select fgcod
+      if .not. (typ ='10'.and. shs_auto ='No')
+      form.sassy.value = ''
+      replace usename with ''
+      else
+      replace usename with this.value
+      endif
+      form.changesmade = .t.
+
+endclass
+
+Procedure FGCODs_rtn
+PARAMETER BLUSER,BLEVEL
+PLUSER = BLUSER
+PLEVEL = BLEVEL
+             select scashrec
+             set order to mkey
+   private eofFGCOD2,p1,p2,pcoy,pdiv,pcen,psto,ptyp,pcla,pcod,punit
+     eofFGCOD2 = .f.
+     select shiftid
+     set order to id
+     select ststo
+     set order to sto
+   set safety off
+   select fgcen
+   set order to mkey
+
+   select FGCODs
+    set order to mkey
+       set safety on
+         SELECT FGMASTP
+       SET ORDER TO MKEY
+   select FGCOD2
+  SET FILTER TO .NOT. EMPTY(NAME) .AND. .NOT. EMPTY(SCODE) ;
+    .AND. .NOT. EMPTY(TYP) .AND. .NOT. EMPTY(CLA) .AND. .NOT. EMPTY(COD)  ;
+     .AND. .NOT. EMPTY(DIV) .AND. .NOT. EMPTY(COY)  .AND. .NOT. EMPTY(DIV) ;
+      .AND. .NOT. EMPTY(CEN) .AND. .NOT. EMPTY(STO) ;
+       .and. .not. empty(shs_auto) .and. .not. empty(fcpurch) .and. .not. empty(qty) ;
+        .and. active = "Yes"  .AND. .NOT. (QTY = "Yes" .and. (sale_price = 0 .and. cost_price = 0 .and.  plevel > 4)) ;
+        .AND. .NOT. (typ >='00' .and. typ <='9Z' .and. FGCOY->SHIPNAME = 'Orc' .and. (empty(mat_code);
+        .or. empty(cus_acc)  .OR. EMPTY(CUS_CLA))) ;
+        .AND. .NOT. (typ >='00' .and. typ <='9Z' .and.FGCOY->SHIPNAME = 'Yes' .and. empty(mat_code))     .and. empty(date_creat)
+  go top
+   if .not. eof()
+      do
+         do rtn1
+         until eofFGCOD2
+     endif
+     SELECT FGCOD2
+     SET ORDER TO MKEY
+     SET FILTER TO (FCPURCH = "Yes" .or. shs_auto = "Yes" )    .and. empty(date_creat)
+     go top
+     select fgmastp
+     set filter to typ > "00" .and. typ <= "9Z" .and. .not. left(typ,1) = "7"
+     eoffgmastp = .f.
+     go top
+     if .not. eof()
+        do
+           do fgcods2_rtn
+           until eoffgmastp
+      endif
+      select fgmast
+      set order to mkey2
+      select fgcod4
+     SET FILTER TO EMPTY(NAME)     .and.    empty(date_creat)
+     go top
+     eoffgcod4 = .f.
+     if .not. eof()
+        do
+           do fgcod4_rtn
+           until eoffgcod4
+      endif
+
+ eoffgcod2 =   .f.
+        SELECT FGCOD2
+        set filter  to       empty(date_creat)
+       go top
+       if .not.  eof()
+          do
+          do active_rtn
+          until eoffgcod2
+       endif
+       
+       CLOSE DATABASES
+ 
+ procedure active_rtn
+    select fgmastp
+      set filter to typ = fgcod2->typ .and. cla = fgcod2->cla .and. cod = fgcod2->cod
+      go top
+      if .not. eof()
+      replace all active with fgcod2->active
+      endif
+      select fgcod2
+      replace date_creat with date()
+      if .not. eof()
+      skip
+      endif
+      if eof()
+      eoffgcod2 = .t.
+    endif
+
+procedure fgcod4_rtn
+   select fgmast
+   seek fgcod4->typ+fgcod4->cla+fgcod4->cod
+   if .not. found()
+      select fgcod4
+      delete
+  endif
+     select fgcod4
+     if .not. eof()
+        skip
+        endif
+        if eof()
+           eoffgcod4 = .t.
+           endif
+Procedure fgcods2_rtn
+   select fgcod2
+         seek fgmastp->typ+fgmastp->cla+fgmastp->cod
+         if found()
+         select fgmastp
+         replace fcpurch with fgcod2->fcpurch
+         replace shs_auto with fgcod2->shs_auto
+         REPLACE MANFACT WITH FGCOD2->MANFACT
+         replace volume with fgcod2->volume
+          replace mat_code with fgcod2->mat_code
+           replace usename with fgcod2->usename
+         endif
+         select fgmastp
+         skip
+         if eof()
+            eoffgmastp = .t.
+         endif
+procedure rtn1
+
+      select FGCODS
+      seek fgcod2->typ+fgcod2->cla+fgcod2->cod
+      if .not. found()
+      APPEND BLANK
+      replace typ with FGCOD2->typ
+      replace cla with FGCOD2->cla
+      replace cod with FGCOD2->cod
+      endif
+       replace usename with fgcod2->usename
+      replace scode with FGCOD2->scode
+      replace name with ltrim(FGCOD2->name)
+      replace UNIT with FGCOD2->UNIT
+      replace new_p with fgcod2->new_p
+      replace volume with fgcod2->volume
+      replace capacity with fgcod2->capacity
+      replace ITEMS_UNIT with FGCOD2->ITEMS_UNIT
+      replace RPRICE    with FGCOD2->RPRICE
+      replace DPRICE   with FGCOD2->DPRICE
+      replace WPRICE WIth FGCOD2->WPRICE
+      replace COST_UNIT with FGCOD2->COST_UNIT
+      replace TAX_TYPE WITH   FGCOD2->TAX_TYPE
+      replace MIN_STK with FGCOD2->MIN_STK
+      replace sale_price with fgcod2->sale_price
+      replace cost_price with fgcod2->cost_price
+      replace REORDR_STK WITH FGCOD2->REORDR_STK
+      replace fcdiv with fgcod2->fcdiv
+      replace fcpurch with fgcod2->fcpurch
+      replace VSRCE  with FGCOD2->VSRCE
+      replace VTYP       with FGCOD2->VTYP
+      replace VPMOD      with FGCOD2->VPMOD
+      REPLACE VENDOR_N WITH FGCOD2->VENDOR_N
+      REPLACE COST_MODE WITH FGCOD2->COST_MODE
+      replace ITEM_USE with FGCOD2->ITEM_USE
+      replace COMM_RATE with FGCOD2->COMM_RATE
+      replace ACTIVE with FGCOD2->ACTIVE
+      replace coy with FGCOD2->coy
+      replace div with FGCOD2->div
+      replace cen with FGCOD2->cen
+      REPLACE STO WITH FGCOD2->STO
+      replace vat with fgcod2->vat
+      REPLACE QTY WITH FGCOD2->QTY
+       replace ACTIVE with FGCOD2->ACTIVE
+      replace shs_auto with fgcod2->shs_auto
+      replace tax_name with fgcod2->tax_name
+      replace unit_name with fgcod2->unit_name
+      replace sname with FGCOD2->sname
+   replace pname with FGCOD2->pname
+   replace vname with FGCOD2->vname
+   replace vendor_n with FGCOD2->vendor_n
+   replace costname with FGCOD2->COSTNAME
+   REPLACE MTYP WITH FGCOD2->MTYP
+   replace dprice with FGCOD2->dprice
+    replace mat_code with fgcod2->mat_code
+   replace matname with fgcod2->Matname
+      if .not. empty(cen) .and. .not. empty(div) .and. .not. empty(coy) ;
+       .and. .not. empty(sto)
+         do fgmast_rtn
+       endif
+
+   select FGCOD2
+   IF EMPTY(DATE_CREAT)
+   REPLACE DATE_CREAT WITH DATE()
+   ENDIF
+   replace name with ltrim(name)
+   skip
+   if eof()
+   eofFGCOD2 = .t.
+   endif
+
+
+procedure fgmast_rtn
+       local l1,l2,l3,l4,l5,l6,l7,l8,l9,L10,L11,L12,LERR,lststo,lfuel,LNERR1,LNERR2,LNERR3,LNERR4
+        LNERR1 = .F.
+        LNERR2 = .F.
+        LNERR3 = .F.
+        LNERR4 = .F.
+      lststo = ""
+      LERR = .F.
+      lfuel = .f.
+
+
+         l1 = FGCOD2->coy
+         l2 = FGCOD2->div
+         l3 = FGCOD2->cen
+         l4 = FGCOD2->typ
+         l5 = FGCOD2->cla
+         l6 = FGCOD2->cod
+         l7 = fgcod2->sto
+         SELECT FGTAXTYP2
+         set order to tax_type
+         SEEK FGCOD2->TAX_TYPE
+         SELECT FGUNITS
+         SEEK FGCOD2->UNIT
+         select STSTO
+         seek l7
+         if found()
+         lststo = sto1
+         ELSE
+         LSTSTO = ""
+         LNERR1 = .T.
+         ? "Lnerr1"
+         ENDIF
+         IF .NOT. LNERR1
+         select fgcen
+         seek l1+l2+l3
+         IF FOUND() .AND. .NOT. EMPTY(COY1) .AND. .NOT. EMPTY(DIV1) .AND. .NOT. EMPTY(CEN1)
+            L10 = COY1
+            L11 = DIV1
+            L12 = CEN1
+              if fuels = "Yes"
+       lfuel = .t.
+       endif
+       ELSE
+       L10 = ""
+       L11 = ""
+       L12 = ""
+       LNERR2 = .T.
+       ? "Lnerr2"
+       ENDIF
+       IF .NOT. LNERR2
+            SELECT FGCEN
+            SEEK L10+L11+L12
+            IF FOUND() .AND. .NOT. EMPTY(COY1) .AND. .NOT. EMPTY(DIV1) .AND. .NOT. EMPTY(CEN1)
+            ELSE
+            LNERR3 = .T.
+            ? "Lnerr3"
+            ENDIF
+            IF .NOT. LNERR3
+               select fgcen
+         seek l1+l2+l3
+         IF (LEFT(L7,1) = "L" .OR.  LEFT(L7,1) = "D" .OR.  LEFT(L7,1) = "K" ;
+          .OR.  LEFT(L7,1) = "U" .OR.  LEFT(L7,1) = "P" .OR.  LEFT(L7,1) = "R")
+             IF L4 = "00" .AND. LEFT(L5,1) >="0" .AND. LEFT(L5,1) <= "5" .AND. RIGHT(L5,1)="0"  && NEW 122010
+             LERR = .F.
+             ELSE
+             LERR = .T.
+             ENDIF
+             ENDIF
+             IF L1 = "1" .AND. L2 = "1" .AND. (L3 < "6" .OR. L3 = "G" .OR. L3 = "H" .OR. L3 =  "I");
+             .AND. .NOT. L4 = "00" && FUELS
+             LERR = .T.
+             ENDIF
+               IF L1 = "1" .AND. L2 = "1" .AND. (L3 < "6" .OR. L3 = "G" .OR. L3 = "H" .OR. L3 =  "I");
+               .AND. .NOT. (L10 = "1"; && FUELS
+           .AND. L11 = "2" .AND. L12 = "0")
+             LERR = .T.
+             ENDIF
+             if l4 = "00" .and. lerr
+             ? "Error here 1"
+             endif
+          IF L4 = "00" .AND. .NOT. L2 = "1" && NOT FORECOURT
+                IF .NOT. L2 = "2" .AND. .NOT. LEFT(L7,1) = "T" ; && NOT FUEL TANKS
+                 .AND. .NOT. L11 = L2 .AND. .NOT. L7 = STSTO->STO1 .AND. .NOT. L12 = L3
+                 LERR = .T.
+                 ENDIF
+                 ENDIF
+         IF L4 = "00" .AND. (L7 = "S1" .OR. L7 = "W1" .OR. L7 = "F1";
+         .or. l7 = "A1" .OR. LEFT(L7,1) = "M")
+         LERR = .T.
+         ENDIF
+            if l4 = "00" .and. lerr
+             ? "Error here 2"
+             endif
+
+
+* "no problem 14/10/2010"
+         IF L2 = "5" && ADMINISTRATION
+            IF .NOT. L3 = "1" .AND. .NOT. L7 = "A1" .AND.  .NOT. L4 > "9Z"
+            LERR = .T.
+         ENDIF
+         ENDIF
+         IF L7 = "A1" .AND. .NOT. L4 > "9Z"
+         LERR = .T.
+         ENDIF
+         IF (L7 = "S1" .OR. L7 = "W1" .OR. L7 = "M1" ) .AND. .NOT. L4 > "00"
+         LERR = .T.
+         ENDIF
+         IF L7 = "F1" .AND. .NOT. L2 = "1" .AND. .NOT. l4 > "00" .AND. .NOT. l4 <= "9Z"
+         LERR = .T.
+         ENDIF
+         IF L7 = "F1" .AND. (LEFT(L4,1) = "7" .OR. .NOT. LEFT(L4,1) = "0")
+         LERR = .T.
+         ENDIF
+            if l4 = "00" .and. lerr
+             ? "Error here 3"
+             endif
+
+      *   IF L2 = "1" .AND. L3 = "7" .OR. L3 = "8";
+          .OR. L3 = "D" .OR. L3 = "E") .AND. .NOT. L4 = "10"
+      *      LERR = .T.
+      *      ENDIF
+            IF l4 = "20" .and.  L2 = "1" .AND. .not. (L3 = "6" .or. l3 = "4") && LPGS
+            LERR = .T.
+            ENDIF
+              IF L2 = "1" .AND. L3 = "A" .AND. .NOT. L4 = "30" && CARDS
+            LERR = .T.
+            ENDIF
+
+           IF L2 = "1" .AND. (l3 = "F" .or. L3 = "9") .AND. .NOT. left(L4,1) = "9"  && DRINKS
+            LERR = .T.
+            ENDIF
+               if l4 = "00" .and. lerr
+             ? "Error here 4"
+             endif
+
+
+         IF L2 = "1" .AND. L3 = "B" .AND. .NOT. L4 = "50"  && SPARES
+         LERR = .T.
+         ENDIF
+           IF L2 = "1" .AND. L3 = "C"  ; &&TYREs and tubes
+           .AND. .NOT. (L4 = "40" .OR. L4 = "45" .OR. L4 = "60" .OR. L4 = "50" .OR. L4 = "30")
+            LERR = .T.
+            ENDIF
+       IF L2 = "5" .AND. L4 <= "9Z"  && ADMINISTRATION NO SALE ITEMS
+       LERR = .T.
+       ENDIF
+       IF L4 = "76" .AND. .NOT. L2 = "8"  && CAFE CENTRE
+       LERR = .T.
+       ENDIF
+        IF L4 = "75" .AND. .NOT. L2 = "4"  && SHOP CENTRE
+       LERR = .T.
+       ENDIF
+       IF ((L4 > "76" .and. l4 < "80")  .OR. L4 = '73' .OR. L4 = '74'.OR. L4 = '72') .AND. .NOT. L2 = "6"  && Other Revenues
+       LERR = .T.
+       ENDIF
+     IF L2 = '6' .AND. .NOT. (((L4 > "76" .and. l4 < "80")  .OR. L4 = '73' .OR. L4 = '74'.OR. L4 = '72'))
+      LERR = .T.
+       ENDIF
+
+* "no problem 14/10/2010"
+
+       IF L4 = "00" .AND. .NOT. (L2 = "1"  .OR. (L2 = "2" .AND. L3 = "0" .AND. LEFT(l7,1) = "T"))
+       LERR = .T.
+       ENDIF
+          if l4 = "00" .and. lerr
+             ? "Error here 7"
+             endif
+
+       IF L4 = "E0"
+       LERR = .F.
+       ENDIF
+       IF L4 > "9Z" .AND. .NOT. L4 = "E0" .AND. .NOT. L2 = "5"
+       LERR = .T.
+       ENDIF
+       if l2 > "2" .and. (l4 < "40" .or. left(L4 ,1)= "9")
+       lerr = .t.
+       endif
+          if l4 = "00" .and. lerr
+             ? "Error here 8"
+             endif
+
+   IF (L4 = "70" .or. l4 = "71") .AND. .NOT. L2 = "3" && tyres and service centre
+       LERR = .T.
+       ENDIF
+       if l4 = "10" .and. (l2 = "1" .and. (l3 = "5" .or. l3 = "7" .or. l3 = "8")) .and. l7 = "F1"
+       lerr = .f.
+       endif
+       if (l4 > "00" .and. l4 < "70") .or. (l4 > "79" .and. l4 <= "9Z")
+       if l2 = "2" .and. l3 = "1" .and. l7 = "S1"
+       lerr = .f.
+       endif
+       endif
+          if l4 = "00" .and. lerr
+             ? "Error here 9"
+             endif
+
+        if l4 = "20" .and. l2 = "1" .and. (l3 = "6" .or. l3 = "4") .and. l7 = "F1"
+       lerr = .f.
+       endif
+         if l4 = "30" .and. l2 = "1" .and. l3 = "A"  .and. l7 = "F1"  && scratch cards
+       lerr = .f.
+     endif
+          if left(L4 ,1)= "9" .and. l2 = "1" .and. l3 = "9"  .and. l7 = "F1"  && scratch cards
+       lerr = .f.
+     endif
+      if l4 = "00" .and. lerr
+             ? "Error here 10"
+             endif
+
+ if left(l7,1) = "P"  .and. .not. (l4  = "00" .and. l5 = "00" ;
+    .and. l6 = "00" .and. l2 = "1") .and. (l3 = "1" .or. l3 = "3") && Island 1 and 3 only
+    lerr = .t.
+    endif
+     if left(l7,1) = "U"  .and. .not. (l4  = "00" .and. l5 = "10" ;
+    .and. l6 = "00" .and. l2 = "1") .and. (l3 = "1" .or. l3 = "3")
+    lerr = .t.
+    endif
+  if left(l7,1) = "K"  .and. .not. (l4  = "00" .and. l5 = "40" ;
+    .and. l6 = "00" .and. l2 = "1") .and. l3 = "2"
+    lerr = .t.
+    endif
+  if left(l7,1) = "D"  .and. .not. (l4  = "00" .and. l5 = "30" ;
+    .and. l6 = "00" .and. l2 = "1") .and. (l3 = "1" .or. l3 = "3")
+    lerr = .t.
+    endif
+
+* problem with fuels 14/10/2010
+  if left(l7,1) = "L"  .and. .not. (l4  = "00" .and. l5 = "50" ;
+    .and. l6 = "00" .and. l2 = "1") .and. (l3 = "1" .or. l3 = "3")
+    lerr = .t.
+    endif
+    if l4 = "00" .and. (l7 = "A1" .or. l7 = "M1" .or. l7 = "S1" .or. l7 = "F1" ;
+     .or. l7 = "W1")
+     lerr = .t.
+     endif
+     if l4 = "00" .and. (l2 > "2" .or. (l2 = "2" .and. .not. l3 = "0"))
+     lerr = .t.
+     endif
+ if left(l7,1) = "T" .and. .not. l2 = "2" .and. .not. l3 = "0" ;
+  .and. .not. l4 = "00"
+  lerr = .t.
+  endif
+ if (l7 = "T1" .or. l7 = "T5") .and. .not. (l4 = "00"  .and. l6 = "00")
+  lerr = .t.
+  endif
+  if (l7 = "T4" .or. l7 = "T3") .and. .not. (l4 = "00" .and. l6 = "00")
+  lerr = .t.
+  endif
+  if (l7 = "T8" .or. l7 = "T9") .and. .not. (l4 = "00"  .and. l6 = "00")
+  lerr = .t.
+  endif
+ if l7 = "T7"  .and. .not. (l4 = "00"   .and. l6 = "00")
+  lerr = .t.
+  endif
+  if l7 = "T6"  .and. .not. (l4 = "00" .and. l6 = "00")
+  lerr = .t.
+  endif
+   if (l7 = "T0" .or. l7 = "T2") .and. .not. (l4 = "00"   .and. l6 = "00")
+  lerr = .t.
+  endif
+  if (l4 = "40" .or. l4 = "45" .or. l4 = "80" .or. l4 = "60") ;
+   .and. l2 = "1" .and. l3 = "C" .and. l7 = "F1"
+   lerr = .f.
+   endif
+
+ if l4 = "50"  .and. l2 = "1" .and. l3 = "B" .and. l7 = "F1"
+   lerr = .f.
+   endif
+
+* problem with fuels 14/10/2010
+
+ if empty(fgcod2->name) .or. empty(fgcod2->scode)
+ lerr = .t.
+ endif
+
+       if l4 = "71" && car wash
+             if l2 = "3" .and. l3 = "1" .and. l7  = "W1"
+             lerr = .f.
+             else
+             lerr = .t.
+      endif
+      endif
+
+       if (LEFT(l4,1) = "5" .or. l4 = "70" .or. LEFT(l4,1) = "6") && batteries, spares and pit services
+             if l2 = "3" .and. l3 = "0" .and. l7  = "W1"
+             lerr = .f.
+             else
+             lerr = .t.
+      endif
+      endif
+
+        if LEFT(l4,1) = "4"  && tyres and tubes
+             if l2 = "3" .and. l3 = "2" .and. l7  = "W1"
+             lerr = .f.
+             else
+             lerr = .t.
+      endif
+      endif
+         if l4 = "75"  && shop
+             if l2 = "4" .and. l3 = "0" .and. l7  = "W1"
+             lerr = .f.
+             else
+             lerr = .t.
+      endif
+      endif
+      if l4 = "76"  && cafe
+             if l2 = "8" .and. l3 = "0" .and. l7  = "W1"
+             lerr = .f.
+             else
+             lerr = .t.
+      endif
+      endif
+
+      if LEFT(l4,1) = "8"  && other resalabe merchandise
+             if l2 = "3" .and. l3 = "3" .and. l7  = "W1"
+             lerr = .f.
+             else
+             lerr = .t.
+      endif
+      endif
+      if l4 = "20"  && lpgs all are forecourt items
+             if l2 = "1" .and. (l3 = "6" .or. l3 = "4") .and. l7  = "F1"
+             lerr = .f.
+             else
+             lerr = .t.
+      endif
+      endif
+         if l4 = "20" .and. l2 = "2" .and. l3 = "1" .and. l7 = "S1"
+         lerr = .f.
+         endif
+           if l4 = "30" .and. l2 = "2" .and. l3 = "1" .and. l7 = "S1"
+         lerr = .f.
+         endif
+            if l4 = "30" .and. l2 = "1" .and. l3 = "A" .and. l7 = "F1"
+         lerr = .f.
+         endif
+           if left(l7,1) = "T" .and. l2 = "1"
+         lerr = .t.
+         endif
+         IF L4 = "72" .AND. (.NOT. DIV = "3" .AND. .NOT. CEN = "3" )
+       LERR = .T.
+       ENDIF
+
+
+       if (left(l7,1) = "P" .or.  left(l7,1) = "R" .or.  left(l7,1) = "L" .or. ;
+           left(l7,1) = "U" .or.  left(l7,1) = "D" .or.  left(l7,1) = "K");
+            .AND. .NOT. (FGCEN->COY1 = "1" .AND. fgcen->DIV1 = "2" .AND. ;
+             FGCEN->CEN1 = "0" .AND. LEFT(STSTO->STO1,1) = "T" .AND. L4 = "00")
+             LERR = .T.
+             ENDIF
+                     LOCAL LXX1,LXX2,LXX3
+             LXX1 = LEFT(STSTO->SNAME,6) && TTCCDD
+             LXX2 = RIGHT(LXX1,2) && DD
+             LXX1 = LEFT(LXX1,4) && TTCC
+             LXX3= RIGHT(LXX1,2) && CC
+             LXX1 = LEFT(LXX1,2) && TT
+
+            IF (LEFT(L7,1) = "M" .OR. LEFT(L7,1) = "X" .OR. LEFT(L7,1) = "Q") ;
+             .AND. .NOT. (LXX1 = L4 .AND. LXX2 = L6 .AND. LXX3 = L5 .AND. ;
+              L4 = "10" .AND. L5 <= "20" .AND. FGCOD2->SHS_AUTO = "Yes")
+             LERR = .T.
+             ENDIF
+              IF LEFT(L7,1) = "M"  .AND. .NOT. (l2 = "2" .and. l3 = "2" ;
+              .AND. l1 = "1" .AND. fgcen->div1 = "2" .and. fgcen->cen1 = "2";
+               .and. fgcen->coy1 = "1" .and. STSTO->sto1 = l7)
+             LERR = .T.
+             ENDIF
+              IF (LEFT(L7,1) = "X" .or. left(l7,1) = "Q")  .AND. .NOT. (l2 = "1" .and. (l3 = "D" .OR. L3 = 'O');
+              .AND. l1 = "1" .AND. fgcen->div1 = "2" .and. fgcen->cen1 = "2";
+               .and. fgcen->coy1 = "1" .and. LEFT(STSTO->sto1,1) = "M")
+             LERR = .T.
+             ENDIF
+
+             IF (L3 = "D" .OR. L3 = 'O') .AND. .NOT. (LEFT(L7,1) = "X" .OR. LEFT(L7,1) = "Q")
+             LERR = .T.
+             ENDIF
+             if fgcod2->shs_auto = "Yes" .and. .not. (l4 = "10" .AND. L5 <= "20" ;
+              .and. (left(l7,1) = "M" .or. left(l7,1) = "Q" .or. left(l7,1) = "X"))
+              lerr = .t.
+              endif
+
+             if fgcod2->shs_auto = "Ccc"
+                if l1 = "1" .and. l2 = "2" .and. l3 = "3" .and. fgcen->coy = l1 ;
+                 .and. fgcen->div1 = l2 .and. fgcen->cen1 = l3 .and. left(l7,1) = "C"  ;
+                  .and. ststo->sto1 = l7
+                  LERR = .F.
+                  ENDIF
+                 if l1 = "1" .and. l2 = "3" .and. l3 = "4" .and. fgcen->coy = "1" ;
+                 .and. fgcen->div1 = "2" .and. fgcen->cen1 = "3" .and. left(l7,1) = "C"  ;
+                  .and. ststo->sto1 = l7
+                  LERR = .F.
+                  ENDIF
+
+                  endif
+* no problem with fuels 14/10/2010
+                                  if fgcod2->shs_auto = "Ccf"
+                if l1 = "1" .and. l2 = "2" .and. l3 = "8" .and. fgcen->coy = l1 ;
+                 .and. fgcen->div1 = l2 .and. fgcen->cen1 = l3 .and. left(l7,1) = "E"  ;
+                  .and. ststo->sto1 = l7 .AND. UPPER(LEFT(FGCOD2->NAME,3)) = 'CCF'
+                  LERR = .F.
+                  ENDIF
+                 if l1 = "1" .and. l2 = "3" .and. l3 = "6" .and. fgcen->coy = "1" ;
+                 .and. fgcen->div1 = "2" .and. fgcen->cen1 = "8" .and. left(l7,1) = "E"  ;
+                  .and. ststo->sto1 = l7 .AND. UPPER(LEFT(FGCOD2->NAME,3)) = 'CCF'
+                  LERR = .F.
+                  ENDIF
+                  endif
+                   if fgcod2->shs_auto = "Ccf" .and. .not. (l4 = "10" .and. left(l7,1) = "E";
+               .and. UPPER(LEFT(FGCOD2->NAME,3)) = 'CCF')
+              lerr = .t.
+              endif
+              IF LEFT(L7,1) = "E" ;
+             .AND. .NOT. (LXX1 = L4 .AND. LXX2 = L6 .AND. LXX3 = L5 .AND. ;
+              L4 = "10"  .AND. FGCOD2->SHS_AUTO = "Ccf" .and. UPPER(LEFT(FGCOD2->NAME,3)) = 'CCF')
+             LERR = .T.
+             ENDIF
+                       IF (LEFT(L7,1) = "G" .OR. LEFT(L7,1) = "C" .OR. LEFT(L7,1) = "E") .AND. L2 = "1"
+      LERR = .T.
+      ENDIF
+       if fgcod2->shs_auto = "Ccf" .and. .not. (l1 = "1" ;
+            .and. ((l2 = "2" .and. l3 = "8") .or. (l2 = "3" .and. l3 = "6"));
+            .and. left(l7,1) = "E")
+            lerr = .t.
+            endif
+
+                  if fgcod2->shs_auto = "Grs"
+                if l1 = "1" .and. l2 = "2" .and. l3 = "4" .and. fgcen->coy = l1 ;
+                 .and. fgcen->div1 = l2 .and. fgcen->cen1 = l3 .and. left(l7,1) = "G"  ;
+                  .and. ststo->sto1 = l7
+                  LERR = .F.
+                  ENDIF
+                 if l1 = "1" .and. l2 = "3" .and. l3 = "5" .and. fgcen->coy = "1" ;
+                 .and. fgcen->div1 = "2" .and. fgcen->cen1 = "4" .and. left(l7,1) = "G"  ;
+                  .and. ststo->sto1 = l7
+                  LERR = .F.
+                  ENDIF
+                  endif
+
+              if fgcod2->shs_auto = "Ccc" .and. .not. (l4 = "10" .and. left(l7,1) = "C" ;
+               .and. l5 = "20")
+              lerr = .t.
+              ? "problem 2"
+              endif
+               if fgcod2->shs_auto = "Grs" .and. .not. (l4 = "10" .and. left(l7,1) = "G";
+               .and. l5 = "30")
+              lerr = .t.
+              endif
+              IF LEFT(L7,1) = "G" ;
+             .AND. .NOT. (LXX1 = L4 .AND. LXX2 = L6 .AND. LXX3 = L5 .AND. ;
+              L4 = "10" .AND. L5 = "30" .AND. FGCOD2->SHS_AUTO = "Grs")
+             LERR = .T.
+             ENDIF
+           IF LEFT(L7,1) = "C" ;
+             .AND. .NOT. (LXX1 = L4 .AND. LXX2 = L6 .AND. LXX3 = L5 .AND. ;
+              L4 = "10" .AND. L5 = "20" .AND. FGCOD2->SHS_AUTO = "Ccc")
+             LERR = .T.
+             ? "problem 1"
+             ENDIF
+              IF LEFT(L7,1) = "G" ;
+             .AND.  LXX1 = L4 .AND. LXX2 = L6 .AND. LXX3 = L5 .AND. ;
+              L4 = "10" .AND. L5 = "30" .AND. FGCOD2->SHS_AUTO = "Grs"
+             LERR = .F.
+             ENDIF
+           IF LEFT(L7,1) = "C" ;
+             .AND.  LXX1 = L4 .AND. LXX2 = L6 .AND. LXX3 = L5 .AND. ;
+              L4 = "10" .AND. L5 = "20" .AND. FGCOD2->SHS_AUTO = "Ccc"
+             LERR = .F.
+             ENDIF
+             if fgcod2->shs_auto = "Grs" .and. .not. left(l7,1) = "G"
+             lerr = .t.
+             endif
+* 14/10/2010
+             IF L4 = "05" .AND. .NOT. (L7 = "B1" .AND. L2 = "2" .AND. L3 = "5")
+             LERR = .T.
+             ENDIF
+             IF L7 = "B1" .AND. .NOT. L4 = "05"
+             LERR = .T.
+             ENDIF
+             IF L4 = "05" .AND. L7 = "B1" .AND. L2 = "2" .AND. L3 = "5"
+             LERR = .T.
+             ENDIF
+                                                      if l4 = "00".and. .not. l5 = "10" .and. lerr
+? "Error on Fuels - 5"
+endif
+
+
+                                                       if l4 = "00".and. .not. l5 = "10" .and. lerr
+? "Error on Fuels - 4"
+endif
+
+               if l4 ="05" .and. l2 = "2" .and. l3 = "5" .and. l1 = "1" .and. l6 = "00" ;
+              .and. l7 = "B1" .and. left(l5,1) < "6" .and. right(l5,1) = "0" ;
+               .and. fgcod2->qty = "Yes"
+              lerr = .f.
+              endif
+               IF L4 < "40" .AND. (L7 = "W1" .OR. L7 = "A1")
+      LERR = .T.
+      ENDIF
+
+               IF (LEFT(L7,1) = "G" .OR. LEFT(L7,1) = "C") .AND. L2 = "1"
+      LERR = .T.
+      ENDIF
+      IF  L7 = "S1" .AND. .NOT. (L2 = "2" .AND. L3 = "1")
+      LERR = .T.
+      ENDIF
+       IF L2 = "1" .AND. L3 = "B" .AND. L4 = "50" .AND. L7 = "F1" && SPARES
+         LERR = .F.
+         ENDIF
+          if l2 = "6" .and. l7 = "W1" .and. ((L4 > "76" .and. L4 < "80") .OR. L4 = "E0")
+         lerr = .f.
+         endif
+           IF L2 = "1" .AND. L3 = "B" .AND. (LEFT(L4,1) = "5" .OR. LEFT(L4,1) = "6" ;
+       .OR. LEFT(L4,1) = "8") .AND. L7 = "F1" && SPARES
+         LERR = .F.
+         ENDIF
+         IF L2 = "1" .AND. L3 = "B" .AND. .NOT. ((LEFT(L4,1) = "5" .OR. LEFT(L4,1) = "6" ;
+       .OR. LEFT(L4,1) = "8") .AND. L7 = "F1") && SPARES
+         LERR = .T.
+         ENDIF
+          IF L2 = "1" .AND. L3 = "C" .AND. LEFT(L4,1) = "4" .AND. L7 = "F1" && TYRES AND TUBES
+         LERR = .F.
+         ENDIF
+        IF L2 = "1" .AND. L3 = "C" .AND. .NOT. (LEFT(L4,1) = "4" .AND. L7 = "F1") && TYRES AND TUBES
+         LERR = .T.
+         ENDIF
+
+         IF L2 = "1" .and. l3 = "E"  .and. l7 = "F1" ;
+          .and. ((l5 = "01" .and. l4 = "55") .OR. (L4 = "50" .AND. ;
+           (L5 = "GA" .OR. L5 = "NO" .OR. L5 = "PA"))) .and. l1 = "1"
+          lerr = .f.
+          endif
+
+            IF  ((l5 = "01" .and. l4 = "55") .OR. (L4 = "50" .AND. ;
+           (L5 = "GA" .OR. L5 = "NO" .OR. L5 = "PA"))) .and. l1 = "1" .AND. ;
+           L2 = "1" .and. .not. (l3 = "E"  .and. l7 = "F1")
+          lerr = .T.
+          endif
+                       if l4 = "00".and. .not. l5 = "10" .and. lerr
+? "Error on Fuels - 3"
+endif
+
+
+           IF (L3 = "G" .OR. L3 = "H" .OR. L3 =  "I") .AND. .NOT. L4 = "00"
+           LERR = .T.
+           endif
+             if left(l7,1) = "C" .and. .not. (fgcod2->shs_auto = "Ccc" .and. l1 = "1" ;
+            .and. ((l2 = "2" .and. l3 = "3") .or. (l2 = "3" .and. l3 = "4")))
+            lerr = .t.
+            endif
+
+             if left(l7,1) = "G" .and. .not. (fgcod2->shs_auto = "Grs" .and. l1 = "1" ;
+            .and. ((l2 = "2" .and. l3 = "4") .or. (l2 = "3" .and. l3 = "5")))
+            lerr = .t.
+            endif
+
+             if fgcod2->shs_auto = "Ccc" .and. .not. (l1 = "1" ;
+            .and. ((l2 = "2" .and. l3 = "3") .or. (l2 = "3" .and. l3 = "4"));
+            .and. left(l7,1) = "C")
+            lerr = .t.
+            endif
+
+             if fgcod2->shs_auto = "Grs" .and. .not. (l1 = "1" ;
+            .and. ((l2 = "2" .and. l3 = "4") .or. (l2 = "3" .and. l3 = "5"));
+            .and. left(l7,1) = "G")
+            lerr = .t.
+            endif
+
+             if l1 = "1" .and. ((l2 = "2" .and. l3 = "3") .or. (l2 = "3" .and. ;
+              l3 = "4")) .and. .not. (left(l7,1) = "C" ;
+            .and.  fgcod2->shs_auto = "Ccc")
+            lerr = .t.
+
+            endif
+             if l4 = "00".and. .not. l5 = "10" .and. lerr
+? "Error on Fuels - 2"
+endif
+
+
+            if l1 = "1" .and. ((l2 = "2" .and. l3 = "4") .or. (l2 = "3" ;
+             .and. l3 = "5")) .and. .not. (left(l7,1) = "G" ;
+            .and.  fgcod2->shs_auto = "Grs")
+            lerr = .t.
+
+            endif
+             if l1 = "1" .and. l2 = "1" .and. l3 = "J" .and. l4 >="10".and. L4 <="9Z";
+               .AND. .NOT. LEFT(L4,1) = "7" .AND. fgcod2->shs_auto = "No";
+        .and. fgcod2->qty = "Yes"  .and. l7 = "F1" .AND.  EMPTY(STSTO->SNAME) && FC SHOP ITEMS - ALL
+       lerr = .f.
+       endif
+       if  l3 = "J" .and. .not. (l1 = "1" .and. l2 = "1";
+       .and. l7 = "F1" .and. l4 >="10" .AND. L4 <= "9Z" .AND. .NOT. LEFT(L4,1) = "7" .and. fgcod2->shs_auto = "No" ;
+        .and. fgcod2->qty = "Yes"  .and. l7 = "F1" .AND.  EMPTY(STSTO->SNAME))
+        lerr = .t.
+        endif
+
+        IF L4 > "30" .AND. .NOT. LEFT(L4,1) = "7"  .and. .not. fgcod2->qty = "Yes"
+      lerr = .t.
+      endif
+
+    IF left(L4,1) > "9" .AND.  (L7 = "A1" .or. l7 = "W1" .or. l7 = "F1")
+      LERR = .F.
+      ENDIF
+      if left(l4,1) > "9" .and. .not.  (L7 = "A1" .or. l7 = "W1" .or. l7 = "F1")
+      lerr = .t.
+      endif
+         if l4 = "00" .and. .not. l4+l5+l6 = left(ststo->sname,6) .and. .not. lfuel
+      lerr = .t.
+      endif
+
+
+       IF L7 = "W1" .AND. L2 = "1" .AND. l4 <= "9Z"
+   LERR = .T.
+   ENDIF
+   if   .NOT.  L2 = "1" .AND. L7 = "F1"
+   LERR = .T.
+   ENDIF
+   if  fgcod2->shs_auto = "Dcn"  .and. (fgcod2->qty = "Yes" .and. fgcod2->fcpurch = "No" ;
+  .and. l3 = "8" .and. l2 = "1"  .and. fgcod2->sale_Price > 0 .and. l4 = "10";
+  .and. l7 = "F1" .and. fgcod2->volume = 1)
+ lerr = .f.
+ endif
+    if  fgcod2->shs_auto = "Dcn"  .and. .not. (fgcod2->qty = "Yes" .and. fgcod2->fcpurch = "No" ;
+  .and. l3 = "8" .and. l2 = "1"  .and. fgcod2->sale_Price > 0 .and. l4 = "10";
+  .and. l7 = "F1" .and. fgcod2->volume = 1)
+ lerr = .t.
+ endif
+ if l4 = "00".and. .not. l5 = "10" .and. lerr
+? "Error on Fuels - 1"
+endif
+
+
+   if l4 > "9Z" .and. .not. (l2 = "5" .and. l3 = "1" .and. l7 = "A1")
+  lerr = .t.
+ endif
+ if (L7 = "S1" .or. L7 = "A1") .and. (l2 = "1"  .or. l3 = "0")
+ lerr = .t.
+ endif
+ if .not. l4 = "00" .and. (fgcen->div1 = "2" .and. fgcen->cen1 = "0")
+ lerr = .t.
+ endif
+ if l4 = "20" .and. l2 = "1" .and. .not. l3 = "6"
+ lerr = .t.
+ endif
+ if l4 = "10" .and. l2 = "1" .and. .not. (l3 = "7" .or. l3 = "8".or. l3 = "J" .or. l3 = "D" .OR. L3 =  'O')
+ lerr = .t.
+ endif
+  if l4 = "30" .and. l2 = "1" .and. .not. l3 = "A"
+ lerr = .t.
+ endif
+  if l4 = "90" .and. l2 = "1" .and. .not. (l3 = "9"  .or. l3 = "F"  .or. l3 = "J"  .or. l3 = "M")
+ lerr = .t.
+ endif
+ if l4 > "39" .and. l4 < "46" .and. l2 = "1" .and. .not. l3 = "C"
+ lerr = .t.
+ endif
+ if l4 = "55" .and. l5 = "01" .and. l2 = "1" .and. .not. l3 = "E"
+ lerr = .t.
+ endif
+ if l4 > "45" .and. .not. (l4 = "55" .and. l5 = "01") .and. .not. left(l4,1) = "7";
+ .and. l4 < "90" .and. l2 = "1" .and. .not. l3 = "B"
+ lerr = .t.
+ endif
+IF L4 > "9Z" .AND. .NOT. L2 = "5" .AND. .NOT. L3 = "1" .AND. .NOT. L7 = "A1"
+ LERR = .T.
+ ENDIF
+if l4 = "00".and. .not. l5 = "10" .and. lerr
+? "Error on Fuels - 0"
+endif
+if L4 = "30"
+   IF .NOT. ((L2 = "1" .AND. L3 = "A" .AND. L7 = "F1") .OR. (L2 = "2" .AND. L3 = "1" .AND. L7 = "S1"))
+   LERR = .T.
+   ENDIF
+ ENDIF
+ if L4 = "90"
+   IF .NOT. ((L2 = "1" .AND. (L3 = "F" .OR. L3 = "9"  .or. l3 = "J"  .or. l3 = "M");
+   .AND. L7 = "F1") .OR. (L2 = "2" .AND. L3 = "1" .AND. L7 = "S1"))
+   LERR = .T.
+   ENDIF
+ ENDIF
+ if L4 = "20"
+   IF .NOT. ((L2 = "1" .AND. L3 = "6" .AND. L7 = "F1") .OR. (L2 = "2" .AND. L3 = "1" .AND. L7 = "S1"))
+   LERR = .T.
+   ENDIF
+ ENDIF
+  IF (LEFT(L7,1) = "C" .or. left(l7,1) = "G") .and. .not. l4 = "10"
+  lerr = .t.
+  endif
+  if l2 = "2" .and. l3 = "3" .and. .not. (l4 = "10" .and. l5 = "20")
+  lerr = .t.
+  endif
+  if l2 = "3" .and. l3 = "4" .and. .not. (l4 = "10" .and. l5 = "20")
+  lerr = .t.
+  endif
+   if l2 = "2" .and. l3 = "4" .and. .not. (l4 = "10" .and. l5 = "30")
+  lerr = .t.
+  endif
+  if l2 = "3" .and. l3 = "5" .and. .not. (l4 = "10" .and. l5 = "30")
+  lerr = .t.
+  endif
+IF L2 = "1" .AND. (L3 = "J" .OR. L3 = 'M') .AND. L7 = "F1" .AND. FGCOD2->QTY = "Yes" .and. fgcod2->shs_auto = "No" ;
+ .and. l4 >= "10" .and. l4 <= "9Z" .and. .not. left(l4,1) = "7"
+ lerr = .f.
+ endif
+   IF LFUEL .AND. .NOT. L4 = '00'
+  LERR = .T.
+  ENDIF
+IF L2 = "1" .AND. (L3 = "J" .OR. L3 = 'M') .AND. L7 = "F1" .AND. FGCOD2->QTY = "Yes" .and. fgcod2->shs_auto = "No" ;
+ .and. l4 >= "10" .and. l4 <= "9Z" .and. .not. left(l4,1) = "7" .AND. .NOT. LFUEL
+ lerr = .f.
+ endif
+ IF (L7 = 'F1'.OR. L7 = 'S1') .AND. .NOT. (L2 = L11 .AND. L3 = L12)
+ LERR = .T.
+ ENDIF
+ IF (L4='20' .AND. L5 ='10') .OR. fgcod2->shs_auto = 'Gas' .or. l7 = 'J1' .or. (l2 = '2' .and. l3 ='7')  && Pima Gas
+    if l7 = 'J1' .and. l2 = '2' .and. l3 = '7' .and. l6 = '00' .and. fgcod2->qty = 'No' .and. fgcod2->shs_auto = 'Gas' ;
+     .and. l4+l5+l6 = left(ststo->sname,6)
+    lerr = .f.
+    else
+    lerr =.t.
+    endif
+    endif
+     if  left(l7,1) = 'U' .AND. .NOT. (L4 = '00' .AND. L5 = '10' .AND. left(ststo->sname,6) = '001000')
+    LERR = .T.
+    ENDIF
+    if  left(l7,1) = 'R' .AND. .NOT. (L4 = '00' .AND. L5 = '20' .AND. left(ststo->sname,6) = '002000')
+    LERR = .T.
+    ENDIF
+    if  left(l7,1) = 'L' .AND. .NOT. (L4 = '00' .AND. L5 = '50' .AND. left(ststo->sname,6) = '005000')
+    LERR = .T.
+    ENDIF
+    if  left(l7,1) = 'P' .AND. .NOT. (L4 = '00' .AND. L5 = '00' .AND. left(ststo->sname,6) = '000000')
+    LERR = .T.
+    ENDIF
+    if  left(l7,1) = 'K' .AND. .NOT. (L4 = '00' .AND. L5 = '40' .AND. left(ststo->sname,6) = '004000')
+    LERR = .T.
+    ENDIF
+    if  left(l7,1) = 'D' .AND. .NOT. (L4 = '00' .AND. L5 = '30' .AND. left(ststo->sname,6) = '003000')
+    LERR = .T.
+    ENDIF
+    if  left(ststo->sname,6) = '001000' .AND. .NOT. (L4 = '00' .AND. L5 = '10')
+    LERR = .T.
+    ENDIF
+    if  left(ststo->sname,6) = '002000' .AND. .NOT. (L4 = '00' .AND. L5 = '20')
+    LERR = .T.
+    ENDIF
+    if  left(ststo->sname,6) = '005000' .AND. .NOT. (L4 = '00' .AND. L5 = '50')
+    LERR = .T.
+    ENDIF
+    if  left(ststo->sname,6) = '000000' .AND. .NOT. (L4 = '00' .AND. L5 = '00')
+    LERR = .T.
+    ENDIF
+    if  left(ststo->sname,6) = '004000' .AND. .NOT. (L4 = '00' .AND. L5 = '40')
+    LERR = .T.
+    ENDIF
+    if  left(ststo->sname,6) = '003000' .AND. .NOT. (L4 = '00' .AND. L5 = '30')
+    LERR = .T.
+    ENDIF
+      IF L2 = "1" .AND. L3 = "5" .AND. L7 = "F1" .AND. FGCOD2->QTY = "Yes" .and. fgcod2->shs_auto = "No" ;
+ .and. l4 = "10"  .AND. .NOT. LFUEL .AND.  L10 = '1' .and. L11 = '1' .and. L12 = '5'
+ lerr = .f.
+ endif
+ IF L2 = '1' .AND.  L7 = 'F1' .and. .not. (l10 = '1' .and. l11 = '1' .and. l12 = l3) .and. .not. lfuel
+ lerr = .t.
+ endif
+ IF L2 = "1" .AND. L3 = "M" .AND. L7 = "F1" .AND. FGCOD2->QTY = "Yes" .and. fgcod2->shs_auto = "No" ;
+ .and. l4 = "10"  .AND. .NOT. LFUEL .AND.  L10 = '1' .and. L11 = '1' .and. L12 = 'M'  && FC TBA LUBES
+ lerr = .f.
+ endif
+ IF L2 = "1" .AND. L3 = "F" .AND. L7 = "F1" .AND. FGCOD2->QTY = "Yes" .and. fgcod2->shs_auto = "No" ;
+ .and. LEFT(l4,1) = "9" .AND. FGCOD2->FCPURCH = 'Yes' ;
+ .AND. .NOT. LFUEL .AND.  L10 = '1' .and. L11 = '1' .and. L12 = 'F'  && KITCHEN COUNTER
+ lerr = .f.
+ endif
+ IF L2 = 'A'
+ LERR = .T.
+ ENDIF
+ IF FGCOY->DOC14 = 'Y' && Transport System
+ IF L7 = 'W1' .AND. L2 = 'A' .AND. (L4 = 'E0' .OR. L4 = '79') .AND. L1=L10 .AND. L2=L11 .AND. L3 = L12
+ LERR =.F.
+ ENDIF
+ ENDIF
+ IF FGCOY->DOC14 = 'Y' .AND. (L4 = '79' .OR. L4 = 'E0') .AND. .NOT. L2 = 'A' && Transport System
+ LERR =.T.
+ ENDIF
+  if (fgcod2->shs_auto = 'Yes' .or. fgcod2->shs_auto = 'Ccc' .or. fgcod2->shs_auto = 'Grs' .or. fgcod2->shs_auto = 'Dcf' ;
+.or. fgcod2->shs_auto = 'Dcn') .and. (L7 = 'S1' .OR. L7 = 'F1'  .OR. L7 = 'W1')
+ lerr = .t.
+ endif
+SELECT FGMAST2
+IF L4 = "00"
+SEEK L7
+IF  FOUND()
+LERR = .T.
+ENDIF
+ENDIF
+            IF .NOT. LERR
+
+         select fgmast
+         set order to mkey
+         seek l1+l2+l3+l7+l4+l5+l6
+            if .not. found()
+            append blank
+         replace coy with l1
+         replace div with l2
+         replace cen with l3
+         replace typ with l4
+         replace cla with l5
+         replace cod with l6
+         replace sto with l7
+         replace bbf with 0
+         replace on_hand with 0
+         replace phy with 0
+         replace alloc with 0
+         replace trans_in with 0
+         replace trans_out with 0
+         replace purch with 0
+         replace sales with 0
+         replace adj_in with 0
+         replace adj_out with 0
+         REPLACE CR_PURCH WITH 0
+         REPLACE CS_PURCH WITH 0
+         REPLACE CR_SALES  WITH 0
+         REPLACE CS_SALES WITH 0
+         REPLACE BBF_PHY WITH 0
+         REPLACE TEMP_QTY WITH 0
+         REPLACE TEMP_PURCH WITH 0
+         REPLACE PHY_QTY WITH 0
+         REPLACE BCF WITH 0
+         REPLACE M_PHY WITH 0
+         REPLACE M_VAR WITH 0
+         REPLACE OPEN_BAL WITH 0
+         REPLACE LAST_PHY WITH 0
+         REPLACE  TEMP_PHY WITH 0
+         endif
+         REPLACE REORDR_STK WITH FGCOD2->REORDR_STK
+         REPLACE MIN_STK WITH FGCOD2->MIN_STK
+         if coy = "1" .and. div = "1" .and. typ >= "00" .and. typ <= "9Z" && fuels, lubes and cards only
+                 if .not. empty(fgsshift->shift_date) .and. .not. empty(fgsshift->shift_no) ;
+       .and. .not. empty(fgsshift->shift_id)
+         do st15f_rtn
+         endif
+         endif
+         SELECT FGMASTP
+         SEEK L4+L5+L6+l1+l2+l3+L7
+         IF .NOT. FOUND()
+         APPEND BLANK
+         REPLACE TYP WITH L4
+         REPLACE CLA WITH L5
+         REPLACE COD WITH L6
+         replace coy with l1
+         replace div with l2
+         replace cen with l3
+         replace sto with l7
+         replace st_coy with fgcen->coy1
+         replace st_div with fgcen->div1
+         replace st_cen with fgcen->cen1
+         replace st_sto with ststo->sto1
+         ENDIF
+
+            replace fcpurch with fgcod2->fcpurch
+         replace shs_auto with fgcod2->shs_auto
+  REPLACE MANFACT WITH FGCOD2->MANFACT
+   replace usename with fgcod2->usename
+       replace mat_code with fgcod2->mat_code
+  REPLACE NAME WITH left(FGCOD2->SCODE,8)+;
+  left(FGCOD2->NAME,34)+fgcen->name+sto+TYP+CLA+COD+COY+DIV+CEN+;
+  fgcen->coy1+fgcen->div1+fgcen->cen1+ststo->sto1
+
+                                       if L4 = "C0" .and. L5 = "00"
+
+   select Glbankbl
+   seek L1+L4+L5+L6
+   if .not. found()
+   append blank
+   replace coy with L1
+   replace typ with L4
+   replace cla with L5
+   replace cod with L6
+   replace payments with 0
+   replace receipts with 0
+   replace deposits with 0
+   replace ADJUSTS with 0
+   replace open_bal with 0
+   replace close_bal with 0
+   REPLACE CHEQ_NO WITH 0
+   endif
+   replace name with fGcod2->NAME
+   ENDIF
+   endif
+   ENDIF
+   ENDIF
+   ENDIF
+
+  IF .NOT. LERR
+    IF L2 = "1" .AND. (L4 =  "10"  .OR.  L4 = "20"  .OR.  L4 = "30" .OR.  left(L4 ,1)= "9") .AND.  L7 = "F1"  ;
+     .AND. FGCOD2->SHS_AUTO = "No" .and. fgcod2->fcpurch = "No"
+     l2 ="2"
+     l3 = "1"
+     l7  = "S1"
+          select ststo
+   seek "S1"
+   if found()
+  select fgmast
+         seek l1+l2+l3+l7+l4+l5+l6
+            if .not. found()
+            append blank
+         replace coy with l1
+         replace div with l2
+         replace cen with l3
+         replace typ with l4
+         replace cla with l5
+         replace cod with l6
+         replace sto with l7
+         replace bbf with 0
+         replace on_hand with 0
+         replace phy with 0
+         replace alloc with 0
+         replace trans_in with 0
+         replace trans_out with 0
+         replace purch with 0
+         replace sales with 0
+         replace adj_in with 0
+         replace adj_out with 0
+         REPLACE CR_PURCH WITH 0
+         REPLACE CS_PURCH WITH 0
+         REPLACE CR_SALES  WITH 0
+         REPLACE CS_SALES WITH 0
+         REPLACE BBF_PHY WITH 0
+         REPLACE TEMP_QTY WITH 0
+         REPLACE TEMP_PURCH WITH 0
+         REPLACE PHY_QTY WITH 0
+         REPLACE BCF WITH 0
+         REPLACE M_PHY WITH 0
+         REPLACE M_VAR WITH 0
+         REPLACE OPEN_BAL WITH 0
+         REPLACE LAST_PHY WITH 0
+         REPLACE  TEMP_PHY WITH 0
+         endif
+         REPLACE REORDR_STK WITH FGCOD2->REORDR_STK
+         REPLACE MIN_STK WITH FGCOD2->MIN_STK
+         SELECT FGMASTP
+         SEEK L4+L5+L6+l1+l2+l3+L7
+         IF .NOT. FOUND()
+         APPEND BLANK
+         REPLACE TYP WITH L4
+         REPLACE CLA WITH L5
+         REPLACE COD WITH L6
+         replace coy with l1
+         replace div with l2
+         replace cen with l3
+         replace sto with l7
+         replace st_coy with "1"
+         replace st_div with "2"
+         replace st_cen with "1"
+         replace st_sto with "S1"
+         ENDIF
+         endif
+         endif
+         ENDIF
+
+
+
+
+procedure st15f_rtn
+
+ pshdate = fgsshift->shift_date
+ pshno = fgsshift->shift_no
+ pshid = fgsshift->shift_id
+ pcen = fgmast->cen
+ ptyp = fgmast->typ
+ pcla = fgmast->cla
+ pcod = fgmast->cod
+ psto = fgmast->sto
+ pcoy = fgmast->coy
+ pdiv = fgmast->div
+ local lerr
+ lerr = .f.
+
+ if ptyp = "00"
+ select st15f2
+ seek psto
+ if  found()
+ lerr = .t.
+ endif
+ endif
+ if .not. lerr
+ if ptyp = "00" .or. (ptyp > "00" .and. ptyp <= "9Z" .and. (psto = "F1" .or.;
+(LEFT(psto,1) = "X" .OR. LEFT(PSTO,1) = "Q")))
+ SELECT ST15F
+
+        SEEK dtos(PSHDATE)+PSHNO+PSHID+pcen+PTYP+PCLA+PCOD+psto+pcoy+pdiv
+        if .not. found()
+        do st15f_new
+   endif
+     endif
+     endif
+
+     procedure st15f_new
+      select st15f
+    append blank
+     replace m_sal_qty with 0
+     replace soma with 0
+ replace some with 0
+ replace somm with 0
+ replace e_sal_qty with 0
+ replace e_sal_a with 0
+replace c_mstore with 0
+replace c_tstore with 0
+replace c_pstore with 0
+replace c_mmoney with 0
+  replace cashier_no with PCEN
+   replace f1cashr with ststo->f1cashr
+ replace mbk_money with 0
+ replace mbd_money with 0
+ replace mbp_money with 0
+ replace off with ''
+        replace shift_id with pshid
+     replace op_m_q with 0
+     replace  m_q1 with 0
+        replace m_q2 with 0
+        replace m_a1 with 0
+        replace m_a2 with 0
+        replace  op_m_q1 with 0
+        replace op_m_q2 with 0
+        replace op_m_a1 with 0
+        replace op_m_a2 with 0
+     REPLACE SHIFT_DATE WITH pshdate
+     REPLACE SHIFT_NO WITH pshno
+     replace coy with pcoy
+     replace div with pdiv
+     replace cen with pcen
+     replace sto with psto
+     replace typ with ptyp
+     replace cla with pcla
+     replace cod with pcod
+      replace st_coy with fgcen->coy1
+     replace st_div with fgcen->div1
+     replace st_cen with fgcen->cen1
+     replace st_sto with ststo->sto1
+  replace batchamt with 0
+      REPLACE a_cash WITH 0
+   REPLACE EXP_SALES WITH 0
+   REPLACE EXP_CASH WITH 0
+   REPLACE NON_CASH WITH 0
+   REPLACE PHY_QTY WITH 0
+   replace fc_c_sales with 0
+    REPLACE cr_sal_qty WITH 0
+   REPLACE cr_sal_shs WITH 0
+   REPLACE TEST_QTY WITH 0
+   REPLACE on_hand WITH 0
+   REPLACE TEST_AMT WITH 0
+   REPLACE TOTAL_QTY WITH 0
+   REPLACE MM_SOLD WITH 0
+   REPLACE TRANS_IN WITH 0
+   REPLACE TRANS_OUT WITH 0
+   REPLACE ADJ_IN WITH 0
+   REPLACE ADJ_OUT WITH 0
+   REPLACE PURCHASES WITH 0
+     REPLACE C_SH_CARDS WITH 0
+            REPLACE  C_SH_FUELS WITH 0
+            REPLACE METER_VAR WITH 0
+   REPLACE METER_AMT WITH 0
+   REPLACE SOLD_QTY WITH 0
+   REPLACE NETT_AMT WITH 0
+   REPLACE CASH_AMT WITH 0
+   REPLACE CASH_QTY WITH 0
+   REPLACE VAR_QTY WITH 0
+   REPLACE VAR_CASH WITH 0
+   REPLACE CL_M_Q WITH 0
+   REPLACE cl_m_a WITH 0
+   REPLACE op_m_q  WITH 0
+   REPLACE op_m_a WITH 0
+   REPLACE TEST_QTY WITH 0
+   REPLACE t_purch WITH 0
+   REPLACE op_C_HAND WITH 0
+   REPLACE C_SH_SHOP WITH 0
+   REPLACE C_SH_WORK WITH 0
+   REPLACE C_SH_CANT WITH 0
+
+   replace sold_amt with 0
+   REPLACE MANUAL WITH 0
+   replace CL_C_HAND with 0
+   replace SH_C_SALES with 0
+   replace CASH_DEBT with 0
+   replace CASH_WORK with 0
+   replace cash_shop with 0
+   replace cash_cards with 0
+   replace CASH_CANT with 0
+   replace CASH_P_EXP with 0
+   replace CASH_P_PUR with 0
+   replace CASH_BANK with 0
+   replace CASH_SHORT with 0
+   replace A_C_INHAND with 0
+   replace total_cash with 0
+   replace T_CASH_REC with 0
+   replace cash_coy with 0
+   replace vat with 0
+   replace cash_var with 0
+   replace net_cash with 0
+   replace T_CASH_PAY with 0
+   replace CASH_MERCH with 0
+   replace CASH_FOOD with 0
+   replace CASH_MOTOR with 0
+   replace CASH_STAFF with 0
+   replace CASH_GEN with 0
+   replace CASH_WITHD with 0
+   replace CASH_LUBES with 0
+   REPLACE C_SH_CARDS WITH 0
+   replace vs_company with 0
+   replace vs_barclay with 0
+   replace vs_others with 0
+   replace chqs_sale with 0
+            REPLACE  C_SH_FUELS WITH 0
+            REPLACE METER_VAR WITH 0
+
+            REPLACE CL_M_Q WITH 0
+          REPLACE op_m_q WITH 0
+           REPLACE cl_m_a WITH 0
+            REPLACE op_m_a WITH 0
+         REPLACE PHY_QTY WITH 0
+         REPLACE cr_sal_qty WITH 0
+         REPLACE cr_sal_shs WITH 0
+         REPLACE TEST_QTY WITH 0
+         replace trans_in with 0
+         replace trans_out with 0
+           replace adj_in with 0
+         replace adj_out with 0
+         replace purchases with 0
+         REPLACE sale_price WITH 0
+         REPLACE COST_PRICE WITH 0
+         REPLACE TOTAL_QTY WITH 0
+         REPLACE METER_AMT  WITH 0
+         REPLACE SOLD_AMT   WITH 0
+         REPLACE SOLD_QTY   WITH 0
+         REPLACE NETT_AMT   WITH 0
+         REPLACE CASH_AMT   WITH 0
+         REPLACE CASH_QTY WITH 0
+         REPLACE VAR_QTY WITH 0
+         REPLACE t_purch WITH 0
+         REPLACE VAR_CASH   WITH 0
+         REPLACE on_hand WITH 0
+           REPLACE TEST_AMT   WITH 0
+             REPLACE VAT    WITH 0
+             REPLACE EXP_CASH   WITH 0
+              REPLACE EXP_SALES  WITH 0
+              REPLACE NON_CASH   WITH 0
+              REPLACE CASH_var   WITH 0
+                REPLACE a_cash   WITH 0
+                replace total_cash         with 0
+              replace manual             with 0
+              replace CL_C_HAND with 0
+              replace op_C_HAND  with 0
+              replace A_C_INHAND with 0
+              replace CASH_DEBT      with 0
+              replace CASH_WORK with 0
+              replace cash_cards         with 0
+              replace CASH_CANT       with 0
+              replace cash_shop          with 0
+              replace CASH_P_EXP       with 0
+              replace CASH_P_PUR       with 0
+              replace CASH_BANK        with 0
+              replace CASH_SHORT      with 0
+    replace op_C_HAND with 0
+   replace CL_C_HAND with 0
+   replace SH_C_SALES with 0
+   replace CASH_SHORT with 0
+   replace T_CASH_REC with 0
+   replace cash_coy with 0
+   replace net_cash with 0
+   replace T_CASH_PAY with 0
+   replace CASH_MERCH with 0
+   replace CASH_FOOD with 0
+   replace CASH_MOTOR with 0
+   replace CASH_STAFF with 0
+   replace CASH_GEN with 0
+   replace CASH_WITHD with 0
+   replace CASH_LUBES with 0
+   replace vs_company with 0
+   replace vs_barclay with 0
+   replace vs_others with 0
+   replace chqs_sale with 0
+   replace cash_soda with 0
+   replace C_SH_SHOP with 0
+     replace vat with 0
+   replace C_SH_WORK with 0
+   replace C_SH_CARDS with 0
+   replace C_SH_FUELS with 0
+   replace C_SH_CANT with 0
+    replace meter_var with 0
+   replace op_mm_qty with 0
+   replace cl_mm_qty with 0
+   replace mm_qty_var with 0
+replace  fc_c_sales with 0
+replace  reserved1 with 0
+replace  reserved2 with 0
+replace  reserved3 with 0
+replace  reserved4 with 0
+replace  reserved5 with 0
+REPLACE  DBCREDITS WITH 0
+REPLACE  DBDEBITS WITH 0
+REPLACE  CHQS_BANK WITH 0
+REPLACE  A_CASH WITH 0
+REPLACE  PURCH WITH 0
+replace a_c_inhand with 0
+replace cashier_no with cen
+replace cash_hand with 0
+
+   pcoy = st15f->coy
+   pdiv = st15f->div
+   pcen = st15f->cen
+   psto = st15f->sto
+   ptyp = st15f->typ
+   pcla = st15f->cla
+   pcod = st15f->cod
+   pid = st15f->cen
+   local l1,l2,l3
+    l1 = st15f->shift_date
+    l2 = st15f->shift_no
+    l3 = st15f->shift_id
+   pcashier = st15f->cashier_no
+   select shiftid
+      seek pcen
+      if .not. found()
+      append blank
+      replace id with pcen
+      replace total_sale with 0
+            replace ckey with "1"
+            endif
+      replace cenname with FGCEN->name
+      SELECT CASHIERS
+      set order to cashier
+   SEEK PCASHIER
+   IF .NOT. FOUND()
+   APPEND BLANK
+   REPLACE CASHR_NO WITH PCASHIER
+   REPLACE RESPNSE WITH "ISLAND"+" "+PCASHIER
+   REPLACE A_CASH WITH 0
+   ENDIF
+   select scashrec
+   seek dtos(l1)+l2+l3+pcashier+pcen+psto+ptyp+pcla+pcod
+   if .not. found()
+   append blank
+   replace cashr_no with pcashier
+   replace shift_date with l1
+   replace shift_no with l2
+   replace shift_id with l3
+   replace cen with pcen
+    replace sto with psto
+   replace typ with ptyp
+   replace cla with pcla
+   replace cod with pcod
+   replace non_cash with 0
+   replace exp_cash with 0
+    replace exp_sales with 0
+  REPLACE COYVISA WITH 0
+   REPLACE BBKVISA WITH 0
+   REPLACE GENVISA WITH 0
+   REPLACE CHQS WITH 0
+   REPLACE PAYMNTS WITH 0
+   REPLACE RECEPTS WITH 0
+   REPLACE PURCH WITH 0
+   replace A_CASH with 0
+   replace shortage with 0
+   replace cr_notes with 0
+   replace dr_notes with 0
+   replace pdebits with 0
+   replace pcredits with 0
+   replace ppurch with 0
+   replace fc_sales with 0
+
+replace  cash_bank with 0
+replace  dbcredits with 0
+replace  dbdebits  with 0
+replace  chqs_bank with 0
+replace  reserved1 with 0
+replace  reserved2 with 0
+replace  reserved3 with 0
+replace  reserved4 with 0
+replace  reserved5 with 0
+replace a_c_inhand with 0
+
+   endif
+
+
+            select shiftid
+            seek pcen
+            if .not. found()
+            append blank
+            replace id with pcen
+            replace total_sale with 0
+            replace cenname with FGCEN->name
+             endif

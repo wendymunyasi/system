@@ -1015,4 +1015,3 @@ Procedure rtn2
    if eof()
    eofVendor = .t.
    endif
-

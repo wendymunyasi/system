@@ -1,0 +1,134 @@
+////////////////////////////////////////////////////////////////////////////////
+// Output Filename: C:\KENSERVICE\IDSSYS\KENALLOC_FCV.WFM                     //
+// Created By:      dBASE Form Converter Wizard                               //
+// Created On:      Monday September 27, 2021 At 05:20:26                     //
+// Object Count:    0                                                         //
+////////////////////////////////////////////////////////////////////////////////
+**************************************************************************
+*  PROGRAM:      KenAlloc.wfm
+*
+*
+*******************************************************************************
+
+
+
+create session
+set talk off
+set ldCheck off
+_app.FrameWin.Visible = .F.
+_app.FrameWin.Text = "	KenAlloc"
+_app.FrameWin.Moveable = .f.
+_APP.MOVE = .F.
+*f .not. access() = 1
+set design off
+*ndif
+shell(.F.)
+** END HEADER -- do not remove this line*
+* Generated on 02/02/2005
+*
+parameter BUSER,BLEVEL,BLJORDER,bModal
+local f
+f = new KenAllocFORM()
+if (bModal)
+   f.mdi = .F. && ensure not MDI
+   f.ReadModal()
+else
+   f.Open()
+endif
+CLASS KenAllocFORM OF FORM
+ Set Procedure To BUTTONS.CC additive
+   this.Metric = 6  // Pixels
+   this.OnOpen = CLASS::ONOPEN
+   this.MDI = .F.
+   this.OnClose = CLASS::ONCLOSE
+   this.ScrollBar = 0
+   this.Text = "STAFF ALLOCATION MODULE"
+   this.Top = 0
+   this.WindowState = 2
+   this.EscExit = .F.
+   this.view = "st15fc06.qbe"
+   this.MenuFile = "KenAlloc.MNU"
+   this.MousePointer = 1
+   this.SysMenu = .t.
+   this.Moveable = .F.
+   this.Minimize = .F.
+   this.Sizeable = .F.
+   this.Maximize = .f.
+   this.ColorNormal = "n+"
+   this.Left = 113
+   this.Height = 302
+   this.Width = 506
+
+
+ *  DEFINE IMAGE IMAGE1 OF THIS;
+       PROPERTY;
+         Left 24,;
+         Top 357,;
+         DataSource "FILENAME IMAGELOG.BMP",;
+         Height 68,;
+         Width 576
+
+
+   procedure OnOpen
+    form.blUSER = BUSER
+    form.bLEVEL = BLEVEL
+    FORM.BLJORDER = BLJORDER
+    if empty(FORM.blUSER) .or. empty(form.blevel)
+       wait  "user name variable missing"
+       quit
+    endif
+    if EMPTY(FORM.bLEVEL)
+    wait  "Access Level variable missing"
+       quit
+    endif
+
+    SELECT SHCONGT0
+    GO TOP
+    IF .NOT. EOF()
+    wait "Error encountered during shift closing in phase 0!"
+    QUIT
+    ENDIF
+    SELECT SHCONGT1
+    GO TOP
+    IF .NOT. EOF()
+    wait "Error encountered during shift closing in phase 1!"
+    QUIT
+    ENDIF
+    SELECT SHCONGT2
+    GO TOP
+    IF .NOT. EOF()
+    wait "Error encountered during shift closing in phase 2!"
+    QUIT
+    ENDIF
+    SELECT SHCONGT3
+    GO TOP
+    IF .NOT. EOF()
+    wait "Error encountered during shift closing in phase 3!"
+    QUIT
+    ENDIF
+    SELECT SHCONGT4
+    GO TOP
+    IF .NOT. EOF()
+    wait "Error encountered during shift closing in phase 4!"
+    QUIT
+    ENDIF
+    SELECT SHCONGT5
+    GO TOP
+    IF .NOT. EOF()
+    wait "Error encountered during shift closing in phase 5!"
+    QUIT
+    ENDIF
+
+
+        ********************************************************************************
+
+    procedure OnClose
+    ********************************************************************************
+    form.close()
+    close databases
+
+   ********************************************************************************
+
+
+ENDCLASS
+

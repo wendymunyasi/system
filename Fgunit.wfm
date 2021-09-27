@@ -1,0 +1,563 @@
+////////////////////////////////////////////////////////////////////////////////
+// Output Filename: C:\KENSERVICE\IDSSYS\FGUNIT_FCV.WFM                       //
+// Created By:      dBASE Form Converter Wizard                               //
+// Created On:      Monday June 13, 2016 At 07:21:32                          //
+// Object Count:    10                                                        //
+////////////////////////////////////////////////////////////////////////////////
+*******************************************************************************
+*  PROGRAM:      Fgunit.wfm
+*
+*  WRITTEN BY:   W Nyongesa
+*
+*  DATE:         05/2000
+*
+*  UPDATED:     09/2012
+*
+*  REVISION:     $Revision:   1.0
+*
+*  VERSION:      Visual dBASE
+*
+*  DESCRIPTION:  This program maintains the companies master file
+*
+*  PARAMETERS:   None
+*
+*  CALLS:        Fgunit.mnu         (Menu file)
+*                KBUTTONS.CC          (Custom Controls file)
+*                Item Units Maintenance.qbe         (View of tables)
+*
+*  USAGE:        DO Fgunit.wfm
+*
+*******************************************************************************
+#include <messdlg.h>
+shell(.F.)
+create session
+set talk off
+set design off
+_app.FrameWin.Visible = .F.
+_app.FrameWin.Text = "Fgunit"
+set century on
+set ldCheck off && To avoid language driver conflicts
+#define Maxcoy 999
+** END HEADER -- do not remove this line*
+* Generated on 14/07/2005
+*
+parameter  BUSER,BLEVEL,bModal
+local f
+f = new FgunitFORM()
+if (bModal)
+   f.mdi = .F. && ensure not MDI
+   f.ReadModal()
+else
+   f.Open()
+endif
+CLASS FgunitFORM OF FORM
+   this.Metric = 6  // Pixels
+   this.MDI = .F.
+   this.OnClose = CLASS::ONCLOSE
+   this.ScrollBar = 0
+   this.Text = "Item Units Maintenance"
+   this.Top = 12
+   this.WindowState = 2
+   this.EscExit = .F.
+   this.MenuFile = "FGUNIT.MNU"
+   this.View = "Fgunit.QBE"
+    this.MousePointer = 1
+   this.SysMenu = .t.
+   this.Minimize = .F.
+   this.Maximize = .F.
+   this.moveable = .f.
+   this.sizeable = .f.
+   this.Left = 31
+   this.Height = 334
+   this.Width = 351
+  this.ColorNormal = "N+"
+
+   DEFINE TEXTLABEL CODETEXT OF THIS;
+       PROPERTY;
+         Text "Unit Code:",;
+         Top 9,;
+         FontSize 10,;
+         ColorNormal "B/BtnFace",;
+         Left 24,;
+         Height 21,;
+         Width 108,;
+       FontName "MS Sans Serif",;
+       FontBold .T.,;
+       AlignHorizontal 2,;
+       AlignVertical 1
+
+   DEFINE ENTRYFIELD PTYP OF THIS;
+       PROPERTY;
+         Top 9,;
+         FontSize 10,;
+         ColorNormal "N/BtnFace",;
+         Picture "99.99",;
+         Left 144,;
+         ColorHighLight "B+/W*",;
+         Height 26,;
+         DataLink "Fgunit->unit",;
+         Width 36,;
+         Enabled .F.,;
+       FontName "MS Sans Serif",;
+       FontBold .T.
+
+   DEFINE TEXTLABEL LNAMETEXT OF THIS;
+       PROPERTY;
+         Text "Description:",;
+         Top 60,;
+         FontSize 10,;
+         ColorNormal "B/BtnFace",;
+         Left 24,;
+         Height 21,;
+         Width 108,;
+       FontName "MS Sans Serif",;
+       FontBold .T.,;
+       AlignHorizontal 2,;
+       AlignVertical 1
+
+   DEFINE ENTRYFIELD LNAMEENTRY OF THIS;
+       PROPERTY;
+         Function "!",;
+         Valid CLASS::VALID_NAME,;
+         ValidErrorMsg "Name of Bill Rate Required",;
+         Top 60,;
+         OnChange CLASS::CHANGE_NAME,;
+         FontSize 10,;
+         ColorNormal "N/BtnFace",;
+         Left 141,;
+         ColorHighLight "B+/W*",;
+         Height 20,;
+         DataLink "Fgunit->name",;
+         Width 339,;
+         Enabled .F.,;
+       FontName "MS Sans Serif",;
+       FontBold .T.
+
+   DEFINE TEXTLABEL TEXT1 OF THIS;
+       PROPERTY;
+         Text "Volume:",;
+         Top 111,;
+         FontSize 10,;
+         ColorNormal "B/BtnFace",;
+         Left 12,;
+         Height 21,;
+         Width 108,;
+       FontName "MS Sans Serif",;
+       FontBold .T.,;
+       AlignHorizontal 2,;
+       AlignVertical 1
+
+   DEFINE ENTRYFIELD SVOL OF THIS;
+       PROPERTY;
+         Function "!",;
+         ValidErrorMsg "Name of Bill Rate Required",;
+         Top 111,;
+         OnChange CLASS::SVOL_ONCHANGE,;
+         FontSize 10,;
+         ColorNormal "N/BtnFace",;
+         Left 144,;
+         ColorHighLight "B+/W*",;
+         Height 20,;
+         DataLink "FGUNIT->VOLUME",;
+         Width 84,;
+         Enabled .F.,;
+       FontName "MS Sans Serif",;
+       FontBold .T.
+
+   this.PREVBUTTON = new PUSHBUTTON(this)
+   with (this.PREVBUTTON)
+      onClick = class::PREVIOUS
+      height = 26.0
+      left = 112.0
+      top = 330.0
+      width = 85.0
+      text = "&PREVIOUS"
+      fontName = "MS Sans Serif"
+      fontSize = 8.0
+      fontBold = true
+   endwith
+
+   this.NEXTBUTTON = new PUSHBUTTON(this)
+   with (this.NEXTBUTTON)
+      onClick = class::NEXT
+      height = 26.0
+      left = 196.0
+      top = 330.0
+      width = 85.0
+      text = "&NEXT"
+      fontName = "MS Sans Serif"
+      fontSize = 8.0
+      fontBold = true
+   endwith
+
+   this.FIRSTBUTTON = new PUSHBUTTON(this)
+   with (this.FIRSTBUTTON)
+      onClick = {; form.CheckCommit(form.inEditMode);GO TOP;}
+      height = 26.0
+      left = 287.0
+      top = 330.0
+      width = 85.0
+      text = "F&IRST"
+      fontName = "MS Sans Serif"
+      fontSize = 8.0
+      fontBold = true
+   endwith
+
+   this.LASTBUTTON = new PUSHBUTTON(this)
+   with (this.LASTBUTTON)
+      onClick = {; form.CheckCommit(form.inEditMode);GO BOTTOM;}
+      height = 26.0
+      left = 378.0
+      top = 330.0
+      width = 85.0
+      text = "&LAST"
+      fontName = "MS Sans Serif"
+      fontSize = 8.0
+      fontBold = true
+   endwith
+
+
+   procedure Open
+   ****************************************************************************
+   private CodeField
+    FORM.BLUSER = BUSER
+   FORM.BLEVEL = BLEVEL
+   IF EMPTY(FORM.BLUSER) .OR. EMPTY(FORM.BLEVEL)
+      QUIT
+   ENDIF
+   form.firstime = .T.
+   if type("form.init") = "U"
+      form.init = .T.
+
+      set skip to                     && Fgunit.qbe contains set skip to gldtl
+      set exact off                   && the .qbe file contains SET EXACT ON
+
+      set procedure to sampProc.prg additive
+    Form.duplicate = .F.
+      form.inEditMode = .F.           && indicator of view/edit state
+      form.changesMade = .F.          && indicator of changes made to field values
+      form.previousRecord = .F.       && Save record number when appending
+        *** do calculations in another area so form doesn't get updated
+        form.updated = .f.
+          select Fgunit
+      set order to unit
+    GO TOP                                  && new Receipts
+   if empty(unit)
+   delete
+   endif
+
+
+      *** Open table for calculating totals and balance due in another work area
+      *** so that datalinks are not affected by record movements
+
+
+      ***
+    *  if type("form.parentpayeeForm") <> "U" && Esc ok if have parent
+    *     form.escExit = .T.
+   *   endif
+
+   endif
+   * form.CoyInfoButton.KenpName = "Fgunit.WFM"
+
+   form::Open()                         && Now the form actually opens
+   *    form.BrowseOnNavigate()              && calculate totals
+   *       form.codingerrors()                        && check coding errors
+
+   *      form.next.setfocus()
+   ****************************************************************************
+
+   procedure OnClose
+
+   * Clean up.
+   ****************************************************************************
+
+   if this.inEditMode
+      form.ViewEdit()                      && Finish transaction
+   endif
+   select Fgunit
+   delete all for Empty(unit)
+   go top
+   if .not. eof() .and. form.updated
+   do Fgunits_rtn
+   endif
+     close procedure SAMPProc.prg
+       close databases
+
+
+
+   ****************************************************************************
+
+   procedure BrowseOnNavigate
+   ****************************************************************************
+       form.ptyp.Enabled = .F.
+       if eof()
+      form.root.Fgunit.viewEdit.enabled = .F.
+   else
+      form.root.Fgunit.viewEdit.enabled = .T.
+   endif
+
+
+
+   ****************************************************************************
+
+   procedure ChangesMade
+
+   * Indicate that changes have been made to the current record
+   ****************************************************************************
+   Form.ChangesMade = .T.
+   ****************************************************************************
+
+   procedure Next
+
+   * Go to next record.
+   ****************************************************************************
+
+   form.CheckCommit(form.inEditMode)
+   if .not. empty(dbf())  .and. .not. eof()      && if a table is open in the current workarea
+      skip
+      if eof()
+         go bottom
+         AlertMessage("At the last record","Alert")
+      endif
+   else
+      InformationMessage("There is no table open in the current workarea.",;
+         "Info")
+   endif
+    ****************************************************************************
+
+   procedure Previous
+
+   * Go to previous record.
+   ****************************************************************************
+
+   form.CheckCommit(form.inEditMode)
+ if .not. empty(dbf())  .and. .not. eof() && if a table is open in the current workarea
+      skip - 1
+      if bof()
+         go top
+         AlertMessage("At the first record","Alert")
+      endif
+   else
+      InformationMessage("There is no table open in the current workarea.",;
+         "Info")
+   endif
+
+   ****************************************************************************
+
+
+   procedure CheckCommit (newInEditMode)
+
+        * Finish transaction, if it has been started.
+   ****************************************************************************
+   private CodeField, changesMade
+    local lk1
+    lk1 = form.ptyp.value
+   changesMade = form.changesMade
+   if form.changesMade
+      CodeField = field(1)  && Field period
+      if     ConfirmationMessage("Commit changes?",;
+                FormatStr("Company %1",&CodeField)) = YES
+         commit()
+
+      else
+         rollback()
+         if .not. bof()
+       *  if .not. empty(form.previousRecord)
+   *            go bookmark()
+           * form.previousRecord
+            form.previousRecord = .F.
+         endif
+      endif
+
+       form.ptyp.enabled = .F.
+    if form.inEditMode .and. newInEditMode
+         begintrans()
+      endif
+      form.changesMade = .F.
+   endif
+   if form.inEditMode <> newInEditMode
+      if newInEditMode                       && Going to Edit mode
+         begintrans()
+      else                                   && Going to View mode
+         if .not. changesMade .AND. .NOT. FORM.DUPLICATE
+            rollback()
+         endif
+      endif
+      form.inEditMode = newInEditMode
+   endif
+
+   * form.root.Receipt.add.enabled = .T.
+   *form.codingerrors()
+   ****************************************************************************
+
+   procedure ViewEdit
+
+   * Toggle between View and Edit modes.
+   ****************************************************************************
+   local inEditMode, editMenu, control
+
+   editMenu = form.root.Fgunit.VIEWEdit
+
+   *** If ending edit mode then close transaction, otherwise open it.
+   if form.inEditMode
+      form.checkChanged(.F.)
+      editMenu.text = "&Edit"
+      editMenu.shortcut = "Ctrl-E"
+      editMenu.statusMessage = "Edit data."
+     form.CheckCommit(.F.)                        && Check transaction and
+      form.text = "Item Units Maintenance -- View Mode"          && change mode to View
+   *      form.notesEditor.colorNormal = "N/W"
+   *      form.childBrowse.modify = .F.
+   *      form.notesEditor.modify = .F.
+      form.statusmessage = "In View Mode. " + ;
+                           "Select Item Units Maintenance - Edit menu to " + ;
+                           "edit/delete data."
+     else                                            && Switch to edit mode
+      editMenu.text = "Vi&ew"
+      editMenu.shortcut = "Ctrl-E"
+      editMenu.statusMessage = "View data."
+     form.CheckCommit(.T.)                        && Check transaction and
+      form.text = "Item Units Maintenance -- Edit Mode"          && change mode to Edit
+
+   *     form.notesEditor.modify = .T.
+      form.statusmessage = "In Edit Mode.  " + ;
+                           "Select menu Item Units Maintenance - View to switch " + ;
+                           "to View mode."
+        form.ptyp.Enabled = .F.
+
+       form.LnameEntry.SetFocus()
+
+   endif
+
+   inEditMode = form.inEditMode     && Faster if we don't reference a form
+   control = form.first             &&    variable each time through the loop
+   do
+      if .not. control.className $ "BROWSE,EDITOR,NEXTBUTTON,PREVBUTTON,PUSHBUTTON,IMAGE,TEXT"
+         control.enabled = inEditMode
+      endif
+      control = control.before
+   until control.name = form.first.name
+   *           form.gltyp.enabled = .f.
+   *    form.glname.Enabled = .F.
+       form.LnameEntry.SetFocus()
+
+
+   ****************************************************************************
+
+   procedure CheckChanged(callCommit)
+
+   * Check if changes have been made to the current entryfield.  This procedure
+   * is called from menu routines to make sure the form.changesMade gets
+   * updated when a menu is selected while the changed control has focus.
+   ****************************************************************************
+   private control, fieldValue, controlValue, typeText, typeValue
+
+   if form.inEditMode
+      control = form.activeControl
+      if type("control.datalink") <> "U"
+         fieldValue = control.datalink          && name of table field
+
+         typeText = type("control.text")
+         typeValue = type("control.value")
+         do case
+            case typeValue = "C"
+               controlValue = control.value
+            case typeValue $ "LU" .and. typeText = "C"
+               controlValue = control.text
+            otherwise
+               controlValue = Null
+         endcase
+         if controlValue <> &fieldValue
+            form.changesMade = .T.
+         endif
+      endif
+   endif
+   if form.changesMade .and. callCommit
+      CLASS::CheckCommit(form.inEditMode)     && Check transactions
+   endif
+
+
+       Procedure change_name
+      if .not. empty(this.value)
+      form.changesmade = .t.
+      form.updated = .t.
+      endif
+
+      Procedure valid_name
+      if empty(this.value)
+      isvalid = .f.
+      else
+      isvalid = .t.
+      endif
+      return isvalid
+
+
+    Procedure SVOL_OnChange
+         form.changesmade = .t.
+
+ENDCLASS
+
+Procedure Fgunits_rtn
+   private eofFgunit,p1,p2
+   eofFgunit = .f.
+   set safety off
+   select Fgunits
+
+    set order to unit
+     set safety on
+   select Fgunit2
+   go top
+   if .not. eof()
+      do
+         do rtn1
+         until eofFgunit
+     endif
+     eoffgunits  = .f.
+     select fgunits
+     go top
+     if .not. eof()
+        do
+           do rtn3
+        until eoffgunits
+      endif
+procedure rtn3
+      select fgunit
+         seek fgunits->unit
+         if .not. found()
+            select fgunits
+            delete
+         endif
+      select fgunits
+     if .not. eof()
+    skip
+    endif
+      if eof()
+         eoffgunits = .t.
+         endif
+
+procedure rtn1
+       p1 = Fgunit2->name
+      if .not. empty(p1)
+      do rtn2
+      endif
+   select Fgunit2
+   skip
+   if eof()
+   eofFgunit = .t.
+   endif
+
+Procedure rtn2
+   select Fgunits
+      seek fgunit2->unit
+      if .not. found()
+      append blank
+       replace unit with Fgunit2->unit
+       endif
+        replace name with p1
+          replace volume with fgunit2->volume
+
+
+
+
+
+

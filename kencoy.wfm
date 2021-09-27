@@ -1,0 +1,103 @@
+////////////////////////////////////////////////////////////////////////////////
+// Output Filename: C:\KENSERVICE\IDSSYS\KENCOY_FCV.WFM                       //
+// Created By:      dBASE Form Converter Wizard                               //
+// Created On:      Monday September 27, 2021 At 04:49:41                     //
+// Object Count:    0                                                         //
+////////////////////////////////////////////////////////////////////////////////
+**************************************************************************
+*  PROGRAM:      KenCoy.wfm
+*
+*
+*******************************************************************************
+
+
+
+create session
+set talk off
+set ldCheck off
+_app.FrameWin.Visible = .F.
+_app.FrameWin.Text = "Kencoy"
+*if .not. access() = 1
+set design off
+ON ERROR DO QBEERR WITH ERROR(), MESSAGE(),;
+PROGRAM(), LINENO()
+*endif
+shell(.F.)
+** END HEADER -- do not remove this line
+//
+// Generated on 27/09/2021
+//
+parameter buser,blevel,BLNOMASTER,BLNOREVPRV,BLSYSTEM,BLADMIN,BLGLEDGER,;
+BLADJSTSTK,BLHQS,blcsv,blgd,blncc,blnvc,Blyveh,BLYVISA,blmeter,bModal
+local f
+f = new KenCoyFORM()
+if (bModal)
+   f.mdi = false // ensure not MDI
+   f.readModal()
+else
+   f.open()
+endif
+
+class KenCoyFORM of FORM
+   with (this)
+      onOpen = class::ONOPEN
+      onClose = class::ONCLOSE
+      metric = 6	// Pixels
+      colorNormal = "n+"
+      height = 932.0
+      left = 113.0
+      top = 100.0
+      width = 1296.0
+      text = "Company Information Set Up Main Menu Form"
+      windowState = 2	// Maximized
+      mdi = false
+      sizeable = false
+      moveable = false
+      menuFile = "KENCOY.MNU"
+      escExit = false
+      mousePointer = 1	// Arrow
+      scrollBar = 1	// On
+      maximize = true
+      minimize = false
+   endwith
+
+
+   procedure OnOpen
+    CLOSE DATABASES
+    form.bluser = buser
+      form.blevel = blevel
+      FORM.BLNOMASTER = BLNOMASTER
+      FORM.BLNOREVPRV = BLNOREVPRV
+      FORM.BLSYSTEM = BLSYSTEM
+      FORM.BLADMIN = BLADMIN
+   *   FORM.BLFINANCIALS = BLFINANCIALS
+      FORM.BLGLEDGER = BLGLEDGER
+      FORM.BLADJSTSTK = BLADJSTSTK
+      FORM.BLHQS = BLHQS
+      form.blcsv = blcsv
+      FORM.blgd = blgd
+      form.blncc = blncc
+      form.blnvc = blnvc
+      form.BLYVEH = BLYVEH
+      FORM.BLYVISA = BLYVISA
+      form.blmeter = blmeter
+      IF EMPTY(FORM.BLUSER) .OR. EMPTY(FORM.BLEVEL)
+      QUIT
+      ENDIF
+
+
+   ********************************************************************************
+
+   procedure OnClose
+   ********************************************************************************
+   CLOSE DATABASES
+      form.close()
+   *   if .not. access() = 1
+   *   quit
+   *   endif
+   *    form.release()
+
+   ********************************************************************************
+
+endclass
+

@@ -1,0 +1,181 @@
+******************************************************************************
+*  PROGRAM:      Ststo.mnu
+*
+*  WRITTEN BY:   W Nyongesa
+*
+*  DATE:         03/2001
+*
+*  UPDATED:      12/2012
+*
+*  REVISION:     $Revision:   1.58  $
+*
+*  VERSION:      Visual dBASE
+*
+*  DESCRIPTION:  This is a menu file used by Ststo.WFM for
+*                performing simple tasks.  It allows adding and deleting
+*                records, searching for a value in the Store field of the
+*                current table viewed, and exiting the form in view.
+*
+*  PARAMETERS:   FormObj -- the form to which this menu will belong.
+*
+*  CALLS:        None
+*
+*  USAGE:        form.menuFile = "Ststo.mnu"
+*
+*******************************************************************************
+#include <messdlg.h>
+
+** END HEADER -- do not remove this line*
+* Generated on 07/03/2001
+*
+Parameter FormObj
+NEW StoreS(FormObj,"Root")
+CLASS StoreS(FormObj,Name) OF MENUBAR(FormObj,Name)
+   this.Text = ""
+   this.OnInit = {;set procedure to KenpProc.prg}
+
+   DEFINE MENU FILE OF THIS;
+       PROPERTY;
+         Text "&File"
+
+         
+         DEFINE MENU EXIT OF THIS.FILE;
+                PROPERTY; 
+          StatusMessage "Return to the Previous Menu.",;
+          Text "&RETURN TO PREVIOUS MENU",;
+          SHORTCUT "F4",;
+          OnClick CLASS::ONEXIT
+  
+      
+       DEFINE MENU SEPARATOR000 OF THIS.FILE;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+
+            
+   DEFINE MENU QUITALL OF THIS.FILE;
+       PROPERTY; 
+          StatusMessage "Leave Kenserve System.",;
+          Text "Exit",;
+          SHORTCUT "F8",;
+          OnClick CLASS::ONQUITALL
+
+   DEFINE MENU Ststo OF THIS;
+       PROPERTY;
+         Text "&Store"
+
+         DEFINE MENU VIEWEDIT OF THIS.Ststo;
+             PROPERTY;
+               OnClick CLASS::VIEWEDITONCLICK,;
+               Text "&Edit",;
+               Shortcut "Ctrl-E",;
+               StatusMessage "Edit data."
+
+         DEFINE MENU SEPARATOR1 OF THIS.Ststo;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+
+         DEFINE MENU SEARCH OF THIS.Ststo;
+             PROPERTY;
+               OnClick CLASS::SEARCHONCLICK,;
+               Text "&Search ...",;
+               Shortcut "Ctrl-S",;
+               StatusMessage "Search for a Store."
+
+         DEFINE MENU SEPARATOR3 OF THIS.Ststo;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+
+
+   DEFINE MENU REPORT OF THIS;
+       PROPERTY;
+         Text "&Reports"
+
+         DEFINE MENU ERRORStoreSREPORT OF THIS.REPORT;
+             PROPERTY;
+               OnClick {;create session ;set lock off ;report form Ststo},;
+               Text "&1. List Stores.",;
+               Shortcut "Ctrl-1"
+
+     DEFINE MENU ERRORSALESREPORT OF THIS.REPORT;
+             PROPERTY;
+               OnClick {;create session ;set lock off ;report form ststouse},;
+               Text "&2. List Used Stores",;
+               Shortcut "Ctrl-2"
+
+   ****************************************************************************
+   procedure SearchOnClick
+
+   * Bring up Search3.WFM.
+   ****************************************************************************
+   private searchForm, searchItem, saveRec, saveFilt, searchperiod,;
+           searchdoctype, searchdocref
+      local l1
+   if reccount() = 0                     && If table is empty, don't search
+      InformationMessage("This table is empty.", "Sorry!")
+   else
+      form.CheckChanged(.T.)
+      set procedure to Search.WFM additive
+      searchForm = new SearchForm()
+      searchForm.keyName = "Store Code"  && Indicator of key expression
+        searchForm.formatting = "@X"
+      searchForm.mdi = .F.
+      searchItem = searchForm.Readmodal()
+      if type("searchItem") = "O" .and. searchItem.id <> 0
+                                      && If search wasn't cancelled
+         saveRec = Bookmark()            && save current record in case seek is
+                                      && unsuccessful
+       searchperiod = left(searchform.value,2)
+       l1 = left(searchform.value,4)
+       searchdoctype = right(l1,2)
+       searchdocref = right(searchform.value,6)
+       form.enabled = .F.
+       go top
+        seek searchperiod
+* locate for period = searchperiod .and. doctype = searchdoctype
+         if .not. found()
+            InformationMessage(FormatStr("Store %1 \n Was not Found.",;
+                                         searchForm.value),;
+                               "Info")
+            if .not. eof()
+               go saverec()
+            else
+               go bottom
+            endif
+         endif
+         form.enabled = .T.
+      endif
+   IF .NOT.  LEFT(STO,1) = 'P' .AND. .NOT.  LEFT(STO,1) = 'R' .AND. .NOT.  LEFT(STO,1) = 'D' ;
+    .AND. .NOT.  LEFT(STO,1) = 'U'.AND. .NOT.  LEFT(STO,1) = 'L' .AND. .NOT.  LEFT(STO,1) = 'K'
+   FORM.PUMNO.ENABLED = .F.
+   ENDIF
+      searchForm.Release()
+      close procedure Search.WFM
+   endif
+
+
+ 
+     
+   ***************************************************************************
+   procedure ViewEditOnClick
+   ****************************************************************************
+
+   form.ViewEdit()
+
+  
+   ****************************************************************************
+    procedure OnExit
+     form.Release()
+
+    procedure OnQuitAll
+   
+     form.Release()
+
+ quit
+
+ENDCLASS
+
+
+

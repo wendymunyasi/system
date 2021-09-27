@@ -1,0 +1,346 @@
+******************************************************************************
+*  PROGRAM:      KenMis.mnu
+*
+*  WRITTEN BY:   W Nyongesa
+*
+*  DATE:        05/2000
+*
+*  UPDATED:      03/2015
+*
+*  REVISION:     $Revision:   1.0 $
+*
+*  VERSION:      Visual dBASE
+*
+*  DESCRIPTION:  This menu file is used by KenMis.wfm for controlling the running 
+*                of the KENPAY Payroll system.
+*
+*  PARAMETERS:   FormObj -- the form to which this menu is attached.
+*
+*  CALLS:        None
+*
+*  USAGE:        form.menuFile = "KenMis.mnu"
+*
+*******************************************************************************
+#include <Messdlg.h>
+
+** END HEADER -- do not remove this line*
+* Generated on 17/10/2000
+*
+Parameter FormObj
+NEW KenMisMENU(FormObj,"Root")
+CLASS KenMisMENU(FormObj,Name) OF MENUBAR(FormObj,Name)
+
+
+   DEFINE MENU FILE OF THIS;
+       PROPERTY; 
+         Text "&FILE"
+         
+          DEFINE MENU EXIT OF THIS.FILE;
+       PROPERTY; 
+          StatusMessage "Return to the Previous Menu.",;
+          Text "&RETURN TO PREVIOUS MENU",;
+          SHORTCUT "F4",;
+          OnClick CLASS::ONEXIT
+  
+      
+       DEFINE MENU SEPARATOR000 OF THIS.FILE;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+
+            
+   DEFINE MENU QUITALL OF THIS.FILE;
+       PROPERTY; 
+          StatusMessage "Leave Kenserve System.",;
+          Text "EXIT",;
+          SHORTCUT "F8",;
+          OnClick CLASS::ONQUITALL
+          
+       
+   DEFINE MENU MIS1 OF THIS;
+       PROPERTY; 
+         Text "UPDATE" 
+        if (.not. validdrive("Z:") .and. .not. validdrive("W:");
+        .and. .not. validdrive("Y:") .and. .not. validdrive("X:")) .or.  blevel = 1
+ 
+         IF .NOT. BLEVEL = 9
+           DEFINE MENU MIS4325 OF THIS.MIS1;
+             PROPERTY; 
+               Text "&1. FMS.",;
+                Enabled .t.,;
+               OnClick {;do fgshmas.prg WITH FORM.BLUSER,FORM.BLEVEL}
+               DEFINE MENU SSEPAMIS105 OF THIS.MIS1;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+               ENDIF
+               IF bLGLEDGER
+                      DEFINE MENU MISGL OF THIS.MIS1;
+             PROPERTY; 
+               Text "&2. GL.",;
+                Enabled .t.,;
+               OnClick {;do fgledger.prg WITH FORM.BLUSER,FORM.BLEVEL}
+      endif
+             
+              ENDIF
+               
+               
+               if .not. blevel = 8
+               
+       DEFINE MENU SEPMIS10 OF THIS.MIS1;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+
+  DEFINE MENU MIS4325Z OF THIS.MIS1;
+             PROPERTY; 
+               Text "&3. STATUS.",;
+                Enabled .t.,;
+               OnClick {;do FGRUPDAT.WFM}
+        
+               if .NOT. blmisreports
+               
+  DEFINE MENU MIS2 OF THIS;
+       PROPERTY; 
+         Text "SHIFT" 
+         
+         DEFINE MENU MIS21 OF THIS.mis2;
+             PROPERTY; 
+               Text "Books.",;
+                Enabled .t.,;
+               OnClick {;do shiftrps.wfm WITH FORM.BLUSER,FORM.BLEVEL}
+         DEFINE MENU MIS3 OF THIS;
+       PROPERTY; 
+         Text "DSSR" 
+    DEFINE MENU MIS22 OF THIS.MIS3;
+             PROPERTY; 
+               Text "Reports.",;
+                Enabled .t.,;
+               OnClick {;do dshiftbk.wfm WITH FORM.BLUSER,FORM.BLEVEL}
+       
+       ENDIF
+       DEFINE MENU MIS4 OF THIS;
+       PROPERTY; 
+         Text "STOCK" 
+         
+             DEFINE MENU MIS20 OF THIS.MIS4;
+             PROPERTY; 
+               Text "&1. SELECT PERIOD.",;
+                Enabled .T.,;
+               OnClick {;do fgsprd.wfm WITH FORM.BLUSER,FORM.BLEVEL}
+               
+                DEFINE MENU SEPARMS2001 OF THIS.MIS4;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+
+          
+                 DEFINE MENU MIS23 OF THIS.MIS4;
+             PROPERTY; 
+               Text "&2. POSITION.",;
+                Enabled .T.,;
+               OnClick {;do svdshift.wfm WITH FORM.BLUSER,FORM.BLEVEL}
+                  
+                DEFINE MENU SEPARMS2002 OF THIS.MIS4;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+                
+              DEFINE MENU MIS325 OF THIS.MIS4;
+             PROPERTY; 
+               Text "&3. LEDGER.",;
+                Enabled .t.,;
+               OnClick {;do fg15s.wfm WITH FORM.BLUSER,FORM.BLEVEL}
+                  
+                DEFINE MENU SEPARMS2003 OF THIS.MIS4;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+               
+                 DEFINE MENU phyas5 OF THIS.MIS4;
+             PROPERTY; 
+               Text "&4. VALUATION.",;
+                Enabled .t.,;
+               OnClick {;do sttsheet.wfm WITH FORM.BLUSER,FORM.BLEVEL}
+                  
+                DEFINE MENU SEPARMS2004 OF THIS.MIS4;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+               
+                  
+              DEFINE MENU Minve OF THIS.MIS4;
+             PROPERTY; 
+               Text "&5. MOVED BY PRODUCT.",;
+                Enabled .t.,;
+               OnClick {;do fg15sm.wfm WITH FORM.BLUSER,FORM.BLEVEL}
+                  
+                DEFINE MENU SEPARMS2005 OF THIS.MIS4;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+               
+                 DEFINE MENU Monphy OF THIS.MIS4;
+             PROPERTY; 
+               Text "&6. MOVED BY PERIOD.",;
+                Enabled .T.,;
+               OnClick {;do FG15SMP.wfm WITH FORM.BLUSER,FORM.BLEVEL}
+               
+                   DEFINE MENU SEPARMS2005AN OF THIS.MIS4;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+               
+                 DEFINE MENU ANUNPhy OF THIS.MIS4;
+             PROPERTY; 
+               Text "&7. MOVED BY YEAR.",;
+                Enabled .T.,;
+               OnClick {;do FG15SMA.wfm WITH FORM.BLUSER,FORM.BLEVEL}
+                       DEFINE MENU SEPARMS2005ANnew OF THIS.MIS4;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+           
+               
+                  if   blevel < 5 
+         DEFINE MENU COY1JNLSPOST OF THIS.MIS4;
+             PROPERTY; 
+               Text "8. Post Stock Valuation to General Ledger for Selected Period.",;
+               OnClick {;do NGLSTVAL.prg WITH FORM.BLUSER,FORM.BLEVEL}
+                
+                DEFINE MENU SEPARCOYSTKSPOST9a OF THIS.MIS4;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+              endif
+               
+               if .NOT. blmisreports
+               
+                 DEFINE MENU MIS5 OF THIS;
+       PROPERTY; 
+         Text "SALES" 
+     
+               
+                         DEFINE MENU MIS24 OF THIS.MIS5;
+             PROPERTY; 
+               Text "1. STANDARD",;
+                Enabled .t.,;
+               OnClick {;do dacoysal.wfm WITH FORM.BLUSER,FORM.BLEVEL}
+       
+            
+           DEFINE MENU SEPsal02sal OF THIS.MIS5;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+
+                 DEFINE MENU MIS25sal OF THIS.MIS5;
+             PROPERTY; 
+               Text "2. PRODUCT",;
+                Enabled .t.,;
+               OnClick {;do fgsalcod.wfm WITH FORM.BLUSER,FORM.BLEVEL}
+       
+         DEFINE MENU MIS6 OF THIS;
+       PROPERTY; 
+         Text "PURCHASES" 
+     
+                
+       DEFINE MENU SEPpur01 OF THIS.MIS6;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+
+     
+                 DEFINE MENU MIS25 OF THIS.MIS6;
+             PROPERTY; 
+               Text "1. STANDARD",;
+                Enabled .t.,;
+               OnClick {;do daCOYpur.wfm WITH FORM.BLUSER,FORM.BLEVEL}
+               
+               
+                 DEFINE MENU SEPpur02 OF THIS.MIS6;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+
+                 DEFINE MENU MIS25byprd OF THIS.MIS6;
+             PROPERTY; 
+               Text "2. PRODUCT",;
+                Enabled .t.,;
+               OnClick {;do fgpurcod.wfm WITH FORM.BLUSER,FORM.BLEVEL}
+      
+      ENDIF
+
+                 DEFINE MENU MIS7 OF THIS;
+       PROPERTY; 
+         Text "DEBTORS" 
+     
+                 DEFINE MENU MIS25 OF THIS.MIS7;
+             PROPERTY; 
+               Text "Reports.",;
+                Enabled .t.,;
+               OnClick {;do KENACREC.wfm WITH FORM.BLUSER,FORM.BLEVEL}
+                if .NOT. blmisreports
+               
+                     DEFINE MENU MIS8 OF THIS;
+       PROPERTY; 
+         Text "CREDITORS" 
+     
+                 DEFINE MENU MIS25 OF THIS.MIS8;
+             PROPERTY; 
+               Text "Reports.",;
+                Enabled .t.,;
+               OnClick {;do KENACPAY.wfm WITH FORM.BLUSER,FORM.BLEVEL}
+               
+                     DEFINE MENU MISGLS OF THIS;
+       PROPERTY; 
+         Text "GL" 
+         
+      DEFINE MENU SEPARMISGL1 OF THIS.MISGLS;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+               
+                 DEFINE MENU MIS25GLS OF THIS.MISGLS;
+             PROPERTY; 
+               Text "JOURNALS.",;
+                Enabled .t.,;
+               OnClick {;do KENGLJNL.wfm WITH FORM.BLUSER,FORM.BLEVEL}
+               
+                DEFINE MENU SEPARMISGL2 OF THIS.MISGLS;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+               
+               
+               
+               
+
+       endif
+            
+                 endif
+              
+       
+   procedure ViewEditOnClick
+   
+   * Toggle View/Edit modes.
+   ****************************************************************************
+   
+   form.ViewEdit()
+   
+   
+   ****************************************************************************
+ procedure OnExit
+   
+  
+   ****************************************************************************
+   
+     form.Release()
+
+    procedure OnQuitAll
+   
+     form.Release()
+
+ quit
+
+   
+ENDCLASS
