@@ -1,0 +1,638 @@
+////////////////////////////////////////////////////////////////////////////////
+// Output Filename: C:\KENSERVICE\IDSSYS\FGDIV_FCV.WFM                        //
+// Created By:      dBASE Form Converter Wizard                               //
+// Created On:      Sunday June 12, 2016 At 17:58:25                          //
+// Object Count:    15                                                        //
+////////////////////////////////////////////////////////////////////////////////
+*******************************************************************************
+*  PROGRAM:      Fgdiv.wfm
+*
+*  WRITTEN BY:   W Nyongesa
+*
+*  DATE:         05/2000
+*
+*  UPDATED:     12/2012
+*
+*  REVISION:     $Revision:   1.0
+*
+*  VERSION:      Visual dBASE
+*
+*  DESCRIPTION:  This program maintains the Division Maintenance master file
+*
+*  PARAMETERS:   None
+*
+*  CALLS:        Fgdiv.mnu         (Menu file)
+*                KBUTTONS.CC          (Custom Controls file)
+*                Division Maintenance Code.qbe         (View of tables)
+*
+*  USAGE:        DO Fgdiv.wfm
+*
+*******************************************************************************
+#include <messdlg.h>
+shell(.F.)
+create session
+set talk off
+*et DBTYPE to PARADOX
+set century on
+_app.FrameWin.Visible = .F.
+_app.FrameWin.Text = "Fgdiv"
+set design off
+set ldCheck off && To avoid language driver conflicts
+#define Maxcoy 999
+** END HEADER -- do not remove this line
+//
+// Generated on 12/06/2016
+//
+parameter bUser,bLevel,bModal
+local f
+f = new FgdivFORM()
+if (bModal)
+   f.mdi = false // ensure not MDI
+   f.readModal()
+else
+   f.open()
+endif
+
+class FgdivFORM of FORM
+   with (this)
+      onClose = class::ONCLOSE
+      open = class::OPEN
+      metric = 6	// Pixels
+      colorNormal = "N+"
+      height = 932.0
+      left = 0.0
+      top = 16.0
+      width = 1296.0
+      text = "Division Maintenance"
+      windowState = 2	// Maximized
+      mdi = false
+      sizeable = false
+      moveable = false
+      view = "Fgdiv.QBE"
+      menuFile = "FGDIV.MNU"
+      escExit = false
+      mousePointer = 1	// Arrow
+      maximize = false
+      minimize = false
+   endwith
+
+   this.RECTANGLE1 = new RECTANGLE(this)
+   with (this.RECTANGLE1)
+      left = 288.0
+      top = 17.0
+      width = 276.0
+      height = 255.0
+      text = "CURRENT COY/DIV INFORMATION"
+      fontName = "MS Sans Serif"
+      fontBold = true
+   endwith
+
+   this.CODETEXT = new TEXTLABEL(this)
+   with (this.CODETEXT)
+      height = 18.0
+      left = -12.0
+      top = 17.0
+      width = 150.0
+      text = "Select Company:"
+      colorNormal = "B/BtnFace"
+      fontName = "MS Sans Serif"
+      fontBold = true
+      alignVertical = 1	// Middle
+      alignHorizontal = 2	// Right
+   endwith
+
+   this.COYCOMBOBOX = new COMBOBOX(this)
+   with (this.COYCOMBOBOX)
+      dataLink = "FgdivS->COYN"
+      enabled = false
+      height = 26.0
+      left = 12.0
+      top = 51.0
+      width = 264.0
+      fontName = "Arial Black"
+      fontBold = true
+      colorNormal = "B/BtnFace"
+      dataSource = "FIELD FgcoyS->NAME"
+      style = 2	// DropDownList
+      dropDownHeight = 132.0
+   endwith
+
+   this.COYDISPLAY = new ENTRYFIELD(this)
+   with (this.COYDISPLAY)
+      dataLink = "Fgcoy->Name"
+      enabled = false
+      height = 18.0
+      left = 300.0
+      top = 102.0
+      width = 240.0
+      function = "!"
+      colorNormal = "N/BtnFace"
+      colorHighLight = "B+/W*"
+      fontName = "MS Sans Serif"
+      fontBold = true
+   endwith
+
+   this.SNAMETEXT = new TEXTLABEL(this)
+   with (this.SNAMETEXT)
+      height = 25.0
+      left = 337.0
+      top = 128.0
+      width = 203.0
+      text = "DIVISION CODE:"
+      colorNormal = "B/BtnFace"
+      fontName = "MS Sans Serif"
+      fontBold = true
+      alignVertical = 1	// Middle
+      alignHorizontal = 2	// Right
+   endwith
+
+   this.LNAMEENTRY = new ENTRYFIELD(this)
+   with (this.LNAMEENTRY)
+      onChange = class::CHANGE_NAME
+      valid = class::VALID_NAME
+      dataLink = "Fgdiv->name"
+      enabled = false
+      height = 20.0
+      left = 300.0
+      top = 213.0
+      width = 240.0
+      function = "!"
+      colorNormal = "N/BtnFace"
+      colorHighLight = "B+/W*"
+      fontName = "MS Sans Serif"
+      fontSize = 8.0
+      fontBold = true
+      validErrorMsg = "Name of Division Required"
+   endwith
+
+   this.PREVBUTTON = new PUSHBUTTON(this)
+   with (this.PREVBUTTON)
+      onClick = class::PREVIOUS
+      height = 26.0
+      left = 112.0
+      top = 330.0
+      width = 85.0
+      text = "&PREVIOUS"
+      fontName = "MS Sans Serif"
+      fontSize = 8.0
+      fontBold = true
+   endwith
+
+   this.NEXTBUTTON = new PUSHBUTTON(this)
+   with (this.NEXTBUTTON)
+      onClick = class::NEXT
+      height = 26.0
+      left = 196.0
+      top = 330.0
+      width = 85.0
+      text = "&NEXT"
+      fontName = "MS Sans Serif"
+      fontSize = 8.0
+      fontBold = true
+   endwith
+
+   this.FIRSTBUTTON = new PUSHBUTTON(this)
+   with (this.FIRSTBUTTON)
+      onClick = {; form.CheckCommit(form.inEditMode);GO TOP;}
+      height = 26.0
+      left = 287.0
+      top = 330.0
+      width = 85.0
+      text = "F&IRST"
+      fontName = "MS Sans Serif"
+      fontSize = 8.0
+      fontBold = true
+   endwith
+
+   this.LASTBUTTON = new PUSHBUTTON(this)
+   with (this.LASTBUTTON)
+      onClick = {; form.CheckCommit(form.inEditMode);GO BOTTOM;}
+      height = 26.0
+      left = 378.0
+      top = 330.0
+      width = 85.0
+      text = "&LAST"
+      fontName = "MS Sans Serif"
+      fontSize = 8.0
+      fontBold = true
+   endwith
+
+   this.TEXT2 = new TEXTLABEL(this)
+   with (this.TEXT2)
+      height = 25.0
+      left = 336.0
+      top = 43.0
+      width = 132.0
+      text = "COMPANY CODE:"
+      colorNormal = "B/BtnFace"
+      fontName = "MS Sans Serif"
+      fontBold = true
+      alignVertical = 1	// Middle
+      alignHorizontal = 2	// Right
+   endwith
+
+   this.TEXT3 = new TEXTLABEL(this)
+   with (this.TEXT3)
+      height = 25.0
+      left = 396.0
+      top = 77.0
+      width = 72.0
+      text = "NAME"
+      colorNormal = "B/BtnFace"
+      fontName = "MS Sans Serif"
+      fontBold = true
+      alignVertical = 1	// Middle
+      alignHorizontal = 2	// Right
+   endwith
+
+   this.COYCOD = new ENTRYFIELD(this)
+   with (this.COYCOD)
+      dataLink = "Fgdiv->Coy"
+      enabled = false
+      height = 18.0
+      left = 480.0
+      top = 51.0
+      width = 24.0
+      function = "!"
+      colorNormal = "N/BtnFace"
+      colorHighLight = "B+/W*"
+      fontName = "MS Sans Serif"
+      fontBold = true
+   endwith
+
+   this.TEXT1 = new TEXTLABEL(this)
+   with (this.TEXT1)
+      height = 25.0
+      left = 336.0
+      top = 179.0
+      width = 168.0
+      text = "ENTER DESCRIPTION"
+      colorNormal = "B/BtnFace"
+      fontName = "MS Sans Serif"
+      fontBold = true
+      alignVertical = 1	// Middle
+      alignHorizontal = 2	// Right
+   endwith
+
+   this.DIVCODE = new ENTRYFIELD(this)
+   with (this.DIVCODE)
+      dataLink = "Fgdiv->Div"
+      enabled = false
+      height = 17.0
+      left = 432.0
+      top = 153.0
+      width = 36.0
+      function = "!"
+      colorNormal = "N/BtnFace"
+      colorHighLight = "B+/W*"
+      fontName = "MS Sans Serif"
+      fontBold = true
+   endwith
+
+
+   procedure Open
+   ****************************************************************************
+   private CodeField
+   form.firstime = .T.
+       FORM.BLUSER=BUSER
+   FORM.BLEVEL=BLEVEL
+   IF EMPTY(FORM.BLUSER) .OR. EMPTY(FORM.BLEVEL)
+      QUIT
+      ENDIF
+   if type("form.init") = "U"
+      form.init = .T.
+
+      set skip to                     && Fgdiv.qbe contains set skip to gldtl
+      set exact off                   && the .qbe file contains SET EXACT ON
+
+      set procedure to sampProc.prg additive
+    Form.duplicate = .F.
+      form.inEditMode = .F.           && indicator of view/edit state
+      form.changesMade = .F.          && indicator of changes made to field values
+      form.previousRecord = .F.       && Save record number when appending
+      form.updated = .f.
+        *** do calculations in another area so form doesn't get updated
+         SELECT FgcoyS
+        SET ORDER TO NAME
+        go top
+        form.pcoy = coy
+        form.pcoyn = name
+        FORM.PDIV = ""
+          select fgdiv3
+      set order to mkey
+      select Fgdiv
+      delete all for .not. coy="1"
+      set order to mkey
+    GO TOP                                  && new Receipts
+   if empty(coy) .or. empty(DIV)
+   delete
+   endif
+
+
+      *** Open table for calculating totals and balance due in another work area
+      *** so that datalinks are not affected by record movements
+
+
+      ***
+    *  if type("form.parentpayeeForm") <> "U" && Esc ok if have parent
+    *     form.escExit = .T.
+   *   endif
+
+   endif
+   * form.CoyInfoButton.KenpName = "Fgdiv.WFM"
+
+   form::Open()                         && Now the form actually opens
+   *    form.BrowseOnNavigate()              && calculate totals
+   *       form.codingerrors()                        && check coding errors
+
+   *      form.next.setfocus()
+   ****************************************************************************
+
+   procedure OnClose
+
+   * Clean up.
+   ****************************************************************************
+
+   if this.inEditMode
+      form.ViewEdit()                      && Finish transaction
+   endif
+   select Fgdiv
+   delete all for Empty(Fgdiv->coy) .or. empty(Fgdiv->div)
+       if form.updated
+    do Fgdivs_rtn
+    endif
+     close procedure SAMPProc.prg
+   close databases
+
+   ****************************************************************************
+
+   procedure BrowseOnNavigate
+   ****************************************************************************
+
+       form.DIVCODE.Enabled = .F.
+       if eof()
+      form.root.Fgdiv.viewEdit.enabled = .F.
+   else
+      form.root.Fgdiv.viewEdit.enabled = .T.
+   endif
+
+
+
+   ****************************************************************************
+
+   procedure ChangesMade
+
+   * Indicate that changes have been made to the current record
+   ****************************************************************************
+   Form.ChangesMade = .T.
+   ****************************************************************************
+
+  procedure Next
+
+   * Go to next record.
+   ****************************************************************************
+
+   form.CheckCommit(form.inEditMode)
+   if .not. empty(dbf())  .and. .not. eof()      && if a table is open in the current workarea
+      skip
+      if eof()
+         go bottom
+         AlertMessage("At the last record","Alert")
+      endif
+   else
+      InformationMessage("There is no table open in the current workarea.",;
+         "Info")
+   endif
+    ****************************************************************************
+
+   procedure Previous
+
+   * Go to previous record.
+   ****************************************************************************
+
+   form.CheckCommit(form.inEditMode)
+ if .not. empty(dbf())  .and. .not. eof() && if a table is open in the current workarea
+      skip - 1
+      if bof()
+         go top
+         AlertMessage("At the first record","Alert")
+      endif
+   else
+      InformationMessage("There is no table open in the current workarea.",;
+         "Info")
+   endif
+
+   procedure CheckCommit (newInEditMode)
+
+        * Finish transaction, if it has been started.
+   ****************************************************************************
+   private CodeField, changesMade
+    local lk1,lk2
+    select Fgdiv
+    lk1 = form.CoyCombobox.value
+    lk2 = form.DIVCODE.value
+   changesMade = form.changesMade
+   if form.changesMade
+      CodeField = field(2)  && Field Fgdiv
+      if     ConfirmationMessage("Commit changes?",;
+                FormatStr("Division Maintenance %1",&CodeField)) = YES
+         commit()
+       form.updated = .t.
+      else
+         rollback()
+         if .not. bof()
+       *  if .not. empty(form.previousRecord)
+   *            go bookmark()
+           * form.previousRecord
+            form.previousRecord = .F.
+         endif
+      endif
+
+
+       form.DIVCODE.Enabled = .F.
+    if form.inEditMode .and. newInEditMode
+         begintrans()
+      endif
+      form.changesMade = .F.
+   endif
+   if form.inEditMode <> newInEditMode
+      if newInEditMode                       && Going to Edit mode
+         begintrans()
+      else                                   && Going to View mode
+         if .not. changesMade
+            rollback()
+         endif
+      endif
+      form.inEditMode = newInEditMode
+   endif
+
+   * form.root.Receipt.add.enabled = .T.
+   *form.codingerrors()
+   ****************************************************************************
+
+   procedure ViewEdit
+
+   * Toggle between View and Edit modes.
+   ****************************************************************************
+   local inEditMode, editMenu, control
+
+   editMenu = form.root.Fgdiv.VIEWEdit
+
+   *** If ending edit mode then close transaction, otherwise open it.
+   if form.inEditMode
+      form.checkChanged(.F.)
+      editMenu.text = "&Edit"
+      editMenu.shortcut = "Ctrl-E"
+      editMenu.statusMessage = "Edit data."
+       form.CheckCommit(.F.)                        && Check transaction and
+      form.text = "Division Maintenance -- View Mode"          && change mode to View
+      form.statusmessage = "In View Mode. " + ;
+                           "Select Division Maintenance Code - Edit menu to " + ;
+                           "edit/delete data."
+    else                                            && Switch to edit mode
+      editMenu.text = "Vi&ew"
+      editMenu.shortcut = "Ctrl-E"
+      editMenu.statusMessage = "View data."
+      form.CheckCommit(.T.)                        && Check transaction and
+      form.text = "Division Maintenance -- Edit Mode"          && change mode to Edit
+
+   *     form.notesEditor.modify = .T.
+      form.statusmessage = "In Edit Mode.  " + ;
+                           "Select menu Division Maintenance Code - View to switch " + ;
+                           "to View mode."
+
+         form.DIVCODE.Enabled = .F.
+         form.coydisplay.enabled =.F.
+       form.LnameEntry.SetFocus()
+
+   endif
+
+   inEditMode = form.inEditMode     && Faster if we don't reference a form
+   control = form.first             &&    variable each time through the loop
+   do
+      if .not. control.className $ "BROWSE,EDITOR,NEXTBUTTON,PREVBUTTON,PUSHBUTTON,IMAGE,TEXT"
+         control.enabled = inEditMode
+      endif
+      control = control.before
+   until control.name = form.first.name
+
+     form.DIVCODE.Enabled = .F.
+      form.coydisplay.enabled =.F.
+      FORM.COYCOD.ENABLED = .F.
+      if FORM.BLEVEL > 1
+      form.lnameentry.enabled = .f.
+      endif
+      form.CoyCombobox.enabled = .f.
+       form.LnameEntry.SetFocus()
+
+
+   ****************************************************************************
+
+   procedure CheckChanged(callCommit)
+
+   * Check if changes have been made to the current entryfield.  This procedure
+   * is called from menu routines to make sure the form.changesMade gets
+   * updated when a menu is selected while the changed control has focus.
+   ****************************************************************************
+   private control, fieldValue, controlValue, typeText, typeValue
+
+   if form.inEditMode
+      control = form.activeControl
+      if type("control.datalink") <> "U"
+         fieldValue = control.datalink          && name of table field
+
+         typeText = type("control.text")
+         typeValue = type("control.value")
+         do case
+            case typeValue = "C"
+               controlValue = control.value
+            case typeValue $ "LU" .and. typeText = "C"
+               controlValue = control.text
+            otherwise
+               controlValue = Null
+         endcase
+         if controlValue <> &fieldValue
+            form.changesMade = .T.
+         endif
+      endif
+   endif
+   if form.changesMade .and. callCommit
+      CLASS::CheckCommit(form.inEditMode)     && Check transactions
+   endif
+
+
+
+   ****************************************************************************
+
+    Procedure change_name
+      if .not. empty(this.value)
+      form.changesmade = .t.
+      form.updated = .t.
+      endif
+           form.CheckCommit(form.inEditMode)
+      Procedure valid_name
+      if empty(this.value)
+      isvalid = .f.
+      else
+      isvalid = .t.
+      endif
+      return isvalid
+
+endclass
+
+Procedure Fgdivs_rtn
+   private eofFgdiv,p1,p2
+   eofFgdiv = .f.
+   set safety off
+   select Fgdivs
+
+   set order to mkey
+   set safety on
+   select Fgdiv
+   go top
+   if .not. eof()
+      do
+         do rtn1
+         until eofFgdiv
+     endif
+     eoffgdivs =.f.
+     select fgdivs
+     go top
+     if .not.  eof()
+        do
+        do rtn3
+        until eoffgdivs
+      endif
+procedure rtn3
+      select fgdiv
+      seek fgdivs->coy+fgdivs->div
+      if  .not.  found()
+      select fgdivs
+      delete
+      endif
+    select fgdivs
+    skip
+    if  eof()
+       eoffgdivs=.t.
+     endif
+procedure rtn1
+       p1 = Fgdiv->name
+      if .not. empty(p1)
+      do rtn2
+      endif
+   select Fgdiv
+   skip
+   if eof()
+   eofFgdiv = .t.
+   endif
+
+Procedure rtn2
+   select Fgdivs
+      seek fgdiv->coy+fgdiv->div
+      if .not. found()
+      append blank
+      replace coy with Fgdiv->coy
+      replace div with Fgdiv->div
+      endif
+
+      replace name with p1

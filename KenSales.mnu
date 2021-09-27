@@ -1,0 +1,155 @@
+******************************************************************************
+*  PROGRAM:      KenSales.mnu
+*
+*  WRITTEN BY:   W Nyongesa
+*
+*  DATE:        06/2000
+*
+*  UPDATED:      04/2015
+*
+*  REVISION:     $Revision:   1.0 $
+*
+*  VERSION:      Visual dBASE
+*
+*  DESCRIPTION:  This menu file is used by KenSales.wfm for controlling the running 
+*                of the Kenserve SAlesystem.
+*
+*  PARAMETERS:   FormObj -- the form to which this menu is attached.
+*
+*  CALLS:        None
+*
+*  USAGE:        form.menuFile = "KenSales.mnu"
+*
+*******************************************************************************
+#include <Messdlg.h>
+
+** END HEADER -- do not remove this line*
+* Generated on 17/10/2000
+*
+Parameter FormObj
+NEW KenSalesMENU(FormObj,"Root")
+CLASS KenSalesMENU(FormObj,Name) OF MENUBAR(FormObj,Name)
+
+
+   DEFINE MENU FILE OF THIS;
+       PROPERTY; 
+         Text "&FILE",;
+         OnClick CLASS::FILE_ONCLICK
+
+   DEFINE MENU EXIT OF THIS.FILE;
+             PROPERTY; 
+               StatusMessage "Return to the Previous Menu.",;
+                ShortCut "F4",;
+               Text "&Return to Previous Menu",;
+               OnClick CLASS::ONEXITALL
+
+        
+       DEFINE MENU SEPARATOR000 OF THIS.FILE;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+       DEFINE MENU QUITS OF THIS.FILE;
+             PROPERTY; 
+               StatusMessage "Return to the Previous Menu.",;
+               Text "EXIT",;
+               ShortCut "F8",;
+               OnClick CLASS::QUITALL
+         DEFINE MENU ARSYS22 OF THIS;
+      PROPERTY; 
+      Text "REVERSE"
+       if (.not. VALIDDRIVE("W:") .AND. .not. VALIDDRIVE("Y:")  .AND. .not. VALIDDRIVE("Z:") .AND. .not. VALIDDRIVE("X:"))
+       if blevel = 1 .or. BLEVEL = 4 .OR. BLREVCRSAL .or. blevel = 2 ;
+       .or. (blevel = 3 .and. bladmin) .and. .not. plrsals
+
+       IF .not. blrevcrsal  && 
+     IF .NOT. PLNORJC
+         DEFINE MENU jobcad1 OF THIS.ARSYS22;
+         PROPERTY; 
+         Text "&1. JC-CS",;
+         OnClick {;do fgjcnts.wfm WITH FORM.BLUSER,FORM.BLEVEL}
+             DEFINE MENU SEPARARSYS2201 OF THIS.ARSYS22;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+                endif
+                ENDIF
+         DEFINE MENU CINV1 OF THIS.ARSYS22;
+         PROPERTY; 
+         Text "&2. INV-CS",;
+         enabled .t.,;
+         OnClick {;do arrinvs.wfm WITH FORM.BLUSER,FORM.BLEVEL}
+              DEFINE MENU SEPARARSYS2202 OF THIS.ARSYS22;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+         DEFINE MENU CINV2 OF THIS.ARSYS22;
+         PROPERTY; 
+         Text "&3. CC-CS",;
+         OnClick {;do arvcnts.wfm WITH FORM.BLUSER,FORM.BLEVEL}
+          DEFINE MENU SEPARARSYS2203 OF THIS.ARSYS22;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+           IF .not. blrevcrsal 
+           IF .NOT. PLNORJC
+         DEFINE MENU jobcadn OF THIS.ARSYS22;
+         PROPERTY; 
+         Text "&4. JC-NS",;
+         OnClick {;do fgjcntsn.wfm WITH FORM.BLUSER,FORM.BLEVEL}
+              DEFINE MENU SEPARARSYS2204 OF THIS.ARSYS22;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+               ENDIF
+               ENDIF
+         DEFINE MENU CINVn OF THIS.ARSYS22;
+         PROPERTY; 
+         Text "&5. INV-NS",;
+         enabled .t.,;
+         OnClick {;do arrinvsn.wfm WITH FORM.BLUSER,FORM.BLEVEL}
+             DEFINE MENU SEPARARSYS2205 OF THIS.ARSYS22;
+             PROPERTY;
+               Separator .T.,;
+               Text "" 
+         DEFINE MENU CRCADN OF THIS.ARSYS22;
+         PROPERTY; 
+         Text "&6. CC-NS",;
+         OnClick {;do arvcntsn.wfm WITH FORM.BLUSER,FORM.BLEVEL}
+          DEFINE MENU SEPARARSYS2206 OF THIS.ARSYS22;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+        IF .not. blrevcrsal 
+        DEFINE MENU CRlpgCADN OF THIS.ARSYS22;
+         PROPERTY; 
+         Text "&7. LPG",;
+         OnClick {;do fglcnts.wfm WITH FORM.BLUSER,FORM.BLEVEL}
+          DEFINE MENU SEPARARSYS2207 OF THIS.ARSYS22;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+         DEFINE MENU CRlubADN OF THIS.ARSYS22;
+         PROPERTY; 
+         Text "&8. LUB",;
+         OnClick {;do fgUcnts.wfm WITH FORM.BLUSER,FORM.BLEVEL}
+          DEFINE MENU SEPARARSYS2208 OF THIS.ARSYS22;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+         endif
+              ENDIF
+     
+        ENDIF
+          
+   procedure ViewEditOnClick
+   form.ViewEdit()
+   
+     procedure OnExitALL
+   
+     form.Release()
+   Procedure QUITALL
+            form.Release()
+            QUIT
+    Procedure FILE_OnClick
+   
+ENDCLASS

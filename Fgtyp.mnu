@@ -1,0 +1,177 @@
+******************************************************************************
+*  PROGRAM:      Fgtyp.mnu
+*
+*  WRITTEN BY:   W Nyongesa
+*
+*  DATE:         03/2001
+*
+*  UPDATED:      12/2012
+*
+*  REVISION:     $Revision:   1.58  $
+*
+*  VERSION:      Visual dBASE
+*
+*  DESCRIPTION:  This is a menu file used by Fgtyp.WFM for
+*                performing simple tasks.  It allows adding and deleting
+*                records, searching for a value in the Type field of the
+*                current table viewed, and exiting the form in view.
+*
+*  PARAMETERS:   FormObj -- the form to which this menu will belong.
+*
+*  CALLS:        None
+*
+*  USAGE:        form.menuFile = "Fgtyp.mnu"
+*
+*******************************************************************************
+#include <messdlg.h>
+
+** END HEADER -- do not remove this line*
+* Generated on 07/03/2001
+*
+Parameter FormObj
+NEW TypeS(FormObj,"Root")
+CLASS TypeS(FormObj,Name) OF MENUBAR(FormObj,Name)
+   this.Text = ""
+   this.OnInit = {;set procedure to SampProc.prg}
+
+   DEFINE MENU FILE OF THIS;
+       PROPERTY;
+         Text "&File"
+
+         DEFINE MENU EXIT OF THIS.FILE;
+             PROPERTY; 
+               StatusMessage "Return to the Previous Menu.",;
+               Text "&Return to Previous Menu",;
+               ShortCut "F4",;
+               OnClick CLASS::ONEXITALL
+
+        
+       DEFINE MENU SEPARATOR000 OF THIS.FILE;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+
+
+         DEFINE MENU QUITS OF THIS.FILE;
+             PROPERTY; 
+               StatusMessage "Leave Kenserve Integrated System.",;
+               Text "Exit",;
+               ShortCut "F8",;
+               OnClick CLASS::QUITALL
+          
+   DEFINE MENU Fgtyp OF THIS;
+       PROPERTY;
+         Text "&Type"
+
+         DEFINE MENU VIEWEDIT OF THIS.Fgtyp;
+             PROPERTY;
+               OnClick CLASS::VIEWEDITONCLICK,;
+               Text "&Edit",;
+               Shortcut "Ctrl-E",;
+               StatusMessage "Edit data."
+
+      
+         DEFINE MENU SEPARATOR2 OF THIS.Fgtyp;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+
+         DEFINE MENU SEARCH OF THIS.Fgtyp;
+             PROPERTY;
+               OnClick CLASS::SEARCHONCLICK,;
+               Text "&Search ...",;
+               Shortcut "Ctrl-S",;
+               ENABLED .t.,;
+               StatusMessage "Search for a Type."
+
+         DEFINE MENU SEPARATOR3 OF THIS.Fgtyp;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+
+
+  DEFINE MENU REPORT OF THIS;
+       PROPERTY;
+         Text "&Reports"
+
+         DEFINE MENU ERRORTypeSREPORT OF THIS.REPORT;
+             PROPERTY;
+               OnClick {;create session ;set lock off ;report form Fgtyp},;
+               Text "&List Item Types.",;
+               ENABLED .t.,;
+               Shortcut "Ctrl-L"
+
+
+   ****************************************************************************
+   procedure SearchOnClick
+
+   * Bring up Search3.WFM.
+   ****************************************************************************
+   private searchForm, searchItem, saveRec, saveFilt, searchperiod,;
+           searchdoctype, searchdocref
+      local l1
+   if reccount() = 0                     && If table is empty, don't search
+      InformationMessage("This table is empty.", "Sorry!")
+   else
+      form.CheckChanged(.T.)
+      set procedure to Search.WFM additive
+      searchForm = new SearchForm()
+      searchForm.keyName = "Coy"  && Indicator of key expression
+        searchForm.formatting = "@X"
+      searchForm.mdi = .F.
+      searchItem = searchForm.Readmodal()
+      if type("searchItem") = "O" .and. searchItem.id <> 0
+                                      && If search wasn't cancelled
+         saveRec = Bookmark()            && save current record in case seek is
+                                      && unsuccessful
+       searchperiod = left(searchform.value,2)
+       l1 = left(searchform.value,4)
+       searchdoctype = right(l1,2)
+       searchdocref = right(searchform.value,6)
+       form.enabled = .F.
+       go top
+        seek left(searchform.value,2)
+* locate for period = searchperiod .and. doctype = searchdoctype
+         if .not. found()
+            InformationMessage(FormatStr("Type %1 \n Was not Found.",;
+                                         searchForm.value),;
+                               "Info")
+            if .not. eof()
+               go saverec()
+            else
+               go bottom
+            endif
+         endif
+         form.enabled = .T.
+      endif
+
+      searchForm.Release()
+      close procedure Search.WFM
+   endif
+
+
+   
+   ***************************************************************************
+   procedure ViewEditOnClick
+   ****************************************************************************
+
+   form.ViewEdit()
+
+   ****************************************************************************
+     procedure OnExitALL
+   
+  
+   ****************************************************************************
+   *      form.close()  
+     form.Release()
+   Procedure QUITALL
+            form.Release()
+            QUIT
+  
+
+   
+
+ENDCLASS
+
+
+

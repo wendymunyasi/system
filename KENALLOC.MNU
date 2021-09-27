@@ -1,0 +1,129 @@
+******************************************************************************
+*  PROGRAM:      KenAlloc.mnu
+*
+*  WRITTEN BY:   W Nyongesa
+*
+*  DATE:        05/2000
+*
+*  UPDATED:      07/2013
+*
+*  REVISION:     $Revision:   1.0 $
+*
+*  VERSION:      Visual dBASE
+*
+*  DESCRIPTION:  This menu file is used by KenAlloc.wfm for controlling the running 
+*                of the KENPAY Payroll system.
+*
+*  PARAMETERS:   FormObj -- the form to which this menu is attached.
+*
+*  CALLS:        None
+*
+*  USAGE:        form.menuFile = "KenAlloc.mnu"
+*
+*******************************************************************************
+#include <Messdlg.h>
+
+** END HEADER -- do not remove this line*
+* Generated on 17/10/2000
+*
+Parameter FormObj
+NEW KenAllocMENU(FormObj,"Root")
+CLASS KenAllocMENU(FormObj,Name) OF MENUBAR(FormObj,Name)
+
+   DEFINE MENU FILE OF THIS;
+       PROPERTY; 
+         Text "FILE"
+         
+         DEFINE MENU EXIT OF THIS.FILE;
+             PROPERTY; 
+               StatusMessage "Return to the Previous Menu.",;
+               Text "&RETURN TO PREVIOUS MENU",;
+               SHORTCUT "F4",;
+               OnClick CLASS::ONEXIT
+
+             
+          DEFINE MENU SEPARATOR1 OF THIS.FILE;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+  
+   DEFINE MENU QUITALL OF THIS.FILE;
+             PROPERTY; 
+               StatusMessage "Leave the Kenserve Integrated System.",;
+               Text "EXIT",;
+               SHORTCUT "F8",;
+               OnClick CLASS::ONQUITALL
+
+
+if (blevel > 3 .and. .not. (validdrive("Z:") .OR. validdrive("X:") .OR.;
+ validdrive("W:").OR. validdrive("Y:"))) .OR. BLEVEL < 4
+   DEFINE MENU fcmngt OF THIS;
+          PROPERTY; 
+          Text "ALLOCATE"
+        
+
+          DEFINE MENU fcmngt0 OF THIS.fcmngt;
+                 PROPERTY; 
+                 Text "&CURRENT SHIFT"
+             
+          DEFINE MENU FCMNGTC0 OF THIS.FCMNGT.FCMNGT0;
+                 PROPERTY;
+                 Text "&1. Cashiers",;
+                 Enabled .t.,;
+                 OnClick {;do fshcashr.wfm WITH form.BLUSER, form.BLEVEL}
+                            
+          DEFINE MENU SEPARATOR01 OF THIS.FCMNGT.FCMNGT0;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+  
+               IF .NOT. BLJORDER = "Y"
+             DEFINE MENU FCMNGTC1 OF THIS.FCMNGT.FCMNGT0;
+            PROPERTY;
+            Text "&2. Pump Attendants",;
+                 Enabled .t.,;
+               OnClick {;do fshpumpc.wfm with FORM.BLUSER, FORM.BLEVEL}
+              
+                  DEFINE MENU SEPfcmngt2 OF THIS.fcmngt;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+  
+        ENDIF
+        
+              IF .NOT. BLJORDER = "Y"
+         
+            DEFINE MENU fcmngt2 OF THIS.fcmngt;
+             PROPERTY; 
+             Text "&NEXT SHIFT"
+             
+             DEFINE MENU FCMNGTN0 OF THIS.FCMNGT.FCMNGT2;
+            PROPERTY;
+            Text "&1. Cashiers",;
+                 Enabled .T.,;
+               OnClick {;do Nshcashr.wfm with FORM.BLUSER, FORM.BLEVEL}
+               
+         ENDIF
+                 
+   ENDIF
+         
+   procedure ViewEditOnClick
+   
+   * Toggle View/Edit modes.
+   ****************************************************************************
+   
+   form.ViewEdit()
+   
+   
+   ****************************************************************************
+   
+   procedure OnExit
+   ****************************************************************************
+             form.Release()
+             CLOSE DATABASES
+   
+   Procedure OnQuitAll
+             form.Release()
+             CLOSE DATABASES
+             QUIT
+ENDCLASS

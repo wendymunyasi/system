@@ -1,0 +1,51 @@
+* Visual dBASE .QBE file 9
+ON ERROR DO QBEERR WITH ERROR(), MESSAGE(),;
+PROGRAM(), LINENO()
+SET SAFETY OFF
+
+use \kenserve\idssys\fgddperf.dbf
+copy struc to \kenservice\data\fgddperf dBase Prod
+
+use \kenserve\idssys\fgmmperf.dbf
+copy struc to \kenservice\data\fgmmperf dBase Prod
+
+use \kenserve\idssys\fgmonsal.dbf
+copy struc to \kenservice\data\fgmonsal dBase Prod
+use \kenserve\idssys\fgdasal.dbf
+copy struc to \kenservice\data\fgdasal dBase Prod
+CLOSE DATABASES
+SET EXACT ON
+*SET EXCLUSIVE ON
+select 1
+use \kenservice\data\FGMMPERF.dbf 
+? sal_cr_qty
+select 2
+use \kenservice\data\FGMMPERF.dbf AGAIN ALIAS FGMMPERF2
+select 3
+use \kenservice\data\FGddPERF.dbf 
+? mmcs_sal_q
+select 4
+use \kenservice\data\FGddPERF.dbf AGAIN ALIAS FGddPERF2
+?    LM_SAL_SHS
+select 5
+use \kenservice\data\dacatsum.dbF  
+dele all for empty(coy) .or. empty(div) .or. empty(typ) .or. empty(cla) .or. empty(cod) .or. empty(shift_date)
+? NET_VAT
+? SALE_PRICE
+SELECT 6
+use \kenservice\data\fgmonsal.dbf
+select 7
+use \kenservice\data\fgdasal.dbf
+select 8
+use \kenservice\data\fgdasal.dbf again alias fgdasal2
+SELECT 9
+ USE  \kenserve\idssys\monpurch.dbf
+ copy stru to \kenservice\data\monpurch dbase prod
+USE \Kenservice\data\monpurch.DBF
+SELECT 10
+ USE  \kenserve\idssys\monsales.dbf
+ copy stru to \kenservice\data\monsales dbase prod
+USE \Kenservice\data\monsales.DBF
+select 11
+use  \kenservice\data\dacatpur.dbf
+set safety ON

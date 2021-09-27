@@ -1,0 +1,1006 @@
+////////////////////////////////////////////////////////////////////////////////
+// Output Filename: C:\KENSERVICE\IDSSYS\FRVEREGS_FCV.WFM                     //
+// Created By:      dBASE Form Converter Wizard                               //
+// Created On:      Monday September 27, 2021 At 18:11:29                     //
+// Object Count:    25                                                        //
+////////////////////////////////////////////////////////////////////////////////
+*******************************************************************************
+*  PROGRAM:      frveregs.wfm
+*
+*  WRITTEN BY:   W Nyongesa
+*
+*  DATE:         05/2000
+*
+*  UPDATED:     04/2014
+*
+*  REVISION:     $Revision:   1.0
+*
+*  VERSION:      Visual dBASE
+*
+*  DESCRIPTION:  This program maintains the companies master file
+*
+*  PARAMETERS:   None
+*
+*  CALLS:        frveregs.mnu         (Menu file)
+*                Buttons.CC          (Custom Controls file)
+*                frveregs.qbe         (View of tables)
+*
+*  USAGE:        DO frveregs.wfm
+*
+*******************************************************************************
+#include <messdlg.h>
+shell(.F.)
+create session
+set talk off
+set design off
+_app.FrameWin.Visible = .F.
+_app.FrameWin.Text = "frveregs"
+set century on
+set ldCheck off && To avoid language driver conflicts
+#define Maxcoy 999
+** END HEADER -- do not remove this line
+//
+// Generated on 27/09/2021
+//
+parameter bUser,bLevel,bModal
+local f
+f = new frveregsFORM()
+if (bModal)
+   f.mdi = false // ensure not MDI
+   f.readModal()
+else
+   f.open()
+endif
+
+class frveregsFORM of FORM
+   set procedure to BUTTONS.CC additive
+   with (this)
+      onClose = class::ONCLOSE
+      open = class::OPEN
+      metric = 6	// Pixels
+      colorNormal = "N+"
+      height = 932.0
+      left = 31.0
+      top = 12.0
+      width = 1296.0
+      text = "Customer Vehicles Maintenance Form"
+      windowState = 2	// Maximized
+      mdi = false
+      sizeable = false
+      moveable = false
+      view = "frveregs.QBE"
+      menuFile = "FRVEREGS.MNU"
+      escExit = false
+      mousePointer = 1	// Arrow
+      maximize = false
+      minimize = false
+   endwith
+
+   this.CODETEXT = new TEXTLABEL(this)
+   with (this.CODETEXT)
+      height = 21.0
+      left = 6.0
+      top = 9.0
+      width = 90.0
+      text = "Reg. ID No:"
+      colorNormal = "B/BtnFace"
+      fontName = "MS Sans Serif"
+      fontBold = true
+      alignVertical = 1	// Middle
+      alignHorizontal = 2	// Right
+   endwith
+
+   this.PTYP = new ENTRYFIELD(this)
+   with (this.PTYP)
+      dataLink = "frveregs->order_no"
+      enabled = false
+      height = 21.0
+      left = 96.0
+      top = 9.0
+      width = 72.0
+      colorNormal = "N/BtnFace"
+      colorHighLight = "B+/W*"
+      fontName = "MS Sans Serif"
+      fontBold = true
+   endwith
+
+   this.TEXT8 = new TEXTLABEL(this)
+   with (this.TEXT8)
+      height = 21.0
+      left = 180.0
+      top = 9.0
+      width = 60.0
+      text = "Action:"
+      colorNormal = "B/BtnFace"
+      fontName = "MS Sans Serif"
+      fontBold = true
+      alignVertical = 1	// Middle
+      alignHorizontal = 2	// Right
+   endwith
+
+   this.SACTION = new ENTRYFIELD(this)
+   with (this.SACTION)
+      dataLink = "frveregs->ACTION"
+      enabled = false
+      height = 21.0
+      left = 252.0
+      top = 9.0
+      width = 24.0
+      function = "!"
+      colorNormal = "N/BtnFace"
+      colorHighLight = "B+/W*"
+      fontName = "MS Sans Serif"
+      fontBold = true
+   endwith
+
+   this.TEXT4 = new TEXTLABEL(this)
+   with (this.TEXT4)
+      height = 21.0
+      left = 288.0
+      top = 9.0
+      width = 114.0
+      text = "Date Created:"
+      colorNormal = "B/BtnFace"
+      fontName = "MS Sans Serif"
+      fontBold = true
+      alignVertical = 1	// Middle
+      alignHorizontal = 2	// Right
+   endwith
+
+   this.SPDATE = new ENTRYFIELD(this)
+   with (this.SPDATE)
+      dataLink = "FRVEREGS->DDE_DATE"
+      enabled = false
+      height = 21.0
+      left = 411.0
+      top = 9.0
+      width = 99.0
+      function = "!"
+      colorNormal = "N/BtnFace"
+      colorHighLight = "B+/W*"
+      fontName = "MS Sans Serif"
+      fontBold = true
+   endwith
+
+   this.SUSER = new ENTRYFIELD(this)
+   with (this.SUSER)
+      dataLink = "FRVEREGS->DDE_USER"
+      enabled = false
+      height = 21.0
+      left = 516.0
+      top = 9.0
+      width = 192.0
+      function = "!"
+      colorNormal = "N/BtnFace"
+      colorHighLight = "B+/W*"
+      fontName = "MS Sans Serif"
+      fontBold = true
+   endwith
+
+   this.TEXT1 = new TEXTLABEL(this)
+   with (this.TEXT1)
+      height = 21.0
+      left = 720.0
+      top = 9.0
+      width = 114.0
+      text = "Date Closed:"
+      colorNormal = "B/BtnFace"
+      fontName = "MS Sans Serif"
+      fontBold = true
+      alignVertical = 1	// Middle
+      alignHorizontal = 2	// Right
+   endwith
+
+   this.SDATE = new ENTRYFIELD(this)
+   with (this.SDATE)
+      onChange = class::SDATE_ONCHANGE
+      dataLink = "frveregs->close_date"
+      enabled = false
+      height = 21.0
+      left = 843.0
+      top = 9.0
+      width = 99.0
+      function = "!"
+      colorNormal = "N/BtnFace"
+      colorHighLight = "B+/W*"
+      fontName = "MS Sans Serif"
+      fontBold = true
+   endwith
+
+   this.TEXT3 = new TEXTLABEL(this)
+   with (this.TEXT3)
+      height = 21.0
+      left = 6.0
+      top = 40.0
+      width = 240.0
+      text = "Customer:"
+      colorNormal = "B/BtnFace"
+      fontName = "MS Sans Serif"
+      fontBold = true
+      alignVertical = 1	// Middle
+      alignHorizontal = 2	// Right
+   endwith
+
+   this.SCUSTYPE = new COMBOBOX(this)
+   with (this.SCUSTYPE)
+      onChange = class::SCUSTYPE_ONCHANGE
+      dataLink = "frveregs->name"
+      enabled = false
+      height = 21.0
+      left = 252.0
+      top = 38.0
+      width = 468.0
+      fontName = "MS Sans Serif"
+      fontSize = 8.0
+      colorNormal = "N/BtnFace"
+      dataSource = "FIELD FRIGTMES->NAME"
+      style = 1	// DropDown
+      dropDownHeight = 132.0
+   endwith
+
+   this.TEXT2 = new TEXTLABEL(this)
+   with (this.TEXT2)
+      height = 21.0
+      left = 6.0
+      top = 71.0
+      width = 240.0
+      text = "Customer Account Number:"
+      colorNormal = "B/BtnFace"
+      fontName = "MS Sans Serif"
+      fontBold = true
+      alignVertical = 1	// Middle
+      alignHorizontal = 2	// Right
+   endwith
+
+   this.SNAME = new ENTRYFIELD(this)
+   with (this.SNAME)
+      dataLink = "frveregs->card_no"
+      enabled = false
+      height = 21.0
+      left = 252.0
+      top = 71.0
+      width = 84.0
+      picture = "9999999"
+      colorNormal = "N/BtnFace"
+      colorHighLight = "B+/W*"
+      fontName = "MS Sans Serif"
+      fontBold = true
+   endwith
+
+   this.TEXT6 = new TEXTLABEL(this)
+   with (this.TEXT6)
+      height = 21.0
+      left = 6.0
+      top = 103.0
+      width = 240.0
+      text = "Vehicle Registration No.:"
+      colorNormal = "B/BtnFace"
+      fontName = "MS Sans Serif"
+      fontBold = true
+      alignVertical = 1	// Middle
+      alignHorizontal = 2	// Right
+   endwith
+
+   this.SPOSTAL = new ENTRYFIELD(this)
+   with (this.SPOSTAL)
+      onChange = class::SPOSTAL_ONCHANGE
+      dataLink = "frveregs->reg"
+      enabled = false
+      height = 21.0
+      left = 252.0
+      top = 103.0
+      width = 156.0
+      function = "!"
+      colorNormal = "N/BtnFace"
+      colorHighLight = "B+/W*"
+      fontName = "MS Sans Serif"
+      fontBold = true
+   endwith
+
+   this.TEXT9 = new TEXTLABEL(this)
+   with (this.TEXT9)
+      height = 21.0
+      left = 420.0
+      top = 103.0
+      width = 84.0
+      text = "FLEET NO.:"
+      colorNormal = "B/BtnFace"
+      fontName = "MS Sans Serif"
+      fontBold = true
+      alignVertical = 1	// Middle
+      alignHorizontal = 2	// Right
+   endwith
+
+   this.SFLEET = new ENTRYFIELD(this)
+   with (this.SFLEET)
+      onChange = class::SFLEET_ONCHANGE
+      dataLink = "FRVEREGS->FLEET"
+      enabled = false
+      height = 21.0
+      left = 516.0
+      top = 103.0
+      width = 156.0
+      function = "!"
+      colorNormal = "N/BtnFace"
+      colorHighLight = "B+/W*"
+      fontName = "MS Sans Serif"
+      fontBold = true
+   endwith
+
+   this.TEXT5 = new TEXTLABEL(this)
+   with (this.TEXT5)
+      height = 21.0
+      left = 6.0
+      top = 127.0
+      width = 240.0
+      text = "Customer Vehicle Reference No."
+      colorNormal = "B/BtnFace"
+      fontName = "MS Sans Serif"
+      fontBold = true
+      alignVertical = 1	// Middle
+      alignHorizontal = 2	// Right
+   endwith
+
+   this.SCUSACC = new ENTRYFIELD(this)
+   with (this.SCUSACC)
+      dataLink = "frveregs->cardvehno"
+      enabled = false
+      height = 21.0
+      left = 252.0
+      top = 127.0
+      width = 240.0
+      function = "!"
+      colorNormal = "N/BtnFace"
+      colorHighLight = "B+/W*"
+      fontName = "MS Sans Serif"
+      fontBold = true
+   endwith
+
+   this.TEXT7 = new TEXTLABEL(this)
+   with (this.TEXT7)
+      height = 21.0
+      left = 6.0
+      top = 170.0
+      width = 240.0
+      text = "CUSTOMER'S AUTHORITY:"
+      colorNormal = "B/BtnFace"
+      fontName = "MS Sans Serif"
+      fontBold = true
+      alignVertical = 1	// Middle
+      alignHorizontal = 2	// Right
+   endwith
+
+   this.SOFF = new ENTRYFIELD(this)
+   with (this.SOFF)
+      onChange = class::SOFF_ONCHANGE1
+      dataLink = "FRVEREGS->AUTHORITY"
+      enabled = false
+      height = 21.0
+      left = 252.0
+      top = 170.0
+      width = 516.0
+      function = "!"
+      colorNormal = "N/BtnFace"
+      colorHighLight = "B+/W*"
+      fontName = "MS Sans Serif"
+      fontBold = true
+   endwith
+
+   this.PREVCOYBUTTON = new PREVBUTTON(this)
+   with (this.PREVCOYBUTTON)
+      onClick = class::PREVIOUS
+      height = 26.0
+      left = 35.0
+      top = 297.0
+      width = 85.0
+      text = "Previous"
+      default = true
+      fontName = "MS Sans Serif"
+      fontSize = 8.0
+      fontBold = true
+      group = true
+   endwith
+
+   this.NEXTCOYBUTTON = new NEXTBUTTON(this)
+   with (this.NEXTCOYBUTTON)
+      onClick = class::NEXT
+      height = 26.0
+      left = 126.0
+      top = 297.0
+      width = 85.0
+      text = "Next"
+      fontName = "MS Sans Serif"
+      fontSize = 8.0
+      fontBold = true
+   endwith
+
+   this.FIRFRVEREGSBUTTON = new PUSHBUTTON(this)
+   with (this.FIRFRVEREGSBUTTON)
+      onClick = class::GO_TOP
+      height = 26.0
+      left = 210.0
+      top = 297.0
+      width = 85.0
+      text = "First"
+      fontName = "MS Sans Serif"
+      fontSize = 8.0
+      fontBold = true
+      statusMessage = "Go to the first record."
+   endwith
+
+   this.LAFRVEREGSBUTTON = new PUSHBUTTON(this)
+   with (this.LAFRVEREGSBUTTON)
+      onClick = class::GO_LAST
+      height = 26.0
+      left = 301.0
+      top = 297.0
+      width = 86.0
+      text = "Last"
+      fontName = "MS Sans Serif"
+      fontSize = 8.0
+      fontBold = true
+      statusMessage = "Go to the last Type."
+   endwith
+
+
+   procedure Open
+   ****************************************************************************
+   private CodeField
+   form.firstime = .T.
+     form.buser=BUSER
+   FORM.BLEVEL=BLEVEL
+   IF EMPTY(form.buser) .OR. EMPTY(FORM.BLEVEL)
+      QUIT
+      ENDIF
+   if type("form.init") = "U"
+      form.init = .T.
+
+      set skip to                     && frveregs.qbe contains set skip to gldtl
+      set exact on                && the .qbe file contains SET EXACT ON
+
+      set procedure to sampProc.prg additive
+      Form.duplicate = .F.
+      form.inEditMode = .F.           && indicator of view/edit state
+      form.changesMade = .F.          && indicator of changes made to field values
+      form.previousRecord = .F.       && Save record number when appending
+        *** do calculations in another area so form doesn't get updated
+        form.updated = .f.
+       select frveregs
+      set order to order_no
+    GO TOP                                  && new Receipts
+   if Empty(order_no)
+   delete
+   endif
+   select fgoffs
+   set order to name
+   select frigtmes
+   set order to name
+      *** Open table for calculating totals and balance due in another work area
+      *** so that datalinks are not affected by record movements
+
+
+      ***
+    *  if type("form.parentpayeeForm") <> "U" && Esc ok if have parent
+    *     form.escExit = .T.
+   *   endif
+
+   endif
+    select frveregs
+  
+   * form.CoyInfoButton.KenpName = "frveregs.WFM"
+
+   form::Open()                         && Now the form actually opens
+   *    form.BrowseOnNavigate()              && calculate totals
+   *       form.codingerrors()                        && check coding errors
+
+   *      form.next.setfocus()
+   ****************************************************************************
+
+   procedure OnClose
+
+   * Clean up.
+   ****************************************************************************
+
+   if this.inEditMode
+      form.ViewEdit()                      && Finish transaction
+   endif
+   select frveregs
+   delete all for Empty(order_no)
+      close procedure SAMPProc.prg
+     CLOSE PROCEDURE BUTTONS.CC
+        close databases
+
+
+
+   ****************************************************************************
+
+   procedure BrowseOnNavigate
+   ****************************************************************************
+
+       if eof()
+      form.root.frveregs.viewEdit.enabled = .F.
+   else
+      form.root.frveregs.viewEdit.enabled = .T.
+   endif
+
+
+
+   ****************************************************************************
+
+   procedure ChangesMade
+
+   * Indicate that changes have been made to the current record
+   ****************************************************************************
+   Form.ChangesMade = .T.
+   ****************************************************************************
+
+   procedure Next
+
+   * Go to next record.
+   ****************************************************************************
+
+   form.CheckCommit(form.inEditMode)
+   if .not. eof()
+      NEXTBUTTON::OnClick()
+    endif
+    if .not. empty(frveregs->cardvehno)
+   form.scustype.enabled = .f.
+   form.sname.enabled = .f.
+   form.soff.enabled = .f.
+   form.spostal.enabled = .f.
+   endif
+   ****************************************************************************
+
+   procedure Previous
+
+   * Go to previous record.
+   ****************************************************************************
+
+   form.CheckCommit(form.inEditMode)
+
+     PREVBUTTON::OnClick()
+    if .not. empty(frveregs->cardvehno)
+   form.scustype.enabled = .f.
+   form.sname.enabled = .f.
+    form.soff.enabled = .f.
+   form.spostal.enabled = .f.
+   endif
+
+   ****************************************************************************
+
+    procedure GO_LAST
+     form.CheckCommit(form.inEditMode)
+   go BOTTOM
+    if .not. empty(frveregs->cardvehno)
+   form.scustype.enabled = .f.
+   form.sname.enabled = .f.
+    form.soff.enabled = .f.
+   form.spostal.enabled = .f.
+   endif
+
+    procedure GO_TOP
+    form.CheckCommit(form.inEditMode)
+   go top
+    if .not. empty(frveregs->cardvehno)
+   form.scustype.enabled = .f.
+   form.sname.enabled = .f.
+    form.soff.enabled = .f.
+   form.spostal.enabled = .f.
+   endif
+   ***********************************************
+
+   procedure CheckCommit (newInEditMode)
+
+        * Finish transaction, if it has been started.
+   ****************************************************************************
+   private CodeField, changesMade
+    local lk1
+    lk1 = form.ptyp.value
+   changesMade = form.changesMade
+   if form.changesMade
+      CodeField = field(1)  && Field period
+      if     ConfirmationMessage("Commit changes?",;
+                FormatStr("Customer Code %1",&CodeField)) = YES
+         commit()
+        form.updated = .T.
+      else
+         rollback()
+         if .not. bof()
+       *  if .not. empty(form.previousRecord)
+   *            go bookmark()
+           * form.previousRecord
+            form.previousRecord = .F.
+         endif
+      endif
+
+       form.ptyp.enabled = .F.
+    if form.inEditMode .and. newInEditMode
+         begintrans()
+      endif
+      form.changesMade = .F.
+   endif
+   if form.inEditMode <> newInEditMode
+      if newInEditMode                       && Going to Edit mode
+         begintrans()
+      else                                   && Going to View mode
+         if .not. changesMade .AND. .NOT. FORM.DUPLICATE
+            rollback()
+         endif
+      endif
+      form.inEditMode = newInEditMode
+   endif
+
+   * form.root.Receipt.add.enabled = .T.
+   *form.codingerrors()
+   ****************************************************************************
+
+   procedure ViewEdit
+
+   * Toggle between View and Edit modes.
+   ****************************************************************************
+   local inEditMode, editMenu, control
+
+   editMenu = form.root.frveregs.VIEWEdit
+
+   *** If ending edit mode then close transaction, otherwise open it.
+   if form.inEditMode
+      form.checkChanged(.F.)
+      editMenu.text = "&Edit"
+      editMenu.shortcut = "Ctrl-E"
+      editMenu.statusMessage = "Edit data."
+      form.CheckCommit(.F.)                        && Check transaction and
+      form.text = "Customer Vehicles Maintenance Form -- View Mode"          && change mode to View
+   *       form.notesEditor.colorNormal = "N/W"
+   *      form.childBrowse.modify = .F.
+   *     form.notesEditor.modify = .F.
+    *form.root.frveregs.DeleteCus.enabled = .F.
+      form.statusmessage = "In View Mode. " + ;
+                           "Select Hq Customers - Edit menu to " + ;
+                           "edit/delete data."
+      form.nextCOYBUTTON.SetFocus()
+   else                                            && Switch to edit mode
+      editMenu.text = "Vi&ew"
+      editMenu.shortcut = "Ctrl-E"
+      editMenu.statusMessage = "View data."
+      form.CheckCommit(.T.)                        && Check transaction and
+      form.text = "Customer Vehicles Maintenance Form -- Edit Mode"          && change mode to Edit
+
+   *      form.notesEditor.modify = .T.
+    *form.root.frveregs.DeleteCus.enabled = .f.
+      form.statusmessage = "In Edit Mode.  " + ;
+                           "Select menu order_nos - View to switch " + ;
+                           "to View mode."
+        form.ptyp.Enabled = .F.
+
+       form.SCUSACC.SetFocus()
+
+   endif
+
+   inEditMode = form.inEditMode     && Faster if we don't reference a form
+   control = form.first             &&    variable each time through the loop
+   do
+      if .not. control.classname $ "BROWSE,EDITOR,NEXTBUTTON,PREVBUTTON,PUSHBUTTON,IMAGE,TEXT"
+         control.enabled = inEditMode
+      endif
+      control = control.before
+   until control.name = form.first.name
+   *           form.gltyp.enabled = .f.
+   *    form.glname.Enabled = .F.
+   form.ptyp.Enabled = .F.
+   form.scusacc.enabled = .f.
+   FORM.SNAME.ENABLED = .F.
+   *
+   form.spdate.enabled = .f.
+   form.suser.enabled = .f.
+   if .not. empty(frveregs->cardvehno)
+   form.scustype.enabled = .f.
+   form.spostal.enabled = .f.
+    form.soff.enabled = .f.
+   endif
+     form.sname.enabled = .f.
+   form.saction.enabled = .f.
+*   form.sdorder.enabled = .f.
+ *  form.sdreg.enabled = .f.
+  * form.sdcust.enabled = .f.
+   ****************************************************************************
+
+   procedure CheckChanged(callCommit)
+
+   * Check if changes have been made to the current entryfield.  This procedure
+   * is called from menu routines to make sure the form.changesMade gets
+   * updated when a menu is selected while the changed control has focus.
+   ****************************************************************************
+   private control, fieldValue, controlValue, typeText, typeValue
+
+   if form.inEditMode
+      control = form.activeControl
+      if type("control.datalink") <> "U"
+         fieldValue = control.datalink          && name of table field
+
+         typeText = type("control.text")
+         typeValue = type("control.value")
+         do case
+            case typeValue = "C"
+               controlValue = control.value
+            case typeValue $ "LU" .and. typeText = "C"
+               controlValue = control.text
+            otherwise
+               controlValue = Null
+         endcase
+         if controlValue <> &fieldValue
+            form.changesMade = .T.
+         endif
+      endif
+   endif
+   if form.changesMade .and. callCommit
+      CLASS::CheckCommit(form.inEditMode)     && Check transactions
+   endif
+
+      Procedure valid_name
+      if empty(this.value)
+      isvalid = .f.
+      else
+      isvalid = .t.
+      endif
+      return isvalid
+
+   Procedure GLTYP_OnChange
+         form.changesmade = .t.
+
+   Procedure EFDAT_OnChange
+      Form.ChangesMade = .t.
+
+   Procedure RMKS_OnChange
+    Form.ChangesMade = .t.
+
+   Procedure STITLE_OnLostFocus
+
+   Procedure SDATE_OnChange
+   select frveregs
+   if .not. empty(this.value)
+   replace close_date with date()
+   replace close_user with form.buser
+   replace close_time with time()
+   endif
+
+      form.changesmade = .t.
+
+   Procedure ENTRYFIELD1_OnChange
+     form.changesmade = .t.
+
+   Procedure ENTRYFIELD4_OnChange
+    form.changesmade = .t.
+
+   Procedure ENTRYFIELD3_OnChange
+    form.changesmade = .t.
+
+   Procedure ENTRYFIELD5_OnChange
+    form.changesmade = .t.
+
+   Procedure ENTRYFIELD2_OnChange
+    form.changesmade = .t.
+
+   Procedure SID_OnChange
+    form.changesmade = .t.
+
+   Procedure SVEH_OnChange
+      FORM.CHANGESMADE = .T.
+
+   Procedure SCUSACC_Valid
+   if empty(this.value)
+            isvalid = .f.
+            else
+            isvalid = .t.
+            endif
+            return isvalid
+
+   Procedure SCUSTYPE_OnChange
+   select frigtmes
+   seek this.value
+   if found()
+      select frveregs
+      replace name with this.value
+      replace source with frigtmes->source
+      replace ftyp  with frigtmes->ftyp
+      replace pmod   with frigtmes->pmod
+      replace frighter_n with frigtmes->frighter_n
+      else
+      select frveregs
+      replace name with ''
+      replace source with ''
+      replace ftyp  with ''
+      replace pmod   with ''
+      replace frighter_n with ''
+      endif
+       select frveregs
+     REPLACE CARD_NO   WITH SOURCE+FTYP+PMOD+FRIGHTER_N
+     REPLACE REG WITH ''
+   form.changesmade = .t.
+
+   Procedure SCUSCAT_OnChange
+   form.changesmade = .t.
+
+   Procedure SPOSTAL_OnChange
+    local lkey,l1,l2,l3,l4,l5,l6,l7,l8,l9,l10,l11,l12,l13,l14,l15,lw,lok
+   Form.Changesmade = .t.
+   select frveregs
+   if .not. empty(this.value) .AND. .NOT. EMPTY(CARD_NO)
+   replace reg with this.value
+   else
+   replace reg with ''
+   endif
+   lw = this.value && 123456789012345
+   l1 = left(lw,1) && 1
+
+   lw = right(lw,14) && 23456789012345
+   l2 = left(lw,1) && 2
+
+   lw = right(lw,13) && 3456789012345
+   l3 = left(lw,1) && 3
+
+   lw = right(lw,12) && 456789012345
+   l4 = left(lw,1) && 4
+
+   lw = right(lw,11) && 56789012345
+   l5 = left(lw,1) && 5
+
+   lw = right(lw,10) && 6789012345
+   l6 = left(lw,1) && 6
+
+   lw = right(lw,9) && 789012345
+   l7 = left(lw,1) && 7
+
+   lw = right(lw,8) && 89012345
+   l8 = left(lw,1) && 8
+
+   lw = right(lw,7) && 9012345
+   l9 = left(lw,1) && 9
+
+   lw = right(lw,6) && 012345
+   l10 = left(lw,1) && 10
+
+   lw = right(lw,5) && 12345
+   l11 = left(lw,1) && 11
+
+    lw = right(lw,4) && 2345
+   l12 = left(lw,1) && 12
+
+     lw = right(lw,3) && 345
+   l13 = left(lw,1) && 13
+
+      lw = right(lw,2) && 45
+   l14 = left(lw,1) && 1
+
+   l15 = right(lw,1) && 5
+
+
+   lok = .f.
+   if .not. empty(l15) .and. .not. empty(l14) .and. .not. empty(l13) .and. ;
+   .not. empty(l12) .and. .not. empty(l11) .and. .not. empty(l10) .and. .not. empty(l9) .and. .not. empty(l8) .and. .not. empty(l7) ;
+    .and. .not. empty(l6) .and. .not. empty(l5) .and. .not. empty(l4) .and. .not. empty(l3) .and. .not. empty(l2) .and. .not. empty(l1)
+    lok = .t.
+    endif
+
+    if empty(l15) .and. (.not. empty(l14) .and. .not. empty(l13) .and. ;
+   .not. empty(l12) .and. .not. empty(l11) .and. .not. empty(l10) .and. .not. empty(l9) .and. .not. empty(l8) .and. .not. empty(l7) ;
+    .and. .not. empty(l6) .and. .not. empty(l5) .and. .not. empty(l4) .and. .not. empty(l3) .and. .not. empty(l2) .and. .not. empty(l1))
+    lok = .t.
+    endif
+
+      if empty(l15) .and. empty(l14) .and. (.not. empty(l13) .and. ;
+   .not. empty(l12) .and. .not. empty(l11) .and. .not. empty(l10) .and. .not. empty(l9) .and. .not. empty(l8) .and. .not. empty(l7) ;
+    .and. .not. empty(l6) .and. .not. empty(l5) .and. .not. empty(l4) .and. .not. empty(l3) .and. .not. empty(l2) .and. .not. empty(l1))
+    lok = .t.
+    endif
+
+     if empty(l15) .and. empty(l14) .and.  empty(l13) .and. ;
+   ( .not. empty(l12) .and. .not. empty(l11) .and. .not. empty(l10) .and. .not. empty(l9) .and. .not. empty(l8) .and. .not. empty(l7) ;
+    .and. .not. empty(l6) .and. .not. empty(l5) .and. .not. empty(l4) .and. .not. empty(l3) .and. .not. empty(l2) .and. .not. empty(l1))
+    lok = .t.
+    endif
+
+      if empty(l15) .and. empty(l14) .and.  empty(l13) .and. ;
+    empty(l12) .and. ( .not. empty(l11) .and. .not. empty(l10) .and. .not. empty(l9) .and. .not. empty(l8) .and. .not. empty(l7) ;
+    .and. .not. empty(l6) .and. .not. empty(l5) .and. .not. empty(l4) .and. .not. empty(l3) .and. .not. empty(l2) .and. .not. empty(l1))
+    lok = .t.
+    endif
+
+     if empty(l15) .and. empty(l14) .and.  empty(l13) .and. ;
+    empty(l12) .and. empty(l11) .and. (.not. empty(l10) .and. .not. empty(l9) .and. .not. empty(l8) .and. .not. empty(l7) ;
+    .and. .not. empty(l6) .and. .not. empty(l5) .and. .not. empty(l4) .and. .not. empty(l3) .and. .not. empty(l2) .and. .not. empty(l1))
+    lok = .t.
+    endif
+
+    if empty(l15) .and. empty(l14) .and.  empty(l13) .and. ;
+    empty(l12) .and. empty(l11) .and.  empty(l10) .and. ( .not. empty(l9) .and. .not. empty(l8) .and. .not. empty(l7) ;
+    .and. .not. empty(l6) .and. .not. empty(l5) .and. .not. empty(l4) .and. .not. empty(l3) .and. .not. empty(l2) .and. .not. empty(l1))
+    lok = .t.
+    endif
+
+     if empty(l15) .and. empty(l14) .and.  empty(l13) .and. ;
+    empty(l12) .and. empty(l11) .and.  empty(l10) .and.  empty(l9) .and. ( .not. empty(l8) .and. .not. empty(l7) ;
+    .and. .not. empty(l6) .and. .not. empty(l5) .and. .not. empty(l4) .and. .not. empty(l3) .and. .not. empty(l2) .and. .not. empty(l1))
+    lok = .t.
+    endif
+
+     if empty(l15) .and. empty(l14) .and.  empty(l13) .and. ;
+    empty(l12) .and. empty(l11) .and.  empty(l10) .and.  empty(l9) .and.  empty(l8) .and. ( .not. empty(l7) ;
+    .and. .not. empty(l6) .and. .not. empty(l5) .and. .not. empty(l4) .and. .not. empty(l3) .and. .not. empty(l2) .and. .not. empty(l1))
+    lok = .t.
+    endif
+
+      if (this.value = 'DRUMS' .or. this.value = 'LPG' .or. this.value = 'SOLAR') .and. empty(l12) .and. ;
+    empty(l11) .and. empty(l10) .and. empty(l9) .and. empty(l8) .and. empty(l7) .and. empty(l6)
+    LOK = .T.
+    ENDIF
+    IF .NOT. LOK
+      InformationMessage("Invalid Vehicle Number not allowed", "Note!")
+   select frveregs
+   replace reg with ''
+   endif
+   lkey = frveregs->source+frveregs->ftyp+frveregs->pmod+frveregs->frighter_n+frveregs->reg
+   if .not.  empty(card_no) .aND. .NOT. EMPTY(REG)
+   select frveregs4
+   SEEK lkey
+   if found() .and. .not. order_no = frveregs->order_no
+   InformationMessage("Duplicate Customer/Vehicle Number not allowed", "Note!")
+   select frveregs
+   replace reg with ''
+   else
+   select frveregs
+   if .not. empty (reg) .and. .not. empty(card_no)
+   replace cardvehno with lkey
+   endif
+   endif
+   ENDIF
+   select  frveregs
+       form.changesmade = .t.
+
+   Procedure SCITY_OnChange
+   form.changesmade = .t.
+
+   Procedure SPAY_OnChange
+   form.changesmade = .t.
+
+   Procedure SCREDIT_OnChange
+   form.changesmade =.t.
+
+   Procedure SCREDIT_Valid
+   if this.value < 0
+   isvalid = .f.
+   else
+   isvalid = .t.
+   endif
+   return isvalid
+
+   Procedure SCNAME_OnChange
+   form.changesmade =.t.
+
+   Procedure SMOBILE_OnChange
+   form.changesmade =.t.
+
+   Procedure SEMAIL_OnChange
+   form.changesmade = .t.
+
+   Procedure SOFF_OnChange
+      select fgoffs
+      seek this.value
+      if found()
+      select frveregs
+      replace offname with this.value
+      replace off with fgoffs->off
+      else
+       select frveregs
+      replace offname with ''
+      replace off with ''
+      endif
+      form.changesmade = .t.
+
+   Procedure SOFF_OnChange1
+         FORM.CHANGESMADE = .T.
+
+   Procedure SFLEET_OnChange
+   FORM.CHANGESMADE = .T.
+
+endclass
+

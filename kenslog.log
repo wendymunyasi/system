@@ -1,2 +1,382 @@
 dBASE PLUS Project Explorer Log: kenslog.log
 Project name: kenslog
+
+=================================================================
+REBUILD ALL process started: 09/27/2021 20:20:00
+dBASE 2019 13.20  b2618 (11/26/2019-EN191126)
+Project Explorer b1071 (05/07/2019)
+-----------------------------------------------------------------
+Compile results for:
+C:\KENSLOG\IDSSYS\FMS.PRG
+0 warnings, 0 errors
+
+Compile results for:
+C:\KENSLOG\IDSSYS\KENSLOGS.MNU
+0 warnings, 0 errors
+
+C:\kenslog\idssys\kenslogs.mno copied to DEO Target: C:\kenslog\idssys\deploy\kenslogs.mno
+
+Compile results for:
+C:\KENSLOG\IDSSYS\KENSLOGS.WFM
+0 warnings, 0 errors
+
+C:\kenslog\idssys\KENSLOGS.wfo copied to DEO Target: C:\kenslog\idssys\deploy\KENSLOGS.wfo
+
+Compile results for:
+C:\KENSLOG\IDSSYS\QBEERR.PRG
+0 warnings, 0 errors
+
+C:\kenslog\idssys\qbeerR.pro copied to DEO Target: C:\kenslog\idssys\deploy\qbeerR.pro
+
+Compile results for:
+C:\KENSLOG\IDSSYS\SAMPPROC.PRG
+0 warnings, 0 errors
+
+C:\kenslog\idssys\SAMPPROC.PRo copied to DEO Target: C:\kenslog\idssys\deploy\SAMPPROC.PRo
+
+C:\kenslog\idssys\KENGROUP.DBF copied to DEO Target: C:\kenslog\idssys\deploy\KENGROUP.DBF
+
+C:\kenslog\idssys\KENGROUP.mdx copied to DEO Target: C:\kenslog\idssys\deploy\KENGROUP.mdx
+
+C:\kenslog\idssys\KENSLOG.DBF copied to DEO Target: C:\kenslog\idssys\deploy\KENSLOG.DBF
+
+C:\kenslog\idssys\KENSLOG.mdx copied to DEO Target: C:\kenslog\idssys\deploy\KENSLOG.mdx
+
+C:\kenslog\idssys\KENSLOG.dbt copied to DEO Target: C:\kenslog\idssys\deploy\KENSLOG.dbt
+
+C:\kenslog\idssys\KENSLOG1.DBF copied to DEO Target: C:\kenslog\idssys\deploy\KENSLOG1.DBF
+
+C:\kenslog\idssys\KENSLOGD.DBF copied to DEO Target: C:\kenslog\idssys\deploy\KENSLOGD.DBF
+
+C:\kenslog\idssys\KENSLOGD.mdx copied to DEO Target: C:\kenslog\idssys\deploy\KENSLOGD.mdx
+
+C:\kenslog\idssys\KENSLOGX.DBF copied to DEO Target: C:\kenslog\idssys\deploy\KENSLOGX.DBF
+
+C:\kenslog\idssys\KENTRYLG.DBF copied to DEO Target: C:\kenslog\idssys\deploy\KENTRYLG.DBF
+
+C:\kenslog\idssys\KENTRYLG.mdx copied to DEO Target: C:\kenslog\idssys\deploy\KENTRYLG.mdx
+
+C:\kenslog\idssys\querrors.DBF copied to DEO Target: C:\kenslog\idssys\deploy\querrors.DBF
+
+C:\kenslog\idssys\transerr.DBF copied to DEO Target: C:\kenslog\idssys\deploy\transerr.DBF
+
+Compile results for:
+C:\KENSLOG\IDSSYS\KENSLOG.DMD
+0 warnings, 0 errors
+
+C:\kenslog\idssys\KENSLOG.DMo copied to DEO Target: C:\kenslog\idssys\deploy\KENSLOG.DMo
+
+C:\kenslog\idssys\IMAGELOG.BMP copied to DEO Target: C:\kenslog\idssys\deploy\IMAGELOG.BMP
+
+C:\kenslog\idssys\Mugs.ico copied to DEO Target: C:\kenslog\idssys\deploy\Mugs.ico
+
+Compile results for:
+C:\KENSLOG\IDSSYS\PASSWDC.CC
+0 warnings, 0 errors
+
+C:\kenslog\idssys\PASSWDC.Co copied to DEO Target: C:\kenslog\idssys\deploy\PASSWDC.Co
+
+Compile results for:
+C:\KENSLOG\IDSSYS\PASSWORD.CC
+0 warnings, 0 errors
+
+C:\kenslog\idssys\PASSWORD.Co copied to DEO Target: C:\kenslog\idssys\deploy\PASSWORD.Co
+
+Compile results for:
+C:\KENSLOG\IDSSYS\PASWDCON.CC
+0 warnings, 0 errors
+
+C:\kenslog\idssys\PASWDCON.Co copied to DEO Target: C:\kenslog\idssys\deploy\PASWDCON.Co
+
+C:\kenslog\idssys\logo.bmp copied to DEO Target: C:\kenslog\idssys\deploy\logo.bmp
+
+Compile results for:
+C:\KENSLOG\IDSSYS\KENSLOG1.WFM
+0 warnings, 0 errors
+
+C:\kenslog\idssys\kenslog1.wfo copied to DEO Target: C:\kenslog\idssys\deploy\kenslog1.wfo
+
+Compile results for:
+C:\KENSLOG\IDSSYS\KENSLOG1.MNU
+0 warnings, 0 errors
+
+C:\kenslog\idssys\KENSLOG1.mno copied to DEO Target: C:\kenslog\idssys\deploy\KENSLOG1.mno
+
+Compile results for:
+C:\KENSLOG\IDSSYS\KENSLOG1.QBE
+0 warnings, 0 errors
+
+C:\kenslog\idssys\kenslog1.qbo copied to DEO Target: C:\kenslog\idssys\deploy\kenslog1.qbo
+
+Compile results for:
+C:\KENSLOG\IDSSYS\FGMAST.WFM
+0 warnings, 0 errors
+
+C:\kenslog\idssys\Fgmast.wfo copied to DEO Target: C:\kenslog\idssys\deploy\Fgmast.wfo
+
+Compile results for:
+C:\KENSLOG\IDSSYS\FGPRINT.WFM
+0 warnings, 0 errors
+
+C:\kenslog\idssys\Fgprint.wfo copied to DEO Target: C:\kenslog\idssys\deploy\Fgprint.wfo
+
+Compile results for:
+C:\KENSLOG\IDSSYS\KENSLOGD.WFM
+0 warnings, 0 errors
+
+C:\kenslog\idssys\KENSLOGD.wfo copied to DEO Target: C:\kenslog\idssys\deploy\KENSLOGD.wfo
+
+Compile results for:
+C:\KENSLOG\IDSSYS\KENSLOGF.WFM
+0 warnings, 0 errors
+
+C:\kenslog\idssys\kenslogf.wfo copied to DEO Target: C:\kenslog\idssys\deploy\kenslogf.wfo
+
+Compile results for:
+C:\KENSLOG\IDSSYS\KENSLOGL.WFM
+0 warnings, 0 errors
+
+C:\kenslog\idssys\KENSLOGL.wfo copied to DEO Target: C:\kenslog\idssys\deploy\KENSLOGL.wfo
+
+Compile results for:
+C:\KENSLOG\IDSSYS\NGLPARM.PRG
+0 warnings, 0 errors
+
+C:\kenslog\idssys\nglparm.pro copied to DEO Target: C:\kenslog\idssys\deploy\nglparm.pro
+
+Compile results for:
+C:\KENSLOG\IDSSYS\SHREST.PRG
+0 warnings, 0 errors
+
+C:\kenslog\idssys\SHREST.pro copied to DEO Target: C:\kenslog\idssys\deploy\SHREST.pro
+
+Compile results for:
+C:\KENSLOG\IDSSYS\FGMAST.QBE
+0 warnings, 0 errors
+
+C:\kenslog\idssys\fgmast.qbo copied to DEO Target: C:\kenslog\idssys\deploy\fgmast.qbo
+
+Compile results for:
+C:\KENSLOG\IDSSYS\FGPRINT.QBE
+0 warnings, 0 errors
+
+C:\kenslog\idssys\fgprint.qbo copied to DEO Target: C:\kenslog\idssys\deploy\fgprint.qbo
+
+Compile results for:
+C:\KENSLOG\IDSSYS\FGMAST.MNU
+0 warnings, 0 errors
+
+C:\kenslog\idssys\fgmast.mno copied to DEO Target: C:\kenslog\idssys\deploy\fgmast.mno
+
+Compile results for:
+C:\KENSLOG\IDSSYS\FGPRINT.MNU
+0 warnings, 0 errors
+
+C:\kenslog\idssys\fgprint.mno copied to DEO Target: C:\kenslog\idssys\deploy\fgprint.mno
+
+Compile results for:
+C:\KENSLOG\IDSSYS\KENSLOGD.MNU
+0 warnings, 0 errors
+
+C:\kenslog\idssys\KENSLOGD.mno copied to DEO Target: C:\kenslog\idssys\deploy\KENSLOGD.mno
+
+Compile results for:
+C:\KENSLOG\IDSSYS\KENSLOGD.QBE
+0 warnings, 0 errors
+
+C:\kenslog\idssys\KENSLOGd.QBo copied to DEO Target: C:\kenslog\idssys\deploy\KENSLOGd.QBo
+
+Compile results for:
+C:\KENSLOG\IDSSYS\NGLPARM.QBE
+0 warnings, 0 errors
+
+C:\kenslog\idssys\nglparm.qbo copied to DEO Target: C:\kenslog\idssys\deploy\nglparm.qbo
+
+Compile results for:
+C:\KENSLOG\IDSSYS\KENSLOGF.QBE
+0 warnings, 0 errors
+
+C:\kenslog\idssys\kenslogf.qbo copied to DEO Target: C:\kenslog\idssys\deploy\kenslogf.qbo
+
+Compile results for:
+C:\KENSLOG\IDSSYS\SEARCH.WFM
+0 warnings, 0 errors
+
+C:\kenslog\idssys\search.wfo copied to DEO Target: C:\kenslog\idssys\deploy\search.wfo
+
+Compile results for:
+C:\KENSLOG\IDSSYS\FRIGTMES.WFM
+0 warnings, 0 errors
+
+C:\kenslog\idssys\FRIGTMES.WFo copied to DEO Target: C:\kenslog\idssys\deploy\FRIGTMES.WFo
+
+Compile results for:
+C:\KENSLOG\IDSSYS\FRISTR.PRG
+0 warnings, 0 errors
+
+C:\kenslog\idssys\FRISTR.PRo copied to DEO Target: C:\kenslog\idssys\deploy\FRISTR.PRo
+
+Compile results for:
+C:\KENSLOG\IDSSYS\FGCOYPUP.PRG
+0 warnings, 0 errors
+
+C:\kenslog\idssys\FGCOYPUP.PRo copied to DEO Target: C:\kenslog\idssys\deploy\FGCOYPUP.PRo
+
+Compile results for:
+C:\KENSLOG\IDSSYS\DDEERR.PRG
+0 warnings, 0 errors
+
+C:\kenslog\idssys\DDEERR.PRo copied to DEO Target: C:\kenslog\idssys\deploy\DDEERR.PRo
+
+Compile results for:
+C:\KENSLOG\IDSSYS\BUTTONS.CC
+0 warnings, 0 errors
+
+C:\kenslog\idssys\BUTTONS.Co copied to DEO Target: C:\kenslog\idssys\deploy\BUTTONS.Co
+
+Compile results for:
+C:\KENSLOG\IDSSYS\DATABUTTONS.CC
+0 warnings, 0 errors
+
+C:\kenslog\idssys\DATABUTTONS.Co copied to DEO Target: C:\kenslog\idssys\deploy\DATABUTTONS.Co
+
+Compile results for:
+C:\KENSLOG\IDSSYS\SAMPLE.CFM
+0 warnings, 0 errors
+
+C:\kenslog\idssys\sample.cfo copied to DEO Target: C:\kenslog\idssys\deploy\sample.cfo
+
+Compile results for:
+C:\KENSLOG\IDSSYS\FRIGTMES.MNU
+0 warnings, 0 errors
+
+C:\kenslog\idssys\FRIGTMES.MNo copied to DEO Target: C:\kenslog\idssys\deploy\FRIGTMES.MNo
+
+Compile results for:
+C:\KENSLOG\IDSSYS\FRIGTMES.QBE
+0 warnings, 0 errors
+
+C:\kenslog\idssys\FRIGTMES.QBo copied to DEO Target: C:\kenslog\idssys\deploy\FRIGTMES.QBo
+
+Compile results for:
+C:\KENSLOG\IDSSYS\VENNAMES.WFM
+0 warnings, 0 errors
+
+C:\kenslog\idssys\VenNAMES.wfo copied to DEO Target: C:\kenslog\idssys\deploy\VenNAMES.wfo
+
+Compile results for:
+C:\KENSLOG\IDSSYS\VENNAMES.MNU
+0 warnings, 0 errors
+
+C:\kenslog\idssys\venNAMES.MNo copied to DEO Target: C:\kenslog\idssys\deploy\venNAMES.MNo
+
+Compile results for:
+C:\KENSLOG\IDSSYS\VNISTR.PRG
+0 warnings, 0 errors
+
+C:\kenslog\idssys\VNISTR.PRo copied to DEO Target: C:\kenslog\idssys\deploy\VNISTR.PRo
+
+C:\kenslog\idssys\MESSDLG.H copied to DEO Target: C:\kenslog\idssys\deploy\MESSDLG.H
+
+Compile results for:
+C:\KENSLOG\IDSSYS\VENNAMES.QBE
+0 warnings, 0 errors
+
+C:\kenslog\idssys\vennames.qbo copied to DEO Target: C:\kenslog\idssys\deploy\vennames.qbo
+
+Compile results for:
+C:\KENSLOG\IDSSYS\KENSLOG.WFM
+0 warnings, 0 errors
+
+Compile results for:
+C:\KENSLOG\IDSSYS\SETUP.PRG
+0 warnings, 0 errors
+
+C:\kenslog\idssys\setup.pro copied to DEO Target: C:\kenslog\idssys\deploy\setup.pro
+
+Compile results for:
+C:\KENSLOG\IDSSYS\START.PRG
+0 warnings, 0 errors
+
+C:\kenslog\idssys\START.pro copied to DEO Target: C:\kenslog\idssys\deploy\START.pro
+
+Compile results for:
+C:\KENSLOG\IDSSYS\GENERICMDIAPP.CC
+0 warnings, 0 errors
+
+C:\kenslog\idssys\GenericMDIApp.co copied to DEO Target: C:\kenslog\idssys\deploy\GenericMDIApp.co
+
+Compile results for:
+C:\KENSLOG\IDSSYS\KENALLOC.WFM
+0 warnings, 0 errors
+
+C:\kenslog\idssys\kenalloc.wfo copied to DEO Target: C:\kenslog\idssys\deploy\kenalloc.wfo
+
+Compile results for:
+C:\KENSLOG\IDSSYS\KENAUDIT.WFM
+0 warnings, 0 errors
+
+C:\kenslog\idssys\KENAUDIT.wfo copied to DEO Target: C:\kenslog\idssys\deploy\KENAUDIT.wfo
+
+Compile results for:
+C:\KENSLOG\IDSSYS\KENAUTOS.WFM
+0 warnings, 0 errors
+
+C:\kenslog\idssys\Kenautos.wfo copied to DEO Target: C:\kenslog\idssys\deploy\Kenautos.wfo
+
+Compile results for:
+C:\KENSLOG\IDSSYS\KENCOY.WFM
+0 warnings, 0 errors
+
+C:\kenslog\idssys\kencoy.wfo copied to DEO Target: C:\kenslog\idssys\deploy\kencoy.wfo
+
+Compile results for:
+C:\KENSLOG\IDSSYS\KENDDE.WFM
+0 warnings, 0 errors
+
+C:\kenslog\idssys\KENDDE.wfo copied to DEO Target: C:\kenslog\idssys\deploy\KENDDE.wfo
+
+Compile results for:
+C:\KENSLOG\IDSSYS\KENFC.WFM
+0 warnings, 0 errors
+
+C:\kenslog\idssys\kENFC.wfo copied to DEO Target: C:\kenslog\idssys\deploy\kENFC.wfo
+
+Compile results for:
+C:\KENSLOG\IDSSYS\KENMIS.WFM
+0 warnings, 0 errors
+
+C:\kenslog\idssys\KenMis.wfo copied to DEO Target: C:\kenslog\idssys\deploy\KenMis.wfo
+
+Compile results for:
+C:\KENSLOG\IDSSYS\KENPURCH.WFM
+0 warnings, 0 errors
+
+C:\kenslog\idssys\kenpurch.wfo copied to DEO Target: C:\kenslog\idssys\deploy\kenpurch.wfo
+
+Compile results for:
+C:\KENSLOG\IDSSYS\KENRECPY.WFM
+0 warnings, 0 errors
+
+C:\kenslog\idssys\KenRecPy.wfo copied to DEO Target: C:\kenslog\idssys\deploy\KenRecPy.wfo
+
+Compile results for:
+C:\KENSLOG\IDSSYS\KENSALES.WFM
+0 warnings, 0 errors
+
+C:\kenslog\idssys\kensales.wfo copied to DEO Target: C:\kenslog\idssys\deploy\kensales.wfo
+
+Compile results for:
+C:\KENSLOG\IDSSYS\KENSLOGR.WFM
+0 warnings, 0 errors
+
+C:\kenslog\idssys\KENSLOGR.wfo copied to DEO Target: C:\kenslog\idssys\deploy\KENSLOGR.wfo
+
+Process completed at: 20:20:05 (5 seconds elapsed)
+File compiles attempted: 56
+File compile errors: 0
+DEO files copied: 71
+Executable file: C:\kenslog\idssys\deploy\kenslog.exe
+Executable file size: 223,972
+C:\kenslog\idssys\deploy\kenslog.ini created or updated.
+

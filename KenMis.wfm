@@ -1,0 +1,85 @@
+////////////////////////////////////////////////////////////////////////////////
+// Output Filename: C:\KENSERVICE\IDSSYS\KENMIS_FCV.WFM                       //
+// Created By:      dBASE Form Converter Wizard                               //
+// Created On:      Monday September 27, 2021 At 06:23:23                     //
+// Object Count:    0                                                         //
+////////////////////////////////////////////////////////////////////////////////
+**************************************************************************
+*  PROGRAM:      KenMis.wfm
+*
+*
+*******************************************************************************
+
+
+
+create session
+set talk off
+set ldCheck off
+SET DATE TO BRITISH
+SET CENTURY ON
+_app.FrameWin.Visible = .F.
+_app.FrameWin.Text = "KenMis"
+set design off
+
+ON ERROR DO QBEERR WITH ERROR(), MESSAGE(),;
+PROGRAM(), LINENO()
+shell(.F.)
+** END HEADER -- do not remove this line*
+* Generated on 02/02/2005
+*
+parameter buser,blevel,blmisreports,bLGLEDGER,blmoney,bModal
+local f
+f = new KenMisFORM()
+if (bModal)
+   f.mdi = .F. && ensure not MDI
+   f.ReadModal()
+else
+   f.Open()
+endif
+CLASS KenMisFORM OF FORM
+   this.Metric = 6  // Pixels
+   this.OnOpen = CLASS::ONOPEN
+   this.MDI = .F.
+   this.OnClose = CLASS::ONCLOSE
+   this.ScrollBar = 0
+   this.Text = "M.I.S. REPORTS"
+   this.Top = 0
+   this.WindowState = 2
+   this.EscExit = .F.
+   this.MenuFile = "KenMis.MNU"
+   this.MousePointer = 1
+   this.SysMenu = .T.
+   this.Moveable = .F.
+   this.Minimize = .F.
+    this.Sizeable = .F.
+   this.Maximize = .f.
+   this.ColorNormal = "n+"
+   this.Left = 113
+   this.Height = 302
+   this.Width = 506
+
+
+
+
+   procedure OnOpen
+     form.bluser = buser
+      form.blevel = blevel
+      form.bLGLEDGER = bLGLEDGER
+      form.blmisreports = blmisreports
+    form.bLGLEDGER = bLGLEDGER
+    form.blmoney = blmoney
+    if empty(FORM.BLUSER) .or. empty(form.blevel)
+    quit
+    endif
+
+   ********************************************************************************
+
+   procedure OnClose
+   ********************************************************************************
+      form.close()
+close databases
+   ********************************************************************************
+
+
+ENDCLASS
+

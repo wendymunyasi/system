@@ -1,0 +1,180 @@
+******************************************************************************
+*  PROGRAM:      Fgcen.mnu
+*
+*  WRITTEN BY:   W Nyongesa
+*
+*  DATE:         03/2001
+*
+*  UPDATED:      12/2012
+*
+*  REVISION:     $Revision:   1.58  $
+*
+*  VERSION:      Visual dBASE
+*
+*  DESCRIPTION:  This is a menu file used by Fgcen.WFM for
+*                performing simple tasks.  It allows adding and deleting
+*                records, searching for a value in the Centre field of the
+*                current table viewed, and exiting the form in view.
+*
+*  PARAMETERS:   FormObj -- the form to which this menu will belong.
+*
+*  CALLS:        None
+*
+*  USAGE:        form.menuFile = "Fgcen.mnu"
+*
+*******************************************************************************
+#include <messdlg.h>
+
+** END HEADER -- do not remove this line*
+* Generated on 07/03/2001
+*
+Parameter FormObj
+NEW CentreS(FormObj,"Root")
+CLASS CentreS(FormObj,Name) OF MENUBAR(FormObj,Name)
+   this.Text = ""
+   this.OnInit = {;set procedure to SampProc.prg}
+
+   DEFINE MENU FILE OF THIS;
+       PROPERTY;
+         Text "&File"
+
+         DEFINE MENU EXIT OF THIS.FILE;
+                PROPERTY; 
+          StatusMessage "Return to the Previous Menu.",;
+          Text "&RETURN TO PREVIOUS MENU",;
+          SHORTCUT "F4",;
+          OnClick CLASS::ONEXIT
+  
+      
+       DEFINE MENU SEPARATOR000 OF THIS.FILE;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+
+            
+   DEFINE MENU QUITALL OF THIS.FILE;
+       PROPERTY; 
+          StatusMessage "Leave Kenserve System.",;
+          Text "Exit",;
+          SHORTCUT "F8",;
+          OnClick CLASS::ONQUITALL
+   DEFINE MENU Fgcen OF THIS;
+       PROPERTY;
+         Text "&Centre"
+
+         DEFINE MENU VIEWEDIT OF THIS.Fgcen;
+             PROPERTY;
+               OnClick CLASS::VIEWEDITONCLICK,;
+               Text "&Edit",;
+               Shortcut "Ctrl-E",;
+               StatusMessage "Edit data."
+
+         DEFINE MENU SEPARATOR1 OF THIS.Fgcen;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+
+    DEFINE MENU SEARCH OF THIS.Fgcen;
+             PROPERTY;
+               OnClick CLASS::SEARCHONCLICK,;
+               Text "&Search ...",;
+               Shortcut "Ctrl-S",;
+               StatusMessage "Search for a Centre."
+
+         DEFINE MENU SEPARATOR3 OF THIS.Fgcen;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+
+
+   DEFINE MENU REPORT OF THIS;
+       PROPERTY;
+         Text "&Reports"
+
+         DEFINE MENU ERRORCentreSREPORT OF THIS.REPORT;
+             PROPERTY;
+               OnClick {;create session ;set lock off ;report form Fgcen},;
+               Text "&1. List All Centres.",;
+               Shortcut "Ctrl-1"
+               
+                DEFINE MENU ERRORCentreused OF THIS.REPORT;
+             PROPERTY;
+               OnClick {;create session ;set lock off ;report form Fgcenuse},;
+               Text "&2. List Used Centres.",;
+               Shortcut "Ctrl-2"
+
+    
+
+
+   ****************************************************************************
+   procedure SearchOnClick
+
+   * Bring up Search.WFM.
+   ****************************************************************************
+   private searchForm, searchItem, saveRec, saveFilt, searchcoy,;
+           searchdiv, searchcen
+      local l1
+      select fgcen
+   if reccount() = 0                     && If table is empty, don't search
+      InformationMessage("This table is empty.", "Sorry!")
+   else
+      form.CheckChanged(.T.)
+      set procedure to Search.WFM additive
+      searchForm = new SearchForm()
+      searchForm.keyName = "CoyDivCen"  && Indicator of key expression
+        searchForm.formatting = "@X"
+      searchForm.mdi = .F.
+      searchItem = searchForm.Readmodal()
+      if type("searchItem") = "O" .and. searchItem.id <> 0
+                                      && If search wasn't cancelled
+         saveRec = Bookmark()            && save current record in case seek is
+                                      && unsuccessful
+       searchcoy = left(searchform.value,1)
+       l1 = left(searchform.value,2)
+       searchdiv = right(l1,1)
+         l1 = left(searchform.value,3)
+       searchcen = right(l1,1)
+       form.enabled = .F.
+       go top
+        seek searchcoy+searchdiv+searchcen
+* locate for period = searchcoy .and. doctype = searchdiv
+         if .not. found()
+            InformationMessage(FormatStr("Centre %1 \n Was not Found.",;
+                                         searchForm.value),;
+                               "Info")
+            if .not. eof()
+               go saverec()
+            else
+               go bottom
+            endif
+         endif
+         form.enabled = .T.
+      endif
+
+      searchForm.Release()
+      close procedure Search.WFM
+   endif
+
+
+   ***************************************************************************
+   procedure ViewEditOnClick
+   ****************************************************************************
+
+   form.ViewEdit()
+
+  
+   ****************************************************************************
+    procedure OnExit
+     form.Release()
+
+    procedure OnQuitAll
+   
+     form.Release()
+
+ quit
+
+
+ENDCLASS
+
+
+

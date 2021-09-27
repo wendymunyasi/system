@@ -1,0 +1,28 @@
+* Visual dBASE .QBE file 9
+CLOSE DATABASES
+on error do FGCOYSTR.PRG
+USE  \KENSERVICE\DATA\fgcla.DBF
+? levy   
+CLOSE DATABASES
+ON ERROR DO QBEERR WITH ERROR(), MESSAGE(),;
+PROGRAM(), LINENO()
+CLOSE DATABASES
+SET EXACT ON
+SELECT 1
+USE \KENSERVICE\DATA\fgcla.DBf
+SELECT 3
+USE \KENSERVICE\DATA\FGtyp.DBf order tag typ
+SELECT 2
+USE \KENSERVICE\DATA\fgclaS.DBF  EXCLUSIVE
+SELECT 4
+USE \KENSERVICE\DATA\fGtypS.DBF order tag name
+select 7
+use \kenservice\data\fGcoys.dbf
+SELECT 8
+USE \KENSERVICE\DATA\fgcla.DBf AGAIN ALIAS FGCLA3
+select 9
+use \kenservice\data\fgcla.dbf again alias temp
+select 1
+set relation to  typ into fGtyp, typname into fgtyps
+SELECT 1
+GO TOP

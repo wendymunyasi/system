@@ -1,0 +1,189 @@
+******************************************************************************
+*  PROGRAM:      Kendde.mnu
+*
+*  WRITTEN BY:   W Nyongesa
+*
+*  DATE:        05/2000
+*
+*  UPDATED:     01/2016
+*
+*  REVISION:     $Revision:   1.0 $
+*
+*  VERSION:      Visual dBASE
+*
+*  DESCRIPTION:  This menu file is used by Kendde.wfm for controlling the running 
+*                of the KENPAY Payroll system.
+*
+*  PARAMETERS:   FormObj -- the form to which this menu is attached.
+*
+*  CALLS:        None
+*
+*  USAGE:        form.menuFile = "Kendde.mnu"
+*
+*******************************************************************************
+#include <Messdlg.h>
+
+** END HEADER -- do not remove this line*
+* Generated on 17/10/2000
+*
+Parameter FormObj
+NEW KenddeMENU(FormObj,"Root")
+CLASS KenddeMENU(FormObj,Name) OF MENUBAR(FormObj,Name)
+
+
+   DEFINE MENU FILE OF THIS;
+       PROPERTY; 
+         Text "FILE"
+             
+   DEFINE MENU EXIT OF THIS.FILE;
+       PROPERTY; 
+          StatusMessage "Return to the Previous Menu.",;
+           ShortCut "F4",;
+          Text "&RETURN TO PREVIOUS MENU",;
+          SHORTCUT "F4",;
+          OnClick CLASS::ONEXIT
+  
+      
+       DEFINE MENU SEPARATOR000 OF THIS.FILE;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+
+            
+   DEFINE MENU QUITALL OF THIS.FILE;
+       PROPERTY; 
+          StatusMessage "Leave Kenserve System.",;
+          Text "EXIT",;
+          SHORTCUT "F8",;
+          OnClick CLASS::ONQUITALL
+ 
+        if (.not. validdrive("W:") .and.  .not. validdrive("Z:") .and.  .not. validdrive("Y:") .and. .not. validdrive("X:"));
+        .OR. BLEVEL = 1 .OR. BLEVEL = 3 
+    
+           DEFINE MENU transt2 OF THIS;
+             PROPERTY; 
+             Text "TRANSFERS"
+                   
+       IF BLEVEL = 1 .or. (blevel = 7 .or. blevel = 4 .or. blevel= 9 .or. (blevel = 3 .and. bladmin) .and. .not. BLNOTRANASSY)
+         DEFINE MENU ST13F1 OF THIS.transt2;
+             PROPERTY; 
+               Text "1. FROM  STORES/PITSTOP/TYC",;
+               OnClick {;do fg13.wfm WITH FORM.BLUSER,FORM.BLEVEL}
+               
+               DEFINE MENU SEPAR131201 OF THIS.transt2;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+ IF .NOT. BLNOREVPRV .and. blevel < 7
+        DEFINE MENU st12f1 OF THIS.transt2;
+             PROPERTY; 
+               Text "2. FROM FORECOURT STORES",;
+               OnClick {;do fg12.wfm WITH FORM.BLUSER,FORM.BLEVEL}
+               
+                 DEFINE MENU SEPAR13120XX1 OF THIS.transt2;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+               DEFINE MENU st12af1 OF THIS.transt2;
+             PROPERTY; 
+               Text "3. FUEL INTER-TANKS",;
+               OnClick {;do fg12a.wfm WITH FORM.BLUSER,FORM.BLEVEL}
+               
+                 DEFINE MENU SEPAR13120XX1a OF THIS.transt2;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+        ENDIF
+        ENDIF
+         IF .NOT. BLNOREVPRV
+             
+        DEFINE MENU st12f1RTRN OF THIS.transt2;
+             PROPERTY; 
+               Text "4. FROM BRANCH (STATION)",;
+               OnClick {;do APOBRNS.wfm WITH FORM.BLUSER,FORM.BLEVEL,form.blsalepit,form.blsaletyc}
+               
+               
+                       DEFINE MENU SEPAR13120XXZ1 OF THIS.transt2;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+               
+              IF (BLEVEL = 1 .AND. BLADMIN) .OR. (BLEVEL = 2 .AND. .not. BLADMIN)  .OR. (BLEVEL = 3 .AND.  BLADMIN)
+   
+      DEFINE MENU st12f1RTRNBR OF THIS.transt2;
+             PROPERTY; 
+               Text "5. TO BRANCH (STATION)",;
+               OnClick {;do APOBGRNS.wfm WITH FORM.BLUSER,FORM.BLEVEL,form.blsalepit,form.blsaletyc}
+      
+               DEFINE MENU SEPAR13120XXZ16 OF THIS.transt2;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+                 DEFINE MENU st12f1RTRNBR6 OF THIS.transt2;
+             PROPERTY; 
+               Text "6. GOODS RETURNED ADVICE(GRA) -- SUPPLIER",;
+               OnClick {;do apgras.wfm WITH FORM.BLUSER,FORM.BLEVEL,form.blsalepit,form.blsaletyc}
+  
+               ENDIF
+               endif
+     
+ *   
+  IF .NOT. BLNOREVPRV
+ if       BLEVEL = 1 .or. blevel = 2 .OR. (BLEVEL = 3 .and. bladmin) .or. blevel = 4 
+DEFINE MENU fgadust OF THIS;
+       PROPERTY; 
+         Text "ADJUST"
+           
+         DEFINE MENU COY1 OF THIS.fgadust;
+             PROPERTY; 
+               Text "STOCK",;
+               OnClick {;do fgadjs.wfm WITH FORM.BLUSER,FORM.BLEVEL,FORM.BLADMIN}
+               
+               endif
+       
+                if      BLEVEL = 2 .OR. BLEVEL = 1 .or. blevel = 4  .or. (blevel = 3 .and. bladmin)
+
+               DEFINE MENU fgaSSYL OF THIS;
+       PROPERTY; 
+         Text "ASSEMBLE"
+           
+         DEFINE MENU COY1 OF THIS.fgaSSYL;
+             PROPERTY; 
+               Text "STOCK",;
+               OnClick {;do FGASSY.wfm WITH FORM.BLUSER,FORM.BLEVEL}
+              
+      endif
+      
+       ENDIF
+       endif
+       
+      
+         
+   procedure ViewEditOnClick
+   
+   * Toggle View/Edit modes.
+   ****************************************************************************
+   
+   form.ViewEdit()
+   
+   
+   ****************************************************************************
+   
+   
+   ****************************************************************************
+   
+   procedure OnExit
+   
+  
+   ****************************************************************************
+   
+     form.Release()
+
+    procedure OnQuitAll
+   
+     form.Release()
+
+ quit
+
+   
+ENDCLASS

@@ -1,0 +1,538 @@
+******************************************************************************
+*  PROGRAM:      FGCLA.mnu
+*
+*  WRITTEN BY:   W Nyongesa
+*
+*  DATE:         03/2001
+*
+*  UPDATED:      09/2012
+*
+*  REVISION:     $Revision:   1.58  $
+*
+*  VERSION:      Visual dBASE
+*
+*  DESCRIPTION:  This is a menu file used by FGCLA.WFM for
+*                performing simple tasks.  It allows adding and deleting
+*                records, searching for a value in the Class field of the
+*                current table viewed, and exiting the form in view.
+*
+*  PARAMETERS:   FormObj -- the form to which this menu will belong.
+*
+*  CALLS:        None
+*
+*  USAGE:        form.menuFile = "FGCLA.mnu"
+*
+*******************************************************************************
+#include <messdlg.h>
+
+** END HEADER -- do not remove this line*
+* Generated on 07/03/2001
+*
+Parameter FormObj
+NEW FgClass(FormObj,"Root")
+CLASS FgClass(FormObj,Name) OF MENUBAR(FormObj,Name)
+   this.Text = ""
+   this.OnInit = {;set procedure to SampProc.prg}
+
+   DEFINE MENU FILE OF THIS;
+       PROPERTY;
+         Text "&File"
+
+         
+         DEFINE MENU EXIT OF THIS.FILE;
+                PROPERTY; 
+          StatusMessage "Return to the Previous Menu.",;
+          Text "&RETURN TO PREVIOUS MENU",;
+          SHORTCUT "F4",;
+          OnClick CLASS::ONEXIT
+  
+      
+       DEFINE MENU SEPARATOR000 OF THIS.FILE;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+
+            
+   DEFINE MENU QUITALL OF THIS.FILE;
+       PROPERTY; 
+          StatusMessage "Leave Kenserve System.",;
+          Text "Exit",;
+          SHORTCUT "F8",;
+          OnClick CLASS::ONQUITALL
+   DEFINE MENU FGCLA OF THIS;
+       PROPERTY;
+         Text "Class"
+
+         DEFINE MENU VIEWEDIT OF THIS.FGCLA;
+             PROPERTY;
+               OnClick FgClass::VIEWEDITONCLICK,;
+               Text "&Edit",;
+               Shortcut "Ctrl-E",;
+               StatusMessage "Edit data."
+
+         DEFINE MENU SEPARATOR1 OF THIS.FGCLA;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+
+         DEFINE MENU ADD OF THIS.FGCLA;
+             PROPERTY;
+               OnClick FgClass::ADDONCLICK,;
+               Text "&Add",;
+               Enabled .f.,;
+               Shortcut "Ctrl-A",;
+               StatusMessage "Add a new Class."
+
+         DEFINE MENU SEPARATOR2 OF THIS.FGCLA;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+
+         DEFINE MENU SEARCH OF THIS.FGCLA;
+             PROPERTY;
+               OnClick FgClass::SEARCHONCLICK,;
+               Text "&Search ...",;
+               Shortcut "Ctrl-S",;
+               ENABLED .T.,;
+               StatusMessage "Search for a Class."
+
+         DEFINE MENU SEPARATOR3 OF THIS.FGCLA;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+
+
+   DEFINE MENU REPORT OF THIS;
+       PROPERTY;
+         Text "&Reports"
+
+
+         DEFINE MENU SEPARATOR3REP1 OF THIS.REPORT;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+               
+         DEFINE MENU ERRORFgClassREPORT OF THIS.REPORT;
+             PROPERTY;
+               OnClick {;create session ;set lock off ;report form FGCLA},;
+               Text "1. List Classes by Item Type",;
+                ENABLED .t.
+ 
+
+  DEFINE MENU SEPARATOR3REP2 OF THIS.REPORT;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+               
+         DEFINE MENU FgClassREPORT2 OF THIS.REPORT;
+             PROPERTY;
+               OnClick {;create session ;set lock off ;report form FGCLAN},;
+               Text "1. List Classes by Item Name",;
+                ENABLED .t.
+                
+  DEFINE MENU SEPARATOR3REP3 OF THIS.REPORT;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+
+ 
+
+
+   ****************************************************************************
+   procedure SearchOnClick
+
+   * Bring up Search.WFM.
+   ****************************************************************************
+   private searchForm, searchItem, saveRec, saveFilt, searchtyp,;
+           searchcla, searchcen
+      local l1
+   if reccount() = 0                     && If table is empty, don't search
+      InformationMessage("This table is empty.", "Sorry!")
+   else
+      form.CheckChanged(.T.)
+      set procedure to Search.WFM additive
+      searchForm = new SearchForm()
+      searchForm.keyName = "Type+class"  && Indicator of key expression
+        searchForm.formatting = "@X"
+      searchForm.mdi = .F.
+      searchItem = searchForm.Readmodal()
+      if type("searchItem") = "O" .and. searchItem.id <> 0
+                                      && If search wasn't cancelled
+         saveRec = Bookmark()            && save current record in case seek is
+                                      && unsuccessful
+       searchtyp = left(searchform.value,2)
+       l1 = left(searchform.value,4)
+       searchcla = right(l1,2)
+     *  searchcen = right(searchform.value,6)
+       form.enabled = .F.
+       go top
+        seek searchtyp+searchcla
+* locate for period = searchtyp .and. doctype = searchcla
+         if .not. found()
+            InformationMessage(FormatStr("Class %1 \n Was not Found.",;
+                                         searchForm.value),;
+                               "Info")
+            if .not. eof()
+               go saverec()
+            else
+               go bottom
+            endif
+         endif
+         form.enabled = .T.
+      endif
+
+      searchForm.Release()
+      close procedure Search.WFM
+   endif
+
+
+  
+   ****************************************************************************
+   procedure AddOnClick
+
+   * Add new record.
+   ****************************************************************************
+   private addForm, newClass, inEditMode,PLTYP,PLTYPN
+           
+   form.CheckChanged(.T.)
+   if ConfirmationMessage("Are you sure you want to add a Class?",;
+                          "Confirmation") = YES
+       inEditMode = iif(type("form.curPage") <> "U", form.curPage.inEditMode,;
+                                                    form.inEditMode)
+      if .not. inEditMode
+         form.ViewEdit()                 && Make sure record is editable
+         endif
+
+                                            && and begin a transaction
+      form.changesMade = .F.            && Since we are adding a record
+          form.previousRecord = recno()   
+          local ltyp
+      PLTYP = form.PTYP
+      pcla2 = ""
+      pcla = ""
+      PLTYPN = FORM.PTYPNAME
+      IF .NOT. EMPTY(PLTYP) .AND. .NOT. EMPTY(PLTYPN)
+       local lcla
+    
+      select FGCLA3
+        set filter to typ = PLTYP
+       go bottom
+      if eof()
+      pCLA = "00"
+      else
+       pcla = cla
+       endif
+       set filter to
+       if pcla < "99"
+         pcla2 = val(pcla) + 1
+          if pcla2 < 10
+             pcla2 = "0"+str(pcla2,1)
+             else
+             pcla2 = str(pcla2,2)
+          endif
+       else
+          if pcla = "99"
+             pcla2 = "A0"
+          else
+                if left(pcla,1) = "A"  .and. right(pcla,1) < "9"
+                      pcla3  = val(right(pcla,1))+ 1
+                      pcla3  = str(pcla3,1)
+                      pcla2  = "A" + pcla3
+                 else
+                       if pcla = "A9"
+                         pcla2 = "B0"
+                         else
+                   if left(pcla,1) = "B" .and. right(pcla,1) < "9"
+                   pcla3 = val(right(pcla,1))+ 1
+                   pcla3 = str(pcla3,1)
+                   pcla2 = "B" + pcla3
+                    
+ else
+                       if pcla = "B9"
+                         pcla2 = "C0"
+                         else
+                   if left(pcla,1) = "C" .and. right(pcla,1) < "9"
+                   pcla3 = val(right(pcla,1))+ 1
+                   pcla3 = str(pcla3,1)
+                   pcla2 = "C" + pcla3
+ else
+                       if pcla = "C9"
+                         pcla2 = "D0"
+                         else
+                   if left(pcla,1) = "D" .and. right(pcla,1) < "9"
+                   pcla3 = val(right(pcla,1))+ 1
+                   pcla3 = str(pcla3,1)
+                   pcla2 = "D" + pcla3
+ else
+                       if pcla = "D9"
+                         pcla2 = "E0"
+                         else
+                   if left(pcla,1) = "E" .and. right(pcla,1) < "9"
+                   pcla3 = val(right(pcla,1))+ 1
+                   pcla3 = str(pcla3,1)
+                   pcla2 = "E" + pcla3
+ else
+                       if pcla = "E9"
+                         pcla2 = "F0"
+                         else
+                   if left(pcla,1) = "F" .and. right(pcla,1) < "9"
+                   pcla3 = val(right(pcla,1))+ 1
+                   pcla3 = str(pcla3,1)
+                   pcla2 = "F" + pcla3
+ else
+                       if pcla = "F9"
+                         pcla2 = "G0"
+                         else
+                   if left(pcla,1) = "G" .and. right(pcla,1) < "9"
+                   pcla3 = val(right(pcla,1))+ 1
+                   pcla3 = str(pcla3,1)
+                   pcla2 = "G" + pcla3
+ else
+                       if pcla = "G9"
+                         pcla2 = "H0"
+                         else
+                   if left(pcla,1) = "H" .and. right(pcla,1) < "9"
+                   pcla3 = val(right(pcla,1))+ 1
+                   pcla3 = str(pcla3,1)
+                   pcla2 = "H" + pcla3
+ else
+                       if pcla = "H9"
+                         pcla2 = "I0"
+                         else
+                   if left(pcla,1) = "I" .and. right(pcla,1) < "9"
+                   pcla3 = val(right(pcla,1))+ 1
+                   pcla3 = str(pcla3,1)
+                   pcla2 = "I" + pcla3
+ else
+                       if pcla = "I9"
+                         pcla2 = "J0"
+                         else
+                   if left(pcla,1) = "J" .and. right(pcla,1) < "9"
+                   pcla3 = val(right(pcla,1))+ 1
+                   pcla3 = str(pcla3,1)
+                   pcla2 = "J" + pcla3
+ else
+                       if pcla = "J9"
+                         pcla2 = "K0"
+                         else
+                   if left(pcla,1) = "K" .and. right(pcla,1) < "9"
+                   pcla3 = val(right(pcla,1))+ 1
+                   pcla3 = str(pcla3,1)
+                   pcla2 = "K" + pcla3
+ else
+                       if pcla = "K9"
+                         pcla2 = "L0"
+                         else
+                   if left(pcla,1) = "L" .and. right(pcla,1) < "9"
+                   pcla3 = val(right(pcla,1))+ 1
+                   pcla3 = str(pcla3,1)
+                   pcla2 = "L" + pcla3
+ else
+                       if pcla = "L9"
+                         pcla2 = "M0"
+                         else
+                   if left(pcla,1) = "M" .and. right(pcla,1) < "9"
+                   pcla3 = val(right(pcla,1))+ 1
+                   pcla3 = str(pcla3,1)
+                   pcla2 = "M" + pcla3
+ else
+                       if pcla = "M9"
+                         pcla2 = "N0"
+                         else
+                   if left(pcla,1) = "N" .and. right(pcla,1) < "9"
+                   pcla3 = val(right(pcla,1))+ 1
+                   pcla3 = str(pcla3,1)
+                   pcla2 = "N" + pcla3
+ else
+                       if pcla = "N9"
+                         pcla2 = "O0"
+                         else
+                   if left(pcla,1) = "O" .and. right(pcla,1) < "9"
+                   pcla3 = val(right(pcla,1))+ 1
+                   pcla3 = str(pcla3,1)
+                   pcla2 = "O" + pcla3
+ else
+                       if pcla = "O9"
+                         pcla2 = "P0"
+                         else
+                   if left(pcla,1) = "P" .and. right(pcla,1) < "9"
+                   pcla3 = val(right(pcla,1))+ 1
+                   pcla3 = str(pcla3,1)
+                   pcla2 = "P" + pcla3
+ else
+                       if pcla = "P9"
+                         pcla2 = "Q0"
+                         else
+                   if left(pcla,1) = "Q" .and. right(pcla,1) < "9"
+                   pcla3 = val(right(pcla,1))+ 1
+                   pcla3 = str(pcla3,1)
+                   pcla2 = "Q" + pcla3
+ else
+                       if pcla = "Q9"
+                         pcla2 = "R0"
+                         else
+                   if left(pcla,1) = "R" .and. right(pcla,1) < "9"
+                   pcla3 = val(right(pcla,1))+ 1
+                   pcla3 = str(pcla3,1)
+                   pcla2 = "R" + pcla3
+ else
+                       if pcla = "R9"
+                         pcla2 = "S0"
+                         else
+                   if left(pcla,1) = "S" .and. right(pcla,1) < "9"
+                   pcla3 = val(right(pcla,1))+ 1
+                   pcla3 = str(pcla3,1)
+                   pcla2 = "S" + pcla3
+ else
+                       if pcla = "S9"
+                         pcla2 = "T0"
+                         else
+                   if left(pcla,1) = "T" .and. right(pcla,1) < "9"
+                   pcla3 = val(right(pcla,1))+ 1
+                   pcla3 = str(pcla3,1)
+                   pcla2 = "T" + pcla3
+ else
+                       if pcla = "T9"
+                         pcla2 = "U0"
+                         else
+                   if left(pcla,1) = "U" .and. right(pcla,1) < "9"
+                   pcla3 = val(right(pcla,1))+ 1
+                   pcla3 = str(pcla3,1)
+                   pcla2 = "U" + pcla3
+ else
+                       if pcla = "U9"
+                         pcla2 = "V0"
+                         else
+                   if left(pcla,1) = "V" .and. right(pcla,1) < "9"
+                   pcla3 = val(right(pcla,1))+ 1
+                   pcla3 = str(pcla3,1)
+                   pcla2 = "V" + pcla3
+ else
+                       if pcla = "V9"
+                         pcla2 = "W0"
+                         else
+                   if left(pcla,1) = "W" .and. right(pcla,1) < "9"
+                   pcla3 = val(right(pcla,1))+ 1
+                   pcla3 = str(pcla3,1)
+                   pcla2 = "W" + pcla3
+ else
+                       if pcla = "W9"
+                         pcla2 = "X0"
+                         else
+                   if left(pcla,1) = "X" .and. right(pcla,1) < "9"
+                   pcla3 = val(right(pcla,1))+ 1
+                   pcla3 = str(pcla3,1)
+                   pcla2 = "X" + pcla3
+ else
+                       if pcla = "X9"
+                         pcla2 = "Y0"
+                         else
+                   if left(pcla,1) = "Y" .and. right(pcla,1) < "9"
+                   pcla3 = val(right(pcla,1))+ 1
+                   pcla3 = str(pcla3,1)
+                   pcla2 = "Y" + pcla3
+ else
+                       if pcla = "Y9"
+                         pcla2 = "Z0"
+                         else
+                   if left(pcla,1) = "Z" .and. right(pcla,1) < "9"
+                   pcla3 = val(right(pcla,1))+ 1
+                   pcla3 = str(pcla3,1)
+                   pcla2 = "Z" + pcla3
+                   ELSE
+                   ROLLBACK()
+                   
+                 quit
+       ENDIF
+       ENDIF
+       ENDIF
+       ENDIF
+       ENDIF
+       ENDIF
+       ENDIF
+       ENDIF
+       ENDIF
+       ENDIF
+       ENDIF
+       ENDIF
+       ENDIF
+       ENDIF
+       ENDIF
+       ENDIF
+       ENDIF
+       ENDIF
+       ENDIF
+       ENDIF
+       ENDIF
+       ENDIF
+       ENDIF
+       ENDIF
+       ENDIF
+       ENDIF
+       ENDIF
+       ENDIF
+       ENDIF
+       ENDIF
+       ENDIF
+       ENDIF
+       ENDIF
+       ENDIF
+       ENDIF
+       ENDIF
+       ENDIF
+       ENDIF
+       ENDIF
+       ENDIF
+       ENDIF
+       ENDIF
+       ENDIF
+       ENDIF
+       ENDIF
+       ENDIF
+       ENDIF
+       ENDIF
+       ENDIF
+       ENDIF
+       ENDIF
+       ENDIF
+       ENDIF
+
+      local lerr2
+      lerr2 = .f.
+      if LEFT(FORM.ptyp,1) = "0" .and. (Pcla2 > "50" .OR. .NOT. RIGHT(PCLA2,1) = "0")
+      lerr2 = .t.
+      endif
+      if .not. lerr2
+          SELECT FGCLA
+      append blank
+      Replace typ with form.PTYP
+      Replace cla with PCLA2
+         select FGTYP
+         seek FGCLA->typ
+         select FGCLA
+         replace vat with fgtyp->rate
+      form.LNAMEENTRY.setfocus()
+     endif
+     ENDIF
+     endif
+   ***************************************************************************
+   procedure ViewEditOnClick
+   ****************************************************************************
+
+   form.ViewEdit()
+
+  ****************************************************************************
+    procedure OnExit
+     form.Release()
+
+    procedure OnQuitAll
+   
+     form.Release()
+
+ quit
+
+
+ENDCLASS
+
+
+

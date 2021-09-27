@@ -1,4 +1,4 @@
-Project File generated 09/26/2021 16:25:28
+Project File generated 09/27/2021 20:20:36
 
 [Project]
 Name=kenslog
@@ -22,7 +22,8 @@ runtimeinbuild=0
 bdeoption=1
 
 [Contents]
-kenslog.wfm,0,0,0, 
+kenslog.wfm,0,0,0,0
+FMS.prg,1,0,0, 
 kenslogs.mnu,1,0,1,0
 KENSLOGS.wfm,1,0,1,0
 qbeerR.prg,1,0,1,0
@@ -75,6 +76,20 @@ venNAMES.MNU,1,0,1,0
 VNISTR.PRG,1,0,1,0
 MESSDLG.H,0,0,1,0
 vennames.qbe,1,0,1,0
+setup.prg,1,0,1,0
+START.prg,1,0,1,0
+GenericMDIApp.cc,1,0,1,0
+kenalloc.wfm,1,0,1,0
+KENAUDIT.wfm,1,0,1,0
+Kenautos.wfm,1,0,1,0
+kencoy.wfm,1,0,1,0
+KENDDE.wfm,1,0,1,0
+kENFC.wfm,1,0,1,0
+KenMis.wfm,1,0,1,0
+kenpurch.wfm,1,0,1,0
+KenRecPy.wfm,1,0,1,0
+kensales.wfm,1,0,1,0
+KENSLOGR.wfm,1,0,1,0
 
 [DEO]
 DEO0=C:\kenslog\idssys\deploy
@@ -116,7 +131,7 @@ IncDispGroup=true
 IncUninsEntry=true
 IncDesktopEntry=false
 IncQuickEntry=false
-ENLicense=
+ENLicense=C:\kenslog\idssys\LICENSE.TXT
 ENBefore=
 ENAfter=
 DELicense=
@@ -165,60 +180,76 @@ CURRENTVSF=windows
 IMAGETOPRIGHT=
 IMAGESIDE=
 Icon1={group}\{#AppName} >> {app}\kenslog.exe
-Files1=KENGROUP.DBF >> DestDir: {app}
-Files2=KENSLOG.DBF >> DestDir: {app}
-Files3=KENSLOG.mdx >> DestDir: {app}
-Files4=KENSLOG.dbt >> DestDir: {app}
-Files5=KENSLOG1.DBF >> DestDir: {app}
-Files6=KENSLOGD.DBF >> DestDir: {app}
-Files7=KENSLOGD.mdx >> DestDir: {app}
-Files8=KENSLOGX.DBF >> DestDir: {app}
-Files9=KENTRYLG.DBF >> DestDir: {app}
-Files10=KENTRYLG.mdx >> DestDir: {app}
-Files11=querrors.DBF >> DestDir: {app}
-Files12=transerr.DBF >> DestDir: {app}
-Files13=IMAGELOG.BMP >> DestDir: {app}
-Files14=Mugs.ico >> DestDir: {app}
-Files15=kenslogs.mnO >> DestDir: {app}
-Files16=KENSLOGS.wfO >> DestDir: {app}
-Files17=qbeerR.prO >> DestDir: {app}
-Files18=SAMPPROC.PRO >> DestDir: {app}
+Files1=FMS.prO >> DestDir: {app}
+Files2=kenslogs.mnO >> DestDir: {app}
+Files3=KENSLOGS.wfO >> DestDir: {app}
+Files4=qbeerR.prO >> DestDir: {app}
+Files5=SAMPPROC.PRO >> DestDir: {app}
+Files6=KENGROUP.DBF >> DestDir: {app}
+Files7=KENGROUP.mdx >> DestDir: {app}
+Files8=KENSLOG.DBF >> DestDir: {app}
+Files9=KENSLOG.mdx >> DestDir: {app}
+Files10=KENSLOG.dbt >> DestDir: {app}
+Files11=KENSLOG1.DBF >> DestDir: {app}
+Files12=KENSLOGD.DBF >> DestDir: {app}
+Files13=KENSLOGD.mdx >> DestDir: {app}
+Files14=KENSLOGX.DBF >> DestDir: {app}
+Files15=KENTRYLG.DBF >> DestDir: {app}
+Files16=KENTRYLG.mdx >> DestDir: {app}
+Files17=querrors.DBF >> DestDir: {app}
+Files18=transerr.DBF >> DestDir: {app}
 Files19=KENSLOG.DMO >> DestDir: {app}
-Files20=PASSWDC.CO >> DestDir: {app}
-Files21=PASSWORD.CO >> DestDir: {app}
-Files22=PASWDCON.CO >> DestDir: {app}
-Files23=C:\kenslog\idssys\deploy\kenslog.exe >> DestDir: {app}
-Files24=logo.bmp >> DestDir: {app}
-Files25=kenslog1.wfO >> DestDir: {app}
-Files26=KENSLOG1.mnO >> DestDir: {app}
-Files27=kenslog1.qbO >> DestDir: {app}
-Files28=Fgmast.wfO >> DestDir: {app}
-Files29=Fgprint.wfO >> DestDir: {app}
-Files30=KENSLOGD.wfO >> DestDir: {app}
-Files31=kenslogf.wfO >> DestDir: {app}
-Files32=KENSLOGL.wfO >> DestDir: {app}
-Files33=nglparm.prO >> DestDir: {app}
-Files34=SHREST.prO >> DestDir: {app}
-Files35=fgmast.qbO >> DestDir: {app}
-Files36=fgprint.qbO >> DestDir: {app}
-Files37=fgmast.mnO >> DestDir: {app}
-Files38=fgprint.mnO >> DestDir: {app}
-Files39=KENSLOGD.mnO >> DestDir: {app}
-Files40=KENSLOGd.QBO >> DestDir: {app}
-Files41=nglparm.qbO >> DestDir: {app}
-Files42=kenslogf.qbO >> DestDir: {app}
-Files43=search.wfO >> DestDir: {app}
-Files44=FRIGTMES.WFO >> DestDir: {app}
-Files45=FRISTR.PRO >> DestDir: {app}
-Files46=FGCOYPUP.PRO >> DestDir: {app}
-Files47=DDEERR.PRO >> DestDir: {app}
-Files48=BUTTONS.CO >> DestDir: {app}
-Files49=DATABUTTONS.CO >> DestDir: {app}
-Files50=sample.cfO >> DestDir: {app}
-Files51=FRIGTMES.MNO >> DestDir: {app}
-Files52=FRIGTMES.QBO >> DestDir: {app}
-Files53=VenNAMES.wfO >> DestDir: {app}
-Files54=venNAMES.MNO >> DestDir: {app}
-Files55=VNISTR.PRO >> DestDir: {app}
-Files56=MESSDLG.H >> DestDir: {app}
-Files57=vennames.qbO >> DestDir: {app}
+Files20=IMAGELOG.BMP >> DestDir: {app}
+Files21=Mugs.ico >> DestDir: {app}
+Files22=PASSWDC.CO >> DestDir: {app}
+Files23=PASSWORD.CO >> DestDir: {app}
+Files24=PASWDCON.CO >> DestDir: {app}
+Files25=logo.bmp >> DestDir: {app}
+Files26=kenslog1.wfO >> DestDir: {app}
+Files27=KENSLOG1.mnO >> DestDir: {app}
+Files28=kenslog1.qbO >> DestDir: {app}
+Files29=Fgmast.wfO >> DestDir: {app}
+Files30=Fgprint.wfO >> DestDir: {app}
+Files31=KENSLOGD.wfO >> DestDir: {app}
+Files32=kenslogf.wfO >> DestDir: {app}
+Files33=KENSLOGL.wfO >> DestDir: {app}
+Files34=nglparm.prO >> DestDir: {app}
+Files35=SHREST.prO >> DestDir: {app}
+Files36=fgmast.qbO >> DestDir: {app}
+Files37=fgprint.qbO >> DestDir: {app}
+Files38=fgmast.mnO >> DestDir: {app}
+Files39=fgprint.mnO >> DestDir: {app}
+Files40=KENSLOGD.mnO >> DestDir: {app}
+Files41=KENSLOGd.QBO >> DestDir: {app}
+Files42=nglparm.qbO >> DestDir: {app}
+Files43=kenslogf.qbO >> DestDir: {app}
+Files44=search.wfO >> DestDir: {app}
+Files45=FRIGTMES.WFO >> DestDir: {app}
+Files46=FRISTR.PRO >> DestDir: {app}
+Files47=FGCOYPUP.PRO >> DestDir: {app}
+Files48=DDEERR.PRO >> DestDir: {app}
+Files49=BUTTONS.CO >> DestDir: {app}
+Files50=DATABUTTONS.CO >> DestDir: {app}
+Files51=sample.cfO >> DestDir: {app}
+Files52=FRIGTMES.MNO >> DestDir: {app}
+Files53=FRIGTMES.QBO >> DestDir: {app}
+Files54=VenNAMES.wfO >> DestDir: {app}
+Files55=venNAMES.MNO >> DestDir: {app}
+Files56=VNISTR.PRO >> DestDir: {app}
+Files57=MESSDLG.H >> DestDir: {app}
+Files58=vennames.qbO >> DestDir: {app}
+Files59=setup.prO >> DestDir: {app}
+Files60=START.prO >> DestDir: {app}
+Files61=GenericMDIApp.cO >> DestDir: {app}
+Files62=kenalloc.wfO >> DestDir: {app}
+Files63=KENAUDIT.wfO >> DestDir: {app}
+Files64=Kenautos.wfO >> DestDir: {app}
+Files65=kencoy.wfO >> DestDir: {app}
+Files66=KENDDE.wfO >> DestDir: {app}
+Files67=kENFC.wfO >> DestDir: {app}
+Files68=KenMis.wfO >> DestDir: {app}
+Files69=kenpurch.wfO >> DestDir: {app}
+Files70=KenRecPy.wfO >> DestDir: {app}
+Files71=kensales.wfO >> DestDir: {app}
+Files72=KENSLOGR.wfO >> DestDir: {app}
+Files73=C:\kenslog\idssys\deploy\kenslog.exe >> DestDir: {app}

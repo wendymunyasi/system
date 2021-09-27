@@ -156,7 +156,7 @@ class NextButton(f,n) of Pushbutton(f,n) custom
    ****************************************************************************
    procedure OnClick
    ****************************************************************************
-   if .not. empty(dbf())        && if a table is open in the current workarea
+   if .not. empty(dbf()) .and. .not. eof()       && if a table is open in the current workarea
       skip
       if eof()
          go bottom
@@ -183,7 +183,7 @@ class PrevButton(f,n) of Pushbutton(f,n) custom
    ****************************************************************************
    procedure OnClick
    ****************************************************************************
-   if .not. empty(dbf())        && if a table is open in the current workarea
+   if .not. empty(dbf()) .and. .not. bof()       && if a table is open in the current workarea
       skip - 1
       if bof()
          go top

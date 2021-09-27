@@ -1,0 +1,3694 @@
+////////////////////////////////////////////////////////////////////////////////
+// Output Filename: C:\KENSERVICE\IDSSYS\FGCOY_FCV.WFM                        //
+// Created By:      dBASE Form Converter Wizard                               //
+// Created On:      Sunday June 12, 2016 At 10:23:43                          //
+// Object Count:    157                                                       //
+////////////////////////////////////////////////////////////////////////////////
+*******************************************************************************
+*  PROGRAM:      Fgcoy.wfm
+*
+*  WRITTEN BY:   W Nyongesa
+*
+*  DATE:         05/2000
+*
+*  UPDATED:     01/2016
+*
+*  REVISION:     $Revision:   1.0
+*
+*  VERSION:      Visual dBASE
+*
+*  DESCRIPTION:  This program maintains the companies master file
+*
+*  PARAMETERS:   None
+*
+*  CALLS:        Fgcoy.mnu         (Menu file)
+*                BUTTONS.CC          (Custom Controls file)
+*                Company qbe         (View of tables)
+*
+*  USAGE:        DO Fgcoy.wfm
+*
+*******************************************************************************
+#include <messdlg.h>
+shell(.F.)
+create session
+set talk off
+SET DATE TO BRITISH
+_app.FrameWin.Visible = .F.
+_app.FrameWin.Text = "Fgcoy"
+set design off
+set century on
+set ldCheck off && To avoid language driver conflicts
+#define Maxcoy 999
+** END HEADER -- do not remove this line
+//
+// Generated on 27/09/2021
+//
+parameter bUser,bLevel,bModal
+local f
+f = new FgcoyFORM()
+if (bModal)
+   f.mdi = false // ensure not MDI
+   f.readModal()
+else
+   f.open()
+endif
+
+class FgcoyFORM of FORM
+   with (this)
+      onClose = class::ONCLOSE
+      open = class::OPEN
+      metric = 6	// Pixels
+      colorNormal = "N+"
+      height = 709.0
+      left = 0.0
+      top = 5.0
+      width = 764.0
+      text = "Companies Maintenance"
+      topMost = true
+      windowState = 2	// Normal
+      autoSize = true
+      autoCenter = true
+      mdi = false
+      sizeable = false
+      moveable = false
+      view = "Fgcoy.QBE"
+      menuFile = "FGCOY.MNU"
+      escExit = false
+      mousePointer = 1	// Arrow
+      maximize = false
+      minimize = false
+   endwith
+
+   this.CODETEXT = new TEXTLABEL(this)
+   with (this.CODETEXT)
+      height = 21.0
+      left = 0.0
+      top = 17.0
+      width = 36.0
+      text = "Coy:"
+      colorNormal = "B/BtnFace"
+      fontName = "MS Sans Serif"
+      fontSize = 8.0
+      fontBold = true
+      alignVertical = 1	// Middle
+      alignHorizontal = 2	// Right
+   endwith
+
+   this.COYCOMBOBOX = new COMBOBOX(this)
+   with (this.COYCOMBOBOX)
+      dataLink = "Fgcoy->Coy"
+      enabled = false
+      height = 23.0
+      left = 36.0
+      top = 17.0
+      width = 48.0
+      fontName = "Arial Black"
+      fontSize = 8.0
+      fontBold = true
+      colorNormal = "B/BtnFace"
+      dataSource = 'array {"1","2","3"}'
+      style = 2	// DropDownList
+      dropDownHeight = 132.0
+   endwith
+
+   this.TEXT5 = new TEXTLABEL(this)
+   with (this.TEXT5)
+      height = 21.0
+      left = 96.0
+      top = 17.0
+      width = 48.0
+      text = "Name:"
+      colorNormal = "B/BtnFace"
+      fontName = "MS Sans Serif"
+      fontSize = 8.0
+      fontBold = true
+      alignVertical = 1	// Middle
+      alignHorizontal = 2	// Right
+   endwith
+
+   this.LNAMEENTRY = new ENTRYFIELD(this)
+   with (this.LNAMEENTRY)
+      onChange = class::CHANGE_NAME
+      valid = class::VALID_NAME
+      dataLink = "Fgcoy->name"
+      enabled = false
+      height = 17.0
+      left = 156.0
+      top = 17.0
+      width = 300.0
+      function = "!"
+      colorNormal = "N/BtnFace"
+      colorHighLight = "B+/W*"
+      fontName = "MS Sans Serif"
+      fontSize = 8.0
+      fontBold = true
+      validErrorMsg = "Name of Company Required"
+   endwith
+
+   this.TEXT9 = new TEXTLABEL(this)
+   with (this.TEXT9)
+      height = 17.0
+      left = 468.0
+      top = 17.0
+      width = 72.0
+      text = "Short Name:"
+      colorNormal = "B/BtnFace"
+      fontName = "MS Sans Serif"
+      fontSize = 8.0
+      fontBold = true
+      alignVertical = 1	// Middle
+      alignHorizontal = 2	// Right
+   endwith
+
+   this.SNAME = new ENTRYFIELD(this)
+   with (this.SNAME)
+      onChange = class::SNAME_ONCHANGE
+      dataLink = "Fgcoy->SNAME"
+      enabled = false
+      height = 17.0
+      left = 553.0
+      top = 17.0
+      width = 132.0
+      function = "!"
+      colorNormal = "N/BtnFace"
+      colorHighLight = "B+/W*"
+      fontName = "MS Sans Serif"
+      fontSize = 8.0
+      fontBold = true
+      validErrorMsg = "Name of Company Required"
+   endwith
+
+   this.SNAMETEXT = new TEXTLABEL(this)
+   with (this.SNAMETEXT)
+      height = 17.0
+      left = 0.0
+      top = 43.0
+      width = 60.0
+      text = "Station:"
+      colorNormal = "B/BtnFace"
+      fontName = "MS Sans Serif"
+      fontSize = 8.0
+      fontBold = true
+      alignVertical = 1	// Middle
+      alignHorizontal = 2	// Right
+   endwith
+
+   this.STREETENTRY = new ENTRYFIELD(this)
+   with (this.STREETENTRY)
+      onChange = class::CHANGESMADE
+      dataLink = "Fgcoy->Street"
+      enabled = false
+      height = 18.0
+      left = 60.0
+      top = 43.0
+      width = 396.0
+      function = "!"
+      colorNormal = "N/BtnFace"
+      colorHighLight = "B+/W*"
+      fontName = "MS Sans Serif"
+      fontSize = 8.0
+      fontBold = true
+   endwith
+
+   this.TEXT4 = new TEXTLABEL(this)
+   with (this.TEXT4)
+      height = 17.0
+      left = 468.0
+      top = 35.0
+      width = 60.0
+      text = "Location:"
+      colorNormal = "B/BtnFace"
+      fontName = "MS Sans Serif"
+      fontSize = 8.0
+      fontBold = true
+      alignVertical = 1	// Middle
+      alignHorizontal = 2	// Right
+   endwith
+
+   this.LOCATIONENTRY = new ENTRYFIELD(this)
+   with (this.LOCATIONENTRY)
+      onChange = class::CHANGESMADE
+      dataLink = "Fgcoy->Location"
+      enabled = false
+      height = 18.0
+      left = 576.0
+      top = 43.0
+      width = 144.0
+      function = "!"
+      colorNormal = "N/BtnFace"
+      colorHighLight = "B+/W*"
+      fontName = "MS Sans Serif"
+      fontSize = 7.0
+      fontBold = true
+   endwith
+
+   this.TEXT3 = new TEXTLABEL(this)
+   with (this.TEXT3)
+      height = 17.0
+      left = 0.0
+      top = 64.0
+      width = 60.0
+      text = "Address:"
+      colorNormal = "B/BtnFace"
+      fontName = "MS Sans Serif"
+      fontSize = 8.0
+      fontBold = true
+      alignVertical = 1	// Middle
+      alignHorizontal = 2	// Right
+   endwith
+
+   this.ADDRESSENTRY = new ENTRYFIELD(this)
+   with (this.ADDRESSENTRY)
+      onChange = class::CHANGESMADE
+      dataLink = "Fgcoy->Address"
+      enabled = false
+      height = 17.0
+      left = 60.0
+      top = 64.0
+      width = 396.0
+      function = "!"
+      colorNormal = "N/BtnFace"
+      colorHighLight = "B+/W*"
+      fontName = "MS Sans Serif"
+      fontSize = 8.0
+      fontBold = true
+   endwith
+
+   this.TEXT7 = new TEXTLABEL(this)
+   with (this.TEXT7)
+      height = 19.0
+      left = 468.0
+      top = 57.0
+      width = 96.0
+      text = "Stn Category:"
+      colorNormal = "B/BtnFace"
+      fontName = "MS Sans Serif"
+      fontSize = 9.0
+      fontBold = true
+      alignVertical = 1	// Middle
+      alignHorizontal = 2	// Right
+   endwith
+
+   this.YSTN = new COMBOBOX(this)
+   with (this.YSTN)
+      onChange = class::YSTN_ONCHANGE
+      dataLink = "FGCOY->STNNAME"
+      enabled = false
+      height = 25.0
+      left = 576.0
+      top = 60.0
+      width = 75.0
+      fontName = "Arial Black"
+      fontSize = 9.0
+      fontBold = true
+      colorNormal = "B/BtnFace"
+      dataSource = "FIELD FGSTNS->NAME"
+      style = 2	// DropDownList
+      dropDownHeight = 132.0
+   endwith
+
+   this.SSTN = new ENTRYFIELD(this)
+   with (this.SSTN)
+      dataLink = "Fgcoy->STN"
+      enabled = false
+      height = 24.0
+      left = 660.0
+      top = 60.0
+      width = 60.0
+      colorNormal = "N/BtnFace"
+      colorHighLight = "B+/W*"
+      fontName = "MS Sans Serif"
+      fontSize = 9.0
+      fontBold = true
+   endwith
+
+   this.FAXTEXT = new TEXTLABEL(this)
+   with (this.FAXTEXT)
+      height = 17.0
+      left = 12.0
+      top = 85.0
+      width = 48.0
+      text = "Faxes:"
+      colorNormal = "B/BtnFace"
+      fontName = "MS Sans Serif"
+      fontSize = 8.0
+      fontBold = true
+      alignVertical = 1	// Middle
+      alignHorizontal = 2	// Right
+   endwith
+
+   this.FAXDISPLAY = new ENTRYFIELD(this)
+   with (this.FAXDISPLAY)
+      onChange = class::CHANGESMADE
+      dataLink = "Fgcoy->Fax"
+      enabled = false
+      height = 17.0
+      left = 60.0
+      top = 85.0
+      width = 78.0
+      colorNormal = "N/BtnFace"
+      colorHighLight = "B+/W*"
+      fontName = "MS Sans Serif"
+      fontSize = 8.0
+      fontBold = true
+   endwith
+
+   this.EMAILTEXT = new TEXTLABEL(this)
+   with (this.EMAILTEXT)
+      height = 17.0
+      left = 144.0
+      top = 85.0
+      width = 60.0
+      text = "E-Mail:"
+      colorNormal = "B/BtnFace"
+      fontName = "MS Sans Serif"
+      fontSize = 8.0
+      fontBold = true
+      alignVertical = 1	// Middle
+      alignHorizontal = 2	// Right
+   endwith
+
+   this.EMAILDISPLAY = new ENTRYFIELD(this)
+   with (this.EMAILDISPLAY)
+      onChange = class::CHANGESMADE
+      dataLink = "Fgcoy->Email"
+      enabled = false
+      height = 17.0
+      left = 207.0
+      top = 85.0
+      width = 105.0
+      colorNormal = "N/BtnFace"
+      colorHighLight = "B+/W*"
+      fontName = "MS Sans Serif"
+      fontSize = 8.0
+      fontBold = true
+   endwith
+
+   this.PHONETEXT = new TEXTLABEL(this)
+   with (this.PHONETEXT)
+      height = 17.0
+      left = 312.0
+      top = 85.0
+      width = 48.0
+      text = "Phone:"
+      colorNormal = "B/BtnFace"
+      fontName = "MS Sans Serif"
+      fontSize = 8.0
+      fontBold = true
+      alignVertical = 1	// Middle
+      alignHorizontal = 2	// Right
+   endwith
+
+   this.PHONEDISPLAY = new ENTRYFIELD(this)
+   with (this.PHONEDISPLAY)
+      onChange = class::CHANGESMADE
+      dataLink = "Fgcoy->Phone"
+      enabled = false
+      height = 17.0
+      left = 366.0
+      top = 85.0
+      width = 90.0
+      colorNormal = "N/BtnFace"
+      colorHighLight = "B+/W*"
+      fontName = "MS Sans Serif"
+      fontSize = 8.0
+      fontBold = true
+   endwith
+
+   this.TEXT1 = new TEXTLABEL(this)
+   with (this.TEXT1)
+      height = 17.0
+      left = 12.0
+      top = 104.0
+      width = 48.0
+      text = "Pin No.:"
+      colorNormal = "B/BtnFace"
+      fontName = "MS Sans Serif"
+      fontSize = 8.0
+      fontBold = true
+      alignVertical = 1	// Middle
+      alignHorizontal = 2	// Right
+   endwith
+
+   this.PINENTRY = new ENTRYFIELD(this)
+   with (this.PINENTRY)
+      onChange = class::CHANGESMADE
+      dataLink = "Fgcoy->Pin"
+      enabled = false
+      height = 17.0
+      left = 60.0
+      top = 104.0
+      width = 120.0
+      function = "!"
+      colorNormal = "N/BtnFace"
+      colorHighLight = "B+/W*"
+      fontName = "MS Sans Serif"
+      fontSize = 8.0
+      fontBold = true
+   endwith
+
+   this.TEXT2 = new TEXTLABEL(this)
+   with (this.TEXT2)
+      height = 17.0
+      left = 198.0
+      top = 104.0
+      width = 60.0
+      text = "VAT No.:"
+      colorNormal = "B/BtnFace"
+      fontName = "MS Sans Serif"
+      fontSize = 8.0
+      fontBold = true
+      alignVertical = 1	// Middle
+      alignHorizontal = 2	// Right
+   endwith
+
+   this.VATENTRY = new ENTRYFIELD(this)
+   with (this.VATENTRY)
+      onChange = class::CHANGESMADE
+      dataLink = "Fgcoy->Vat"
+      enabled = false
+      height = 17.0
+      left = 255.0
+      top = 104.0
+      width = 105.0
+      function = "!"
+      colorNormal = "N/BtnFace"
+      colorHighLight = "B+/W*"
+      fontName = "MS Sans Serif"
+      fontSize = 8.0
+      fontBold = true
+   endwith
+
+   this.RECTANGLE1 = new RECTANGLE(this)
+   with (this.RECTANGLE1)
+      left = 12.0
+      top = 123.0
+      width = 126.0
+      height = 38.0
+      text = "Automatic Backup"
+      fontName = "MS Sans Serif"
+      fontSize = 9.0
+      fontBold = true
+   endwith
+
+   this.YBACK = new RADIOBUTTON(this)
+   with (this.YBACK)
+      onGotFocus = class::YBACK_ONGOTFOCUS
+      dataLink = "FGCOY->FIX_PRICE"
+      enabled = false
+      height = 19.0
+      left = 24.0
+      top = 140.0
+      width = 48.0
+      text = "Yes"
+      fontName = "MS Sans Serif"
+      fontSize = 9.0
+      fontBold = true
+      group = true
+   endwith
+
+   this.NBACK = new RADIOBUTTON(this)
+   with (this.NBACK)
+      onGotFocus = class::NBACK_ONGOTFOCUS
+      dataLink = "FGCOY->FIX_PRICE"
+      enabled = false
+      height = 19.0
+      left = 78.0
+      top = 140.0
+      width = 48.0
+      text = "No"
+      fontName = "MS Sans Serif"
+      fontSize = 9.0
+      fontBold = true
+   endwith
+
+   this.RECTANGLE2 = new RECTANGLE(this)
+   with (this.RECTANGLE2)
+      left = 144.0
+      top = 128.0
+      width = 108.0
+      height = 38.0
+      text = "FC System"
+      fontName = "MS Sans Serif"
+      fontSize = 9.0
+      fontBold = true
+   endwith
+
+   this.YFC = new RADIOBUTTON(this)
+   with (this.YFC)
+      onGotFocus = class::YFC_ONGOTFOCUS
+      dataLink = "Fgcoy->Pospost"
+      enabled = false
+      height = 19.0
+      left = 156.0
+      top = 145.0
+      width = 42.0
+      text = "Yes"
+      fontName = "MS Sans Serif"
+      fontSize = 9.0
+      fontBold = true
+      group = true
+   endwith
+
+   this.NFC = new RADIOBUTTON(this)
+   with (this.NFC)
+      onGotFocus = class::NFC_ONGOTFOCUS
+      dataLink = "Fgcoy->Pospost"
+      enabled = false
+      height = 19.0
+      left = 204.0
+      top = 145.0
+      width = 42.0
+      text = "No"
+      fontName = "MS Sans Serif"
+      fontSize = 9.0
+      fontBold = true
+   endwith
+
+   this.RECTANGLE3 = new RECTANGLE(this)
+   with (this.RECTANGLE3)
+      left = 258.0
+      top = 127.0
+      width = 102.0
+      height = 38.0
+      text = "Shifts Per Day"
+      fontName = "MS Sans Serif"
+      fontSize = 9.0
+      fontBold = true
+   endwith
+
+   this.YSD = new RADIOBUTTON(this)
+   with (this.YSD)
+      onGotFocus = class::YSD_ONGOTFOCUS
+      dataLink = "FGCOY->NO_SHIFTS"
+      enabled = false
+      height = 19.0
+      left = 270.0
+      top = 144.0
+      width = 31.0
+      text = "1"
+      fontName = "MS Sans Serif"
+      fontSize = 9.0
+      fontBold = true
+      group = true
+   endwith
+
+   this.NSD = new RADIOBUTTON(this)
+   with (this.NSD)
+      onGotFocus = class::NSD_ONGOTFOCUS
+      dataLink = "FGCOY->NO_SHIFTS"
+      enabled = false
+      height = 19.0
+      left = 315.0
+      top = 143.0
+      width = 36.0
+      text = "2"
+      fontName = "MS Sans Serif"
+      fontSize = 9.0
+      fontBold = true
+   endwith
+
+   this.RECTANGLE16 = new RECTANGLE(this)
+   with (this.RECTANGLE16)
+      left = 366.0
+      top = 128.0
+      width = 120.0
+      height = 38.0
+      text = "One-Shift Holiday"
+      fontName = "MS Sans Serif"
+      fontSize = 9.0
+      fontBold = true
+   endwith
+
+   this.YHOLIDAY = new RADIOBUTTON(this)
+   with (this.YHOLIDAY)
+      onGotFocus = class::YHOLIDAY_ONGOTFOCUS
+      dataLink = "FGCOY->CONTACT"
+      enabled = false
+      height = 19.0
+      left = 378.0
+      top = 145.0
+      width = 42.0
+      text = "Yes"
+      fontName = "MS Sans Serif"
+      fontSize = 9.0
+      fontBold = true
+      group = true
+   endwith
+
+   this.NHOLIDAY = new RADIOBUTTON(this)
+   with (this.NHOLIDAY)
+      onGotFocus = class::NHOLIDAY_ONGOTFOCUS
+      dataLink = "FGCOY->CONTACT"
+      enabled = false
+      height = 19.0
+      left = 432.0
+      top = 145.0
+      width = 48.0
+      text = "No"
+      fontName = "MS Sans Serif"
+      fontSize = 9.0
+      fontBold = true
+   endwith
+
+   this.Y13 = new RADIOBUTTON(this)
+   with (this.Y13)
+      onGotFocus = class::Y13_ONGOTFOCUS
+      dataLink = "FGCOY->F1DR"
+      enabled = false
+      height = 19.0
+      left = 156.0
+      top = 220.0
+      width = 42.0
+      text = "13"
+      fontName = "MS Sans Serif"
+      fontSize = 9.0
+      fontBold = true
+      group = true
+   endwith
+
+   this.Y12 = new RADIOBUTTON(this)
+   with (this.Y12)
+      onGotFocus = class::Y12_ONGOTFOCUS
+      dataLink = "FGCOY->F1DR"
+      enabled = false
+      height = 19.0
+      left = 204.0
+      top = 220.0
+      width = 48.0
+      text = "12"
+      fontName = "MS Sans Serif"
+      fontSize = 9.0
+      fontBold = true
+   endwith
+
+   this.Y14 = new RADIOBUTTON(this)
+   with (this.Y14)
+      onGotFocus = class::Y14_ONGOTFOCUS
+      dataLink = "FGCOY->F1DR"
+      enabled = false
+      height = 19.0
+      left = 264.0
+      top = 220.0
+      width = 48.0
+      text = "14"
+      fontName = "MS Sans Serif"
+      fontSize = 9.0
+      fontBold = true
+   endwith
+
+   this.Y7 = new RADIOBUTTON(this)
+   with (this.Y7)
+      onGotFocus = class::Y7_ONGOTFOCUS
+      dataLink = "FGCOY->F1DR"
+      enabled = false
+      height = 19.0
+      left = 318.0
+      top = 220.0
+      width = 42.0
+      text = "07"
+      fontName = "MS Sans Serif"
+      fontSize = 9.0
+      fontBold = true
+   endwith
+
+   this.Y6 = new RADIOBUTTON(this)
+   with (this.Y6)
+      onGotFocus = class::Y6_ONGOTFOCUS
+      dataLink = "FGCOY->F1DR"
+      enabled = false
+      height = 19.0
+      left = 372.0
+      top = 220.0
+      width = 42.0
+      text = "06"
+      fontName = "MS Sans Serif"
+      fontSize = 9.0
+      fontBold = true
+   endwith
+
+   this.YFP = new RADIOBUTTON(this)
+   with (this.YFP)
+      onGotFocus = class::YFP_ONGOTFOCUS
+      dataLink = "FGCOY->STREAM"
+      enabled = false
+      height = 19.0
+      left = 414.0
+      top = 347.0
+      width = 48.0
+      text = "Yes"
+      fontName = "MS Sans Serif"
+      fontSize = 9.0
+      fontBold = true
+      group = true
+   endwith
+
+   this.NFP = new RADIOBUTTON(this)
+   with (this.NFP)
+      onGotFocus = class::NFP_ONGOTFOCUS
+      dataLink = "FGCOY->STREAM"
+      enabled = false
+      height = 19.0
+      left = 468.0
+      top = 347.0
+      width = 42.0
+      text = "No"
+      fontName = "MS Sans Serif"
+      fontSize = 9.0
+      fontBold = true
+   endwith
+
+   this.SYSY = new RADIOBUTTON(this)
+   with (this.SYSY)
+      onGotFocus = class::SYSY_ONGOTFOCUS
+      dataLink = "FGCOY->w1cash"
+      enabled = false
+      height = 19.0
+      left = 192.0
+      top = 271.0
+      width = 48.0
+      text = "Yes"
+      fontName = "MS Sans Serif"
+      fontSize = 9.0
+      fontBold = true
+      group = true
+   endwith
+
+   this.SYSN = new RADIOBUTTON(this)
+   with (this.SYSN)
+      onGotFocus = class::SYSN_ONGOTFOCUS
+      dataLink = "FGCOY->w1cash"
+      enabled = false
+      height = 19.0
+      left = 246.0
+      top = 271.0
+      width = 60.0
+      text = "No"
+      fontName = "MS Sans Serif"
+      fontSize = 9.0
+      fontBold = true
+   endwith
+
+   this.SEMY = new RADIOBUTTON(this)
+   with (this.SEMY)
+      onGotFocus = class::SEMY_ONGOTFOCUS
+      dataLink = "FGCOY->c1cash"
+      enabled = false
+      height = 19.0
+      left = 192.0
+      top = 247.0
+      width = 48.0
+      text = "Yes"
+      fontName = "MS Sans Serif"
+      fontSize = 9.0
+      fontBold = true
+      group = true
+   endwith
+
+   this.SEMN = new RADIOBUTTON(this)
+   with (this.SEMN)
+      onGotFocus = class::SEMN_ONGOTFOCUS
+      dataLink = "FGCOY->c1cash"
+      enabled = false
+      height = 19.0
+      left = 246.0
+      top = 247.0
+      width = 60.0
+      text = "No"
+      fontName = "MS Sans Serif"
+      fontSize = 9.0
+      fontBold = true
+   endwith
+
+   this.SLX300LPT1 = new RADIOBUTTON(this)
+   with (this.SLX300LPT1)
+      onGotFocus = class::SLX300LPT1_ONGOTFOCUS
+      dataLink = "FGCOY->AUTHNAME"
+      enabled = false
+      height = 19.0
+      left = 114.0
+      top = 298.0
+      width = 96.0
+      text = "LX 300 LPT1"
+      fontName = "MS Sans Serif"
+      fontSize = 9.0
+      fontBold = true
+      group = true
+   endwith
+
+   this.SLX300USB = new RADIOBUTTON(this)
+   with (this.SLX300USB)
+      onGotFocus = class::SLX300USB_ONGOTFOCUS
+      dataLink = "FGCOY->AUTHNAME"
+      enabled = false
+      height = 19.0
+      left = 222.0
+      top = 298.0
+      width = 96.0
+      text = "LX 300 USB"
+      fontName = "MS Sans Serif"
+      fontSize = 9.0
+      fontBold = true
+   endwith
+
+   this.SLASERDESKJET1 = new RADIOBUTTON(this)
+   with (this.SLASERDESKJET1)
+      onGotFocus = class::SLASERDESKJET1_ONGOTFOCUS
+      dataLink = "FGCOY->AUTHNAME"
+      enabled = false
+      height = 19.0
+      left = 324.0
+      top = 298.0
+      width = 120.0
+      text = "LASER DESKJET"
+      fontName = "MS Sans Serif"
+      fontSize = 9.0
+      fontBold = true
+   endwith
+
+   this.SSP1 = new RADIOBUTTON(this)
+   with (this.SSP1)
+      onGotFocus = class::SSP1_ONGOTFOCUS
+      dataLink = "FGCOY->AGENAME"
+      enabled = false
+      height = 19.0
+      left = 114.0
+      top = 323.0
+      width = 96.0
+      text = "LX 300 LPT1"
+      fontName = "MS Sans Serif"
+      fontSize = 9.0
+      fontBold = true
+      group = true
+   endwith
+
+   this.SSP2 = new RADIOBUTTON(this)
+   with (this.SSP2)
+      onGotFocus = class::SSP2_ONGOTFOCUS
+      dataLink = "FGCOY->AGENAME"
+      enabled = false
+      height = 19.0
+      left = 222.0
+      top = 323.0
+      width = 96.0
+      text = "LX 300 USB"
+      fontName = "MS Sans Serif"
+      fontSize = 9.0
+      fontBold = true
+   endwith
+
+   this.SSP3 = new RADIOBUTTON(this)
+   with (this.SSP3)
+      onGotFocus = class::SSP3_ONGOTFOCUS
+      dataLink = "FGCOY->AGENAME"
+      enabled = false
+      height = 19.0
+      left = 324.0
+      top = 323.0
+      width = 120.0
+      text = "LASER DESKJET"
+      fontName = "MS Sans Serif"
+      fontSize = 9.0
+      fontBold = true
+   endwith
+
+   this.YGLPD = new RADIOBUTTON(this)
+   with (this.YGLPD)
+      onGotFocus = class::YGLPD_ONGOTFOCUS
+      dataLink = "FGCOY->DISCNAME"
+      enabled = false
+      height = 19.0
+      left = 660.0
+      top = 451.0
+      width = 42.0
+      text = "Yes"
+      fontName = "MS Sans Serif"
+      fontSize = 9.0
+      fontBold = true
+      group = true
+   endwith
+
+   this.NGLPD = new RADIOBUTTON(this)
+   with (this.NGLPD)
+      onGotFocus = class::NGLPD_ONGOTFOCUS
+      dataLink = "FGCOY->DISCNAME"
+      enabled = false
+      height = 19.0
+      left = 708.0
+      top = 451.0
+      width = 36.0
+      text = "No"
+      fontName = "MS Sans Serif"
+      fontSize = 9.0
+      fontBold = true
+   endwith
+
+   this.SLHDY = new RADIOBUTTON(this)
+   with (this.SLHDY)
+      onGotFocus = class::SLHDY_ONGOTFOCUS
+      dataLink = "FGCOY->PURTNAME"
+      enabled = false
+      height = 19.0
+      left = 210.0
+      top = 374.0
+      width = 36.0
+      text = "Yes"
+      fontName = "MS Sans Serif"
+      fontSize = 9.0
+      fontBold = true
+      group = true
+   endwith
+
+   this.SLHDN = new RADIOBUTTON(this)
+   with (this.SLHDN)
+      onGotFocus = class::SLHDN_ONGOTFOCUS
+      dataLink = "FGCOY->PURTNAME"
+      enabled = false
+      height = 19.0
+      left = 252.0
+      top = 374.0
+      width = 42.0
+      text = "No"
+      fontName = "MS Sans Serif"
+      fontSize = 9.0
+      fontBold = true
+   endwith
+
+   this.FCY = new RADIOBUTTON(this)
+   with (this.FCY)
+      onGotFocus = class::FCY_ONGOTFOCUS
+      onChange = class::FCY_ONCHANGE
+      dataLink = "FGCOY->FC"
+      enabled = false
+      height = 19.0
+      left = 360.0
+      top = 374.0
+      width = 48.0
+      text = "Yes"
+      fontName = "MS Sans Serif"
+      fontSize = 9.0
+      fontBold = true
+      group = true
+   endwith
+
+   this.FCN = new RADIOBUTTON(this)
+   with (this.FCN)
+      onGotFocus = class::FCN_ONGOTFOCUS
+      onChange = class::FCN_ONCHANGE
+      dataLink = "FGCOY->FC"
+      enabled = false
+      height = 19.0
+      left = 414.0
+      top = 374.0
+      width = 42.0
+      text = "No"
+      fontName = "MS Sans Serif"
+      fontSize = 9.0
+      fontBold = true
+   endwith
+
+   this.TEXT12 = new TEXTLABEL(this)
+   with (this.TEXT12)
+      height = 17.0
+      left = 12.0
+      top = 406.0
+      width = 96.0
+      text = "Currency Name:"
+      colorNormal = "B/BtnFace"
+      fontName = "MS Sans Serif"
+      fontSize = 9.0
+      fontBold = true
+      alignVertical = 1	// Middle
+      alignHorizontal = 2	// Right
+   endwith
+
+   this.SCURR = new ENTRYFIELD(this)
+   with (this.SCURR)
+      onChange = class::CHANGESMADE
+      dataLink = "FGCOY->CURRNAME"
+      enabled = false
+      height = 17.0
+      left = 114.0
+      top = 406.0
+      width = 66.0
+      function = "!"
+      colorNormal = "N/BtnFace"
+      colorHighLight = "B+/W*"
+      fontName = "MS Sans Serif"
+      fontSize = 9.0
+      fontBold = true
+   endwith
+
+   this.TEXT13 = new TEXTLABEL(this)
+   with (this.TEXT13)
+      height = 17.0
+      left = 210.0
+      top = 406.0
+      width = 96.0
+      text = "Tax ID Name:"
+      colorNormal = "B/BtnFace"
+      fontName = "MS Sans Serif"
+      fontSize = 9.0
+      fontBold = true
+      alignVertical = 1	// Middle
+      alignHorizontal = 2	// Right
+   endwith
+
+   this.STAX = new ENTRYFIELD(this)
+   with (this.STAX)
+      onChange = class::CHANGESMADE
+      dataLink = "FGCOY->COUNTRY"
+      enabled = false
+      height = 17.0
+      left = 312.0
+      top = 406.0
+      width = 66.0
+      function = "!"
+      colorNormal = "N/BtnFace"
+      colorHighLight = "B+/W*"
+      fontName = "MS Sans Serif"
+      fontSize = 9.0
+      fontBold = true
+   endwith
+
+   this.RFY = new RADIOBUTTON(this)
+   with (this.RFY)
+      onGotFocus = class::rfy_ONGOTFOCUS
+      dataLink = "FGCOY->RCASHFUEL"
+      enabled = false
+      height = 19.0
+      left = 149.0
+      top = 429.0
+      width = 48.0
+      text = "Yes"
+      fontName = "MS Sans Serif"
+      fontSize = 9.0
+      fontBold = true
+      group = true
+   endwith
+
+   this.RFN = new RADIOBUTTON(this)
+   with (this.RFN)
+      onGotFocus = class::rfn_ONGOTFOCUS
+      dataLink = "FGCOY->RCASHFUEL"
+      enabled = false
+      height = 19.0
+      left = 210.0
+      top = 429.0
+      width = 42.0
+      text = "No"
+      fontName = "MS Sans Serif"
+      fontSize = 9.0
+      fontBold = true
+   endwith
+
+   this.yveh = new RADIOBUTTON(this)
+   with (this.yveh)
+      onGotFocus = class::yveh_ONGOTFOCUS
+      dataLink = "FGCOY->VEH"
+      enabled = false
+      height = 19.0
+      left = 151.0
+      top = 451.0
+      width = 48.0
+      text = "Yes"
+      fontName = "MS Sans Serif"
+      fontSize = 9.0
+      fontBold = true
+      group = true
+   endwith
+
+   this.nveh = new RADIOBUTTON(this)
+   with (this.nveh)
+      onGotFocus = class::nveh_ONGOTFOCUS
+      dataLink = "FGCOY->VEH"
+      enabled = false
+      height = 19.0
+      left = 212.0
+      top = 451.0
+      width = 36.0
+      text = "No"
+      fontName = "MS Sans Serif"
+      fontSize = 9.0
+      fontBold = true
+   endwith
+
+   this.SALY = new RADIOBUTTON(this)
+   with (this.SALY)
+      onGotFocus = class::SALY_ONGOTFOCUS
+      dataLink = "FGCOY->PHSNAME"
+      enabled = false
+      height = 19.0
+      left = 156.0
+      top = 349.0
+      width = 48.0
+      text = "Yes"
+      fontName = "MS Sans Serif"
+      fontSize = 9.0
+      fontBold = true
+      group = true
+   endwith
+
+   this.SALN = new RADIOBUTTON(this)
+   with (this.SALN)
+      onGotFocus = class::SALN_ONGOTFOCUS
+      dataLink = "FGCOY->PHSNAME"
+      enabled = false
+      height = 19.0
+      left = 210.0
+      top = 349.0
+      width = 48.0
+      text = "No"
+      fontName = "MS Sans Serif"
+      fontSize = 9.0
+      fontBold = true
+   endwith
+
+   this.YCSV = new RADIOBUTTON(this)
+   with (this.YCSV)
+      onGotFocus = class::YCSV_ONGOTFOCUS
+      dataLink = "FGCOY->SHIPNAME"
+      enabled = false
+      height = 19.0
+      left = 144.0
+      top = 493.0
+      width = 48.0
+      text = "Yes"
+      fontName = "MS Sans Serif"
+      fontSize = 9.0
+      fontBold = true
+      group = true
+   endwith
+
+   this.NCSV = new RADIOBUTTON(this)
+   with (this.NCSV)
+      onGotFocus = class::NCSV_ONGOTFOCUS
+      dataLink = "FGCOY->SHIPNAME"
+      enabled = false
+      height = 19.0
+      left = 198.0
+      top = 493.0
+      width = 48.0
+      text = "No"
+      fontName = "MS Sans Serif"
+      fontSize = 9.0
+      fontBold = true
+   endwith
+
+   this.OCSV = new RADIOBUTTON(this)
+   with (this.OCSV)
+      onGotFocus = class::OCSV_ONGOTFOCUS
+      dataLink = "FGCOY->SHIPNAME"
+      enabled = false
+      height = 19.0
+      left = 252.0
+      top = 493.0
+      width = 48.0
+      text = "Orc"
+      fontName = "MS Sans Serif"
+      fontSize = 9.0
+      fontBold = true
+   endwith
+
+   this.SPLANTT = new TEXTLABEL(this)
+   with (this.SPLANTT)
+      height = 24.0
+      left = 312.0
+      top = 494.0
+      width = 126.0
+      text = "Location/Plant Code:"
+      colorNormal = "B/BtnFace"
+      fontName = "MS Sans Serif"
+      fontSize = 9.0
+      fontBold = true
+      alignVertical = 1	// Middle
+      alignHorizontal = 2	// Right
+   endwith
+
+   this.SPLANT = new COMBOBOX(this)
+   with (this.SPLANT)
+      onChange = class::SPLANT_ONCHANGE
+      dataLink = "FGCOY->PLANT_CODE"
+      enabled = false
+      height = 25.0
+      left = 444.0
+      top = 494.0
+      width = 90.0
+      fontName = "Arial Black"
+      fontSize = 9.0
+      fontBold = true
+      colorNormal = "B/BtnFace"
+      dataSource = "FIELD FGPLANTS->PLANT_CODE"
+      style = 1	// DropDown
+      dropDownHeight = 132.0
+   endwith
+
+   this.SPLANTN = new ENTRYFIELD(this)
+   with (this.SPLANTN)
+      dataLink = "FGPLANT->NAME"
+      enabled = false
+      height = 20.0
+      left = 240.0
+      top = 519.0
+      width = 300.0
+      colorNormal = "N/BtnFace"
+      colorHighLight = "B+/W*"
+      fontName = "MS Sans Serif"
+      fontSize = 8.0
+      fontBold = true
+   endwith
+
+   this.PREVBUTTON = new PUSHBUTTON(this)
+   with (this.PREVBUTTON)
+      onClick = class::PREVIOUS
+      height = 26.0
+      left = 8.0
+      top = 663.0
+      width = 85.0
+      text = "&PREVIOUS"
+      fontName = "MS Sans Serif"
+      fontSize = 8.0
+      fontBold = true
+   endwith
+
+   this.NEXTBUTTON = new PUSHBUTTON(this)
+   with (this.NEXTBUTTON)
+      onClick = class::NEXT
+      height = 26.0
+      left = 98.0
+      top = 663.0
+      width = 85.0
+      text = "&NEXT"
+      fontName = "MS Sans Serif"
+      fontSize = 8.0
+      fontBold = true
+   endwith
+
+   this.FIRSTBUTTON = new PUSHBUTTON(this)
+   with (this.FIRSTBUTTON)
+      onClick = {;form.CheckCommit(form.inEditMode);go top;}
+      height = 26.0
+      left = 186.0
+      top = 663.0
+      width = 85.0
+      text = "F&IRST"
+      fontName = "MS Sans Serif"
+      fontSize = 8.0
+      fontBold = true
+   endwith
+
+   this.LASTBUTTON = new PUSHBUTTON(this)
+   with (this.LASTBUTTON)
+      onClick = {;form.CheckCommit(form.inEditMode);go bottom;}
+      height = 26.0
+      left = 276.0
+      top = 663.0
+      width = 85.0
+      text = "&LAST"
+      fontName = "MS Sans Serif"
+      fontSize = 8.0
+      fontBold = true
+   endwith
+
+   this.TEXT6 = new TEXTLABEL(this)
+   with (this.TEXT6)
+      height = 21.0
+      left = 540.0
+      top = 550.0
+      width = 84.0
+      text = "Float Ceiling"
+      colorNormal = "B/BtnFace"
+      fontName = "MS Sans Serif"
+      fontSize = 9.0
+      fontBold = true
+      alignVertical = 1	// Middle
+      alignHorizontal = 2	// Right
+   endwith
+
+   this.SFLOAT = new ENTRYFIELD(this)
+   with (this.SFLOAT)
+      onChange = class::SFLOAT_CHANGE
+      dataLink = "Fgcoy->float"
+      enabled = false
+      height = 21.0
+      left = 624.0
+      top = 550.0
+      width = 96.0
+      picture = "99,999,999.99"
+      colorNormal = "N/BtnFace"
+      colorHighLight = "B+/W*"
+      fontName = "MS Sans Serif"
+      fontSize = 9.0
+      fontBold = true
+   endwith
+
+   this.SMINV = new RECTANGLE(this)
+   with (this.SMINV)
+      left = 469.0
+      top = 189.0
+      width = 131.0
+      height = 38.0
+      text = "Manual Invoices"
+      fontName = "MS Sans Serif"
+      fontSize = 9.0
+      fontBold = true
+   endwith
+
+   this.NM = new RADIOBUTTON(this)
+   with (this.NM)
+      onGotFocus = class::NM_ONGOTFOCUS
+      dataLink = "Fgcoy->nqty"
+      enabled = false
+      height = 19.0
+      left = 504.0
+      top = 206.0
+      width = 42.0
+      text = "Yes"
+      fontName = "MS Sans Serif"
+      fontSize = 9.0
+      fontBold = true
+      group = true
+   endwith
+
+   this.YM = new RADIOBUTTON(this)
+   with (this.YM)
+      onGotFocus = class::YM_ONGOTFOCUS
+      dataLink = "Fgcoy->nqty"
+      enabled = false
+      height = 19.0
+      left = 552.0
+      top = 206.0
+      width = 42.0
+      text = "No"
+      fontName = "MS Sans Serif"
+      fontSize = 9.0
+      fontBold = true
+   endwith
+
+   this.SFC = new RECTANGLE(this)
+   with (this.SFC)
+      left = 469.0
+      top = 232.0
+      width = 131.0
+      height = 54.0
+      text = "FC Purch Shop"
+      fontName = "MS Sans Serif"
+      fontSize = 9.0
+      fontBold = true
+   endwith
+
+   this.YFPUR = new RADIOBUTTON(this)
+   with (this.YFPUR)
+      onGotFocus = class::YFPUR_ONGOTFOCUS
+      dataLink = "Fgcoy->fg"
+      enabled = false
+      height = 19.0
+      left = 476.0
+      top = 253.0
+      width = 42.0
+      text = "Yes"
+      fontName = "MS Sans Serif"
+      fontSize = 9.0
+      fontBold = true
+      group = true
+   endwith
+
+   this.NFPUR = new RADIOBUTTON(this)
+   with (this.NFPUR)
+      onGotFocus = class::NFPUR_ONGOTFOCUS
+      dataLink = "Fgcoy->fg"
+      enabled = false
+      height = 19.0
+      left = 532.0
+      top = 253.0
+      width = 49.0
+      text = "No"
+      fontName = "MS Sans Serif"
+      fontSize = 9.0
+      fontBold = true
+   endwith
+
+   this.SDISC1 = new RADIOBUTTON(this)
+   with (this.SDISC1)
+      onGotFocus = class::SDISC1_ONGOTFOCUS
+      dataLink = "FGCOY->GL"
+      enabled = false
+      height = 19.0
+      left = 618.0
+      top = 349.0
+      width = 42.0
+      text = "Yes"
+      fontName = "MS Sans Serif"
+      fontSize = 9.0
+      fontBold = true
+      group = true
+   endwith
+
+   this.SDISC2 = new RADIOBUTTON(this)
+   with (this.SDISC2)
+      onGotFocus = class::SDISC2_ONGOTFOCUS
+      dataLink = "FGCOY->GL"
+      enabled = false
+      height = 19.0
+      left = 666.0
+      top = 349.0
+      width = 36.0
+      text = "No"
+      fontName = "MS Sans Serif"
+      fontSize = 9.0
+      fontBold = true
+   endwith
+
+   this.PYYES = new RADIOBUTTON(this)
+   with (this.PYYES)
+      onGotFocus = class::PYYES_ONGOTFOCUS
+      dataLink = "FGCOY->py"
+      enabled = false
+      height = 19.0
+      left = 636.0
+      top = 476.0
+      width = 42.0
+      text = "Yes"
+      fontName = "MS Sans Serif"
+      fontSize = 9.0
+      fontBold = true
+      group = true
+   endwith
+
+   this.PYNO = new RADIOBUTTON(this)
+   with (this.PYNO)
+      onGotFocus = class::PYNO_ONGOTFOCUS
+      dataLink = "FGCOY->py"
+      enabled = false
+      height = 19.0
+      left = 684.0
+      top = 476.0
+      width = 42.0
+      text = "No"
+      fontName = "MS Sans Serif"
+      fontSize = 9.0
+      fontBold = true
+   endwith
+
+   this.YFCLPGS = new RADIOBUTTON(this)
+   with (this.YFCLPGS)
+      onGotFocus = class::YFCLPGS_ONGOTFOCUS
+      dataLink = "FGCOY->CASHIER_NO"
+      enabled = false
+      height = 19.0
+      left = 78.0
+      top = 374.0
+      width = 30.0
+      text = "Y"
+      fontName = "MS Sans Serif"
+      fontSize = 9.0
+      fontBold = true
+      group = true
+   endwith
+
+   this.NFCLPGS = new RADIOBUTTON(this)
+   with (this.NFCLPGS)
+      onGotFocus = class::NFCLPGS_ONGOTFOCUS
+      dataLink = "FGCOY->CASHIER_NO"
+      enabled = false
+      height = 19.0
+      left = 120.0
+      top = 374.0
+      width = 30.0
+      text = "N"
+      fontName = "MS Sans Serif"
+      fontSize = 9.0
+      fontBold = true
+   endwith
+
+   this.RECTANGLE10 = new RECTANGLE(this)
+   with (this.RECTANGLE10)
+      left = 492.0
+      top = 102.0
+      width = 108.0
+      height = 34.0
+      text = "Allow Job Order"
+      fontName = "MS Sans Serif"
+      fontSize = 9.0
+      fontBold = true
+   endwith
+
+   this.SJO = new RADIOBUTTON(this)
+   with (this.SJO)
+      onGotFocus = class::SJO_ONGOTFOCUS
+      dataLink = "FGCOY->CASHIERS"
+      enabled = false
+      height = 19.0
+      left = 498.0
+      top = 116.0
+      width = 36.0
+      text = "Y"
+      fontName = "MS Sans Serif"
+      fontSize = 9.0
+      fontBold = true
+      group = true
+   endwith
+
+   this.NJO = new RADIOBUTTON(this)
+   with (this.NJO)
+      onGotFocus = class::NJO_ONGOTFOCUS
+      dataLink = "FGCOY->CASHIERS"
+      enabled = false
+      height = 19.0
+      left = 546.0
+      top = 116.0
+      width = 42.0
+      text = "N"
+      fontName = "MS Sans Serif"
+      fontSize = 9.0
+      fontBold = true
+   endwith
+
+   this.SRECREP = new RECTANGLE(this)
+   with (this.SRECREP)
+      left = 492.0
+      top = 142.0
+      width = 108.0
+      height = 41.0
+      text = "Sales Rep In JC"
+      fontName = "MS Sans Serif"
+      fontSize = 9.0
+      fontBold = true
+   endwith
+
+   this.YSREP = new RADIOBUTTON(this)
+   with (this.YSREP)
+      onGotFocus = class::YSREP_ONGOTFOCUS
+      dataLink = "FGCOY->ORDERNAME"
+      enabled = false
+      height = 19.0
+      left = 498.0
+      top = 159.0
+      width = 36.0
+      text = "Y"
+      fontName = "MS Sans Serif"
+      fontSize = 9.0
+      fontBold = true
+      group = true
+   endwith
+
+   this.NSREP = new RADIOBUTTON(this)
+   with (this.NSREP)
+      onGotFocus = class::NSREP_ONGOTFOCUS
+      dataLink = "FGCOY->ORDERNAME"
+      enabled = false
+      height = 19.0
+      left = 546.0
+      top = 159.0
+      width = 48.0
+      text = "N"
+      fontName = "MS Sans Serif"
+      fontSize = 9.0
+      fontBold = true
+   endwith
+
+   this.TEXT10 = new TEXTLABEL(this)
+   with (this.TEXT10)
+      height = 17.0
+      left = 6.0
+      top = 519.0
+      width = 156.0
+      text = "Minimum Disc. Qty on LPG:"
+      colorNormal = "B/BtnFace"
+      fontName = "MS Sans Serif"
+      fontSize = 8.0
+      fontBold = true
+      alignVertical = 1	// Middle
+      alignHorizontal = 2	// Right
+   endwith
+
+   this.SLPGD = new ENTRYFIELD(this)
+   with (this.SLPGD)
+      onChange = class::SLPGD_ONCHANGE
+      dataLink = "FGCOY->UNITNAME"
+      enabled = false
+      height = 21.0
+      left = 165.0
+      top = 519.0
+      width = 45.0
+      picture = "9999"
+      colorNormal = "N/BtnFace"
+      colorHighLight = "B+/W*"
+      fontName = "MS Sans Serif"
+      fontSize = 8.0
+      fontBold = true
+   endwith
+
+   this.YPY = new RADIOBUTTON(this)
+   with (this.YPY)
+      onGotFocus = class::YPY_ONGOTFOCUS
+      dataLink = "FGCOY->PAYROLL"
+      enabled = false
+      height = 19.0
+      left = 498.0
+      top = 451.0
+      width = 42.0
+      text = "Yes"
+      fontName = "MS Sans Serif"
+      fontSize = 9.0
+      fontBold = true
+      group = true
+   endwith
+
+   this.NPY = new RADIOBUTTON(this)
+   with (this.NPY)
+      onGotFocus = class::NPY_ONGOTFOCUS
+      dataLink = "FGCOY->PAYROLL"
+      enabled = false
+      height = 19.0
+      left = 546.0
+      top = 451.0
+      width = 42.0
+      text = "No"
+      fontName = "MS Sans Serif"
+      fontSize = 9.0
+      fontBold = true
+   endwith
+
+   this.TEXT8 = new TEXTLABEL(this)
+   with (this.TEXT8)
+      height = 17.0
+      left = 6.0
+      top = 546.0
+      width = 60.0
+      text = "Loc Code:"
+      colorNormal = "B/BtnFace"
+      fontName = "MS Sans Serif"
+      fontSize = 8.0
+      fontBold = true
+      alignVertical = 1	// Middle
+      alignHorizontal = 2	// Right
+   endwith
+
+   this.SLCD = new ENTRYFIELD(this)
+   with (this.SLCD)
+      onChange = class::SLCD_ONCHANGE
+      dataLink = "FGCOY->LOC_COD"
+      enabled = false
+      height = 17.0
+      left = 72.0
+      top = 546.0
+      width = 84.0
+      colorNormal = "N/BtnFace"
+      colorHighLight = "B+/W*"
+      fontName = "MS Sans Serif"
+      fontSize = 8.0
+      fontBold = true
+   endwith
+
+   this.SLOCN = new ENTRYFIELD(this)
+   with (this.SLOCN)
+      onChange = class::SLOCN_ONCHANGE
+      dataLink = "FGCOY->LOC_NAME"
+      enabled = false
+      height = 17.0
+      left = 72.0
+      top = 570.0
+      width = 180.0
+      colorNormal = "N/BtnFace"
+      colorHighLight = "B+/W*"
+      fontName = "MS Sans Serif"
+      fontSize = 8.0
+      fontBold = true
+   endwith
+
+   this.TEXT14 = new TEXTLABEL(this)
+   with (this.TEXT14)
+      height = 17.0
+      left = 162.0
+      top = 546.0
+      width = 84.0
+      text = "Warhse Code:"
+      colorNormal = "B/BtnFace"
+      fontName = "MS Sans Serif"
+      fontSize = 8.0
+      fontBold = true
+      alignVertical = 1	// Middle
+      alignHorizontal = 2	// Right
+   endwith
+
+   this.SWCOD = new ENTRYFIELD(this)
+   with (this.SWCOD)
+      onChange = class::SWCOD_ONCHANGE
+      dataLink = "FGCOY->WARE_COD"
+      enabled = false
+      height = 17.0
+      left = 258.0
+      top = 546.0
+      width = 90.0
+      colorNormal = "N/BtnFace"
+      colorHighLight = "B+/W*"
+      fontName = "MS Sans Serif"
+      fontSize = 8.0
+      fontBold = true
+   endwith
+
+   this.SWHNA = new ENTRYFIELD(this)
+   with (this.SWHNA)
+      onChange = class::SWHNA_ONCHANGE
+      dataLink = "FGCOY->WARE_NAME"
+      enabled = false
+      height = 17.0
+      left = 258.0
+      top = 570.0
+      width = 210.0
+      colorNormal = "N/BtnFace"
+      colorHighLight = "B+/W*"
+      fontName = "MS Sans Serif"
+      fontSize = 8.0
+      fontBold = true
+   endwith
+
+   this.RECTANGLE21 = new RECTANGLE(this)
+   with (this.RECTANGLE21)
+      left = 612.0
+      top = 225.0
+      width = 120.0
+      height = 41.0
+      text = "No Sale Pit Store"
+      fontName = "MS Sans Serif"
+      fontSize = 9.0
+      fontBold = true
+   endwith
+
+   this.PITY = new RADIOBUTTON(this)
+   with (this.PITY)
+      onGotFocus = class::PITY_ONGOTFOCUS
+      dataLink = "FGCOY->SALEPIT"
+      enabled = false
+      height = 19.0
+      left = 618.0
+      top = 242.0
+      width = 36.0
+      text = "Yes"
+      fontName = "MS Sans Serif"
+      fontSize = 9.0
+      fontBold = true
+      group = true
+   endwith
+
+   this.PITN = new RADIOBUTTON(this)
+   with (this.PITN)
+      onGotFocus = class::PITN_ONGOTFOCUS
+      dataLink = "FGCOY->SALEPIT"
+      enabled = false
+      height = 19.0
+      left = 666.0
+      top = 242.0
+      width = 42.0
+      text = "No"
+      fontName = "MS Sans Serif"
+      fontSize = 9.0
+      fontBold = true
+   endwith
+
+   this.RECTANGLE22 = new RECTANGLE(this)
+   with (this.RECTANGLE22)
+      left = 612.0
+      top = 276.0
+      width = 120.0
+      height = 41.0
+      text = "No Sale Tyc Store"
+      fontName = "MS Sans Serif"
+      fontSize = 9.0
+      fontBold = true
+   endwith
+
+   this.TYCY = new RADIOBUTTON(this)
+   with (this.TYCY)
+      onGotFocus = class::TYCY_ONGOTFOCUS
+      dataLink = "FGCOY->SALETYC"
+      enabled = false
+      height = 19.0
+      left = 618.0
+      top = 293.0
+      width = 36.0
+      text = "Yes"
+      fontName = "MS Sans Serif"
+      fontSize = 9.0
+      fontBold = true
+      group = true
+   endwith
+
+   this.TYCN = new RADIOBUTTON(this)
+   with (this.TYCN)
+      onGotFocus = class::TYCN_ONGOTFOCUS
+      dataLink = "FGCOY->SALETYC"
+      enabled = false
+      height = 19.0
+      left = 666.0
+      top = 293.0
+      width = 48.0
+      text = "No"
+      fontName = "MS Sans Serif"
+      fontSize = 9.0
+      fontBold = true
+   endwith
+
+   this.YPUP = new RADIOBUTTON(this)
+   with (this.YPUP)
+      onGotFocus = class::YPUP_ONGOTFOCUS
+      dataLink = "FGCOY->PUP"
+      enabled = false
+      height = 19.0
+      left = 504.0
+      top = 374.0
+      width = 42.0
+      text = "Yes"
+      fontName = "MS Sans Serif"
+      fontSize = 9.0
+      fontBold = true
+      group = true
+   endwith
+
+   this.NPUP = new RADIOBUTTON(this)
+   with (this.NPUP)
+      onGotFocus = class::NPUP_ONGOTFOCUS
+      dataLink = "FGCOY->PUP"
+      enabled = false
+      height = 19.0
+      left = 552.0
+      top = 374.0
+      width = 42.0
+      text = "No"
+      fontName = "MS Sans Serif"
+      fontSize = 9.0
+      fontBold = true
+   endwith
+
+   this.TEXT16 = new TEXTLABEL(this)
+   with (this.TEXT16)
+      height = 17.0
+      left = 168.0
+      top = 374.0
+      width = 36.0
+      text = "Form:"
+      colorNormal = "B/BtnFace"
+      fontName = "MS Sans Serif"
+      fontSize = 8.0
+      fontBold = true
+      alignVertical = 1	// Middle
+      alignHorizontal = 2	// Right
+   endwith
+
+   this.TEXT17 = new TEXTLABEL(this)
+   with (this.TEXT17)
+      height = 17.0
+      left = 594.0
+      top = 451.0
+      width = 60.0
+      text = "GL Date:"
+      colorNormal = "B/BtnFace"
+      fontName = "MS Sans Serif"
+      fontSize = 8.0
+      fontBold = true
+      alignVertical = 1	// Middle
+      alignHorizontal = 2	// Right
+   endwith
+
+   this.TEXT18 = new TEXTLABEL(this)
+   with (this.TEXT18)
+      height = 17.0
+      left = 306.0
+      top = 374.0
+      width = 48.0
+      text = "FC Pur:"
+      colorNormal = "B/BtnFace"
+      fontName = "MS Sans Serif"
+      fontSize = 8.0
+      fontBold = true
+      alignVertical = 1	// Middle
+      alignHorizontal = 2	// Right
+   endwith
+
+   this.TEXT19 = new TEXTLABEL(this)
+   with (this.TEXT19)
+      height = 17.0
+      left = 462.0
+      top = 376.0
+      width = 36.0
+      text = "Pup:"
+      colorNormal = "B/BtnFace"
+      fontName = "MS Sans Serif"
+      fontSize = 8.0
+      fontBold = true
+      alignVertical = 1	// Middle
+      alignHorizontal = 2	// Right
+   endwith
+
+   this.TEXT20 = new TEXTLABEL(this)
+   with (this.TEXT20)
+      height = 17.0
+      left = 594.0
+      top = 374.0
+      width = 66.0
+      text = "Auto Sals:"
+      colorNormal = "B/BtnFace"
+      fontName = "MS Sans Serif"
+      fontSize = 8.0
+      fontBold = true
+      alignVertical = 1	// Middle
+      alignHorizontal = 2	// Right
+   endwith
+
+   this.YDOC15 = new RADIOBUTTON(this)
+   with (this.YDOC15)
+      onGotFocus = class::YDOC15_ONGOTFOCUS
+      dataLink = "FGCOY->doc15"
+      enabled = false
+      height = 19.0
+      left = 666.0
+      top = 374.0
+      width = 36.0
+      text = "Y"
+      fontName = "MS Sans Serif"
+      fontSize = 9.0
+      fontBold = true
+      group = true
+   endwith
+
+   this.NDOC15 = new RADIOBUTTON(this)
+   with (this.NDOC15)
+      onGotFocus = class::NDOC15_ONGOTFOCUS
+      dataLink = "FGCOY->doc15"
+      enabled = false
+      height = 19.0
+      left = 708.0
+      top = 374.0
+      width = 30.0
+      text = "N"
+      fontName = "MS Sans Serif"
+      fontSize = 9.0
+      fontBold = true
+   endwith
+
+   this.TEXT21 = new TEXTLABEL(this)
+   with (this.TEXT21)
+      height = 17.0
+      left = 396.0
+      top = 398.0
+      width = 42.0
+      text = "Trnspt:"
+      colorNormal = "B/BtnFace"
+      fontName = "MS Sans Serif"
+      fontSize = 8.0
+      fontBold = true
+      alignVertical = 1	// Middle
+      alignHorizontal = 2	// Right
+   endwith
+
+   this.YDOC14 = new RADIOBUTTON(this)
+   with (this.YDOC14)
+      onGotFocus = class::YDOC14_ONGOTFOCUS
+      dataLink = "FGCOY->doc14"
+      enabled = false
+      height = 19.0
+      left = 444.0
+      top = 398.0
+      width = 36.0
+      text = "Y"
+      fontName = "MS Sans Serif"
+      fontSize = 9.0
+      fontBold = true
+      group = true
+   endwith
+
+   this.NDOC14 = new RADIOBUTTON(this)
+   with (this.NDOC14)
+      onGotFocus = class::NDOC14_ONGOTFOCUS
+      dataLink = "FGCOY->doc14"
+      enabled = false
+      height = 19.0
+      left = 486.0
+      top = 398.0
+      width = 30.0
+      text = "N"
+      fontName = "MS Sans Serif"
+      fontSize = 9.0
+      fontBold = true
+   endwith
+
+   this.TEXT22 = new TEXTLABEL(this)
+   with (this.TEXT22)
+      height = 17.0
+      left = 522.0
+      top = 398.0
+      width = 84.0
+      text = "SM Staff Crs:"
+      colorNormal = "B/BtnFace"
+      fontName = "MS Sans Serif"
+      fontSize = 8.0
+      fontBold = true
+      alignVertical = 1	// Middle
+      alignHorizontal = 2	// Right
+   endwith
+
+   this.YDOC20 = new RADIOBUTTON(this)
+   with (this.YDOC20)
+      onGotFocus = class::YDOC20_ONGOTFOCUS
+      dataLink = "FGCOY->doc20"
+      enabled = false
+      height = 19.0
+      left = 612.0
+      top = 398.0
+      width = 36.0
+      text = "Y"
+      fontName = "MS Sans Serif"
+      fontSize = 9.0
+      fontBold = true
+      group = true
+   endwith
+
+   this.NDOC20 = new RADIOBUTTON(this)
+   with (this.NDOC20)
+      onGotFocus = class::NDOC20_ONGOTFOCUS
+      dataLink = "FGCOY->doc20"
+      enabled = false
+      height = 19.0
+      left = 654.0
+      top = 398.0
+      width = 30.0
+      text = "N"
+      fontName = "MS Sans Serif"
+      fontSize = 9.0
+      fontBold = true
+   endwith
+
+   this.TEXT23 = new TEXTLABEL(this)
+   with (this.TEXT23)
+      height = 17.0
+      left = 402.0
+      top = 422.0
+      width = 72.0
+      text = "No Crs(SM):"
+      colorNormal = "B/BtnFace"
+      fontName = "MS Sans Serif"
+      fontSize = 8.0
+      fontBold = true
+      alignVertical = 1	// Middle
+      alignHorizontal = 2	// Right
+   endwith
+
+   this.YDOC13 = new RADIOBUTTON(this)
+   with (this.YDOC13)
+      onGotFocus = class::YDOC13_ONGOTFOCUS
+      dataLink = "FGCOY->doc13"
+      enabled = false
+      height = 19.0
+      left = 480.0
+      top = 422.0
+      width = 36.0
+      text = "Y"
+      fontName = "MS Sans Serif"
+      fontSize = 9.0
+      fontBold = true
+      group = true
+   endwith
+
+   this.NDOC13 = new RADIOBUTTON(this)
+   with (this.NDOC13)
+      onGotFocus = class::NDOC13_ONGOTFOCUS
+      dataLink = "FGCOY->doc13"
+      enabled = false
+      height = 19.0
+      left = 522.0
+      top = 422.0
+      width = 30.0
+      text = "N"
+      fontName = "MS Sans Serif"
+      fontSize = 9.0
+      fontBold = true
+   endwith
+
+   this.TEXT24 = new TEXTLABEL(this)
+   with (this.TEXT24)
+      height = 17.0
+      left = 558.0
+      top = 422.0
+      width = 90.0
+      text = "Mtr O/F Range:"
+      colorNormal = "B/BtnFace"
+      fontName = "MS Sans Serif"
+      fontSize = 8.0
+      fontBold = true
+      alignVertical = 1	// Middle
+      alignHorizontal = 2	// Right
+   endwith
+
+   this.YDOC12 = new RADIOBUTTON(this)
+   with (this.YDOC12)
+      onGotFocus = class::YDOC12_ONGOTFOCUS
+      dataLink = "FGCOY->doc12"
+      enabled = false
+      height = 19.0
+      left = 654.0
+      top = 422.0
+      width = 36.0
+      text = "Y"
+      fontName = "MS Sans Serif"
+      fontSize = 9.0
+      fontBold = true
+      group = true
+   endwith
+
+   this.NDOC12 = new RADIOBUTTON(this)
+   with (this.NDOC12)
+      onGotFocus = class::NDOC12_ONGOTFOCUS
+      dataLink = "FGCOY->doc12"
+      enabled = false
+      height = 19.0
+      left = 696.0
+      top = 422.0
+      width = 30.0
+      text = "N"
+      fontName = "MS Sans Serif"
+      fontSize = 9.0
+      fontBold = true
+   endwith
+
+   this.TEXT25 = new TEXTLABEL(this)
+   with (this.TEXT25)
+      height = 17.0
+      left = 7.0
+      top = 429.0
+      width = 119.0
+      text = "Remote Fuel Only:"
+      colorNormal = "B/BtnFace"
+      fontName = "MS Sans Serif"
+      fontSize = 8.0
+      fontBold = true
+      alignVertical = 1	// Middle
+      alignHorizontal = 2	// Right
+   endwith
+
+   this.TEXT26 = new TEXTLABEL(this)
+   with (this.TEXT26)
+      height = 17.0
+      left = 7.0
+      top = 451.0
+      width = 131.0
+      text = "CRT Vehicle Control:"
+      colorNormal = "B/BtnFace"
+      fontName = "MS Sans Serif"
+      fontSize = 8.0
+      fontBold = true
+      alignVertical = 1	// Middle
+      alignHorizontal = 2	// Right
+   endwith
+
+   this.TEXT27 = new TEXTLABEL(this)
+   with (this.TEXT27)
+      height = 17.0
+      left = 427.0
+      top = 451.0
+      width = 65.0
+      text = "GL System:"
+      colorNormal = "B/BtnFace"
+      fontName = "MS Sans Serif"
+      fontSize = 8.0
+      fontBold = true
+      alignVertical = 1	// Middle
+      alignHorizontal = 2	// Right
+   endwith
+
+   this.TEXT28 = new TEXTLABEL(this)
+   with (this.TEXT28)
+      height = 17.0
+      left = 541.0
+      top = 476.0
+      width = 89.0
+      text = "Payroll System:"
+      colorNormal = "B/BtnFace"
+      fontName = "MS Sans Serif"
+      fontSize = 8.0
+      fontBold = true
+      alignVertical = 1	// Middle
+      alignHorizontal = 2	// Right
+   endwith
+
+   this.TEXT29 = new TEXTLABEL(this)
+   with (this.TEXT29)
+      height = 17.0
+      left = 540.0
+      top = 502.0
+      width = 90.0
+      text = "General Sales:"
+      colorNormal = "B/BtnFace"
+      fontName = "MS Sans Serif"
+      fontSize = 8.0
+      fontBold = true
+      alignVertical = 1	// Middle
+      alignHorizontal = 2	// Right
+   endwith
+
+   this.YDOC10 = new RADIOBUTTON(this)
+   with (this.YDOC10)
+      onGotFocus = class::YDOC10_ONGOTFOCUS
+      dataLink = "FGCOY->doc10"
+      enabled = false
+      height = 19.0
+      left = 636.0
+      top = 502.0
+      width = 36.0
+      text = "Y"
+      fontName = "MS Sans Serif"
+      fontSize = 9.0
+      fontBold = true
+      group = true
+   endwith
+
+   this.NDOC10 = new RADIOBUTTON(this)
+   with (this.NDOC10)
+      onGotFocus = class::NDOC10_ONGOTFOCUS
+      dataLink = "FGCOY->doc10"
+      enabled = false
+      height = 19.0
+      left = 678.0
+      top = 502.0
+      width = 30.0
+      text = "N"
+      fontName = "MS Sans Serif"
+      fontSize = 9.0
+      fontBold = true
+   endwith
+
+   this.TEXT30 = new TEXTLABEL(this)
+   with (this.TEXT30)
+      height = 17.0
+      left = 540.0
+      top = 526.0
+      width = 90.0
+      text = "Zero Cr Pur:"
+      colorNormal = "B/BtnFace"
+      fontName = "MS Sans Serif"
+      fontSize = 8.0
+      fontBold = true
+      alignVertical = 1	// Middle
+      alignHorizontal = 2	// Right
+   endwith
+
+   this.YDOC11 = new RADIOBUTTON(this)
+   with (this.YDOC11)
+      onGotFocus = class::YDOC11_ONGOTFOCUS
+      dataLink = "FGCOY->doc11"
+      enabled = false
+      height = 19.0
+      left = 636.0
+      top = 526.0
+      width = 36.0
+      text = "Y"
+      fontName = "MS Sans Serif"
+      fontSize = 9.0
+      fontBold = true
+      group = true
+   endwith
+
+   this.NDOC11 = new RADIOBUTTON(this)
+   with (this.NDOC11)
+      onGotFocus = class::NDOC11_ONGOTFOCUS
+      dataLink = "FGCOY->doc11"
+      enabled = false
+      height = 19.0
+      left = 678.0
+      top = 526.0
+      width = 30.0
+      text = "N"
+      fontName = "MS Sans Serif"
+      fontSize = 9.0
+      fontBold = true
+   endwith
+
+   this.TEXT31 = new TEXTLABEL(this)
+   with (this.TEXT31)
+      height = 17.0
+      left = 12.0
+      top = 374.0
+      width = 60.0
+      text = "FC LPG:"
+      colorNormal = "B/BtnFace"
+      fontName = "MS Sans Serif"
+      fontSize = 8.0
+      fontBold = true
+      alignVertical = 1	// Middle
+      alignHorizontal = 2	// Right
+   endwith
+
+   this.TEXT32 = new TEXTLABEL(this)
+   with (this.TEXT32)
+      height = 17.0
+      left = 12.0
+      top = 349.0
+      width = 138.0
+      text = "Sale in all Locations:"
+      colorNormal = "B/BtnFace"
+      fontName = "MS Sans Serif"
+      fontSize = 8.0
+      fontBold = true
+      alignVertical = 1	// Middle
+      alignHorizontal = 2	// Right
+   endwith
+
+   this.TEXT33 = new TEXTLABEL(this)
+   with (this.TEXT33)
+      height = 17.0
+      left = 12.0
+      top = 493.0
+      width = 126.0
+      text = "Sales in CSV Format:"
+      colorNormal = "B/BtnFace"
+      fontName = "MS Sans Serif"
+      fontSize = 8.0
+      fontBold = true
+      alignVertical = 1	// Middle
+      alignHorizontal = 2	// Right
+   endwith
+
+   this.TEXT11 = new TEXTLABEL(this)
+   with (this.TEXT11)
+      height = 17.0
+      left = 6.0
+      top = 323.0
+      width = 96.0
+      text = "Server Printer:"
+      colorNormal = "B/BtnFace"
+      fontName = "MS Sans Serif"
+      fontSize = 8.0
+      fontBold = true
+      alignVertical = 1	// Middle
+      alignHorizontal = 2	// Right
+   endwith
+
+   this.TEXT15 = new TEXTLABEL(this)
+   with (this.TEXT15)
+      height = 17.0
+      left = 6.0
+      top = 299.0
+      width = 96.0
+      text = "Remote Printer:"
+      colorNormal = "B/BtnFace"
+      fontName = "MS Sans Serif"
+      fontSize = 8.0
+      fontBold = true
+      alignVertical = 1	// Middle
+      alignHorizontal = 2	// Right
+   endwith
+
+   this.TEXT34 = new TEXTLABEL(this)
+   with (this.TEXT34)
+      height = 17.0
+      left = 6.0
+      top = 275.0
+      width = 180.0
+      text = "Very High System Availability:"
+      colorNormal = "B/BtnFace"
+      fontName = "MS Sans Serif"
+      fontSize = 8.0
+      fontBold = true
+      alignVertical = 1	// Middle
+      alignHorizontal = 2	// Right
+   endwith
+
+   this.TEXT35 = new TEXTLABEL(this)
+   with (this.TEXT35)
+      height = 17.0
+      left = 6.0
+      top = 247.0
+      width = 180.0
+      text = "Shared Electronic Fuel Meters:"
+      colorNormal = "B/BtnFace"
+      fontName = "MS Sans Serif"
+      fontSize = 8.0
+      fontBold = true
+      alignVertical = 1	// Middle
+      alignHorizontal = 2	// Right
+   endwith
+
+   this.TEXT36 = new TEXTLABEL(this)
+   with (this.TEXT36)
+      height = 17.0
+      left = 6.0
+      top = 223.0
+      width = 144.0
+      text = "No. of Shifts Per Week:"
+      colorNormal = "B/BtnFace"
+      fontName = "MS Sans Serif"
+      fontSize = 8.0
+      fontBold = true
+      alignVertical = 1	// Middle
+      alignHorizontal = 2	// Right
+   endwith
+
+   this.TEXT37 = new TEXTLABEL(this)
+   with (this.TEXT37)
+      height = 17.0
+      left = 264.0
+      top = 349.0
+      width = 138.0
+      text = "Fixed Sales Price:"
+      colorNormal = "B/BtnFace"
+      fontName = "MS Sans Serif"
+      fontSize = 8.0
+      fontBold = true
+      alignVertical = 1	// Middle
+      alignHorizontal = 2	// Right
+   endwith
+
+   this.TEXT38 = new TEXTLABEL(this)
+   with (this.TEXT38)
+      height = 17.0
+      left = 516.0
+      top = 349.0
+      width = 96.0
+      text = "Allow Discounts:"
+      colorNormal = "B/BtnFace"
+      fontName = "MS Sans Serif"
+      fontSize = 8.0
+      fontBold = true
+      alignVertical = 1	// Middle
+      alignHorizontal = 2	// Right
+   endwith
+
+
+   procedure Open
+   ****************************************************************************
+   private CodeField
+   form.firstime = .T.
+         FORM.BLUSER=BUSER
+   FORM.BLEVEL=BLEVEL
+   IF EMPTY(FORM.BLUSER) .OR. EMPTY(FORM.BLEVEL)
+      QUIT
+      ENDIF
+      select nlcoy
+      set order to coy
+      select fgcoy
+   if type("form.init") = "U"
+      form.init = .T.
+
+      set skip to                     && Fgcoy.qbe contains set skip to gldtl
+      set exact off                   && the .qbe file contains SET EXACT ON
+
+      set procedure to sampProc.prg additive
+    Form.duplicate = .F.
+      form.inEditMode = .F.           && indicator of view/edit state
+      form.changesMade = .F.          && indicator of changes made to field values
+      form.previousRecord = .F.       && Save record number when appending
+        *** do calculations in another area so form doesn't get updated
+        form.updated = .f.
+
+  endif
+
+   form::Open()                         && Now the form actually opens
+
+   procedure OnClose
+
+   * Clean up.
+   ****************************************************************************
+       form.CheckCommit(form.inEditMode)
+
+   if this.inEditMode
+      form.ViewEdit()                      && Finish transaction
+   endif
+     do Fgcoys_rtn
+  close databases
+     close procedure SAMPProc.prg
+     if .not. empty(dbf())
+     form.close()
+     endif
+
+   procedure SFLOAT_CHANGE
+   select fgcoy
+   if  .not. this.value < 0
+   replace float with this.value
+   endif
+   form.changesmade = .t.
+   ****************************************************************************
+
+   procedure BrowseOnNavigate
+   ****************************************************************************
+
+
+
+   ****************************************************************************
+
+   procedure ChangesMade
+
+   * Indicate that changes have been made to the current record
+   ****************************************************************************
+   Form.ChangesMade = .T.
+   ****************************************************************************
+
+procedure Next
+
+   * Go to next record.
+   ****************************************************************************
+
+   form.CheckCommit(form.inEditMode)
+   if .not. empty(dbf())  .and. .not. eof()      && if a table is open in the current workarea
+      skip
+      if eof()
+         go bottom
+         AlertMessage("At the last record","Alert")
+      endif
+   else
+      InformationMessage("There is no table open in the current workarea.",;
+         "Info")
+   endif
+    ****************************************************************************
+
+   procedure Previous
+
+   * Go to previous record.
+   ****************************************************************************
+
+   form.CheckCommit(form.inEditMode)
+ if .not. empty(dbf())  .and. .not. eof() && if a table is open in the current workarea
+      skip - 1
+      if bof()
+         go top
+         AlertMessage("At the first record","Alert")
+      endif
+   else
+      InformationMessage("There is no table open in the current workarea.",;
+         "Info")
+   endif
+
+   procedure CheckCommit (newInEditMode)
+
+        * Finish transaction, if it has been started.
+   ****************************************************************************
+   private CodeField, changesMade
+    local lk1
+    lk1 = form.COYCOMBOBOX.value
+   changesMade = form.changesMade
+   if form.changesMade
+      CodeField = field(1)  && Field period
+      if     ConfirmationMessage("Commit changes?",;
+                FormatStr("Company %1",&CodeField)) = YES
+         commit()
+
+      else
+         rollback()
+         if .not. bof()
+              form.previousRecord = .F.
+         endif
+      endif
+
+       form.COYCOMBOBOX.enabled = .F.
+    if form.inEditMode .and. newInEditMode
+         begintrans()
+      endif
+      form.changesMade = .F.
+   endif
+   if form.inEditMode <> newInEditMode
+      if newInEditMode                       && Going to Edit mode
+         begintrans()
+      else                                   && Going to View mode
+         if .not. changesMade .AND. .NOT. FORM.DUPLICATE
+            rollback()
+         endif
+      endif
+      form.inEditMode = newInEditMode
+   endif
+
+   procedure ViewEdit
+ * Toggle between View and Edit modes.
+   ****************************************************************************
+   local inEditMode, editMenu, control
+   
+   editMenu = form.root.Fgcoy.VIEWEdit
+   
+   *** If ending edit mode then close transaction, otherwise open it.
+   if form.inEditMode
+      form.checkChanged(.F.)
+      editMenu.text = "&Edit"
+      editMenu.shortcut = "Ctrl-E"
+      editMenu.statusMessage = "Edit data."
+      form.CheckCommit(.F.)                        && Check transaction and
+      form.text = "Companies Maintenance -- View Mode"          && change mode to View
+       form.statusmessage = "In View Mode. " + ;
+                           "Select Company Code - Edit menu to " + ;
+                           "edit/delete data."
+    else                                            && Switch to edit mode
+      editMenu.text = "Vi&ew"
+      editMenu.shortcut = "Ctrl-E"
+      editMenu.statusMessage = "View data."
+      
+      form.CheckCommit(.T.)                        && Check transaction and
+      form.text = "Companies Maintenance -- Edit Mode"          && change mode to Edit
+   
+     form.statusmessage = "In Edit Mode.  " + ;
+                           "Select menu Company Code - View to switch " + ;
+                           "to View mode."
+        form.COYCOMBOBOX.Enabled = .F.
+         
+       form.LnameEntry.SetFocus()  
+      
+   endif
+   
+   inEditMode = form.inEditMode     && Faster if we don't reference a form
+   control = form.first             &&    variable each time through the loop
+   do
+      if .not. control.className $ "BROWSE,EDITOR,NEXTBUTTON,PREVBUTTON,PUSHBUTTON,IMAGE,TEXT"
+         control.enabled = inEditMode
+      endif
+      control = control.before
+   until control.name = form.first.name
+          form.COYCOMBOBOX.Enabled = .F.
+     form.COYCOMBOBOX.Enabled = .F.
+     FORM.SSTN.ENABLED = .F.
+    form.splantn.enabled = .f.
+    if form.blevel > 4 .or. form.blevel = 2
+   form.ydoc12.enabled = .f.
+   form.ndoc12.enabled = .f.
+   endif
+     if FORM.BLEVEL > 3
+     form.sdisc1.enabled = .f.
+     form.sdisc2.enabled = .f.
+     form.saly.enabled = .f.
+     form.saln.enabled = .f.
+     form.ycsv.enabled = .f.
+     form.fcy.enabled = .f.
+      form.fcn.enabled = .f.
+     form.ncsv.enabled = .f.
+     FORM.OCSV.ENABLED = .F.
+     form.ydoc13.enabled = .f.
+     form.ydoc13.visible = .f.
+     form.ndoc13.enabled = .f.
+     form.ndoc13.visible = .f.
+     form.ydoc14.enabled = .f.
+      form.ydoc14.visible = .f.
+       form.ndoc14.enabled = .f.
+      form.ndoc14.visible = .f.
+     form.splant.enabled = .f.
+       FORM.PITY.ENABLED = .F.
+      FORM.TYCY.ENABLED = .F.
+      FORM.PITN.ENABLED = .F.
+      FORM.TYCN.ENABLED = .F.
+      form.slcd.enabled = .f.
+      form.slocn.enabled = .f.
+      form.swcod.enabled = .f.
+      form.swhna.enabled = .f.
+     FORM.PYYES.ENABLED = .F.
+     form.rfy.enabled = .f.
+      form.rfn.enabled = .f.
+      form.ypy.enabled = .f.
+      form.npy.enabled = .f.
+     FORM.PYNO.ENABLED = .F.
+      form.SCURR.enabled = .f.
+      form.STAX.enabled = .f.
+     FORM.PYYES.ENABLED = .F.
+     FORM.PYNO.ENABLED = .F.
+     form.rfy.enabled = .f.
+      form.rfn.enabled = .f.
+      form.ypy.enabled = .f.
+      form.npy.enabled = .f.
+      form.SCURR.enabled = .f.
+      form.STAX.enabled = .f.
+     endif
+         if FORM.BLEVEL > 1
+      FORM.STREETENTRY.ENABLED = .F.
+      form.sname.enabled = .f.
+      form.ydoc20.enabled = .f.
+      form.ndoc20.enabled = .f.
+        form.ydoc12.enabled = .f.
+    form.ndoc12.enabled = .f.
+         form.ym.enabled = .f.
+      form.nm.enabled = .f.
+      form.fcn.enabled = .f.
+      form.fcy.enabled = .f.
+      form.locationentry.enabled = .f.
+      form.ysd.enabled = .f.
+      form.nsd.enabled = .f.
+      form.yholiday.enabled = .f.
+      form.nholiday.enabled = .f.
+      form.y13.enabled = .f.
+      form.y12.enabled = .f.
+      form.y14.enabled = .f.
+      form.y6.enabled = .f.
+      form.y7.enabled = .f.
+      form.yfp.enabled = .f.
+      form.nfp.enabled = .f.
+      form.saly.enabled = .f.
+      form.saln.enabled = .f.
+       form.npup.enabled =.f.
+         form.ypup.enabled =.f.
+      endif
+      if  .NOT. FORM.BLEVEL = 1 .AND. .NOT. FORM.BLEVEL = 5  .AND. .NOT. FORM.BLEVEL = 4  .AND. .NOT. FORM.BLEVEL = 2 ;
+   .AND. .NOT. FORM.BLEVEL = 3
+   FORM.SSP1.ENABLED = .F.
+    FORM.SSP2.ENABLED = .F.
+     FORM.SSP3.ENABLED = .F.
+     FORM.SLX300LPT1.ENABLED = .F.
+     FORM.SLX300USB.ENABLED = .F.
+     FORM.SLASERDESKJET1.ENABLED = .F.
+      form.yveh.enabled = .f.
+         form.nveh.enabled = .f.
+   
+   ENDIF
+   
+    if  FORM.BLEVEL > 2
+       form.saly.enabled = .f.
+     form.saln.enabled = .f.
+     form.ycsv.enabled = .f.
+     form.ncsv.enabled = .f.
+     FORM.OCSV.ENABLED = .F.
+     form.ydoc14.visible = .f.
+     form.ndoc14.visible = .f.
+     form.ydoc13.visible = .f.
+     form.ndoc13.visible = .f.
+     *
+      form.ydoc14.enabled = .f.
+     form.ndoc14.enabled = .f.
+     form.ydoc13.enabled = .f.
+     form.ndoc13.enabled = .f.
+     *
+      form.splant.enabled = .f.
+        FORM.PITY.ENABLED = .F.
+      FORM.TYCY.ENABLED = .F.
+      FORM.PITN.ENABLED = .F.
+      FORM.TYCN.ENABLED = .F.
+       form.slcd.enabled = .f.
+      form.slocn.enabled = .f.
+      form.swcod.enabled = .f.
+      form.swhna.enabled = .f.
+      form.fcy.enabled = .f.
+      form.fcn.enabled = .f.
+      FORM.PYYES.ENABLED = .F.
+      form.rfy.enabled = .f.
+      form.rfn.enabled = .f.
+      form.ypy.enabled = .f.
+      form.npy.enabled = .f.
+     FORM.PYNO.ENABLED = .F.
+      form.SCURR.enabled = .f.
+      form.STAX.enabled = .f.
+     FORM.YFCLPGS.enabled = .F.
+      FORM.NFCLPGS.enabled = .F.
+      form.ydoc10.ENABLED = .f.
+      form.ndoc10.ENABLED = .f.
+     form.nback.enabled = .f.
+     form.yback.enabled = .f.
+      form.yfc.enabled = .f.
+       form.nfc.enabled = .f.
+        form.ysd.enabled = .f.
+         form.nsd.enabled = .f.
+          form.yfp.enabled = .f.
+           form.nfp.enabled = .f.
+            form.y13.enabled = .f.
+             form.y14.enabled = .f.
+              FORM.Y12.ENABLED = .F.
+              form.y6.enabled = .f.
+               form.y7.enabled = .f.
+                form.nm.enabled = .f.
+                 form.ym.enabled = .f.
+                  *form.send.enabled = .f.
+                   
+                    *form.sdate.enabled = .f.
+                     form.yfpur.enabled =.f.
+                     form.slpgd.enabled = .f.
+                     form.nfpur.enabled =.f.
+     endif
+     
+     IF FORM.BLEVEL > 3
+     form.sfloat.enabled = .f.  && NEW
+     ENDIF
+     
+     if  form.blevel > 1
+     form.ydoc10.ENABLED = .f.
+      form.ndoc10.ENABLED = .f.
+     form.ydoc11.ENABLED = .f.
+      form.ndoc11.ENABLED = .f.
+       form.ystn.enabled = .f.
+      form.yfpur.enabled =.f.
+      form.nfpur.enabled =.f.
+       form.sysy.enabled = .f.
+     form.sysn.enabled = .f.
+        form.yfc.enabled = .f.
+       form.nfc.enabled = .f.
+     form.semy.enabled = .f.
+     form.semn.enabled = .f.
+       form.ysrep.enabled = .f.
+   form.nsrep.enabled = .f.
+        FORM.PYYES.ENABLED = .F.
+       form.rfy.enabled = .f.
+      form.rfn.enabled = .f.
+      form.ypy.enabled = .f.
+      form.npy.enabled = .f.
+         form.nback.enabled = .f.
+     form.yback.enabled = .f.
+      form.yfc.enabled = .f.
+       form.nfc.enabled = .f.
+        form.slhdy.enabled = .f.
+         form.slhdn.enabled = .f.
+            FORM.YFCLPGS.enabled = .F.
+      FORM.NFCLPGS.enabled = .F.
+     FORM.PYNO.ENABLED = .F.
+      form.SCURR.enabled = .f.
+      form.STAX.enabled = .f.
+       form.yglpd.enabled = .f.
+   form.nglpd.enabled = .f.
+    form.yveh.enabled = .f.
+         form.nveh.enabled = .f.
+     endif
+      
+       if FORM.BLEVEL > 1
+      form.lnameentry.enabled = .f.
+      form.SJO.enabled = .f.
+      form.njo.enabled = .f.
+       form.slhdy.enabled = .f.
+         form.slhdn.enabled = .f.
+         form.yveh.enabled = .f.
+         form.nveh.enabled = .f.
+          form.npup.enabled =.f.
+         form.ypup.enabled =.f.
+      endif
+      
+         if FORM.BLEVEL > 1
+      FORM.STREETENTRY.ENABLED = .F.
+      form.sname.enabled = .f.
+       form.ym.enabled = .f.
+      form.nm.enabled = .f.
+      form.fcn.enabled = .f.
+      form.fcy.enabled = .f.
+      form.locationentry.enabled = .f.
+      form.ysd.enabled = .f.
+      form.nsd.enabled = .f.
+      form.yholiday.enabled = .f.
+      form.nholiday.enabled = .f.
+      form.y13.enabled = .f.
+      form.y12.enabled = .f.
+      form.y14.enabled = .f.
+      form.y6.enabled = .f.
+      form.y7.enabled = .f.
+      form.ydoc15.enabled = .f.
+      form.ndoc15.enabled = .f.
+      form.yfp.enabled = .f.
+      form.nfp.enabled = .f.
+      form.saly.enabled = .f.
+      form.saln.enabled = .f.
+       form.npup.enabled =.f.
+         form.ypup.enabled =.f.
+      endif
+   IF FORM.BLEVEL = 1 .and. this.inEditMode  
+   FORM.YSD.ENABLED = .t.
+   FORM.NSD.ENABLED = .t.
+   FORM.Y13.ENABLED = .t.
+   FORM.Y14.ENABLED = .t.
+    FORM.Y12.ENABLED = .t.
+   FORM.Y6.ENABLED = .t.
+   FORM.Y7.ENABLED = .t.
+   endif
+   
+          IF .NOT. FORM.BLEVEL = 1
+   
+    form.yveh.enabled = .f.
+         form.nveh.enabled = .f.
+     form.ysrep.enabled = .f.
+   form.nsrep.enabled = .f.
+      form.yglpd.enabled = .f.
+   form.nglpd.enabled = .f.
+    form.yveh.enabled = .f.
+         form.nveh.enabled = .f.
+   ENDIF
+   
+     if FORM.BLEVEL > 1
+      FORM.STREETENTRY.ENABLED = .F.
+      form.sname.enabled = .f.
+       form.ym.enabled = .f.
+      form.nm.enabled = .f.
+      form.fcn.enabled = .f.
+      form.fcy.enabled = .f.
+      form.locationentry.enabled = .f.
+      form.ysd.enabled = .f.
+      form.nsd.enabled = .f.
+      form.yholiday.enabled = .f.
+      form.nholiday.enabled = .f.
+      
+      form.y13.enabled = .f.
+      form.y12.enabled = .f.
+      form.y14.enabled = .f.
+      form.y6.enabled = .f.
+      form.y7.enabled = .f.
+      
+       form.yfp.enabled = .f.
+      form.nfp.enabled = .f.
+      
+      form.saly.enabled = .f.
+      form.saln.enabled = .f.
+      
+       form.npup.enabled =.f.
+         form.ypup.enabled =.f.
+         
+      endif
+     * past here
+   if  form.blevel >  1
+    form.ycsv.enabled = .f.
+     form.ncsv.enabled = .f.
+     FORM.OCSV.ENABLED = .F.
+     form.ydoc13.enabled = .f.
+     form.ndoc13.enabled = .f.
+     form.ndoc13.visible = .f.
+     form.ydoc13.visible = .f.
+      form.ydoc14.enabled = .f.
+      form.ndoc14.enabled = .f.
+      form.ydoc14.visible = .f.
+       form.ndoc14.visible = .f.
+      form.splant.enabled = .f.
+        FORM.PITY.ENABLED = .F.
+      FORM.TYCY.ENABLED = .F.
+      FORM.PITN.ENABLED = .F.
+      FORM.TYCN.ENABLED = .F.
+       form.slcd.enabled = .f.
+      form.slocn.enabled = .f.
+      form.swcod.enabled = .f.
+      form.swhna.enabled = .f.
+       endif
+    *  past here
+   
+
+   ****************************************************************************
+
+   function Y12_onGotFocus
+         select fgcoy
+      replace f1dir with '12'
+      form.CheckCommit(form.inEditMode)
+      form.changesmade =      .t.
+      return
+
+   function Y13_onGotFocus
+       select fgcoy
+      replace f1dir with '13'
+      form.changesmade =     .t.
+      form.CheckCommit(form.inEditMode)
+      return
+
+   function Y14_onGotFocus
+         select fgcoy
+      replace f1dir with '14'
+      form.changesmade =    .t.
+      form.CheckCommit(form.inEditMode)
+      return
+
+   function Y6_onGotFocus
+         select fgcoy
+      replace f1dir with '06'
+      form.changesmade =  .t.
+      form.CheckCommit(form.inEditMode)
+      return
+
+   function Y7_onGotFocus
+         select fgcoy
+      replace f1dir with '07'
+      form.changesmade =     .t.
+      form.CheckCommit(form.inEditMode)
+      return
+
+   function YBACK_onGotFocus
+      select fgcoy
+      replace fix_price with 'Yes'
+      form.changesmade = .t.
+      form.CheckCommit(form.inEditMode)
+      return
+
+   procedure CheckChanged(callCommit)
+    private control, fieldValue, controlValue, typeText, typeValue
+
+   if form.inEditMode
+      control = form.activeControl
+      if type("control.datalink") <> "U"
+         fieldValue = control.datalink          && name of table field
+
+         typeText = type("control.text")
+         typeValue = type("control.value")
+         do case
+            case typeValue = "C"
+               controlValue = control.value
+            case typeValue $ "LU" .and. typeText = "C"
+               controlValue = control.text
+            otherwise
+               controlValue = Null
+         endcase
+         if controlValue <> &fieldValue
+            form.changesMade = .T.
+         endif
+      endif
+   endif
+   if form.changesMade .and. callCommit
+      CLASS::CheckCommit(form.inEditMode)     && Check transactions
+   endif
+
+      Procedure change_name
+      if .not. empty(this.value)
+      form.changesmade = .t.
+      form.updated = .t.
+      if empty(form.sname.value)
+      form.sname.value = this.value
+      endif
+      endif
+         form.CheckCommit(form.inEditMode)
+      Procedure valid_name
+      if empty(this.value)
+      isvalid = .f.
+      else
+      isvalid = .t.
+      endif
+
+      return isvalid
+
+   Procedure SNAME_OnChange
+         if empty(this.value)
+         form.sname.value = form.LNAMEENTRY.value
+         endif
+         form.changesmade = .t.
+             form.CheckCommit(form.inEditMode)
+   Procedure YSTN_ONCHANGE
+         select fgstns
+         seek this.value
+         select fgcoy
+         replace stn with fgstns->stn
+         form.changesmade = .t.
+                                  form.CheckCommit(form.inEditMode)
+   Procedure SLPGD_OnChange
+           form.changesmade = .t.
+           this.value = ltrim(this.value)
+           if val(this.value) < 0
+           form.slpgd.value = "0"
+           endif
+              form.CheckCommit(form.inEditMode)
+   function SLX300LPT1_onGotFocus
+      select fgcoy
+      replace authname with 'LX 300 LPT1'
+      form.changesmade =   .t.
+      form.CheckCommit(form.inEditMode)
+      return
+
+   function SLX300USB_onGotFocus
+       select fgcoy
+      replace authname with 'LX 300 USB'
+      form.changesmade =   .t.
+      form.CheckCommit(form.inEditMode)
+      return
+
+   Procedure rfn_OnGotFocus
+   select fgcoy
+   replace RCASHFUEL with 'No'
+   form.changesmade = .t.
+        form.CheckCommit(form.inEditMode)
+   Procedure rfy_OnGotFocus
+   select fgcoy
+   replace RCASHFUEL with 'Yes'
+   form.changesmade = .t.
+          form.CheckCommit(form.inEditMode)
+   function nveh_onGotFocus
+       select fgcoy
+      replace veh with 'No'
+      form.changesmade =   .t.
+      form.CheckCommit(form.inEditMode)
+      return
+
+   function yveh_onGotFocus
+        select fgcoy
+      replace veh with 'Yes'
+      form.changesmade =   .t.
+      form.CheckCommit(form.inEditMode)
+      return
+
+   function NBACK_onGotFocus
+       select fgcoy
+      replace fix_price with 'No'
+      form.changesmade = .t.
+      form.CheckCommit(form.inEditMode)
+      return
+
+   Procedure SALY_OnGotFocus
+   form.changesmade = .t.
+         form.CheckCommit(form.inEditMode)
+   function SDISC1_onGotFocus
+       select fgcoy
+      replace gl with 'Yes'
+      form.changesmade =   .t.
+      form.CheckCommit(form.inEditMode)
+      return
+
+   function SDISC2_onGotFocus
+       select fgcoy
+      replace gl with 'No'
+      form.changesmade =   .t.
+      form.CheckCommit(form.inEditMode)
+      return
+
+   Procedure SALN_OnGotFocus
+   form.changesmade = .t.
+
+   Procedure YCSV_OnGotFocus
+    select fgcoy
+      replace shipname with 'Yes'
+      form.changesmade =   .t.
+      form.CheckCommit(form.inEditMode)
+ return
+
+   Procedure NCSV_OnGotFocus
+   select fgcoy
+      replace shipname with 'No'
+      form.changesmade =   .t.
+      form.CheckCommit(form.inEditMode)
+      return
+
+   Procedure SPLANT_OnChange
+      select fgplants
+      seek this.value
+      if found()
+      select fgcoy
+      replace plant_code with this.value
+      else
+      select fgcoy
+      replace plant_code with ''
+      endif
+      form.changesmade = .t.
+      form.CheckCommit(form.inEditMode)
+
+   Procedure NPY_OnGotFocus
+   select fgcoy
+   replace tcode with .F.
+   FORM.CHANGESMADE = .T.
+        form.CheckCommit(form.inEditMode)
+   function NSD_onGotFocus
+       select fgcoy
+      replace No_shifts with '2'
+      form.changesmade = .t.
+      form.CheckCommit(form.inEditMode)
+      return
+
+   function NSREP_onGotFocus
+       select fgcoy
+      replace Ordername with .f.
+      form.changesmade = .t.
+      form.CheckCommit(form.inEditMode)
+      return
+
+   Procedure YPY_OnGotFocus
+   select fgcoy
+   replace tcode with .T.
+   FORM.CHANGESMADE = .T.
+         form.CheckCommit(form.inEditMode)
+   function YSD_onGotFocus
+       select fgcoy
+      replace No_shifts with '1'
+      form.changesmade = .t.
+      form.CheckCommit(form.inEditMode)
+      return
+
+   function YSREP_onGotFocus
+        select fgcoy
+      replace Ordername with .t.
+      form.changesmade = .t.
+      form.CheckCommit(form.inEditMode)
+      return
+
+   Procedure FCY_OnChange
+   form.changesmade = .t.
+         form.CheckCommit(form.inEditMode)
+   function FCY_onGotFocus
+      select fgcoy
+      replace fc with 'Yes'
+      form.changesmade =   .t.
+      form.CheckCommit(form.inEditMode)
+      return
+
+   Procedure FCN_OnChange
+   form.changesmade = .t.
+       form.CheckCommit(form.inEditMode)
+   function FCN_onGotFocus
+        select fgcoy
+      replace fc with 'No'
+      form.changesmade =   .t.
+      form.CheckCommit(form.inEditMode)
+      return
+
+   Procedure YHOLIDAY_OnGotFocus
+   Form.changesmade = .t.
+   form.CheckCommit(form.inEditMode)
+
+   function YM_onGotFocus
+      select fgcoy
+      replace Nqty with 'No'
+      form.changesmade = .t.
+      form.CheckCommit(form.inEditMode)
+      return
+
+   Procedure NHOLIDAY_OnGotFocus
+   Form.changesmade = .t.
+         form.CheckCommit(form.inEditMode)
+   function NJO_onGotFocus
+        select fgcoy
+      replace Cashiers with .f.
+      form.changesmade = .t.
+      form.CheckCommit(form.inEditMode)
+      return
+
+   function NM_onGotFocus
+       select fgcoy
+      replace Nqty with 'Yes'
+      form.changesmade = .t.
+      form.CheckCommit(form.inEditMode)
+      return
+
+   Procedure OCSV_OnGotFocus
+   form.changesmade = .t.
+   select fgcoy
+   replace shipname with 'Orc'
+   form.CheckCommit(form.inEditMode)
+   return
+
+   Procedure SLOC_OnChange
+   select fghqlocs
+      seek this.value
+      if found()
+      select fgcoy
+      replace plant_code with this.value
+      else
+      select fgcoy
+      replace plant_code with ''
+      endif
+      form.changesmade = .t.
+         form.CheckCommit(form.inEditMode)
+   Procedure SLCD_OnChange
+   SELECT FGCOY
+   REPLACE LOC_COD WITH LTRIM(THIS.VALUE)
+   form.changesmade =.t.
+        form.CheckCommit(form.inEditMode)
+   function SLHDN_onGotFocus
+      select fgcoy
+      replace cashier_no with 'No'
+      form.changesmade =   .t.
+      form.CheckCommit(form.inEditMode)
+      return
+
+   function SLHDY_onGotFocus
+       select fgcoy
+      replace cashier_no with 'Yes'
+      form.changesmade =   .t.
+      form.CheckCommit(form.inEditMode)
+      return
+
+   Procedure SLOCN_OnChange
+   SELECT FGCOY
+   REPLACE LOC_NAME WITH LTRIM(THIS.VALUE)
+   form.changesmade =.t.
+       form.CheckCommit(form.inEditMode)
+   Procedure SWCOD_OnChange
+   SELECT FGCOY
+   REPLACE WARE_COD WITH LTRIM(THIS.VALUE)
+   form.changesmade =.t.
+
+   Procedure SWHNA_OnChange
+   SELECT FGCOY
+   REPLACE WARE_NAME WITH LTRIM(THIS.VALUE)
+   form.changesmade =.t.
+       form.CheckCommit(form.inEditMode)
+   function SYSN_onGotFocus
+      select fgcoy
+      replace w1cash with 'No'
+      form.changesmade =   .t.
+      form.CheckCommit(form.inEditMode)
+      return
+
+   function SYSY_onGotFocus
+      select fgcoy
+      replace w1cash with 'Yes'
+      form.changesmade =   .t.
+      form.CheckCommit(form.inEditMode)
+      return
+
+   Procedure PITY_OnGotFocus
+   select fgcoy
+   replace salepit   with 'Yes'
+   form.changesmade =.t.
+    form.CheckCommit(form.inEditMode)
+   function PYNO_onGotFocus
+       select fgcoy
+      replace py with 'No'
+      form.changesmade =   .t.
+      form.CheckCommit(form.inEditMode)
+      return
+
+   function PYYES_onGotFocus
+      select fgcoy
+      replace py with 'Yes'
+      form.changesmade =   .t.
+      form.CheckCommit(form.inEditMode)
+      return
+
+   Procedure PITN_OnGotFocus
+   select fgcoy
+   replace salepit   with 'No'
+   form.changesmade =.t.
+        form.CheckCommit(form.inEditMode)
+   Procedure TYCY_OnGotFocus
+   select fgcoy
+   replace saletyc   with 'Yes'
+   form.changesmade =.t.
+      form.CheckCommit(form.inEditMode)
+   Procedure TYCN_OnGotFocus
+   select fgcoy
+   replace saletyc   with 'No'
+   form.changesmade =.t.
+     form.CheckCommit(form.inEditMode)
+   Procedure SRANGE_OnGotFocus
+   select fgcoy
+   FORM.CHANGESMADE = .T.
+      form.CheckCommit(form.inEditMode)
+   function SSP1_onGotFocus
+       select fgcoy
+      replace AGENAME with 'LX 300 LPT1'
+      form.changesmade =   .t.
+      form.CheckCommit(form.inEditMode)
+
+   function SSP2_onGotFocus
+      select fgcoy
+      replace AGENAME with 'LX 300 USB'
+      form.changesmade =   .t.
+      form.CheckCommit(form.inEditMode)
+
+   function SSP3_onGotFocus
+      select fgcoy
+      replace AGENAME with 'LASER DESKJET'
+       form.changesmade =   .t.
+     form.CheckCommit(form.inEditMode)
+
+   Procedure SDOC13_OnGotFocus
+   select fgcoy
+   Form.ChangesMade = .t.
+      form.CheckCommit(form.inEditMode)
+   function SEMN_onGotFocus
+      select fgcoy
+      replace c1cash with 'No'
+      form.changesmade =   .t.
+      form.CheckCommit(form.inEditMode)
+
+   function SEMY_onGotFocus
+         select fgcoy
+      replace c1cash with 'Yes'
+      form.changesmade =   .t.
+     form.CheckCommit(form.inEditMode)
+
+   function SJO_onGotFocus
+       select fgcoy
+      replace Cashiers with .t.
+      form.changesmade = .t.
+      form.CheckCommit(form.inEditMode)
+
+   function SLASERDESKJET1_onGotFocus
+       select fgcoy
+      replace authname with 'LASER DESKJET'
+      form.changesmade =   .t.
+      form.CheckCommit(form.inEditMode)
+
+   Procedure YPUP_OnGotFocus
+   select fgcoy
+   replace pup with 'Yes'
+   form.changesmade = .t.
+        form.CheckCommit(form.inEditMode)
+   Procedure NPUP_OnGotFocus
+   select fgcoy
+   replace pup with 'No'
+   form.changesmade = .t.
+          form.CheckCommit(form.inEditMode)
+   Procedure YDOC20_OnGotFocus
+   form.changesmade = .t.
+          form.CheckCommit(form.inEditMode)
+   Procedure STRANSP_OnGotFocus
+   select fgcoy
+   Form.ChangesMade = .t.
+         form.CheckCommit(form.inEditMode)
+   Procedure YDOC15_OnGotFocus
+   select fgcoy
+   replace doc15 with .t.
+   form.changesmade = .t.
+         form.CheckCommit(form.inEditMode)
+   Procedure NDOC15_OnGotFocus
+   select fgcoy
+   replace doc15 with .f.
+   form.changesmade = .t.
+       form.CheckCommit(form.inEditMode)
+   Procedure YDOC14_OnGotFocus
+   select fgcoy
+   replace doc14 with .t.
+   form.changesmade = .t.
+     form.CheckCommit(form.inEditMode)
+   Procedure NDOC14_OnGotFocus
+   select fgcoy
+   replace doc14 with .f.
+   form.changesmade = .t.
+      form.CheckCommit(form.inEditMode)
+   Procedure YDOC20_OnGotFocus
+   select fgcoy
+   replace doc20 with .t.
+   form.chnagesmade = .t.
+
+   function YFCLPGS_onGotFocus
+       select fgcoy
+      replace cashier_no with .t.
+      form.changesmade =   .t.
+    form.CheckCommit(form.inEditMode)
+
+   function YFC_onGotFocus
+       select fgcoy
+      replace pospost with 'Yes'
+      form.changesmade = .t.
+      form.CheckCommit(form.inEditMode)
+
+   function YFPUR_onGotFocus
+      select fgcoy
+      replace fg with 'Yes'
+      form.changesmade = .t.
+     form.CheckCommit(form.inEditMode)
+
+   function YFP_onGotFocus
+      select fgcoy
+      replace STREAM  with 'Yes'
+      form.changesmade =   .t.
+      form.CheckCommit(form.inEditMode)
+
+   function YGLPD_onGotFocus
+       select fgcoy
+      replace discname with 'Yes'
+      form.changesmade =   .t.
+     form.CheckCommit(form.inEditMode)
+
+   Procedure NDOC20_OnGotFocus
+   select fgcoy
+   replace doc20 with .t.
+   form.chnagesmade = .t.
+      form.CheckCommit(form.inEditMode)
+   function NFCLPGS_onGotFocus
+       select fgcoy
+      replace cashier_no with .f.
+      form.changesmade =   .t.
+      form.CheckCommit(form.inEditMode)
+
+   function NFC_onGotFocus
+       select fgcoy
+      replace pospost with 'No'
+      form.changesmade = .t.
+      return
+
+   function NFPUR_onGotFocus
+       select fgcoy
+      replace fg with 'No'
+      form.changesmade =      .t.
+      form.CheckCommit(form.inEditMode)
+
+   function NFP_onGotFocus
+       select fgcoy
+      replace STREAM  with 'No'
+      form.changesmade =   .t.
+      form.CheckCommit(form.inEditMode)
+
+   function NGLPD_onGotFocus
+      select fgcoy
+      replace discname with 'No'
+      form.changesmade =   .t.
+      form.CheckCommit(form.inEditMode)
+   Procedure YDOC13_OnGotFocus
+   select fgcoy
+   replace doc13 with .t.
+   form.changesmade = .t.
+   form.CheckCommit(form.inEditMode)
+
+   Procedure NDOC13_OnGotFocus
+   select fgcoy
+   replace doc13 with .f.
+   form.changesmade = .t.
+   form.CheckCommit(form.inEditMode)
+
+   Procedure YDOC12_OnGotFocus
+   select fgcoy
+   replace doc12 with .t.
+   form.changesmade = .t.
+   form.CheckCommit(form.inEditMode)
+
+   Procedure NDOC12_OnGotFocus
+   select fgcoy
+   replace doc12 with .f.
+   form.changesmade = .t.
+   form.CheckCommit(form.inEditMode)
+
+   Procedure YDOC10_OnGotFocus
+   select fgcoy
+   replace doc10 with .t.
+   form.changesmade = .t.
+   form.CheckCommit(form.inEditMode)
+
+   Procedure NDOC10_OnGotFocus
+   select fgcoy
+   replace doc10 with .f.
+   form.changesmade = .t.
+   form.CheckCommit(form.inEditMode)
+
+   Procedure YDOC11_OnGotFocus
+   select fgcoy
+   replace doc11 with .t.
+   form.changesmade = .t.
+   form.CheckCommit(form.inEditMode)
+
+   Procedure NDOC11_OnGotFocus
+   select fgcoy
+   replace doc11 with .f.
+   form.changesmade = .t.
+   form.CheckCommit(form.inEditMode)
+
+endclass
+
+Procedure Fgcoys_rtn
+   private eofFgcoy3,p1,p2
+   ? "passed here"
+   eofFgcoy3 = .f.
+   set safety off
+    SET ORDER TO COY
+   select Fgcoys
+    set order to coy
+     set safety on
+   select Fgcoy3
+   go top
+   if .not. eof()
+      do
+         do rtn1
+         until eofFgcoy3
+     endif
+     eoffgcoys = .f.
+     select fgcoys
+        go top
+           if .not.  eof()
+              do
+                 do rtn3
+            until eoffgcoys
+          endif
+*          close databases
+     procedure rtn3
+        select fgcoy
+        seek fgcoys->coy
+           if .not.  found()
+              select fgcoys
+              delete
+          endif
+          select fgcoys
+         if .not. eof()
+    skip
+    endif
+          if eof()
+          eoffgcoys = .t.
+          endif
+procedure rtn1
+       p1 = Fgcoy3->name
+      if .not. empty(p1)
+      do rtn2
+      endif
+   select Fgcoy3
+   skip
+   if eof()
+   eofFgcoy3 = .t.
+   endif
+
+Procedure rtn2
+   select Fgcoys
+      seek fgcoy3->coy
+      if .not. found()
+      append blank
+      replace coy with Fgcoy3->coy
+      endif
+      replace fccash with fgcoy3->fccash
+        replace name with p1
+        replace fg with fgcoy3->fg
+        replace gl with fgcoy3->gl
+          replace PY with fgcoy3->PY
+          replace w1cash with fgcoy3->w1cash
+          replace c1cash with fgcoy3->c1cash
+          REPLACE STREET WITH FGCOY3->STREET
+          replace cashiers with fgcoy3->cashiers
+          replace unitname with fgcoy3->unitname
+          replace tcode with fgcoy3->tcode
+          replace currname with fgcoy3->currname
+          replace country with fgcoy3->country  
+          replace SACNAME  with fgcoy3->sacname
+          replace ashipname with fgcoy3->ashipname
+          replace shipname with fgcoy3->shipname
+          replace phsname with fgcoy3->phsname
+          replace payroll with fgcoy3->payroll
+          replace veh with fgcoy3->veh
+          replace fc with fgcoy3->fc
+          replace CONTACT with fgcoy3->CONTACT
+          replace plant_code with fgcoy3->plant_code
+          replace pwd with fgcoy3->pwd
+          replace float with fgcoy3->float
+          replace loc_cod with fgcoy3->loc_cod
+          replace loc_name with fgcoy3->loc_name
+          replace ware_cod with fgcoy3->ware_cod
+          replace ware_name with fgcoy3->ware_name
+          replace salepit with fgcoy3->salepit
+          replace saletyc with fgcoy3->saletyc
+         replace doc10 with fgcoy3->doc10
+          replace doc11 with fgcoy3->doc11
+           replace doc12 with fgcoy3->doc12
+          replace doc13 with fgcoy3->doc13
+          replace PUP   with fgcoy3->PUP  
+           replace doc20 with fgcoy3->doc20
+            replace doc14 with fgcoy3->doc14
+            replace doc15 with fgcoy3->doc15
+            replace doc16 with fgcoy3->doc16
+             replace doc17 with fgcoy3->doc17
+            replace doc18 with fgcoy3->doc18
+            *
+             replace depot with fgcoy3->depot
+            replace dname with fgcoy3->dname
+            replace spms with fgcoy3->spms
+   replace sago with fgcoy3->sago
+   replace sik with fgcoy3->sik 
+   replace svp  with fgcoy3->svp 
+   replace ppms with fgcoy3->ppms
+   replace pago with fgcoy3->pago
+   replace pik with fgcoy3->pik 
+   replace pvp  with fgcoy3->pvp
+  replace BRK13 with fgcoy3->BRK13
+   replace cust_ac_id with fgcoy3->cust_ac_id
+   replace party_id with fgcoy3->party_id
+   replace acc_no with fgcoy3->acc_no
+   REPLACE RCASHFUEL WITH FGCOY3->RCASHFUEL
+   replace whvat with fgcoy3->whvat
+   replace whtax with fgcoy3->whtax
+            *
+        
+      SELECT nlcoy
+      SEEK Fgcoy3->COY
+      IF .NOT. FOUND()
+      APPEND BLANK
+      REPLACE COY WITH Fgcoy3->COY
+      ENDIF
+      REPLACE LNAME WITH Fgcoy3->STREET
+      REPLACE NAME WITH FGCOY3->NAME
+      
+    

@@ -1,0 +1,99 @@
+* Visual dBASE .QBE file 9
+on error do fgcodsr.prg
+use  \kenservice\data\st15f.dbf
+? op_capital
+close databases
+ON ERROR DO FGMSTR.PRG
+USE \KENSERVICE\DATA\FGCEN.DBF
+? plant_code
+close databases
+ON ERROR DO QBEERR WITH ERROR(), MESSAGE(),;
+PROGRAM(), LINENO()
+CLOSE DATABASES
+if .not. file("\kenservice\data\fgcprice.dbf")
+use \kenserve\idssys\fgcprice.dbf
+copy stru to \kenservice\data\fgcprice dbase prod
+endif
+
+if .not. file("\kenservice\data\fguname.dbf")
+use \kenserve\idssys\fguname.dbf
+copy stru to \kenservice\data\fguname dbase prod
+endif
+
+if .not. file("\kenservice\data\dayfgmas.dbf")
+use \kenserve\idssys\dayfgmas.dbf
+copy stru to \kenservice\data\dayfgmas dbase prod
+endif
+SET EXACT ON
+SELECT 1
+USE \KENSERVICE\DATA\FGCLAS.DBF ORDER TAG NAME
+SELECT 2
+USE \KENSERVICE\DATA\FGCOD.DBF
+SET FILTER TO EMPTY(DATE_CREAT)
+SELECT 3
+USE \KENSERVICE\DATA\FGTYP.DBF ORDER TAG TYP
+SELECT 4
+USE \KENSERVICE\DATA\FGCLA.DBF ORDER TAG MKEY
+SELECT 5
+USE \KENSERVICE\DATA\FGUNITS.DBF ORDER TAG NAME
+SELECT 6
+USE \KENSERVICE\DATA\FGTYPS.DBF ORDER TAG NAME
+SELECT 7
+USE \KENSERVICE\DATA\FGCODS.DBF 
+select 8
+use \KENSERVICE\DATA\FGCOD.dbF again  alias temp
+SELECT 10
+USE \KENSERVICE\DATA\FGTAXTYP.DBF ORDER TAG NAME
+SELECT 14
+USE \KENSERVICE\DATA\FGCOD.DBF AGAIN ALIAS FGCOD3
+SELECT 15
+USE \KENSERVICE\DATA\FGCEN.DBF ORDER TAG NAME
+set filter to used = "Yes"
+select 90
+use \kenservice\data\ststos.dbf order tag name
+set filter to used = "Yes"
+select 91
+use \kenservice\data\ststo.dbf 
+set filter to used = "Yes"
+select 16
+use \kenservice\data\fgmast.dbf
+SELECT 17
+USE \KENSERVICE\DATA\FGCOD.DBF again alias fgcod2
+SELECT 18
+USE \KENSERVICE\DATA\FGMASTP.DBF
+SELECT 19
+USE \KENSERVICE\DATA\GLBANKBL.DBF
+select 21
+USE \KENSERVICE\DATA\FGTAXTYP.DBF again alias fgtaxtyp2
+SELECT 25
+USE \KENSERVICE\DATA\FGSSHIFT.DBF
+select 26
+use \kenservice\data\st15f.dbf
+replace shift_Post with date()
+select 28
+use \kenservice\data\shiftid.dbf
+select 30
+use \kenservice\data\st15f.dbf again alias st15f2
+select 31
+use \kenservice\data\fgcoy.dbf
+GO TOP
+select 32
+use \kenservice\data\scashrec.dbf 
+SELECT 33
+USE \KENSERVICE\DATA\SHIFTID.DBf
+SELECT 34
+USE \KENSERVICE\DATA\CASHIERS.DBF
+select 35
+use \kenservice\data\fgprices.dbf
+select 36
+use \kenservice\data\fgcod.dbf again alias fgcod4
+SELECT 38
+use \kenservice\data\fgSVCES.DBF ORDER TAG NAME
+SELECT 40
+use \kenservice\data\fgmast.dbf AGAIN ALIAS FGMAST2
+SELECT 2
+SET RELATION TO TAXNAME INTO FGTAXTYP,  UNITNAME INTO FGUNITS, TYP INTO FGTYP,;
+TYP+CLA INTO FGCLA, CNAME INTO FGCEN, stoname into ststos, COSTNAME INTO fgSVCES
+*SET RELATION TO   , VNAME INTO VENNAMES, 
+SELECT 2
+GO TOP

@@ -1,0 +1,160 @@
+////////////////////////////////////////////////////////////////////////////////
+// Output Filename: C:\KENSERVICE\IDSSYS\KENDDE_FCV.WFM                       //
+// Created By:      dBASE Form Converter Wizard                               //
+// Created On:      Monday September 27, 2021 At 05:47:03                     //
+// Object Count:    0                                                         //
+////////////////////////////////////////////////////////////////////////////////
+**************************************************************************
+*  PROGRAM:      KENDDE.wfm
+*
+*
+*******************************************************************************
+
+
+
+create session
+set talk off
+set ldCheck off
+_app.FrameWin.Visible = .F.
+_app.FrameWin.Text = "KenDde"
+_app.FrameWin.Moveable = .f.
+*f .not. access() = 1
+set design off
+*ndif
+shell(.F.)
+** END HEADER -- do not remove this line*
+* Generated on 02/02/2005
+*buser,blevel,bModal
+parameter buser,blevel,BLADJSTSTK,BLADMIN,BLNOTRANASSY,;
+BLGLEDGER,BLNOREVPRV,blsalepit,blsaletyc,bModal
+local f
+f = new KENDDEFORM()
+if (bModal)
+   f.mdi = .F. && ensure not MDI
+   f.ReadModal()
+else
+   f.Open()
+endif
+CLASS KENDDEFORM OF FORM
+   this.Metric = 6  // Pixels
+   this.OnOpen = CLASS::ONOPEN
+   this.MDI = .F.
+   this.OnClose = CLASS::ONCLOSE
+   this.ScrollBar = 0
+   this.Text = "STOCK TRANSFER ADJUSTMENT ASSEMBLY GL JOURNALS MENU FORM"
+   this.Top = 0
+   this.WindowState = 2
+   this.EscExit = .F.
+   this.view = "st15fc06.qbe"
+   this.MenuFile = "KENDDE.MNU"
+   this.MousePointer = 1
+   this.SysMenu = .t.
+   this.Moveable = .F.
+   this.Minimize = .F.
+   this.Sizeable = .F.
+   this.Maximize = .f.
+   this.ColorNormal = "n+"
+   this.Left = 113
+   this.Height = 302
+   this.Width = 506
+
+
+
+   procedure OnOpen
+     form.bluser = buser
+      form.blevel = blevel
+      FORM.BLADJSTSTK = BLADJSTSTK
+      FORM.BLADMIN = BLADMIN
+      form.BLNOTRANASSY = BLNOTRANASSY
+      form.BLGLEDGER = BLGLEDGER
+       FORM.BLNOREVPRV = BLNOREVPRV
+
+       form.blsalepit = blsalepit
+       form.blsaletyc = blsaletyc
+      if empty(form.bluser) .or. empty(form.blevel)
+      quit
+      endif
+
+     SELECT SHCONGT0
+    GO TOP
+    IF .NOT. EOF()
+    wait "Error encountered during shift closing in phase 0!"
+    QUIT
+    ENDIF
+    SELECT SHCONGT1
+    GO TOP
+    IF .NOT. EOF()
+    wait "Error encountered during shift closing in phase 1!"
+    QUIT
+    ENDIF
+    SELECT SHCONGT2
+    GO TOP
+    IF .NOT. EOF()
+    wait "Error encountered during shift closing in phase 2!"
+    QUIT
+    ENDIF
+    SELECT SHCONGT3
+    GO TOP
+    IF .NOT. EOF()
+    wait "Error encountered during shift closing in phase 3!"
+    QUIT
+    ENDIF
+    SELECT SHCONGT4
+    GO TOP
+    IF .NOT. EOF()
+    wait "Error encountered during shift closing in phase 4!"
+    QUIT
+    ENDIF
+    SELECT SHCONGT5
+    GO TOP
+    IF .NOT. EOF()
+    wait "Error encountered during shift closing in phase 5!"
+    QUIT
+    ENDIF
+    select fgshupsl
+    go top
+    if .not. eof()
+     wait "Update Sales Reports First!"
+    QUIT
+    ENDIF
+    select fgshupdr
+    go top
+    if .not. eof()
+     wait "Update Debtors Reports First!"
+    QUIT
+    ENDIF
+    select fgshupiv
+    go top
+    if .not. eof()
+     wait "Update Inventory Reports First!"
+    QUIT
+    ENDIF
+    select fgshuppu
+    go top
+    if .not. eof()
+     wait "Update Purchaeses Reports First!"
+    QUIT
+    ENDIF
+    select fgshupst
+    go top
+    if .not. eof()
+     wait "Update Stocks Reports First!"
+    QUIT
+    ENDIF
+
+
+    CLOSE DATABASES
+
+
+   ********************************************************************************
+
+   procedure OnClose
+   ********************************************************************************
+      form.close()
+      close databases
+
+   ********************************************************************************
+
+
+ENDCLASS
+
