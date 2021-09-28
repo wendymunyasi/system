@@ -1,0 +1,40 @@
+* Visual dBASE .QBE file 9
+close databases
+DO STSTOH.PRG 
+close databases
+on erro do stotank.prg
+use \kenservice\data\ststo.dbf
+? expense
+close databases
+ON ERROR DO QBEERR WITH ERROR(), MESSAGE(),;
+PROGRAM(), LINENO()
+CLOSE DATABASES
+DO STSTOH.PRG 
+ON ERROR DO QBEERR WITH ERROR(), MESSAGE(),;
+PROGRAM(), LINENO()
+CLOSE DATABASES
+set exclusive off
+SET EXACT ON
+select 1
+use \kenservice\data\fgmastp.dbf
+SELECT 2
+USE \kenservice\DATA\STSTO.DBf
+select 3
+use \kenservice\data\st15f.dbf 
+SELECT 4
+USE \kenservice\DATA\STPUM.DBf order tag pum
+SELECT 6
+USE \KENSERVICE\DATA\STSTOS.DBF order tag sto EXCLUSIVE
+SET FILTER TO USED="Yes" .AND. .NOT. (LEFT(STO,1) = "U" .OR. LEFT(STO,1) = "P" .OR. ;
+LEFT(STO,1) = "D" .OR. LEFT(STO,1) = "K" .OR. LEFT(STO,1) = "L" .OR. LEFT(STO,1) = "R" .OR. ;
+LEFT(STO,1) = "X" .OR. LEFT(STO,1) = "Q")
+SELECT 7
+USE \KENSERVICE\DATA\STPUMs.DBf order tag name
+SELECT 8
+USE \KENSERVICE\DATA\STSTO.DBF ALIAS STSTO3
+REPL ALL STO1 WITH STO FOR LEFT(STO,1)='T' .AND. .NOT. STO = STO1
+select 9
+use \kenservice\data\ststo.dbf again alias ststo2 order tag name
+SELECT 2
+SET RELATION TO   pname INTO STPUMs, pum into stpum,stoname into ststo2, STO1 INTO STSTOS
+GO TOP

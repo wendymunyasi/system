@@ -1,0 +1,18 @@
+* Visual dBASE .QBE file 9
+ON ERROR DO QBEERR WITH ERROR(), MESSAGE(),;
+PROGRAM(), LINENO()
+CLOSE DATABASES
+SET EXACT ON
+SELECT 4
+USE \KENSERVICE\data\FGDIV.DBF
+SELECT 2
+USE \KENSERVICE\data\FGCOY.DBF ORDER TAG COY
+select 5
+use \kenservice\data\FGCOYs.dbf
+select 6
+use \kenservice\data\FGDIVs.dbf 
+select 8
+use \kenservice\data\fgdiv.dbf again alias fgdiv3
+SELECT 4
+SET RELATION TO  Coy INTO FGCOY
+GO TOP

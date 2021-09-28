@@ -1,0 +1,24 @@
+* Visual dBASE .QBE file 9
+on error do fregst.prg
+use  \kenservice\data\fgregcds.dbf
+? mkey
+close databases
+ON ERROR DO QBEERR WITH ERROR(), MESSAGE(),;
+PROGRAM(), LINENO()
+CLOSE DATABASES
+SET EXACT ON
+SELECT 1
+if .not. file("\kenservice\data\fgregcds.dbf")
+use \kenserve\idssys\fgregcds.dbf
+copy stru to \kenservice\data\fgregcds dbase prod
+endif
+USE \kenservice\data\fgregcds.DBf
+select 2
+use  \kenservice\data\frigtmes.dbf order tag name
+set filter to empty(close_date) .and. source > '3' .and. source < '9' .and. .not. source = '7' .AND. CARDCNTRL = 'Yes'
+select 4
+use \kenservice\data\fgregcds.dbf again alias fgregcds3
+select 6
+use \kenservice\data\fgregcds.dbf again alias temp order tag cardvehno
+SELECT 1
+GO TOP

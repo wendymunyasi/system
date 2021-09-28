@@ -1,0 +1,100 @@
+******************************************************************************
+*  PROGRAM:      fgcoy.mnu
+*
+*  WRITTEN BY:   W Nyongesa
+*
+*  DATE:         03/2001
+*
+*  UPDATED:      12/2012
+*
+*  REVISION:     $Revision:   1.58  $
+*
+*  VERSION:      Visual dBASE
+*
+*  DESCRIPTION:  This is a menu file used by fgcoy.WFM for
+*                performing simple tasks.  It allows adding and deleting
+*                records, searching for a value in the company field of the
+*                current table viewed, and exiting the form in view.
+*
+*  PARAMETERS:   FormObj -- the form to which this menu will belong.
+*
+*  CALLS:        None
+*
+*  USAGE:        form.menuFile = "fgcoy.mnu"
+*
+*******************************************************************************
+#include <messdlg.h>
+
+** END HEADER -- do not remove this line*
+* Generated on 07/03/2001
+*
+Parameter FormObj
+NEW CompanyS(FormObj,"Root")
+CLASS CompanyS(FormObj,Name) OF MENUBAR(FormObj,Name)
+
+   this.Text = ""
+   this.OnInit = {;set procedure to SampProc.prg}
+
+   DEFINE MENU FILE OF THIS;
+       PROPERTY;
+         Text "&File"
+         
+      DEFINE MENU EXIT OF THIS.FILE;
+             PROPERTY; 
+               StatusMessage "Return to the Previous Menu.",;
+               Text "&Return to Previous Menu",;
+               ShortCut "F4",;
+               OnClick CLASS::ONEXITALL
+
+        
+       DEFINE MENU SEPARATOR000 OF THIS.FILE;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+
+
+         DEFINE MENU QUITS OF THIS.FILE;
+             PROPERTY; 
+               StatusMessage "Leave Kenserve Integrated System.",;
+               Text "Exit",;
+               ShortCut "F8",;
+               OnClick CLASS::QUITALL
+
+   DEFINE MENU fgcoy OF THIS;
+       PROPERTY;
+         Text "&Company"
+
+         DEFINE MENU VIEWEDIT OF THIS.fgcoy;
+             PROPERTY;
+               OnClick CLASS::VIEWEDITONCLICK,;
+               Text "&Edit",;
+               Shortcut "Ctrl-E",;
+               StatusMessage "Edit data."
+
+         DEFINE MENU SEPARATOR1 OF THIS.fgcoy;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+
+ 
+ 
+   procedure ViewEditOnClick
+   ****************************************************************************
+
+   form.ViewEdit()
+
+   ****************************************************************************
+     procedure OnExitALL
+*  form.CheckCommit(form.inEditMode)
+   ****************************************************************************
+   *      form.close()  
+     form.Release()
+   Procedure QUITALL
+            form.Release()
+            QUIT
+  
+
+ENDCLASS
+
+
+

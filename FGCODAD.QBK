@@ -24,10 +24,6 @@ if .not. file("\kenservice\data\dayfgmas.dbf")
 use \kenserve\idssys\dayfgmas.dbf
 copy stru to \kenservice\data\dayfgmas dbase prod
 endif
-if .not. file("\kenservice\data\FGCODTEM.dbf")
-use \kenserve\idssys\FGCODTEM.dbf
-copy stru to \kenservice\data\FGCODTEM dbase
-endif
 SET EXACT ON
 SELECT 1
 USE \KENSERVICE\DATA\FGCLAS.DBF ORDER TAG NAME
@@ -95,9 +91,6 @@ SELECT 38
 use \kenservice\data\fgSVCES.DBF ORDER TAG NAME
 SELECT 40
 use \kenservice\data\fgmast.dbf AGAIN ALIAS FGMAST2
-SELECT 41
-USE \kenservice\data\FGCODTEM.DBF
- GO TOP
 SELECT 2
 SET RELATION TO TAXNAME INTO FGTAXTYP,  UNITNAME INTO FGUNITS, TYP INTO FGTYP,;
 TYP+CLA INTO FGCLA, CNAME INTO FGCEN, stoname into ststos, COSTNAME INTO fgSVCES

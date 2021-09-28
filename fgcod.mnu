@@ -1,0 +1,267 @@
+******************************************************************************
+*  PROGRAM:      Fgcod.mnu
+*
+*  WRITTEN BY:   W Nyongesa
+*
+*  DATE:         03/2001
+*
+*  UPDATED:      11/2013
+*
+*  REVISION:     $Revision:   1.58  $
+*
+*  VERSION:      Visual dBASE
+*
+*  DESCRIPTION:  This is a menu file used by Fgcod.WFM for
+*                performing simple tasks.  It allows adding and deleting
+*                records, searching for a value in the ProdCode field of the
+*                current table viewed, and exiting the form in view.
+*
+*  PARAMETERS:   FormObj -- the form to which this menu will belong.
+*
+*  CALLS:        None
+*
+*  USAGE:        form.menuFile = "Fgcod.mnu"
+*
+*******************************************************************************
+#include <messdlg.h>
+
+** END HEADER -- do not remove this line*
+* Generated on 07/03/2001
+*
+Parameter FormObj
+NEW FgCode(FormObj,"Root")
+CLASS FgCode(FormObj,Name) OF MENUBAR(FormObj,Name)
+   this.Text = ""
+   this.OnInit = {;set procedure to SampProc.prg}
+
+   DEFINE MENU FILE OF THIS;
+       PROPERTY;
+         Text "&File"
+
+         DEFINE MENU EXIT OF THIS.FILE;
+                PROPERTY; 
+          StatusMessage "Return to the Previous Menu.",;
+          Text "&RETURN TO PREVIOUS MENU",;
+          SHORTCUT "F4",;
+          OnClick CLASS::ONEXIT
+  
+      
+       DEFINE MENU SEPARATOR000 OF THIS.FILE;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+
+            
+   DEFINE MENU QUITALL OF THIS.FILE;
+       PROPERTY; 
+          StatusMessage "Leave Kenserve System.",;
+          Text "Exit",;
+          SHORTCUT "F8",;
+          OnClick CLASS::ONQUITALL
+
+   DEFINE MENU Fgcod OF THIS;
+       PROPERTY;
+         Text "Code"
+
+         DEFINE MENU VIEWEDIT OF THIS.Fgcod;
+             PROPERTY;
+               OnClick CLASS::VIEWEDITONCLICK,;
+               Text "&Edit",;
+               Shortcut "Ctrl-E",;
+               StatusMessage "Edit data."
+
+         DEFINE MENU SEPARATOR1 OF THIS.Fgcod;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+
+        
+         DEFINE MENU SEARCH OF THIS.Fgcod;
+             PROPERTY;
+               OnClick CLASS::SEARCHONCLICK,;
+               Text "&Search ...",;
+               Shortcut "Ctrl-S",;
+               StatusMessage "Search for a Code."
+
+         DEFINE MENU SEPARATOR3 OF THIS.Fgcod;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+
+
+   DEFINE MENU REPORT OF THIS;
+       PROPERTY;
+         Text "&Reports"
+
+         DEFINE MENU ERRORProdCodeREPORT OF THIS.REPORT;
+             PROPERTY;
+               OnClick {;create session ;set lock off ;report form Fgcod},;
+               Text "1. List Codes sorted by code."
+               
+               
+         DEFINE MENU SEPARATORREP1 OF THIS.REPORT;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+
+               
+               DEFINE MENU ERRORProdCodeerrsT OF THIS.REPORT;
+             PROPERTY;
+               OnClick {;create session ;set lock off ;report form Fgcoder},;
+               Text "2. Error Codes."
+               
+                DEFINE MENU SEPARATORREP2 OF THIS.REPORT;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+               
+                 DEFINE MENU materialcodes OF THIS.REPORT;
+             PROPERTY;
+               OnClick {;create session ;set lock off ;report form Fgcodm},;
+               Text "3. Items with Material Codes."
+               
+                DEFINE MENU SEPARATORREP3 OF THIS.REPORT;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+               
+             DEFINE MENU SERVICESCODES OF THIS.REPORT;
+             PROPERTY;
+               OnClick {;create session ;set lock off ;report form FgSVCES},;
+               Text "4. Revenue Services Codes."
+               
+                DEFINE MENU SEPARATORREP4 OF THIS.REPORT;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+
+       DEFINE MENU SERVICESCODESrev oF THIS.REPORT;
+             PROPERTY;
+               OnClick {;create session ;set lock off ;report form fgcodrev},;
+               Text "5. Revenue Service Classification Codes."
+
+    DEFINE MENU SEPARATORREP5 OF THIS.REPORT;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+      
+               DEFINE MENU ERRORProdCodename OF THIS.REPORT;
+             PROPERTY;
+               OnClick {;create session ;set lock off ;report form Fgcodnam},;
+               Text "6. List Codes sorted by name."
+               
+               
+         DEFINE MENU SEPARATORREP1nam OF THIS.REPORT;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+               
+               
+               DEFINE MENU ERRORProdCodepric OF THIS.REPORT;
+             PROPERTY;
+               OnClick {;create session ;set lock off ;report form Fgcodprc},;
+               Text "7. List Product Prices."
+                
+                DEFINE MENU SEPARATORREP8 OF THIS.REPORT;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+                 
+                 DEFINE MENU materialcodes8 OF THIS.REPORT;
+             PROPERTY;
+               OnClick {;create session ;set lock off ;report form Fgcodnm},;
+               Text "8. Items with No Material Codes."
+              
+                 DEFINE MENU SEPARATORREP9 OF THIS.REPORT;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+                 
+                 DEFINE MENU materialcodes9 OF THIS.REPORT;
+             PROPERTY;
+               OnClick {;create session ;set lock off ;report form Fgcodmp},;
+               Text "9. Material Code Sales Price."
+                
+         DEFINE MENU SEPARATORREP1pric OF THIS.REPORT;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+
+
+
+   ****************************************************************************
+   procedure SearchOnClick
+
+   * Bring up Search.WFM.
+   ****************************************************************************
+   private searchForm, searchItem, saveRec, saveFilt, searchtyp,;
+           searchcla, searchcen,searchcod
+      local l1
+   if reccount() = 0                     && If table is empty, don't search
+      InformationMessage("This table is empty.", "Sorry!")
+   else
+      form.CheckChanged(.T.)
+      set procedure to Search.WFM additive
+      searchForm = new SearchForm()
+      searchForm.keyName = "Item Id. Code"  && Indicator of key expression
+        searchForm.formatting = "@X"
+      searchForm.mdi = .F.
+      searchItem = searchForm.Readmodal()
+      if type("searchItem") = "O" .and. searchItem.id <> 0
+                                      && If search wasn't cancelled
+         saveRec = Bookmark()            && save current record in case seek is
+                                      && unsuccessful
+       searchtyp = left(searchform.value,2)
+       l1 = left(searchform.value,4)
+       searchcla = right(l1,2)
+       l1 = left(searchform.value,6)
+       searchcod = right(l1,2)
+     *  searchcen = right(searchform.value,6)
+       form.enabled = .F.
+       go top
+        seek searchtyp+searchcla+searchcod
+* locate for period = searchtyp .and. doctype = searchcla
+         if .not. found()
+            InformationMessage(FormatStr("Code %1 \n Was not Found.",;
+                                         searchForm.value),;
+                               "Info")
+            if .not. eof()
+               go saverec()
+            else
+               go bottom
+            endif
+         endif
+         form.enabled = .T.
+      endif
+
+      searchForm.Release()
+      close procedure Search.WFM
+   endif
+if fgcod->typ > '9Z'
+  form.suofm.enabled  = .f.
+    form.SMCODE.enabled = .f.
+ endif
+
+   
+   ***************************************************************************
+   procedure ViewEditOnClick
+   ****************************************************************************
+
+   form.ViewEdit()
+
+  
+   ****************************************************************************
+    procedure OnExit
+     form.Release()
+
+    procedure OnQuitAll
+   
+     form.Release()
+
+ quit
+
+
+ENDCLASS
+
+
+
