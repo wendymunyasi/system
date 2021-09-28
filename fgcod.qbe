@@ -1,15 +1,18 @@
-* Visual dBASE .QBE file 9
+CLOSE DATABASES
 on error do fgcodsr.prg
 use  \kenservice\data\st15f.dbf
 ? op_capital
 close databases
+use  \kenservice\data\fgcod.dbf
+? nsnonvat
+close databases
 ON ERROR DO FGMSTR.PRG
 USE \KENSERVICE\DATA\FGCEN.DBF
-? plant_code
+? expense
 close databases
 ON ERROR DO QBEERR WITH ERROR(), MESSAGE(),;
 PROGRAM(), LINENO()
-CLOSE DATABASES
+close databases
 if .not. file("\kenservice\data\fgcprice.dbf")
 use \kenserve\idssys\fgcprice.dbf
 copy stru to \kenservice\data\fgcprice dbase prod
@@ -24,16 +27,14 @@ if .not. file("\kenservice\data\dayfgmas.dbf")
 use \kenserve\idssys\dayfgmas.dbf
 copy stru to \kenservice\data\dayfgmas dbase prod
 endif
-if .not. file("\kenservice\data\FGCODTEM.dbf")
-use \kenserve\idssys\FGCODTEM.dbf
-copy stru to \kenservice\data\FGCODTEM dbase
-endif
 SET EXACT ON
+select 31
+use \kenservice\data\fgcoy.dbf
+GO TOP
 SELECT 1
 USE \KENSERVICE\DATA\FGCLAS.DBF ORDER TAG NAME
 SELECT 2
 USE \KENSERVICE\DATA\FGCOD.DBF
-SET FILTER TO EMPTY(DATE_CREAT)
 SELECT 3
 USE \KENSERVICE\DATA\FGTYP.DBF ORDER TAG TYP
 SELECT 4
@@ -43,11 +44,39 @@ USE \KENSERVICE\DATA\FGUNITS.DBF ORDER TAG NAME
 SELECT 6
 USE \KENSERVICE\DATA\FGTYPS.DBF ORDER TAG NAME
 SELECT 7
-USE \KENSERVICE\DATA\FGCODS.DBF 
+USE \KENSERVICE\DATA\FGCODS.DBF
 select 8
 use \KENSERVICE\DATA\FGCOD.dbF again  alias temp
+select 9
+IF .NOT. FGCOY->SHIPNAME = 'Hqs'
+if .not. file("\kenservice\data\fgmcods.dbf")
+use \kenserve\idssys\fgmcods.dbf
+copy stru to \kenservice\data\fgmcods dbase prod
+endif
+USE \KENSERVICE\DATA\fgmcodS.DBF  order tag name
+ELSE
+if .not. file("\kenservice\data\fghqcods.dbf")
+use \kenserve\idssys\fghqcods.dbf
+copy stru to \kenservice\data\fghqcods dbase prod
+endif
+USE \KENSERVICE\DATA\fghqcods.DBF  order tag name alias fgmcods
+endif
 SELECT 10
 USE \KENSERVICE\DATA\FGTAXTYP.DBF ORDER TAG NAME
+select 11
+IF .NOT. FGCOY->SHIPNAME = 'Hqs'
+if .not. file("\kenservice\data\fgmcod.dbf")
+use \kenserve\idssys\fgmcod.dbf
+copy stru to \kenservice\data\fgmcod dbase prod
+endif
+USE \KENSERVICE\DATA\fgmcod.DBF  order tag matcode
+else
+if .not. file("\kenservice\data\fghqcod.dbf")
+use \kenserve\idssys\fghqcod.dbf
+copy stru to \kenservice\data\fghqcod dbase prod
+endif
+USE \KENSERVICE\DATA\fghqcod.DBF  order tag matcode alias fgmcod
+endif
 SELECT 14
 USE \KENSERVICE\DATA\FGCOD.DBF AGAIN ALIAS FGCOD3
 SELECT 15
@@ -57,7 +86,7 @@ select 90
 use \kenservice\data\ststos.dbf order tag name
 set filter to used = "Yes"
 select 91
-use \kenservice\data\ststo.dbf 
+use \kenservice\data\ststo.dbf
 set filter to used = "Yes"
 select 16
 use \kenservice\data\fgmast.dbf
@@ -67,28 +96,30 @@ SELECT 18
 USE \KENSERVICE\DATA\FGMASTP.DBF
 SELECT 19
 USE \KENSERVICE\DATA\GLBANKBL.DBF
+select 20
+use \kenservice\data\fgitemus.dbf again alias fgitemus2 
 select 21
 USE \KENSERVICE\DATA\FGTAXTYP.DBF again alias fgtaxtyp2
 SELECT 25
 USE \KENSERVICE\DATA\FGSSHIFT.DBF
 select 26
 use \kenservice\data\st15f.dbf
+go top
+if .not. eof() .and. .not. bof()
 replace shift_Post with date()
+ endif
 select 28
 use \kenservice\data\shiftid.dbf
+select 29
+use \kenservice\data\scashrec.dbf
 select 30
 use \kenservice\data\st15f.dbf again alias st15f2
-select 31
-use \kenservice\data\fgcoy.dbf
-GO TOP
-select 32
-use \kenservice\data\scashrec.dbf 
 SELECT 33
 USE \KENSERVICE\DATA\SHIFTID.DBf
 SELECT 34
 USE \KENSERVICE\DATA\CASHIERS.DBF
 select 35
-use \kenservice\data\fgprices.dbf
+use \kenservice\data\fgsprice.dbf
 select 36
 use \kenservice\data\fgcod.dbf again alias fgcod4
 SELECT 38
@@ -96,11 +127,16 @@ use \kenservice\data\fgSVCES.DBF ORDER TAG NAME
 SELECT 40
 use \kenservice\data\fgmast.dbf AGAIN ALIAS FGMAST2
 SELECT 41
-USE \kenservice\data\FGCODTEM.DBF
- GO TOP
+if .not. file("\kenservice\data\FGHQCUSS.dbf")
+use \kenserve\idssys\FGHQCUSS.dbf
+copy stru to \kenservice\data\FGHQCUSS dbase prod
+endif
+USE \KENSERVICE\DATA\FGHQCUSS.DBF  order tag CUS_NAME
+set filter to paymethod='CASH' .AND. CUS_CLA = 'Cash Customers'
 SELECT 2
-SET RELATION TO TAXNAME INTO FGTAXTYP,  UNITNAME INTO FGUNITS, TYP INTO FGTYP,;
-TYP+CLA INTO FGCLA, CNAME INTO FGCEN, stoname into ststos, COSTNAME INTO fgSVCES
+SET RELATION TO TAXNAME INTO FGTAXTYP, UNITNAME INTO FGUNITS, TYP INTO FGTYP,;
+TYP+CLA INTO FGCLA, CNAME INTO FGCEN,  stoname into ststos, COSTNAME INTO fgSVCES, mat_code into fgmcod,;
+CUS_NAME INTO FGHQCUSS
 *SET RELATION TO   , VNAME INTO VENNAMES, 
 SELECT 2
 GO TOP

@@ -90,7 +90,7 @@ CLASS FGCODFORM OF FORM
        PROPERTY; 
          OnLostFocus CLASS::CHANGE_TYP,;
          FontName "Arial Black",;
-         DataLink "FGCODTEM->typName",;
+         DataLink "FGCOD->typName",;
          Enabled .F.,;
          DataSource "FIELD fgtypS->NAME",;
          Left 2.3311,;
@@ -116,7 +116,7 @@ CLASS FGCODFORM OF FORM
        PROPERTY; 
          OnLostFocus CLASS::SCLA_ONCHANGE,;
          FontName "Arial Black",;
-         DataLink "FGCODTEM->claName",;
+         DataLink "FGCOD->claName",;
          Enabled .F.,;
          DataSource "FIELD fgclaS->NAME",;
          Left 2.1641,;
@@ -1104,11 +1104,7 @@ CLASS FGCODFORM OF FORM
    SET ORDER TO CASHIER
     select shiftid
       set order to id
-     select FGCODTEM
-     go top
-     if eof()
-     append blank
-     endif
+     
         select st15f
         set order to mkey
         go top

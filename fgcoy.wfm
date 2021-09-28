@@ -41,7 +41,7 @@ set ldCheck off && To avoid language driver conflicts
 #define Maxcoy 999
 ** END HEADER -- do not remove this line
 //
-// Generated on 27/09/2021
+// Generated on 28/09/2021
 //
 parameter bUser,bLevel,bModal
 local f
@@ -65,7 +65,7 @@ class FgcoyFORM of FORM
       width = 764.0
       text = "Companies Maintenance"
       topMost = true
-      windowState = 2	// Normal
+      windowState = 0	// Normal
       autoSize = true
       autoCenter = true
       mdi = false
@@ -92,23 +92,6 @@ class FgcoyFORM of FORM
       fontBold = true
       alignVertical = 1	// Middle
       alignHorizontal = 2	// Right
-   endwith
-
-   this.COYCOMBOBOX = new COMBOBOX(this)
-   with (this.COYCOMBOBOX)
-      dataLink = "Fgcoy->Coy"
-      enabled = false
-      height = 23.0
-      left = 36.0
-      top = 17.0
-      width = 48.0
-      fontName = "Arial Black"
-      fontSize = 8.0
-      fontBold = true
-      colorNormal = "B/BtnFace"
-      dataSource = 'array {"1","2","3"}'
-      style = 2	// DropDownList
-      dropDownHeight = 132.0
    endwith
 
    this.TEXT5 = new TEXTLABEL(this)
@@ -1073,7 +1056,7 @@ class FgcoyFORM of FORM
 
    this.RFY = new RADIOBUTTON(this)
    with (this.RFY)
-      onGotFocus = class::rfy_ONGOTFOCUS
+      onGotFocus = class::RFY_ONGOTFOCUS
       dataLink = "FGCOY->RCASHFUEL"
       enabled = false
       height = 19.0
@@ -1089,7 +1072,7 @@ class FgcoyFORM of FORM
 
    this.RFN = new RADIOBUTTON(this)
    with (this.RFN)
-      onGotFocus = class::rfn_ONGOTFOCUS
+      onGotFocus = class::RFN_ONGOTFOCUS
       dataLink = "FGCOY->RCASHFUEL"
       enabled = false
       height = 19.0
@@ -1102,9 +1085,9 @@ class FgcoyFORM of FORM
       fontBold = true
    endwith
 
-   this.yveh = new RADIOBUTTON(this)
-   with (this.yveh)
-      onGotFocus = class::yveh_ONGOTFOCUS
+   this.YVEH = new RADIOBUTTON(this)
+   with (this.YVEH)
+      onGotFocus = class::YVEH_ONGOTFOCUS
       dataLink = "FGCOY->VEH"
       enabled = false
       height = 19.0
@@ -1118,9 +1101,9 @@ class FgcoyFORM of FORM
       group = true
    endwith
 
-   this.nveh = new RADIOBUTTON(this)
-   with (this.nveh)
-      onGotFocus = class::nveh_ONGOTFOCUS
+   this.NVEH = new RADIOBUTTON(this)
+   with (this.NVEH)
+      onGotFocus = class::NVEH_ONGOTFOCUS
       dataLink = "FGCOY->VEH"
       enabled = false
       height = 19.0
@@ -2473,6 +2456,21 @@ class FgcoyFORM of FORM
       alignHorizontal = 2	// Right
    endwith
 
+   this.COYCOMBOBOX = new ENTRYFIELD(this)
+   with (this.COYCOMBOBOX)
+      dataLink = "FGCOY->COY"
+      enabled = false
+      height = 17.0
+      left = 49.0
+      top = 19.0
+      width = 28.0
+      colorNormal = "N/BtnFace"
+      colorHighLight = "B+/W*"
+      fontName = "MS Sans Serif"
+      fontSize = 8.0
+      fontBold = true
+   endwith
+
 
    procedure Open
    ****************************************************************************
@@ -3050,6 +3048,7 @@ procedure Next
       endif
       endif
          form.CheckCommit(form.inEditMode)
+
       Procedure valid_name
       if empty(this.value)
       isvalid = .f.
@@ -3065,6 +3064,7 @@ procedure Next
          endif
          form.changesmade = .t.
              form.CheckCommit(form.inEditMode)
+
    Procedure YSTN_ONCHANGE
          select fgstns
          seek this.value
@@ -3072,6 +3072,7 @@ procedure Next
          replace stn with fgstns->stn
          form.changesmade = .t.
                                   form.CheckCommit(form.inEditMode)
+
    Procedure SLPGD_OnChange
            form.changesmade = .t.
            this.value = ltrim(this.value)
@@ -3079,6 +3080,7 @@ procedure Next
            form.slpgd.value = "0"
            endif
               form.CheckCommit(form.inEditMode)
+
    function SLX300LPT1_onGotFocus
       select fgcoy
       replace authname with 'LX 300 LPT1'
@@ -3098,11 +3100,13 @@ procedure Next
    replace RCASHFUEL with 'No'
    form.changesmade = .t.
         form.CheckCommit(form.inEditMode)
+
    Procedure rfy_OnGotFocus
    select fgcoy
    replace RCASHFUEL with 'Yes'
    form.changesmade = .t.
           form.CheckCommit(form.inEditMode)
+
    function nveh_onGotFocus
        select fgcoy
       replace veh with 'No'
@@ -3127,6 +3131,7 @@ procedure Next
    Procedure SALY_OnGotFocus
    form.changesmade = .t.
          form.CheckCommit(form.inEditMode)
+
    function SDISC1_onGotFocus
        select fgcoy
       replace gl with 'Yes'
@@ -3176,6 +3181,7 @@ procedure Next
    replace tcode with .F.
    FORM.CHANGESMADE = .T.
         form.CheckCommit(form.inEditMode)
+
    function NSD_onGotFocus
        select fgcoy
       replace No_shifts with '2'
@@ -3195,6 +3201,7 @@ procedure Next
    replace tcode with .T.
    FORM.CHANGESMADE = .T.
          form.CheckCommit(form.inEditMode)
+
    function YSD_onGotFocus
        select fgcoy
       replace No_shifts with '1'
@@ -3212,6 +3219,7 @@ procedure Next
    Procedure FCY_OnChange
    form.changesmade = .t.
          form.CheckCommit(form.inEditMode)
+
    function FCY_onGotFocus
       select fgcoy
       replace fc with 'Yes'
@@ -3222,6 +3230,7 @@ procedure Next
    Procedure FCN_OnChange
    form.changesmade = .t.
        form.CheckCommit(form.inEditMode)
+
    function FCN_onGotFocus
         select fgcoy
       replace fc with 'No'
@@ -3243,6 +3252,7 @@ procedure Next
    Procedure NHOLIDAY_OnGotFocus
    Form.changesmade = .t.
          form.CheckCommit(form.inEditMode)
+
    function NJO_onGotFocus
         select fgcoy
       replace Cashiers with .f.
@@ -3276,11 +3286,13 @@ procedure Next
       endif
       form.changesmade = .t.
          form.CheckCommit(form.inEditMode)
+
    Procedure SLCD_OnChange
    SELECT FGCOY
    REPLACE LOC_COD WITH LTRIM(THIS.VALUE)
    form.changesmade =.t.
         form.CheckCommit(form.inEditMode)
+
    function SLHDN_onGotFocus
       select fgcoy
       replace cashier_no with 'No'
@@ -3300,6 +3312,7 @@ procedure Next
    REPLACE LOC_NAME WITH LTRIM(THIS.VALUE)
    form.changesmade =.t.
        form.CheckCommit(form.inEditMode)
+
    Procedure SWCOD_OnChange
    SELECT FGCOY
    REPLACE WARE_COD WITH LTRIM(THIS.VALUE)
@@ -3310,6 +3323,7 @@ procedure Next
    REPLACE WARE_NAME WITH LTRIM(THIS.VALUE)
    form.changesmade =.t.
        form.CheckCommit(form.inEditMode)
+
    function SYSN_onGotFocus
       select fgcoy
       replace w1cash with 'No'
@@ -3329,6 +3343,7 @@ procedure Next
    replace salepit   with 'Yes'
    form.changesmade =.t.
     form.CheckCommit(form.inEditMode)
+
    function PYNO_onGotFocus
        select fgcoy
       replace py with 'No'
@@ -3348,20 +3363,24 @@ procedure Next
    replace salepit   with 'No'
    form.changesmade =.t.
         form.CheckCommit(form.inEditMode)
+
    Procedure TYCY_OnGotFocus
    select fgcoy
    replace saletyc   with 'Yes'
    form.changesmade =.t.
       form.CheckCommit(form.inEditMode)
+
    Procedure TYCN_OnGotFocus
    select fgcoy
    replace saletyc   with 'No'
    form.changesmade =.t.
      form.CheckCommit(form.inEditMode)
+
    Procedure SRANGE_OnGotFocus
    select fgcoy
    FORM.CHANGESMADE = .T.
       form.CheckCommit(form.inEditMode)
+
    function SSP1_onGotFocus
        select fgcoy
       replace AGENAME with 'LX 300 LPT1'
@@ -3384,6 +3403,7 @@ procedure Next
    select fgcoy
    Form.ChangesMade = .t.
       form.CheckCommit(form.inEditMode)
+
    function SEMN_onGotFocus
       select fgcoy
       replace c1cash with 'No'
@@ -3413,38 +3433,46 @@ procedure Next
    replace pup with 'Yes'
    form.changesmade = .t.
         form.CheckCommit(form.inEditMode)
+
    Procedure NPUP_OnGotFocus
    select fgcoy
    replace pup with 'No'
    form.changesmade = .t.
           form.CheckCommit(form.inEditMode)
+
    Procedure YDOC20_OnGotFocus
    form.changesmade = .t.
           form.CheckCommit(form.inEditMode)
+
    Procedure STRANSP_OnGotFocus
    select fgcoy
    Form.ChangesMade = .t.
          form.CheckCommit(form.inEditMode)
+
    Procedure YDOC15_OnGotFocus
    select fgcoy
    replace doc15 with .t.
    form.changesmade = .t.
          form.CheckCommit(form.inEditMode)
+
    Procedure NDOC15_OnGotFocus
    select fgcoy
    replace doc15 with .f.
    form.changesmade = .t.
        form.CheckCommit(form.inEditMode)
+
    Procedure YDOC14_OnGotFocus
    select fgcoy
    replace doc14 with .t.
    form.changesmade = .t.
      form.CheckCommit(form.inEditMode)
+
    Procedure NDOC14_OnGotFocus
    select fgcoy
    replace doc14 with .f.
    form.changesmade = .t.
       form.CheckCommit(form.inEditMode)
+
    Procedure YDOC20_OnGotFocus
    select fgcoy
    replace doc20 with .t.
@@ -3485,6 +3513,7 @@ procedure Next
    replace doc20 with .t.
    form.chnagesmade = .t.
       form.CheckCommit(form.inEditMode)
+
    function NFCLPGS_onGotFocus
        select fgcoy
       replace cashier_no with .f.
@@ -3514,6 +3543,7 @@ procedure Next
       replace discname with 'No'
       form.changesmade =   .t.
       form.CheckCommit(form.inEditMode)
+
    Procedure YDOC13_OnGotFocus
    select fgcoy
    replace doc13 with .t.

@@ -1,0 +1,27 @@
+* Visual dBASE .QBE file 9
+close databases
+on error do frvest.prg
+use  \kenservice\data\frveregs.dbf
+? mkey
+close databases
+ON ERROR DO QBEERR WITH ERROR(), MESSAGE(),;
+PROGRAM(), LINENO()
+CLOSE DATABASES
+SET EXACT ON
+SELECT 1
+if .not. file("\kenservice\data\frveregs.dbf")
+use \kenserve\idssys\frveregs.dbf
+copy stru to \kenservice\data\frveregs dbase prod
+endif
+USE \kenservice\data\frveregs.DBf order tag order_no
+select 2
+use  \kenservice\data\fgoffs.dbf order tag name
+select 3
+use  \kenservice\data\frigtmes.dbf order tag name
+set filter to empty(close_date) .and. reg = 'Yes'
+select 4
+use \kenservice\data\frveregs.dbf again alias frveregs3 order tag cardvehno
+select 5
+use \kenservice\data\frveregs.dbf again alias frveregs4 order tag mkey
+SELECT 1
+GO TOP

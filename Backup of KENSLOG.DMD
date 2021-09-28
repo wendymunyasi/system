@@ -18,7 +18,7 @@ class KenslogDataModule of DATAMODULE
       width = 114.0
       height = 124.0
       session = form.session1
-      sql = 'select * from "KENTRYLG.DBF"'
+      sql = 'select * from "C:\KENSLOG\IDSSYS\KENTRYLG.DBF"'
       active = true
    endwith
 
@@ -29,7 +29,7 @@ class KenslogDataModule of DATAMODULE
       width = 114.0
       height = 124.0
       session = form.session1
-      sql = 'select * from "KENSLOG.DBF"'
+      sql = 'select * from "C:\KENSLOG\IDSSYS\KENSLOG.DBF"'
       active = true
    endwith
 
@@ -44,7 +44,7 @@ class KenslogDataModule of DATAMODULE
       width = 114.0
       height = 124.0
       session = form.session1
-      sql = 'select * from "KENSLOG.DBF"'
+      sql = 'select * from "C:\KENSLOG\IDSSYS\KENSLOG.DBF"'
       active = true
    endwith
 
@@ -59,7 +59,7 @@ class KenslogDataModule of DATAMODULE
       width = 114.0
       height = 124.0
       session = form.session1
-      sql = 'select * from "KENSLOG.DBF"'
+      sql = 'select * from "C:\KENSLOG\IDSSYS\KENSLOG.DBF"'
       active = true
    endwith
 
