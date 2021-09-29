@@ -19,7 +19,7 @@ class KenslogDataModule of DATAMODULE
       height = 124.0
       session = form.session1
       sql = 'select * from "C:\KENSLOG\IDSSYS\KENTRYLG.DBF"'
-      active = false
+      active = true
    endwith
 
    this.KENSLOG1 = new QUERY(this)

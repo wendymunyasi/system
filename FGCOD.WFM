@@ -1661,8 +1661,6 @@ class FGCODFORM of FORM
         set order to name
         select scashrec
         set order to mkey
-          select fgsprice
-        set order to mkey
           SELECT FGCOD3
    SET ORDER TO MKEY
         SELECT fgclaS
