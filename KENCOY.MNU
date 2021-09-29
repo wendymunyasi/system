@@ -324,11 +324,13 @@ CLASS KenCoyMENU(FormObj,Name) OF MENUBAR(FormObj,Name)
             
                      endif
                      endif
-                        IF blevel = 1 .or. (((blevel = 2 .and. .not. bladmin)  .or. (blevel = 3 .and. bladmin) .or. blevel = 6;
+                        IF blevel = 1 .or. (((blevel = 2 .and. .not. bladmin) ;
+           .or. (blevel = 3 .and. bladmin) .or. blevel = 6;
           .or. blevel = 5) .AND. .NOT. BLNOMASTER)
                  DEFINE MENU COD4 OF THIS.COYinfo2.COD1;
                         PROPERTY; 
                         Text "3. Audit.",;
+                        enabled false,;
                         OnClick {;do FGCODprc.wfm with form.bluser, form.blevel}
             
               ENDIF
@@ -348,7 +350,7 @@ CLASS KenCoyMENU(FormObj,Name) OF MENUBAR(FormObj,Name)
               DEFINE MENU MTYP2 OF THIS.COYinfo2.MTYP1;
                      PROPERTY; 
                      Text "1. Edit.",;
-                        enabled .f.,;
+                        enabled false,;
                      OnClick {;do FGMTYP.wfm WITH FORM.BLUSER, FORM.BLEVEL}
                 
                        DEFINE MENU SEPARMTYP101 OF THIS.COYINFO2;
@@ -363,7 +365,7 @@ CLASS KenCoyMENU(FormObj,Name) OF MENUBAR(FormObj,Name)
               DEFINE MENU MCOD2 OF THIS.COYinfo2.MCOD1;
                      PROPERTY; 
                      Text "1. Edit.",;
-                      enabled .f.,;
+                      enabled false,;
                      OnClick {;do FGMCOD.wfm WITH FORM.BLUSER, FORM.BLEVEL}
                 
                   
@@ -373,13 +375,14 @@ CLASS KenCoyMENU(FormObj,Name) OF MENUBAR(FormObj,Name)
            
                      DEFINE MENU MTYP1O OF THIS.COYinfo2;
                      PROPERTY; 
+                     enabled false,;
                      Text "8. HQTypes"
                      
            
               DEFINE MENU MTYP2 OF THIS.COYinfo2.MTYP1O;
                      PROPERTY; 
                      Text "1. Edit.",;
-                     enabled .f.,;
+                     enabled false,;
                      OnClick {;do fghqtyp.wfm WITH FORM.BLUSER, FORM.BLEVEL}
                 
                        DEFINE MENU SEPARMTYP101O OF THIS.COYINFO2;
@@ -389,12 +392,13 @@ CLASS KenCoyMENU(FormObj,Name) OF MENUBAR(FormObj,Name)
               
                 DEFINE MENU MCOD1O OF THIS.COYinfo2;
                      PROPERTY; 
+                     enabled false,;
                    Text "9. HQClasses"
                      
               DEFINE MENU MCOD2O OF THIS.COYinfo2.MCOD1O;
                      PROPERTY; 
                      Text "1. Edit.",;
-                     enabled .f.,;
+                     enabled false,;
                      OnClick {;do fghqcla.wfm WITH FORM.BLUSER, FORM.BLEVEL}
                      
                                 DEFINE MENU SEPARMTYP101O8 OF THIS.COYINFO2;
@@ -404,12 +408,13 @@ CLASS KenCoyMENU(FormObj,Name) OF MENUBAR(FormObj,Name)
               
                 DEFINE MENU MCOD1O8 OF THIS.COYinfo2;
                      PROPERTY; 
+                     enabled false,;
                    Text "10. HQCodes"
                      
               DEFINE MENU MCOD2O8 OF THIS.COYinfo2.MCOD1O8;
                      PROPERTY; 
                      Text "1. Edit.",;
-                     enabled .f.,;
+                     enabled false,;
                      OnClick {;do fghqcod.wfm WITH FORM.BLUSER, FORM.BLEVEL}
                 
                   
@@ -591,7 +596,7 @@ CLASS KenCoyMENU(FormObj,Name) OF MENUBAR(FormObj,Name)
                     DEFINE MENU MONTHSGL OF THIS.COYSHIFTM44;
                            PROPERTY; 
                            Text "1. Months Info",;
-                           enabled .f.,;
+                           enabled false,;
                            OnClick {;do fgglmth.wfm WITH FORM.BLUSER, FORM.BLEVEL}
                                         
                                        DEFINE MENU SEPARCOYSHIFTM444 OF THIS.COYSHIFTM44;

@@ -1,4 +1,4 @@
-Project File generated 09/27/2021 20:19:52
+Project File generated 09/29/2021 12:37:23
 
 [Project]
 Name=kenslog
@@ -22,8 +22,7 @@ runtimeinbuild=0
 bdeoption=1
 
 [Contents]
-kenslog.wfm,0,0,0,0
-FMS.prg,1,0,0, 
+kenslog.wfm,0,0,0, 
 kenslogs.mnu,1,0,1,0
 KENSLOGS.wfm,1,0,1,0
 qbeerR.prg,1,0,1,0
@@ -45,7 +44,6 @@ PASWDCON.CC,1,0,1,0
 logo.bmp,0,0,1,0
 kenslog1.wfm,1,0,1,0
 KENSLOG1.mnu,1,0,1,0
-kenslog1.qbe,1,0,1,0
 Fgmast.wfm,1,0,1,0
 Fgprint.wfm,1,0,1,0
 KENSLOGD.wfm,1,0,1,0
@@ -76,9 +74,7 @@ venNAMES.MNU,1,0,1,0
 VNISTR.PRG,1,0,1,0
 MESSDLG.H,0,0,1,0
 vennames.qbe,1,0,1,0
-setup.prg,1,0,1,0
 START.prg,1,0,1,0
-GenericMDIApp.cc,1,0,1,0
 kenalloc.wfm,1,0,1,0
 KENAUDIT.wfm,1,0,1,0
 Kenautos.wfm,1,0,1,0
@@ -90,6 +86,79 @@ kenpurch.wfm,1,0,1,0
 KenRecPy.wfm,1,0,1,0
 kensales.wfm,1,0,1,0
 KENSLOGR.wfm,1,0,1,0
+fgcen.wfm,1,0,1,0
+FGCLA.wfm,1,0,1,0
+FGCOD.WFM,1,0,1,0
+FGCODad.wfm,1,0,1,0
+fgcoy.wfm,1,0,1,0
+FGDIV.WFM,1,0,1,0
+fgregcds.wfm,1,0,1,0
+fgtaxtyp.wfm,1,0,1,0
+fgtyp.wfm,1,0,1,0
+Fgunit.wfm,1,0,1,0
+frveregs.wfm,1,0,1,0
+ststo.wfm,1,0,1,0
+STSTO.MNU,1,0,1,0
+KenSales.mnu,1,0,1,0
+KENRECPY.MNU,1,0,1,0
+kenpurch.mnu,1,0,1,0
+KENMIS.MNU,1,0,1,0
+KENFC.MNU,1,0,1,0
+KENDDE.MNU,1,0,1,0
+KENCOY.MNU,1,0,1,0
+KENAUDIT.MNU,1,0,1,0
+KENALLOC.MNU,1,0,1,0
+FRVEREGS.MNU,1,0,1,0
+Fgunit.mnu,1,0,1,0
+Fgtyp.mnu,1,0,1,0
+Fgtaxtyp.mnu,1,0,1,0
+FGREGCDS.MNU,1,0,1,0
+FGDIV.MNU,1,0,1,0
+FGCOY.MNU,1,0,1,0
+FGCODad.mnu,1,0,1,0
+fgcod.mnu,1,0,1,0
+FGCLA.mnu,1,0,1,0
+Fgcen.mnu,1,0,1,0
+FGCODSR.PRG,1,0,1,0
+FGSETUPN.PRG,1,0,1,0
+FGSETUPT.PRG,1,0,1,0
+FGSHCATP.PRG,1,0,1,0
+fgshid.prg,1,0,1,0
+FGSHMTHS.PRG,1,0,1,0
+FRBUILD.PRG,1,0,1,0
+FREGST.PRG,1,0,1,0
+FRTRNS.PRG,1,0,1,0
+FRVEST.PRG,1,0,1,0
+KENAUTO.PRG,1,0,1,0
+NGLSETAL.PRG,1,0,1,0
+NGLSETUP.PRG,1,0,1,0
+NGLSTRUC.PRG,1,0,1,0
+PASSSECT.PRG,1,0,1,0
+PAYSETUP.PRG,1,0,1,0
+ststoh.prg,1,0,1,0
+VNBUILD.PRG,1,0,1,0
+fgcen.qbe,1,0,1,0
+FGCLA.qbe,1,0,1,0
+fgcod.qbe,1,0,1,0
+FGCODad.qbe,1,0,1,0
+fgcoy.qbe,1,0,1,0
+FGDIV.QBE,1,0,1,0
+FGREGCDS.QBE,1,0,1,0
+FGSHCATP.QBE,1,0,1,0
+FGSHMTHS.QBE,1,0,1,0
+Fgtaxtyp.qbe,1,0,1,0
+Fgtyp.qbe,1,0,1,0
+Fgunit.qbe,1,0,1,0
+FRBUILD.QBE,1,0,1,0
+FRVEREGS.QBE,1,0,1,0
+KENAUDIT.QBE,1,0,1,0
+KENAUTOB.QBE,1,0,1,0
+kenslog.qbe,1,0,1,0
+KENSLOGL.QBE,1,0,1,0
+kenslogr.qbe,1,0,1,0
+st15fc06.qbe,1,0,1,0
+STSTo.qbe,1,0,1,0
+VNBUILD.QBE,1,0,1,0
 
 [DEO]
 DEO0=C:\kenslog\idssys\deploy
@@ -180,75 +249,145 @@ CURRENTVSF=windows
 IMAGETOPRIGHT=
 IMAGESIDE=
 Icon1={group}\{#AppName} >> {app}\kenslog.exe
-Files1=FMS.prO >> DestDir: {app}
-Files2=kenslogs.mnO >> DestDir: {app}
-Files3=KENSLOGS.wfO >> DestDir: {app}
-Files4=qbeerR.prO >> DestDir: {app}
-Files5=SAMPPROC.PRO >> DestDir: {app}
-Files6=KENGROUP.DBF >> DestDir: {app}
-Files7=KENGROUP.mdx >> DestDir: {app}
-Files8=KENSLOG.DBF >> DestDir: {app}
-Files9=KENSLOG.mdx >> DestDir: {app}
-Files10=KENSLOG.dbt >> DestDir: {app}
-Files11=KENSLOG1.DBF >> DestDir: {app}
-Files12=KENSLOGD.DBF >> DestDir: {app}
-Files13=KENSLOGD.mdx >> DestDir: {app}
-Files14=KENSLOGX.DBF >> DestDir: {app}
-Files15=KENTRYLG.DBF >> DestDir: {app}
-Files16=KENTRYLG.mdx >> DestDir: {app}
-Files17=querrors.DBF >> DestDir: {app}
-Files18=transerr.DBF >> DestDir: {app}
-Files19=KENSLOG.DMO >> DestDir: {app}
-Files20=IMAGELOG.BMP >> DestDir: {app}
-Files21=Mugs.ico >> DestDir: {app}
-Files22=PASSWDC.CO >> DestDir: {app}
-Files23=PASSWORD.CO >> DestDir: {app}
-Files24=PASWDCON.CO >> DestDir: {app}
-Files25=logo.bmp >> DestDir: {app}
-Files26=kenslog1.wfO >> DestDir: {app}
-Files27=KENSLOG1.mnO >> DestDir: {app}
-Files28=kenslog1.qbO >> DestDir: {app}
-Files29=Fgmast.wfO >> DestDir: {app}
-Files30=Fgprint.wfO >> DestDir: {app}
-Files31=KENSLOGD.wfO >> DestDir: {app}
-Files32=kenslogf.wfO >> DestDir: {app}
-Files33=KENSLOGL.wfO >> DestDir: {app}
-Files34=nglparm.prO >> DestDir: {app}
-Files35=SHREST.prO >> DestDir: {app}
-Files36=fgmast.qbO >> DestDir: {app}
-Files37=fgprint.qbO >> DestDir: {app}
-Files38=fgmast.mnO >> DestDir: {app}
-Files39=fgprint.mnO >> DestDir: {app}
-Files40=KENSLOGD.mnO >> DestDir: {app}
-Files41=KENSLOGd.QBO >> DestDir: {app}
-Files42=nglparm.qbO >> DestDir: {app}
-Files43=kenslogf.qbO >> DestDir: {app}
-Files44=search.wfO >> DestDir: {app}
-Files45=FRIGTMES.WFO >> DestDir: {app}
-Files46=FRISTR.PRO >> DestDir: {app}
-Files47=FGCOYPUP.PRO >> DestDir: {app}
-Files48=DDEERR.PRO >> DestDir: {app}
-Files49=BUTTONS.CO >> DestDir: {app}
-Files50=DATABUTTONS.CO >> DestDir: {app}
-Files51=sample.cfO >> DestDir: {app}
-Files52=FRIGTMES.MNO >> DestDir: {app}
-Files53=FRIGTMES.QBO >> DestDir: {app}
-Files54=VenNAMES.wfO >> DestDir: {app}
-Files55=venNAMES.MNO >> DestDir: {app}
-Files56=VNISTR.PRO >> DestDir: {app}
-Files57=MESSDLG.H >> DestDir: {app}
-Files58=vennames.qbO >> DestDir: {app}
-Files59=setup.prO >> DestDir: {app}
-Files60=START.prO >> DestDir: {app}
-Files61=GenericMDIApp.cO >> DestDir: {app}
-Files62=kenalloc.wfO >> DestDir: {app}
-Files63=KENAUDIT.wfO >> DestDir: {app}
-Files64=Kenautos.wfO >> DestDir: {app}
-Files65=kencoy.wfO >> DestDir: {app}
-Files66=KENDDE.wfO >> DestDir: {app}
-Files67=kENFC.wfO >> DestDir: {app}
-Files68=KenMis.wfO >> DestDir: {app}
-Files69=kenpurch.wfO >> DestDir: {app}
-Files70=KenRecPy.wfO >> DestDir: {app}
-Files71=kensales.wfO >> DestDir: {app}
-Files72=KENSLOGR.wfO >> DestDir: {app}
+Files1=kenslogs.mnO >> DestDir: {app}
+Files2=KENSLOGS.wfO >> DestDir: {app}
+Files3=qbeerR.prO >> DestDir: {app}
+Files4=SAMPPROC.PRO >> DestDir: {app}
+Files5=KENGROUP.DBF >> DestDir: {app}
+Files6=KENGROUP.mdx >> DestDir: {app}
+Files7=KENSLOG.DBF >> DestDir: {app}
+Files8=KENSLOG.mdx >> DestDir: {app}
+Files9=KENSLOG.dbt >> DestDir: {app}
+Files10=KENSLOG1.DBF >> DestDir: {app}
+Files11=KENSLOGD.DBF >> DestDir: {app}
+Files12=KENSLOGD.mdx >> DestDir: {app}
+Files13=KENSLOGX.DBF >> DestDir: {app}
+Files14=KENTRYLG.DBF >> DestDir: {app}
+Files15=KENTRYLG.mdx >> DestDir: {app}
+Files16=querrors.DBF >> DestDir: {app}
+Files17=transerr.DBF >> DestDir: {app}
+Files18=KENSLOG.DMO >> DestDir: {app}
+Files19=IMAGELOG.BMP >> DestDir: {app}
+Files20=Mugs.ico >> DestDir: {app}
+Files21=PASSWDC.CO >> DestDir: {app}
+Files22=PASSWORD.CO >> DestDir: {app}
+Files23=PASWDCON.CO >> DestDir: {app}
+Files24=logo.bmp >> DestDir: {app}
+Files25=kenslog1.wfO >> DestDir: {app}
+Files26=KENSLOG1.mnO >> DestDir: {app}
+Files27=Fgmast.wfO >> DestDir: {app}
+Files28=Fgprint.wfO >> DestDir: {app}
+Files29=KENSLOGD.wfO >> DestDir: {app}
+Files30=kenslogf.wfO >> DestDir: {app}
+Files31=KENSLOGL.wfO >> DestDir: {app}
+Files32=nglparm.prO >> DestDir: {app}
+Files33=SHREST.prO >> DestDir: {app}
+Files34=fgmast.qbO >> DestDir: {app}
+Files35=fgprint.qbO >> DestDir: {app}
+Files36=fgmast.mnO >> DestDir: {app}
+Files37=fgprint.mnO >> DestDir: {app}
+Files38=KENSLOGD.mnO >> DestDir: {app}
+Files39=KENSLOGd.QBO >> DestDir: {app}
+Files40=nglparm.qbO >> DestDir: {app}
+Files41=kenslogf.qbO >> DestDir: {app}
+Files42=search.wfO >> DestDir: {app}
+Files43=FRIGTMES.WFO >> DestDir: {app}
+Files44=FRISTR.PRO >> DestDir: {app}
+Files45=FGCOYPUP.PRO >> DestDir: {app}
+Files46=DDEERR.PRO >> DestDir: {app}
+Files47=BUTTONS.CO >> DestDir: {app}
+Files48=DATABUTTONS.CO >> DestDir: {app}
+Files49=sample.cfO >> DestDir: {app}
+Files50=FRIGTMES.MNO >> DestDir: {app}
+Files51=FRIGTMES.QBO >> DestDir: {app}
+Files52=VenNAMES.wfO >> DestDir: {app}
+Files53=venNAMES.MNO >> DestDir: {app}
+Files54=VNISTR.PRO >> DestDir: {app}
+Files55=MESSDLG.H >> DestDir: {app}
+Files56=vennames.qbO >> DestDir: {app}
+Files57=START.prO >> DestDir: {app}
+Files58=kenalloc.wfO >> DestDir: {app}
+Files59=KENAUDIT.wfO >> DestDir: {app}
+Files60=Kenautos.wfO >> DestDir: {app}
+Files61=kencoy.wfO >> DestDir: {app}
+Files62=KENDDE.wfO >> DestDir: {app}
+Files63=kENFC.wfO >> DestDir: {app}
+Files64=KenMis.wfO >> DestDir: {app}
+Files65=kenpurch.wfO >> DestDir: {app}
+Files66=KenRecPy.wfO >> DestDir: {app}
+Files67=kensales.wfO >> DestDir: {app}
+Files68=KENSLOGR.wfO >> DestDir: {app}
+Files69=C:\kenslog\idssys\deploy\kenslog.exe >> DestDir: {app}
+Files70=fgcen.wfO >> DestDir: {app}
+Files71=FGCLA.wfO >> DestDir: {app}
+Files72=FGCOD.WFO >> DestDir: {app}
+Files73=FGCODad.wfO >> DestDir: {app}
+Files74=fgcoy.wfO >> DestDir: {app}
+Files75=FGDIV.WFO >> DestDir: {app}
+Files76=fgregcds.wfO >> DestDir: {app}
+Files77=fgtaxtyp.wfO >> DestDir: {app}
+Files78=fgtyp.wfO >> DestDir: {app}
+Files79=Fgunit.wfO >> DestDir: {app}
+Files80=frveregs.wfO >> DestDir: {app}
+Files81=ststo.wfO >> DestDir: {app}
+Files82=STSTO.MNO >> DestDir: {app}
+Files83=KenSales.mnO >> DestDir: {app}
+Files84=KENRECPY.MNO >> DestDir: {app}
+Files85=kenpurch.mnO >> DestDir: {app}
+Files86=KENMIS.MNO >> DestDir: {app}
+Files87=KENFC.MNO >> DestDir: {app}
+Files88=KENDDE.MNO >> DestDir: {app}
+Files89=KENCOY.MNO >> DestDir: {app}
+Files90=KENAUDIT.MNO >> DestDir: {app}
+Files91=KENALLOC.MNO >> DestDir: {app}
+Files92=FRVEREGS.MNO >> DestDir: {app}
+Files93=Fgunit.mnO >> DestDir: {app}
+Files94=Fgtyp.mnO >> DestDir: {app}
+Files95=Fgtaxtyp.mnO >> DestDir: {app}
+Files96=FGREGCDS.MNO >> DestDir: {app}
+Files97=FGDIV.MNO >> DestDir: {app}
+Files98=FGCOY.MNO >> DestDir: {app}
+Files99=FGCODad.mnO >> DestDir: {app}
+Files100=fgcod.mnO >> DestDir: {app}
+Files101=FGCLA.mnO >> DestDir: {app}
+Files102=Fgcen.mnO >> DestDir: {app}
+Files103=FGCODSR.PRO >> DestDir: {app}
+Files104=FGSETUPN.PRO >> DestDir: {app}
+Files105=FGSETUPT.PRO >> DestDir: {app}
+Files106=FGSHCATP.PRO >> DestDir: {app}
+Files107=fgshid.prO >> DestDir: {app}
+Files108=FGSHMTHS.PRO >> DestDir: {app}
+Files109=FRBUILD.PRO >> DestDir: {app}
+Files110=FREGST.PRO >> DestDir: {app}
+Files111=FRTRNS.PRO >> DestDir: {app}
+Files112=FRVEST.PRO >> DestDir: {app}
+Files113=KENAUTO.PRO >> DestDir: {app}
+Files114=NGLSETAL.PRO >> DestDir: {app}
+Files115=NGLSETUP.PRO >> DestDir: {app}
+Files116=NGLSTRUC.PRO >> DestDir: {app}
+Files117=PASSSECT.PRO >> DestDir: {app}
+Files118=PAYSETUP.PRO >> DestDir: {app}
+Files119=ststoh.prO >> DestDir: {app}
+Files120=VNBUILD.PRO >> DestDir: {app}
+Files121=fgcen.qbO >> DestDir: {app}
+Files122=FGCLA.qbO >> DestDir: {app}
+Files123=fgcod.qbO >> DestDir: {app}
+Files124=FGCODad.qbO >> DestDir: {app}
+Files125=fgcoy.qbO >> DestDir: {app}
+Files126=FGDIV.QBO >> DestDir: {app}
+Files127=FGREGCDS.QBO >> DestDir: {app}
+Files128=FGSHCATP.QBO >> DestDir: {app}
+Files129=FGSHMTHS.QBO >> DestDir: {app}
+Files130=Fgtaxtyp.qbO >> DestDir: {app}
+Files131=Fgtyp.qbO >> DestDir: {app}
+Files132=Fgunit.qbO >> DestDir: {app}
+Files133=FRBUILD.QBO >> DestDir: {app}
+Files134=FRVEREGS.QBO >> DestDir: {app}
+Files135=KENAUDIT.QBO >> DestDir: {app}
+Files136=KENAUTOB.QBO >> DestDir: {app}
+Files137=kenslog.qbO >> DestDir: {app}
+Files138=KENSLOGL.QBO >> DestDir: {app}
+Files139=kenslogr.qbO >> DestDir: {app}
+Files140=st15fc06.qbO >> DestDir: {app}
+Files141=STSTo.qbO >> DestDir: {app}
+Files142=VNBUILD.QBO >> DestDir: {app}

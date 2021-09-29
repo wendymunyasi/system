@@ -1,3 +1,9 @@
+////////////////////////////////////////////////////////////////////////////////
+// Output Filename: C:\KENSERVICE\IDSSYS\FGCODAD_FCV.WFM                      //
+// Created By:      dBASE Form Converter Wizard                               //
+// Created On:      Monday June 13, 2016 At 16:12:28                          //
+// Object Count:    77                                                        //
+////////////////////////////////////////////////////////////////////////////////
 *****************************************************************************
 *  PROGRAM:      FGCODad.wfm
 *
@@ -19,7 +25,7 @@
 *                KBUTTONS.CC          (Custom Controls file)
 *                Code Code.qbe         (View of tables)
 *
-*  USAGE:        DO FGCODad.wfm      
+*  USAGE:        DO FGCODad.wfm
 *
 *******************************************************************************
 #include <messdlg.h>
@@ -32,1061 +38,995 @@ _app.FrameWin.Visible = .F.
 _app.FrameWin.Text = "FGCODAD"
 set ldCheck off && To avoid language driver conflicts
 #define Maxcoy 999
-** END HEADER -- do not remove this line*
-* Generated on 27/10/2019
-*
+** END HEADER -- do not remove this line
+//
+// Generated on 10/07/2016
+//
 parameter bUser,bLevel,bModal
 local f
 f = new FGCODFORM()
 if (bModal)
-   f.mdi = .F. && ensure not MDI
-   f.ReadModal()
+   f.mdi = false // ensure not MDI
+   f.readModal()
 else
-   f.Open()
+   f.open()
 endif
-CLASS FGCODFORM OF FORM
-   Set Procedure To BUTTONS.CC additive
-   this.SysMenu = .F.
-   this.MenuFile = "FGCODAD.MNU"
-   this.EscExit = .F.
-   this.OnClose = CLASS::ONCLOSE
-   this.Text = "CREATE NEW  ITEM CODES/PRICES Form"
-   this.MDI = .F.
-   this.WindowState = 2
-   this.MousePointer = 1
-   this.Sizeable = .F.
-   this.Minimize = .F.
-   this.Moveable = .F.
-   this.Left = 0
-   this.Top = 0.1758
-   this.ColorNormal = "N+"
-   this.Height = 25.5293
-   this.View = "FGCODAD.QBE"
-   this.Width = 116
-
-   DEFINE RECTANGLE RECTANGLE1 OF THIS;
-       PROPERTY; 
-         FontName "Arial",;
-         FontSize 10,;
-         Text "Select Item Type and Class to Create",;
-         Left 0.5,;
-         ColorNormal "B+/BtnFace",;
-         Height 6.8223,;
-         Width 41.6641
-
-   DEFINE TEXT CODETEXT OF THIS;
-       PROPERTY; 
-         FontSize 10,;
-         Text "Item Type:",;
-         Border .T.,;
-         Alignment 3,;
-         Left 2.5,;
-         Top 1,;
-         ColorNormal "B/BtnFace",;
-         Height 1.0596,;
-         Width 13.6641
-
-   DEFINE COMBOBOX STYP OF THIS;
-       PROPERTY; 
-         OnLostFocus CLASS::CHANGE_TYP,;
-         FontName "Arial Black",;
-         DataLink "FGCODTEM->typName",;
-         Enabled .F.,;
-         DataSource "FIELD fgtypS->NAME",;
-         Left 2.3311,;
-         Style 1,;
-         Top 2.2344,;
-         ColorNormal "B/BtnFace",;
-         Height 1.3516,;
-         Width 38.502
-
-   DEFINE TEXT TEXT6 OF THIS;
-       PROPERTY; 
-         FontSize 10,;
-         Text "Item Class:",;
-         Border .T.,;
-         Alignment 3,;
-         Left 2.3311,;
-         Top 3.7637,;
-         ColorNormal "B/BtnFace",;
-         Height 1.0586,;
-         Width 14.502
-
-   DEFINE COMBOBOX SCLA OF THIS;
-       PROPERTY; 
-         OnLostFocus CLASS::SCLA_ONCHANGE,;
-         FontName "Arial Black",;
-         DataLink "FGCODTEM->claName",;
-         Enabled .F.,;
-         DataSource "FIELD fgclaS->NAME",;
-         Left 2.1641,;
-         Style 1,;
-         Top 5,;
-         ColorNormal "B/BtnFace",;
-         Height 1.3516,;
-         Width 38.335
-
-   DEFINE RECTANGLE RECTANGLE2 OF THIS;
-       PROPERTY; 
-         FontName "Arial",;
-         FontSize 10,;
-         Text "Item Descriptions",;
-         Left 42.8311,;
-         ColorNormal "B+/BtnFace",;
-         Height 11,;
-         Width 77.168
-
-   DEFINE TEXT TEXT20 OF THIS;
-       PROPERTY; 
-         FontSize 10,;
-         Text "Item Type:",;
-         Border .T.,;
-         Alignment 3,;
-         Left 43.3311,;
-         Top 1.4688,;
-         ColorNormal "B/0xffff80",;
-         Height 1.0596,;
-         Width 14.168
-
-   DEFINE ENTRYFIELD SITYP OF THIS;
-       PROPERTY; 
-         ColorHighLight "WindowText/W",;
-         FontSize 10,;
-         Function "!",;
-         DataLink "FGTYP->NAME",;
-         Enabled .F.,;
-         Left 58,;
-         Top 1.4102,;
-         ColorNormal "WindowText/0xffff80",;
-         Height 1.2354,;
-         Width 60
-
-   DEFINE TEXT TEXT21 OF THIS;
-       PROPERTY; 
-         FontSize 10,;
-         Text "Item Class:",;
-         Border .T.,;
-         Alignment 3,;
-         Left 43.5,;
-         Top 3.1758,;
-         ColorNormal "B/0xffff80",;
-         Height 1.0586,;
-         Width 14.1641
-
-   DEFINE ENTRYFIELD SICLA OF THIS;
-       PROPERTY; 
-         ColorHighLight "WindowText/W",;
-         FontSize 10,;
-         Function "!",;
-         DataLink "FGCLA->NAME",;
-         Enabled .F.,;
-         Left 58,;
-         Top 3.1172,;
-         ColorNormal "WindowText/0xffff80",;
-         Height 1.2354,;
-         Width 60
-
-   DEFINE TEXT TEXT26 OF THIS;
-       PROPERTY; 
-         FontSize 10,;
-         Text "Item Descriptions:",;
-         Border .T.,;
-         Alignment 3,;
-         Left 43.3311,;
-         Top 4.3516,;
-         ColorNormal "B/0xffff80",;
-         Height 0.9971,;
-         Width 25.502
-
-   DEFINE TEXT TEXT1 OF THIS;
-       PROPERTY; 
-         FontSize 10,;
-         Text "Name:",;
-         Border .T.,;
-         Alignment 3,;
-         Left 43.1641,;
-         Top 5.4688,;
-         ColorNormal "B/BtnFace",;
-         Height 1.0596,;
-         Width 11.835
-
-   DEFINE ENTRYFIELD SNAME OF THIS;
-       PROPERTY; 
-         FontSize 10,;
-         Function "!",;
-         DataLink "FGCOD->NAME",;
-         OnChange CLASS::SNAME_ONCHANGE,;
-         Enabled .F.,;
-         Left 58,;
-         Top 5.4102,;
-         ColorNormal "WindowText/W",;
-         Height 1.2354,;
-         Width 60
-
-   DEFINE TEXT TEXT4 OF THIS;
-       PROPERTY; 
-         FontSize 10,;
-         Text "Item LookUp Code:",;
-         Border .T.,;
-         Alignment 3,;
-         Left 43.3311,;
-         Top 9.7637,;
-         ColorNormal "B/0xffff80",;
-         Height 1.0586,;
-         Width 22.668
-
-   DEFINE ENTRYFIELD SSCODE OF THIS;
-       PROPERTY; 
-         ColorHighLight "WindowText/W",;
-         FontSize 10,;
-         Function "!",;
-         DataLink "FGCOD->SCODE",;
-         OnChange CLASS::SSCODE_ONCHANGE,;
-         Enabled .F.,;
-         Left 66.6641,;
-         Top 9.7637,;
-         ColorNormal "WindowText/0xffff80",;
-         Height 1.2354,;
-         Width 17.335
-
-   DEFINE TEXT TEXT32 OF THIS;
-       PROPERTY; 
-         FontSize 10,;
-         Text "Item Id. Code:",;
-         Border .T.,;
-         Alignment 3,;
-         Left 85.3311,;
-         Top 9.7637,;
-         ColorNormal "B/0xffff80",;
-         Height 1.0586,;
-         Width 17.002
-
-   DEFINE ENTRYFIELD SDTYP OF THIS;
-       PROPERTY; 
-         ColorHighLight "WindowText/W",;
-         FontSize 10,;
-         Function "!",;
-         DataLink "FGCOD->TYP",;
-         Enabled .F.,;
-         Left 102.6641,;
-         Top 9.7637,;
-         ColorNormal "WindowText/0xffff80",;
-         Height 1.2354,;
-         Width 5.335
-
-   DEFINE ENTRYFIELD SDCLA OF THIS;
-       PROPERTY; 
-         ColorHighLight "WindowText/W",;
-         FontSize 10,;
-         Function "!",;
-         DataLink "FGCOD->CLA",;
-         Enabled .F.,;
-         Left 108.6641,;
-         Top 9.7637,;
-         ColorNormal "WindowText/0xffff80",;
-         Height 1.2354,;
-         Width 5.335
-
-   DEFINE ENTRYFIELD SDCOD OF THIS;
-       PROPERTY; 
-         ColorHighLight "WindowText/W",;
-         FontSize 10,;
-         Function "!",;
-         DataLink "FGCOD->COD",;
-         Enabled .F.,;
-         Left 114.6641,;
-         Top 9.7637,;
-         ColorNormal "WindowText/0xffff80",;
-         Height 1.2354,;
-         Width 5.335
-
-   DEFINE RECTANGLE RECTANGLE3 OF THIS;
-       PROPERTY; 
-         FontName "Arial",;
-         FontSize 10,;
-         Text "Unit Pricing and Measurement",;
-         Left 0.5,;
-         Top 7,;
-         ColorNormal "B+/BtnFace",;
-         Height 20,;
-         Width 41.6641
-
-   DEFINE TEXT TEXT5 OF THIS;
-       PROPERTY; 
-         FontSize 10,;
-         Text "Unit:",;
-         Border .T.,;
-         Alignment 3,;
-         Left 2.5,;
-         Top 8,;
-         ColorNormal "B/BtnFace",;
-         Height 1.0586,;
-         Width 13.6641
-
-   DEFINE COMBOBOX SUNIT OF THIS;
-       PROPERTY; 
-         OnLostFocus CLASS::SUNIT_ONLOSTFOCUS,;
-         FontName "Arial Black",;
-         DataLink "FGCOD->UNITNAME",;
-         Enabled .F.,;
-         DataSource "FIELD FGUNITS->NAME",;
-         Left 17,;
-         Style 1,;
-         Top 8,;
-         ColorNormal "B/BtnFace",;
-         Height 1.3516,;
-         Width 23.5
-
-   DEFINE TEXT TEXT7 OF THIS;
-       PROPERTY; 
-         FontSize 10,;
-         Text "Vol./#/Unit:",;
-         Border .T.,;
-         Alignment 3,;
-         Left 2.6641,;
-         Top 9.5293,;
-         ColorNormal "B/BtnFace",;
-         Height 1.0586,;
-         Width 15.335
-
-   DEFINE ENTRYFIELD SVOL OF THIS;
-       PROPERTY; 
-         ColorHighLight "WindowText/W",;
-         FontSize 10,;
-         Function "J",;
-         DataLink "FGUNITS->VOLUME",;
-         Enabled .F.,;
-         Left 18,;
-         Top 9.5293,;
-         ColorNormal "N/W+",;
-         Height 1.2354,;
-         Width 12
-
-   DEFINE ENTRYFIELD SITEMUNIT OF THIS;
-       PROPERTY; 
-         ColorHighLight "WindowText/W",;
-         FontSize 10,;
-         Function "J",;
-         DataLink "FGCOD->ITEMS_UNIT",;
-         OnChange CLASS::SITEMUNIT_ONCHANGE,;
-         Enabled .F.,;
-         Left 30,;
-         Top 9.5293,;
-         ColorNormal "N/W+",;
-         Height 1.2354,;
-         Width 11.3311
-
-   DEFINE TEXT TEXT8 OF THIS;
-       PROPERTY; 
-         FontSize 10,;
-         Text "Cost Price/Unit:",;
-         Border .T.,;
-         Alignment 3,;
-         Left 2.5,;
-         Top 11,;
-         ColorNormal "B/BtnFace",;
-         Height 1.0586,;
-         Width 22
-
-   DEFINE ENTRYFIELD SCUNIT OF THIS;
-       PROPERTY; 
-         Picture "99,999,999.99",;
-         ColorHighLight "WindowText/W",;
-         Function "J",;
-         DataLink "FGCOD->COST_PRICE",;
-         OnChange CLASS::SCUNIT_ONCHANGE,;
-         Enabled .F.,;
-         Left 25.8311,;
-         Top 11,;
-         ColorNormal "N/W+",;
-         Height 1.2344,;
-         Width 15.502
-
-   DEFINE RECTANGLE RECTANGLE4 OF THIS;
-       PROPERTY; 
-         FontName "arial",;
-         FontSize 10,;
-         Text "Prices",;
-         Left 1.6641,;
-         Top 12,;
-         ColorNormal "R+/BtnFace",;
-         Height 8,;
-         Width 39.835
-
-   DEFINE TEXT TEXT9 OF THIS;
-       PROPERTY; 
-         Visible .F.,;
-         FontSize 10,;
-         Text "Retail Price/Unit:",;
-         Border .T.,;
-         Alignment 3,;
-         Left 2.5,;
-         Top 12.9395,;
-         ColorNormal "B/BtnFace",;
-         Height 1.0596,;
-         Width 22
-
-   DEFINE ENTRYFIELD SRPRICE OF THIS;
-       PROPERTY; 
-         Picture "99,999,999.99",;
-         ColorHighLight "WindowText/W",;
-         Visible .F.,;
-         Function "J",;
-         DataLink "FGCOD->RPRICE",;
-         OnChange CLASS::SRPRICE_ONCHANGE,;
-         Enabled .F.,;
-         Left 25.8311,;
-         Top 12.7637,;
-         ColorNormal "N/W+",;
-         Height 1.2354,;
-         Width 15.502
-
-   DEFINE TEXT TEXT10 OF THIS;
-       PROPERTY; 
-         Visible .F.,;
-         FontSize 10,;
-         Text "W/Sale Price/Unit:",;
-         Border .T.,;
-         Alignment 3,;
-         Left 2.5,;
-         Top 14.1758,;
-         ColorNormal "B/BtnFace",;
-         Height 1.0586,;
-         Width 22
-
-   DEFINE ENTRYFIELD SWPRICE OF THIS;
-       PROPERTY; 
-         Picture "99,999,999.99",;
-         ColorHighLight "WindowText/W",;
-         Visible .F.,;
-         Function "J",;
-         DataLink "FGCOD->WPRICE",;
-         OnChange CLASS::SWPRICE_ONCHANGE,;
-         Enabled .F.,;
-         Left 25.8311,;
-         Top 14.2344,;
-         ColorNormal "N/W+",;
-         Height 1.2354,;
-         Width 15.502
-
-   DEFINE TEXT TEXT11 OF THIS;
-       PROPERTY; 
-         Visible .F.,;
-         FontSize 10,;
-         Text "Dist. Price/Unit:",;
-         Border .T.,;
-         Alignment 3,;
-         Left 2.5,;
-         Top 15.4688,;
-         ColorNormal "B/BtnFace",;
-         Height 1.0596,;
-         Width 22
-
-   DEFINE ENTRYFIELD SDPRICE OF THIS;
-       PROPERTY; 
-         Picture "99,999,999.99",;
-         ColorHighLight "WindowText/W",;
-         Visible .F.,;
-         Function "J",;
-         DataLink "FGCOD->DPRICE",;
-         OnChange CLASS::SDPRICE_ONCHANGE,;
-         Enabled .F.,;
-         Left 26,;
-         Top 15.4688,;
-         ColorNormal "N/W+",;
-         Height 1.2354,;
-         Width 15.5
-
-   DEFINE TEXT TEXT23 OF THIS;
-       PROPERTY; 
-         FontSize 10,;
-         Text "Proposed Price:",;
-         Border .T.,;
-         Alignment 3,;
-         Left 2.5,;
-         Top 16.9395,;
-         ColorNormal "B/BtnFace",;
-         Height 1.0596,;
-         Width 22
-
-   DEFINE ENTRYFIELD SNP OF THIS;
-       PROPERTY; 
-         Picture "99,999,999.99",;
-         ColorHighLight "WindowText/W",;
-         Function "J",;
-         DataLink "FGCOD->NEW_P",;
-         OnChange CLASS::SNP_ONCHANGE,;
-         Enabled .F.,;
-         Left 25.8311,;
-         Top 16.7637,;
-         ColorNormal "N/W+",;
-         Height 1.2354,;
-         Width 15.502
-
-   DEFINE TEXT TEXT24 OF THIS;
-       PROPERTY; 
-         FontSize 10,;
-         Text "Sales Price:",;
-         Border .T.,;
-         Alignment 3,;
-         Left 2.5,;
-         Top 18.1758,;
-         ColorNormal "B/BtnFace",;
-         Height 1.0586,;
-         Width 22
-
-   DEFINE ENTRYFIELD SPRICE OF THIS;
-       PROPERTY; 
-         Picture "99,999,999.99",;
-         ColorHighLight "WindowText/W",;
-         Function "J",;
-         DataLink "FGCOD->SALE_PRICE",;
-         OnChange CLASS::SPRICE_ONCHANGE1,;
-         Enabled .F.,;
-         Left 25.8311,;
-         Top 18.2344,;
-         ColorNormal "N/W+",;
-         Height 1.2354,;
-         Width 15.502
-
-   DEFINE TEXT TEXT25 OF THIS;
-       PROPERTY; 
-         FontSize 10,;
-         Text "Purchase Cost:",;
-         Border .T.,;
-         Alignment 3,;
-         Left 2.5,;
-         Top 19.4688,;
-         ColorNormal "B/BtnFace",;
-         Height 1.0596,;
-         Width 22
-
-   DEFINE ENTRYFIELD SSTD OF THIS;
-       PROPERTY; 
-         Picture "99,999,999.99",;
-         ColorHighLight "WindowText/W",;
-         Function "J",;
-         DataLink "FGCOD->STD_COST",;
-         OnChange CLASS::SSTD_ONCHANGE,;
-         Enabled .F.,;
-         Left 26,;
-         Top 19.4688,;
-         ColorNormal "N/W+",;
-         Height 1.2354,;
-         Width 15.5
-
-   DEFINE TEXT TEXT12 OF THIS;
-       PROPERTY; 
-         FontSize 10,;
-         Text "Tax Type:",;
-         Border .T.,;
-         Alignment 3,;
-         Left 2.5,;
-         Top 20.7637,;
-         ColorNormal "B/BtnFace",;
-         Height 1.0586,;
-         Width 13.6641
-
-   DEFINE COMBOBOX STAXTYP OF THIS;
-       PROPERTY; 
-         OnLostFocus CLASS::STAXTYP_ONLOSTFOCUS,;
-         FontName "Arial Black",;
-         DataLink "FGCOD->TAXNAME",;
-         Enabled .F.,;
-         DataSource "FIELD FGTAXTYP->NAME",;
-         Left 17,;
-         Style 2,;
-         Top 20.7637,;
-         ColorNormal "B/BtnFace",;
-         Height 1.3516,;
-         Width 23.5
-
-   DEFINE TEXT TEXT13 OF THIS;
-       PROPERTY; 
-         FontSize 10,;
-         Text "Tax Rate:",;
-         Border .T.,;
-         Alignment 3,;
-         Left 2.5,;
-         Top 22.2344,;
-         ColorNormal "B/BtnFace",;
-         Height 1.0596,;
-         Width 22
-
-   DEFINE ENTRYFIELD STAX OF THIS;
-       PROPERTY; 
-         Picture "999.99",;
-         ColorHighLight "WindowText/W",;
-         Function "J",;
-         DataLink "FGCOD->VAT",;
-         Enabled .F.,;
-         Left 25.8311,;
-         Top 22.2344,;
-         ColorNormal "N/W+",;
-         Height 1.2354,;
-         Width 15.502
-
-   DEFINE TEXT TEXT14 OF THIS;
-       PROPERTY; 
-         Visible .F.,;
-         FontSize 10,;
-         Text "S/Rep Comm. Rate:",;
-         Border .T.,;
-         Alignment 3,;
-         Left 2.5,;
-         Top 23.7051,;
-         ColorNormal "B/BtnFace",;
-         Height 1.0596,;
-         Width 24.5
-
-   DEFINE ENTRYFIELD SCOMMRATE OF THIS;
-       PROPERTY; 
-         Picture "99.99",;
-         ColorHighLight "WindowText/W",;
-         Visible .F.,;
-         Function "J",;
-         DataLink "FGCOD->COMM_RATE",;
-         OnChange CLASS::SCOMMRATE_ONCHANGE,;
-         Enabled .F.,;
-         Left 28.6641,;
-         Top 23.6465,;
-         ColorNormal "N/W+",;
-         Height 1.2354,;
-         Width 12.668
-
-   DEFINE TEXT TEXT35 OF THIS;
-       PROPERTY; 
-         FontSize 10,;
-         Text "Material No:",;
-         Border .T.,;
-         Alignment 3,;
-         Left 1.3311,;
-         Top 25.4688,;
-         ColorNormal "B/0xffff80",;
-         Height 1.0596,;
-         Width 18.668
-
-   DEFINE ENTRYFIELD SMAT OF THIS;
-       PROPERTY; 
-         Picture "99999",;
-         ColorHighLight "WindowText/W",;
-         FontSize 10,;
-         DataLink "FGCOD->MAT_CODE",;
-         OnChange CLASS::SMAT_ONCHANGE,;
-         Enabled .F.,;
-         Left 22,;
-         Top 25.4102,;
-         ColorNormal "RG+/0x808040",;
-         Height 1.2354,;
-         Width 18
-
-   DEFINE RECTANGLE RECTANGLE5 OF THIS;
-       PROPERTY; 
-         FontName "Arial",;
-         FontSize 10,;
-         Text "Item Use",;
-         Left 43.1641,;
-         Top 11.2344,;
-         ColorNormal "B+/BtnFace",;
-         Height 4.7637,;
-         Width 76.835
-
-   DEFINE TEXT TEXT28 OF THIS;
-       PROPERTY; 
-         FontSize 10,;
-         Text "Qty Entry:",;
-         Border .T.,;
-         Alignment 3,;
-         Left 44,;
-         Top 12.3516,;
-         ColorNormal "B/BtnFace",;
-         Height 1.2354,;
-         Width 12
-
-   DEFINE COMBOBOX SQTYENTRY OF THIS;
-       PROPERTY; 
-         FontName "Arial Black",;
-         DataLink "FGCOD->QTY",;
-         OnChange CLASS::SQTYENTRY_ONCHANGE,;
-         Enabled .F.,;
-         DataSource 'ARRAY {"Yes","No"}',;
-         Left 56,;
-         Style 2,;
-         Top 12.2344,;
-         ColorNormal "B/BtnFace",;
-         Height 1.3516,;
-         Width 10
-
-   DEFINE TEXT TEXT27 OF THIS;
-       PROPERTY; 
-         FontSize 10,;
-         Text "FC Purch.:",;
-         Border .T.,;
-         Alignment 3,;
-         Left 68,;
-         Top 12.3516,;
-         ColorNormal "B/BtnFace",;
-         Height 1.2354,;
-         Width 12
-
-   DEFINE COMBOBOX SFCP OF THIS;
-       PROPERTY; 
-         FontName "Arial Black",;
-         DataLink "FGCOD->FCPURCH",;
-         OnChange CLASS::SFCP_ONCHANGE,;
-         Enabled .F.,;
-         DataSource 'ARRAY {"Yes","No"}',;
-         Left 80,;
-         Style 2,;
-         Top 12.2344,;
-         ColorNormal "B/BtnFace",;
-         Height 1.3516,;
-         Width 10
-
-   DEFINE TEXT TEXT29 OF THIS;
-       PROPERTY; 
-         FontSize 10,;
-         Text "FC Purch Cen.:",;
-         Border .T.,;
-         Alignment 3,;
-         Left 90,;
-         Top 12.3516,;
-         ColorNormal "B/BtnFace",;
-         Height 1.2354,;
-         Width 18
-
-   DEFINE COMBOBOX SFCDIV OF THIS;
-       PROPERTY; 
-         FontName "Arial Black",;
-         DataLink "FGCOD->FCDIV",;
-         OnChange CLASS::SFCDIV_ONCHANGE,;
-         Enabled .F.,;
-         DataSource 'ARRAY {"6","7","8","9","A","B","C","E"}',;
-         Left 108,;
-         Style 1,;
-         Top 12.2344,;
-         ColorNormal "B/BtnFace",;
-         Height 1.3516,;
-         Width 10
-
-   DEFINE TEXT TEXT33 OF THIS;
-       PROPERTY; 
-         FontSize 10,;
-         Text "Metered Sale:",;
-         Border .T.,;
-         Alignment 3,;
-         Left 44,;
-         Top 14.3516,;
-         ColorNormal "B/BtnFace",;
-         Height 1.2354,;
-         Width 18
-
-   DEFINE COMBOBOX SMSAL OF THIS;
-       PROPERTY; 
-         FontName "Arial Black",;
-         DataLink "FGCOD->SHS_AUTO",;
-         OnChange CLASS::SMSAL_ONCHANGE,;
-         Enabled .F.,;
-         DataSource 'ARRAY {"Yes","No","Ccc","Grs","Dcn","Gas","Ccf"}',;
-         Left 64,;
-         Style 1,;
-         Top 14.2344,;
-         ColorNormal "B/BtnFace",;
-         Height 1.3516,;
-         Width 10
-
-   DEFINE TEXT TEXT34 OF THIS;
-       PROPERTY; 
-         FontSize 10,;
-         Text "Active:",;
-         Border .T.,;
-         Alignment 3,;
-         Left 74,;
-         Top 14.3516,;
-         ColorNormal "B/BtnFace",;
-         Height 1.2354,;
-         Width 10
-
-   DEFINE COMBOBOX SUSED OF THIS;
-       PROPERTY; 
-         FontName "Arial Black",;
-         DataLink "FGCOD->active",;
-         OnChange CLASS::SUSED_ONCHANGE,;
-         Enabled .F.,;
-         DataSource 'ARRAY {"Yes","No"}',;
-         Left 86,;
-         Style 2,;
-         Top 14.2344,;
-         ColorNormal "B/BtnFace",;
-         Height 1.3516,;
-         Width 10
-
-   DEFINE TEXT TEXT17 OF THIS;
-       PROPERTY; 
-         FontSize 10,;
-         Text "Minimum Stock Level:",;
-         Border .T.,;
-         Alignment 3,;
-         Left 44.6641,;
-         Top 15.8223,;
-         ColorNormal "B/BtnFace",;
-         Height 1,;
-         Width 28.668
-
-   DEFINE ENTRYFIELD SMIN OF THIS;
-       PROPERTY; 
-         Picture "99,999,999.99",;
-         ColorHighLight "WindowText/W",;
-         Function "J",;
-         DataLink "FGCOD->MIN_STK",;
-         OnChange CLASS::SMIN_ONCHANGE,;
-         Enabled .F.,;
-         Left 74.6641,;
-         Top 15.6465,;
-         ColorNormal "N/W+",;
-         Height 1.2354,;
-         Width 15.502
-
-   DEFINE TEXT TEXT18 OF THIS;
-       PROPERTY; 
-         FontSize 10,;
-         Text "Item Reorder Level:",;
-         Border .T.,;
-         Alignment 3,;
-         Left 44.6641,;
-         Top 17.0586,;
-         ColorNormal "B/BtnFace",;
-         Height 1.0586,;
-         Width 28.502
-
-   DEFINE ENTRYFIELD SREORDER OF THIS;
-       PROPERTY; 
-         Picture "99,999,999.99",;
-         ColorHighLight "WindowText/W",;
-         Function "J",;
-         DataLink "FGCOD->REORDR_STK",;
-         OnChange CLASS::SREORDER_ONCHANGE,;
-         Enabled .F.,;
-         Left 74.6641,;
-         Top 17.1172,;
-         ColorNormal "N/W+",;
-         Height 1.2354,;
-         Width 15.502
-
-   DEFINE TEXT TEXT22 OF THIS;
-       PROPERTY; 
-         FontSize 10,;
-         Text "Traditional Location:",;
-         Border .T.,;
-         Alignment 3,;
-         Left 44.6641,;
-         Top 19.9395,;
-         ColorNormal "B+/W",;
-         Height 1.2354,;
-         Width 24.168
-
-   DEFINE TEXT TEXT31 OF THIS;
-       PROPERTY; 
-         FontSize 10,;
-         Text "Store:",;
-         Border .T.,;
-         Alignment 3,;
-         Left 70.6641,;
-         Top 19.9395,;
-         ColorNormal "B+/G+",;
-         Height 1.2354,;
-         Width 7.335
-
-   DEFINE COMBOBOX SSTO OF THIS;
-       PROPERTY; 
-         OnLostFocus CLASS::SSTO_ONLOSTFOCUS,;
-         FontName "Arial Black",;
-         DataLink "FGCOD->STONAME",;
-         Enabled .F.,;
-         DataSource "FIELD STSTOS->NAME",;
-         Left 80,;
-         Style 1,;
-         Top 20,;
-         ColorNormal "B/BtnFace",;
-         Height 1.3516,;
-         Width 40
-
-   DEFINE TEXT TEXT30 OF THIS;
-       PROPERTY; 
-         FontSize 10,;
-         Text "Centre:",;
-         Border .T.,;
-         Alignment 3,;
-         Left 68,;
-         Top 20.9395,;
-         ColorNormal "B+/G+",;
-         Height 1.2354,;
-         Width 10.8311
-
-   DEFINE COMBOBOX SLOCA OF THIS;
-       PROPERTY; 
-         OnLostFocus CLASS::SLOCA_ONLOSTFOCUS,;
-         FontName "Arial Black",;
-         DataLink "FGCOD->CNAME",;
-         Enabled .F.,;
-         DataSource "FIELD FGCEN->NAME",;
-         Left 80,;
-         Style 1,;
-         Top 21,;
-         ColorNormal "B/BtnFace",;
-         Height 1.3516,;
-         Width 40
-
-   DEFINE RECTANGLE RECTANGLE6 OF THIS;
-       PROPERTY; 
-         FontName "Arial",;
-         FontSize 10,;
-         Text "SELECT REVENUE CLASSIFICATION",;
-         Left 45.3311,;
-         Top 22.2344,;
-         ColorNormal "R+/BtnFace",;
-         Height 3.7637,;
-         Width 74.668
-
-   DEFINE COMBOBOX SREV OF THIS;
-       PROPERTY; 
-         FontName "Arial Black",;
-         DropDownHeight 10,;
-         DataLink "FGCOD->COSTNAME",;
-         OnChange CLASS::SREV_ONCHANGE,;
-         Enabled .F.,;
-         DataSource "FIELD FGSVCES->NAME",;
-         Left 47.3311,;
-         Style 2,;
-         Top 23.3516,;
-         ColorNormal "B/BtnFace",;
-         Height 1.3516,;
-         Width 68.668
-
-   DEFINE PREVBUTTON PREVCOYBUTTON OF THIS;
-       PROPERTY; 
-         Group .T.,;
-         Text "Previous",;
-         OnClick CLASS::PREVIOUS,;
-         Left 1.3311,;
-         Top 31.1172,;
-         Height 1.5293,;
-         Default .T.,;
-         Width 14.168
-
-   DEFINE NEXTBUTTON NEXTCOYBUTTON OF THIS;
-       PROPERTY; 
-         Group .F.,;
-         Text "Next",;
-         OnClick CLASS::NEXT,;
-         Left 16.3311,;
-         Top 31.1172,;
-         Height 1.5293,;
-         Width 14.168
-
-   DEFINE PUSHBUTTON FIRFGCODBUTTON OF THIS;
-       PROPERTY; 
-         Group .F.,;
-         StatusMessage "Go to the first record.",;
-         Text "First",;
-         OnClick CLASS::FISRT_RTN,;
-         Left 31,;
-         Top 31.1172,;
-         Height 1.5293,;
-         Width 14.1641
-
-   DEFINE PUSHBUTTON LAFGCODBUTTON OF THIS;
-       PROPERTY; 
-         Group .F.,;
-         StatusMessage "Go to the last FGCOD.",;
-         Text "Last",;
-         OnClick CLASS::LAST_RTN,;
-         Left 46,;
-         Top 31.1172,;
-         Height 1.5293,;
-         Width 14.1641
-
-   DEFINE ENTRYFIELD SVOLUME OF THIS;
-       PROPERTY; 
-         Picture "99,999.999",;
-         ColorHighLight "WindowText/W",;
-         FontSize 10,;
-         DataLink "FGCOD->VOLUME",;
-         Enabled .F.,;
-         Left 42,;
-         Top 8,;
-         ColorNormal "N/W+",;
-         Height 1.2344,;
-         Width 14
-
-   DEFINE TEXT TEXT2 OF THIS;
-       PROPERTY; 
-         FontSize 10,;
-         Text "Assembly Code:",;
-         Border .T.,;
-         Alignment 3,;
-         Left 44,;
-         Top 18.3516,;
-         ColorNormal "B/0xffff80",;
-         Height 1.3516,;
-         Width 30
-
-   DEFINE COMBOBOX SASSY OF THIS;
-       PROPERTY; 
-         FontName "Arial Black",;
-         DataLink "FGCOD->USENAME",;
-         OnChange CLASS::SASSY_ONCHANGE1,;
-         Enabled .F.,;
-         DataSource 'ARRAY {"","CC","GREASE","ACID","TTM","BF","ATF","FLUSH OIL","COOLANT","WATER"}',;
-         Left 75,;
-         Style 2,;
-         Top 18.4102,;
-         ColorNormal "B/BtnFace",;
-         Height 1.3516,;
-         Width 26
-
-   DEFINE TEXT TEXT15 OF THIS;
-       PROPERTY; 
-         FontSize 10,;
-         Text "Promotion:",;
-         Border .T.,;
-         Alignment 3,;
-         Left 46,;
-         Top 26.3516,;
-         ColorNormal "B/BtnFace",;
-         Height 1.2354,;
-         Width 22
-
-   DEFINE COMBOBOX SPROMO OF THIS;
-       PROPERTY; 
-         FontName "Arial Black",;
-         DataLink "FGCOD->promotion",;
-         OnChange CLASS::SPROMO_ONCHANGE,;
-         Enabled .F.,;
-         DataSource 'ARRAY {"Yes","No",""}',;
-         Left 72,;
-         Style 2,;
-         Top 26.2344,;
-         ColorNormal "B/BtnFace",;
-         Height 1.3525,;
-         Width 10
+
+class FGCODFORM of FORM
+   with (this)
+      onClose = class::ONCLOSE
+      open = class::OPEN
+      metric = 6	// Pixels
+      colorNormal = "N+"
+      height = 932.0
+      left = 0.0
+      top = 3.0
+      width = 1284.0
+      text = "CREATE NEW  ITEM CODES/PRICES Form"
+      windowState = 2	// Normal
+      mdi = false
+      sizeable = false
+      moveable = false
+      sysMenu = false
+      view = "FGCODAD.QBE"
+      menuFile = "FGCODAD.MNU"
+      escExit = false
+      mousePointer = 1	// Arrow
+      minimize = false
+   endwith
+
+   this.CODETEXT = new TEXTLABEL(this)
+   with (this.CODETEXT)
+      height = 18.0
+      left = 15.0
+      top = 17.0
+      width = 82.0
+      text = "Item Type:"
+      colorNormal = "B/BtnFace"
+      fontName = "MS Sans Serif"
+      fontBold = true
+      borderStyle = 7	// Client
+      alignVertical = 1	// Middle
+   endwith
+
+   this.STYP = new COMBOBOX(this)
+   with (this.STYP)
+      onChange = class::STYP_ONCHANGE
+      dataLink = "FGCODTEM->TYPNAME"
+      enabled = false
+      height = 23.0
+      left = 14.0
+      top = 38.0
+      width = 231.0
+      fontName = "Arial Black"
+      fontSize = 8.0
+      fontBold = true
+      colorNormal = "black/white"
+      dataSource = "FIELD fgtypS->NAME"
+      style = 1	// DropDown
+      dropDownHeight = 132.0
+   endwith
+
+   this.TEXT6 = new TEXTLABEL(this)
+   with (this.TEXT6)
+      height = 18.0
+      left = 14.0
+      top = 64.0
+      width = 87.0
+      text = "Item Class:"
+      colorNormal = "B/BtnFace"
+      fontName = "MS Sans Serif"
+      fontBold = true
+      borderStyle = 7	// Client
+      alignVertical = 1	// Middle
+   endwith
+
+   this.SCLA = new COMBOBOX(this)
+   with (this.SCLA)
+      onChange = class::SCLA_ONCHANGE
+      dataLink = "FGCODTEM->CLANAME"
+      enabled = false
+      height = 23.0
+      left = 13.0
+      top = 85.0
+      width = 230.0
+      fontName = "Arial Black"
+      fontSize = 8.0
+      fontBold = true
+      colorNormal = "black/white"
+      dataSource = "FIELD fgclaS->NAME"
+      style = 1	// DropDown
+      dropDownHeight = 132.0
+   endwith
+
+   this.TEXT20 = new TEXTLABEL(this)
+   with (this.TEXT20)
+      height = 18.0
+      left = 260.0
+      top = 25.0
+      width = 85.0
+      text = "Item Type:"
+      colorNormal = "B/0xffff80"
+      fontName = "MS Sans Serif"
+      fontBold = true
+      borderStyle = 7	// Client
+      alignVertical = 1	// Middle
+   endwith
+
+   this.SITYP = new ENTRYFIELD(this)
+   with (this.SITYP)
+      dataLink = "FGTYP->NAME"
+      enabled = false
+      height = 21.0
+      left = 348.0
+      top = 24.0
+      width = 360.0
+      function = "!"
+      colorNormal = "WindowText/0xffff80"
+      colorHighLight = "WindowText/W"
+      fontName = "MS Sans Serif"
+      fontBold = true
+   endwith
+
+   this.TEXT21 = new TEXTLABEL(this)
+   with (this.TEXT21)
+      height = 18.0
+      left = 261.0
+      top = 54.0
+      width = 85.0
+      text = "Item Class:"
+      colorNormal = "B/0xffff80"
+      fontName = "MS Sans Serif"
+      fontBold = true
+      borderStyle = 7	// Client
+      alignVertical = 1	// Middle
+   endwith
+
+   this.SICLA = new ENTRYFIELD(this)
+   with (this.SICLA)
+      dataLink = "FGCLA->NAME"
+      enabled = false
+      height = 21.0
+      left = 348.0
+      top = 53.0
+      width = 360.0
+      function = "!"
+      colorNormal = "WindowText/0xffff80"
+      colorHighLight = "WindowText/W"
+      fontName = "MS Sans Serif"
+      fontBold = true
+   endwith
+
+   this.TEXT26 = new TEXTLABEL(this)
+   with (this.TEXT26)
+      height = 17.0
+      left = 260.0
+      top = 74.0
+      width = 153.0
+      text = "Item Descriptions:"
+      colorNormal = "B/0xffff80"
+      fontName = "MS Sans Serif"
+      fontBold = true
+      borderStyle = 7	// Client
+      alignVertical = 1	// Middle
+   endwith
+
+   this.TEXT1 = new TEXTLABEL(this)
+   with (this.TEXT1)
+      height = 18.0
+      left = 259.0
+      top = 93.0
+      width = 71.0
+      text = "Name:"
+      colorNormal = "B/BtnFace"
+      fontName = "MS Sans Serif"
+      fontBold = true
+      borderStyle = 7	// Client
+      alignVertical = 1	// Middle
+   endwith
+
+   this.SNAME = new ENTRYFIELD(this)
+   with (this.SNAME)
+      onChange = class::SNAME_ONCHANGE
+      dataLink = "FGCOD->NAME"
+      enabled = false
+      height = 21.0
+      left = 348.0
+      top = 92.0
+      width = 360.0
+      function = "!"
+      colorNormal = "WindowText/W"
+      fontName = "MS Sans Serif"
+      fontBold = true
+   endwith
+
+   this.TEXT4 = new TEXTLABEL(this)
+   with (this.TEXT4)
+      height = 18.0
+      left = 260.0
+      top = 166.0
+      width = 136.0
+      text = "Item LookUp Code:"
+      colorNormal = "B/0xffff80"
+      fontName = "MS Sans Serif"
+      fontBold = true
+      borderStyle = 7	// Client
+      alignVertical = 1	// Middle
+   endwith
+
+   this.SSCODE = new ENTRYFIELD(this)
+   with (this.SSCODE)
+      onChange = class::SSCODE_ONCHANGE
+      dataLink = "FGCOD->SCODE"
+      enabled = false
+      height = 21.0
+      left = 400.0
+      top = 166.0
+      width = 104.0
+      function = "!"
+      colorNormal = "WindowText/0xffff80"
+      colorHighLight = "WindowText/W"
+      fontName = "MS Sans Serif"
+      fontBold = true
+   endwith
+
+   this.TEXT32 = new TEXTLABEL(this)
+   with (this.TEXT32)
+      height = 18.0
+      left = 512.0
+      top = 166.0
+      width = 102.0
+      text = "Item Id. Code:"
+      colorNormal = "B/0xffff80"
+      fontName = "MS Sans Serif"
+      fontBold = true
+      borderStyle = 7	// Client
+      alignVertical = 1	// Middle
+   endwith
+
+   this.SDTYP = new ENTRYFIELD(this)
+   with (this.SDTYP)
+      dataLink = "FGCOD->TYP"
+      enabled = false
+      height = 21.0
+      left = 616.0
+      top = 166.0
+      width = 32.0
+      function = "!"
+      colorNormal = "WindowText/0xffff80"
+      colorHighLight = "WindowText/W"
+      fontName = "MS Sans Serif"
+      fontBold = true
+   endwith
+
+   this.SDCLA = new ENTRYFIELD(this)
+   with (this.SDCLA)
+      dataLink = "FGCOD->CLA"
+      enabled = false
+      height = 21.0
+      left = 652.0
+      top = 166.0
+      width = 32.0
+      function = "!"
+      colorNormal = "WindowText/0xffff80"
+      colorHighLight = "WindowText/W"
+      fontName = "MS Sans Serif"
+      fontBold = true
+   endwith
+
+   this.SDCOD = new ENTRYFIELD(this)
+   with (this.SDCOD)
+      dataLink = "FGCOD->COD"
+      enabled = false
+      height = 21.0
+      left = 688.0
+      top = 166.0
+      width = 32.0
+      function = "!"
+      colorNormal = "WindowText/0xffff80"
+      colorHighLight = "WindowText/W"
+      fontName = "MS Sans Serif"
+      fontBold = true
+   endwith
+
+   this.TEXT5 = new TEXTLABEL(this)
+   with (this.TEXT5)
+      height = 18.0
+      left = 15.0
+      top = 136.0
+      width = 82.0
+      text = "Unit:"
+      colorNormal = "B/BtnFace"
+      fontName = "MS Sans Serif"
+      fontBold = true
+      borderStyle = 7	// Client
+      alignVertical = 1	// Middle
+   endwith
+
+   this.SUNIT = new COMBOBOX(this)
+   with (this.SUNIT)
+      onChange = class::SUNIT_ONCHANGE
+      dataLink = "FGCOD->UNITNAME"
+      enabled = false
+      height = 23.0
+      left = 102.0
+      top = 136.0
+      width = 141.0
+      fontName = "Arial Black"
+      fontSize = 8.0
+      fontBold = true
+      colorNormal = "B/BtnFace"
+      dataSource = "FIELD FGUNITS->NAME"
+      style = 1	// DropDown
+      dropDownHeight = 132.0
+   endwith
+
+   this.TEXT7 = new TEXTLABEL(this)
+   with (this.TEXT7)
+      height = 18.0
+      left = 16.0
+      top = 162.0
+      width = 92.0
+      text = "Vol./#/Unit:"
+      colorNormal = "B/BtnFace"
+      fontName = "MS Sans Serif"
+      fontBold = true
+      borderStyle = 7	// Client
+      alignVertical = 1	// Middle
+   endwith
+
+   this.SVOL = new ENTRYFIELD(this)
+   with (this.SVOL)
+      dataLink = "FGUNITS->VOLUME"
+      enabled = false
+      height = 21.0
+      left = 108.0
+      top = 162.0
+      width = 72.0
+      function = "J"
+      colorNormal = "N/W+"
+      colorHighLight = "WindowText/W"
+      fontName = "MS Sans Serif"
+      fontBold = true
+   endwith
+
+   this.SITEMUNIT = new ENTRYFIELD(this)
+   with (this.SITEMUNIT)
+      onChange = class::SITEMUNIT_ONCHANGE
+      dataLink = "FGCOD->ITEMS_UNIT"
+      enabled = false
+      height = 21.0
+      left = 180.0
+      top = 162.0
+      width = 68.0
+      function = "J"
+      colorNormal = "N/W+"
+      colorHighLight = "WindowText/W"
+      fontName = "MS Sans Serif"
+      fontBold = true
+   endwith
+
+   this.TEXT8 = new TEXTLABEL(this)
+   with (this.TEXT8)
+      height = 18.0
+      left = 15.0
+      top = 187.0
+      width = 132.0
+      text = "Cost Price/Unit:"
+      colorNormal = "B/BtnFace"
+      fontName = "MS Sans Serif"
+      fontBold = true
+      borderStyle = 7	// Client
+      alignVertical = 1	// Middle
+   endwith
+
+   this.SCUNIT = new ENTRYFIELD(this)
+   with (this.SCUNIT)
+      onChange = class::SCUNIT_ONCHANGE
+      dataLink = "FGCOD->COST_PRICE"
+      enabled = false
+      height = 21.0
+      left = 155.0
+      top = 187.0
+      width = 93.0
+      picture = "99,999,999.99"
+      function = "J"
+      colorNormal = "N/W+"
+      colorHighLight = "WindowText/W"
+      fontName = "MS Sans Serif"
+      fontSize = 8.0
+      fontBold = true
+   endwith
+
+   this.TEXT23 = new TEXTLABEL(this)
+   with (this.TEXT23)
+      height = 18.0
+      left = 15.0
+      top = 288.0
+      width = 132.0
+      text = "Proposed Price:"
+      colorNormal = "B/BtnFace"
+      fontName = "MS Sans Serif"
+      fontBold = true
+      borderStyle = 7	// Client
+      alignVertical = 1	// Middle
+   endwith
+
+   this.SNP = new ENTRYFIELD(this)
+   with (this.SNP)
+      onChange = class::SNP_ONCHANGE
+      dataLink = "FGCOD->NEW_P"
+      enabled = false
+      height = 21.0
+      left = 155.0
+      top = 285.0
+      width = 93.0
+      picture = "99,999,999.99"
+      function = "J"
+      colorNormal = "N/W+"
+      colorHighLight = "WindowText/W"
+      fontName = "MS Sans Serif"
+      fontSize = 8.0
+      fontBold = true
+   endwith
+
+   this.TEXT24 = new TEXTLABEL(this)
+   with (this.TEXT24)
+      height = 18.0
+      left = 15.0
+      top = 309.0
+      width = 132.0
+      text = "Sales Price:"
+      colorNormal = "B/BtnFace"
+      fontName = "MS Sans Serif"
+      fontBold = true
+      borderStyle = 7	// Client
+      alignVertical = 1	// Middle
+   endwith
+
+   this.SPRICE = new ENTRYFIELD(this)
+   with (this.SPRICE)
+      onChange = class::SPRICE_ONCHANGE1
+      dataLink = "FGCOD->SALE_PRICE"
+      enabled = false
+      height = 21.0
+      left = 155.0
+      top = 310.0
+      width = 93.0
+      picture = "99,999,999.99"
+      function = "J"
+      colorNormal = "N/W+"
+      colorHighLight = "WindowText/W"
+      fontName = "MS Sans Serif"
+      fontSize = 8.0
+      fontBold = true
+   endwith
+
+   this.TEXT12 = new TEXTLABEL(this)
+   with (this.TEXT12)
+      height = 18.0
+      left = 15.0
+      top = 353.0
+      width = 82.0
+      text = "Tax Type:"
+      colorNormal = "B/BtnFace"
+      fontName = "MS Sans Serif"
+      fontBold = true
+      borderStyle = 7	// Client
+      alignVertical = 1	// Middle
+   endwith
+
+   this.STAXTYP = new COMBOBOX(this)
+   with (this.STAXTYP)
+      onLostFocus = class::STAXTYP_ONLOSTFOCUS
+      onChange = class::STAXTYP_ONCHANGE
+      dataLink = "FGCOD->TAXNAME"
+      enabled = false
+      height = 23.0
+      left = 102.0
+      top = 353.0
+      width = 141.0
+      fontName = "Arial Black"
+      fontSize = 8.0
+      fontBold = true
+      colorNormal = "B/BtnFace"
+      dataSource = "FIELD FGTAXTYP->NAME"
+      style = 2	// DropDownList
+      dropDownHeight = 132.0
+   endwith
+
+   this.TEXT13 = new TEXTLABEL(this)
+   with (this.TEXT13)
+      height = 18.0
+      left = 15.0
+      top = 378.0
+      width = 132.0
+      text = "Tax Rate:"
+      colorNormal = "B/BtnFace"
+      fontName = "MS Sans Serif"
+      fontBold = true
+      borderStyle = 7	// Client
+      alignVertical = 1	// Middle
+   endwith
+
+   this.STAX = new ENTRYFIELD(this)
+   with (this.STAX)
+      onChange = class::STAX_ONCHANGE
+      dataLink = "FGCOD->VAT"
+      enabled = false
+      height = 21.0
+      left = 155.0
+      top = 378.0
+      width = 93.0
+      picture = "999.99"
+      function = "J"
+      colorNormal = "N/W+"
+      colorHighLight = "WindowText/W"
+      fontName = "MS Sans Serif"
+      fontSize = 8.0
+      fontBold = true
+   endwith
+
+   this.TEXT14 = new TEXTLABEL(this)
+   with (this.TEXT14)
+      visible = false
+      height = 18.0
+      left = 15.0
+      top = 403.0
+      width = 147.0
+      text = "S/Rep Comm. Rate:"
+      colorNormal = "B/BtnFace"
+      fontName = "MS Sans Serif"
+      fontBold = true
+      borderStyle = 7	// Client
+      alignVertical = 1	// Middle
+   endwith
+
+   this.SCOMMRATE = new ENTRYFIELD(this)
+   with (this.SCOMMRATE)
+      onChange = class::SCOMMRATE_ONCHANGE
+      dataLink = "FGCOD->COMM_RATE"
+      visible = false
+      enabled = false
+      height = 21.0
+      left = 172.0
+      top = 402.0
+      width = 76.0
+      picture = "99.99"
+      function = "J"
+      colorNormal = "N/W+"
+      colorHighLight = "WindowText/W"
+      fontName = "MS Sans Serif"
+      fontSize = 8.0
+      fontBold = true
+   endwith
+
+   this.TEXT35 = new TEXTLABEL(this)
+   with (this.TEXT35)
+      height = 18.0
+      left = 8.0
+      top = 433.0
+      width = 112.0
+      text = "Material No:"
+      colorNormal = "B/0xffff80"
+      fontName = "MS Sans Serif"
+      fontBold = true
+      borderStyle = 7	// Client
+      alignVertical = 1	// Middle
+   endwith
+
+   this.SMAT = new ENTRYFIELD(this)
+   with (this.SMAT)
+      onChange = class::SMAT_ONCHANGE
+      dataLink = "FGCOD->MAT_CODE"
+      enabled = false
+      height = 21.0
+      left = 132.0
+      top = 432.0
+      width = 108.0
+      picture = "99999"
+      colorNormal = "RG+/0x808040"
+      colorHighLight = "WindowText/W"
+      fontName = "MS Sans Serif"
+      fontBold = true
+   endwith
+
+   this.TEXT28 = new TEXTLABEL(this)
+   with (this.TEXT28)
+      height = 21.0
+      left = 264.0
+      top = 210.0
+      width = 72.0
+      text = "Qty Entry:"
+      colorNormal = "B/BtnFace"
+      fontName = "MS Sans Serif"
+      fontBold = true
+      borderStyle = 7	// Client
+      alignVertical = 1	// Middle
+   endwith
+
+   this.SQTYENTRY = new COMBOBOX(this)
+   with (this.SQTYENTRY)
+      onChange = class::SQTYENTRY_ONCHANGE
+      dataLink = "FGCOD->QTY"
+      enabled = false
+      height = 23.0
+      left = 336.0
+      top = 208.0
+      width = 60.0
+      fontName = "Arial Black"
+      fontSize = 8.0
+      fontBold = true
+      colorNormal = "B/BtnFace"
+      dataSource = 'array {"Yes","No"}'
+      style = 2	// DropDownList
+      dropDownHeight = 132.0
+   endwith
+
+   this.TEXT27 = new TEXTLABEL(this)
+   with (this.TEXT27)
+      height = 21.0
+      left = 408.0
+      top = 210.0
+      width = 72.0
+      text = "FC Purch.:"
+      colorNormal = "B/BtnFace"
+      fontName = "MS Sans Serif"
+      fontBold = true
+      borderStyle = 7	// Client
+      alignVertical = 1	// Middle
+   endwith
+
+   this.SFCP = new COMBOBOX(this)
+   with (this.SFCP)
+      onChange = class::SFCP_ONCHANGE
+      dataLink = "FGCOD->FCPURCH"
+      enabled = false
+      height = 23.0
+      left = 480.0
+      top = 208.0
+      width = 60.0
+      fontName = "Arial Black"
+      fontSize = 8.0
+      fontBold = true
+      colorNormal = "B/BtnFace"
+      dataSource = 'array {"Yes","No"}'
+      style = 2	// DropDownList
+      dropDownHeight = 132.0
+   endwith
+
+   this.TEXT33 = new TEXTLABEL(this)
+   with (this.TEXT33)
+      height = 21.0
+      left = 264.0
+      top = 244.0
+      width = 108.0
+      text = "Metered Sale:"
+      colorNormal = "B/BtnFace"
+      fontName = "MS Sans Serif"
+      fontBold = true
+      borderStyle = 7	// Client
+      alignVertical = 1	// Middle
+   endwith
+
+   this.SMSAL = new COMBOBOX(this)
+   with (this.SMSAL)
+      onChange = class::SMSAL_ONCHANGE
+      dataLink = "FGCOD->SHS_AUTO"
+      enabled = false
+      height = 23.0
+      left = 384.0
+      top = 242.0
+      width = 60.0
+      fontName = "Arial Black"
+      fontSize = 8.0
+      fontBold = true
+      colorNormal = "B/BtnFace"
+      dataSource = 'array {"Yes","No","Ccc","Grs","Dcn","Gas","Ccf"}'
+      style = 1	// DropDown
+      dropDownHeight = 132.0
+   endwith
+
+   this.TEXT34 = new TEXTLABEL(this)
+   with (this.TEXT34)
+      height = 21.0
+      left = 444.0
+      top = 244.0
+      width = 60.0
+      text = "Active:"
+      colorNormal = "B/BtnFace"
+      fontName = "MS Sans Serif"
+      fontBold = true
+      borderStyle = 7	// Client
+      alignVertical = 1	// Middle
+   endwith
+
+   this.SUSED = new COMBOBOX(this)
+   with (this.SUSED)
+      onChange = class::SUSED_ONCHANGE
+      dataLink = "FGCOD->active"
+      enabled = false
+      height = 23.0
+      left = 504.0
+      top = 242.0
+      width = 60.0
+      fontName = "Arial Black"
+      fontSize = 8.0
+      fontBold = true
+      colorNormal = "B/BtnFace"
+      dataSource = 'array {"Yes","No"}'
+      style = 2	// DropDownList
+      dropDownHeight = 132.0
+   endwith
+
+   this.TEXT17 = new TEXTLABEL(this)
+   with (this.TEXT17)
+      height = 17.0
+      left = 268.0
+      top = 269.0
+      width = 172.0
+      text = "Minimum Stock Level:"
+      colorNormal = "B/BtnFace"
+      fontName = "MS Sans Serif"
+      fontBold = true
+      borderStyle = 7	// Client
+      alignVertical = 1	// Middle
+   endwith
+
+   this.SMIN = new ENTRYFIELD(this)
+   with (this.SMIN)
+      onChange = class::SMIN_ONCHANGE
+      dataLink = "FGCOD->MIN_STK"
+      enabled = false
+      height = 21.0
+      left = 448.0
+      top = 266.0
+      width = 93.0
+      picture = "99,999,999.99"
+      function = "J"
+      colorNormal = "N/W+"
+      colorHighLight = "WindowText/W"
+      fontName = "MS Sans Serif"
+      fontSize = 8.0
+      fontBold = true
+   endwith
+
+   this.TEXT18 = new TEXTLABEL(this)
+   with (this.TEXT18)
+      height = 18.0
+      left = 268.0
+      top = 290.0
+      width = 171.0
+      text = "Item Reorder Level:"
+      colorNormal = "B/BtnFace"
+      fontName = "MS Sans Serif"
+      fontBold = true
+      borderStyle = 7	// Client
+      alignVertical = 1	// Middle
+   endwith
+
+   this.SREORDER = new ENTRYFIELD(this)
+   with (this.SREORDER)
+      onChange = class::SREORDER_ONCHANGE
+      dataLink = "FGCOD->REORDR_STK"
+      enabled = false
+      height = 21.0
+      left = 448.0
+      top = 291.0
+      width = 93.0
+      picture = "99,999,999.99"
+      function = "J"
+      colorNormal = "N/W+"
+      colorHighLight = "WindowText/W"
+      fontName = "MS Sans Serif"
+      fontSize = 8.0
+      fontBold = true
+   endwith
+
+   this.TEXT22 = new TEXTLABEL(this)
+   with (this.TEXT22)
+      height = 21.0
+      left = 261.0
+      top = 350.0
+      width = 145.0
+      text = "Traditional Location:"
+      colorNormal = "B+/W"
+      fontName = "MS Sans Serif"
+      fontBold = true
+      borderStyle = 7	// Client
+      alignVertical = 1	// Middle
+   endwith
+
+   this.TEXT31 = new TEXTLABEL(this)
+   with (this.TEXT31)
+      height = 21.0
+      left = 413.0
+      top = 339.0
+      width = 55.0
+      text = "Store:"
+      colorNormal = "B+/G+"
+      fontName = "MS Sans Serif"
+      fontBold = true
+      borderStyle = 7	// Client
+      alignVertical = 1	// Middle
+   endwith
+
+   this.SSTO = new COMBOBOX(this)
+   with (this.SSTO)
+      onLostFocus = class::SSTO_ONLOSTFOCUS
+      onChange = class::SSTO_ONCHANGE
+      dataLink = "FGCOD->STONAME"
+      enabled = false
+      height = 23.0
+      left = 480.0
+      top = 340.0
+      width = 240.0
+      fontName = "Arial Black"
+      fontSize = 8.0
+      fontBold = true
+      colorNormal = "B/BtnFace"
+      dataSource = "FIELD STSTOS->NAME"
+      style = 1	// DropDown
+      dropDownHeight = 132.0
+   endwith
+
+   this.TEXT30 = new TEXTLABEL(this)
+   with (this.TEXT30)
+      height = 21.0
+      left = 408.0
+      top = 367.0
+      width = 65.0
+      text = "Centre:"
+      colorNormal = "B+/G+"
+      fontName = "MS Sans Serif"
+      fontBold = true
+      borderStyle = 7	// Client
+      alignVertical = 1	// Middle
+   endwith
+
+   this.SLOCA = new COMBOBOX(this)
+   with (this.SLOCA)
+      onLostFocus = class::SLOCA_ONLOSTFOCUS
+      onChange = class::SLOCA_ONCHANGE
+      dataLink = "FGCOD->CNAME"
+      enabled = false
+      height = 23.0
+      left = 480.0
+      top = 368.0
+      width = 240.0
+      fontName = "Arial Black"
+      fontSize = 8.0
+      fontBold = true
+      colorNormal = "B/BtnFace"
+      dataSource = "FIELD FGCEN->NAME"
+      style = 1	// DropDown
+      dropDownHeight = 132.0
+   endwith
+
+   this.PREVBUTTON = new PUSHBUTTON(this)
+   with (this.PREVBUTTON)
+      onClick = class::PREVIOUS
+      height = 26.0
+      left = 105.0
+      top = 528.0
+      width = 85.0
+      text = "&PREVIOUS"
+      fontName = "MS Sans Serif"
+      fontSize = 8.0
+      fontBold = true
+   endwith
+
+   this.NEXTBUTTON = new PUSHBUTTON(this)
+   with (this.NEXTBUTTON)
+      onClick = class::NEXT
+      height = 26.0
+      left = 189.0
+      top = 528.0
+      width = 85.0
+      text = "&NEXT"
+      fontName = "MS Sans Serif"
+      fontSize = 8.0
+      fontBold = true
+   endwith
+
+   this.FIRSTBUTTON = new PUSHBUTTON(this)
+   with (this.FIRSTBUTTON)
+      onClick = class::FIRST_RTN
+      height = 26.0
+      left = 280.0
+      top = 528.0
+      width = 85.0
+      text = "F&IRST"
+      fontName = "MS Sans Serif"
+      fontSize = 8.0
+      fontBold = true
+   endwith
+
+   this.LASTBUTTON = new PUSHBUTTON(this)
+   with (this.LASTBUTTON)
+      onClick = class::LAST_RTN
+      height = 26.0
+      left = 371.0
+      top = 528.0
+      width = 85.0
+      text = "&LAST"
+      fontName = "MS Sans Serif"
+      fontSize = 8.0
+      fontBold = true
+   endwith
+
+   this.SVOLUME = new ENTRYFIELD(this)
+   with (this.SVOLUME)
+      dataLink = "FGCOD->VOLUME"
+      enabled = false
+      height = 21.0
+      left = 252.0
+      top = 136.0
+      width = 84.0
+      picture = "99,999.999"
+      colorNormal = "N/W+"
+      colorHighLight = "WindowText/W"
+      fontName = "MS Sans Serif"
+      fontBold = true
+   endwith
+
+   this.TEXT2 = new TEXTLABEL(this)
+   with (this.TEXT2)
+      height = 23.0
+      left = 264.0
+      top = 312.0
+      width = 180.0
+      text = "Assembly Code:"
+      colorNormal = "B/0xffff80"
+      fontName = "MS Sans Serif"
+      fontBold = true
+      borderStyle = 7	// Client
+      alignVertical = 1	// Middle
+   endwith
+
+   this.SASSY = new COMBOBOX(this)
+   with (this.SASSY)
+      onChange = class::SASSY_ONCHANGE1
+      dataLink = "FGCOD->USENAME"
+      enabled = false
+      height = 23.0
+      left = 450.0
+      top = 313.0
+      width = 156.0
+      fontName = "Arial Black"
+      fontSize = 8.0
+      fontBold = true
+      colorNormal = "B/BtnFace"
+      dataSource = 'array {"","CC","GREASE","ACID","TTM","BF","ATF","FLUSH OIL","COOLANT","WATER"}'
+      style = 2	// DropDownList
+      dropDownHeight = 132.0
+   endwith
+
 
    procedure Open
    ****************************************************************************
    private CodeField,pftyp,PFDUIV
    form.firstime = .T.
-    FORM.BLUSER=BUSER
+      FORM.BLUSER=BUSER
    FORM.BLEVEL=BLEVEL
    IF EMPTY(FORM.BLUSER) .OR. EMPTY(FORM.BLEVEL)
       QUIT
       ENDIF
-   
+         select fgcod
+         set order to mkey
+      select fgcodtem
+      go top
+      if eof()
+      append blank
+      endif
+       replace claname with ''
+      replace typname with ''
    if type("form.init") = "U"
       form.init = .T.
-   
+
       set skip to                     && FGCOD.qbe contains set skip to gldtl
       set exact off                   && the .qbe file contains SET EXACT ON
-   
+
       set procedure to sampProc.prg additive
     Form.duplicate = .F.
       form.inEditMode = .F.           && indicator of view/edit state
@@ -1094,21 +1034,7 @@ CLASS FGCODFORM OF FORM
       form.previousRecord = .F.       && Save record number when appending
       form.updated = .f.
         *** do calculations in another area so form doesn't get updated
-        select temp
-        set order to name
-        SELECT FGMAST2
-        SET ORDER TO STO
-         SELECT FGSVCES
-        SET ORDER TO NAME
-        SELECT CASHIERS
-   SET ORDER TO CASHIER
-    select shiftid
-      set order to id
-     select FGCODTEM
-     go top
-     if eof()
-     append blank
-     endif
+      
         select st15f
         set order to mkey
         go top
@@ -1134,20 +1060,10 @@ CLASS FGCODFORM OF FORM
       QUIT
       ENDIF
         endif
-        select st15f2
-        set order to sto
-        select fgtaxtyp2
-        set order to tax_type
-          SELECT GLBANKBL
-        SET ORDER TO MKEY
-        select fgmast
-        set order to mkey
-             select fgtaxtyp
+               select fgtaxtyp
         set order to name
         select fgunits
         set order to name
-        select scashrec
-        set order to mkey
             SELECT FGCOD3
    SET ORDER TO MKEY
         SELECT fgclaS
@@ -1174,9 +1090,14 @@ CLASS FGCODFORM OF FORM
           ENDIF
         FORM.PTYP = ""
          FORM.PCLA = ""
+         form.pcod = ''
          FORM.PTYPNAME = ""
          FORM.PCLANAME = ""
-      
+           select fgcodtem
+           go top
+           if eof()
+           append blank
+           endif
       select FGCOD
       SET ORDER TO MKEY
       CodeField = field(1)         && Type field
@@ -1185,36 +1106,36 @@ CLASS FGCODFORM OF FORM
    delete
    endif
    endif
-   
-   
+
+
       *** Open table for calculating totals and balance due in another work area
       *** so that datalinks are not affected by record movements
-   
-   
+
+
       ***
     *  if type("form.parentpayeeForm") <> "U" && Esc ok if have parent
     *     form.escExit = .T.
    *   endif
-   
+
    endif
    * form.CoyInfoButton.KenpName = "FGCODad.wfm"
    GO TOP
    form::Open()                         && Now the form actually opens
        form.BrowseOnNavigate()              && calculate totals
    *       form.codingerrors()                        && check coding errors
-   
+
    *      form.next.setfocus()
    ****************************************************************************
-   
+
    procedure OnClose
-   
+
    * Clean up.
    ****************************************************************************
-   
+
    if this.inEditMode
       form.ViewEdit()                      && Finish transaction
    endif
-      if form.updated 
+      if form.updated
       select fgcoy
       FORM.MOUSEPOINTER = 11
       go top
@@ -1224,30 +1145,31 @@ CLASS FGCODFORM OF FORM
    * DO NGLPARM.PRG
      endif
      endif
-     close procedure SAMPProc.prg, ;
-     buttons.cc
+     commit()
+     close procedure SAMPProc.prg
    close databases
-   
+
    ****************************************************************************
-   
+
    procedure BrowseOnNavigate
    ****************************************************************************
        form.STYP.Enabled = .F.
        form.scla.enabled = .F.
-     
-   
-   
-   
-   ****************************************************************************
-   
+
+
+
+
+   *****************************************
+   ***********************************
+
    procedure ChangesMade
-   
+
    * Indicate that changes have been made to the current record
    ****************************************************************************
    Form.ChangesMade = .T.
    ****************************************************************************
-   
-   Procedure fisrt_rtn
+
+   Procedure first_rtn
    form.CheckCommit(form.inEditMode)
    if .not.  empty(name) .and.  .not.  empty(scode) .and.  .not.  empty(coy) ;
      .and.  .not.  empty(div) .and.  .not.  empty(cen);
@@ -1259,9 +1181,9 @@ CLASS FGCODFORM OF FORM
    if .not.  fgcod->typ = "00"
        form.snp.enabled = .f.
        endif
-   
+
         Procedure last_rtn
-       
+
    form.CheckCommit(form.inEditMode)
    if .not.  empty(name) .and.  .not.  empty(scode) .and.  .not.  empty(coy) ;
      .and.  .not.  empty(div) .and.  .not.  empty(cen);
@@ -1273,51 +1195,63 @@ CLASS FGCODFORM OF FORM
    if .not.  fgcod->typ = "00"
        form.snp.enabled = .f.
        endif
-   
-   procedure Next
-   
+
+    procedure Next
+
    * Go to next record.
    ****************************************************************************
-   
+
    form.CheckCommit(form.inEditMode)
    if .not.  empty(name) .and.  .not.  empty(scode) .and.  .not.  empty(coy) ;
      .and.  .not.  empty(div) .and.  .not.  empty(cen);
      .and.  .not.  empty(sto) .and.  .not.  empty(taxname) ;
       .and.  .not.  empty(cen) .AND. .NOT. EMPTY(ACTIVE) ;
        .AND. .NOT. (TYP >= "00" .AND. TYP < "30" .AND. EMPTY(PART_NO))
-      NEXTBUTTON::OnClick()
-    endif
-     if .not.  fgcod->typ = "00"
+   if .not. empty(dbf())  .and. .not. eof()      && if a table is open in the current workarea
+      skip
+      if eof()
+         go bottom
+         AlertMessage("At the last record","Alert")
+      endif
+   else
+      InformationMessage("There is no table open in the current workarea.",;
+         "Info")
+   endif
+   endif
+    if .not.  fgcod->typ = "00"
        form.snp.enabled = .f.
        endif
-   
-   ****************************************************************************
-   
+    ****************************************************************************
+
    procedure Previous
-   
+
    * Go to previous record.
    ****************************************************************************
-   
-   form.CheckCommit(form.inEditMode)
-    form.STYP.Enabled = .F.
-    form.scla.enabled = .F.
-    if .not.  empty(name) .and.  .not.  empty(scode) .and.  .not.  empty(coy) ;
+
+    form.CheckCommit(form.inEditMode)
+   if .not.  empty(name) .and.  .not.  empty(scode) .and.  .not.  empty(coy) ;
      .and.  .not.  empty(div) .and.  .not.  empty(cen);
      .and.  .not.  empty(sto) .and.  .not.  empty(taxname) ;
-      .and.  .not.  empty(cen) .AND. .NOT. EMPTY(ACTIVE);
+      .and.  .not.  empty(cen) .AND. .NOT. EMPTY(ACTIVE) ;
        .AND. .NOT. (TYP >= "00" .AND. TYP < "30" .AND. EMPTY(PART_NO))
-     PREVBUTTON::OnClick()
-     endif
-      if .not.  fgcod->typ = "00"
+ if .not. empty(dbf())  .and. .not. eof() && if a table is open in the current workarea
+      skip - 1
+      if bof()
+         go top
+         AlertMessage("At the first record","Alert")
+      endif
+   else
+      InformationMessage("There is no table open in the current workarea.",;
+         "Info")
+   endif
+   endif
+  if .not.  fgcod->typ = "00"
        form.snp.enabled = .f.
        endif
-   
-   
    ****************************************************************************
-   
-   
+
    procedure CheckCommit (newInEditMode)
-   
+
         * Finish transaction, if it has been started.
    ****************************************************************************
    private CodeField, changesMade
@@ -1338,7 +1272,7 @@ CLASS FGCODFORM OF FORM
             form.previousRecord = .F.
          endif
       endif
-    
+
        form.STYP.enabled = .F.
        form.scla.enabled = .F.
     if form.inEditMode .and. newInEditMode
@@ -1356,19 +1290,19 @@ CLASS FGCODFORM OF FORM
       endif
       form.inEditMode = newInEditMode
    endif
-     
+
    * form.root.Receipt.add.enabled = .T.
    *form.codingerrors()
    ****************************************************************************
-   
+
    procedure ViewEdit
-   
+
    * Toggle between View and Edit modes.
    ****************************************************************************
    local inEditMode, editMenu, control
-   
+
    editMenu = form.root.FGCOD.VIEWEdit
-   
+
    *** If ending edit mode then close transaction, otherwise open it.
    if form.inEditMode
       form.checkChanged(.F.)
@@ -1380,14 +1314,13 @@ CLASS FGCODFORM OF FORM
       form.statusmessage = "In View Mode. " + ;
                            "Select Code Code - Edit menu to " + ;
                            "edit/delete data."
-      form.nextCOYBUTTON.SetFocus()
-   else                                            && Switch to edit mode
+     else                                            && Switch to edit mode
       editMenu.text = "Vi&ew"
       editMenu.shortcut = "Ctrl-E"
       editMenu.statusMessage = "View data."
       form.CheckCommit(.T.)                        && Check transaction and
       form.text = "CREATE NEW ITEM CODES/PRICES -- Edit Mode"          && change mode to Edit
-   
+
    *     form.notesEditor.modify = .T.
       form.statusmessage = "In Edit Mode.  " + ;
                            "Select menu Code Code - View to switch " + ;
@@ -1395,11 +1328,11 @@ CLASS FGCODFORM OF FORM
         form.STYP.Enabled = .F.
          form.scla.enabled = .F.
    *         form.coydisplay.enabled =.F.
-     
-        form.sname.SetFocus()  
-      
+
+        form.sname.SetFocus()
+
    endif
-   
+
    inEditMode = form.inEditMode     && Faster if we don't reference a form
    control = form.first             &&    variable each time through the loop
    do
@@ -1420,27 +1353,27 @@ CLASS FGCODFORM OF FORM
        if .not.  fgcod->typ = "00"
        form.snp.enabled = .f.
        endif
-       *form.sitemunit.enabled = .f.
-       form.sstd.enabled = .f.
-         FORM.SVOLUME.ENABLED = .F.
-              form.sSCODE.SetFocus()  
-     
-   
+          FORM.SVOLUME.ENABLED = .F.
+         form.svol.enabled = .f.
+         form.sitemunit.enabled = .f.
+              form.sSCODE.SetFocus()
+
+
    ****************************************************************************
-   
+
    procedure CheckChanged(callCommit)
-   
+
    * Check if changes have been made to the current entryfield.  This procedure
    * is called from menu routines to make sure the form.changesMade gets
    * updated when a menu is selected while the changed control has focus.
    ****************************************************************************
    private control, fieldValue, controlValue, typeText, typeValue
-   
+
    if form.inEditMode
       control = form.activeControl
       if type("control.datalink") <> "U"
          fieldValue = control.datalink          && name of table field
-   
+
          typeText = type("control.text")
          typeValue = type("control.value")
          do case
@@ -1459,13 +1392,11 @@ CLASS FGCODFORM OF FORM
    if form.changesMade .and. callCommit
       CLASS::CheckCommit(form.inEditMode)     && Check transactions
    endif
-   
-   
-   
+
+
+
    ****************************************************************************
-   
-   
-    
+
    Procedure Change_typ
          local lcode1,lcode2
             lcode1 = THIS.VALUE
@@ -1490,10 +1421,10 @@ CLASS FGCODFORM OF FORM
               ENDIF
               form.root.FGCOD.add.enabled = .F.
               SELECT FGCOD
-              
+
    Procedure Change_Cla
         form.changesmade = .t.
-   
+
    Procedure scla_onChange
          pftyp = FORM.ptyp
          LOCAL L1
@@ -1509,10 +1440,10 @@ CLASS FGCODFORM OF FORM
          form.root.FGCOD.add.enabled = .F.
          ENDIF
          SELECT FGCOD
-   
+
    Procedure UNIT_OnChange
          FORM.CHANGESMADE = .T.
-   
+
    Procedure SCODE_OnChange
       form.changesmade = .t.
       select fgcod
@@ -1521,67 +1452,70 @@ CLASS FGCODFORM OF FORM
       else
       replace scode with ltrim(this.value)
       endif
-      
-   
+
    Procedure COMBOBOX1_OnChange
          form.changesmade = .t.
-   
+
    Procedure ENTRYFIELD1_OnChange
          form.changesmade = .t.
-   
+
    Procedure COMBOBOX2_OnChange
          form.changesmade = .t.
-   
+
    Procedure ENTRYFIELD2_OnChange
    form.changesmade = .t.
-   
+
    Procedure ENTRYFIELD4_OnChange
    form.changesmade  = .t.
-   
+
    Procedure ENTRYFIELD5_OnChange
    form.changesmade = .t.
-   
+
    Procedure COMBOBOX3_OnChange
          form.changesmade = .t.
-   
+
    Procedure COMBOBOX4_OnChange
          form.changesmade = .t.
-   
+
    Procedure COMBOBOX5_OnChange
       form.changesmade = .t.
-   
+
    Procedure change_pricing
    local l1,l2,l3,l4,l5,l6
-    
+
          select fgcla
          seek FGCOD->typ+FGCOD->cla
          if found()
           form.changesmade = .t.
-       
+
           endif
-          
+
           select FGCOD
-         
-      
+
    Procedure SPRICE_OnChange
       form.changesmade = .t.
-   
+
    Procedure SNAME_OnChange
    form.SNAME.value = ltrim(form.SNAME.value)
          form.changesmade = .t.
          select temp
-   seek  form.SNAME.value 
+         set order to name
+   seek  form.SNAME.value
    if found()  .AND. .NOT. (typ = fgcod->typ .AND. cod = fgcod->cod .AND. cla = fgcod->cla)
    InformationMessage("Duplicate Product name not allowed", "Note!")
    form.SNAME.value =""
+   else
+   select fgcod
+   replace name with this.value
+   replace scode with this.value
    endif
    select  fgcod
-   
-        
+
+
          if empty(form.sscode.value)
          form.sscode.value = left(form.SNAME.value,4)
          endif
-        
+
    Procedure SNAME_Valid
          if empty(this.value)
          isvalid = .f.
@@ -1589,10 +1523,10 @@ CLASS FGCODFORM OF FORM
          isvalid = .t.
          endif
          return isvalid
-   
+
    Procedure ENTRYFIELD2_OnChange1
          form.changesmade = .t.
-   
+
    Procedure ENTRYFIELD2_Valid
      if empty(this.value)
          isvalid = .f.
@@ -1600,7 +1534,7 @@ CLASS FGCODFORM OF FORM
          isvalid = .t.
          endif
          return isvalid
-   
+
    Procedure ENTRYFIELD1_Valid
      if empty(this.value)
          isvalid = .f.
@@ -1608,41 +1542,81 @@ CLASS FGCODFORM OF FORM
          isvalid = .t.
          endif
          return isvalid
-   
+
    Procedure SACTIVE_OnGotFocus
          form.changesmade = .t.
-   
+
    Procedure SNACTIVE_OnGotFocus
          form.changesmade = .t.
-   
-   Procedure SUNIT_OnLostFocus
+
+   Procedure SUNIT_ONCHANGE
          select fgunits
          seek this.value
          IF FOUND()
          select fgcod
-         IF .NOT. EOF()
-         replace unit with fgunits->unit
+           replace unit with fgunits->unit
          replace volume with fgunits->volume
          replace unit_name with fgunits->name
-         ENDIF
-         form.changesmade = .t.
+         replace unitname with this.value
+          form.changesmade = .t.
          ENDIF
          select fgcod
-   
+
    Procedure STAXTYP_OnLostFocus
-    select fgtaxtyp
+
+   function STAXTYP_onChange
+   if .not. empty(dbf())
+      select fgtaxtyp
          seek this.value
          select fgcod
+          if  .not. eof()  
          replace tax_type with fgtaxtyp->tax_type
          replace vat with fgtaxtyp->rate
          replace tax_name with fgtaxtyp->name
+         replace    taxname with this.value
          form.changesmade = .t.
-   
+         endif
+                                endif
+      return
+
+   function STAX_onChange
+      select fgcod
+      replace vat with this.value
+      form.changesmade = .t.
+      return
+
+   function STYP_onChange
+       local lcode1,lcode2
+            lcode1 = THIS.VALUE
+            SELECT fgtypS
+            SEEK LCODE1
+            pftyp = typ
+            FORM.ptyp = typ
+            FORM.PTYPNAME = THIS.VALUE
+            SELECT fgclaS
+            set filter to typ = pftyp
+            GO TOP
+            IF  EOF()
+             form.root.FGCOD.add.enabled = .F.
+             ELSE
+            SET FILTER TO typ = pftyp
+            GO TOP
+            IF EOF()
+             form.root.FGCOD.add.enabled = .F.
+             ELSE
+              form.root.FGCOD.add.enabled = .T.
+              ENDIF
+              ENDIF
+              form.root.FGCOD.add.enabled = .F.
+              SELECT FGCOD
+             
+     *return
+
    Procedure SITEMUNIT_OnChange
             form.changesmade = .t.
             select fgcod
             replace items_unit with this.value
-   
+
    Procedure SCUNIT_OnChange
          form.changesmade = .t.
          select fgcod
@@ -1651,7 +1625,7 @@ CLASS FGCODFORM OF FORM
          replace std_cost with cost_price
         * endif
         replace cost_unit with std_cost
-   
+
    Procedure SRPRICE_OnChange
    form.changesmade =.t.
    select fgcod
@@ -1662,50 +1636,69 @@ CLASS FGCODFORM OF FORM
    if .not. this.value = 0 .and. form.sdprice.value = 0
    form.sdprice.value = this.value
    endif
-   
-   
-     
+
    Procedure SWPRICE_OnChange
    form.changesmade = .t.
-   
+
    Procedure SDPRICE_OnChange
       form.changesmade = .t.
-   
+
    Procedure SCOMMRATE_OnChange
+   select fgcod
+   replace comm_rate with this.value
          form.changesmade = .t.
-    
-     
+
    Procedure SMIN_OnChange
          form.changesmade = .t.
-   
+         select fgcod
+         replace min_stk with this.value
+
    Procedure SREORDER_OnChange
          form.changesmade = .t.
-      
+           select fgcod
+         replace reordr_stk with this.value
+
    Procedure SLOCA_OnLostFocus
-         select fgcen
+
+   function SLOCA_onChange
+            select fgcen
          seek this.value
+         if found()
          select fgcod
          replace coy with fgcen->coy
          replace div with fgcen->div
          replace cen with fgcen->cen
+         replace cname with this.value
+         else
+         select fgcod
+         replace coy with ''
+         replace div with ''
+         replace cen with  ''
+         replace cname with ''
+      endif
          form.changesmade = .t.
-   
+
+      return
+
    Procedure SSCODE_OnChange
       select fgcod
-    if empty(this.value)
-    replace scode with name
-    endif
+     replace scode with this.value
+     if empty(scode)
+     replace scode with name
+     endif
          FORM.CHANGESMADE = .T.
-   
+
    Procedure SNP_OnChange
          if fgcod->typ = "00"
+         select fgcod
+         replace new_p with this.value
          form.changesmade = .t.
          else
          select fgcod
          replace new_p with 0
          endif
          form.changesmade = .t.
-   
+
    Procedure SPRICE_OnChange1
          form.changesmade = .t.
          select fgcod
@@ -1713,43 +1706,59 @@ CLASS FGCODFORM OF FORM
          if  new_p < 60
          replace new_p with sale_price
          endif
-   
+
    Procedure SSTD_OnChange
          form.changesmade = .t.
-   
+
    Procedure SQTYENTRY_OnChange
+   select fgcod
+   replace qty with this.value
          form.changesmade = .t.
-   
+
    Procedure SFCP_OnChange
+   select fgcod
+   replace fcpurch with this.value
          form.changesmade = .t.
-   
+
    Procedure SFCDIV_OnChange
          form.changesmade = .t.
-   
+
    Procedure SSTO_OnLostFocus
-         select ststos
+
+   function SSTO_onChange
+        select ststos
          seek this.value
          if found()
          select fgcod
          replace sto with ststos->sto
+         replace stoname with this.value
+         else
+         replace sto with ''
+         replace stoname with ''
          endif
          select fgcod
          form.changesmade = .t.
-   
+
+      return
+
    Procedure SPNAME_OnChange
          form.changesmade = .t.
-   
+
    Procedure SMSAL_OnChange
+   select fgcod
+   replace shs_auto with this.value
          form.changesmade = .t.
-   
+
    Procedure SUSED_OnChange
+      select fgcod
+   replace active with this.value
          form.changesmade = .t.
-   
+
    Procedure SMAT_OnChange
    form.changesmade = .t.
    SELECT FGCOD
    REPLACE MAT_CODE WITH LTRIM(THIS.VALUE)
-   
+
    Procedure SREV_OnChange
     SELECT FGSVCES
       SEEK THIS.VALUE
@@ -1763,20 +1772,18 @@ CLASS FGCODFORM OF FORM
       REPLACE COSTNAME WITH ""
       ENDIF
       FORM.CHANGESMADE = .T.
-   
+
    Procedure SASSY_OnChange1
      select fgcod
       if .not. (typ ='10'.and. shs_auto ='No')
       form.sassy.value = ''
+      replace usename with ''
+      else
+      replace usename with this.value
       endif
       form.changesmade = .t.
-      
-   
-   
-   Procedure SPROMO_OnChange
-   form.changesmade = .t.
-   
-ENDCLASS
+
+endclass
 
 Procedure FGCODs_rtn
 PARAMETER BLUSER,BLEVEL
@@ -3024,7 +3031,7 @@ procedure st15f_rtn
     replace cl_mliquid with 0
     replace mp_float with 0
     replace mp_liquid with 0
-    
+    replace mobilesales with 0
      replace m_sal_qty with 0
      replace soma with 0
  replace some with 0
@@ -3293,7 +3300,7 @@ replace cash_hand with 0
    replace pcredits with 0
    replace ppurch with 0
    replace fc_sales with 0
-   
+   replace mobilesals with 0
 replace  cash_bank with 0
 replace  dbcredits with 0
 replace  dbdebits  with 0
@@ -3327,5 +3334,4 @@ replace a_c_inhand with 0
    
    
               
-
 

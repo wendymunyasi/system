@@ -96,8 +96,6 @@ SELECT 18
 USE \KENSERVICE\DATA\FGMASTP.DBF
 SELECT 19
 USE \KENSERVICE\DATA\GLBANKBL.DBF
-select 20
-use \kenservice\data\fgitemus.dbf again alias fgitemus2 
 select 21
 USE \KENSERVICE\DATA\FGTAXTYP.DBF again alias fgtaxtyp2
 SELECT 25
@@ -118,8 +116,6 @@ SELECT 33
 USE \KENSERVICE\DATA\SHIFTID.DBf
 SELECT 34
 USE \KENSERVICE\DATA\CASHIERS.DBF
-select 35
-use \kenservice\data\fgsprice.dbf
 select 36
 use \kenservice\data\fgcod.dbf again alias fgcod4
 SELECT 38

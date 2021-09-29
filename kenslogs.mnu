@@ -260,7 +260,7 @@ if    (.not. validdrive("Z:") .and.  .not. validdrive("W:");
                 DEFINE MENU KENRftrmatchxyz OF THIS.FILE.REINDEX;
               property;
               TEXT "5. Rebuild Debtors Matching Databases",;
-        enabled .F.,;
+        enabled false,;
         ONCLICK {; DO frpcrcds.prg WITH FORM.BLUSER,FORM.BLEVEL}
         
            DEFINE MENU kencmatxyz OF THIS.FILE.REINDEX;
@@ -271,7 +271,7 @@ if    (.not. validdrive("Z:") .and.  .not. validdrive("W:");
                     DEFINE MENU KENRESTSALES OF THIS.FILE.REINDEX;
               property;
                    TEXT "6. Reset Sales Performance Report",;
-        enabled .T.,;
+        enabled false,;
         ONCLICK {; DO fgshcatp.PRG WITH FORM.BLUSER,FORM.BLEVEL}
      
        DEFINE MENU kencmatxyzwpstemp99 OF THIS.FILE.REINDEX;
@@ -282,7 +282,7 @@ if    (.not. validdrive("Z:") .and.  .not. validdrive("W:");
                DEFINE MENU KENRftrmwms OF THIS.FILE.REINDEX;
               property;
             TEXT "7. Rebuild Monthly Stock Movement",;
-        enabled .T.,;
+        enabled false,;
         ONCLICK {; DO fgshmths.prg WITH FORM.BLUSER,FORM.BLEVEL}
          
            DEFINE MENU kencmatxyzwps OF THIS.FILE.REINDEX;
@@ -403,7 +403,7 @@ if blevel = 1
 DEFINE MENU KENRfgshcat OF THIS.FILE.INITIALSETUP;
               property;
               TEXT "5. Reset Sales Performance Report",;
-        enabled .T.,;
+        enabled false,;
         ONCLICK {; DO fgshcatp.PRG WITH FORM.BLUSER,FORM.BLEVEL}
         
            DEFINE MENU kencatpar OF THIS.FILE.INITIALSETUP;
@@ -414,7 +414,7 @@ DEFINE MENU KENRfgshcat OF THIS.FILE.INITIALSETUP;
              DEFINE MENU KENRfgshmas OF THIS.FILE.INITIALSETUP;
               property;
               TEXT "6. Rebuild Monthly White Products Stock Movement",;
-        enabled .T.,;
+        enabled false,;
         ONCLICK {; DO fgshmths.prg WITH FORM.BLUSER,FORM.BLEVEL}
         
            DEFINE MENU kencasgsftpar OF THIS.FILE.INITIALSETUP;
@@ -436,7 +436,7 @@ DEFINE MENU KENRfgshcat OF THIS.FILE.INITIALSETUP;
               DEFINE MENU KENRftrnas7b OF THIS.FILE.INITIALSETUP;
               property;
               TEXT "7&b. Rebuild Monthly Aged Analysis",;
-        enabled .f.,;
+        enabled false,;
         ONCLICK {; DO frmtrns.prg WITH FORM.BLUSER,FORM.BLEVEL}
         
            DEFINE MENU kencfrtanspar OF THIS.FILE.INITIALSETUP;
@@ -470,7 +470,7 @@ DEFINE MENU KENRfgshcat OF THIS.FILE.INITIALSETUP;
               DEFINE MENU KENvisint OF THIS.FILE.INITIALSETUP;
               property;
               TEXT "10&a. Update Previous Shift Master Sales.",;
-        enabled .T.,;
+        enabled false,;
         ONCLICK {; DO st15fmes.prg WITH FORM.BLUSER,FORM.BLEVEL}
               
              DEFINE MENU kencmatsepara OF THIS.FILE.INITIALSETUP;
@@ -493,7 +493,7 @@ DEFINE MENU KENRfgshcat OF THIS.FILE.INITIALSETUP;
                DEFINE MENU KENt15fmtrup OF THIS.FILE.INITIALSETUP;
               property;
               TEXT "11. Fix vn payments",;
-        enabled .f.,;
+        enabled false,;
         ONCLICK {; DO fgapcor.prg WITH FORM.BLUSER,FORM.BLEVEL}
         
            DEFINE MENU kenst15fpar OF THIS.FILE.INITIALSETUP;
@@ -504,7 +504,7 @@ DEFINE MENU KENRfgshcat OF THIS.FILE.INITIALSETUP;
                  DEFINE MENU KENcaspos OF THIS.FILE.INITIALSETUP;
               property;
               TEXT "12. Update Daily/Monthly Cash &Positions",;
-        enabled .f.,;
+        enabled false,;
         ONCLICK {; DO fgupcas.prg WITH FORM.BLUSER,FORM.BLEVEL}
         
            DEFINE MENU kenscaspopar OF THIS.FILE.INITIALSETUP;
@@ -544,7 +544,7 @@ DEFINE MENU KENRfgshcat OF THIS.FILE.INITIALSETUP;
                 DEFINE MENU KENfix OF THIS.FILE.INITIALSETUP;
               property;
               TEXT "15. Fix 8% VAT OF FUELS Databases",;
-        enabled .T.,;
+        enabled false,;
         ONCLICK {; DO fix8pvat.prg WITH FORM.BLUSER,FORM.BLEVEL}
         
           DEFINE MENU kenscaspoparfix OF THIS.FILE.INITIALSETUP;
@@ -774,7 +774,7 @@ endif
      DEFINE MENU KRAREPORTS OF THIS.COYINFO;
              PROPERTY; 
              Text "13. &KRA",;
-             enabled .T.,;
+             enabled false,;
              OnClick {; DO KENKRA.WFM WITH form.BLUSER,FORM.BLEVEL}
     *   ENDIF
          DEFINE MENU SEPARATOR922KRA OF THIS.COYINFO;

@@ -73,7 +73,10 @@ SELECT 25
 USE \KENSERVICE\DATA\FGSSHIFT.DBF
 select 26
 use \kenservice\data\st15f.dbf
+go top
+if .not. eof() .and. .not. bof()
 replace shift_Post with date()
+endif
 select 28
 use \kenservice\data\shiftid.dbf
 select 30
