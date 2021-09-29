@@ -55,6 +55,8 @@ endif
 
 class FgcoyFORM of FORM
    with (this)
+    view = "Fgcoy.QBE"
+      menuFile = "FGCOY.MNU"
       onClose = class::ONCLOSE
       open = class::OPEN
       metric = 6	// Pixels
@@ -65,14 +67,12 @@ class FgcoyFORM of FORM
       width = 764.0
       text = "Companies Maintenance"
       topMost = true
-      windowState = 0	// Normal
+      windowState = 2	// Normal
       autoSize = true
       autoCenter = true
       mdi = false
       sizeable = false
       moveable = false
-      view = "Fgcoy.QBE"
-      menuFile = "FGCOY.MNU"
       escExit = false
       mousePointer = 1	// Arrow
       maximize = false
