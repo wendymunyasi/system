@@ -1,4 +1,4 @@
-Project File generated 09/29/2021 12:37:44
+Project File generated 09/29/2021 18:57:47
 
 [Project]
 Name=kenslog
@@ -141,13 +141,11 @@ fgcen.qbe,1,0,1,0
 FGCLA.qbe,1,0,1,0
 fgcod.qbe,1,0,1,0
 FGCODad.qbe,1,0,1,0
-fgcoy.qbe,1,0,1,0
 FGDIV.QBE,1,0,1,0
 FGREGCDS.QBE,1,0,1,0
 FGSHCATP.QBE,1,0,1,0
 FGSHMTHS.QBE,1,0,1,0
 Fgtaxtyp.qbe,1,0,1,0
-Fgtyp.qbe,1,0,1,0
 Fgunit.qbe,1,0,1,0
 FRBUILD.QBE,1,0,1,0
 FRVEREGS.QBE,1,0,1,0
@@ -159,6 +157,8 @@ kenslogr.qbe,1,0,1,0
 st15fc06.qbe,1,0,1,0
 STSTo.qbe,1,0,1,0
 VNBUILD.QBE,1,0,1,0
+Fgtyp.qbe,1,0,1,0
+fgcoy.qbe,1,0,1,0
 
 [DEO]
 DEO0=C:\kenslog\idssys\deploy
@@ -373,21 +373,21 @@ Files121=fgcen.qbO >> DestDir: {app}
 Files122=FGCLA.qbO >> DestDir: {app}
 Files123=fgcod.qbO >> DestDir: {app}
 Files124=FGCODad.qbO >> DestDir: {app}
-Files125=fgcoy.qbO >> DestDir: {app}
-Files126=FGDIV.QBO >> DestDir: {app}
-Files127=FGREGCDS.QBO >> DestDir: {app}
-Files128=FGSHCATP.QBO >> DestDir: {app}
-Files129=FGSHMTHS.QBO >> DestDir: {app}
-Files130=Fgtaxtyp.qbO >> DestDir: {app}
-Files131=Fgtyp.qbO >> DestDir: {app}
-Files132=Fgunit.qbO >> DestDir: {app}
-Files133=FRBUILD.QBO >> DestDir: {app}
-Files134=FRVEREGS.QBO >> DestDir: {app}
-Files135=KENAUDIT.QBO >> DestDir: {app}
-Files136=KENAUTOB.QBO >> DestDir: {app}
-Files137=kenslog.qbO >> DestDir: {app}
-Files138=KENSLOGL.QBO >> DestDir: {app}
-Files139=kenslogr.qbO >> DestDir: {app}
-Files140=st15fc06.qbO >> DestDir: {app}
-Files141=STSTo.qbO >> DestDir: {app}
-Files142=VNBUILD.QBO >> DestDir: {app}
+Files125=FGDIV.QBO >> DestDir: {app}
+Files126=FGREGCDS.QBO >> DestDir: {app}
+Files127=FGSHCATP.QBO >> DestDir: {app}
+Files128=FGSHMTHS.QBO >> DestDir: {app}
+Files129=Fgtaxtyp.qbO >> DestDir: {app}
+Files130=Fgunit.qbO >> DestDir: {app}
+Files131=FRBUILD.QBO >> DestDir: {app}
+Files132=FRVEREGS.QBO >> DestDir: {app}
+Files133=KENAUDIT.QBO >> DestDir: {app}
+Files134=KENAUTOB.QBO >> DestDir: {app}
+Files135=kenslog.qbO >> DestDir: {app}
+Files136=KENSLOGL.QBO >> DestDir: {app}
+Files137=kenslogr.qbO >> DestDir: {app}
+Files138=st15fc06.qbO >> DestDir: {app}
+Files139=STSTo.qbO >> DestDir: {app}
+Files140=VNBUILD.QBO >> DestDir: {app}
+Files141=Fgtyp.qbO >> DestDir: {app}
+Files142=fgcoy.qbO >> DestDir: {app}

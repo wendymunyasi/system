@@ -1,0 +1,76 @@
+* Visual dBASE .QBE file 9
+CLOSE DATABASES
+ON ERROR DO FGPLTST.PRG
+USE  \KENSERVICE\DATA\FGPLANT.DBF
+CLOSE DATABASES
+ON ERROR DO FGCOYPUP.PRG 
+USE  \KENSERVICE\DATA\FGCOY.DBF
+? whvat
+CLOSE DATABASES
+ON ERROR DO QBEERR WITH ERROR(), MESSAGE(),;
+PROGRAM(), LINENO()
+CLOSE DATABASES
+SET EXACT ON
+SET SAFETY OFF
+SELECT 1
+USE \KENSERVICE\DATA\Fgcoy.DBf
+delete all for .not. coy = "1"
+go top
+if .not. fgcoy->SHIPNAME = 'Orc'  && not oracle
+select 2
+If .not. file("\kenservice\data\fgplants.dbf")
+use \kenserve\idssys\fgplants.dbf
+copy stru to \kenservice\sysdata\data\fgplants dbase prod
+copy stru to \kenservice\data\fgplants dbase prod
+endif
+use  \kenservice\data\fgplants.dbf order tag plant_code
+set filter to  empty(date_close)
+select 3
+If .not. file("\kenservice\data\fgplant.dbf")
+use \kenserve\idssys\fgplant.dbf
+copy stru to \kenservice\sysdata\data\fgplant dbase prod
+copy stru to \kenservice\data\fgplant dbase prod
+endif
+use  \kenservice\data\fgplant.dbf  order tag plant_code
+else
+select 2
+If .not. file("\kenservice\data\fghqlocs.dbf")
+use \kenserve\idssys\fghqlocs.dbf
+copy stru to \kenservice\sysdata\data\fghqlocs dbase prod
+copy stru to \kenservice\data\fghqlocs dbase prod
+endif
+use  \kenservice\data\fghqlocs.dbf order tag plant_code alias fgplants
+set filter to  empty(date_close)
+select 3
+If .not. file("\kenservice\data\fghqloc.dbf")
+use \kenserve\idssys\fghqloc.dbf
+copy stru to \kenservice\sysdata\data\fghqloc dbase prod
+copy stru to \kenservice\data\fghqloc dbase prod
+endif
+use  \kenservice\data\fghqloc.dbf  order tag plant_code alias fgplant
+endif
+select 10
+If .not. file("\kenservice\data\fgftdeps.dbf")
+use \kenserve\idssys\fgftdeps.dbf
+copy stru to \kenservice\sysdata\data\fgftdeps dbase prod
+copy stru to \kenservice\data\fgftdeps dbase prod
+endif
+use \kenservice\data\fgftdeps.dbf order tag dname
+SELECT 4
+USE \KENSERVICE\DATA\FgcoyS.DBF
+delete all for .not. coy = "1"
+SELECT 5
+USE \KENSERVICE\DATA\Fgcoy.DBF  AGAIN ALIAS Fgcoy2
+SELECT 6
+USE \KENSERVICE\DATA\nLCOY.DBF
+select 7
+use \kenservice\data\Fgcoy.dbf again alias Fgcoy3
+select 8
+use \kenservice\data\fgstns.dbf order tag name
+select 1
+set relation to stnname into fgstns, plant_code into fgplant, dname into fgftdeps
+select 9
+use \kenservice\data\fgsys.dbf
+SELECT 1
+GO TOP
+SET SAFETY ON

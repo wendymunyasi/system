@@ -54,6 +54,8 @@ endif
 
 class fgtypFORM of FORM
    with (this)
+   view = "fgtyp.QBE"
+      menuFile = "FGTYP.MNU"
       onClose = class::ONCLOSE
       open = class::OPEN
       metric = 6	// Pixels
@@ -68,9 +70,7 @@ class fgtypFORM of FORM
       sizeable = false
       moveable = false
       sysMenu = true
-      view = "fgtyp.QBE"
-      menuFile = "FGTYP.MNU"
-      escExit = false
+       escExit = false
       mousePointer = 1	// Arrow
       scrollBar = 0	// Off
       maximize = false

@@ -1,0 +1,27 @@
+* Visual dBASE .QBE file 9
+ON ERROR DO QBEERR WITH ERROR(), MESSAGE(),;
+PROGRAM(), LINENO()
+CLOSE DATABASES
+SET EXACT ON
+SELECT 1
+USE \kenservice\data\fgtyp.DBf order tag typ
+*set filter to typ < "99" .or. empty(typ)
+SELECT 3
+USE \KENSERVICE\DATA\fgtypS.DBF  exclusive
+select 4
+use \kenservice\data\GLtyp.dbf order tag lname
+select 5
+use \kenservice\data\fgcoy.dbf
+select 8
+use \kenservice\data\fgitemus.dbf order tag name
+select 9
+use \kenservice\data\fgtaxtyp.dbf order tag name
+select 6
+USE \kenservice\data\fgtyp.DBf again alias fgtyp3
+*set filter to typ < "99" .or. empty(typ)
+SELECT 7
+USE \KENSERVICE\DATA\FGTYP.DBF AGAIN ALIAS FGTYP2
+SELECT 1
+SET RELATION TO lname into Gltyp, usename into fgitemus, taxname into fgtaxtyp
+SELECT 1
+GO TOP
