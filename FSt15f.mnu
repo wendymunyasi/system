@@ -1,0 +1,178 @@
+******************************************************************************
+*  PROGRAM:      St15f.mnu
+*
+*  WRITTEN BY:   W Nyongesa
+*
+*  DATE:         03/2001
+*
+*  UPDATED:      09/2012
+*
+*  REVISION:     $Revision:   1.58  $
+*
+*  VERSION:      Visual dBASE
+*
+*  DESCRIPTION:  This is a menu file used by St15f.WFM for
+*                performing simple tasks.  It allows adding and deleting
+*                records, searching for a value in the ShiftMaster field of the
+*                current table viewed, and exiting the form in view.
+*
+*  PARAMETERS:   FormObj -- the form to which this menu will belong.
+*
+*  CALLS:        None
+*
+*  USAGE:        form.menuFile = "St15f.mnu"
+*
+*******************************************************************************
+#include <messdlg.h>
+
+** END HEADER -- do not remove this line*
+* Generated on 07/03/2001
+*
+Parameter FormObj
+NEW ShiftMaster(FormObj,"Root")
+CLASS ShiftMaster(FormObj,Name) OF MENUBAR(FormObj,Name)
+   this.Text = ""
+   this.OnInit = {;set procedure to SampProc.prg}
+
+   DEFINE MENU FILE OF THIS;
+       PROPERTY;
+         Text "&File"
+
+         DEFINE MENU EXIT OF THIS.FILE;
+             PROPERTY; 
+               StatusMessage "Return to the Previous Menu.",;
+               Text "&Return to Previous Menu",;
+               ShortCut "F4",;
+               OnClick CLASS::ONEXITALL
+
+        
+       DEFINE MENU SEPARATOR000 OF THIS.FILE;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+
+
+         DEFINE MENU QUITS OF THIS.FILE;
+             PROPERTY; 
+               StatusMessage "Leave Kenserve Integrated System.",;
+               Text "EXIT",;
+               ShortCut "F8",;
+               OnClick CLASS::QUITALL
+               
+
+   DEFINE MENU St15f OF THIS;
+       PROPERTY;
+         Text "&ShiftMaster"
+
+         DEFINE MENU VIEWEDIT OF THIS.St15f;
+             PROPERTY;
+               OnClick CLASS::VIEWEDITONCLICK,;
+               Text "&Edit",;
+               Shortcut "Ctrl-E",;
+               StatusMessage "Edit data."
+
+         DEFINE MENU SEPARATOR1 OF THIS.St15f;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+
+         DEFINE MENU SEARCH OF THIS.St15f;
+             PROPERTY;
+               OnClick CLASS::SEARCHONCLICK,;
+               Text "&Search ...",;
+               Shortcut "Ctrl-S",;
+               StatusMessage "Search for a ShiftMaster."
+
+         DEFINE MENU SEPARATOR3 OF THIS.St15f;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+
+
+  DEFINE MENU REPORTSHIFT OF THIS.St15f;
+             PROPERTY; 
+               Text "REPORTS"
+           
+                      
+       DEFINE MENU ForeUELrep OF THIS.St15f.REPORTSHIFT;
+             PROPERTY; 
+               Text "ShiftMaster Listing",;
+                 OnClick {;create session ;set lock off ;report form FST15F}
+      
+   ****************************************************************************
+   procedure SearchOnClick
+
+   * Bring up Search.WFM.
+   ****************************************************************************
+   private searchForm, searchItem, saveRec, saveFilt, searchDATE,;
+           searchNO, searchcen,searchcoy,searchdiv,searchtyp,searchcla,;
+           searchcod,searchsto,Searchid
+      local l1
+   if reccount() = 0                     && If table is empty, don't search
+      InformationMessage("This table is empty.", "Sorry!")
+   else
+      form.CheckChanged(.T.)
+      set procedure to Search.WFM additive
+      searchForm = new SearchForm()
+      searchForm.keyName = "Centre"  && Indicator of key expression
+        searchForm.formatting = "@X"
+      searchForm.mdi = .F.
+      searchItem = searchForm.Readmodal()
+      if type("searchItem") = "O" .and. searchItem.id <> 0
+                                      && If search wasn't cancelled
+         saveRec = Bookmark()            && save current record in case seek is
+                                      && unsuccessful
+      searchDATE = st15f->shift_date
+       searchNO = st15f->shift_no
+       searchid = st15f->shift_id
+       searchcoy = st15f->coy
+       searchdiv = st15f->div && fixed
+        searchperiod = left(searchform.value,1)
+       l1 = left(searchform.value,4)
+       searchdoctype = right(l1,2)
+       searchdocref = right(searchform.value,6)
+
+       form.enabled = .F.
+     *  go top
+           seek dtos(searchDATE)+searchNO+searchperiod 
+             
+* locate for period = searchDATE .and. doctype = searchNO
+         if .not. found()
+            InformationMessage(FormatStr("ShiftMaster %1 \n Was not Found.",;
+                                         searchForm.value),;
+                               "Info")
+            if .not. eof()
+               go saverec()
+            else
+               go bottom
+            endif
+         endif
+         form.enabled = .T.
+      endif
+
+      searchForm.Release()
+      close procedure Search.WFM
+   endif
+    
+   ***************************************************************************
+   procedure ViewEditOnClick
+   ****************************************************************************
+
+   form.ViewEdit()
+
+ 
+   ****************************************************************************
+     procedure OnExitALL
+   
+  
+   ****************************************************************************
+   *      form.close()  
+     form.Release()
+   Procedure QUITALL
+            form.Release()
+            QUIT
+  
+ENDCLASS
+
+
+

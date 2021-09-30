@@ -1,0 +1,779 @@
+////////////////////////////////////////////////////////////////////////////////
+// Output Filename: C:\KENSERVICE\IDSSYS\FGOFF_FCV.WFM                        //
+// Created By:      dBASE Form Converter Wizard                               //
+// Created On:      Tuesday June 14, 2016 At 10:23:04                         //
+// Object Count:    20                                                        //
+////////////////////////////////////////////////////////////////////////////////
+*******************************************************************************
+*  PROGRAM:      Fgoff.wfm
+*
+*  WRITTEN BY:   W Nyongesa
+*
+*  DATE:         05/2000
+*
+*  UPDATED:     06/2013
+*
+*  REVISION:     $Revision:   1.0
+*
+*  VERSION:      Visual dBASE
+*
+*  DESCRIPTION:  This program maintains the companies master file
+*
+*  PARAMETERS:   None
+*
+*  CALLS:        Fgoff.mnu         (Menu file)
+*                Buttons.CC          (Custom Controls file)
+*                Officers.qbe         (View of tables)
+*
+*  USAGE:        DO Fgoff.wfm
+*
+*******************************************************************************
+#include <messdlg.h>
+shell(.F.)
+create session
+set talk off
+set design off
+_app.FrameWin.Visible = .F.
+_app.FrameWin.Text = "Fgoff"
+set century on
+set ldCheck off && To avoid language driver conflicts
+#define Maxcoy 999
+** END HEADER -- do not remove this line
+//
+// Generated on 14/06/2016
+//
+parameter bUser,bLevel,bModal
+local f
+f = new FgoffFORM()
+if (bModal)
+   f.mdi = false // ensure not MDI
+   f.readModal()
+else
+   f.open()
+endif
+
+class FgoffFORM of FORM
+   with (this)
+      onClose = class::ONCLOSE
+      open = class::OPEN
+      metric = 6	// Pixels
+      colorNormal = "N+"
+      height = 932.0
+      left = 31.0
+      top = 12.0
+      width = 1296.0
+      text = "Officers Maintenance Form"
+      windowState = 2	// Maximized
+      mdi = false
+      sizeable = false
+      moveable = false
+      view = "Fgoff.QBE"
+      menuFile = "FGOFF.MNU"
+      escExit = false
+      mousePointer = 1	// Arrow
+      maximize = false
+      minimize = false
+   endwith
+
+   this.CODETEXT = new TEXTLABEL(this)
+   with (this.CODETEXT)
+      height = 21.0
+      left = 24.0
+      top = 9.0
+      width = 132.0
+      text = "Officer Code:"
+      colorNormal = "B/BtnFace"
+      fontName = "MS Sans Serif"
+      fontBold = true
+      alignVertical = 1	// Middle
+      alignHorizontal = 2	// Right
+   endwith
+
+   this.PTYP = new ENTRYFIELD(this)
+   with (this.PTYP)
+      dataLink = "Fgoff->off"
+      enabled = false
+      height = 27.0
+      left = 168.0
+      top = 9.0
+      width = 36.0
+      colorNormal = "N/BtnFace"
+      colorHighLight = "B+/W*"
+      fontName = "MS Sans Serif"
+      fontBold = true
+   endwith
+
+   this.LNAMETEXT = new TEXTLABEL(this)
+   with (this.LNAMETEXT)
+      height = 22.0
+      left = 24.0
+      top = 60.0
+      width = 132.0
+      text = "Officer's Name:"
+      colorNormal = "B/BtnFace"
+      fontName = "MS Sans Serif"
+      fontBold = true
+      alignVertical = 1	// Middle
+      alignHorizontal = 2	// Right
+   endwith
+
+   this.LNAMEENTRY = new ENTRYFIELD(this)
+   with (this.LNAMEENTRY)
+      onChange = class::CHANGE_NAME
+      dataLink = "Fgoff->name"
+      enabled = false
+      height = 21.0
+      left = 168.0
+      top = 60.0
+      width = 342.0
+      function = "!"
+      colorNormal = "N/BtnFace"
+      colorHighLight = "B+/W*"
+      fontName = "MS Sans Serif"
+      fontBold = true
+      validErrorMsg = "Name of officer  Required"
+   endwith
+
+   this.TEXT2 = new TEXTLABEL(this)
+   with (this.TEXT2)
+      height = 22.0
+      left = 24.0
+      top = 94.0
+      width = 132.0
+      text = "Title:"
+      colorNormal = "B/BtnFace"
+      fontName = "MS Sans Serif"
+      fontBold = true
+      alignVertical = 1	// Middle
+      alignHorizontal = 2	// Right
+   endwith
+
+   this.STITLE = new COMBOBOX(this)
+   with (this.STITLE)
+      onChange = class::STITLE_ONCHANGE
+      dataLink = "FGOFF->TNAME"
+      enabled = false
+      height = 24.0
+      left = 168.0
+      top = 94.0
+      width = 348.0
+      colorNormal = "R+/W"
+      dataSource = "FIELD OFTITLES->NAME"
+      style = 2	// DropDownList
+      dropDownHeight = 132.0
+   endwith
+
+   this.TEXT4 = new TEXTLABEL(this)
+   with (this.TEXT4)
+      height = 22.0
+      left = 24.0
+      top = 128.0
+      width = 132.0
+      text = "Short Title:"
+      colorNormal = "B/BtnFace"
+      fontName = "MS Sans Serif"
+      fontBold = true
+      alignVertical = 1	// Middle
+      alignHorizontal = 2	// Right
+   endwith
+
+   this.SST = new ENTRYFIELD(this)
+   with (this.SST)
+      dataLink = "FGOFF->STITLE"
+      enabled = false
+      height = 21.0
+      left = 168.0
+      top = 128.0
+      width = 96.0
+      function = "!"
+      colorNormal = "N/BtnFace"
+      colorHighLight = "B+/W*"
+      fontName = "MS Sans Serif"
+      fontBold = true
+      validErrorMsg = "Name of officer  Required"
+   endwith
+
+   this.TEXT6 = new TEXTLABEL(this)
+   with (this.TEXT6)
+      height = 22.0
+      left = 24.0
+      top = 196.0
+      width = 240.0
+      text = "Current Car Washer Rate (%):"
+      colorNormal = "B/BtnFace"
+      fontName = "MS Sans Serif"
+      fontBold = true
+      alignVertical = 1	// Middle
+      alignHorizontal = 2	// Right
+   endwith
+
+   this.SCWRATE = new ENTRYFIELD(this)
+   with (this.SCWRATE)
+      onChange = class::SCWRATE_ONCHANGE
+      dataLink = "FGOFF->CAW_RATE"
+      enabled = false
+      height = 21.0
+      left = 282.0
+      top = 196.0
+      width = 60.0
+      picture = "99.99"
+      function = "99.99"
+      colorNormal = "N/BtnFace"
+      colorHighLight = "B+/W*"
+      fontName = "MS Sans Serif"
+      fontBold = true
+      validErrorMsg = "Name of officer  Required"
+   endwith
+
+   this.TEXT5 = new TEXTLABEL(this)
+   with (this.TEXT5)
+      height = 22.0
+      left = 24.0
+      top = 250.0
+      width = 120.0
+      text = "Date Employed :"
+      colorNormal = "B/BtnFace"
+      fontName = "MS Sans Serif"
+      fontBold = true
+      alignVertical = 1	// Middle
+      alignHorizontal = 2	// Right
+   endwith
+
+   this.SDE = new ENTRYFIELD(this)
+   with (this.SDE)
+      onChange = class::CHANGEEMP
+      dataLink = "FGOFF->DATE_emp"
+      enabled = false
+      height = 21.0
+      left = 153.0
+      top = 250.0
+      width = 99.0
+      function = "!"
+      colorNormal = "N/BtnFace"
+      colorHighLight = "B+/W*"
+      fontName = "MS Sans Serif"
+      fontBold = true
+      validErrorMsg = "Name of officer  Required"
+   endwith
+
+   this.TEXT1 = new TEXTLABEL(this)
+   with (this.TEXT1)
+      height = 22.0
+      left = 252.0
+      top = 250.0
+      width = 132.0
+      text = "Date Closed:"
+      colorNormal = "B/BtnFace"
+      fontName = "MS Sans Serif"
+      fontSize = 12.0
+      fontBold = true
+      alignVertical = 1	// Middle
+      alignHorizontal = 2	// Right
+   endwith
+
+   this.SDATE = new ENTRYFIELD(this)
+   with (this.SDATE)
+      onChange = class::CHANGEDL
+      dataLink = "FGOFF->DATE_LEFT"
+      enabled = false
+      height = 21.0
+      left = 393.0
+      top = 250.0
+      width = 99.0
+      function = "!"
+      colorNormal = "N/BtnFace"
+      colorHighLight = "B+/W*"
+      fontName = "MS Sans Serif"
+      fontBold = true
+      validErrorMsg = "Name of officer  Required"
+   endwith
+
+   this.TEXT3 = new TEXTLABEL(this)
+   with (this.TEXT3)
+      height = 22.0
+      left = 24.0
+      top = 293.0
+      width = 108.0
+      text = "Remarks:"
+      colorNormal = "B/BtnFace"
+      fontName = "MS Sans Serif"
+      fontBold = true
+      alignVertical = 1	// Middle
+      alignHorizontal = 2	// Right
+   endwith
+
+   this.NOTESEDITOR = new EDITOR(this)
+   with (this.NOTESEDITOR)
+      onGotFocus = {;if this.Modify;this.colorNormal = "B+/W*";endif}
+      onLostFocus = {;if this.Modify;this.colorNormal = "N/BtnFace";endif}
+      onChange = class::CHANGERM
+      height = 51.0
+      left = 144.0
+      top = 284.0
+      width = 336.0
+      colorNormal = "N/BtnFace"
+      modify = false
+      fontName = "MS Sans Serif"
+      fontSize = 8.0
+      fontBold = true
+      dataLink = "FGOFF->REMARKS"
+   endwith
+
+   this.PREVBUTTON = new PUSHBUTTON(this)
+   with (this.PREVBUTTON)
+      onClick = class::PREVIOUS
+      height = 26.0
+      left = 112.0
+      top = 396.0
+      width = 85.0
+      text = "&PREVIOUS"
+      fontName = "MS Sans Serif"
+      fontSize = 8.0
+      fontBold = true
+   endwith
+
+   this.NEXTBUTTON = new PUSHBUTTON(this)
+   with (this.NEXTBUTTON)
+      onClick = class::NEXT
+      height = 26.0
+      left = 196.0
+      top = 396.0
+      width = 85.0
+      text = "&NEXT"
+      fontName = "MS Sans Serif"
+      fontSize = 8.0
+      fontBold = true
+   endwith
+
+   this.FIRSTBUTTON = new PUSHBUTTON(this)
+   with (this.FIRSTBUTTON)
+      onClick = {; form.CheckCommit(form.inEditMode);GO TOP;}
+      height = 26.0
+      left = 287.0
+      top = 396.0
+      width = 85.0
+      text = "F&IRST"
+      fontName = "MS Sans Serif"
+      fontSize = 8.0
+      fontBold = true
+   endwith
+
+   this.LASTBUTTON = new PUSHBUTTON(this)
+   with (this.LASTBUTTON)
+      onClick = {; form.CheckCommit(form.inEditMode);GO BOTTOM;}
+      height = 26.0
+      left = 378.0
+      top = 396.0
+      width = 85.0
+      text = "&LAST"
+      fontName = "MS Sans Serif"
+      fontSize = 8.0
+      fontBold = true
+   endwith
+
+
+   procedure Open
+   ****************************************************************************
+   private CodeField
+   form.firstime = .T.
+    FORM.BLUSER=BUSER
+   FORM.BLEVEL=BLEVEL
+   IF EMPTY(FORM.BLUSER) .OR. EMPTY(FORM.BLEVEL)
+      QUIT
+      ENDIF
+   if type("form.init") = "U"
+      form.init = .T.
+
+      set skip to                     && Fgoff.qbe contains set skip to gldtl
+      set exact off                   && the .qbe file contains SET EXACT ON
+
+      set procedure to sampProc.prg additive
+    Form.duplicate = .F.
+      form.inEditMode = .F.           && indicator of view/edit state
+      form.changesMade = .F.          && indicator of changes made to field values
+      form.previousRecord = .F.       && Save record number when appending
+        *** do calculations in another area so form doesn't get updated
+        form.updated = .f.
+           select Fgoff3
+      set order to name
+      select Fgoff
+      set order to off
+    GO TOP                                  && new Receipts
+   if Empty(off)
+   delete
+   endif
+
+
+      *** Open table for calculating totals and balance due in another work area
+      *** so that datalinks are not affected by record movements
+
+
+      ***
+    *  if type("form.parentpayeeForm") <> "U" && Esc ok if have parent
+    *     form.escExit = .T.
+   *   endif
+
+   endif
+   * form.CoyInfoButton.KenpName = "Fgoff.WFM"
+
+   form::Open()                         && Now the form actually opens
+   *    form.BrowseOnNavigate()              && calculate totals
+   *       form.codingerrors()                        && check coding errors
+
+   *      form.next.setfocus()
+   ****************************************************************************
+
+   procedure OnClose
+
+   * Clean up.
+   ****************************************************************************
+
+   if this.inEditMode
+      form.ViewEdit()                      && Finish transaction
+   endif
+   select Fgoff
+   delete all for Empty(off)
+   go top
+   if .not. eof() .and. form.updated
+   do Fgoffs_rtn
+   endif
+     close procedure SAMPProc.prg
+         close databases
+
+
+
+   ****************************************************************************
+
+   procedure BrowseOnNavigate
+   ****************************************************************************
+
+       if eof()
+      form.root.Fgoff.viewEdit.enabled = .F.
+   else
+      form.root.Fgoff.viewEdit.enabled = .T.
+   endif
+
+
+
+   ****************************************************************************
+      Procedure ChangeRm
+      	select fgoff
+         replace remarks with this.value
+         form.changesmade = .t.
+   procedure ChangeDL
+   	select fgoff
+      replace date_left with date()
+      form.changesmade = .t.
+
+   procedure ChangesMade
+
+   * Indicate that changes have been made to the current record
+   ****************************************************************************
+   Form.ChangesMade = .T.
+   ****************************************************************************
+
+    procedure Next
+
+   * Go to next record.
+   ****************************************************************************
+
+   form.CheckCommit(form.inEditMode)
+   if .not. empty(dbf())  .and. .not. eof()      && if a table is open in the current workarea
+      skip
+      if eof()
+         go bottom
+         AlertMessage("At the last record","Alert")
+      endif
+   else
+      InformationMessage("There is no table open in the current workarea.",;
+         "Info")
+   endif
+    ****************************************************************************
+
+   procedure Previous
+
+   * Go to previous record.
+   ****************************************************************************
+
+   form.CheckCommit(form.inEditMode)
+ if .not. empty(dbf())  .and. .not. eof() && if a table is open in the current workarea
+      skip - 1
+      if bof()
+         go top
+         AlertMessage("At the first record","Alert")
+      endif
+   else
+      InformationMessage("There is no table open in the current workarea.",;
+         "Info")
+   endif
+   ****************************************************************************
+
+   procedure CheckCommit (newInEditMode)
+
+        * Finish transaction, if it has been started.
+   ****************************************************************************
+   private CodeField, changesMade
+    local lk1
+    lk1 = form.ptyp.value
+   changesMade = form.changesMade
+   if form.changesMade
+      CodeField = field(1)  && Field period
+      if     ConfirmationMessage("Commit changes?",;
+                FormatStr("Officer Code %1",&CodeField)) = YES .and. .not. empty(fgoff->off)
+         commit()
+        form.updated = .T.
+      else
+      if .not. empty(fgoff->off)
+         rollback()
+         endif
+         if .not. bof()
+       *  if .not. empty(form.previousRecord)
+   *            go bookmark()
+           * form.previousRecord
+            form.previousRecord = .F.
+         endif
+      endif
+
+       form.ptyp.enabled = .F.
+    if form.inEditMode .and. newInEditMode
+    if .not. empty(fgoff->off)
+         begintrans()
+         endif
+      endif
+      form.changesMade = .F.
+   endif
+   if form.inEditMode <> newInEditMode
+      if newInEditMode                       && Going to Edit mode
+         begintrans()
+      else                                   && Going to View mode
+         if .not. changesMade .AND. .NOT. FORM.DUPLICATE
+            rollback()
+         endif
+      endif
+      form.inEditMode = newInEditMode
+   endif
+
+   * form.root.Receipt.add.enabled = .T.
+   *form.codingerrors()
+   ****************************************************************************
+
+   procedure ViewEdit
+
+   * Toggle between View and Edit modes.
+   ****************************************************************************
+   local inEditMode, editMenu, control
+
+   editMenu = form.root.Fgoff.VIEWEdit
+
+   *** If ending edit mode then close transaction, otherwise open it.
+   if form.inEditMode
+      form.checkChanged(.F.)
+      editMenu.text = "&Edit"
+      editMenu.shortcut = "Ctrl-E"
+      editMenu.statusMessage = "Edit data."
+      form.CheckCommit(.F.)                        && Check transaction and
+      form.text = "Officers Maintenance Form -- View Mode"          && change mode to View
+       form.notesEditor.colorNormal = "N/W"
+   *      form.childBrowse.modify = .F.
+     form.notesEditor.modify = .F.
+      form.statusmessage = "In View Mode. " + ;
+                           "Select Officers - Edit menu to " + ;
+                           "edit/delete data."
+     else                                            && Switch to edit mode
+      editMenu.text = "Vi&ew"
+      editMenu.shortcut = "Ctrl-E"
+      editMenu.statusMessage = "View data."
+      form.CheckCommit(.T.)                        && Check transaction and
+      form.text = "Officers Maintenance Form -- Edit Mode"          && change mode to Edit
+
+      form.notesEditor.modify = .T.
+      form.statusmessage = "In Edit Mode.  " + ;
+                           "Select menu Officers - View to switch " + ;
+                           "to View mode."
+        form.ptyp.Enabled = .F.
+
+       form.LnameEntry.SetFocus()
+
+   endif
+
+   inEditMode = form.inEditMode     && Faster if we don't reference a form
+   control = form.first             &&    variable each time through the loop
+   do
+      if .not. control.className $ "BROWSE,EDITOR,NEXTBUTTON,PREVBUTTON,PUSHBUTTON,IMAGE,TEXT"
+         control.enabled = inEditMode
+      endif
+      control = control.before
+   until control.name = form.first.name
+   *           form.gltyp.enabled = .f.
+   *    form.glname.Enabled = .F.
+   form.ptyp.Enabled = .F.
+   form.sst.enabled = .f.
+   if FORM.BLEVEL > 4 .and. .not. empty(form.lnameentry.value)
+   form.lnameentry.enabled = .f.
+   endif
+   if form.blevel > 3
+  form.lnameentry.enabled = .f.
+  form.stitle.enabled = .f.
+  form.sst.enabled = .f.
+  if .not. empty(form.sdate.value)
+  form.sdate.enabled = .f.
+  endif
+  form.sde.enabled = .f.
+  endif
+ * endif
+       form.LnameEntry.SetFocus()
+
+
+   ****************************************************************************
+
+   procedure CheckChanged(callCommit)
+
+   * Check if changes have been made to the current entryfield.  This procedure
+   * is called from menu routines to make sure the form.changesMade gets
+   * updated when a menu is selected while the changed control has focus.
+   ****************************************************************************
+   private control, fieldValue, controlValue, typeText, typeValue
+
+   if form.inEditMode
+      control = form.activeControl
+      if type("control.datalink") <> "U"
+         fieldValue = control.datalink          && name of table field
+
+         typeText = type("control.text")
+         typeValue = type("control.value")
+         do case
+            case typeValue = "C"
+               controlValue = control.value
+            case typeValue $ "LU" .and. typeText = "C"
+               controlValue = control.text
+            otherwise
+               controlValue = Null
+         endcase
+         if controlValue <> &fieldValue
+            form.changesMade = .T.
+         endif
+      endif
+   endif
+   if form.changesMade .and. callCommit
+      CLASS::CheckCommit(form.inEditMode)     && Check transactions
+   endif
+
+
+
+   ****************************************************************************
+  procedure CHANGEEMP
+  				SELECT FGOFF
+            REPLACE DATE_EMP WITH THIS.VALUE
+            FORM.CHANGESMADE =       .T.
+       Procedure change_name
+      form.LNAMEENTRY.value = ltrim(form.LNAMEENTRY.value)
+      if .not. empty(this.value)
+                select fgoff3
+   seek  form.LNAMEENTRY.value
+         if found()  .AND. .NOT. (off = fgoff->off)
+   InformationMessage("Duplicate Officer name not allowed", "Note!")
+   form.LNAMEENTRY.value =""
+   else
+   form.changesmade =.t.
+    select fgoff
+    replace name with this.value
+   endif
+   endif
+   select fgoff
+
+      Procedure valid_name
+      if empty(this.value)
+      isvalid = .f.
+      else
+      isvalid = .t.
+      endif
+      return isvalid
+
+   Procedure STITLE_OnChange
+    form.changesmade = .t.
+    SELECT OFTITLES
+         SEEK THIS.VALUE
+         SELECT FGOFF
+         REPLACE TITLE WITH OFTITLES->TITLE
+         REPLACE STITLE WITH OFTITLES->stitle
+         FORM.CHANGESMADE = .T.
+
+   Procedure SCWRATE_OnChange
+   select fgoff
+        if this.value < 0 .or. this.value > 60
+        replace caw_rate with 0
+        ELSE
+        REPLACE CAW_RATE WITH THIS.VALUE
+        endif
+        form.changesmade = .t.
+
+endclass
+
+Procedure Fgoffs_rtn
+   private eofFgoff,p1,p2
+   eofFgoff = .f.
+   set safety off
+   select Fgoffs
+
+    set order to off
+     set safety on
+   select Fgoff
+   go top
+   if .not. eof()
+      do
+         do rtn1
+         until eofFgoff
+     endif
+
+
+ eoffgoffs =.f.
+     select fgoffs
+     go top
+     if .not.  eof()
+        do
+        do rtn3
+        until eoffgoffs
+      endif
+procedure rtn3
+      select fgoff
+      seek fgoffs->off
+      if  .not.  found()
+      select fgoffs
+      delete
+      endif
+    select fgoffs
+    if .not. eof()
+    skip
+    endif
+    if  eof()
+       eoffgoffs=.t.
+     endif
+procedure rtn1
+       p1 = Fgoff->name
+      if .not. empty(p1)
+      do rtn2
+      endif
+   select Fgoff
+   replace name with ltrim(name)
+   skip
+   if eof()
+   eofFgoff = .t.
+   endif
+
+Procedure rtn2
+   select Fgoffs
+      seek fgoff->off
+      if .not. found()
+      append blank
+       replace off with Fgoff->off
+        endif
+       replace name with ltrim(p1)
+       replace title with fgoff->title
+       replace date_left with fgoff->date_left
+       replace stitle with fgoff->stitle
+       replace remarks with fgoff->remarks
+       replace shift_date with fgoff->shift_date
+       replace cashier_no with fgoff->cashier_no
+       replace caw_rate with fgoff->caw_rate
+       replace tba_rate with fgoff->tba_rate
+       replace pit_rate with fgoff->pit_rate

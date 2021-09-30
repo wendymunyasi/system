@@ -1,0 +1,15 @@
+* Visual dBASE .QBE file 9
+ON ERROR DO QBEERR WITH ERROR(), MESSAGE(),;
+PROGRAM(), LINENO()
+*et exclusive on
+CLOSE DATABASES
+SET EXACT ON
+SELECT 1
+USE \kenservice\data\oftitle.DBf
+*ap
+SELECT 3
+USE \KENSERVICE\DATA\oftitleS.DBF  EXCLUSIVE
+*ap
+select 4
+use \kenservice\data\oftitle.dbf again alias oftitle3
+GO TOP

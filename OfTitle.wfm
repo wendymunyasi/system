@@ -1,0 +1,534 @@
+////////////////////////////////////////////////////////////////////////////////
+// Output Filename: C:\KENSERVICE\IDSSYS\OFTITLE_FCV.WFM                      //
+// Created By:      dBASE Form Converter Wizard                               //
+// Created On:      Tuesday June 14, 2016 At 10:21:22                         //
+// Object Count:    10                                                        //
+////////////////////////////////////////////////////////////////////////////////
+*******************************************************************************
+*  PROGRAM:      OfTitle.wfm
+*
+*  WRITTEN BY:   W Nyongesa
+*
+*  DATE:         05/2000
+*
+*  UPDATED:     09/2012
+*
+*  REVISION:     $Revision:   1.0
+*
+*  VERSION:      Visual dBASE
+*
+*  DESCRIPTION:  This program maintains the companies master file
+*
+*  PARAMETERS:   None
+*
+*  CALLS:        OfTitle.mnu         (Menu file)
+*                Buttons.CC          (Custom Controls file)
+*                Titles.qbe         (View of tables)
+*
+*  USAGE:        DO OfTitle.wfm
+*
+*******************************************************************************
+#include <messdlg.h>
+shell(.F.)
+create session
+set talk off
+set design off
+_app.FrameWin.Visible = .F.
+_app.FrameWin.Text = "OfTitle"
+set century on
+set ldCheck off && To avoid language driver conflicts
+#define Maxcoy 999
+** END HEADER -- do not remove this line*
+* Generated on 13/03/2005
+*
+parameter BUSER,BLEVEL,bModal
+local f
+f = new OfTitleFORM()
+if (bModal)
+   f.mdi = .F. && ensure not MDI
+   f.ReadModal()
+else
+   f.Open()
+endif
+CLASS OfTitleFORM OF FORM
+   this.Metric = 6  // Pixels
+   this.SysMenu = .t.
+   this.Minimize = .F.
+   this.Maximize = .F.
+   this.Moveable = .F.
+   this.Sizeable = .F.
+   this.EscExit = .F.
+   this.OnClose = CLASS::ONCLOSE
+   this.Left = 31
+   this.MousePointer = 1
+   this.Text = "Designation Titles Maintenance Form"
+   this.Top = 12
+   this.WindowState = 2
+   this.MenuFile = "OFTITLE.MNU"
+   this.ScrollBar = 0
+   this.MDI = .F.
+   this.Height = 334
+   this.View = "OfTitle.QBE"
+    this.Width = 351
+   THIS.SYSMENU = .t.
+   THIS.MOVEABLE = .F.
+   THIS.SIZEABLE = .F.
+    this.ColorNormal = "N+"
+
+
+   DEFINE TEXTLABEL CODETEXT OF THIS;
+       PROPERTY;
+         Text "Title Code:",;
+         Top 9,;
+         ColorNormal "B/BtnFace",;
+         FontSize 10,;
+         Height 21,;
+         Width 120,;
+       FontName "MS Sans Serif",;
+       FontBold .T.,;
+       AlignHorizontal 2,;
+       AlignVertical 1
+
+   DEFINE ENTRYFIELD PTYP OF THIS;
+       PROPERTY;
+         Left 144,;
+         Top 9,;
+         ColorNormal "N/BtnFace",;
+         FontSize 10,;
+         DataLink "OfTitle->title",;
+         Height 27,;
+         Enabled .F.,;
+         ColorHighLight "B+/W*",;
+         Width 72,;
+       FontName "MS Sans Serif",;
+       FontBold .T.
+
+   DEFINE TEXTLABEL LNAMETEXT OF THIS;
+       PROPERTY;
+         Text "Title Name:",;
+         Top 60,;
+         ColorNormal "B/BtnFace",;
+         FontSize 10,;
+         Height 22,;
+         Width 132,;
+       FontName "MS Sans Serif",;
+       FontBold .T.,;
+       AlignHorizontal 2,;
+       AlignVertical 1
+
+   DEFINE ENTRYFIELD LNAMEENTRY OF THIS;
+       PROPERTY;
+         ValidErrorMsg "Name of Title  Required",;
+         Left 141,;
+          Function "!",;
+         Top 60,;
+         ColorNormal "N/BtnFace",;
+         OnChange CLASS::CHANGE_NAME,;
+         FontSize 10,;
+         DataLink "OfTitle->name",;
+         Height 21,;
+         Enabled .F.,;
+         ColorHighLight "B+/W*",;
+         Width 339,;
+       FontName "MS Sans Serif",;
+       FontBold .T.
+
+   DEFINE TEXTLABEL TEXT1 OF THIS;
+       PROPERTY;
+         Text "Short Title:",;
+         Top 94,;
+         ColorNormal "B/BtnFace",;
+         FontSize 10,;
+         Height 22,;
+         Width 132,;
+       FontName "MS Sans Serif",;
+       FontBold .T.,;
+       AlignHorizontal 2,;
+       AlignVertical 1
+
+   DEFINE ENTRYFIELD SST OF THIS;
+       PROPERTY;
+         ValidErrorMsg "Name of Title  Required",;
+         Left 141,;
+         Function "!",;
+         Top 94,;
+         ColorNormal "N/BtnFace",;
+         OnChange CLASS::SST_ONCHANGE,;
+         FontSize 10,;
+         DataLink "OFTITLE->STITLE",;
+         Height 21,;
+         Enabled .F.,;
+         ColorHighLight "B+/W*",;
+         Width 135,;
+       FontName "MS Sans Serif",;
+       FontBold .T.
+
+    this.PREVBUTTON = new PUSHBUTTON(this)
+   with (this.PREVBUTTON)
+      onClick = class::PREVIOUS
+      height = 26.0
+      left = 112.0
+      top = 330.0
+      width = 85.0
+      text = "&PREVIOUS"
+      fontName = "MS Sans Serif"
+      fontSize = 8.0
+      fontBold = true
+   endwith
+
+   this.NEXTBUTTON = new PUSHBUTTON(this)
+   with (this.NEXTBUTTON)
+      onClick = class::NEXT
+      height = 26.0
+      left = 196.0
+      top = 330.0
+      width = 85.0
+      text = "&NEXT"
+      fontName = "MS Sans Serif"
+      fontSize = 8.0
+      fontBold = true
+   endwith
+
+   this.FIRSTBUTTON = new PUSHBUTTON(this)
+   with (this.FIRSTBUTTON)
+      onClick = {; form.CheckCommit(form.inEditMode);GO TOP;}
+      height = 26.0
+      left = 287.0
+      top = 330.0
+      width = 85.0
+      text = "F&IRST"
+      fontName = "MS Sans Serif"
+      fontSize = 8.0
+      fontBold = true
+   endwith
+
+   this.LASTBUTTON = new PUSHBUTTON(this)
+   with (this.LASTBUTTON)
+      onClick = {; form.CheckCommit(form.inEditMode);GO BOTTOM;}
+      height = 26.0
+      left = 378.0
+      top = 330.0
+      width = 85.0
+      text = "&LAST"
+      fontName = "MS Sans Serif"
+      fontSize = 8.0
+      fontBold = true
+   endwith
+
+   procedure Open
+   ****************************************************************************
+   private CodeField
+     FORM.BLUSER = BUSER
+   FORM.BLEVEL = BLEVEL
+   IF EMPTY(FORM.BLUSER) .OR. EMPTY(FORM.BLEVEL)
+   QUIT
+   ENDIF
+   form.firstime = .T.
+   if type("form.init") = "U"
+      form.init = .T.
+
+      set skip to                     && OfTitle.qbe contains set skip to gldtl
+      set exact off                   && the .qbe file contains SET EXACT ON
+
+      set procedure to sampProc.prg additive
+    Form.duplicate = .F.
+      form.inEditMode = .F.           && indicator of view/edit state
+      form.changesMade = .F.          && indicator of changes made to field values
+      form.previousRecord = .F.       && Save record number when appending
+        *** do calculations in another area so form doesn't get updated
+        form.updated = .f.
+       select OfTitle3
+      set order to title
+      select OfTitle
+      set order to title
+    GO TOP                                  && new Receipts
+   if Empty(title)
+   delete
+   endif
+
+
+      *** Open table for calculating totals and balance due in another work area
+      *** so that datalinks are not affected by record movements
+
+
+      ***
+    *  if type("form.parentpayeeForm") <> "U" && Esc ok if have parent
+    *     form.escExit = .T.
+   *   endif
+
+   endif
+   * form.CoyInfoButton.KenpName = "OfTitle.WFM"
+
+   form::Open()                         && Now the form actually opens
+   *    form.BrowseOnNavigate()              && calculate totals
+   *       form.codingerrors()                        && check coding errors
+
+   *      form.next.setfocus()
+   ****************************************************************************
+
+   procedure OnClose
+
+   * Clean up.
+   ****************************************************************************
+
+   if this.inEditMode
+      form.ViewEdit()                      && Finish transaction
+   endif
+   select OfTitle
+   delete all for Empty(title)
+   go top
+   if .not. eof() .and. form.updated
+   do OfTitles_rtn
+   endif
+     close procedure SAMPProc.prg
+        close databases
+
+
+
+
+   ****************************************************************************
+
+   procedure BrowseOnNavigate
+   ****************************************************************************
+
+       if eof()
+      form.root.OfTitle.viewEdit.enabled = .F.
+   else
+      form.root.OfTitle.viewEdit.enabled = .T.
+   endif
+
+
+
+   ****************************************************************************
+
+   procedure ChangesMade
+
+   * Indicate that changes have been made to the current record
+   ****************************************************************************
+   Form.ChangesMade = .T.
+   ****************************************************************************
+ procedure Next
+
+   * Go to next record.
+   ****************************************************************************
+
+   form.CheckCommit(form.inEditMode)
+   if .not. empty(dbf())  .and. .not. eof()      && if a table is open in the current workarea
+      skip
+      if eof()
+         go bottom
+         AlertMessage("At the last record","Alert")
+      endif
+   else
+      InformationMessage("There is no table open in the current workarea.",;
+         "Info")
+   endif
+    ****************************************************************************
+
+   procedure Previous
+
+   * Go to previous record.
+   ****************************************************************************
+
+   form.CheckCommit(form.inEditMode)
+ if .not. empty(dbf())  .and. .not. eof() && if a table is open in the current workarea
+      skip - 1
+      if bof()
+         go top
+         AlertMessage("At the first record","Alert")
+      endif
+   else
+      InformationMessage("There is no table open in the current workarea.",;
+         "Info")
+   endif
+   ****************************************************************************
+
+
+   procedure CheckCommit (newInEditMode)
+
+        * Finish transaction, if it has been started.
+   ****************************************************************************
+   private CodeField, changesMade
+    local lk1
+    lk1 = form.ptyp.value
+   changesMade = form.changesMade
+   if form.changesMade
+      CodeField = field(1)  && Field period
+      if     ConfirmationMessage("Commit changes?",;
+                FormatStr("Title Code %1",&CodeField)) = YES
+         commit()
+         form.updated = .T.
+
+      else
+         rollback()
+         if .not. bof()
+       *  if .not. empty(form.previousRecord)
+   *            go bookmark()
+           * form.previousRecord
+            form.previousRecord = .F.
+         endif
+      endif
+
+       form.ptyp.enabled = .F.
+    if form.inEditMode .and. newInEditMode
+         begintrans()
+         ON ERROR DO transerR WITH ERROR(), MESSAGE(),;
+PROGRAM(), LINENO()
+      endif
+      form.changesMade = .F.
+   endif
+   if form.inEditMode <> newInEditMode
+      if newInEditMode                       && Going to Edit mode
+         begintrans()
+                  ON ERROR DO transerR WITH ERROR(), MESSAGE(),;
+PROGRAM(), LINENO()
+
+      else                                   && Going to View mode
+         if .not. changesMade .AND. .NOT. FORM.DUPLICATE
+            rollback()
+         endif
+      endif
+      form.inEditMode = newInEditMode
+   endif
+
+   * form.root.Receipt.add.enabled = .T.
+   *form.codingerrors()
+   ****************************************************************************
+
+   procedure ViewEdit
+
+   * Toggle between View and Edit modes.
+   ****************************************************************************
+   local inEditMode, editMenu, control
+
+   editMenu = form.root.OfTitle.VIEWEdit
+
+   *** If ending edit mode then close transaction, otherwise open it.
+   if form.inEditMode
+      form.checkChanged(.F.)
+      editMenu.text = "&Edit"
+      editMenu.shortcut = "Ctrl-E"
+      editMenu.statusMessage = "Edit data."
+      form.CheckCommit(.F.)                        && Check transaction and
+      form.text = "Designation Titles Maintenance Form -- View Mode"          && change mode to View
+       *form.notesEditor.colorNormal = "N/W"
+   *      form.childBrowse.modify = .F.
+     *form.notesEditor.modify = .F.
+      form.statusmessage = "In View Mode. " + ;
+                           "Select Titles - Edit menu to " + ;
+                           "edit/delete data."
+    else                                            && Switch to edit mode
+      editMenu.text = "Vi&ew"
+      editMenu.shortcut = "Ctrl-E"
+      editMenu.statusMessage = "View data."
+      form.CheckCommit(.T.)                        && Check transaction and
+      form.text = "Designation Titles Maintenance Form -- Edit Mode"          && change mode to Edit
+
+*     *form.notesEditor.modify = .T.
+      form.statusmessage = "In Edit Mode.  " + ;
+                           "Select menu Titles - View to switch " + ;
+                           "to View mode."
+        form.ptyp.Enabled = .F.
+
+       form.LnameEntry.SetFocus()
+
+   endif
+
+   inEditMode = form.inEditMode     && Faster if we don't reference a form
+   control = form.first             &&    variable each time through the loop
+   do
+      if .not. control.className $ "BROWSE,EDITOR,NEXTBUTTON,PREVBUTTON,PUSHBUTTON,IMAGE,TEXT"
+         control.enabled = inEditMode
+      endif
+      control = control.before
+   until control.name = form.first.name
+   *           form.gltyp.enabled = .f.
+   *    form.glname.Enabled = .F.
+   form.ptyp.Enabled = .F.
+       form.LnameEntry.SetFocus()
+
+
+   ****************************************************************************
+
+   procedure CheckChanged(callCommit)
+
+   * Check if changes have been made to the current entryfield.  This procedure
+   * is called from menu routines to make sure the form.changesMade gets
+   * updated when a menu is selected while the changed control has focus.
+   ****************************************************************************
+   private control, fieldValue, controlValue, typeText, typeValue
+
+   if form.inEditMode
+      control = form.activeControl
+      if type("control.datalink") <> "U"
+         fieldValue = control.datalink          && name of table field
+
+         typeText = type("control.text")
+         typeValue = type("control.value")
+         do case
+            case typeValue = "C"
+               controlValue = control.value
+            case typeValue $ "LU" .and. typeText = "C"
+               controlValue = control.text
+            otherwise
+               controlValue = Null
+         endcase
+         if controlValue <> &fieldValue
+            form.changesMade = .T.
+         endif
+      endif
+   endif
+   if form.changesMade .and. callCommit
+      CLASS::CheckCommit(form.inEditMode)     && Check transactions
+   endif
+
+      Procedure change_name
+        form.changesmade = .t.
+      form.updated = .t.
+    select oftitle
+    replace name with this.value
+   
+
+   
+   Procedure SST_OnChange
+   select oftitle
+   replace stitle with this.value
+         form.changesmade = .t.
+
+ENDCLASS
+Procedure OfTitles_rtn
+   private eofOfTitle,p1,p2
+   eofOfTitle = .f.
+   set safety off
+   select OfTitles
+  ZAP
+    set order to title
+     set safety on
+   select OfTitle
+   go top
+   if .not. eof()
+      do
+         do rtn1
+         until eofOfTitle
+     endif
+procedure rtn1
+       p1 = OfTitle->title
+      if .not. empty(OfTitle->name)
+      do rtn2
+      endif
+   select OfTitle
+   skip
+   if eof()
+   eofOfTitle = .t.
+   endif
+
+Procedure rtn2
+   select OfTitles
+      seek p1
+      if .not. found()
+      append blank
+       replace title with OfTitle->title
+        endif
+       replace name with OfTitle->name
+       replace stitle with OfTitle->stitle
+

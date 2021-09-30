@@ -1,0 +1,261 @@
+******************************************************************************
+*  PROGRAM:      Cashiers.mnu
+*
+*  WRITTEN BY:   W Nyongesa
+*
+*  DATE:         03/2001
+*
+*  UPDATED:      09/2012
+*
+*  REVISION:     $Revision:   1.58  $
+*
+*  VERSION:      Visual dBASE
+*
+*  DESCRIPTION:  This is a menu file used by Cashiers.WFM for
+*                performing simple tasks.  It allows adding and deleting
+*                records, searching for a value in the Type field of the
+*                current table viewed, and exiting the form in view.
+*
+*  PARAMETERS:   FormObj -- the form to which this menu will belong.
+*
+*  CALLS:        None
+*
+*  USAGE:        form.menuFile = "Cashiers.mnu"
+*
+*******************************************************************************
+#include <messdlg.h>
+
+** END HEADER -- do not remove this line*
+* Generated on 07/03/2001
+*
+Parameter FormObj
+NEW Cashiers(FormObj,"Root")
+CLASS Cashiers(FormObj,Name) OF MENUBAR(FormObj,Name)
+   this.Text = ""
+   this.OnInit = {;set procedure to SampProc.prg}
+
+   DEFINE MENU FILE OF THIS;
+       PROPERTY;
+         Text "&File"
+
+         DEFINE MENU EXIT OF THIS.FILE;
+             PROPERTY; 
+               StatusMessage "Return to the Previous Menu.",;
+               Text "&Return to Previous Menu",;
+               ShortCut "F4",;
+               OnClick CLASS::ONEXITALL
+
+        
+       DEFINE MENU SEPARATOR000 OF THIS.FILE;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+
+
+         DEFINE MENU QUITS OF THIS.FILE;
+             PROPERTY; 
+               StatusMessage "Leave Kenserve Integrated System.",;
+               Text "Exit",;
+               ShortCut "F8",;
+               OnClick CLASS::QUITALL
+               
+
+   DEFINE MENU Cashiers OF THIS;
+       PROPERTY;
+         Text "&Cash Point"
+
+         DEFINE MENU VIEWEDIT OF THIS.Cashiers;
+             PROPERTY;
+               OnClick CLASS::VIEWEDITONCLICK,;
+               Text "&Edit",;
+               Shortcut "Ctrl-E",;
+               StatusMessage "Edit data."
+
+         DEFINE MENU SEPARATOR1 OF THIS.Cashiers;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+
+         DEFINE MENU ADD OF THIS.Cashiers;
+             PROPERTY;
+               OnClick CLASS::ADDONCLICK,;
+               Text "&Add",;
+               Enabled .T.,;
+               Shortcut "Ctrl-A",;
+               StatusMessage "Add a new Cashier."
+
+         DEFINE MENU SEPARATOR2 OF THIS.Cashiers;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+
+
+  DEFINE MENU REPORT OF THIS;
+       PROPERTY;
+         Text "&Reports"
+
+         DEFINE MENU ERRORTypeSREPORT OF THIS.REPORT;
+             PROPERTY;
+               OnClick {;create session ;set lock off ;report form Cashiers},;
+               Text "&List Cash Collection Points.",;
+               enabled .t.,;
+               Shortcut "Ctrl-L"
+
+  
+  
+   ****************************************************************************
+   procedure AddOnClick
+
+   * Add new record.
+   ****************************************************************************
+   private addForm, newType, inEditMode
+           
+   form.CheckChanged(.T.)
+   if ConfirmationMessage("Are you sure you want to add a Cash Collection Point?",;
+                          "Confirmation") = YES
+       inEditMode = iif(type("form.curPage") <> "U", form.curPage.inEditMode,;
+                                                    form.inEditMode)
+      if .not. inEditMode
+         form.ViewEdit()                 && Make sure record is editable
+         endif
+
+                                            && and begin a transaction
+      form.changesMade = .F.            && Since we are adding a record
+             select Cashiers
+        form.previousRecord = recno()   
+     GO TOP
+      if empty(Cashiers->Cashr_no)
+      delete
+      endif
+      go bottom
+      local lcashr
+      if .not. empty(cashr_no) .and. cashr_no > "8"  && means has reached maximum
+      local l1
+       L1 = ""
+          if cashr_no = "9"
+             l1 = "A"
+           ENDIF
+            if cashr_no = "A"
+             l1 = "B"
+           ENDIF
+            if cashr_no = "B"
+             l1 = "C"
+           ENDIF
+            if cashr_no = "C"
+             l1 = "D"
+           ENDIF
+            if cashr_no = "D"
+             l1 = "E"
+           ENDIF
+            if cashr_no = "E"
+             l1 = "F"
+           ENDIF
+            if cashr_no = "F"
+             l1 = "G"
+           ENDIF
+            if cashr_no = "G"
+             l1 = "H"
+           ENDIF
+            if cashr_no = "H"
+             l1 = "I"
+           ENDIF
+            if cashr_no = "I"
+             l1 = "J"
+           ENDIF
+            if cashr_no = "J"
+             l1 = "K"
+           ENDIF
+            if cashr_no = "K"
+             l1 = "L"
+           ENDIF
+            if cashr_no = "L"
+             l1 = "M"
+           ENDIF
+            if cashr_no = "M"
+             l1 = "N"
+           ENDIF
+            if cashr_no = "N"
+             l1 = "O"
+           ENDIF
+            if cashr_no = "O"
+             l1 = "P"
+           ENDIF
+            if cashr_no = "P"
+             l1 = "Q"
+           ENDIF
+            if cashr_no = "Q"
+             l1 = "R"
+           ENDIF
+            if cashr_no = "R"
+             l1 = "S"
+           ENDIF
+            if cashr_no = "S"
+             l1 = "T"
+           ENDIF
+            if cashr_no = "T"
+             l1 = "U"
+           ENDIF
+            if cashr_no = "U"
+             l1 = "V"
+           ENDIF
+            if cashr_no = "V"
+             l1 = "W"
+           ENDIF
+            if cashr_no = "W"
+             l1 = "X"
+           ENDIF
+            if cashr_no = "X"
+             l1 = "Y"
+           ENDIF
+            if cashr_no = "Y"
+             l1 = "Z"
+           ENDIF
+            IF .NOT. EMPTY(L1)
+            SELECT CASHIERS
+            APPEND BLANK
+            REPLACE CASHR_NO WITH L1
+            REPLACE A_CASH WITH 0
+            ENDIF
+            FORM.CHANGESMADE = .T.
+           form.lnameentry.setfocus()
+      else  && below 9
+      lcashr = val(Cashr_no) + 1 && current Type code
+      if eof()
+      append blank
+      replace Cashr_no with "1"
+        replace a_cash with 0
+        else
+      if lcashr < 10
+      append blank
+      replace Cashr_no with str(lcashr,1)
+      replace a_cash with 0
+     
+       replace name with "Type Responsibility Here"
+      endif
+      endif
+            form.lnameentry.setfocus()
+     endif
+     endif
+       
+   ***************************************************************************
+   procedure ViewEditOnClick
+   ****************************************************************************
+
+   form.ViewEdit()
+
+ 
+   ****************************************************************************
+     procedure OnExitALL
+   
+  
+   ****************************************************************************
+   *      form.close()  
+     form.Release()
+   Procedure QUITALL
+            form.Release()
+            QUIT
+  
+ENDCLASS
+
+
+

@@ -229,7 +229,9 @@ endif
        else
        form.cname.enabled = .f.
        endif
-       if  FORM.BLEVEL  < 4 .and.  .not. (Frighter->source < "4" .or. Frighter->source = "9" .or. Frighter->source = "B")
+       if  FORM.BLEVEL  < 4 .and.;
+         .not. (Frighter->source < "4" .or. Frighter->source = "9";
+          .or. Frighter->source = "B")
        FORM.SCLMT.ENABLED = .t.
        else
        FORM.SCLMT.ENABLED = .f.
@@ -256,7 +258,7 @@ endif
    
   
    ****************************************************************************
-   *      form.close()  
+    *    form.close()  
      form.Release()
    Procedure QUITALL
             form.Release()

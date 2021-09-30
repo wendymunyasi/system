@@ -1,0 +1,50 @@
+* Visual dBASE .QBE file 9
+close databases
+*on error do vnstruct.prg
+close databases
+ON ERROR DO QBEERR WITH ERROR(), MESSAGE(),;
+PROGRAM(), LINENO()
+CLOSE DATABASES
+SET EXACT ON
+*SET EXCLUSIVE ON
+PUSER = BUSER
+PLEVEL = BLEVEL
+SELECT 1
+USE \KENSERVICE\DATA\vendor.DBf order tag vendor
+*ZAP
+set filter to empty(open_date)
+SELECT 2
+USE \KENSERVICE\DATA\vennames.DBF
+*ZAP
+SELECT 3
+USE \KENSERVICE\DATA\apvsrceS.DBF  order tag name
+IF PLEVEL > 3
+SET FILTER TO VSRCE = "2"
+ELSE
+SET FILTER TO .NOT. VSRCE = '1'
+ENDIF
+select 4
+use \kenservice\data\apvsrce.dbf order tag vsrce
+SELECT 5
+USE \KENSERVICE\DATA\apvtyps.DBF order tag name
+select 6
+use \kenservice\data\apvtyp.dbf order tag vtyp
+SELECT 7
+USE \KENSERVICE\DATA\apvpmods.DBF order tag name
+select 8
+use \kenservice\data\apvpmod.dbf order tag vpmod
+
+select 19
+use \kenservice\data\fgmastp.dbf ORDER TAG name
+SELECT 23
+USE \KENSERVICE\DATA\VENDOR.DBF AGAIN ALIAS VENDOR3
+select 24
+USE \KENSERVICE\DATA\apaships.DBF order tag name
+select 25
+use \kenservice\data\fgcoy.dbf
+SELECT 26
+USE \KENSERVICE\DATA\VENDOR.DBF AGAIN ALIAS VENDOR4 order tag  name
+SELECT 1
+SET RELATION TO  codname into fgmastp, vsrce into apvsrce, vtyp into apvtyp, vpmod into apvpmod
+SELECT 1
+GO TOP

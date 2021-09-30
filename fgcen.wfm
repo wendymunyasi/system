@@ -1,0 +1,1299 @@
+////////////////////////////////////////////////////////////////////////////////
+// Output Filename: C:\KENSERVICE\IDSSYS\FGCEN_FCV.WFM                        //
+// Created By:      dBASE Form Converter Wizard                               //
+// Created On:      Sunday June 12, 2016 At 18:31:57                          //
+// Object Count:    49                                                        //
+////////////////////////////////////////////////////////////////////////////////
+*******************************************************************************
+*  PROGRAM:      fgcen.wfm
+*
+*  WRITTEN BY:   W Nyongesa
+*
+*  DATE:         05/2000
+*
+*  UPDATED:     01/2016
+*
+*  REVISION:     $Revision:   1.0
+*
+*  VERSION:      Visual dBASE
+*
+*  DESCRIPTION:  This program maintains the Centre master file
+*
+*  PARAMETERS:   None
+*
+*  CALLS:        fgcen.mnu         (Menu file)
+*                KBUTTONS.CC          (Custom Controls file)
+*                Centre Code.qbe         (View of tables)
+*
+*  USAGE:        DO fgcen.wfm
+*
+*******************************************************************************
+#include <messdlg.h>
+shell(.F.)
+create session
+set talk off
+set century on
+_app.FrameWin.Visible = .F.
+set design off
+_app.FrameWin.Text = "fgcen"
+set ldCheck off && To avoid language driver conflicts
+#define Maxcoy 999
+** END HEADER -- do not remove this line
+//
+// Generated on 10/07/2016
+//
+parameter bUser,bLevel,bModal
+local f
+f = new fgcenFORM()
+if (bModal)
+   f.mdi = false // ensure not MDI
+   f.readModal()
+else
+   f.open()
+endif
+
+class fgcenFORM of FORM
+   with (this)
+      onClose = class::ONCLOSE
+      open = class::OPEN
+      metric = 6	// Pixels
+      colorNormal = "N+"
+      height = 932.0
+      left = 0.0
+      top = 0.0
+      width = 1284.0
+      text = "Operational Centres Maintenance"
+      windowState = 2	// Normal
+      mdi = false
+      sizeable = false
+      moveable = false
+      view = "fgcen.QBE"
+      menuFile = "FGCEN.MNU"
+      escExit = false
+      mousePointer = 1	// Arrow
+      maximize = false
+      minimize = false
+   endwith
+
+   this.CODETEXT = new TEXTLABEL(this)
+   with (this.CODETEXT)
+      height = 18.0
+      left = 0.0
+      top = 22.0
+      width = 121.0
+      text = "Select Company:"
+      colorNormal = "B/BtnFace"
+      fontName = "MS Sans Serif"
+      fontBold = true
+      alignVertical = 1	// Middle
+      alignHorizontal = 2	// Right
+   endwith
+
+   this.SCOY = new COMBOBOX(this)
+   with (this.SCOY)
+      dataLink = "fgcenS->COYN"
+      enabled = false
+      height = 26.0
+      left = 224.0
+      top = 22.0
+      width = 380.0
+      fontName = "Arial Black"
+      fontBold = true
+      colorNormal = "B/BtnFace"
+      dataSource = "FIELD fgcoyS->NAME"
+      style = 2	// DropDownList
+      dropDownHeight = 132.0
+   endwith
+
+   this.TEXT4 = new TEXTLABEL(this)
+   with (this.TEXT4)
+      height = 18.0
+      left = 0.0
+      top = 66.0
+      width = 120.0
+      text = "Select Division:"
+      colorNormal = "B/BtnFace"
+      fontName = "MS Sans Serif"
+      fontBold = true
+      alignVertical = 1	// Middle
+      alignHorizontal = 2	// Right
+   endwith
+
+   this.SDIV = new COMBOBOX(this)
+   with (this.SDIV)
+      dataLink = "fgcenS->DIVN"
+      enabled = false
+      height = 26.0
+      left = 0.0
+      top = 88.0
+      width = 217.0
+      fontName = "Arial Black"
+      fontBold = true
+      colorNormal = "B/BtnFace"
+      dataSource = "FIELD fgdivS->NAME"
+      style = 2	// DropDownList
+      dropDownHeight = 132.0
+   endwith
+
+   this.RECTANGLE1 = new RECTANGLE(this)
+   with (this.RECTANGLE1)
+      left = 224.0
+      top = 55.0
+      width = 388.0
+      height = 319.0
+      text = "CURRENT CENTRE INFORMATION"
+      fontName = "MS Sans Serif"
+      fontBold = true
+   endwith
+
+   this.TEXT2 = new TEXTLABEL(this)
+   with (this.TEXT2)
+      height = 25.0
+      left = 245.0
+      top = 77.0
+      width = 192.0
+      text = "COMPANY/PLANT CODE:"
+      colorNormal = "B/BtnFace"
+      fontName = "MS Sans Serif"
+      fontBold = true
+      alignVertical = 1	// Middle
+      alignHorizontal = 2	// Right
+   endwith
+
+   this.COYCOD = new ENTRYFIELD(this)
+   with (this.COYCOD)
+      dataLink = "fgcen->Coy"
+      enabled = false
+      height = 18.0
+      left = 448.0
+      top = 77.0
+      width = 24.0
+      function = "!"
+      colorNormal = "N/BtnFace"
+      colorHighLight = "B+/W*"
+      fontName = "MS Sans Serif"
+      fontBold = true
+   endwith
+
+   this.COYDISPLAY = new ENTRYFIELD(this)
+   with (this.COYDISPLAY)
+      dataLink = "fgcoy->Name"
+      enabled = false
+      height = 18.0
+      left = 238.0
+      top = 110.0
+      width = 360.0
+      function = "!"
+      colorNormal = "N/BtnFace"
+      colorHighLight = "B+/W*"
+      fontName = "MS Sans Serif"
+      fontBold = true
+   endwith
+
+   this.SNAMETEXT = new TEXTLABEL(this)
+   with (this.SNAMETEXT)
+      height = 26.0
+      left = 245.0
+      top = 165.0
+      width = 132.0
+      text = "DIVISION CODE:"
+      colorNormal = "B/BtnFace"
+      fontName = "MS Sans Serif"
+      fontBold = true
+      alignVertical = 1	// Middle
+      alignHorizontal = 2	// Right
+   endwith
+
+   this.DIVCODE = new ENTRYFIELD(this)
+   with (this.DIVCODE)
+      dataLink = "fgcen->Div"
+      enabled = false
+      height = 21.0
+      left = 399.0
+      top = 165.0
+      width = 24.0
+      function = "!"
+      colorNormal = "N/BtnFace"
+      colorHighLight = "B+/W*"
+      fontName = "MS Sans Serif"
+      fontBold = true
+   endwith
+
+   this.DIVNAME = new ENTRYFIELD(this)
+   with (this.DIVNAME)
+      dataLink = "FGDIV->NAME"
+      enabled = false
+      height = 18.0
+      left = 231.0
+      top = 187.0
+      width = 360.0
+      function = "!"
+      colorNormal = "N/BtnFace"
+      colorHighLight = "B+/W*"
+      fontName = "MS Sans Serif"
+      fontBold = true
+   endwith
+
+   this.TEXT3 = new TEXTLABEL(this)
+   with (this.TEXT3)
+      height = 25.0
+      left = 245.0
+      top = 209.0
+      width = 132.0
+      text = "CENTRE CODE:"
+      colorNormal = "B/BtnFace"
+      fontName = "MS Sans Serif"
+      fontBold = true
+      alignVertical = 1	// Middle
+      alignHorizontal = 2	// Right
+   endwith
+
+   this.CENCODE = new ENTRYFIELD(this)
+   with (this.CENCODE)
+      dataLink = "fgcen->Cen"
+      enabled = false
+      height = 21.0
+      left = 399.0
+      top = 209.0
+      width = 48.0
+      function = "!"
+      colorNormal = "N/BtnFace"
+      colorHighLight = "B+/W*"
+      fontName = "MS Sans Serif"
+      fontBold = true
+   endwith
+
+   this.TEXT1 = new TEXTLABEL(this)
+   with (this.TEXT1)
+      height = 25.0
+      left = 231.0
+      top = 231.0
+      width = 192.0
+      text = "DESCRIPTION"
+      colorNormal = "B/BtnFace"
+      fontName = "MS Sans Serif"
+      fontBold = true
+      alignVertical = 1	// Middle
+      alignHorizontal = 2	// Right
+   endwith
+
+   this.LNAMEENTRY = new ENTRYFIELD(this)
+   with (this.LNAMEENTRY)
+      onChange = class::LNAMEENTRY_ONCHANGE
+      valid = class::LNAMEENTRY_VALID
+      dataLink = "fgcen->name"
+      enabled = false
+      height = 20.0
+      left = 231.0
+      top = 253.0
+      width = 360.0
+      function = "!"
+      colorNormal = "N/BtnFace"
+      colorHighLight = "B+/W*"
+      fontName = "MS Sans Serif"
+      fontSize = 8.0
+      fontBold = true
+      validRequired = true
+      validErrorMsg = "Centre Description Required!"
+   endwith
+
+   this.TEXT8 = new TEXTLABEL(this)
+   with (this.TEXT8)
+      height = 25.0
+      left = 238.0
+      top = 286.0
+      width = 120.0
+      text = "Centre In Use:"
+      colorNormal = "G+/silver"
+      fontName = "MS Sans Serif"
+      fontBold = true
+      alignVertical = 1	// Middle
+      alignHorizontal = 2	// Right
+   endwith
+
+   this.SYES = new RADIOBUTTON(this)
+   with (this.SYES)
+      onChange = class::SYES_ONCHANGE
+      dataLink = "FGCEN->USED"
+      enabled = false
+      height = 19.0
+      left = 371.0
+      top = 286.0
+      width = 75.0
+      text = "Yes"
+      colorNormal = "navy/silver"
+      fontName = "MS Sans Serif"
+      fontBold = true
+      group = true
+   endwith
+
+   this.SNO = new RADIOBUTTON(this)
+   with (this.SNO)
+      onChange = class::SNO_ONCHANGE
+      dataLink = "FGCEN->USED"
+      enabled = false
+      height = 19.0
+      left = 490.0
+      top = 286.0
+      width = 75.0
+      text = "No"
+      colorNormal = "navy/silver"
+      fontName = "MS Sans Serif"
+      fontBold = true
+   endwith
+
+   this.TEXT11 = new TEXTLABEL(this)
+   with (this.TEXT11)
+      height = 25.0
+      left = 238.0
+      top = 308.0
+      width = 120.0
+      text = "Fuel Island:"
+      colorNormal = "G+/silver"
+      fontName = "MS Sans Serif"
+      fontBold = true
+      alignVertical = 1	// Middle
+      alignHorizontal = 2	// Right
+   endwith
+
+   this.SFULYES = new RADIOBUTTON(this)
+   with (this.SFULYES)
+      onChange = class::SFULYES_ONCHANGE
+      dataLink = "FGCEN->fuels"
+      enabled = false
+      height = 19.0
+      left = 371.0
+      top = 308.0
+      width = 75.0
+      text = "Yes"
+      colorNormal = "navy/silver"
+      fontName = "MS Sans Serif"
+      fontBold = true
+      group = true
+   endwith
+
+   this.SFUNO = new RADIOBUTTON(this)
+   with (this.SFUNO)
+      onChange = class::SFUNO_ONCHANGE
+      dataLink = "FGCEN->fuels"
+      enabled = false
+      height = 19.0
+      left = 490.0
+      top = 308.0
+      width = 75.0
+      text = "No"
+      colorNormal = "navy/silver"
+      fontName = "MS Sans Serif"
+      fontBold = true
+   endwith
+
+   this.RECTANGLE2 = new RECTANGLE(this)
+   with (this.RECTANGLE2)
+      left = 35.0
+      top = 495.0
+      width = 564.0
+      height = 154.0
+      text = "OTHER CENTRE/COMMISSION RATE "
+      fontName = "MS Sans Serif"
+      fontBold = true
+   endwith
+
+   this.TEXT5 = new TEXTLABEL(this)
+   with (this.TEXT5)
+      height = 25.0
+      left = 84.0
+      top = 517.0
+      width = 132.0
+      text = "COMPANY :"
+      colorNormal = "B/BtnFace"
+      fontName = "MS Sans Serif"
+      fontBold = true
+      alignHorizontal = 2	// Right
+   endwith
+
+   this.SCOY1 = new ENTRYFIELD(this)
+   with (this.SCOY1)
+      dataLink = "FGCEN->COY1"
+      enabled = false
+      height = 21.0
+      left = 245.0
+      top = 517.0
+      width = 48.0
+      function = "!"
+      colorNormal = "N/BtnFace"
+      colorHighLight = "B+/W*"
+      fontName = "MS Sans Serif"
+      fontBold = true
+   endwith
+
+   this.SCOY11 = new ENTRYFIELD(this)
+   with (this.SCOY11)
+      dataLink = "FGCOY2->NAME"
+      enabled = false
+      height = 18.0
+      left = 308.0
+      top = 517.0
+      width = 288.0
+      function = "!"
+      colorNormal = "N/BtnFace"
+      colorHighLight = "B+/W*"
+      fontName = "MS Sans Serif"
+      fontBold = true
+   endwith
+
+   this.TEXT6 = new TEXTLABEL(this)
+   with (this.TEXT6)
+      height = 25.0
+      left = 84.0
+      top = 539.0
+      width = 132.0
+      text = "DIVISION:"
+      colorNormal = "B/BtnFace"
+      fontName = "MS Sans Serif"
+      fontBold = true
+      alignHorizontal = 2	// Right
+   endwith
+
+   this.SDIV1 = new ENTRYFIELD(this)
+   with (this.SDIV1)
+      dataLink = "FGCEN->DIV1"
+      enabled = false
+      height = 21.0
+      left = 245.0
+      top = 539.0
+      width = 48.0
+      function = "!"
+      colorNormal = "N/BtnFace"
+      colorHighLight = "B+/W*"
+      fontName = "MS Sans Serif"
+      fontBold = true
+   endwith
+
+   this.SDIV11 = new ENTRYFIELD(this)
+   with (this.SDIV11)
+      dataLink = "FGDIV2->NAME"
+      enabled = false
+      height = 18.0
+      left = 308.0
+      top = 539.0
+      width = 288.0
+      function = "!"
+      colorNormal = "N/BtnFace"
+      colorHighLight = "B+/W*"
+      fontName = "MS Sans Serif"
+      fontBold = true
+   endwith
+
+   this.TEXT7 = new TEXTLABEL(this)
+   with (this.TEXT7)
+      height = 25.0
+      left = 84.0
+      top = 583.0
+      width = 132.0
+      text = "CENTRE:"
+      colorNormal = "B/BtnFace"
+      fontName = "MS Sans Serif"
+      fontBold = true
+      alignHorizontal = 2	// Right
+   endwith
+
+   this.SCEN1 = new ENTRYFIELD(this)
+   with (this.SCEN1)
+      dataLink = "FGCEN->CEN1"
+      enabled = false
+      height = 21.0
+      left = 245.0
+      top = 583.0
+      width = 48.0
+      function = "!"
+      colorNormal = "N/BtnFace"
+      colorHighLight = "B+/W*"
+      fontName = "MS Sans Serif"
+      fontBold = true
+   endwith
+
+   this.SCEN11 = new ENTRYFIELD(this)
+   with (this.SCEN11)
+      dataLink = "FGCEN4->NAME"
+      enabled = false
+      height = 20.0
+      left = 308.0
+      top = 583.0
+      width = 288.0
+      function = "!"
+      colorNormal = "N/BtnFace"
+      colorHighLight = "B+/W*"
+      fontName = "MS Sans Serif"
+      fontSize = 8.0
+      fontBold = true
+   endwith
+
+   this.TEXT9 = new TEXTLABEL(this)
+   with (this.TEXT9)
+      height = 25.0
+      left = 84.0
+      top = 616.0
+      width = 132.0
+      text = "DAY RATE:"
+      colorNormal = "B/BtnFace"
+      fontName = "MS Sans Serif"
+      fontBold = true
+      alignHorizontal = 2	// Right
+   endwith
+
+   this.TEXT10 = new TEXTLABEL(this)
+   with (this.TEXT10)
+      height = 25.0
+      left = 301.0
+      top = 616.0
+      width = 132.0
+      text = "NIGHT RATE:"
+      colorNormal = "B/BtnFace"
+      fontName = "MS Sans Serif"
+      fontBold = true
+      alignHorizontal = 2	// Right
+   endwith
+
+   this.DAYRATE = new ENTRYFIELD(this)
+   with (this.DAYRATE)
+      onChange = class::DAYRATE_ONCHANGE
+      valid = class::DAYRATE_VALID
+      dataLink = "fgcen->DAY_RATE"
+      enabled = false
+      height = 21.0
+      left = 238.0
+      top = 616.0
+      width = 72.0
+      picture = "99.999"
+      colorNormal = "N/BtnFace"
+      colorHighLight = "B+/W*"
+      fontName = "MS Sans Serif"
+      fontBold = true
+      validRequired = true
+      validErrorMsg = "Rate cannot be less than zero!"
+   endwith
+
+   this.NIGHTRATE = new ENTRYFIELD(this)
+   with (this.NIGHTRATE)
+      onChange = class::NIGHTRATE_ONCHANGE
+      valid = class::NIGHTRATE_VALID
+      dataLink = "fgcen->NIGHT_RATE"
+      enabled = false
+      height = 21.0
+      left = 455.0
+      top = 616.0
+      width = 72.0
+      picture = "99.999"
+      colorNormal = "N/BtnFace"
+      colorHighLight = "B+/W*"
+      fontName = "MS Sans Serif"
+      fontBold = true
+      validErrorMsg = "Rate Cannot Be Less Than zerp!"
+   endwith
+
+   this.RECTANGLE3 = new RECTANGLE(this)
+   with (this.RECTANGLE3)
+      left = 14.0
+      top = 385.0
+      width = 806.0
+      height = 75.0
+      text = "COMPANY CUSTOMER NO INFORMATION"
+      fontName = "MS Sans Serif"
+      fontBold = true
+   endwith
+
+   this.TEXT12 = new TEXTLABEL(this)
+   with (this.TEXT12)
+      height = 26.0
+      left = 21.0
+      top = 407.0
+      width = 192.0
+      text = "Select Company Customer:"
+      colorNormal = "B/BtnFace"
+      fontName = "MS Sans Serif"
+      fontBold = true
+      alignVertical = 1	// Middle
+      alignHorizontal = 2	// Right
+   endwith
+
+   this.SCUST = new COMBOBOX(this)
+   with (this.SCUST)
+      onChange = class::SCUST_ONCHANGE
+      dataLink = "FGCEN->CUSTNAME"
+      enabled = false
+      height = 26.0
+      left = 217.0
+      top = 407.0
+      width = 324.0
+      fontName = "Arial Black"
+      fontBold = true
+      colorNormal = "B/BtnFace"
+      dataSource = "FIELD FGMCUSTS->NAME"
+      style = 1	// DropDown
+      dropDownHeight = 132.0
+   endwith
+
+   this.TEXT13 = new TEXTLABEL(this)
+   with (this.TEXT13)
+      height = 26.0
+      left = 546.0
+      top = 407.0
+      width = 102.0
+      text = "Customer No:"
+      colorNormal = "B/BtnFace"
+      fontName = "MS Sans Serif"
+      fontBold = true
+      alignVertical = 1	// Middle
+      alignHorizontal = 2	// Right
+   endwith
+
+   this.SCUSTNO = new ENTRYFIELD(this)
+   with (this.SCUSTNO)
+      onChange = class::SCUSTNO_ONCHANGE
+      dataLink = "FGCEN->CUST_NO"
+      enabled = false
+      height = 26.0
+      left = 651.0
+      top = 407.0
+      width = 149.0
+      function = "!"
+      colorNormal = "N/BtnFace"
+      colorHighLight = "B+/W*"
+      fontName = "MS Sans Serif"
+      fontBold = true
+   endwith
+
+   this.SCOY3 = new ENTRYFIELD(this)
+   with (this.SCOY3)
+      dataLink = "fgcoy->street"
+      enabled = false
+      height = 18.0
+      left = 238.0
+      top = 132.0
+      width = 360.0
+      function = "!"
+      colorNormal = "N/BtnFace"
+      colorHighLight = "B+/W*"
+      fontName = "MS Sans Serif"
+      fontBold = true
+   endwith
+
+   this.SPLANT = new ENTRYFIELD(this)
+   with (this.SPLANT)
+      dataLink = "FGCEN->PLANT_CODE"
+      enabled = false
+      height = 18.0
+      left = 504.0
+      top = 77.0
+      width = 42.0
+      function = "!"
+      colorNormal = "N/BtnFace"
+      colorHighLight = "B+/W*"
+      fontName = "MS Sans Serif"
+      fontBold = true
+   endwith
+
+   this.TEXT14 = new TEXTLABEL(this)
+   with (this.TEXT14)
+      height = 25.0
+      left = 238.0
+      top = 341.0
+      width = 120.0
+      text = "Expense Centre:"
+      colorNormal = "G+/silver"
+      fontName = "MS Sans Serif"
+      fontBold = true
+      alignVertical = 1	// Middle
+      alignHorizontal = 2	// Right
+   endwith
+
+   this.SEXPY = new RADIOBUTTON(this)
+   with (this.SEXPY)
+      onChange = class::SEXPY_ONCHANGE
+      dataLink = "FGCEN->EXPENSE"
+      enabled = false
+      height = 19.0
+      left = 371.0
+      top = 341.0
+      width = 75.0
+      text = "Yes"
+      colorNormal = "navy/silver"
+      fontName = "MS Sans Serif"
+      fontBold = true
+      group = true
+   endwith
+
+   this.SEXPN = new RADIOBUTTON(this)
+   with (this.SEXPN)
+      onChange = class::SEXPN_ONCHANGE
+      dataLink = "FGCEN->EXPENSE"
+      enabled = false
+      height = 19.0
+      left = 490.0
+      top = 341.0
+      width = 75.0
+      text = "No"
+      colorNormal = "navy/silver"
+      fontName = "MS Sans Serif"
+      fontBold = true
+   endwith
+
+   this.PREVBUTTON = new PUSHBUTTON(this)
+   with (this.PREVBUTTON)
+      onClick = class::PREVIOUS
+      height = 26.0
+      left = 105.0
+      top = 704.0
+      width = 85.0
+      text = "&PREVIOUS"
+      fontName = "MS Sans Serif"
+      fontSize = 8.0
+      fontBold = true
+   endwith
+
+   this.NEXTBUTTON = new PUSHBUTTON(this)
+   with (this.NEXTBUTTON)
+      onClick = class::NEXT
+      height = 26.0
+      left = 189.0
+      top = 704.0
+      width = 85.0
+      text = "&NEXT"
+      fontName = "MS Sans Serif"
+      fontSize = 8.0
+      fontBold = true
+   endwith
+
+   this.FIRSTBUTTON = new PUSHBUTTON(this)
+   with (this.FIRSTBUTTON)
+      onClick = {; form.CheckCommit(form.inEditMode);GO TOP;}
+      height = 26.0
+      left = 280.0
+      top = 704.0
+      width = 85.0
+      text = "F&IRST"
+      fontName = "MS Sans Serif"
+      fontSize = 8.0
+      fontBold = true
+   endwith
+
+   this.LASTBUTTON = new PUSHBUTTON(this)
+   with (this.LASTBUTTON)
+      onClick = {; form.CheckCommit(form.inEditMode);GO BOTTOM;}
+      height = 26.0
+      left = 371.0
+      top = 704.0
+      width = 85.0
+      text = "&LAST"
+      fontName = "MS Sans Serif"
+      fontSize = 8.0
+      fontBold = true
+   endwith
+
+
+   procedure Open
+   ****************************************************************************
+   private CodeField,PFCOY,PFDUIV
+   form.firstime = .T.
+      FORM.BLUSER=BUSER
+   FORM.BLEVEL=BLEVEL
+   IF EMPTY(FORM.BLUSER) .OR. EMPTY(FORM.BLEVEL)
+      QUIT
+      ENDIF
+   if type("form.init") = "U"
+      form.init = .T.
+
+      set skip to                     && fgcen.qbe contains set skip to gldtl
+      set exact off                   && the .qbe file contains SET EXACT ON
+
+      set procedure to sampProc.prg additive
+    Form.duplicate = .F.
+      form.inEditMode = .F.           && indicator of view/edit state
+      form.changesMade = .F.          && indicator of changes made to field values
+      form.previousRecord = .F.       && Save record number when appending
+      form.updated = .f.
+      form.pcoy = ""
+      form.pdiv = ""
+      form.pcoyn = ""
+      form.pdivn = ""
+        *** do calculations in another area so form doesn't get updated
+        select nlcc
+        set order to ccentre
+        select fgcen3
+        set order to mkey
+        SELECT fgdivS
+        SET ORDER TO NAME
+        SELECT fgcoyS
+        SET ORDER TO NAME
+        GO TOP
+        IF EOF()
+        form.root.fgcen.add.enabled = .F.
+        ELSE
+        FORM.PCOY = COY
+        PFCOY = COY
+        SELECT fgdivS
+        GO TOP
+        IF EOF()
+         form.root.fgcen.add.enabled = .F.
+         ELSE
+         SELECT fgdivS
+       * SET FILTER TO COY = PFCOY
+         GO TOP
+         IF EOF()
+          form.root.fgcen.add.enabled = .F.
+          ENDIF
+          ENDIF
+          ENDIF
+          SELECT CASHIERS
+          SET ORDER TO CASHIER
+   SELECT VEHCASHR
+   SET ORDER TO MKEY
+      select fgcen
+      set order to mkey
+    GO TOP                                  && new Receipts
+   if empty(coy) .or. empty(DIV) .OR. EMPTY(CEN)
+   delete
+   endif
+
+
+      *** Open table for calculating totals and balance due in another work area
+      *** so that datalinks are not affected by record movements
+
+
+      ***
+    *  if type("form.parentpayeeForm") <> "U" && Esc ok if have parent
+    *     form.escExit = .T.
+   *   endif
+
+   endif
+   * form.CoyInfoButton.KenpName = "fgcen.WFM"
+
+   form::Open()                         && Now the form actually opens
+   *    form.BrowseOnNavigate()              && calculate totals
+   *       form.codingerrors()                        && check coding errors
+
+   *      form.next.setfocus()
+   ****************************************************************************
+
+   procedure OnClose
+
+   * Clean up.
+   ****************************************************************************
+     form.CheckCommit(form.inEditMode)
+   if this.inEditMode
+      form.ViewEdit()                      && Finish transaction
+   endif
+   select fgcen
+   DELETE ALL FOR Empty(fgcen->coy) .or. empty(fgcen->cen) .OR. EMPTY(DIV)
+    if form.updated  .and. .not. validdrive("Z:") .and.  .not. validdrive("W:")  .and.  .not. validdrive("Y:");
+      .and.  .not. validdrive("X:")
+    do fgcens_rtn
+    endif
+     close procedure SAMPProc.prg
+   close databases
+
+   ****************************************************************************
+
+   procedure BrowseOnNavigate
+   ****************************************************************************
+
+
+
+   ****************************************************************************
+
+   procedure ChangesMade
+
+   * Indicate that changes have been made to the current record
+   ****************************************************************************
+   Form.ChangesMade = .T.
+   ****************************************************************************
+
+   procedure CheckCommit (newInEditMode)
+
+        * Finish transaction, if it has been started.
+   ****************************************************************************
+   private CodeField, changesMade
+    local lk1,lk2
+     changesMade = form.changesMade
+   if form.changesMade
+      CodeField = field(2)  && Field fgcen
+      if     ConfirmationMessage("Commit changes?",;
+                FormatStr("Centre %1",&CodeField)) = YES
+         commit()
+       form.updated = .t.
+      else
+         rollback()
+         if .not. bof()
+       *  if .not. empty(form.previousRecord)
+   *            go bookmark()
+           * form.previousRecord
+            form.previousRecord = .F.
+         endif
+      endif
+
+      if form.inEditMode .and. newInEditMode
+         begintrans()
+      endif
+      form.changesMade = .F.
+   endif
+   if form.inEditMode <> newInEditMode
+      if newInEditMode                       && Going to Edit mode
+         begintrans()
+      else                                   && Going to View mode
+         if .not. changesMade .AND. .NOT. FORM.DUPLICATE
+            rollback()
+         endif
+      endif
+      form.inEditMode = newInEditMode
+   endif
+
+   * form.root.Receipt.add.enabled = .T.
+   *form.codingerrors()
+   ****************************************************************************
+
+   function DAYRATE_onChange
+          select fgcen
+      replace day_rate with this.value
+      form.changesmade = .t.
+      return
+
+   function DAYRATE_valid
+      if this.value < 0
+      endif
+      return true
+
+   function LNAMEENTRY_onChange
+       SELECT FGCEN
+       REPLACE NAME WITH THIS.VALUE
+       form.changesmade = .t.
+      return
+
+   function LNAMEENTRY_valid
+      if empty(this.value)
+      isvalid = .f.
+      else
+      isvalid = .t.
+      endif
+      return true
+
+   function NIGHTRATE_onChange
+          select fgcen
+      replace night_rate with this.value
+      form.changesmade = .t.
+      return
+
+   function NIGHTRATE_valid
+      if this.value < 0
+      endif
+      return true
+
+   procedure ViewEdit
+
+   * Toggle between View and Edit modes.
+   ****************************************************************************
+   local inEditMode, editMenu, control
+
+   editMenu = form.root.fgcen.VIEWEdit
+
+   *** If ending edit mode then close transaction, otherwise open it.
+   if form.inEditMode
+      form.checkChanged(.F.)
+      editMenu.text = "&Edit"
+      editMenu.shortcut = "Ctrl-E"
+      editMenu.statusMessage = "Edit data."
+      form.CheckCommit(.F.)                        && Check transaction and
+      form.text = "Operational Centre -- View Mode"          && change mode to View
+   *      form.notesEditor.colorNormal = "N/W"
+   *      form.childBrowse.modify = .F.
+   *      form.notesEditor.modify = .F.
+      form.statusmessage = "In View Mode. " + ;
+                           "Select Centre Code - Edit menu to " + ;
+                           "edit/delete data."
+     else                                            && Switch to edit mode
+      editMenu.text = "Vi&ew"
+      editMenu.shortcut = "Ctrl-E"
+      editMenu.statusMessage = "View data."
+      form.CheckCommit(.T.)                        && Check transaction and
+      form.text = "Operational Centre -- Edit Mode"          && change mode to Edit
+
+   *     form.notesEditor.modify = .T.
+      form.statusmessage = "In Edit Mode.  " + ;
+                           "Select menu Centre Code - View to switch " + ;
+                           "to View mode."
+
+
+   endif
+
+   inEditMode = form.inEditMode     && Faster if we don't reference a form
+   control = form.first             &&    variable each time through the loop
+   do
+      if .not. control.className $ "BROWSE,EDITOR,NEXTBUTTON,PREVBUTTON,PUSHBUTTON,IMAGE,TEXT"
+         control.enabled = inEditMode
+      endif
+      control = control.before
+   until control.name = form.first.name
+     form.DIVCODE.Enabled = .F.
+      form.coydisplay.enabled =.F.
+         FORM.COYCOD.ENABLED = .F.
+      FORM.CENCODE.ENABLED = .F.
+        FORM.DIVNAME.ENABLED = .F.
+        FORM.SCOY11.ENABLED = .F.
+        FORM.SDIV11.ENABLED = .F.
+        FORM.SCEN11.ENABLED = .F.
+             if FORM.BLEVEL > 1
+        form.scoy1.enabled = .f.
+        form.sdiv1.enabled = .f.
+        form.scen1.enabled = .f.
+        form.sfulyes.enabled = .f.
+        form.sfuno.enabled = .f.
+        endif
+        form.SCOY.Enabled = .F.
+        form.sdiv.enabled = .f.
+         form.DIVCODE.Enabled = .F.
+         form.coydisplay.enabled =.F.
+         if form.blevel  > 3
+         form.dayrate.enabled = .f.
+         form.nightrate.enabled = .f.
+         endif
+         form.scustno.enabled = .f.
+         form.scoy3.enabled = .f.
+         form.splant.enabled = .f.
+         if .not.  form.blevel = 1
+         form.scust.enabled = .f.
+         endif
+   if   form.blevel > 3
+   form.LNAMEENTRY.enabled =.f.
+   form.scust.enabled = .f.
+   form.sexpy.enabled = .f.
+   form.sexpn.enabled = .f.
+   endif
+       form.LnameEntry.SetFocus()
+
+
+   ****************************************************************************
+
+   procedure CheckChanged(callCommit)
+
+   * Check if changes have been made to the current entryfield.  This procedure
+   * is called from menu routines to make sure the form.changesMade gets
+   * updated when a menu is selected while the changed control has focus.
+   ****************************************************************************
+   private control, fieldValue, controlValue, typeText, typeValue
+
+   if form.inEditMode
+      control = form.activeControl
+      if type("control.datalink") <> "U"
+         fieldValue = control.datalink          && name of table field
+
+         typeText = type("control.text")
+         typeValue = type("control.value")
+         do case
+            case typeValue = "C"
+               controlValue = control.value
+            case typeValue $ "LU" .and. typeText = "C"
+               controlValue = control.text
+            otherwise
+               controlValue = Null
+         endcase
+         if controlValue <> &fieldValue
+            form.changesMade = .T.
+         endif
+      endif
+   endif
+   if form.changesMade .and. callCommit
+      CLASS::CheckCommit(form.inEditMode)     && Check transactions
+   endif
+
+
+
+   ****************************************************************************
+
+   Procedure SCUST_OnChange
+   select fgmcusts
+   seek this.value
+   if found() .AND. PLANT_CODE = FGCOY->PLANT_CODE
+   select fgcen
+      replace custname with this.value
+      replace cust_no with fgmcusts->cust_no
+      replace plant_code with fgmcusts->plant_code
+      replace plantname with fgmcusts->plantname
+      else
+      select fgcen
+      replace custname with ''
+      replace cust_no with ''
+      replace plant_code with ''
+      replace plantname with ''
+      endif
+      form.changesmade = .t.
+
+   Procedure SEXPY_OnGotFocus
+   form.changesmade = .t.
+
+   function SEXPY_onChange
+       select fgcen
+      replace expense with 'Yes'
+      form.changesmade = .t.
+      return
+
+   function SFULYES_onChange
+       select fgcen
+      replace fuels with 'Yes'
+      form.changesmade = .t.
+      return
+
+   function SFUNO_onChange
+   if .not. empty(dbf()) 
+   if .not. eof()
+       select fgcen
+      replace fuels with 'No'
+      form.changesmade = .t.
+      endif
+      endif
+      return
+
+   function SNO_onChange
+       select fgcen
+      replace used with 'No'
+      form.changesmade = .t.
+      return
+
+   function SYES_onChange
+      select fgcen
+      replace used with 'Yes'
+      form.changesmade = .t.
+      return
+
+   Procedure SEXPN_OnGotFocus
+   form.changesmade = .t.
+
+   function SEXPN_onChange
+          select fgcen
+      replace expense with 'No'
+      form.changesmade = .t.
+      return
+
+        procedure Next
+
+   * Go to next record.
+   ****************************************************************************
+
+   form.CheckCommit(form.inEditMode)
+   if .not. empty(dbf())  .and. .not. eof()      && if a table is open in the current workarea
+      skip
+      if eof()
+         go bottom
+         AlertMessage("At the last record","Alert")
+      endif
+   else
+      InformationMessage("There is no table open in the current workarea.",;
+         "Info")
+   endif
+    ****************************************************************************
+
+   procedure Previous
+
+   * Go to previous record.
+   ****************************************************************************
+
+   form.CheckCommit(form.inEditMode)
+ if .not. empty(dbf())  .and. .not. eof() && if a table is open in the current workarea
+      skip - 1
+      if bof()
+         go top
+         AlertMessage("At the first record","Alert")
+      endif
+   else
+      InformationMessage("There is no table open in the current workarea.",;
+         "Info")
+   endif
+
+   ****************************************************************************
+
+   function SCUSTNO_onChange
+          select fgcen
+      replace cust_no with this.value
+      form.changesmade = .t.
+      return
+
+endclass
+
+Procedure fgcens_rtn
+   private eoffgcen,p1,p2
+   eoffgcen = .f.
+   set safety off
+   select fgcens
+    set order to mkey
+      set safety on
+   select fgcen
+   go top
+   if .not. eof()
+      do
+         do rtn1
+         until eoffgcen
+     endif
+
+ eoffgcens =.f.
+     select fgcens
+     go top
+     if .not.  eof()
+        do
+        do rtn3
+        until eoffgcens
+      endif
+procedure rtn3
+      select fgcen
+      seek fgcens->coy+fgcens->div+fgcens->cen
+      if  .not.  found()
+      select fgcens
+      delete
+      endif
+    select fgcens
+    if .not. eof()
+    skip
+    endif
+    if  eof()
+       eoffgcens=.t.
+     endif
+procedure rtn1
+       p1 = fgcen->name
+      if .not. empty(p1)
+      do rtn2
+      endif
+   select fgcen
+   skip
+   if eof()
+   eoffgcen = .t.
+   endif
+
+Procedure rtn2
+   select fgcens
+      seek fgcen->coy+fgcen->div+fgcen->cen
+      if .not. found()
+      append blank
+       replace coy with fgcen->coy
+      REPLACE DIV WITH fgcen->DIV
+      replace CEN with fgcen->cen
+      endif
+      replace expense with fgcen->expense
+      replace cen1 with fgcen->cen1
+      replace div1 with fgcen->div1
+      replace coy1 with fgcen->coy1
+      replace used with fgcen->used
+      replace day_rate with fgcen->day_rate
+      replace night_rate with fgcen->night_rate
+      replace fuels with fgcen->fuels
+      REPLACE CUST_NO WITH FGCEN->CUST_NO
+      REPLACE CUSTNAME WITH FGCEN->CUSTNAME
+      replace plant_code with fgcen->plant_code
+      replace plantname with fgcen->plantname
+       replace name with p1
+      select nlcc
+      seek fgcen->coy+fgcen->div+fgcen->cen
+      if .not. found()
+      append blank
+      replace coy with fgcen->coy
+      replace ccentre with fgcen->div
+      replace pcentre with fgcen->cen
+      endif
+      replace  lname with fgcen->name
+      replace sname with fgcen->name

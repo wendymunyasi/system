@@ -1,3 +1,9 @@
+////////////////////////////////////////////////////////////////////////////////
+// Output Filename: C:\KENSERVICE\IDSSYS\FRIGTMES_FCV.WFM                     //
+// Created By:      dBASE Form Converter Wizard                               //
+// Created On:      Wednesday September 29, 2021 At 20:33:23                  //
+// Object Count:    84                                                        //
+////////////////////////////////////////////////////////////////////////////////
 ******************************************************************************
 *  PROGRAM:      FRIGTMES.WFM
 *
@@ -19,7 +25,7 @@
 *                BUTTONS.CC          (Custom Controls file)
 *                Customer Account.qbe         (View of tables)
 *
-*  USAGE:        DO FRIGTMES.WFM      
+*  USAGE:        DO FRIGTMES.WFM
 *
 *******************************************************************************
 #include <messdlg.h>
@@ -36,1105 +42,1245 @@ _app.FrameWin.Visible = .F.
 _app.FrameWin.Text = "Frigtmes"
 set ldCheck off && To avoid language driver conflicts
 #define Maxcoy 999
-** END HEADER -- do not remove this line
-//
-// Generated on 09/26/2021
-//
-parameter bModal
+** END HEADER -- do not remove this line*
+* Generated on 15/04/2021
+*
+parameter bUser,bLevel,BLYVISA,bModal
 local f
 f = new FrighterFORM()
 if (bModal)
-   f.mdi = false // ensure not MDI
-   f.readModal()
+   f.mdi = .F. && ensure not MDI
+   f.ReadModal()
 else
-   f.open()
+   f.Open()
 endif
-
-class FrighterFORM of FORM
-   set procedure to BUTTONS.CC additive
-   with (this)
-      onClose = class::ONCLOSE
-      open = class::OPEN
-      colorNormal = "N+"
-      height = 30.2727
-      left = 0.0
-      top = 0.6465
-      width = 153.4286
-      text = "Edit Customers"
-      windowState = 2	// Maximized
-      mdi = false
-      sizeable = false
-      moveable = false
-      view = "FRIGTMES.QBE"
-      menuFile = "FRIGTMES.MNU"
-      escExit = false
-      mousePointer = 1	// Arrow
-      maximize = false
-      minimize = false
-   endwith
-
-   this.TEXT2 = new TEXT(this)
-   with (this.TEXT2)
-      height = 1.0
-      left = 1.4286
-      top = 0.0
-      width = 6.0
-      colorNormal = "B/BtnFace"
-      alignVertical = 1	// Middle
-      alignHorizontal = 2	// Right
-      text = "Cat.:"
-   endwith
-
-   this.SSOURCE = new COMBOBOX(this)
-   with (this.SSOURCE)
-      dataLink = "fgcoy->SRCENAME"
-      enabled = false
-      height = 1.0
-      left = 8.0
-      top = 0.0455
-      width = 21.2857
-      fontName = "Arial Black"
-      fontSize = 9.0
-      colorNormal = "B/BtnFace"
-      dataSource = "FIELD Frsourcs->NAME"
-      style = 2	// DropDownList
-   endwith
-
-   this.DSRCE = new ENTRYFIELD(this)
-   with (this.DSRCE)
-      dataLink = "Frighter->source"
-      enabled = false
-      height = 1.0
-      left = 30.0
-      top = 0.0
-      width = 4.0
-      function = "!"
-      colorNormal = "N/BtnFace"
-      colorHighLight = "B+/W*"
-   endwith
-
-   this.TEXT5 = new TEXT(this)
-   with (this.TEXT5)
-      height = 1.0
-      left = 34.8571
-      top = 0.0
-      width = 7.002
-      colorNormal = "B/BtnFace"
-      alignVertical = 1	// Middle
-      alignHorizontal = 2	// Right
-      text = "Type:"
-   endwith
-
-   this.SFTYP = new ENTRYFIELD(this)
-   with (this.SFTYP)
-      dataLink = "frittyp->NAME"
-      enabled = false
-      height = 1.0
-      left = 42.4286
-      top = 0.0
-      width = 17.5
-      function = "!"
-      colorNormal = "N/BtnFace"
-      colorHighLight = "B+/W*"
-   endwith
-
-   this.DTYP = new ENTRYFIELD(this)
-   with (this.DTYP)
-      dataLink = "Frighter->ftyp"
-      enabled = false
-      height = 1.0
-      left = 60.0
-      top = 0.0
-      width = 4.0
-      function = "!"
-      colorNormal = "N/BtnFace"
-      colorHighLight = "B+/W*"
-   endwith
-
-   this.TEXT7 = new TEXT(this)
-   with (this.TEXT7)
-      height = 1.0
-      left = 64.4286
-      top = -0.0455
-      width = 12.0
-      colorNormal = "B/BtnFace"
-      text = "Sub-Type:"
-   endwith
-
-   this.SPMOD = new ENTRYFIELD(this)
-   with (this.SPMOD)
-      dataLink = "frpymod->NAME"
-      enabled = false
-      height = 1.0
-      left = 77.2857
-      top = -0.0455
-      width = 19.4286
-      function = "!"
-      colorNormal = "N/BtnFace"
-      colorHighLight = "B+/W*"
-   endwith
-
-   this.DPMOD = new ENTRYFIELD(this)
-   with (this.DPMOD)
-      dataLink = "Frighter->pmod"
-      enabled = false
-      height = 1.0
-      left = 97.4286
-      top = 0.0
-      width = 4.0
-      function = "!"
-      colorNormal = "N/BtnFace"
-      colorHighLight = "B+/W*"
-   endwith
-
-   this.DFRIGHTER = new ENTRYFIELD(this)
-   with (this.DFRIGHTER)
-      dataLink = "Frighter->Frighter_N"
-      enabled = false
-      height = 1.0
-      left = 103.4286
-      top = -0.0455
-      width = 6.2857
-      function = "!"
-      colorNormal = "N/BtnFace"
-      colorHighLight = "B+/W*"
-   endwith
-
-   this.SACC = new ENTRYFIELD(this)
-   with (this.SACC)
-      enabled = false
-      height = 1.0
-      left = 110.8571
-      top = 0.0
-      width = 12.7143
-      function = "!"
-      colorNormal = "N/W"
-      colorHighLight = "B+/W*"
-      value = "                                        "
-      maxLength = 40
-   endwith
-
-   this.RECTANGLE1 = new RECTANGLE(this)
-   with (this.RECTANGLE1)
-      left = 0.8571
-      top = 1.9545
-      width = 126.1429
-      height = 26.4
-      text = "Frighter Masterfile Information"
-      colorNormal = "B+/W"
-   endwith
-
-   this.SSNAME = new ENTRYFIELD(this)
-   with (this.SSNAME)
-      onChange = class::CHANGESMADE
-      dataLink = "frsource->NAME"
-      enabled = false
-      height = 1.0
-      left = 3.5714
-      top = 2.9545
-      width = 16.8571
-      function = "!"
-      colorNormal = "N/BtnFace"
-      colorHighLight = "B+/W*"
-   endwith
-
-   this.FTNAME = new ENTRYFIELD(this)
-   with (this.FTNAME)
-      dataLink = "frittyp->NAME"
-      enabled = false
-      height = 1.0
-      left = 23.1429
-      top = 2.9545
-      width = 18.0
-      function = "!"
-      colorNormal = "N/BtnFace"
-      colorHighLight = "B+/W*"
-   endwith
-
-   this.FPNAME = new ENTRYFIELD(this)
-   with (this.FPNAME)
-      dataLink = "frpymod->NAME"
-      enabled = false
-      height = 1.0
-      left = 43.4286
-      top = 2.9545
-      width = 20.8571
-      function = "!"
-      colorNormal = "N/BtnFace"
-      colorHighLight = "B+/W*"
-   endwith
-
-   this.TEXT19 = new TEXT(this)
-   with (this.TEXT19)
-      height = 1.0
-      left = 66.4286
-      top = 2.9545
-      width = 15.0
-      colorNormal = "B/BtnFace"
-      text = "Hq Cus Acc:"
-   endwith
-
-   this.SCUSACC = new ENTRYFIELD(this)
-   with (this.SCUSACC)
-      dataLink = "FRIGHTER->CUS_ACC"
-      enabled = false
-      height = 1.0
-      left = 83.0
-      top = 2.9545
-      width = 24.5714
-      colorNormal = "N/BtnFace"
-      colorHighLight = "B+/W*"
-      validErrorMsg = "Name Required"
-   endwith
-
-   this.SOPENDATE = new ENTRYFIELD(this)
-   with (this.SOPENDATE)
-      dataLink = "Frighter->OPEN_DATE"
-      enabled = false
-      height = 1.0
-      left = 110.8571
-      top = 2.9545
-      width = 12.4286
-      function = "!"
-      colorNormal = "B+/BtnFace"
-      colorHighLight = "B+/W"
-      fontName = "Arial Black"
-   endwith
-
-   this.TEXT1 = new TEXT(this)
-   with (this.TEXT1)
-      height = 1.0
-      left = 3.5714
-      top = 4.0909
-      width = 16.5714
-      colorNormal = "B/BtnFace"
-      text = "Name:"
-   endwith
-
-   this.CNAME = new ENTRYFIELD(this)
-   with (this.CNAME)
-      onChange = class::CNAME_ONCHANGE
-      dataLink = "Frighter->NAME"
-      enabled = false
-      height = 1.0
-      left = 23.4286
-      top = 4.0909
-      width = 99.8571
-      function = "!"
-      colorNormal = "N/BtnFace"
-      colorHighLight = "B+/W*"
-      validErrorMsg = "Name Required"
-   endwith
-
-   this.TEXT10 = new TEXT(this)
-   with (this.TEXT10)
-      height = 1.0
-      left = 3.5714
-      top = 5.2273
-      width = 16.8571
-      colorNormal = "B/BtnFace"
-      text = "Hq Cus Name:"
-   endwith
-
-   this.SHQCN = new ENTRYFIELD(this)
-   with (this.SHQCN)
-      dataLink = "FRIGHTER->CUS_NAME"
-      enabled = false
-      height = 1.0
-      left = 23.2857
-      top = 5.2273
-      width = 100.1429
-      colorNormal = "N/BtnFace"
-      colorHighLight = "B+/W*"
-      validErrorMsg = "Name Required"
-   endwith
-
-   this.TEXT11 = new TEXT(this)
-   with (this.TEXT11)
-      height = 1.0
-      left = 3.5714
-      top = 6.3636
-      width = 19.4286
-      colorNormal = "B/BtnFace"
-      text = "Select HQ Cus Name:"
-   endwith
-
-   this.SNHQN = new COMBOBOX(this)
-   with (this.SNHQN)
-      onChange = class::SNHQN_ONCHANGE
-      dataLink = "FRIGHTER->NCUSNAME"
-      enabled = false
-      height = 1.0
-      left = 24.5714
-      top = 6.3636
-      width = 98.8571
-      fontName = "Arial Black"
-      colorNormal = "B/BtnFace"
-      dataSource = "FIELD FGHQCUSS->CUS_NAME"
-      style = 1	// DropDown
-   endwith
-
-   this.TEXT14 = new TEXT(this)
-   with (this.TEXT14)
-      height = 1.0
-      left = 3.5714
-      top = 7.5
-      width = 12.4286
-      colorNormal = "B/BtnFace"
-      text = "Hq Cus Class:"
-   endwith
-
-   this.SHQCL = new ENTRYFIELD(this)
-   with (this.SHQCL)
-      dataLink = "FRIGHTER->CUS_CLA"
-      enabled = false
-      height = 1.0
-      left = 17.8571
-      top = 7.5
-      width = 44.7143
-      colorNormal = "N/BtnFace"
-      colorHighLight = "B+/W*"
-      validErrorMsg = "Name Required"
-   endwith
-
-   this.TEXT17 = new TEXT(this)
-   with (this.TEXT17)
-      height = 1.0
-      left = 63.5714
-      top = 7.5
-      width = 21.4286
-      colorNormal = "B/BtnFace"
-      text = "Hq Pay Method:"
-   endwith
-
-   this.SHQPM = new ENTRYFIELD(this)
-   with (this.SHQPM)
-      dataLink = "FRIGHTER->PAYMETHOD"
-      enabled = false
-      height = 1.0
-      left = 86.1429
-      top = 7.5
-      width = 28.0
-      colorNormal = "N/BtnFace"
-      colorHighLight = "B+/W*"
-      validErrorMsg = "Name Required"
-   endwith
-
-   this.TEXT16 = new TEXT(this)
-   with (this.TEXT16)
-      height = 1.0
-      left = 3.5714
-      top = 8.6364
-      width = 12.4286
-      colorNormal = "B/BtnFace"
-      text = "Hq Cus Class:"
-   endwith
-
-   this.SHQCAT = new ENTRYFIELD(this)
-   with (this.SHQCAT)
-      dataLink = "FRIGHTER->CUS_CAT"
-      enabled = false
-      height = 1.0
-      left = 17.2857
-      top = 8.6364
-      width = 44.5714
-      colorNormal = "N/BtnFace"
-      colorHighLight = "B+/W*"
-      validErrorMsg = "Name Required"
-   endwith
-
-   this.TEXT18 = new TEXT(this)
-   with (this.TEXT18)
-      height = 1.0
-      left = 62.8571
-      top = 8.6364
-      width = 16.4286
-      colorNormal = "B/BtnFace"
-      alignVertical = 1	// Middle
-      alignHorizontal = 1	// Center
-      text = "HQ Credit Limit:"
-   endwith
-
-   this.SHQCRL = new ENTRYFIELD(this)
-   with (this.SHQCRL)
-      dataLink = "FRIGHTER->CR_LIMIT"
-      enabled = false
-      height = 1.0
-      left = 80.1429
-      top = 8.6364
-      width = 12.2857
-      picture = "999,999,999.99"
-      function = "J"
-      colorNormal = "N/BtnFace"
-      colorHighLight = "B+/W*"
-   endwith
-
-   this.TEXT23 = new TEXT(this)
-   with (this.TEXT23)
-      height = 1.0
-      left = 3.5714
-      top = 9.7727
-      width = 8.8571
-      colorNormal = "B/BtnFace"
-      text = "Address:"
-   endwith
-
-   this.ADDRESS1 = new ENTRYFIELD(this)
-   with (this.ADDRESS1)
-      onChange = class::CHANGESMADE
-      valid = class::ADDRESS1_VALID
-      dataLink = "Frighter->Address1"
-      enabled = false
-      height = 1.0
-      left = 14.8571
-      top = 9.7727
-      width = 31.0
-      function = "!"
-      colorNormal = "N/BtnFace"
-      colorHighLight = "B+/W*"
-      validErrorMsg = "Address Required"
-   endwith
-
-   this.TEXT15 = new TEXT(this)
-   with (this.TEXT15)
-      height = 1.0
-      left = 46.5714
-      top = 9.7727
-      width = 6.8571
-      colorNormal = "B/BtnFace"
-      text = "Phone:"
-   endwith
-
-   this.SPHONE = new ENTRYFIELD(this)
-   with (this.SPHONE)
-      onChange = class::ENTRYFIELD4_ONCHANGE
-      dataLink = "Frighter->PHONE"
-      enabled = false
-      height = 1.0
-      left = 54.4286
-      top = 9.7727
-      width = 15.4286
-      function = "!"
-      colorNormal = "N/BtnFace"
-      colorHighLight = "B+/W*"
-   endwith
-
-   this.TEXT32 = new TEXT(this)
-   with (this.TEXT32)
-      height = 1.0
-      left = 3.5714
-      top = 10.9091
-      width = 6.5714
-      colorNormal = "B/BtnFace"
-      text = "Group:"
-   endwith
-
-   this.SGROUP = new COMBOBOX(this)
-   with (this.SGROUP)
-      onChange = class::SGROUP_ONCHANGE
-      dataLink = "Frighter->CATNAME"
-      enabled = false
-      height = 1.0
-      left = 12.1429
-      top = 10.9091
-      width = 25.2857
-      fontName = "Arial Black"
-      colorNormal = "B/BtnFace"
-      dataSource = "FIELD frcategS->NAME"
-      style = 1	// DropDown
-   endwith
-
-   this.TEXT6 = new TEXT(this)
-   with (this.TEXT6)
-      height = 1.0
-      left = 70.5714
-      top = 9.7727
-      width = 12.7143
-      colorNormal = "B/BtnFace"
-      text = "Staff A/C Type:"
-   endwith
-
-   this.SVAGE = new COMBOBOX(this)
-   with (this.SVAGE)
-      onChange = class::SVAGE_ONCHANGE
-      dataLink = "FRIGHTER->VAGE"
-      height = 1.0
-      left = 84.2857
-      top = 9.7727
-      width = 13.0
-      fontName = "Arial Black"
-      colorNormal = "B/BtnFace"
-      dataSource = 'array {"","S","C"}'
-      style = 1	// DropDown
-   endwith
-
-   this.TEXT9 = new TEXT(this)
-   with (this.TEXT9)
-      height = 1.0
-      left = 39.1429
-      top = 10.9091
-      width = 8.0
-      colorNormal = "B/BtnFace"
-      text = "PIN No.:"
-   endwith
-
-   this.SPIN = new ENTRYFIELD(this)
-   with (this.SPIN)
-      onChange = class::SPIN_ONCHANGE
-      dataLink = "Frighter->PIN"
-      enabled = false
-      height = 1.0
-      left = 48.1429
-      top = 10.9091
-      width = 15.5714
-      function = "!"
-      colorNormal = "N/BtnFace"
-      colorHighLight = "B+/W*"
-   endwith
-
-   this.TEXT20 = new TEXT(this)
-   with (this.TEXT20)
-      height = 1.0
-      left = 21.7143
-      top = 12.0909
-      width = 11.0
-      colorNormal = "B/BtnFace"
-      text = "Credit Days:"
-   endwith
-
-   this.SDAYS = new ENTRYFIELD(this)
-   with (this.SDAYS)
-      onChange = class::SDAYS_ONCHANGE
-      dataLink = "Frighter->CR_DAYS"
-      enabled = false
-      height = 1.0
-      left = 33.4286
-      top = 12.0909
-      width = 7.4286
-      picture = "999"
-      function = "J"
-      colorNormal = "N/BtnFace"
-      colorHighLight = "B+/W*"
-   endwith
-
-   this.TEXT3 = new TEXT(this)
-   with (this.TEXT3)
-      height = 1.0
-      left = 41.4286
-      top = 12.0909
-      width = 12.0
-      colorNormal = "B/BtnFace"
-      alignVertical = 1	// Middle
-      alignHorizontal = 1	// Center
-      text = "Credit Limit:"
-   endwith
-
-   this.SCREDITLIMT = new ENTRYFIELD(this)
-   with (this.SCREDITLIMT)
-      onChange = class::SCREDITLIMT_ONCHANGE2
-      dataLink = "FRIGHTER->CREDIT_LMT"
-      enabled = false
-      height = 1.0
-      left = 54.0
-      top = 12.0455
-      width = 15.2857
-      picture = "999,999,999.99"
-      function = "J"
-      colorNormal = "N/BtnFace"
-      colorHighLight = "B+/W*"
-   endwith
-
-   this.TEXT8 = new TEXT(this)
-   with (this.TEXT8)
-      height = 1.0
-      left = 92.8571
-      top = 10.9091
-      width = 17.2857
-      colorNormal = "B/BtnFace"
-      text = "Enforce Credit Limit:"
-   endwith
-
-   this.SCLMT = new COMBOBOX(this)
-   with (this.SCLMT)
-      onChange = class::SCLMT_ONCHANGE
-      dataLink = "FRIGHTER->VPURT"
-      height = 1.0
-      left = 111.0
-      top = 10.9091
-      width = 10.0
-      fontName = "Arial Black"
-      colorNormal = "B/BtnFace"
-      dataSource = 'array {"Y","N"}'
-      style = 1	// DropDown
-   endwith
-
-   this.TEXT12 = new TEXT(this)
-   with (this.TEXT12)
-      height = 1.0
-      left = 65.4286
-      top = 10.9091
-      width = 10.0
-      colorNormal = "B/BtnFace"
-      text = "V.A.T. No.:"
-   endwith
-
-   this.SVAT = new ENTRYFIELD(this)
-   with (this.SVAT)
-      onChange = class::ENTRYFIELD8_ONCHANGE
-      dataLink = "Frighter->VAT"
-      enabled = false
-      height = 1.0
-      left = 76.7143
-      top = 10.9091
-      width = 14.4286
-      function = "!"
-      colorNormal = "N/BtnFace"
-      colorHighLight = "B+/W*"
-   endwith
-
-   this.TEXT29 = new TEXT(this)
-   with (this.TEXT29)
-      height = 1.0
-      left = 98.8571
-      top = 12.0909
-      width = 8.0
-      colorNormal = "B/BtnFace"
-      alignVertical = 1	// Middle
-      alignHorizontal = 1	// Center
-      text = "Dep.:"
-   endwith
-
-   this.SCDEP = new ENTRYFIELD(this)
-   with (this.SCDEP)
-      onChange = class::SCDEP_ONCHANGE
-      dataLink = "Frighter->CDEP_AMT"
-      enabled = false
-      height = 1.0
-      left = 108.4286
-      top = 12.0455
-      width = 14.8571
-      picture = "99,999,999.99"
-      function = "J"
-      colorNormal = "N/BtnFace"
-      colorHighLight = "B+/W*"
-   endwith
-
-   this.TEXT13 = new TEXT(this)
-   with (this.TEXT13)
-      height = 1.0
-      left = 70.0
-      top = 12.0455
-      width = 10.2857
-      colorNormal = "B/BtnFace"
-      alignVertical = 1	// Middle
-      alignHorizontal = 1	// Center
-      text = "Bal. Due:"
-   endwith
-
-   this.SBAL = new ENTRYFIELD(this)
-   with (this.SBAL)
-      dataLink = "Frighter->bal_due"
-      enabled = false
-      height = 1.0
-      left = 81.4286
-      top = 12.0455
-      width = 15.8571
-      picture = "99,999,999.99"
-      function = "J"
-      colorNormal = "N/BtnFace"
-      colorHighLight = "B+/W*"
-   endwith
-
-   this.TEXT4 = new TEXT(this)
-   with (this.TEXT4)
-      height = 1.0
-      left = 62.0
-      top = 14.3636
-      width = 14.5714
-      colorNormal = "B/BtnFace"
-      text = "Date A/c Closed:"
-   endwith
-
-   this.SDCLOSE = new ENTRYFIELD(this)
-   with (this.SDCLOSE)
-      dataLink = "FRIGHTER->CLOSE_DATE"
-      enabled = false
-      height = 1.0
-      left = 77.7143
-      top = 14.3636
-      width = 13.4286
-      function = "!"
-      colorNormal = "B+/BtnFace"
-      colorHighLight = "B+/W"
-      fontName = "Arial Black"
-   endwith
-
-   this.TEXT26 = new TEXT(this)
-   with (this.TEXT26)
-      height = 1.0
-      left = 3.5714
-      top = 12.0909
-      width = 17.1429
-      colorNormal = "B/BtnFace"
-      text = "Special Instructions"
-   endwith
-
-   this.NOTESEDITOR2 = new EDITOR(this)
-   with (this.NOTESEDITOR2)
-      onGotFocus = {;if this.Modify;this.colorNormal = "B+/W*";endif}
-      onLostFocus = {;if this.Modify;this.colorNormal = "N/BtnFace";endif}
-      onChange = class::CHANGESMADE
-      height = 1.9545
-      left = 3.5714
-      top = 13.1364
-      width = 17.1429
-      colorNormal = "N/BtnFace"
-      modify = false
-      dataLink = "Frighter->INST_SP"
-   endwith
-
-   this.NOTESEDITOR3 = new EDITOR(this)
-   with (this.NOTESEDITOR3)
-      onGotFocus = {;if this.Modify;this.colorNormal = "B+/W*";endif}
-      onLostFocus = {;if this.Modify;this.colorNormal = "N/BtnFace";endif}
-      onChange = class::NOTESEDITOR3_ONCHANGE
-      height = 2.0
-      left = 3.5714
-      top = 15.0
-      width = 17.1429
-      colorNormal = "N/BtnFace"
-      modify = false
-      dataLink = "Frighter->INST_DEL"
-   endwith
-
-   this.SDUSER = new ENTRYFIELD(this)
-   with (this.SDUSER)
-      dataLink = "FRIGHTER->CLOSE_USER"
-      enabled = false
-      height = 1.0
-      left = 70.1429
-      top = 13.2273
-      width = 21.0
-      function = "!"
-      colorNormal = "N/BtnFace"
-      colorHighLight = "B+/W*"
-   endwith
-
-   this.SDTIME = new ENTRYFIELD(this)
-   with (this.SDTIME)
-      dataLink = "FRIGHTER->CLOSE_TIME"
-      enabled = false
-      height = 1.0
-      left = 91.5714
-      top = 13.2273
-      width = 19.0
-      function = "!"
-      colorNormal = "N/BtnFace"
-      colorHighLight = "B+/W*"
-   endwith
-
-   this.CHILDBROWSE = new BROWSE(this)
-   with (this.CHILDBROWSE)
-      colorNormal = "W+/0x808040"
-      fontBold = true
-      height = 9.0909
-      left = 3.5714
-      top = 17.4545
-      width = 120.0
-      append = false
-      alias = "FGTRAN"
-      fields = 'FGTRAN->ORDER_DATE\H="DATE"\10,FGTRAN->SYSTEM\H="SYS"\5\R,FGTRAN->DOCTYPE\H="DOC"\5\R,FGTRAN->ORDER_NO\H="REF"\9\R,FGTRAN->SHIFT_NO\H="SH"\4\R,FGTRAN->SHIFT_ID\H="ID"\4\R,FGTRAN->SERIALNO\H="SERIAL"\10\R,FGTRAN->LPO\H="OTH REF"\10\R,PROD = FGTRAN->COY+FGTRAN->DIV+FGTRAN->CEN+FGTRAN->STO+" - "+FGTRAN->TYP+FGTRAN->CLA+FGTRAN->COD\H="Itrem Code"\12,FGTRAN->QTY\H="QTY"\8\P="99,999.99"\R,FGTRAN->TOTAL\H="AMOUNT"\10\P="99,999,999.99"\R'
-      toggle = false
-      delete = false
-      modify = false
-      showRecNo = false
-      text = "RECENT TRANSACTIONS"
-   endwith
-
-   this.PREVCOYBUTTON = new PREVBUTTON(this)
-   with (this.PREVCOYBUTTON)
-      onClick = class::PREVIOUS
-      height = 1.3182
-      left = 35.0
-      top = 26.7273
-      width = 14.1429
-      default = true
-      group = true
-   endwith
-
-   this.NEXTCOYBUTTON = new NEXTBUTTON(this)
-   with (this.NEXTCOYBUTTON)
-      onClick = class::NEXT
-      height = 1.3182
-      left = 50.0
-      top = 26.7273
-      width = 14.1429
-   endwith
-
-   this.FIRFRIGHTERBUTTON = new PUSHBUTTON(this)
-   with (this.FIRFRIGHTERBUTTON)
-      onClick = class::FIRST_RTN
-      height = 1.3182
-      left = 65.1429
-      top = 26.7273
-      width = 14.1429
-      text = "F&irst"
-      statusMessage = "Go to the first record."
-   endwith
-
-   this.LAFRIGHTERBUTTON = new PUSHBUTTON(this)
-   with (this.LAFRIGHTERBUTTON)
-      onClick = class::LAST_RTN
-      height = 1.3182
-      left = 80.1429
-      top = 26.7273
-      width = 14.1429
-      text = "&Last"
-      statusMessage = "Go to the last Customer."
-   endwith
-
-   this.TEXT21 = new TEXT(this)
-   with (this.TEXT21)
-      height = 1.0
-      left = 98.1429
-      top = 9.7727
-      width = 10.5714
-      colorNormal = "B/BtnFace"
-      text = "GL Invoice:"
-   endwith
-
-   this.SGLCOD = new COMBOBOX(this)
-   with (this.SGLCOD)
-      onChange = class::SGLCOD_ONCHANGE
-      dataLink = "FRIGHTER->GLCOD"
-      height = 1.0
-      left = 109.2857
-      top = 9.7727
-      width = 13.0
-      fontName = "Arial Black"
-      colorNormal = "B/BtnFace"
-      dataSource = 'array {"","No","Yes"}'
-      style = 2	// DropDownList
-   endwith
-
-   this.TEXT22 = new TEXT(this)
-   with (this.TEXT22)
-      height = 1.0
-      left = 93.7143
-      top = 8.6364
-      width = 14.1429
-      colorNormal = "B/BtnFace"
-      text = "Card/Veh Cntrl:"
-   endwith
-
-   this.SCARDCNTRL = new COMBOBOX(this)
-   with (this.SCARDCNTRL)
-      onChange = class::SCARD_ONCHANGE
-      dataLink = "FRIGHTER->CARDCNTRL"
-      height = 1.0
-      left = 108.5714
-      top = 8.6364
-      width = 13.0
-      fontName = "Arial Black"
-      colorNormal = "B/BtnFace"
-      dataSource = 'array {"","No","Yes"}'
-      style = 2	// DropDownList
-   endwith
-
-   this.TEXT24 = new TEXT(this)
-   with (this.TEXT24)
-      height = 1.0
-      left = 53.1429
-      top = 13.2273
-      width = 15.8571
-      colorNormal = "B/BtnFace"
-      text = "Vehicle Database:"
-   endwith
-
-   this.SVEH = new COMBOBOX(this)
-   with (this.SVEH)
-      onChange = class::SVEH_ONCHANGE
-      dataLink = "FRIGHTER->REG"
-      enabled = false
-      height = 1.0
-      left = 53.2857
-      top = 14.3636
-      width = 7.8571
-      fontName = "Arial Black"
-      colorNormal = "B/BtnFace"
-      dataSource = "array {'" + '""' + "'," + '"' + "Yes" + '"' + "," + '"' + "No" + '"' + "}"
-      style = 2	// DropDownList
-   endwith
-
-   this.SSERIAL = new ENTRYFIELD(this)
-   with (this.SSERIAL)
-      onChange = class::SSERIAL_ONCHANGE
-      dataLink = "FRIGHTER->SERIALNO"
-      enabled = false
-      height = 1.0
-      left = 107.8571
-      top = 14.3636
-      width = 15.7143
-      picture = "9999999999"
-      colorNormal = "N/BtnFace"
-      colorHighLight = "B+/W*"
-   endwith
-
-   this.TEXT25 = new TEXT(this)
-   with (this.TEXT25)
-      height = 1.0
-      left = 92.1429
-      top = 14.3636
-      width = 14.7143
-      colorNormal = "B/BtnFace"
-      text = "Visa Receipt No.:"
-   endwith
-
-   this.SMAXSERIAL = new ENTRYFIELD(this)
-   with (this.SMAXSERIAL)
-      onChange = class::SMAXSERIAL_ONCHANGE
-      dataLink = "FRIGHTER->MAXSERIAL"
-      enabled = false
-      height = 1.0
-      left = 108.2857
-      top = 15.5455
-      width = 15.1429
-      picture = "9999999999"
-      colorNormal = "N/BtnFace"
-      colorHighLight = "B+/W*"
-   endwith
-
-   this.TEXT27 = new TEXT(this)
-   with (this.TEXT27)
-      height = 1.0
-      left = 92.1429
-      top = 15.5455
-      width = 15.4286
-      colorNormal = "B/BtnFace"
-      text = "Max. Receipt No.:"
-   endwith
-
-   this.TEXT28 = new TEXT(this)
-   with (this.TEXT28)
-      height = 1.0
-      left = 21.8571
-      top = 13.2273
-      width = 18.4286
-      colorNormal = "B/BtnFace"
-      text = "Cash Sale Discounts:"
-   endwith
-
-   this.SDSC = new COMBOBOX(this)
-   with (this.SDSC)
-      onChange = class::SDSC_ONCHANGE
-      dataLink = "FRIGHTER->CASS_DISC"
-      enabled = false
-      height = 1.0
-      left = 41.0
-      top = 13.2273
-      width = 11.0
-      fontName = "Arial Black"
-      colorNormal = "B/BtnFace"
-      dataSource = "array {'" + '""' + "'," + '"' + "Yes" + '"' + "," + '"' + "No" + '"' + "}"
-      style = 2	// DropDownList
-   endwith
-
-   this.SDRV = new ENTRYFIELD(this)
-   with (this.SDRV)
-      onChange = class::SDRV_ONCHANGE
-      dataLink = "FRIGHTER->DRV_RATE"
-      enabled = false
-      height = 1.0
-      left = 42.5714
-      top = 14.3636
-      width = 10.1429
-      picture = "9.99"
-      colorNormal = "N/BtnFace"
-      colorHighLight = "B+/W*"
-   endwith
-
-   this.TEXT30 = new TEXT(this)
-   with (this.TEXT30)
-      height = 1.0
-      left = 21.8571
-      top = 14.3636
-      width = 20.1429
-      colorNormal = "B/BtnFace"
-      text = "Driver Discount Per Litr:"
-   endwith
-
-   this.TEXT31 = new TEXT(this)
-   with (this.TEXT31)
-      height = 1.0
-      left = 21.8571
-      top = 15.5455
-      width = 21.8571
-      colorNormal = "B/BtnFace"
-      text = "Investor Discount Per Litr:"
-   endwith
-
-   this.SINV = new ENTRYFIELD(this)
-   with (this.SINV)
-      onChange = class::SINV_ONCHANGE
-      dataLink = "FRIGHTER->INV_RATE"
-      enabled = false
-      height = 1.0
-      left = 44.2857
-      top = 15.5455
-      width = 9.5714
-      picture = "9.99"
-      colorNormal = "N/BtnFace"
-      colorHighLight = "B+/W*"
-   endwith
-
-   this.TEXT33 = new TEXT(this)
-   with (this.TEXT33)
-      height = 1.0
-      left = 54.5714
-      top = 15.5455
-      width = 22.0
-      colorNormal = "B/BtnFace"
-      text = "Purchase Order:"
-   endwith
-
-   this.SLPO = new COMBOBOX(this)
-   with (this.SLPO)
-      onChange = class::SLPO_ONCHANGE
-      dataLink = "FRIGHTER->LPO"
-      enabled = false
-      height = 1.0
-      left = 77.5714
-      top = 15.5455
-      width = 11.0
-      fontName = "Arial Black"
-      colorNormal = "B/BtnFace"
-      dataSource = "array {'" + '""' + "'," + '"' + "Yes" + '"' + "," + '"' + "No" + '"' + "}"
-      style = 2	// DropDownList
-   endwith
-
+CLASS FrighterFORM OF FORM
+   Set Procedure To BUTTONS.CC additive
+   this.Metric = 6  // Pixels
+   this.Minimize = .F.
+   this.MousePointer = 1
+   this.ColorNormal = "N+"
+   this.OnClose = CLASS::ONCLOSE
+   this.Top = 11
+   this.View = "FRIGTMES.QBE"
+   this.MenuFile = "FRIGTMES.MNU"
+   this.Text = "Edit Customers"
+   this.EscExit = .F.
+   this.WindowState = 2
+   this.Sizeable = .F.
+   this.Moveable = .F.
+   this.Left = 0
+   this.MDI = .F.
+   this.Height = 470
+   this.Maximize = .F.
+   this.Width = 780
+
+   DEFINE TEXTLABEL TEXT2 OF THIS;
+       PROPERTY;
+         ColorNormal "B/BtnFace",;
+         Text "Cat.:",;
+         FontSize 10,;
+         Height 18,;
+         Width 36,;
+       FontName "MS Sans Serif",;
+       FontBold .T.,;
+       AlignHorizontal 2,;
+       AlignVertical 1
+
+   DEFINE COMBOBOX SSOURCE OF THIS;
+       PROPERTY;
+         Enabled .F.,;
+         FontName "Arial Black",;
+         ColorNormal "B/BtnFace",;
+         Left 36,;
+         FontSize 9,;
+         Style 2,;
+         DataSource "FIELD Frsourcs->NAME",;
+         Height 25,;
+         DataLink "fgcoy->SRCENAME",;
+         Width 132,;
+       FontBold .T.
+
+   DEFINE ENTRYFIELD DSRCE OF THIS;
+       PROPERTY;
+         Enabled .F.,;
+         ColorNormal "N/BtnFace",;
+         ColorHighLight "B+/W*",;
+         Function "!",;
+         Left 180,;
+         FontSize 10,;
+         Height 21,;
+         DataLink "Frighter->source",;
+         Width 24,;
+       FontName "MS Sans Serif",;
+       FontBold .T.
+
+   DEFINE TEXTLABEL TEXT5 OF THIS;
+       PROPERTY;
+         ColorNormal "B/BtnFace",;
+         Text "Type:",;
+         Left 209,;
+         FontSize 10,;
+         Height 18,;
+         Width 42,;
+       FontName "MS Sans Serif",;
+       FontBold .T.,;
+       AlignHorizontal 2,;
+       AlignVertical 1
+
+   DEFINE ENTRYFIELD SFTYP OF THIS;
+       PROPERTY;
+         Enabled .F.,;
+         ColorNormal "N/BtnFace",;
+         ColorHighLight "B+/W*",;
+         Function "!",;
+         Left 255,;
+         FontSize 10,;
+         Height 21,;
+         DataLink "frittyp->NAME",;
+         Width 105,;
+       FontName "MS Sans Serif",;
+       FontBold .T.
+
+   DEFINE ENTRYFIELD DTYP OF THIS;
+       PROPERTY;
+         Enabled .F.,;
+         ColorNormal "N/BtnFace",;
+         ColorHighLight "B+/W*",;
+         Function "!",;
+         Left 360,;
+         FontSize 10,;
+         Height 21,;
+         DataLink "Frighter->ftyp",;
+         Width 24,;
+       FontName "MS Sans Serif",;
+       FontBold .T.
+
+   DEFINE TEXTLABEL TEXT7 OF THIS;
+       PROPERTY;
+         ColorNormal "B/BtnFace",;
+         Text "Sub-Type:",;
+         Left 384,;
+         FontSize 10,;
+         Height 18,;
+         Width 72,;
+       FontName "MS Sans Serif",;
+       FontBold .T.
+
+   DEFINE ENTRYFIELD SPMOD OF THIS;
+       PROPERTY;
+         Enabled .F.,;
+         ColorNormal "N/BtnFace",;
+         ColorHighLight "B+/W*",;
+         Function "!",;
+         Left 459,;
+         FontSize 10,;
+         Height 21,;
+         DataLink "frpymod->NAME",;
+         Width 117,;
+       FontName "MS Sans Serif",;
+       FontBold .T.
+
+   DEFINE ENTRYFIELD DPMOD OF THIS;
+       PROPERTY;
+         Enabled .F.,;
+         ColorNormal "N/BtnFace",;
+         ColorHighLight "B+/W*",;
+         Function "!",;
+         Left 576,;
+         FontSize 10,;
+         Height 21,;
+         DataLink "Frighter->pmod",;
+         Width 24,;
+       FontName "MS Sans Serif",;
+       FontBold .T.
+
+   DEFINE ENTRYFIELD DFRIGHTER OF THIS;
+       PROPERTY;
+         Enabled .F.,;
+         ColorNormal "N/BtnFace",;
+         ColorHighLight "B+/W*",;
+         Function "!",;
+         Left 601,;
+         FontSize 10,;
+         Height 25,;
+         DataLink "Frighter->Frighter_N",;
+         Width 38,;
+       FontName "MS Sans Serif",;
+       FontBold .T.
+
+   DEFINE ENTRYFIELD SACC OF THIS;
+       PROPERTY;
+         Enabled .F.,;
+         ColorNormal "N/W",;
+         ColorHighLight "B+/W*",;
+         Function "!",;
+         Left 644,;
+         FontSize 10,;
+         Value "                                        ",;
+         MaxLength 40,;
+         Height 21,;
+         Width 76,;
+       FontName "MS Sans Serif",;
+       FontBold .T.
+
+   DEFINE RECTANGLE RECTANGLE1 OF THIS;
+       PROPERTY;
+         ColorNormal "B+/W",;
+         Top 34,;
+         Text "Frighter Masterfile Information",;
+         Left -57,;
+         FontSize 10,;
+         Height 527,;
+         Width 851,;
+       FontName "MS Sans Serif",;
+       FontBold .T.
+
+   DEFINE ENTRYFIELD SSNAME OF THIS;
+       PROPERTY;
+         Enabled .F.,;
+         ColorNormal "N/BtnFace",;
+         ColorHighLight "B+/W*",;
+         Top 51,;
+         Function "!",;
+         Left 15,;
+         OnChange CLASS::CHANGESMADE,;
+         FontSize 10,;
+         Height 21,;
+         DataLink "frsource->NAME",;
+         Width 129,;
+       FontName "MS Sans Serif",;
+       FontBold .T.
+
+   DEFINE ENTRYFIELD FTNAME OF THIS;
+       PROPERTY;
+         Enabled .F.,;
+         ColorNormal "N/BtnFace",;
+         ColorHighLight "B+/W*",;
+         Top 51,;
+         Function "!",;
+         Left 147,;
+         FontSize 10,;
+         Height 21,;
+         DataLink "frittyp->NAME",;
+         Width 141,;
+       FontName "MS Sans Serif",;
+       FontBold .T.
+
+   DEFINE ENTRYFIELD FPNAME OF THIS;
+       PROPERTY;
+         Enabled .F.,;
+         ColorNormal "N/BtnFace",;
+         ColorHighLight "B+/W*",;
+         Top 51,;
+         Function "!",;
+         Left 300,;
+         FontSize 10,;
+         Height 21,;
+         DataLink "frpymod->NAME",;
+         Width 168,;
+       FontName "MS Sans Serif",;
+       FontBold .T.
+
+   DEFINE TEXTLABEL TEXT19 OF THIS;
+       PROPERTY;
+         ColorNormal "B/BtnFace",;
+         Top 50,;
+         Text "Hq Cus Acc:",;
+         Left 474,;
+         FontSize 10,;
+         Height 21,;
+         Width 90,;
+       FontName "MS Sans Serif",;
+       FontBold .T.
+
+   DEFINE ENTRYFIELD SCUSACC OF THIS;
+       PROPERTY;
+         Enabled .F.,;
+         ColorNormal "N/BtnFace",;
+         ColorHighLight "B+/W*",;
+         Top 50,;
+         ValidErrorMsg "Name Required",;
+         Left 576,;
+         FontSize 10,;
+         Height 21,;
+         DataLink "FRIGHTER->CUS_ACC",;
+         Width 162,;
+       FontName "MS Sans Serif",;
+       FontBold .T.
+
+   DEFINE ENTRYFIELD SOPENDATE OF THIS;
+       PROPERTY;
+         Enabled .F.,;
+         FontName "Arial Black",;
+         ColorNormal "B+/BtnFace",;
+         ColorHighLight "B+/W",;
+         Top 51,;
+         Function "!",;
+         Left 738,;
+         FontSize 10,;
+         Height 21,;
+         DataLink "Frighter->OPEN_DATE",;
+         Width 90,;
+       FontBold .T.
+
+   DEFINE TEXTLABEL TEXT1 OF THIS;
+       PROPERTY;
+         ColorNormal "B/BtnFace",;
+         Top 74,;
+         Text "Name:",;
+         Left 12,;
+         FontSize 10,;
+         Height 21,;
+         Width 108,;
+       FontName "MS Sans Serif",;
+       FontBold .T.
+
+   DEFINE ENTRYFIELD CNAME OF THIS;
+       PROPERTY;
+         Enabled .F.,;
+         ColorNormal "N/BtnFace",;
+         ColorHighLight "B+/W*",;
+         Top 74,;
+         Function "!",;
+         ValidErrorMsg "Name Required",;
+         Left 126,;
+         OnChange CLASS::CNAME_ONCHANGE,;
+         FontSize 10,;
+         Height 21,;
+         DataLink "Frighter->NAME",;
+         Width 678,;
+       FontName "MS Sans Serif",;
+       FontBold .T.
+
+   DEFINE TEXTLABEL TEXT10 OF THIS;
+       PROPERTY;
+         ColorNormal "B/BtnFace",;
+         Top 98,;
+         Text "Hq Cus Name:",;
+         Left 12,;
+         FontSize 10,;
+         Height 21,;
+         Width 108,;
+       FontName "MS Sans Serif",;
+       FontBold .T.
+
+   DEFINE ENTRYFIELD SHQCN OF THIS;
+       PROPERTY;
+         Enabled .F.,;
+         ColorNormal "N/BtnFace",;
+         ColorHighLight "B+/W*",;
+         Top 98,;
+         ValidErrorMsg "Name Required",;
+         Left 126,;
+         FontSize 10,;
+         Height 21,;
+         DataLink "FRIGHTER->CUS_NAME",;
+         Width 678,;
+       FontName "MS Sans Serif",;
+       FontBold .T.
+
+   DEFINE TEXTLABEL TEXT11 OF THIS;
+       PROPERTY;
+         ColorNormal "B/BtnFace",;
+         Top 124,;
+         Text "Select HQ Cus Name:",;
+         Left 12,;
+         FontSize 10,;
+         Height 21,;
+         Width 156,;
+       FontName "MS Sans Serif",;
+       FontBold .T.
+
+   DEFINE COMBOBOX SNHQN OF THIS;
+       PROPERTY;
+         Enabled .F.,;
+         FontName "Arial Black",;
+         ColorNormal "B/BtnFace",;
+         Top 121,;
+         Left 171,;
+         OnChange CLASS::SNHQN_ONCHANGE,;
+         Style 1,;
+         DataSource "FIELD FGHQCUSS->CUS_NAME",;
+         Height 23,;
+         DataLink "FRIGHTER->NCUSNAME",;
+         Width 627,;
+       FontSize 8,;
+       FontBold .T.
+
+   DEFINE TEXTLABEL TEXT14 OF THIS;
+       PROPERTY;
+         ColorNormal "B/BtnFace",;
+         Top 146,;
+         Text "Hq Cus Class:",;
+         Left 12,;
+         FontSize 10,;
+         Height 21,;
+         Width 156,;
+       FontName "MS Sans Serif",;
+       FontBold .T.
+
+   DEFINE ENTRYFIELD SHQCL OF THIS;
+       PROPERTY;
+         Enabled .F.,;
+         ColorNormal "N/BtnFace",;
+         ColorHighLight "B+/W*",;
+         Top 146,;
+         ValidErrorMsg "Name Required",;
+         Left 171,;
+         FontSize 10,;
+         Height 21,;
+         DataLink "FRIGHTER->CUS_CLA",;
+         Width 345,;
+       FontName "MS Sans Serif",;
+       FontBold .T.
+
+   DEFINE TEXTLABEL TEXT17 OF THIS;
+       PROPERTY;
+         ColorNormal "B/BtnFace",;
+         Top 146,;
+         Text "Hq Pay Method:",;
+         Left 522,;
+         FontSize 10,;
+         Height 21,;
+         Width 126,;
+       FontName "MS Sans Serif",;
+       FontBold .T.
+
+   DEFINE ENTRYFIELD SHQPM OF THIS;
+       PROPERTY;
+         Enabled .F.,;
+         ColorNormal "N/BtnFace",;
+         ColorHighLight "B+/W*",;
+         Top 146,;
+         ValidErrorMsg "Name Required",;
+         Left 654,;
+         FontSize 10,;
+         Height 21,;
+         DataLink "FRIGHTER->PAYMETHOD",;
+         Width 168,;
+       FontName "MS Sans Serif",;
+       FontBold .T.
+
+   DEFINE TEXTLABEL TEXT16 OF THIS;
+       PROPERTY;
+         ColorNormal "B/BtnFace",;
+         Top 170,;
+         Text "Hq Cus Class:",;
+         Left 12,;
+         FontSize 10,;
+         Height 21,;
+         Width 156,;
+       FontName "MS Sans Serif",;
+       FontBold .T.
+
+   DEFINE ENTRYFIELD SHQCAT OF THIS;
+       PROPERTY;
+         Enabled .F.,;
+         ColorNormal "N/BtnFace",;
+         ColorHighLight "B+/W*",;
+         Top 170,;
+         ValidErrorMsg "Name Required",;
+         Left 171,;
+         FontSize 10,;
+         Height 21,;
+         DataLink "FRIGHTER->CUS_CAT",;
+         Width 345,;
+       FontName "MS Sans Serif",;
+       FontBold .T.
+
+   DEFINE TEXTLABEL TEXT18 OF THIS;
+       PROPERTY;
+         ColorNormal "B/BtnFace",;
+         Top 173,;
+         Text "HQ Credit Limit:",;
+         Left 522,;
+         FontSize 10,;
+         Height 17,;
+         Width 126,;
+       FontName "MS Sans Serif",;
+       FontBold .T.,;
+       AlignHorizontal 1,;
+       AlignVertical 1
+
+   DEFINE ENTRYFIELD SHQCRL OF THIS;
+       PROPERTY;
+         Enabled .F.,;
+         ColorNormal "N/BtnFace",;
+         ColorHighLight "B+/W*",;
+         Top 173,;
+         Function "J",;
+         Left 654,;
+         Picture "999,999,999.99",;
+         FontSize 10,;
+         Height 20,;
+         DataLink "FRIGHTER->CR_LIMIT",;
+         Width 120,;
+       FontName "MS Sans Serif",;
+       FontBold .T.
+
+   DEFINE TEXTLABEL TEXT23 OF THIS;
+       PROPERTY;
+         ColorNormal "B/BtnFace",;
+         Top 204,;
+         Text "Address:",;
+         Left 12,;
+         FontSize 10,;
+         Height 21,;
+         Width 78,;
+       FontName "MS Sans Serif",;
+       FontBold .T.
+
+   DEFINE ENTRYFIELD ADDRESS1 OF THIS;
+       PROPERTY;
+         Enabled .F.,;
+         ColorNormal "N/BtnFace",;
+         ColorHighLight "B+/W*",;
+         Top 204,;
+         Valid CLASS::ADDRESS1_VALID,;
+         Function "!",;
+         ValidErrorMsg "Address Required",;
+         Left 96,;
+         OnChange CLASS::CHANGESMADE,;
+         FontSize 10,;
+         Height 21,;
+         DataLink "Frighter->Address1",;
+         Width 288,;
+       FontName "MS Sans Serif",;
+       FontBold .T.
+
+   DEFINE TEXTLABEL TEXT15 OF THIS;
+       PROPERTY;
+         ColorNormal "B/BtnFace",;
+         Top 202,;
+         Text "Phone:",;
+         Left 392,;
+         FontSize 10,;
+         Height 21,;
+         Width 52,;
+       FontName "MS Sans Serif",;
+       FontBold .T.
+
+   DEFINE ENTRYFIELD SPHONE OF THIS;
+       PROPERTY;
+         Enabled .F.,;
+         ColorNormal "N/BtnFace",;
+         ColorHighLight "B+/W*",;
+         Top 202,;
+         Function "!",;
+         Left 447,;
+         OnChange CLASS::ENTRYFIELD4_ONCHANGE,;
+         FontSize 10,;
+         Height 21,;
+         DataLink "Frighter->PHONE",;
+         Width 93,;
+       FontName "MS Sans Serif",;
+       FontBold .T.
+
+   DEFINE TEXTLABEL TEXT32 OF THIS;
+       PROPERTY;
+         ColorNormal "B/BtnFace",;
+         Top 228,;
+         Text "Group:",;
+         Left 12,;
+         FontSize 10,;
+         Height 21,;
+         Width 78,;
+       FontName "MS Sans Serif",;
+       FontBold .T.
+
+   DEFINE COMBOBOX SGROUP OF THIS;
+       PROPERTY;
+         Enabled .F.,;
+         FontName "Arial Black",;
+         ColorNormal "B/BtnFace",;
+         Top 225,;
+         Left 93,;
+         OnChange CLASS::SGROUP_ONCHANGE,;
+         Style 1,;
+         DataSource "FIELD frcategS->NAME",;
+         Height 23,;
+         DataLink "Frighter->CATNAME",;
+         Width 201,;
+       FontSize 8,;
+       FontBold .T.
+
+   DEFINE TEXTLABEL TEXT6 OF THIS;
+       PROPERTY;
+         ColorNormal "B/BtnFace",;
+         Top 228,;
+         Text "Staff A/C Type:",;
+         Left 302,;
+         FontSize 10,;
+         Height 21,;
+         Width 112,;
+       FontName "MS Sans Serif",;
+       FontBold .T.
+
+   DEFINE COMBOBOX SVAGE OF THIS;
+       PROPERTY;
+         FontName "Arial Black",;
+         ColorNormal "B/BtnFace",;
+         Top 228,;
+         Left 420,;
+         OnChange CLASS::SVAGE_ONCHANGE,;
+         Style 1,;
+         DataSource 'ARRAY {"","S","C"}',;
+         Height 23,;
+         DataLink "FRIGHTER->VAGE",;
+         Width 78,;
+       FontSize 8,;
+       FontBold .T.
+
+   DEFINE TEXTLABEL TEXT9 OF THIS;
+       PROPERTY;
+         ColorNormal "B/BtnFace",;
+         Top 253,;
+         Text "PIN No.:",;
+         Left 12,;
+         FontSize 10,;
+         Height 21,;
+         Width 78,;
+       FontName "MS Sans Serif",;
+       FontBold .T.
+
+   DEFINE ENTRYFIELD SPIN OF THIS;
+       PROPERTY;
+         Enabled .F.,;
+         ColorNormal "N/BtnFace",;
+         ColorHighLight "B+/W*",;
+         Top 253,;
+         Function "!",;
+         Left 93,;
+         OnChange CLASS::SPIN_ONCHANGE,;
+         FontSize 10,;
+         Height 21,;
+         DataLink "Frighter->PIN",;
+         Width 111,;
+       FontName "MS Sans Serif",;
+       FontBold .T.
+
+   DEFINE TEXTLABEL TEXT20 OF THIS;
+       PROPERTY;
+         ColorNormal "B/BtnFace",;
+         Top 253,;
+         Text "Credit Days:",;
+         Left 204,;
+         FontSize 10,;
+         Height 18,;
+         Width 90,;
+       FontName "MS Sans Serif",;
+       FontBold .T.
+
+   DEFINE ENTRYFIELD SDAYS OF THIS;
+       PROPERTY;
+         Enabled .F.,;
+         ColorNormal "N/BtnFace",;
+         ColorHighLight "B+/W*",;
+         Top 253,;
+         Function "J",;
+         Left 294,;
+         Picture "999",;
+         OnChange CLASS::SDAYS_ONCHANGE,;
+         FontSize 10,;
+         Height 22,;
+         DataLink "Frighter->CR_DAYS",;
+         Width 78,;
+       FontName "MS Sans Serif",;
+       FontBold .T.
+
+   DEFINE TEXTLABEL TEXT3 OF THIS;
+       PROPERTY;
+         ColorNormal "B/BtnFace",;
+         Top 253,;
+         Text "Credit Limit:",;
+         Left 378,;
+         FontSize 10,;
+         Height 17,;
+         Width 84,;
+       FontName "MS Sans Serif",;
+       FontBold .T.,;
+       AlignHorizontal 1,;
+       AlignVertical 1
+
+   DEFINE ENTRYFIELD SCREDITLIMT OF THIS;
+       PROPERTY;
+         Enabled .F.,;
+         ColorNormal "N/BtnFace",;
+         ColorHighLight "B+/W*",;
+         Top 253,;
+         Function "J",;
+         Left 468,;
+         Picture "999,999,999.99",;
+         OnChange CLASS::SCREDITLIMT_ONCHANGE2,;
+         FontSize 10,;
+         Height 20,;
+         DataLink "FRIGHTER->CREDIT_LMT",;
+         Width 120,;
+       FontName "MS Sans Serif",;
+       FontBold .T.
+
+   DEFINE TEXTLABEL TEXT8 OF THIS;
+       PROPERTY;
+         ColorNormal "B/BtnFace",;
+         Top 253,;
+         Text "ENFORCE CREDIT LIMIT:",;
+         Left 594,;
+         FontSize 10,;
+         Height 21,;
+         Width 180,;
+       FontName "MS Sans Serif",;
+       FontBold .T.
+
+   DEFINE COMBOBOX SCLMT OF THIS;
+       PROPERTY;
+         FontName "Arial Black",;
+         ColorNormal "B/BtnFace",;
+         Top 253,;
+         Left 774,;
+         OnChange CLASS::SCLMT_ONCHANGE,;
+         Style 1,;
+         DataSource 'ARRAY {"Y","N"}',;
+         Height 23,;
+         DataLink "FRIGHTER->VPURT",;
+         Width 60,;
+       FontSize 8,;
+       FontBold .T.
+
+   DEFINE TEXTLABEL TEXT12 OF THIS;
+       PROPERTY;
+         ColorNormal "B/BtnFace",;
+         Top 277,;
+         Text "V.A.T. No.:",;
+         Left 12,;
+         FontSize 10,;
+         Height 21,;
+         Width 78,;
+       FontName "MS Sans Serif",;
+       FontBold .T.
+
+   DEFINE ENTRYFIELD SVAT OF THIS;
+       PROPERTY;
+         Enabled .F.,;
+         ColorNormal "N/BtnFace",;
+         ColorHighLight "B+/W*",;
+         Top 277,;
+         Function "!",;
+         Left 93,;
+         OnChange CLASS::ENTRYFIELD8_ONCHANGE,;
+         FontSize 10,;
+         Height 21,;
+         DataLink "Frighter->VAT",;
+         Width 111,;
+       FontName "MS Sans Serif",;
+       FontBold .T.
+
+   DEFINE TEXTLABEL TEXT29 OF THIS;
+       PROPERTY;
+         ColorNormal "B/BtnFace",;
+         Top 277,;
+         Text "Dep.:",;
+         Left 216,;
+         FontSize 10,;
+         Height 17,;
+         Width 48,;
+       FontName "MS Sans Serif",;
+       FontBold .T.,;
+       AlignHorizontal 1,;
+       AlignVertical 1
+
+   DEFINE ENTRYFIELD SCDEP OF THIS;
+       PROPERTY;
+         Enabled .F.,;
+         ColorNormal "N/BtnFace",;
+         ColorHighLight "B+/W*",;
+         Top 277,;
+         Function "J",;
+         Left 264,;
+         Picture "99,999,999.99",;
+         OnChange CLASS::SCDEP_ONCHANGE,;
+         FontSize 10,;
+         Height 17,;
+         DataLink "Frighter->CDEP_AMT",;
+         Width 108,;
+       FontName "MS Sans Serif",;
+       FontBold .T.
+
+   DEFINE TEXTLABEL TEXT13 OF THIS;
+       PROPERTY;
+         ColorNormal "B/BtnFace",;
+         Top 277,;
+         Text "Bal. Due:",;
+         Left 378,;
+         FontSize 10,;
+         Height 17,;
+         Width 84,;
+       FontName "MS Sans Serif",;
+       FontBold .T.,;
+       AlignHorizontal 1,;
+       AlignVertical 1
+
+   DEFINE ENTRYFIELD SBAL OF THIS;
+       PROPERTY;
+         Enabled .F.,;
+         ColorNormal "N/BtnFace",;
+         ColorHighLight "B+/W*",;
+         Top 277,;
+         Function "J",;
+         Left 468,;
+         Picture "99,999,999.99",;
+         FontSize 10,;
+         Height 20,;
+         DataLink "Frighter->bal_due",;
+         Width 120,;
+       FontName "MS Sans Serif",;
+       FontBold .T.
+
+   DEFINE TEXTLABEL TEXT4 OF THIS;
+       PROPERTY;
+         ColorNormal "B/BtnFace",;
+         Top 280,;
+         Text "Date A/c Closed:",;
+         Left 594,;
+         FontSize 10,;
+         Height 18,;
+         Width 120,;
+       FontName "MS Sans Serif",;
+       FontBold .T.
+
+   DEFINE ENTRYFIELD SDCLOSE OF THIS;
+       PROPERTY;
+         Enabled .F.,;
+         FontName "Arial Black",;
+         ColorNormal "B+/BtnFace",;
+         ColorHighLight "B+/W",;
+         Top 280,;
+         Function "!",;
+         Left 717,;
+         FontSize 10,;
+         Height 21,;
+         DataLink "FRIGHTER->CLOSE_DATE",;
+         Width 117,;
+       FontBold .T.
+
+   DEFINE TEXTLABEL TEXT26 OF THIS;
+       PROPERTY;
+         ColorNormal "B/BtnFace",;
+         Top 308,;
+         Text "Special Instructions",;
+         Left 12,;
+         FontSize 10,;
+         Height 18,;
+         Width 138,;
+       FontName "MS Sans Serif",;
+       FontBold .T.
+
+   DEFINE EDITOR NOTESEDITOR2 OF THIS;
+       PROPERTY;
+         OnGotFocus {;if this.Modify;this.colorNormal = "B+/W*";endif},;
+         OnLostFocus {;if this.Modify;this.colorNormal = "N/BtnFace";endif},;
+         ColorNormal "N/BtnFace",;
+         Top 323,;
+         Modify .F.,;
+         CUATab .T.,;
+         Left 12,;
+         OnChange CLASS::CHANGESMADE,;
+         Height 34,;
+         DataLink "Frighter->INST_SP",;
+         Width 144,;
+       FontName "MS Sans Serif",;
+       FontSize 8,;
+       FontBold .T.
+
+   DEFINE EDITOR NOTESEDITOR3 OF THIS;
+       PROPERTY;
+         OnGotFocus {;if this.Modify;this.colorNormal = "B+/W*";endif},;
+         OnLostFocus {;if this.Modify;this.colorNormal = "N/BtnFace";endif},;
+         ColorNormal "N/BtnFace",;
+         Top 355,;
+         Modify .F.,;
+         CUATab .T.,;
+         Left 12,;
+         OnChange CLASS::NOTESEDITOR3_ONCHANGE,;
+         Height 36,;
+         DataLink "Frighter->INST_DEL",;
+         Width 144,;
+       FontName "MS Sans Serif",;
+       FontSize 8,;
+       FontBold .T.
+
+   DEFINE ENTRYFIELD SDUSER OF THIS;
+       PROPERTY;
+         Enabled .F.,;
+         ColorNormal "N/BtnFace",;
+         ColorHighLight "B+/W*",;
+         Top 304,;
+         Function "!",;
+         Left 588,;
+         FontSize 10,;
+         Height 21,;
+         DataLink "FRIGHTER->CLOSE_USER",;
+         Width 126,;
+       FontName "MS Sans Serif",;
+       FontBold .T.
+
+   DEFINE ENTRYFIELD SDTIME OF THIS;
+       PROPERTY;
+         Enabled .F.,;
+         ColorNormal "N/BtnFace",;
+         ColorHighLight "B+/W*",;
+         Top 304,;
+         Function "!",;
+         Left 720,;
+         FontSize 10,;
+         Height 21,;
+         DataLink "FRIGHTER->CLOSE_TIME",;
+         Width 114,;
+       FontName "MS Sans Serif",;
+       FontBold .T.
+
+   DEFINE BROWSE CHILDBROWSE OF THIS;
+       PROPERTY;
+         Toggle .F.,;
+         ShowRecNo .F.,;
+         Append .F.,;
+         ColorNormal "W+/0x808040",;
+         Top 425,;
+         Fields 'FGTRAN->ORDER_DATE\H="DATE"\10,FGTRAN->SYSTEM\H="SYS"\5\R,FGTRAN->DOCTYPE\H="DOC"\5\R,FGTRAN->ORDER_NO\H="REF"\9\R,FGTRAN->SHIFT_NO\H="SH"\4\R,FGTRAN->SHIFT_ID\H="ID"\4\R,FGTRAN->SERIALNO\H="SERIAL"\10\R,FGTRAN->LPO\H="OTH REF"\10\R,PROD = FGTRAN->COY+FGTRAN->DIV+FGTRAN->CEN+FGTRAN->STO+" - "+FGTRAN->TYP+FGTRAN->CLA+FGTRAN->COD\H="Itrem Code"\12,FGTRAN->QTY\H="QTY"\8\P="99,999.99"\R,FGTRAN->TOTAL\H="AMOUNT"\10\P="99,999,999.99"\R',;
+         Text "RECENT TRANSACTIONS",;
+         Modify .F.,;
+         CUATab .T.,;
+         Left 12,;
+         FontBold .T.,;
+         Delete .F.,;
+         Height 170,;
+         Alias "FGTRAN",;
+         Width 720,;
+       FontName "MS Sans Serif",;
+       FontSize 8
+
+   DEFINE PREVBUTTON PREVCOYBUTTON OF THIS;
+       PROPERTY;
+         Top 599,;
+         Default .T.,;
+         Group .T.,;
+         Left 8,;
+         OnClick CLASS::PREVIOUS,;
+         Height 26,;
+         Width 85,;
+       FontName "MS Sans Serif",;
+       FontSize 8,;
+       FontBold .T.
+
+   DEFINE NEXTBUTTON NEXTCOYBUTTON OF THIS;
+       PROPERTY;
+         Top 599,;
+         Group .F.,;
+         Left 98,;
+         OnClick CLASS::NEXT,;
+         Height 26,;
+         Width 85,;
+       FontName "MS Sans Serif",;
+       FontSize 8,;
+       FontBold .T.
+
+   DEFINE PUSHBUTTON FIRFRIGHTERBUTTON OF THIS;
+       PROPERTY;
+         Top 599,;
+         Group .F.,;
+         Text "F&irst",;
+         Left 198,;
+         OnClick CLASS::FIRST_RTN,;
+         StatusMessage "Go to the first record.",;
+         Height 26,;
+         Width 85,;
+       FontName "MS Sans Serif",;
+       FontSize 8,;
+       FontBold .T.
+
+   DEFINE PUSHBUTTON LAFRIGHTERBUTTON OF THIS;
+       PROPERTY;
+         Top 599,;
+         Group .F.,;
+         Text "&Last",;
+         Left 288,;
+         OnClick CLASS::LAST_RTN,;
+         StatusMessage "Go to the last Customer.",;
+         Height 26,;
+         Width 85,;
+       FontName "MS Sans Serif",;
+       FontSize 8,;
+       FontBold .T.
+
+   DEFINE TEXTLABEL TEXT21 OF THIS;
+       PROPERTY;
+         ColorNormal "B/BtnFace",;
+         Top 228,;
+         Text "GL Invoice:",;
+         Left 614,;
+         FontSize 10,;
+         Height 21,;
+         Width 82,;
+       FontName "MS Sans Serif",;
+       FontBold .T.
+
+   DEFINE COMBOBOX SGLCOD OF THIS;
+       PROPERTY;
+         FontName "Arial Black",;
+         ColorNormal "B/BtnFace",;
+         Top 228,;
+         Left 708,;
+         OnChange CLASS::SGLCOD_ONCHANGE,;
+         Style 2,;
+         DataSource 'ARRAY {"","No","Yes"}',;
+         Height 23,;
+         DataLink "FRIGHTER->GLCOD",;
+         Width 78,;
+       FontSize 8,;
+       FontBold .T.
+
+   DEFINE TEXTLABEL TEXT22 OF THIS;
+       PROPERTY;
+         ColorNormal "B/BtnFace",;
+         Top 200,;
+         Text "Card/Veh Cntrl:",;
+         Left 576,;
+         FontSize 10,;
+         Height 21,;
+         Width 120,;
+       FontName "MS Sans Serif",;
+       FontBold .T.
+
+   DEFINE COMBOBOX SCARDCNTRL OF THIS;
+       PROPERTY;
+         FontName "Arial Black",;
+         ColorNormal "B/BtnFace",;
+         Top 200,;
+         Left 708,;
+         OnChange CLASS::SCARD_ONCHANGE,;
+         Style 2,;
+         DataSource 'ARRAY {"","No","Yes"}',;
+         Height 23,;
+         DataLink "FRIGHTER->CARDCNTRL",;
+         Width 78,;
+       FontSize 8,;
+       FontBold .T.
+
+   DEFINE TEXTLABEL TEXT24 OF THIS;
+       PROPERTY;
+         ColorNormal "B/BtnFace",;
+         Top 304,;
+         Text "VEHICLE DATABASE",;
+         Left 420,;
+         FontSize 10,;
+         Height 21,;
+         Width 156,;
+       FontName "MS Sans Serif",;
+       FontBold .T.
+
+   DEFINE COMBOBOX SVEH OF THIS;
+       PROPERTY;
+         Enabled .F.,;
+         FontName "Arial Black",;
+         ColorNormal "B/BtnFace",;
+         Top 328,;
+         Left 450,;
+         OnChange CLASS::SVEH_ONCHANGE,;
+         Style 2,;
+         DataSource "ARRAY {'" + '""' + "'," + '"' + "Yes" + '"' + "," + '"' + "No" + '"' + "}",;
+         Height 23,;
+         DataLink "FRIGHTER->REG",;
+         Width 66,;
+       FontSize 8,;
+       FontBold .T.
+
+   DEFINE ENTRYFIELD SSERIAL OF THIS;
+       PROPERTY;
+         Enabled .F.,;
+         ColorNormal "N/BtnFace",;
+         ColorHighLight "B+/W*",;
+         Top 332,;
+         Left 681,;
+         Picture "9999999999",;
+         OnChange CLASS::SSERIAL_ONCHANGE,;
+         FontSize 10,;
+         Height 21,;
+         DataLink "FRIGHTER->SERIALNO",;
+         Width 111,;
+       FontName "MS Sans Serif",;
+       FontBold .T.
+
+   DEFINE TEXTLABEL TEXT25 OF THIS;
+       PROPERTY;
+         ColorNormal "B/BtnFace",;
+         Top 332,;
+         Text "VISA RECEIPT NO:",;
+         Left 522,;
+         FontSize 10,;
+         Height 21,;
+         Width 150,;
+       FontName "MS Sans Serif",;
+       FontBold .T.
+
+   DEFINE ENTRYFIELD SMAXSERIAL OF THIS;
+       PROPERTY;
+         Enabled .F.,;
+         ColorNormal "N/BtnFace",;
+         ColorHighLight "B+/W*",;
+         Top 361,;
+         Left 681,;
+         Picture "9999999999",;
+         OnChange CLASS::SMAXSERIAL_ONCHANGE,;
+         FontSize 10,;
+         Height 21,;
+         DataLink "FRIGHTER->MAXSERIAL",;
+         Width 111,;
+       FontName "MS Sans Serif",;
+       FontBold .T.
+
+   DEFINE TEXTLABEL TEXT27 OF THIS;
+       PROPERTY;
+         ColorNormal "B/BtnFace",;
+         Top 361,;
+         Text "MAX RECEIPT NO",;
+         Left 522,;
+         FontSize 10,;
+         Height 21,;
+         Width 150,;
+       FontName "MS Sans Serif",;
+       FontBold .T.
+
+   DEFINE TEXTLABEL TEXT28 OF THIS;
+       PROPERTY;
+         ColorNormal "B/BtnFace",;
+         Top 304,;
+         Text "CASH SALE DISCOUNTS",;
+         Left 162,;
+         FontSize 10,;
+         Height 21,;
+         Width 180,;
+       FontName "MS Sans Serif",;
+       FontBold .T.
+
+   DEFINE COMBOBOX SDSC OF THIS;
+       PROPERTY;
+         Enabled .F.,;
+         FontName "Arial Black",;
+         ColorNormal "B/BtnFace",;
+         Top 304,;
+         Left 347,;
+         OnChange CLASS::SDSC_ONCHANGE,;
+         Style 2,;
+         DataSource "ARRAY {'" + '""' + "'," + '"' + "Yes" + '"' + "," + '"' + "No" + '"' + "}",;
+         Height 23,;
+         DataLink "FRIGHTER->CASS_DISC",;
+         Width 66,;
+       FontSize 8,;
+       FontBold .T.
+
+   DEFINE ENTRYFIELD SDRV OF THIS;
+       PROPERTY;
+         Enabled .F.,;
+         ColorNormal "N/BtnFace",;
+         ColorHighLight "B+/W*",;
+         Top 332,;
+         Left 369,;
+         Picture "9.99",;
+         OnChange CLASS::SDRV_ONCHANGE,;
+         FontSize 10,;
+         Height 21,;
+         DataLink "FRIGHTER->DRV_RATE",;
+         Width 51,;
+       FontName "MS Sans Serif",;
+       FontBold .T.
+
+   DEFINE TEXTLABEL TEXT30 OF THIS;
+       PROPERTY;
+         ColorNormal "B/BtnFace",;
+         Top 332,;
+         Text "Driver Discount Per Litr:",;
+         Left 162,;
+         FontSize 10,;
+         Height 21,;
+         Width 198,;
+       FontName "MS Sans Serif",;
+       FontBold .T.
+
+   DEFINE TEXTLABEL TEXT31 OF THIS;
+       PROPERTY;
+         ColorNormal "B/BtnFace",;
+         Top 366,;
+         Text "Investor Discount Per Litr:",;
+         Left 162,;
+         FontSize 10,;
+         Height 21,;
+         Width 198,;
+       FontName "MS Sans Serif",;
+       FontBold .T.
+
+   DEFINE ENTRYFIELD SINV OF THIS;
+       PROPERTY;
+         Enabled .F.,;
+         ColorNormal "N/BtnFace",;
+         ColorHighLight "B+/W*",;
+         Top 366,;
+         Left 369,;
+         Picture "9.99",;
+         OnChange CLASS::SINV_ONCHANGE,;
+         FontSize 10,;
+         Height 21,;
+         DataLink "FRIGHTER->INV_RATE",;
+         Width 51,;
+       FontName "MS Sans Serif",;
+       FontBold .T.
+
+   DEFINE TEXTLABEL TEXT33 OF THIS;
+       PROPERTY;
+         ColorNormal "B/BtnFace",;
+         Top 391,;
+         Text "Purchase Order:",;
+         Left 348,;
+         FontSize 10,;
+         Height 21,;
+         Width 132,;
+       FontName "MS Sans Serif",;
+       FontBold .T.
+
+   DEFINE COMBOBOX SLPO OF THIS;
+       PROPERTY;
+         Enabled .F.,;
+         FontName "Arial Black",;
+         ColorNormal "B/BtnFace",;
+         Top 391,;
+         Left 486,;
+         OnChange CLASS::SLPO_ONCHANGE,;
+         Style 2,;
+         DataSource "ARRAY {'" + '""' + "'," + '"' + "Yes" + '"' + "," + '"' + "No" + '"' + "}",;
+         Height 23,;
+         DataLink "FRIGHTER->LPO",;
+         Width 66,;
+       FontSize 8,;
+       FontBold .T.
 
    procedure Open
    ****************************************************************************
    private TypeField,CodeField
     ON ERROR DO ddeerr WITH ERROR(), MESSAGE(),;
    PROGRAM(), LINENO()
-   buser = 'e'
-   blevel=1
-   blyvisa = .t.
         FORM.BLEVEL = BLEVEL
         form.bluser = buser
         FORM.BLYVISA = BLYVISA
    IF EMPTY(FORM.BLUSER) .OR. EMPTY(FORM.BLEVEL)
    QUIT
    ENDIF
-   
+
    form.firstime = .T.
    if type("form.init") = "U"
       form.init = .T.
-   
+
       set skip to                     && FRIGTMES.QBE contains set skip to gldtl
       set exact off                   && the .qbe file contains SET EXACT ON
-   
+
       set procedure to sampProc.prg additive
     Form.duplicate = .F.
       form.inEditMode = .F.           && indicator of view/edit state
@@ -1147,7 +1293,7 @@ class FrighterFORM of FORM
    FORM.DPMOD.ENABLED = .F.
    FORM.DTYP.ENABLED = .F.
    FORM.DFrighter.ENABLED = .F.
-   
+
       FORM.PDEPTYP = ""
    FORM.PDEPCLA = ""
    FORM.PDEPCOD = ""
@@ -1160,7 +1306,7 @@ class FrighterFORM of FORM
    FORM.PDTYP  = ""
    FORM.PDCLA  = ""
    FORM.PDCOD = ""
-   
+
           form.psource= ""
             FORM.PFTYP = ""
             FORM.PPMOD = ""
@@ -1183,9 +1329,9 @@ class FrighterFORM of FORM
       set order to name
       select frigtmes
       set order to  frighter
-                    
+
         *** do calculations in another area so form doesn't get updated
-               
+
     FORM.PDEPTYP = "L0"
    FORM.PDEPCLA = "00"
    FORM.PDEPCOD = "01"
@@ -1198,7 +1344,7 @@ class FrighterFORM of FORM
     FORM.PDTYP = "C0"
    FORM.PDCLA = "01"
    FORM.PDCOD = "00"
-    
+
      endif
    select Frighter
    go top
@@ -1206,7 +1352,7 @@ class FrighterFORM of FORM
      form.sserial.enabled = .t.
      form.SMAXSERIAL.enabled = .t.
        ENDIF
-        if FORM.BLEVEL > 3 
+        if FORM.BLEVEL > 3
        form.cname.enabled = .f.
        FORM.SCLMT.ENABLED = .F.
           FORM.SVAGE.ENABLED = .F.
@@ -1218,7 +1364,7 @@ class FrighterFORM of FORM
            form.sglcod.enabled = .f.
            form.scardcntrl.enabled = .f.
            FORM.SGROUP.EBABLED = .F.
-           
+
        endif
       SELECT FGVISNOG
       REPLACE FRIGHTER_N WITH FRIGHTER->FRIGHTER_N
@@ -1232,24 +1378,19 @@ class FrighterFORM of FORM
        form.BrowseOnNavigate()              && calculate totals
 
    procedure OnClose
-   
+
    * Clean up.
    ****************************************************************************
-   
-   if this.inEditMode
+  if this.inEditMode
       form.ViewEdit()                      && Finish transaction
    endif
+   rollback()
       close procedure SAMPProc.prg
-      CLOSE PROCEDURE BUTTONS.CC
-*   if .not. validdrive("Z:") .and.  .not. validdrive("W:")  .and.  .not. validdrive("Y:")   .and. .not. validdrive("X:")
+   if .not. validdrive("Z:") .and.  .not. validdrive("W:") ;
+    .and.  .not. validdrive("Y:")   .and. .not. validdrive("X:")
       do Frighter_rtn WITH FORM.BLUSER
- *     endif
-  * select frighter
-  * set filter to empty(name) .and. empty(l_inv_date) .and. empty(l_pay_date) ;
-   .and. bal_due = 0 .and. cdep_amt = 0
-  * go top
-  * delete all
-   form.close()
+      endif
+    form.close()
    close databases
    ****************************************************************************
 
@@ -1267,23 +1408,24 @@ class FrighterFORM of FORM
    ****************************************************************************
 
    procedure ChangesMade
-   
+
    * Indicate that changes have been made to the current record
    ****************************************************************************
    Form.ChangesMade = .T.
    ****************************************************************************
 
+
    procedure Last_rtn
-   
+
    * Go to next record.
    ****************************************************************************
-   
+
      form.CheckCommit(form.inEditMode)
    if .not. eof() .and. .not. empty(frighter->name) .and. .not. empty(frighter->category)
       go bottom
     endif
     form.BrowseOnNavigate()
-     IF  FORM.BLEVEL  < 4 .and.  Frighter->source = "9" 
+     IF  FORM.BLEVEL  < 4 .and.  Frighter->source = "9"
        FORM.SVAGE.ENABLED = .t.
        form.sglcod.enabled = .t.
          form.scardcntrl.enabled = .t.
@@ -1329,16 +1471,16 @@ class FrighterFORM of FORM
    endif
 
    procedure first_rtn
-   
+
    * Go to next record.
    ****************************************************************************
-   
+
      form.CheckCommit(form.inEditMode)
    if .not. eof() .and. .not. empty(frighter->name) .and. .not. empty(frighter->category)
      go top
     endif
     form.BrowseOnNavigate()
-     IF  FORM.BLEVEL  < 4 .and.  Frighter->source = "9" 
+     IF  FORM.BLEVEL  < 4 .and.  Frighter->source = "9"
        FORM.SVAGE.ENABLED = .t.
        form.sglcod.enabled = .t.
          form.scardcntrl.enabled = .t.
@@ -1384,23 +1526,23 @@ class FrighterFORM of FORM
         endif
        if  FORM.BLEVEL  < 5 .and.  .not. (Frighter->source < "4" .or. Frighter->source = "B")
        FORM.SCLMT.ENABLED = .t.
-   
+
        else
        FORM.SCLMT.ENABLED = .f.
-       
+
        endif
 
    procedure Next
-   
+
    * Go to next record.
    ****************************************************************************
-   
+
      form.CheckCommit(form.inEditMode)
    if .not. eof() .and. .not. empty(frighter->name) .and. .not. empty(frighter->category)
       NEXTBUTTON::OnClick()
     endif
     form.BrowseOnNavigate()
-     IF  FORM.BLEVEL  < 4 .and.  Frighter->source = "9" 
+     IF  FORM.BLEVEL  < 4 .and.  Frighter->source = "9"
        FORM.SVAGE.ENABLED = .t.
        form.sglcod.enabled = .t.
          form.scardcntrl.enabled = .t.
@@ -1448,29 +1590,29 @@ class FrighterFORM of FORM
    endif
        if  FORM.BLEVEL  < 4 .and.  .not. (Frighter->source < "4" .or. Frighter->source = "B")
         FORM.SCLMT.ENABLED = .t.
-        
+
        FORM.SCreditLIMT.ENABLED = .T.
        else
        FORM.SCLMT.ENABLED = .f.
        FORM.SCreditLIMT.ENABLED = .F.
-       
+
        endif
    ****************************************************************************
 
    procedure Previous
-   
+
    * Go to previous record.
    ****************************************************************************
-   
+
       form.CheckCommit(form.inEditMode)
    *form.slocbled = .F.
-   
+
    *   form.Sclass.Enabled = .F.
    if .not. empty(frighter->name) .and. .not. empty(frighter->category)
      PREVBUTTON::OnClick()
     form.BrowseOnNavigate()
     endif
-     IF  FORM.BLEVEL  < 4 .and.  Frighter->source = "9" 
+     IF  FORM.BLEVEL  < 4 .and.  Frighter->source = "9"
        FORM.SVAGE.ENABLED = .t.
        form.sglcod.enabled = .t.
          form.scardcntrl.enabled = .t.
@@ -1503,17 +1645,18 @@ class FrighterFORM of FORM
        if  FORM.BLEVEL  < 4 .and.  .not. (Frighter->source < "4" .or. Frighter->source = "B")
         FORM.SCLMT.ENABLED = .t.
        FORM.SCreditLIMT.ENABLED = .T.
-       
+
        else
        FORM.SCLMT.ENABLED = .f.
        FORM.SCreditLIMT.ENABLED = .F.
-       
+
        endif
-   
+
    ****************************************************************************
 
+
    procedure CheckCommit (newInEditMode)
-   
+
         * Finish transaction, if it has been started.
    ****************************************************************************
    private CodeField, changesMade
@@ -1521,13 +1664,14 @@ class FrighterFORM of FORM
    if form.changesMade
       CodeField = field(1)  && Field period
       if     ConfirmationMessage("Commit changes?",;
-                FormatStr("Customer %1",&CodeField)) = YES
+                FormatStr("Customer %1",&CodeField)) = YES   .and. ;
+                .not. empty(dbf()) 
                 select frighter
                 replace vary_date with date()
                 replace vary_user with FORM.BLUSER
                 replace vary_time with time()
                 replace vsac with "Z"
-                
+
          commit()
        form.updated = .t.
       else
@@ -1536,7 +1680,7 @@ class FrighterFORM of FORM
              form.previousRecord = .F.
          endif
       endif
-    
+
     if form.inEditMode .and. newInEditMode
          begintrans()
       endif
@@ -1552,19 +1696,19 @@ class FrighterFORM of FORM
       endif
       form.inEditMode = newInEditMode
    endif
-     
+
    * form.root.Receipt.add.enabled = .T.
    *form.codingerrors()
    ****************************************************************************
 
    procedure ViewEdit
-   
+
    * Toggle between View and Edit modes.
    ****************************************************************************
    local inEditMode, editMenu, control
-   
+
    editMenu = form.root.frighter.VIEWEdit
-   
+
    *** If ending edit mode then close transaction, otherwise open it.
    if form.inEditMode
       form.checkChanged(.F.)
@@ -1596,26 +1740,26 @@ class FrighterFORM of FORM
    form.sphone.enabled = .t.
    form.spin.enabled = .t.
    form.svat.enabled = .t.
-   
+
           form.notesEditor3.modify = .T.
          form.notesEditor2.modify = .T.
       form.statusmessage = "In Edit Mode.  " + ;
                            "Select menu Customer Account - View to switch " + ;
                            "to View mode."
-        
+
    endif
-   
+
    inEditMode = form.inEditMode     && Faster if we don't reference a form
    control = form.first             &&    variable each time through the loop
    do
       if .not. control.className $ "BROWSE,EDITOR,NEXTBUTTON,PREVBUTTON,PUSHBUTTON,IMAGE,TEXT"
          control.enabled = inEditMode
-   
+
       endif
-   
+
       control = control.before
    until control.name = form.first.name
-   
+
    form.sopendate.enabled = .f.
     IF FORM.BLEVEL < 2
    FORM.SCDEP.ENABLED = .F.
@@ -1638,7 +1782,7 @@ class FrighterFORM of FORM
        form.sdclose.enabled = .f.
        form.sduser.enabled = .f.
        form.sdtime.enabled = .f.
-       IF  FORM.BLEVEL  < 4 .and.  Frighter->source = "9" 
+       IF  FORM.BLEVEL  < 4 .and.  Frighter->source = "9"
        FORM.SVAGE.ENABLED = .t.
        form.sglcod.enabled = .t.
          form.scardcntrl.enabled = .t.
@@ -1681,11 +1825,11 @@ class FrighterFORM of FORM
        if  FORM.BLEVEL  < 4 .and.  .not. (Frighter->source < "4" .or. Frighter->source = "B")
        FORM.SCLMT.ENABLED = .t.
        FORM.SCreditLIMT.ENABLED = .T.
-       
+
        else
        FORM.SCLMT.ENABLED = .f.
        FORM.SCreditLIMT.ENABLED = .F.
-       
+
        endif
        if form.blevel > 4
        form.SNHQN.enabled = .f.
@@ -1697,24 +1841,24 @@ class FrighterFORM of FORM
            FORM.SHQCN.ENABLED = .F.
             FORM.SHQCAT.ENABLED = .F.
           select Frighter
-          form.cname.SetFocus()  
-     
-   
+          form.cname.SetFocus()
+
+
    ****************************************************************************
 
    procedure CheckChanged(callCommit)
-   
+
    * Check if changes have been made to the current entryfield.  This procedure
    * is called from menu routines to make sure the form.changesMade gets
    * updated when a menu is selected while the changed control has focus.
    ****************************************************************************
    private control, fieldValue, controlValue, typeText, typeValue
-   
+
    if form.inEditMode
       control = form.activeControl
       if type("control.datalink") <> "U"
          fieldValue = control.datalink          && name of table field
-   
+
          typeText = type("control.text")
          typeValue = type("control.value")
          do case
@@ -1733,6 +1877,7 @@ class FrighterFORM of FORM
    if form.changesMade .and. callCommit
       CLASS::CheckCommit(form.inEditMode)     && Check transactions
    endif
+
 
    Procedure SCONTACT_OnChange
         form.changesmade = .t.
@@ -1764,6 +1909,8 @@ class FrighterFORM of FORM
    Procedure SACCREF_OnChange
       form.changesmade = .t.
 
+
+
    Procedure NOTESEDITOR3_OnChange
       form.changesmade =.t.
 
@@ -1776,6 +1923,8 @@ class FrighterFORM of FORM
    Procedure SCLIMIT_OnDesignOpen(bFromPalette)
          form.changesmade = .t.
 
+
+
     Procedure SDAYS_OnChange
          form.changesmade = .t.
 
@@ -1783,7 +1932,7 @@ class FrighterFORM of FORM
    form.CNAME.value = ltrim(form.CNAME.value)
       if .not. empty(this.value)
    select frighter2
-   seek  form.CNAME.value 
+   seek  form.CNAME.value
    if found()  .AND. .NOT. (SOURCE = FRIGHTER->SOURCE .AND. FRIGHTER_N = FRIGHTER->FRIGHTER_N)
    InformationMessage("Duplicate Customer name not allowed", "Note!")
    form.CNAME.value =""
@@ -1891,7 +2040,7 @@ class FrighterFORM of FORM
    Procedure SLPO_OnChange
    form.changesmade = .t.
 
-endclass
+ENDCLASS
 
 Procedure Frighter_rtn
 PARAMETER BUSER
@@ -1899,7 +2048,7 @@ PLUSER = BUSER
    eofFrighter = .f.
    set safety off
    select frigtmes
-   
+
  set order to Frighter
      set safety on
    select Frighter
@@ -1910,11 +2059,11 @@ PLUSER = BUSER
   go top
    if .not. eof()
       do
-         do rtn2 
+         do rtn2
          until eofFrighter
      endif
-  
-   
+
+
 Procedure rtn2
    local l1,l2,l3,l4
    l1 = source
@@ -1925,15 +2074,15 @@ Procedure rtn2
       seek l1+l2+l3+l4
       if .not. found() .and. .not. empty(frighter->name) .and. .not. empty(frighter->category) ;
        .and. .not. empty(frighter->ftyp) .and. .not. empty(frighter->pmod);
-        .and. .not. empty(frighter->source) .and. .not. empty(frighter->frighter_n) 
+        .and. .not. empty(frighter->source) .and. .not. empty(frighter->frighter_n)
       append blank
       replace ftyp with Frighter->ftyp
       replace Frighter_n with Frighter->Frighter_n
       replace source with l1
       replace pmod with l3
       endif
-       replace DRV_RATE with frighter->DRV_RATE  
-        replace INV_RATE with frighter->INV_RATE  
+       replace DRV_RATE with frighter->DRV_RATE
+        replace INV_RATE with frighter->INV_RATE
       replace CASS_DISC with frighter->CASS_DISC
       replace visa_user with frighter->visa_user
        replace visa_date with frighter->visa_date
@@ -2003,5 +2152,5 @@ Procedure rtn2
    if eof()
    eofFrighter = .t.
    endif
-     
+
 

@@ -1,0 +1,210 @@
+******************************************************************************
+*  PROGRAM:      fgtrnprv.mnu
+*
+*  WRITTEN BY:   W Nyongesa
+*
+*  DATE:         03/2001
+*
+*  UPDATED:      09/2012
+*
+*  REVISION:     $Revision:   1.58  $
+*
+*  VERSION:      Visual dBASE
+*
+*  DESCRIPTION:  This is a menu file used by fgtrnprv.WFM for
+*                performing simple tasks.  It allows adding and deleting
+*                records, searching for a value in the Type field of the
+*                current table viewed, and exiting the form in view.
+*
+*  PARAMETERS:   FormObj -- the form to which this menu will belong.
+*
+*  CALLS:        None
+*
+*  USAGE:        form.menuFile = "fgtrnprv.mnu"
+*
+*******************************************************************************
+#include <messdlg.h>
+
+** END HEADER -- do not remove this line*
+* Generated on 07/03/2001
+*
+Parameter FormObj
+NEW TypeS(FormObj,"Root")
+CLASS TypeS(FormObj,Name) OF MENUBAR(FormObj,Name)
+   this.Text = ""
+   this.OnInit = {;set procedure to SampProc.prg}
+
+   DEFINE MENU FILE OF THIS;
+       PROPERTY;
+         Text "&File"
+
+         DEFINE MENU EXIT OF THIS.FILE;
+             PROPERTY; 
+               StatusMessage "Return to the Previous Menu.",;
+               Text "&Return to Previous Menu",;
+               ShortCut "F4",;
+               OnClick CLASS::ONEXITALL
+
+        
+       DEFINE MENU SEPARATOR000 OF THIS.FILE;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+
+
+         DEFINE MENU QUITS OF THIS.FILE;
+             PROPERTY; 
+               StatusMessage "Leave Kenserve Integrated System.",;
+               Text "Exit",;
+               ShortCut "F8",;
+               OnClick CLASS::QUITALL
+
+   DEFINE MENU fgtrnprv OF THIS;
+       PROPERTY;
+         Text "&Ref Info"
+
+         DEFINE MENU VIEWEDIT OF THIS.fgtrnprv;
+             PROPERTY;
+               OnClick CLASS::VIEWEDITONCLICK,;
+               Text "&Edit",;
+               Shortcut "Ctrl-E",;
+               StatusMessage "Edit data."
+
+         DEFINE MENU SEPARATOR1 OF THIS.fgtrnprv;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+
+         DEFINE MENU ADD OF THIS.fgtrnprv;
+             PROPERTY;
+               OnClick CLASS::ADDONCLICK,;
+               Text "Add",;
+               Enabled .T.,;
+               Shortcut "F3",;
+               StatusMessage "Add a new reference."
+
+        
+        
+         DEFINE MENU SEPARATOR3 OF THIS.fgtrnprv;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+
+
+  DEFINE MENU REPORT OF THIS;
+       PROPERTY;
+         Text "&Tasks"
+
+                  
+               DEFINE MENU sasvrERRORTypeSREPORT OF THIS.REPORT;
+             PROPERTY;
+               OnClick Class::F5_rtn,;
+               Text "Save.",;
+               Shortcut "F5"
+
+
+
+
+
+   ****************************************************************************
+   procedure AddOnClick
+
+   * Add new record.
+   ****************************************************************************
+   private addForm, newType, inEditMode
+           
+   form.CheckChanged(.T.)
+   if ConfirmationMessage("Are you sure you want to add A Credit Reference Info?",;
+                          "Confirmation") = YES 
+       inEditMode = iif(type("form.curPage") <> "U", form.curPage.inEditMode,;
+                                                    form.inEditMode)
+      if .not. inEditMode
+         form.ViewEdit()                 && Make sure record is editable
+         endif
+
+                                            && and begin a transaction
+      form.changesMade = .F.            && Since we are adding a record
+         form.previousRecord = recno()   
+          local lorderno,l1
+          if empty(fgtrnprv->order_no) .or. .not. empty(fgtrnprv->valid_date)
+                   select fgtrnprv2
+                 go top
+                 if eof()
+                 lorderno = 0
+                 else
+                 
+     GO bottom
+          lorderno = val(order_no)
+          endif
+          
+      lorderno = lorderno + 1 && current Type code
+      
+      if lorderno < 10
+      l1 = "00000"+str(lorderno,1)
+      else
+         if lorderno < 100
+      l1 = "0000"+str(lorderno,2)
+      else 
+       if lorderno < 1000
+      l1 = "000"+str(lorderno,3) 
+      else
+        if lorderno < 10000
+      l1 = "00"+str(lorderno,4) 
+      else
+         if lorderno < 100000
+      l1 = "0"+str(lorderno,5) 
+      else
+       if lorderno < 1000000
+      l1 = str(lorderno,6) 
+      else
+      quit
+      endif
+      endif
+      endif
+      endif
+      endif
+     endif
+    select fgtrnprv
+    IF .NOT. EMPTY(DBF())
+      append blank
+      replace order_no with l1
+      replace dde_date with date()
+      replace dde_time with time()
+      replace dde_user with user()
+            form.SDOC.setfocus()
+     endif
+     endif
+     ENDIF
+   procedure f5_rtn
+     form.CheckCommit(form.inEditMode)
+      select fgtrnprv
+      if .not. empty(order_no) .and. empty(valid_date) .and. .not. empty(o_order) ;
+       .and. .not. empty(o_doc) .and. .not. empty(o_sys) 
+           replace valid_date with date()
+           form.changesmade = .t.
+             flush
+         *    form.go_top()
+           endif
+   ***************************************************************************
+   procedure ViewEditOnClick
+   ****************************************************************************
+
+   form.ViewEdit()
+
+ 
+   ****************************************************************************
+     procedure OnExitALL
+   
+  
+   ****************************************************************************
+   *      form.close()  
+     form.Release()
+   Procedure QUITALL
+            form.Release()
+            QUIT
+  
+
+ENDCLASS
+
+
+

@@ -1,0 +1,52 @@
+* Visual dBASE .QBE file 9
+CLOSE DATABASES
+ON ERROR DO FRISTR.PRG
+CLOSE DATABASES
+USE \KENSERVICE\DATA\FRIGHTER.DBF
+? MAXSERIAL
+ON ERROR DO FGCOYPUP.PRG 
+USE  \KENSERVICE\DATA\FGCOY.DBF
+? veh
+ON ERROR DO QBEERR WITH ERROR(), MESSAGE(),;
+PROGRAM(), LINENO()
+CLOSE DATABASES
+SET EXACT ON
+*set exclusive on
+SELECT 1
+USE \KENSERVICE\DATA\frighter.DBf order tag frighter
+*ZAP
+set filter to empty(open_date)
+SELECT 2
+USE \KENSERVICE\DATA\FRIGTMES.DBF
+SELECT 4
+if .not. file("\kenservice\data\fghqcuss.dbf")
+use \kenserve\idssys\fghqcuss.dbf
+copy stru to \kenservice\data\fghqcuss dbase prod
+endif
+USE \KENSERVICE\DATA\fghqcusS.DBF ORDER TAG CUS_NAME
+select 70
+use \kenservice\data\frcategs.dbf order tag name
+SELECT 3
+USE \KENSERVICE\DATA\frsource.DBF order tag source
+SELECT 4
+USE \KENSERVICE\DATA\frsourcs.DBF order tag name
+SET FILTER TO .not. SOURCE =  "B" .and. .not. source = "1";
+ .and. .not. source = "2" .and. .not. source = 'L'  .and. .not. source = 'S'
+SELECT 5
+USE \KENSERVICE\DATA\FRITTYP.DBF order tag ftyp
+SELECT 7
+USE \KENSERVICE\DATA\FRPYMOD.DBF order tag pmod
+SELECT 23
+USE \KENSERVICE\DATA\frighter.DBF AGAIN ALIAS frighter3
+SELECT 88
+USE \KENSERVICE\DATA\fgCOY.DBf
+GO  TOP
+select 92
+use \kenservice\data\frighter.dbf agai alias frighter4
+select 93
+use \kenservice\data\custaudt.dbf
+select 1
+set relation to source into frsource, ftyp into frittyp, pmod into frpymod, ;
+catname into frcategs
+SELECT 1
+GO TOP
