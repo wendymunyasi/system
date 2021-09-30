@@ -1,7 +1,7 @@
 ////////////////////////////////////////////////////////////////////////////////
-// Output Filename: VENNAMES_FCV.WFM                     //
+// Output Filename: C:\KENSERVICE\IDSSYS\VENNAMES_FCV.WFM                     //
 // Created By:      dBASE Form Converter Wizard                               //
-// Created On:      Sunday September 26, 2021 At 06:47:43                     //
+// Created On:      Thursday September 30, 2021 At 07:40:04                   //
 // Object Count:    33                                                        //
 ////////////////////////////////////////////////////////////////////////////////
 *******************************************************************************
@@ -41,482 +41,518 @@ _app.FrameWin.Visible = .F.
 _app.FrameWin.Text = "Vennames"
 set ldCheck off && To avoid language driver conflicts
 #define Maxcoy 999
-** END HEADER -- do not remove this line
-//
-// Generated on 09/26/2021
-//
-parameter bModal
+** END HEADER -- do not remove this line*
+* Generated on 26/09/2021
+*
+parameter bUser,bLevel,bModal
 local f
 f = new VendorFORM()
-if (bModal) = true
-   f.mdi = false // ensure not MDI
-   f.readModal()
+if (bModal)
+   f.mdi = .F. && ensure not MDI
+   f.ReadModal()
 else
-   f.open()
+   f.Open()
 endif
+CLASS VendorFORM OF FORM
+   Set Procedure To BUTTONS.CC additive
+   this.Metric = 6  // Pixels
+   this.Minimize = .F.
+   this.EscExit = .F.
+   this.Top = 316
+   this.OnClose = CLASS::ONCLOSE
+   this.MousePointer = 1
+   this.ColorNormal = "N+"
+   this.Text = "VENDOR INFORMATION"
+   this.Moveable = .F.
+   this.SysMenu = .F.
+   this.WindowState = 2
+   this.MDI = .F.
+   this.ScrollBar = 1
+   this.MenuFile = "VENNAMES.MNU"
+   this.Left = 0
+   this.View = "Vennames.QBE"
+   this.Height = 252
+   this.Sizeable = .F.
+   this.Maximize = .F.
+   this.Width = 636
 
-class VendorFORM of FORM
-   set procedure to BUTTONS.CC additive
-   with (this)
-      onClose = class::ONCLOSE
-      open = class::OPEN
-      metric = 6	// Pixels
-      colorNormal = "N+"
-      height = 666.0
-      left = -40.0
-      top = -16.0
-      width = 1074.0
-      text = "VENDOR INFORMATION"
-      windowState = 2	// Maximized
-      mdi = false
-      sizeable = false
-      moveable = false
-      sysMenu = false
-      view = "Vennames.QBE"
-      menuFile = "VENNAMES.MNU"
-      escExit = false
-      mousePointer = 1	// Arrow
-      scrollBar = 0	// Off
-      maximize = false
-      minimize = false
-   endwith
+   DEFINE RECTANGLE RECTANGLE1 OF THIS;
+       PROPERTY;
+         Top 17,;
+         ColorNormal "R+/BtnFace",;
+         Text "VENDOR MASTER INFORMATION",;
+         FontSize 10,;
+         Left 12,;
+         Height 476,;
+         Width 828,;
+       FontName "MS Sans Serif",;
+       FontBold .T.
 
-   this.RECTANGLE1 = new RECTANGLE(this)
-   with (this.RECTANGLE1)
-      left = 35.0
-      top = 33.0
-      width = 784.0
-      height = 650.0
-      text = "VENDOR MASTER INFORMATION"
-      colorNormal = "R+/silver"
-      fontName = "Garamond"
-      fontBold = true
-   endwith
+   DEFINE TEXTLABEL TEXT2 OF THIS;
+       PROPERTY;
+         Top 51,;
+         ColorNormal "B/BtnFace",;
+         Text "Cat.:",;
+         FontSize 10,;
+         Left 18,;
+         Height 18,;
+         Width 36,;
+       FontName "MS Sans Serif",;
+       FontBold .T.,;
+       AlignHorizontal 2,;
+       AlignVertical 1
 
-   this.TEXT2 = new TEXTLABEL(this)
-   with (this.TEXT2)
-      height = 22.0
-      left = 45.0
-      top = 88.0
-      width = 126.0
-      text = "Cat.:"
-      colorNormal = "B/BtnFace"
-      fontName = "MS Sans Serif"
-      fontBold = true
-      alignVertical = 1	// Middle
-   endwith
+   DEFINE ENTRYFIELD DSRCE OF THIS;
+       PROPERTY;
+         Top 51,;
+         ColorNormal "N/BtnFace",;
+         FontSize 10,;
+         Function "!",;
+         ColorHighLight "B+/W*",;
+         DataLink "Vendor->vsrce",;
+         Left 216,;
+         Enabled .F.,;
+         Height 21,;
+         Width 24,;
+       FontName "MS Sans Serif",;
+       FontBold .T.
 
-   this.DSRCE = new ENTRYFIELD(this)
-   with (this.DSRCE)
-      dataLink = "Vendor->vsrce"
-      enabled = false
-      height = 15.0
-      left = 189.0
-      top = 88.0
-      width = 35.0
-      function = "!"
-      colorNormal = "N/BtnFace"
-      colorHighLight = "B+/W*"
-      fontName = "MS Sans Serif"
-      fontBold = true
-   endwith
+   DEFINE TEXTLABEL TEXT5 OF THIS;
+       PROPERTY;
+         Top 51,;
+         ColorNormal "B/BtnFace",;
+         Text "Type:",;
+         FontSize 10,;
+         Left 245,;
+         Height 18,;
+         Width 42,;
+       FontName "MS Sans Serif",;
+       FontBold .T.,;
+       AlignHorizontal 2,;
+       AlignVertical 1
 
-   this.TEXT5 = new TEXTLABEL(this)
-   with (this.TEXT5)
-      height = 22.0
-      left = 45.0
-      top = 121.0
-      width = 126.0
-      text = "Type:"
-      colorNormal = "B/BtnFace"
-      fontName = "MS Sans Serif"
-      fontBold = true
-      alignVertical = 1	// Middle
-   endwith
+   DEFINE ENTRYFIELD DTYP OF THIS;
+       PROPERTY;
+         Top 51,;
+         ColorNormal "N/BtnFace",;
+         FontSize 10,;
+         Function "!",;
+         ColorHighLight "B+/W*",;
+         DataLink "Vendor->vtyp",;
+         Left 420,;
+         Enabled .F.,;
+         Height 21,;
+         Width 24,;
+       FontName "MS Sans Serif",;
+       FontBold .T.
 
-   this.DTYP = new ENTRYFIELD(this)
-   with (this.DTYP)
-      dataLink = "Vendor->vtyp"
-      enabled = false
-      height = 15.0
-      left = 189.0
-      top = 121.0
-      width = 42.0
-      function = "!"
-      colorNormal = "N/BtnFace"
-      colorHighLight = "B+/W*"
-      fontName = "MS Sans Serif"
-      fontBold = true
-   endwith
+   DEFINE TEXTLABEL TEXT7 OF THIS;
+       PROPERTY;
+         Top 51,;
+         ColorNormal "B/BtnFace",;
+         Text "Sub-Type:",;
+         FontSize 10,;
+         Left 444,;
+         Height 18,;
+         Width 72,;
+       FontName "MS Sans Serif",;
+       FontBold .T.
 
-   this.TEXT7 = new TEXTLABEL(this)
-   with (this.TEXT7)
-      height = 22.0
-      left = 45.0
-      top = 165.0
-      width = 126.0
-      text = "Sub-Type:"
-      colorNormal = "B/BtnFace"
-      fontName = "MS Sans Serif"
-      fontBold = true
-   endwith
+   DEFINE ENTRYFIELD DVPMOD OF THIS;
+       PROPERTY;
+         Top 51,;
+         ColorNormal "N/BtnFace",;
+         FontSize 10,;
+         Function "!",;
+         ColorHighLight "B+/W*",;
+         DataLink "Vendor->vpmod",;
+         Left 636,;
+         Enabled .F.,;
+         Height 21,;
+         Width 24,;
+       FontName "MS Sans Serif",;
+       FontBold .T.
 
-   this.DVPMOD = new ENTRYFIELD(this)
-   with (this.DVPMOD)
-      dataLink = "Vendor->vpmod"
-      enabled = false
-      height = 30.0
-      left = 189.0
-      top = 165.0
-      width = 47.0
-      function = "!"
-      colorNormal = "N/BtnFace"
-      colorHighLight = "B+/W*"
-      fontName = "MS Sans Serif"
-      fontBold = true
-   endwith
+   DEFINE ENTRYFIELD DVENDOR OF THIS;
+       PROPERTY;
+         Top 51,;
+         ColorNormal "N/BtnFace",;
+         FontSize 10,;
+         Function "!",;
+         ColorHighLight "B+/W*",;
+         DataLink "Vendor->Vendor_N",;
+         Left 661,;
+         Enabled .F.,;
+         Height 25,;
+         Width 38,;
+       FontName "MS Sans Serif",;
+       FontBold .T.
 
-   this.DVENDOR = new ENTRYFIELD(this)
-   with (this.DVENDOR)
-      dataLink = "Vendor->Vendor_N"
-      enabled = false
-      height = 30.0
-      left = 189.0
-      top = 209.0
-      width = 74.0
-      function = "!"
-      colorNormal = "N/BtnFace"
-      colorHighLight = "B+/W*"
-      fontName = "MS Sans Serif"
-      fontBold = true
-   endwith
+   DEFINE ENTRYFIELD SACC OF THIS;
+       PROPERTY;
+         Top 51,;
+         Value "                                        ",;
+         ColorNormal "N/W",;
+         MaxLength 40,;
+         FontSize 10,;
+         Function "!",;
+         ColorHighLight "B+/W*",;
+         Left 704,;
+         Enabled .F.,;
+         Height 21,;
+         Width 76,;
+       FontName "MS Sans Serif",;
+       FontBold .T.
 
-   this.SACC = new ENTRYFIELD(this)
-   with (this.SACC)
-      enabled = false
-      height = 30.0
-      left = 266.0
-      top = 242.0
-      width = 148.0
-      function = "!"
-      colorNormal = "N/W"
-      colorHighLight = "B+/W*"
-      fontName = "MS Sans Serif"
-      fontBold = true
-      value = "                                        "
-      maxLength = 40
-   endwith
+   DEFINE ENTRYFIELD SSNAME OF THIS;
+       PROPERTY;
+         Top 85,;
+         ColorNormal "N/BtnFace",;
+         FontSize 10,;
+         Function "!",;
+         ColorHighLight "B+/W*",;
+         DataLink "apvsrce->NAME",;
+         Left 18,;
+         Enabled .F.,;
+         Height 21,;
+         Width 129,;
+       FontName "MS Sans Serif",;
+       FontBold .T.
 
-   this.SSNAME = new ENTRYFIELD(this)
-   with (this.SSNAME)
-      onChange = class::CHANGESMADE
-      dataLink = "apvsrce->NAME"
-      enabled = false
-      height = 22.0
-      left = 266.0
-      top = 88.0
-      width = 455.0
-      function = "!"
-      colorNormal = "N/BtnFace"
-      colorHighLight = "B+/W*"
-      fontName = "MS Sans Serif"
-      fontBold = true
-   endwith
+   DEFINE ENTRYFIELD FTNAME OF THIS;
+       PROPERTY;
+         Top 85,;
+         ColorNormal "N/BtnFace",;
+         FontSize 10,;
+         Function "!",;
+         ColorHighLight "B+/W*",;
+         DataLink "apvtyp->NAME",;
+         Left 171,;
+         Enabled .F.,;
+         Height 21,;
+         Width 141,;
+       FontName "MS Sans Serif",;
+       FontBold .T.
 
-   this.TEXT1 = new TEXTLABEL(this)
-   with (this.TEXT1)
-      height = 22.0
-      left = 45.0
-      top = 209.0
-      width = 126.0
-      text = "Code:"
-      colorNormal = "B/BtnFace"
-      fontName = "MS Sans Serif"
-      fontBold = true
-   endwith
+   DEFINE ENTRYFIELD FPNAME OF THIS;
+       PROPERTY;
+         Top 85,;
+         ColorNormal "N/BtnFace",;
+         FontSize 10,;
+         Function "!",;
+         ColorHighLight "B+/W*",;
+         DataLink "apvpmod->NAME",;
+         Left 324,;
+         Enabled .F.,;
+         Height 21,;
+         Width 168,;
+       FontName "MS Sans Serif",;
+       FontBold .T.
 
-   this.CNAME = new ENTRYFIELD(this)
-   with (this.CNAME)
-      onChange = class::CNAME_ONCHANGE
-      valid = class::CNAME_VALID
-      dataLink = "Vendor->NAME"
-      enabled = false
-      height = 22.0
-      left = 266.0
-      top = 209.0
-      width = 455.0
-      function = "!"
-      colorNormal = "N/BtnFace"
-      colorHighLight = "B+/W*"
-      fontName = "MS Sans Serif"
-      fontBold = true
-      validErrorMsg = "Name Required"
-   endwith
+   DEFINE TEXTLABEL TEXT1 OF THIS;
+       PROPERTY;
+         Top 153,;
+         ColorNormal "B/BtnFace",;
+         Text "Name:",;
+         FontSize 10,;
+         Left 18,;
+         Height 21,;
+         Width 108,;
+       FontName "MS Sans Serif",;
+       FontBold .T.
 
-   this.TEXT23 = new TEXTLABEL(this)
-   with (this.TEXT23)
-      height = 22.0
-      left = 45.0
-      top = 297.0
-      width = 126.0
-      text = "Address:"
-      colorNormal = "B/BtnFace"
-      fontName = "MS Sans Serif"
-      fontBold = true
-   endwith
+   DEFINE ENTRYFIELD CNAME OF THIS;
+       PROPERTY;
+         Top 153,;
+         Valid CLASS::CNAME_VALID,;
+         ColorNormal "N/BtnFace",;
+         FontSize 10,;
+         OnChange CLASS::CNAME_ONCHANGE,;
+         Function "!",;
+         ColorHighLight "B+/W*",;
+         DataLink "Vendor->NAME",;
+         Left 168,;
+         ValidErrorMsg "Name Required",;
+         Enabled .F.,;
+         Height 21,;
+         Width 528,;
+       FontName "MS Sans Serif",;
+       FontBold .T.
 
-   this.ADDRESS1 = new ENTRYFIELD(this)
-   with (this.ADDRESS1)
-      onChange = class::CHANGESMADE
-      valid = class::ADDRESS1_VALID
-      dataLink = "Vendor->Address1"
-      enabled = false
-      height = 30.0
-      left = 189.0
-      top = 297.0
-      width = 532.0
-      function = "!"
-      colorNormal = "N/BtnFace"
-      colorHighLight = "B+/W*"
-      fontName = "MS Sans Serif"
-      fontBold = true
-      validErrorMsg = "Address Required"
-   endwith
+   DEFINE TEXTLABEL TEXT23 OF THIS;
+       PROPERTY;
+         Top 193,;
+         ColorNormal "B/BtnFace",;
+         Text "Address:",;
+         FontSize 10,;
+         Left 18,;
+         Height 21,;
+         Width 108,;
+       FontName "MS Sans Serif",;
+       FontBold .T.
 
-   this.TEXT15 = new TEXTLABEL(this)
-   with (this.TEXT15)
-      height = 22.0
-      left = 45.0
-      top = 352.0
-      width = 126.0
-      text = "Phone:"
-      colorNormal = "B/BtnFace"
-      fontName = "MS Sans Serif"
-      fontBold = true
-   endwith
+   DEFINE ENTRYFIELD ADDRESS1 OF THIS;
+       PROPERTY;
+         Top 193,;
+         Valid CLASS::ADDRESS1_VALID,;
+         ColorNormal "N/BtnFace",;
+         FontSize 10,;
+         OnChange CLASS::CHANGESMADE,;
+         Function "!",;
+         ColorHighLight "B+/W*",;
+         DataLink "Vendor->Address1",;
+         Left 168,;
+         ValidErrorMsg "Address Required",;
+         Enabled .F.,;
+         Height 21,;
+         Width 276,;
+       FontName "MS Sans Serif",;
+       FontBold .T.
 
-   this.SPHONE = new ENTRYFIELD(this)
-   with (this.SPHONE)
-      onChange = class::ENTRYFIELD4_ONCHANGE
-      dataLink = "Vendor->PHONE"
-      enabled = false
-      height = 30.0
-      left = 189.0
-      top = 352.0
-      width = 189.0
-      function = "!"
-      colorNormal = "N/BtnFace"
-      colorHighLight = "B+/W*"
-      fontName = "MS Sans Serif"
-      fontBold = true
-   endwith
+   DEFINE ENTRYFIELD SOPENDATE OF THIS;
+       PROPERTY;
+         Top 94,;
+         ColorNormal "B+/BtnFace",;
+         FontSize 10,;
+         FontName "Arial Black",;
+         Function "!",;
+         ColorHighLight "B+/W",;
+         DataLink "Vendor->OPEN_DATE",;
+         Left 507,;
+         Enabled .F.,;
+         Height 21,;
+         Width 93,;
+       FontBold .T.
 
-   this.TEXT9 = new TEXTLABEL(this)
-   with (this.TEXT9)
-      height = 22.0
-      left = 45.0
-      top = 396.0
-      width = 126.0
-      text = "PIN No.:"
-      colorNormal = "B/BtnFace"
-      fontName = "MS Sans Serif"
-      fontBold = true
-   endwith
+   DEFINE TEXTLABEL TEXT15 OF THIS;
+       PROPERTY;
+         Top 242,;
+         ColorNormal "B/BtnFace",;
+         Text "Phone:",;
+         FontSize 10,;
+         Left 18,;
+         Height 21,;
+         Width 108,;
+       FontName "MS Sans Serif",;
+       FontBold .T.
 
-   this.SPIN = new ENTRYFIELD(this)
-   with (this.SPIN)
-      onChange = class::SPIN_ONCHANGE
-      dataLink = "Vendor->PIN"
-      enabled = false
-      height = 30.0
-      left = 189.0
-      top = 396.0
-      width = 189.0
-      function = "!"
-      colorNormal = "N/BtnFace"
-      colorHighLight = "B+/W*"
-      fontName = "MS Sans Serif"
-      fontBold = true
-   endwith
+   DEFINE ENTRYFIELD SPHONE OF THIS;
+       PROPERTY;
+         Top 242,;
+         ColorNormal "N/BtnFace",;
+         FontSize 10,;
+         OnChange CLASS::ENTRYFIELD4_ONCHANGE,;
+         Function "!",;
+         ColorHighLight "B+/W*",;
+         DataLink "Vendor->PHONE",;
+         Left 168,;
+         Enabled .F.,;
+         Height 21,;
+         Width 141,;
+       FontName "MS Sans Serif",;
+       FontBold .T.
 
-   this.TEXT12 = new TEXTLABEL(this)
-   with (this.TEXT12)
-      height = 22.0
-      left = 45.0
-      top = 451.0
-      width = 126.0
-      text = "V.A.T. No.:"
-      colorNormal = "B/BtnFace"
-      fontName = "MS Sans Serif"
-      fontBold = true
-   endwith
+   DEFINE TEXTLABEL TEXT9 OF THIS;
+       PROPERTY;
+         Top 289,;
+         ColorNormal "B/BtnFace",;
+         Text "PIN No.:",;
+         FontSize 10,;
+         Left 18,;
+         Height 21,;
+         Width 108,;
+       FontName "MS Sans Serif",;
+       FontBold .T.
 
-   this.SVAT = new ENTRYFIELD(this)
-   with (this.SVAT)
-      onChange = class::ENTRYFIELD8_ONCHANGE
-      dataLink = "Vendor->VAT"
-      enabled = false
-      height = 30.0
-      left = 189.0
-      top = 451.0
-      width = 189.0
-      function = "!"
-      colorNormal = "N/BtnFace"
-      colorHighLight = "B+/W*"
-      fontName = "MS Sans Serif"
-      fontBold = true
-   endwith
+   DEFINE ENTRYFIELD SPIN OF THIS;
+       PROPERTY;
+         Top 289,;
+         ColorNormal "N/BtnFace",;
+         FontSize 10,;
+         OnChange CLASS::SPIN_ONCHANGE,;
+         Function "!",;
+         ColorHighLight "B+/W*",;
+         DataLink "Vendor->PIN",;
+         Left 168,;
+         Enabled .F.,;
+         Height 21,;
+         Width 144,;
+       FontName "MS Sans Serif",;
+       FontBold .T.
 
-   this.PREVCOYBUTTON = new PREVBUTTON(this)
-   with (this.PREVCOYBUTTON)
-      onClick = class::PREVIOUS
-      height = 30.0
-      left = 42.0
-      top = 600.0
-      width = 166.0
-      default = true
-      fontName = "MS Sans Serif"
-      fontSize = 8.0
-      fontBold = true
-      group = true
-   endwith
+   DEFINE TEXTLABEL TEXT12 OF THIS;
+       PROPERTY;
+         Top 323,;
+         ColorNormal "B/BtnFace",;
+         Text "V.A.T. No.:",;
+         FontSize 10,;
+         Left 18,;
+         Height 21,;
+         Width 108,;
+       FontName "MS Sans Serif",;
+       FontBold .T.
 
-   this.NEXTCOYBUTTON = new NEXTBUTTON(this)
-   with (this.NEXTCOYBUTTON)
-      onClick = class::NEXT
-      height = 30.0
-      left = 217.0
-      top = 600.0
-      width = 166.0
-      fontName = "MS Sans Serif"
-      fontSize = 8.0
-      fontBold = true
-   endwith
+   DEFINE ENTRYFIELD SVAT OF THIS;
+       PROPERTY;
+         Top 323,;
+         ColorNormal "N/BtnFace",;
+         FontSize 10,;
+         OnChange CLASS::ENTRYFIELD8_ONCHANGE,;
+         Function "!",;
+         ColorHighLight "B+/W*",;
+         DataLink "Vendor->VAT",;
+         Left 168,;
+         Enabled .F.,;
+         Height 21,;
+         Width 141,;
+       FontName "MS Sans Serif",;
+       FontBold .T.
 
-   this.FIRVENDORBUTTON = new PUSHBUTTON(this)
-   with (this.FIRVENDORBUTTON)
-      onClick = class::FIRST_RTN
-      height = 30.0
-      left = 413.0
-      top = 600.0
-      width = 166.0
-      text = "F&irst"
-      fontName = "MS Sans Serif"
-      fontSize = 8.0
-      fontBold = true
-      statusMessage = "Go to the first record."
-   endwith
+   DEFINE PREVBUTTON PREVCOYBUTTON OF THIS;
+       PROPERTY;
+         Top 446,;
+         OnClick CLASS::PREVIOUS,;
+         Group .T.,;
+         Default .T.,;
+         Left 68,;
+         Height 26,;
+         Width 85,;
+       FontName "MS Sans Serif",;
+       FontSize 8,;
+       FontBold .T.
 
-   this.LAVENDORBUTTON = new PUSHBUTTON(this)
-   with (this.LAVENDORBUTTON)
-      onClick = class::LAST_RTN
-      height = 30.0
-      left = 588.0
-      top = 600.0
-      width = 166.0
-      text = "&Last"
-      fontName = "MS Sans Serif"
-      fontSize = 8.0
-      fontBold = true
-      statusMessage = "Go to the last Vendor."
-   endwith
+   DEFINE NEXTBUTTON NEXTCOYBUTTON OF THIS;
+       PROPERTY;
+         Top 446,;
+         OnClick CLASS::NEXT,;
+         Group .F.,;
+         Left 158,;
+         Height 26,;
+         Width 85,;
+       FontName "MS Sans Serif",;
+       FontSize 8,;
+       FontBold .T.
 
-   this.SVTYP = new ENTRYFIELD(this)
-   with (this.SVTYP)
-      dataLink = "apvtyp->NAME"
-      enabled = false
-      height = 22.0
-      left = 266.0
-      top = 121.0
-      width = 455.0
-      function = "!"
-      colorNormal = "N/BtnFace"
-      colorHighLight = "B+/W*"
-      fontName = "MS Sans Serif"
-      fontBold = true
-   endwith
+   DEFINE PUSHBUTTON FIRVENDORBUTTON OF THIS;
+       PROPERTY;
+         Top 446,;
+         Text "F&irst",;
+         StatusMessage "Go to the first record.",;
+         OnClick CLASS::FIRST_RTN,;
+         Group .F.,;
+         Left 258,;
+         Height 26,;
+         Width 85,;
+       FontName "MS Sans Serif",;
+       FontSize 8,;
+       FontBold .T.
 
-   this.SVPMOD = new ENTRYFIELD(this)
-   with (this.SVPMOD)
-      dataLink = "apvpmod->NAME"
-      enabled = false
-      height = 22.0
-      left = 266.0
-      top = 176.0
-      width = 455.0
-      function = "!"
-      colorNormal = "N/BtnFace"
-      colorHighLight = "B+/W*"
-      fontName = "MS Sans Serif"
-      fontBold = true
-   endwith
+   DEFINE PUSHBUTTON LAVENDORBUTTON OF THIS;
+       PROPERTY;
+         Top 446,;
+         Text "&Last",;
+         StatusMessage "Go to the last Vendor.",;
+         OnClick CLASS::LAST_RTN,;
+         Group .F.,;
+         Left 348,;
+         Height 26,;
+         Width 85,;
+       FontName "MS Sans Serif",;
+       FontSize 8,;
+       FontBold .T.
 
-   this.TEXT13 = new TEXTLABEL(this)
-   with (this.TEXT13)
-      height = 22.0
-      left = 45.0
-      top = 506.0
-      width = 126.0
-      text = "Balance Due:"
-      colorNormal = "B/BtnFace"
-      fontName = "MS Sans Serif"
-      fontBold = true
-      alignVertical = 1	// Middle
-   endwith
+   DEFINE ENTRYFIELD SVTYP OF THIS;
+       PROPERTY;
+         Top 51,;
+         ColorNormal "N/BtnFace",;
+         FontSize 10,;
+         Function "!",;
+         ColorHighLight "B+/W*",;
+         DataLink "apvtyp->NAME",;
+         Left 291,;
+         Enabled .F.,;
+         Height 21,;
+         Width 117,;
+       FontName "MS Sans Serif",;
+       FontBold .T.
 
-   this.SBAL = new ENTRYFIELD(this)
-   with (this.SBAL)
-      dataLink = "Vendor->bal_due"
-      enabled = false
-      height = 30.0
-      left = 189.0
-      top = 506.0
-      width = 189.0
-      picture = "9,999,999,999.99"
-      function = "J"
-      colorNormal = "N/BtnFace"
-      colorHighLight = "B+/W*"
-      fontName = "MS Sans Serif"
-      fontBold = true
-   endwith
+   DEFINE ENTRYFIELD SVPMOD OF THIS;
+       PROPERTY;
+         Top 51,;
+         ColorNormal "N/BtnFace",;
+         FontSize 10,;
+         Function "!",;
+         ColorHighLight "B+/W*",;
+         DataLink "apvpmod->NAME",;
+         Left 519,;
+         Enabled .F.,;
+         Height 21,;
+         Width 117,;
+       FontName "MS Sans Serif",;
+       FontBold .T.
 
-   this.TEXT4 = new TEXTLABEL(this)
-   with (this.TEXT4)
-      height = 22.0
-      left = 45.0
-      top = 561.0
-      width = 126.0
-      text = "GL Invoice:"
-      colorNormal = "B/BtnFace"
-      fontName = "MS Sans Serif"
-      fontBold = true
-   endwith
+   DEFINE TEXTLABEL TEXT13 OF THIS;
+       PROPERTY;
+         Top 353,;
+         ColorNormal "B/BtnFace",;
+         Text "Balance Due:",;
+         FontSize 10,;
+         Left 18,;
+         Height 17,;
+         Width 108,;
+       FontName "MS Sans Serif",;
+       FontBold .T.,;
+       AlignHorizontal 1,;
+       AlignVertical 1
 
-   this.SGLCOD = new COMBOBOX(this)
-   with (this.SGLCOD)
-      onChange = class::SGLCOD_ONCHANGE
-      dataLink = "vendor->GLCOD"
-      height = 30.0
-      left = 189.0
-      top = 550.0
-      width = 70.0
-      fontName = "Arial Black"
-      fontSize = 8.0
-      fontBold = true
-      colorNormal = "B/BtnFace"
-      dataSource = 'array {"","No","Yes"}'
-      style = 1	// DropDown
-      dropDownHeight = 132.0
-   endwith
+   DEFINE ENTRYFIELD SBAL OF THIS;
+       PROPERTY;
+         Top 357,;
+         ColorNormal "N/BtnFace",;
+         FontSize 10,;
+         Function "J",;
+         ColorHighLight "B+/W*",;
+         DataLink "Vendor->bal_due",;
+         Left 168,;
+         Enabled .F.,;
+         Height 20,;
+         Picture "9,999,999,999.99",;
+         Width 141,;
+       FontName "MS Sans Serif",;
+       FontBold .T.
 
+   DEFINE TEXTLABEL TEXT4 OF THIS;
+       PROPERTY;
+         Top 398,;
+         ColorNormal "B/BtnFace",;
+         Text "GL Invoice:",;
+         FontSize 10,;
+         Left 18,;
+         Height 21,;
+         Width 108,;
+       FontName "MS Sans Serif",;
+       FontBold .T.
+
+   DEFINE COMBOBOX SGLCOD OF THIS;
+       PROPERTY;
+         DataSource 'ARRAY {"","No","Yes"}',;
+         Top 398,;
+         Style 1,;
+         ColorNormal "B/BtnFace",;
+         FontName "Arial Black",;
+         OnChange CLASS::SGLCOD_ONCHANGE,;
+         DataLink "vendor->GLCOD",;
+         Left 168,;
+         Height 23,;
+         Width 78,;
+       FontSize 8,;
+       FontBold .T.
 
    procedure Open
    ****************************************************************************
    private TypeField,CodeField
     ON ERROR DO ddeerr WITH ERROR(), MESSAGE(),;
    PROGRAM(), LINENO()
-   BUSER='W'
-   BLEVEL=1
    FORM.BLUSER = BUSER
    FORM.BLEVEL = BLEVEL
    if blevel > 3
@@ -618,17 +654,13 @@ class VendorFORM of FORM
    if this.inEditMode
       form.ViewEdit()                      && Finish transaction
    endif
-      close procedure 
-
+      close procedure SAMPProc.prg
+    *  CLOSE PROCEDURE BUTTONS.CC
+       rollback()
      if .not. validdrive("Z:") .and.  .not. validdrive("W:") .and.  .not. validdrive("Y:")  .and.  .not. validdrive("X:")
      Do Vendor_rtn WITH FORM.BLUSER
       endif
-   select Vendor
-   set filter to empty(name) .and. empty(l_inv_date) .and. empty(l_pay_date) ;
-   .and. bal_due = 0 .and. cdep_amt = 0
-   go top
-   delete all
-
+ 
    close databases
    ****************************************************************************
 
@@ -652,6 +684,7 @@ class VendorFORM of FORM
    ****************************************************************************
    Form.ChangesMade = .T.
    ****************************************************************************
+
 
    procedure Last_rtn
 
@@ -702,6 +735,7 @@ class VendorFORM of FORM
     endif
 
    ****************************************************************************
+
 
    procedure CheckCommit (newInEditMode)
 
@@ -806,7 +840,7 @@ class VendorFORM of FORM
       control = control.before
    until control.name = form.first.name
    * FORM.SVSRCE.ENABLED = .F.
-  * form.sopendate.enabled = .f.
+   form.sopendate.enabled = .f.
      FORM.DSRCE.ENABLED = .F.
    FORM.Dvpmod.ENABLED = .F.
    FORM.DTYP.ENABLED = .F.
@@ -816,8 +850,8 @@ class VendorFORM of FORM
     form.cname.enabled = .f.
     form.SGLCOD.enabled = .f.
     ENDIF
-*   form.ftname.enabled = .f.
-*   form.fpname.enabled = .f.
+   form.ftname.enabled = .f.
+   form.fpname.enabled = .f.
    FORM.Svtyp.ENABLED = .F.
    FORM.Svpmod.ENABLED = .F.
    FORM.SSNAME.ENABLED = .F.
@@ -861,6 +895,8 @@ class VendorFORM of FORM
       CLASS::CheckCommit(form.inEditMode)     && Check transactions
    endif
 
+
+
    Procedure SCONTACT_OnChange
         form.changesmade = .t.
 
@@ -891,6 +927,8 @@ class VendorFORM of FORM
    Procedure SACCREF_OnChange
       form.changesmade = .t.
 
+
+
    Procedure NOTESEDITOR3_OnChange
       form.changesmade =.t.
 
@@ -906,6 +944,7 @@ class VendorFORM of FORM
      Procedure SDAYS_OnChange
          form.changesmade = .t.
 
+
    Procedure CNAME_OnChange
         form.CNAME.value = ltrim(form.CNAME.value)
           if  .not. empty(this.value)
@@ -916,9 +955,12 @@ class VendorFORM of FORM
    form.CNAME.value =""
    else
      form.changesmade = .t.
+     select vendor
+     replace name with this.value
    endif
    endif
    select vendor
+
 
    Procedure ADDRESS1_Valid
          if empty(this.value)
@@ -955,10 +997,12 @@ class VendorFORM of FORM
    Procedure ENTRYFIELD2_OnChange
       form.changesmade = .t.
 
+
+
    Procedure SGLCOD_OnChange
    form.changesmade = .t.
 
-endclass
+ENDCLASS
 
 Procedure Vendor_rtn
    PARAMETER BLUSER
@@ -1015,3 +1059,5 @@ Procedure rtn2
    if eof()
    eofVendor = .t.
    endif
+
+

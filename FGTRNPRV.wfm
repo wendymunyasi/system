@@ -1,0 +1,672 @@
+////////////////////////////////////////////////////////////////////////////////
+// Output Filename: C:\KENSERVICE\IDSSYS\FGTRNPRV_FCV.WFM                     //
+// Created By:      dBASE Form Converter Wizard                               //
+// Created On:      Tuesday June 14, 2016 At 11:01:31                         //
+// Object Count:    15                                                        //
+////////////////////////////////////////////////////////////////////////////////
+*******************************************************************************
+*  PROGRAM:      FGTRNPRV.wfm
+*
+*  WRITTEN BY:   W Nyongesa
+*
+*  DATE:         05/2000
+*
+*  UPDATED:    09/2012
+*
+*  REVISION:     $Revision:   1.0
+*
+*  VERSION:      Visual dBASE
+*
+*  DESCRIPTION:  This program maintains the companies master file
+*
+*  PARAMETERS:   None
+*
+*  CALLS:        FGTRNPRV.mnu         (Menu file)
+*                Buttons.CC          (Custom Controls file)
+*                Officers.qbe         (View of tables)
+*
+*  USAGE:        DO FGTRNPRV.wfm
+*
+*******************************************************************************
+#include <messdlg.h>
+shell(.F.)
+create session
+set talk off
+set design off
+_app.FrameWin.Visible = .F.
+_app.FrameWin.Text = "FGTRNPRV"
+set century on
+set date to british
+set ldCheck off && To avoid language driver conflicts
+#define Maxcoy 999
+** END HEADER -- do not remove this line
+//
+// Generated on 15/06/2010
+//
+parameter bUser,bLevel,bModal
+local f
+f = new FGTRNPRVFORM()
+if (bModal)
+   f.mdi = false // ensure not MDI
+   f.readModal()
+else
+   f.open()
+endif
+
+class FGTRNPRVFORM of FORM
+   with (this)
+      onClose = class::ONCLOSE
+      open = class::OPEN
+      metric = 6	// Pixels
+      colorNormal = "N+"
+      height = 915.0
+      left = 50.0
+      top = 35.0
+      width = 1267.0
+      text = "REVERSALS REF INFO"
+      windowState = 2	// Normal
+      mdi = false
+      sizeable = false
+      moveable = false
+      view = "FGTRNPRV.QBE"
+      menuFile = "FGTRNPRV.MNU"
+      escExit = false
+      mousePointer = 1	// Arrow
+      scrollBar = 1	// On
+      maximize = false
+      minimize = false
+   endwith
+
+   this.CODETEXT = new TEXTLABEL(this)
+   with (this.CODETEXT)
+      height = 21.0
+      left = 15.0
+      top = 31.0
+      width = 120.0
+      text = "Sequence Id No:"
+      colorNormal = "B/BtnFace"
+      fontName = "MS Sans Serif"
+      fontBold = true
+      alignVertical = 1	// Middle
+      alignHorizontal = 2	// Right
+   endwith
+
+   this.PTYP = new ENTRYFIELD(this)
+   with (this.PTYP)
+      dataLink = "FGTRNPRV->ORDER_NO"
+      enabled = false
+      height = 26.0
+      left = 140.0
+      top = 31.0
+      width = 168.0
+      colorNormal = "N/BtnFace"
+      colorHighLight = "B+/W*"
+      fontName = "MS Sans Serif"
+      fontBold = true
+   endwith
+
+   this.TEXT2 = new TEXTLABEL(this)
+   with (this.TEXT2)
+      height = 22.0
+      left = 15.0
+      top = 67.0
+      width = 120.0
+      text = "Document Type:"
+      colorNormal = "B/BtnFace"
+      fontName = "MS Sans Serif"
+      fontBold = true
+      alignVertical = 1	// Middle
+      alignHorizontal = 2	// Right
+   endwith
+
+   this.SDOC = new COMBOBOX(this)
+   with (this.SDOC)
+      onChange = class::SDOC_ONCHANGE
+      dataLink = "FGTRNPRV->DOCNAME"
+      enabled = false
+      height = 24.0
+      left = 140.0
+      top = 67.0
+      width = 288.0
+      fontName = "MS Sans Serif"
+      fontBold = true
+      colorNormal = "0x80ffff/0x40"
+      dataSource = "FIELD DOCTYP->NAME"
+      style = 2	// DropDownList
+      dropDownHeight = 132.0
+   endwith
+
+   this.LNAMETEXT = new TEXTLABEL(this)
+   with (this.LNAMETEXT)
+      height = 22.0
+      left = 15.0
+      top = 104.0
+      width = 120.0
+      text = "System:"
+      colorNormal = "B/BtnFace"
+      fontName = "MS Sans Serif"
+      fontBold = true
+      alignVertical = 1	// Middle
+      alignHorizontal = 2	// Right
+   endwith
+
+   this.SSYS = new COMBOBOX(this)
+   with (this.SSYS)
+      onChange = class::SSYS_ONCHANGE
+      dataLink = "FGTRNPRV->SYSNAME"
+      enabled = false
+      height = 24.0
+      left = 140.0
+      top = 104.0
+      width = 288.0
+      fontName = "MS Sans Serif"
+      fontBold = true
+      colorNormal = "0x80ffff/0x40"
+      dataSource = "FIELD SYSTEM->NAME"
+      style = 2	// DropDownList
+      dropDownHeight = 132.0
+   endwith
+
+   this.TEXT4 = new TEXTLABEL(this)
+   with (this.TEXT4)
+      height = 22.0
+      left = 15.0
+      top = 143.0
+      width = 120.0
+      text = "Doc Ref. No.:"
+      colorNormal = "B/BtnFace"
+      fontName = "MS Sans Serif"
+      fontBold = true
+      alignVertical = 1	// Middle
+      alignHorizontal = 2	// Right
+   endwith
+
+   this.SDOCREF = new ENTRYFIELD(this)
+   with (this.SDOCREF)
+      onChange = class::SDOCREF_ONCHANGE
+      dataLink = "FGTRNPRV->O_ORDER"
+      enabled = false
+      height = 26.0
+      left = 140.0
+      top = 143.0
+      width = 135.0
+      function = "!"
+      colorNormal = "0xffff80/0x808040"
+      colorHighLight = "B+/W*"
+      fontName = "MS Sans Serif"
+      fontBold = true
+   endwith
+
+   this.TEXT5 = new TEXTLABEL(this)
+   with (this.TEXT5)
+      height = 22.0
+      left = 15.0
+      top = 187.0
+      width = 120.0
+      text = "Trans Date:"
+      colorNormal = "B/BtnFace"
+      fontName = "MS Sans Serif"
+      fontBold = true
+      alignVertical = 1	// Middle
+      alignHorizontal = 2	// Right
+   endwith
+
+   this.SDATE = new ENTRYFIELD(this)
+   with (this.SDATE)
+      onChange = class::ENTRYFIELD1_ONCHANGE
+      dataLink = "FGTRNPRV->O_DATE"
+      enabled = false
+      height = 26.0
+      left = 140.0
+      top = 187.0
+      width = 135.0
+      function = "!"
+      colorNormal = "0xffff80/0x808040"
+      colorHighLight = "B+/W*"
+      fontName = "MS Sans Serif"
+      fontBold = true
+   endwith
+
+   this.PREVBUTTON = new PUSHBUTTON(this)
+   with (this.PREVBUTTON)
+      onClick = class::PREVIOUS
+      height = 26.0
+      left = 63.0
+      top = 759.0
+      width = 85.0
+      text = "&PREVIOUS"
+      fontName = "MS Sans Serif"
+      fontSize = 8.0
+      fontBold = true
+   endwith
+
+   this.NEXTBUTTON = new PUSHBUTTON(this)
+   with (this.NEXTBUTTON)
+      onClick = class::NEXT
+      height = 26.0
+      left = 147.0
+      top = 759.0
+      width = 85.0
+      text = "&NEXT"
+      fontName = "MS Sans Serif"
+      fontSize = 8.0
+      fontBold = true
+   endwith
+
+   this.FIRSTBUTTON = new PUSHBUTTON(this)
+   with (this.FIRSTBUTTON)
+      onClick = {; form.CheckCommit(form.inEditMode);GO TOP;}
+      height = 26.0
+      left = 238.0
+      top = 759.0
+      width = 85.0
+      text = "F&IRST"
+      fontName = "MS Sans Serif"
+      fontSize = 8.0
+      fontBold = true
+   endwith
+
+   this.LASTBUTTON = new PUSHBUTTON(this)
+   with (this.LASTBUTTON)
+      onClick = {; form.CheckCommit(form.inEditMode);GO BOTTOM;}
+      height = 26.0
+      left = 329.0
+      top = 759.0
+      width = 85.0
+      text = "&LAST"
+      fontName = "MS Sans Serif"
+      fontSize = 8.0
+      fontBold = true
+   endwith
+
+   this.CHILDBROWSE = new BROWSE(this)
+   with (this.CHILDBROWSE)
+      enabled = false
+      colorNormal = "black/silver"
+      fontName = "MS Sans Serif"
+      fontItalic = true
+      fontBold = true
+      height = 451.0
+      left = 14.0
+      top = 231.0
+      width = 728.0
+      append = false
+      alias = "DOCSYS"
+      fields = 'DOCSYS->DOCSYS\H="DOC SYS"\15\R\C="N/W+",DOCSYS->NAME\H="DESCRIPTION"\35\R\C="N/W+",DOCSYS->DOCTYPE\H="DOC TYPE"\22\R\C="R+/W",DOCSYS->SYSTEM\H="SYSTEM"\30\R\C="R+/W"'
+      delete = false
+      modify = false
+      showRecNo = false
+   endwith
+
+
+   procedure Open
+   ****************************************************************************
+   private CodeField
+    FORM.blUSER = BUSER
+   FORM.bLEVEL = BLEVEL
+   IF EMPTY(FORM.blUSER) .OR. EMPTY(FORM.bLEVEL)
+   QUIT
+   ENDIF
+   form.firstime = .T.
+   if type("form.init") = "U"
+      form.init = .T.
+
+      set skip to                     && FGTRNPRV.qbe contains set skip to gldtl
+      set exact off                   && the .qbe file contains SET EXACT ON
+
+      set procedure to sampProc.prg additive
+    Form.duplicate = .F.
+      form.inEditMode = .F.           && indicator of view/edit state
+      form.changesMade = .F.          && indicator of changes made to field values
+      form.previousRecord = .F.       && Save record number when appending
+        *** do calculations in another area so form doesn't get updated
+        form.updated = .f.
+        SELECT FGTRNPRV2
+        SET ORDER TO ORDER_NO
+      select FGTRNPRV
+      set order to ORDER_NO
+    GO BOTTOM                               && new Receipts
+
+
+      *** Open table for calculating totals and balance due in another work area
+      *** so that datalinks are not affected by record movements
+
+
+      ***
+    *  if type("form.parentpayeeForm") <> "U" && Esc ok if have parent
+    *     form.escExit = .T.
+   *   endif
+
+   endif
+   * form.CoyInfoButton.KenpName = "FGTRNPRV.WFM"
+
+   form::Open()                         && Now the form actually opens
+   *    form.BrowseOnNavigate()              && calculate totals
+   *       form.codingerrors()                        && check coding errors
+
+   *      form.next.setfocus()
+   ****************************************************************************
+
+   procedure OnClose
+
+   * Clean up.
+   ****************************************************************************
+
+   if this.inEditMode
+      form.ViewEdit()                      && Finish transaction
+   endif
+     close procedure SAMPProc.prg
+     ROLLBACK()
+         close databases
+
+   do fgtrnpvp.prg
+
+   ****************************************************************************
+
+   procedure BrowseOnNavigate
+   ****************************************************************************
+
+       if eof()
+      form.root.FGTRNPRV.viewEdit.enabled = .F.
+   else
+      form.root.FGTRNPRV.viewEdit.enabled = .T.
+   endif
+
+
+
+   ****************************************************************************
+
+   procedure ChangesMade
+
+   * Indicate that changes have been made to the current record
+   ****************************************************************************
+   Form.ChangesMade = .T.
+   ****************************************************************************
+
+   
+*********************************************
+
+            procedure Next
+
+   * Go to next record.
+   ****************************************************************************
+
+   form.CheckCommit(form.inEditMode)
+   if .not. empty(dbf())  .and. .not. eof()      && if a table is open in the current workarea
+      skip
+      if eof()
+         go bottom
+         AlertMessage("At the last record","Alert")
+      endif
+   else
+      InformationMessage("There is no table open in the current workarea.",;
+         "Info")
+   endif
+    ****************************************************************************
+
+   procedure Previous
+
+   * Go to previous record.
+   ****************************************************************************
+
+   form.CheckCommit(form.inEditMode)
+ if .not. empty(dbf())  .and. .not. eof() && if a table is open in the current workarea
+      skip - 1
+      if bof()
+         go top
+         AlertMessage("At the first record","Alert")
+      endif
+   else
+      InformationMessage("There is no table open in the current workarea.",;
+         "Info")
+   endif
+
+   procedure CheckCommit (newInEditMode)
+
+        * Finish transaction, if it has been started.
+   ****************************************************************************
+   private CodeField, changesMade
+    local lk1
+    lk1 = form.ptyp.value
+   changesMade = form.changesMade
+   if form.changesMade
+      CodeField = field(1)  && Field period
+      if     ConfirmationMessage("Commit changes?",;
+                FormatStr("Stat. Code %1",&CodeField)) = YES
+         commit()
+
+      else
+         rollback()
+         if .not. bof()
+       *  if .not. empty(form.previousRecord)
+   *            go bookmark()
+           * form.previousRecord
+            form.previousRecord = .F.
+         endif
+      endif
+
+       form.ptyp.enabled = .F.
+    if form.inEditMode .and. newInEditMode
+         begintrans()
+      endif
+      form.changesMade = .F.
+   endif
+   if form.inEditMode <> newInEditMode
+      if newInEditMode                       && Going to Edit mode
+         begintrans()
+      else                                   && Going to View mode
+         if .not. changesMade
+            rollback()
+         endif
+      endif
+      form.inEditMode = newInEditMode
+   endif
+
+   * form.root.Receipt.add.enabled = .T.
+   *form.codingerrors()
+   ****************************************************************************
+
+   procedure ViewEdit
+
+   * Toggle between View and Edit modes.
+   ****************************************************************************
+   local inEditMode, editMenu, control
+
+   editMenu = form.root.FGTRNPRV.VIEWEdit
+
+   *** If ending edit mode then close transaction, otherwise open it.
+   if form.inEditMode
+      form.checkChanged(.F.)
+      editMenu.text = "&Edit"
+      editMenu.shortcut = "Ctrl-E"
+      editMenu.statusMessage = "Edit data."
+      *form.root.FGTRNPRV.delete.enabled = .F.      && disabled in view mode
+      form.CheckCommit(.F.)                        && Check transaction and
+      form.text = "REVERSALS REF INFO -- View Mode"          && change mode to View
+       *form.notesEditor.colorNormal = "N/W"
+         form.childBrowse.modify = .F.
+     *form.notesEditor.modify = .F.
+      form.statusmessage = "In View Mode. " + ;
+                           "Select REF INFO - Edit menu to " + ;
+                           "edit/delete data."
+     else                                            && Switch to edit mode
+      editMenu.text = "Vi&ew"
+      editMenu.shortcut = "Ctrl-E"
+      editMenu.statusMessage = "View data."
+      *form.root.FGTRNPRV.delete.enabled = .f.      && enabled in edit mode
+      form.CheckCommit(.T.)                        && Check transaction and
+      form.text = "REVERSALS REF INFO -- Edit Mode"          && change mode to Edit
+
+      *form.notesEditor.modify = .T.
+      form.statusmessage = "In Edit Mode.  " + ;
+                           "Select menu Officers - View to switch " + ;
+                           "to View mode."
+
+       form.SSYS.SetFocus()
+
+   endif
+
+   inEditMode = form.inEditMode     && Faster if we don't reference a form
+   control = form.first             &&    variable each time through the loop
+   do
+      if .not. control.className $ "BROWSE,EDITOR,NEXTBUTTON,PREVBUTTON,PUSHBUTTON,IMAGE,TEXT"
+         control.enabled = inEditMode
+      endif
+      control = control.before
+   until control.name = form.first.name
+   *           form.gltyp.enabled = .f.
+   *    form.glname.Enabled = .F.
+   * form.svalid.enabled = .f.
+    form.childBrowse.modify = .F.
+     form.childBrowse.ENABLED = .F.
+     form.childBrowse.APPEND = .F.
+      form.childBrowse.DELETE = .F.
+       form.SDOC.SetFocus()
+
+
+   ****************************************************************************
+
+   procedure CheckChanged(callCommit)
+
+   * Check if changes have been made to the current entryfield.  This procedure
+   * is called from menu routines to make sure the form.changesMade gets
+   * updated when a menu is selected while the changed control has focus.
+   ****************************************************************************
+   private control, fieldValue, controlValue, typeText, typeValue
+
+   if form.inEditMode
+      control = form.activeControl
+      if type("control.datalink") <> "U"
+         fieldValue = control.datalink          && name of table field
+
+         typeText = type("control.text")
+         typeValue = type("control.value")
+         do case
+            case typeValue = "C"
+               controlValue = control.value
+            case typeValue $ "LU" .and. typeText = "C"
+               controlValue = control.text
+            otherwise
+               controlValue = Null
+         endcase
+         if controlValue <> &fieldValue
+            form.changesMade = .T.
+         endif
+      endif
+   endif
+   if form.changesMade .and. callCommit
+      CLASS::CheckCommit(form.inEditMode)     && Check transactions
+   endif
+
+
+
+   ****************************************************************************
+
+   Procedure Check_code
+    local lcode
+    lcode = form.ptyp.value
+    If (val(lcode) = 0) .or. val(lcode) > maxcoy .or. Isblank(lcode)
+    Isvalid = .F.
+       else
+    Isvalid = .T.
+     endif
+
+    Return isvalid
+
+   Procedure Change_Coy
+       local lcode
+          lcode = this.value
+         IF KEYMATCH(LCODE) = .F.
+         form.duplicate = .F.
+          Form.ChangesMade = .T.
+          else
+          Form.duplicate = .T.
+        ENDIF
+    RETURN
+
+   Procedure RADIOBUTTON1_OnChange
+      form.changesmade = .t.
+
+   Procedure RADIOBUTTON2_OnChange
+      form.changesmade = .t.
+
+   Procedure YES_OnChange
+      Form.ChangesMade = .t.
+
+   Procedure RADIOBUTTON4_OnChange
+      Form.ChangesMade = .t.
+
+      Procedure change_name
+      if .not. empty(this.value)
+      form.changesmade = .t.
+      form.updated = .t.
+      endif
+
+      Procedure valid_name
+      if empty(this.value)
+      isvalid = .f.
+      else
+      isvalid = .t.
+      endif
+      return isvalid
+
+   Procedure GLTYP_OnChange
+         form.changesmade = .t.
+
+   Procedure EFDAT_OnChange
+      Form.ChangesMade = .t.
+
+   Procedure RMKS_OnChange
+    Form.ChangesMade = .t.
+
+   Procedure STITLE_OnLostFocus
+         SELECT OFTITLES
+         SEEK THIS.VALUE
+         SELECT FGTRNPRV
+         REPLACE TITLE WITH OFTITLES->TITLE
+         REPLACE STITLE WITH OFTITLES->stitle
+         FORM.CHANGESMADE = .T.
+
+   Procedure SSYS_OnChange
+         select system
+         seek this.value
+         if found()
+         select fgtrnprv
+         replace sysname with this.value
+         replace o_sys with system->system
+         else
+          select fgtrnprv
+         replace sysname with ""
+         replace o_sys with ""
+
+         endif
+         form.changesmade = .t.
+
+   Procedure SDOC_OnChange
+     select doctyp
+         seek this.value
+         if found()
+         select fgtrnprv
+         replace docname with this.value
+         replace o_doc with doctyp->doctype
+         else
+          select fgtrnprv
+         replace docname with ""
+         replace o_doc with ""
+
+         endif
+         form.changesmade = .t.
+
+   Procedure ENTRYFIELD1_OnChange
+    select FGTRNPRV
+   replace O_date      with this.value
+         form.changesmade = .t.
+   form.changesmade = .t.
+
+   Procedure SDOCREF_OnChange
+   select FGTRNPRV
+   replace O_ORDER      with this.value
+         form.changesmade = .t.
+
+endclass
+

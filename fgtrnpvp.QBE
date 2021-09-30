@@ -1,0 +1,31 @@
+* Visual dBASE .QBE file 9
+*set  on
+
+ON ERROR DO QBEERR WITH ERROR(), MESSAGE(),;
+PROGRAM(), LINENO()
+CLOSE DATABASES
+SET EXACT ON
+*Set  on
+     
+SELECT 1
+USE \KENSERVICE\DATA\fgtrnprv.dbf  exclusive
+select 2
+use \kenservice\data\fgtrnref.dbf 
+select 3
+use \kenservice\data\fgnfpur.dbf 
+select 4
+use \kenservice\data\fgjobcad.dbf 
+select 5
+use \kenservice\data\fginvtrn.dbf 
+select 6
+use \kenservice\data\fgvistrn.dbf 
+select 7
+use \kenservice\data\fgistrn.dbf 
+select 8
+use \kenservice\data\fgbstrn.dbf 
+select 9
+use \kenservice\data\fgchqtrn.dbf 
+select 10
+use \kenservice\data\fgdivtrn.dbf 
+select 11
+use \kenservice\data\fglpgcad.dbf 

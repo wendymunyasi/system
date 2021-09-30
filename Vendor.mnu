@@ -1,0 +1,236 @@
+******************************************************************************
+*  PROGRAM:      Vendor.mnu
+*
+*  WRITTEN BY:   W Nyongesa
+*
+*  DATE:         03/2001
+*
+*  UPDATED:      12/2012
+*
+*  REVISION:     $Revision:   1.58  $
+*
+*  VERSION:      Visual dBASE
+*
+*  DESCRIPTION:  This is a menu file used by Vendor.WFM for
+*                performing simple tasks.  It allows adding and deleting
+*                records, searching for a value in the Vendor field of the
+*                current table viewed, and exiting the form in view.
+*
+*  PARAMETERS:   FormObj -- the form to which this menu will belong.
+*
+*  CALLS:        None
+*
+*  USAGE:        form.menuFile = "Vendor.mnu"
+*
+*******************************************************************************
+#include <messdlg.h>
+
+** END HEADER -- do not remove this line*
+* Generated on 07/03/2001
+*
+Parameter FormObj
+NEW Vendor(FormObj,"Root")
+CLASS Vendor(FormObj,Name) OF MENUBAR(FormObj,Name)
+   this.Text = ""
+   this.OnInit = {;set procedure to SampProc.prg}
+
+   DEFINE MENU FILE OF THIS;
+       PROPERTY;
+         Text "&File"
+
+         DEFINE MENU EXIT OF THIS.FILE;
+             PROPERTY; 
+               StatusMessage "Return to the Previous Menu.",;
+               Text "&Return to Previous Menu",;
+               ShortCut "F4",;
+               OnClick CLASS::ONEXITALL
+
+        
+       DEFINE MENU SEPARATOR000 OF THIS.FILE;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+
+
+         DEFINE MENU QUITS OF THIS.FILE;
+             PROPERTY; 
+               StatusMessage "Leave Kenserve Integrated System.",;
+               Text "Exit",;
+               ShortCut "F8",;
+               OnClick CLASS::QUITALL
+   DEFINE MENU Vendor OF THIS;
+       PROPERTY;
+         Text "Vendor"
+
+         DEFINE MENU VIEWEDIT OF THIS.Vendor;
+             PROPERTY;
+               OnClick CLASS::VIEWEDITONCLICK,;
+               Text "&Edit",;
+               Shortcut "Ctrl-E",;
+               StatusMessage "Edit data."
+
+         DEFINE MENU SEPARATOR1 OF THIS.Vendor;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+
+         DEFINE MENU ADD OF THIS.Vendor;
+             PROPERTY;
+               OnClick CLASS::ADDONCLICK,;
+               Text "Add",;
+               Enabled .F.,;
+               Shortcut "F3",;
+               StatusMessage "Add a new Vendor Accounts."
+
+         DEFINE MENU SEPARATOR3 OF THIS.Vendor;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+  
+
+ DEFINE MENU REPORT OF THIS;
+       PROPERTY;
+         Text "&Reports"
+
+         DEFINE MENU ERRORVendorREPORT OF THIS.REPORT;
+             PROPERTY;
+               OnClick {;create session ;set lock off ;report form Vendor},;
+               Text "Listing of Vendors.",;
+               Shortcut "F4"
+
+
+   ****************************************************************************
+ 
+
+  
+   ****************************************************************************
+   procedure AddOnClick
+
+   * Add new record.
+   ****************************************************************************
+   private addForm, newVendor, inEditMode,lpvsrce,lpvtyp,lpvpmod,lpVendorNO,LNVendor
+   local lwk1,lwk2,lwk3,lwk4,l1,l2,l3,l4,l5,l6,l7,l8
+   form.CheckChanged(.T.)
+   lpvsrce = ""
+        lpvtyp = ""
+        lpvpmod = ""
+   if ConfirmationMessage("Are you sure you want to add a Vendor?",;
+                          "Confirmation") = YES
+       inEditMode = iif(type("form.curPage") <> "U", form.curPage.inEditMode,;
+                                                    form.inEditMode)
+      if .not. inEditMode
+         form.ViewEdit()                 && Make sure record is editable
+         endif
+
+                                         && and begin a transaction
+        lpvsrce = form.pvsrce
+        lpvtyp = form.pvtyp
+        lpvpmod = form.pvpmod
+        IF .NOT. EMPTY(form.pvsrce) .AND. .NOT. EMPTY(LPvtyp) .AND. .NOT. EMPTY(LPvpmod)
+             select Vendor3
+        form.previousRecord = recno()   
+      set filter to vsrce = lpvsrce .and. vtyp = lpvtyp .and. vpmod = lpvpmod
+      go bottom
+      if eof()
+      lPVendorNO = 1
+      else
+      lPVendorNO = val(Vendor_n) + 1
+      endif
+      if LPVendorNO < 10
+      LNVendor = "000"+str(LPVendorNO,1)
+      else
+     if LPVendorNO < 100
+      LNVendor = "00"+str(LPVendorNO,2)
+      else
+      if LPVendorNO < 1000
+      LNVendor = "0"+str(LPVendorNO,3)
+      else
+      if LPVendorNO < 10000
+      LNVendor = str(LPVendorNO,4)
+      else
+      quit
+      endif
+      endif
+      endif
+      endif
+      LOCAL LERR
+      LERR = .F.
+      if lpvsrce = "1"  .and. val(lnVendor) > 2
+       lerr = .t.
+       endif
+        select Vendor4
+       go top
+       if .not. eof()
+       set filter to empty(name) 
+       go top
+       if .not. eof()
+       lerr = .t.
+       endif
+       endif
+       select Vendor4
+       set  filter to
+      IF .NOT. LERR
+      select Vendor
+      append blank
+      replace vtyp with LPvtyp
+      replace Vendor_n with LNVendor
+      REPLACE vpmod WITH LPvpmod
+      REPLACE vsrce WITH lpvsrce
+      
+    
+       replace bal_this with 0   
+     replace bal_30 with 0    
+     replace bal_60 with 0    
+     replace bal_90 with 0    
+     replace bal_120 with 0    
+     replace bbf with 0    
+    replace bal_due with 0
+     replace bal_due_dr with 0
+     replace bal_due_cr with 0   
+     replace bbf_cr with 0    
+     replace bbf_dr with 0   
+     replace bal_15 with 0
+     replace l_pay_amt with 0
+     replace l_inv_amt with 0
+     replace cdep_amt with 0
+     REPLACE CREDIT_LMT WITH 0
+         replace open_bal with 0
+         replace debits with 0
+         replace credits with 0
+         replace bl_due with 0
+          FORM.Svsrce.ENABLED = .F.
+       FORM.Svpmod.ENABLED = .F.
+       FORM.Svtyp.ENABLED = .F.
+      *  
+        form.sacc.value = vsrce+vtyp+vpmod+Vendor_n
+        refresh
+      form.cNAME.setfocus()
+           endif
+*    ENDIF
+    endif
+     endif
+     select Vendor
+   
+
+   ***************************************************************************
+
+   procedure ViewEditOnClick
+   ****************************************************************************
+
+   form.ViewEdit()
+
+  
+   ****************************************************************************
+     procedure OnExitALL
+   
+  
+   ****************************************************************************
+   *      form.close()  
+     form.Release()
+   Procedure QUITALL
+            form.Release()
+            QUIT
+  
+ENDCLASS
+
+

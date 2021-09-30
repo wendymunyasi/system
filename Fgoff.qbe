@@ -1,0 +1,19 @@
+* Visual dBASE .QBE file 9
+ON ERROR DO QBEERR WITH ERROR(), MESSAGE(),;
+PROGRAM(), LINENO()
+CLOSE DATABASES
+ON ERROR DO QBEERR WITH ERROR(), MESSAGE(),;
+PROGRAM(), LINENO()
+CLOSE DATABASES
+SET EXACT ON
+SELECT 1
+USE \kenservice\data\fgoff.DBf
+SELECT 3
+USE \KENSERVICE\DATA\fgoffS.DBF 
+select 4
+use \kenservice\data\fgoff.dbf again alias fgoff3
+select 5
+use \kenservice\data\oftitles.dbf order tag name
+SELECT 1
+set relation to tname into oftitles
+GO TOP

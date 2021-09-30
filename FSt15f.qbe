@@ -1,0 +1,73 @@
+* Visual dBASE .QBE file 9
+CLOSE DATABASES
+on error do fst15fnc.prg
+use  \kenservice\data\st15f.dbf
+? op_capital
+close databases
+ON ERROR DO QBEERR WITH ERROR(), MESSAGE(),;
+PROGRAM(), LINENO()
+CLOSE DATABASES
+SET EXACT ON
+SELECT 1
+USE \KENSERVICE\DATA\ST15F.DBf order tag mkey
+SELECT 2
+USE \KENSERVICE\DATA\fgmast.DBf order tag mkey
+SELECT 3
+USE \KENSERVICE\DATA\FGCENS.DBF ORDER TAG  MKEY
+SET FILTER TO USED="Yes"
+SELECT 8
+USE \KENSERVICE\DATA\STSTO.DBf order tag sto
+SELECT 6
+USE \KENSERVICE\DATA\fgcod.DBf order tag mkey
+SELECT 5
+USE \KENSERVICE\DATA\fgcla.DBf order tag mkey
+SELECT 9
+USE \KENSERVICE\DATA\fgtyp.DBf order tag typ
+SELECT 4
+USE \KENSERVICE\DATA\fgcen.DBf order tag mkey
+set filter to used = 'Yes' .and. ((fuels = 'Yes' .and. div = '1') .or. (cen = 'D' .or. cen = 'O'))
+go top
+SELECT 12
+USE \KENSERVICE\DATA\fgdiv.DBf order tag mkey
+SELECT 7
+USE \KENSERVICE\DATA\fgcoy.DBf order tag coy
+SELECT 15
+USE \KENSERVICE\DATA\fgcoy.DBf AGAIN ALIAS fgcoy2 order tag coy
+SELECT 11
+USE \KENSERVICE\DATA\SHIFTS.DBf order tag shiftno
+SELECT 13
+USE \KENSERVICE\DATA\ststo.DBf again alias ststo2 order tag sto
+SET FILTER TO USED="Yes"
+SELECT 21
+USE \KENSERVICE\DATA\SHIFTID.DBf  EXCLUSIVE
+SELECT 1
+SET RELATION TO coy+div+st_cen+St_sto+typ+cla+cod INTO fgmast,;
+Sto INTO STSTO, Typ+Cla+Cod INTO fgcod, Coy+Div+Cen INTO fgcen, ;
+Shift_no INTO SHIFTS, St_sto INTO ststo2,ST_Coy+ST_Div+ST_Cen INTO FGCENS
+SELECT 6
+SET RELATION TO Typ+Cla INTO fgcla
+SELECT 5
+SET RELATION TO Typ INTO fgtyp
+SELECT 4
+SET RELATION TO Coy+Div INTO fgdiv, Coy INTO fgcoy2
+SELECT 12
+SET RELATION TO Coy INTO fgcoy
+select 23
+use \kenservice\data\scashrec.dbf
+SELECT 26
+USE \KENSERVICE\DATA\CASHIERS.DBF
+SELECT 27
+USE \KENSERVICE\DATA\ST15F.DBf AGAIN ALIAS ST15F2
+select 28
+USE \KENSERVICE\DATA\ststos.DBf
+SELECT 29
+USE \KENSERVICE\DATA\fgmast.DBf order tag mkey AGAIN ALIAS FGMAST2
+SELECT 30
+USE \KENSERVICE\DATA\ST15F.DBf AGAIN ALIAS ST15F3
+SELECT 31
+USE \KENSERVICE\DATA\FGCEN.DBF ORDER TAG MKEY AGAIN ALIAS FGcen2
+set filter to used = 'Yes'
+SELECT 32
+USE \KENSERVICE\DATA\FGCEN.DBF ORDER TAG MKEY AGAIN ALIAS FGcens2
+SELECT 1
+GO TOP

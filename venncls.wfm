@@ -1,0 +1,631 @@
+////////////////////////////////////////////////////////////////////////////////
+// Output Filename: C:\KENSERVICE\IDSSYS\VENNCLS_FCV.WFM                      //
+// Created By:      dBASE Form Converter Wizard                               //
+// Created On:      Tuesday June 14, 2016 At 10:59:16                         //
+// Object Count:    12                                                        //
+////////////////////////////////////////////////////////////////////////////////
+*******************************************************************************
+*  PROGRAM:      venncls.wfm
+*
+*  WRITTEN BY:   W Nyongesa
+*
+*  DATE:         05/2000
+*
+*  UPDATED:     09/2012
+*
+*  REVISION:     $Revision:   1.0
+*
+*  VERSION:      Visual dBASE
+*
+*  DESCRIPTION:  This program maintains the companies master file
+*
+*  PARAMETERS:   None
+*
+*  CALLS:        Vendor.mnu         (Menu file)
+*                KBUTTONS.CC          (Custom Controls file)
+*                Vendor.qbe         (View of tables)
+*
+*  USAGE:        DO venncls.wfm
+*
+*******************************************************************************
+#include <messdlg.h>
+shell(.F.)
+create session
+set talk off
+set design off
+_app.FrameWin.Visible = .F.
+_app.FrameWin.Text = "Vendor"
+set century on
+set ldCheck off && To avoid language driver conflicts
+#define Maxcoy 999
+SET CUAENTER OFF
+SET CENTURY ON
+** END HEADER -- do not remove this line
+//
+// Generated on 15/06/2010
+//
+parameter bUser,bLevel,bModal
+local f
+f = new VendorFORM()
+if (bModal)
+   f.mdi = false // ensure not MDI
+   f.readModal()
+else
+   f.open()
+endif
+
+class VendorFORM of FORM
+   with (this)
+      onClose = class::ONCLOSE
+      open = class::OPEN
+      metric = 6	// Pixels
+      colorNormal = "N+"
+      height = 333.0
+      left = 31.0
+      top = 13.0
+      width = 351.0
+      text = "Vendor"
+      windowState = 2	// Normal
+      mdi = false
+      sizeable = false
+      moveable = false
+      view = "venncls.QBE"
+      menuFile = "venncls.MNU"
+      escExit = false
+      mousePointer = 1	// Arrow
+      maximize = false
+      minimize = false
+   endwith
+
+   this.CODETEXT = new TEXTLABEL(this)
+   with (this.CODETEXT)
+      height = 21.0
+      left = 0.0
+      top = 9.0
+      width = 120.0
+      text = "vsrce:"
+      colorNormal = "B/BtnFace"
+      fontName = "MS Sans Serif"
+      fontBold = true
+      alignVertical = 1	// Middle
+      alignHorizontal = 2	// Right
+   endwith
+
+   this.PTYP = new ENTRYFIELD(this)
+   with (this.PTYP)
+      dataLink = "Vendor->vsrce"
+      enabled = false
+      height = 26.0
+      left = 144.0
+      top = 9.0
+      width = 24.0
+      picture = "99.99"
+      colorNormal = "N/BtnFace"
+      colorHighLight = "B+/W*"
+      fontName = "MS Sans Serif"
+      fontBold = true
+   endwith
+
+   this.TEXT1 = new TEXTLABEL(this)
+   with (this.TEXT1)
+      height = 21.0
+      left = 180.0
+      top = 9.0
+      width = 108.0
+      text = "Account:"
+      colorNormal = "B/BtnFace"
+      fontName = "MS Sans Serif"
+      fontBold = true
+      alignVertical = 1	// Middle
+      alignHorizontal = 2	// Right
+   endwith
+
+   this.SNAME = new ENTRYFIELD(this)
+   with (this.SNAME)
+      onChange = class::SNAME_ONCHANGE
+      dataLink = "Vendor->Vendor_n"
+      enabled = false
+      height = 20.0
+      left = 297.0
+      top = 9.0
+      width = 99.0
+      function = "!"
+      colorNormal = "N/BtnFace"
+      colorHighLight = "B+/W*"
+      fontName = "MS Sans Serif"
+      fontBold = true
+      validErrorMsg = "Name of Bill Rate Required"
+   endwith
+
+   this.LNAMETEXT = new TEXTLABEL(this)
+   with (this.LNAMETEXT)
+      height = 21.0
+      left = 24.0
+      top = 60.0
+      width = 108.0
+      text = "Name:"
+      colorNormal = "B/BtnFace"
+      fontName = "MS Sans Serif"
+      fontBold = true
+      alignVertical = 1	// Middle
+      alignHorizontal = 2	// Right
+   endwith
+
+   this.LNAMEENTRY = new ENTRYFIELD(this)
+   with (this.LNAMEENTRY)
+      onChange = class::CHANGE_NAME
+      valid = class::VALID_NAME
+      dataLink = "Vendor->name"
+      enabled = false
+      height = 20.0
+      left = 141.0
+      top = 60.0
+      width = 339.0
+      function = "!"
+      colorNormal = "N/BtnFace"
+      colorHighLight = "B+/W*"
+      fontName = "MS Sans Serif"
+      fontBold = true
+      validErrorMsg = "Name of Bill Rate Required"
+   endwith
+
+   this.TEXT2 = new TEXTLABEL(this)
+   with (this.TEXT2)
+      height = 21.0
+      left = 24.0
+      top = 145.0
+      width = 108.0
+      text = "Date Closed:"
+      colorNormal = "B/BtnFace"
+      fontName = "MS Sans Serif"
+      fontBold = true
+      alignVertical = 1	// Middle
+      alignHorizontal = 2	// Right
+   endwith
+
+   this.PREVBUTTON = new PUSHBUTTON(this)
+   with (this.PREVBUTTON)
+      onClick = class::PREVIOUS
+      height = 26.0
+      left = 112.0
+      top = 330.0
+      width = 85.0
+      text = "&PREVIOUS"
+      fontName = "MS Sans Serif"
+      fontSize = 8.0
+      fontBold = true
+   endwith
+
+   this.NEXTBUTTON = new PUSHBUTTON(this)
+   with (this.NEXTBUTTON)
+      onClick = class::NEXT
+      height = 26.0
+      left = 196.0
+      top = 330.0
+      width = 85.0
+      text = "&NEXT"
+      fontName = "MS Sans Serif"
+      fontSize = 8.0
+      fontBold = true
+   endwith
+
+   this.FIRSTBUTTON = new PUSHBUTTON(this)
+   with (this.FIRSTBUTTON)
+      onClick = {; form.CheckCommit(form.inEditMode);GO TOP;}
+      height = 26.0
+      left = 287.0
+      top = 330.0
+      width = 85.0
+      text = "F&IRST"
+      fontName = "MS Sans Serif"
+      fontSize = 8.0
+      fontBold = true
+   endwith
+
+   this.LASTBUTTON = new PUSHBUTTON(this)
+   with (this.LASTBUTTON)
+      onClick = {; form.CheckCommit(form.inEditMode);GO BOTTOM;}
+      height = 26.0
+      left = 378.0
+      top = 330.0
+      width = 85.0
+      text = "&LAST"
+      fontName = "MS Sans Serif"
+      fontSize = 8.0
+      fontBold = true
+   endwith
+
+   this.SCLOSE = new ENTRYFIELD(this)
+   with (this.SCLOSE)
+      onChange = class::SCLOSE_ONCHANGE
+      dataLink = "Vendor->CLOSE_DATE"
+      enabled = false
+      height = 20.0
+      left = 141.0
+      top = 145.0
+      width = 111.0
+      function = "!"
+      colorNormal = "N/BtnFace"
+      colorHighLight = "B+/W*"
+      fontName = "MS Sans Serif"
+      fontBold = true
+      validErrorMsg = "Name of Bill Rate Required"
+   endwith
+
+
+   procedure Open
+   ****************************************************************************
+   private CodeField
+      FORM.BLUSER=BUSER
+   FORM.BLEVEL=BLEVEL
+   IF EMPTY(FORM.BLUSER) .OR. EMPTY(FORM.BLEVEL)
+      QUIT
+      ENDIF
+   form.firstime = .T.
+   if type("form.init") = "U"
+      form.init = .T.
+
+      set skip to                     && Vendor.qbe contains set skip to gldtl
+      set exact off                   && the .qbe file contains SET EXACT ON
+
+      set procedure to sampProc.prg additive
+    Form.duplicate = .F.
+      form.inEditMode = .F.           && indicator of view/edit state
+      form.changesMade = .F.          && indicator of changes made to field values
+      form.previousRecord = .F.       && Save record number when appending
+        *** do calculations in another area so form doesn't get updated
+        form.updated = .f.
+       select Vendor
+      set order to Vendor
+    GO TOP                                  && new Receipts
+
+
+      *** Open table for calculating totals and balance due in another work area
+      *** so that datalinks are not affected by record movements
+
+
+      ***
+    *  if type("form.parentpayeeForm") <> "U" && Esc ok if have parent
+    *     form.escExit = .T.
+   *   endif
+
+   endif
+   * form.CoyInfoButton.KenpName = "venncls.wfm"
+
+   form::Open()                         && Now the form actually opens
+   *    form.BrowseOnNavigate()              && calculate totals
+   *       form.codingerrors()                        && check coding errors
+
+   *      form.next.setfocus()
+   ****************************************************************************
+
+   procedure OnClose
+
+   * Clean up.
+   ****************************************************************************
+
+   if this.inEditMode
+      form.ViewEdit()                      && Finish transaction
+   endif
+   rollback()
+   if form.updated
+   do venncls_rtn  with form.bluser
+   endif
+     close procedure SAMPProc.prg
+  
+      close databases
+
+   ****************************************************************************
+
+   procedure BrowseOnNavigate
+   ****************************************************************************
+       form.ptyp.Enabled = .F.
+       if eof()
+      form.root.Vendor.viewEdit.enabled = .F.
+   else
+      form.root.Vendor.viewEdit.enabled = .T.
+   endif
+
+
+
+   ****************************************************************************
+
+   procedure ChangesMade
+
+   * Indicate that changes have been made to the current record
+   ****************************************************************************
+   Form.ChangesMade = .T.
+   ****************************************************************************
+
+   procedure Next
+
+   * Go to next record.
+   ****************************************************************************
+
+   form.CheckCommit(form.inEditMode)
+   if .not. empty(dbf())  .and. .not. eof()      && if a table is open in the current workarea
+      skip
+      if eof()
+         go bottom
+         AlertMessage("At the last record","Alert")
+      endif
+   else
+      InformationMessage("There is no table open in the current workarea.",;
+         "Info")
+   endif
+    ****************************************************************************
+
+   procedure Previous
+
+   * Go to previous record.
+   ****************************************************************************
+
+   form.CheckCommit(form.inEditMode)
+ if .not. empty(dbf())  .and. .not. eof() && if a table is open in the current workarea
+      skip - 1
+      if bof()
+         go top
+         AlertMessage("At the first record","Alert")
+      endif
+   else
+      InformationMessage("There is no table open in the current workarea.",;
+         "Info")
+   endif
+
+   procedure CheckCommit (newInEditMode)
+
+        * Finish transaction, if it has been started.
+   ****************************************************************************
+   private CodeField, changesMade
+    local lk1
+    lk1 = form.ptyp.value
+   changesMade = form.changesMade
+   if form.changesMade
+      CodeField = field(1)  && Field period
+      if     ConfirmationMessage("Commit changes?",;
+                FormatStr("Vendor %1",&CodeField)) = YES   .and. .not. empty(dbf())
+                select Vendor
+                replace vary_date with date()
+                replace vary_user with FORM.BLUSER
+                replace vary_time with time()
+                replace vsac with "Z"
+                form.updated = .t.
+         commit()
+
+      else
+         rollback()
+         if .not. bof()
+       *  if .not. empty(form.previousRecord)
+   *            go bookmark()
+           * form.previousRecord
+            form.previousRecord = .F.
+         endif
+      endif
+
+       form.ptyp.enabled = .F.
+    if form.inEditMode .and. newInEditMode
+         begintrans()
+      endif
+      form.changesMade = .F.
+   endif
+   if form.inEditMode <> newInEditMode
+      if newInEditMode                       && Going to Edit mode
+         begintrans()
+      else                                   && Going to View mode
+         if .not. changesMade .AND. .NOT. FORM.DUPLICATE
+            rollback()
+         endif
+      endif
+      form.inEditMode = newInEditMode
+   endif
+
+   * form.root.Receipt.add.enabled = .T.
+   *form.codingerrors()
+   ****************************************************************************
+
+   procedure ViewEdit
+
+   * Toggle between View and Edit modes.
+   ****************************************************************************
+   local inEditMode, editMenu, control
+
+   editMenu = form.root.Vendor.VIEWEdit
+
+   *** If ending edit mode then close transaction, otherwise open it.
+   if form.inEditMode
+      form.checkChanged(.F.)
+      editMenu.text = "&Edit"
+      editMenu.shortcut = "Ctrl-E"
+      editMenu.statusMessage = "Edit data."
+      form.CheckCommit(.F.)                        && Check transaction and
+      form.text = "Vendor -- View Mode"          && change mode to View
+       form.statusmessage = "In View Mode. " + ;
+                           "Select Vendor - Edit menu to " + ;
+                           "edit/delete data."
+    else                                            && Switch to edit mode
+      editMenu.text = "Vi&ew"
+      editMenu.shortcut = "Ctrl-E"
+      editMenu.statusMessage = "View data."
+      form.CheckCommit(.T.)                        && Check transaction and
+      form.text = "Vendor -- Edit Mode"          && change mode to Edit
+
+   *     form.notesEditor.modify = .T.
+      form.statusmessage = "In Edit Mode.  " + ;
+                           "Select menu Vendor - View to switch " + ;
+                           "to View mode."
+        form.ptyp.Enabled = .F.
+
+       form.LnameEntry.SetFocus()
+
+   endif
+
+   inEditMode = form.inEditMode     && Faster if we don't reference a form
+   control = form.first             &&    variable each time through the loop
+   do
+      if .not. control.className $ "BROWSE,EDITOR,NEXTBUTTON,PREVBUTTON,PUSHBUTTON,IMAGE,TEXT"
+         control.enabled = inEditMode
+      endif
+      control = control.before
+   until control.name = form.first.name
+   *           form.gltyp.enabled = .f.
+   *    form.glname.Enabled = .F.
+   form.sname.enabled = .f.
+       form.LnameEntry.enabled = .f.
+       form.ptyp.Enabled = .F.
+
+
+   ****************************************************************************
+
+   procedure CheckChanged(callCommit)
+
+   * Check if changes have been made to the current entryfield.  This procedure
+   * is called from menu routines to make sure the form.changesMade gets
+   * updated when a menu is selected while the changed control has focus.
+   ****************************************************************************
+   private control, fieldValue, controlValue, typeText, typeValue
+
+   if form.inEditMode
+      control = form.activeControl
+      if type("control.datalink") <> "U"
+         fieldValue = control.datalink          && name of table field
+
+         typeText = type("control.text")
+         typeValue = type("control.value")
+         do case
+            case typeValue = "C"
+               controlValue = control.value
+            case typeValue $ "LU" .and. typeText = "C"
+               controlValue = control.text
+            otherwise
+               controlValue = Null
+         endcase
+         if controlValue <> &fieldValue
+            form.changesMade = .T.
+         endif
+      endif
+   endif
+   if form.changesMade .and. callCommit
+      CLASS::CheckCommit(form.inEditMode)     && Check transactions
+   endif
+
+      Procedure change_name
+      if .not. empty(this.value)
+      form.changesmade = .t.
+      form.updated = .t.
+      endif
+
+      Procedure valid_name
+      if empty(this.value)
+      isvalid = .f.
+      else
+      isvalid = .t.
+      endif
+      return isvalid
+
+   Procedure SNAME_OnChange
+   form.changesmade = .t.
+
+   Procedure SCLOSE_OnChange
+         form.changesmade = .t.
+         if empty(this.value)
+         select Vendor
+         replace close_date with {}
+         replace close_user with ""
+         replace close_time with ""
+          replace open_date with date()
+         replace open_user with FORM.BLUSER
+         replace open_time with time()
+
+         else
+           select Vendor
+          replace close_date with date()
+         replace close_user with FORM.BLUSER
+         replace close_time with time()
+   endif
+
+endclass
+
+Procedure venncls_rtn
+parameter bluser
+pluser =  bluser
+   eofVendor = .f.
+   set safety off
+   select vennames
+ set order to Vendor
+     set safety on
+   select Vendor
+     SET FILTER TO .NOT. EMPTY(NAME)  ;
+    .AND. .NOT. EMPTY(vsrce) .AND. .NOT. EMPTY(vtyp) .AND. .NOT. EMPTY(vpmod) ;
+     .AND. .NOT. EMPTY(Vendor_N)
+   go top
+   if .not. eof()
+      do
+         do rtn2
+         until eofVendor
+     endif
+
+
+Procedure rtn2
+   local l1,l2,l3,l4
+   l1 = vsrce
+   l2 = vtyp
+   l3 = vpmod
+   l4 = Vendor_n
+   select vennames
+      seek l1+l2+l3+l4
+      if .not. found() .and. .not. empty(Vendor->name) ;
+       .and. .not. empty(Vendor->vtyp) .and. .not. empty(Vendor->vpmod);
+        .and. .not. empty(Vendor->vsrce) .and. .not. empty(Vendor->Vendor_n)
+      append blank
+      replace name with Vendor->name
+      replace vtyp with Vendor->vtyp
+      replace Vendor_n with Vendor->Vendor_n
+      replace vsrce with l1
+      replace vpmod with l3
+
+      endif
+      replace close_date with Vendor->close_date
+     replace close_user with Vendor->close_user
+     replace close_time with Vendor->close_time
+          select Vendor
+          IF EMPTY(OPEN_DATE)
+          REPLACE OPEN_DATE WITH DATE()
+          REPLACE OPEN_USER WITH pluser
+          REPLACE OPEN_TIME WITH TIME()
+          ENDIF
+          if vsac = "Z"
+          replace vsac with ""
+          select vendaudt
+          append blank
+          replace vsrce with Vendor->vsrce
+          replace vtyp with Vendor->vtyp
+          replace vpmod with Vendor->vpmod
+          replace Vendor_n with Vendor->Vendor_n
+          replace vary_date with  Vendor->vary_date
+          replace vary_time with Vendor->vary_time
+          replace vary_user with Vendor->vary_user
+           replace close_date with  Vendor->close_date
+          replace close_time with Vendor->close_time
+          replace close_user with Vendor->close_user
+           replace open_date with  Vendor->open_date
+          replace open_time with Vendor->open_time
+          replace open_user with Vendor->open_user
+          replace bal_due with Vendor->bal_due
+          replace cdep_amt with Vendor->cdep_amt
+          replace credit_lmt with Vendor->credit_lmt
+          replace name with Vendor->name
+          replace phone  with Vendor->phone
+          replace address1  with Vendor->address1
+          replace address2 with Vendor->address2
+          replace contact with Vendor->contact
+          replace fax with Vendor->fax
+          replace email with Vendor->email
+          replace acc_ref  with Vendor->acc_ref
+          endif
+        select Vendor
+
+
+   skip
+   if eof()
+   eofVendor = .t.
+   endif

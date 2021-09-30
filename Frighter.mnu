@@ -1,0 +1,255 @@
+******************************************************************************
+*  PROGRAM:      Frighter.mnu
+*
+*  WRITTEN BY:   W Nyongesa
+*
+*  DATE:         03/2001
+*
+*  UPDATED:      09/2012
+*
+*  REVISION:     $Revision:   1.58  $
+*
+*  VERSION:      Visual dBASE
+*
+*  DESCRIPTION:  This is a menu file used by Frighter.WFM for
+*                performing simple tasks.  It allows adding and deleting
+*                records, searching for a value in the Frighter field of the
+*                current table viewed, and exiting the form in view.
+*
+*  PARAMETERS:   FormObj -- the form to which this menu will belong.
+*
+*  CALLS:        None
+*
+*  USAGE:        form.menuFile = "Frighter.mnu"
+*
+*******************************************************************************
+#include <messdlg.h>
+
+** END HEADER -- do not remove this line*
+* Generated on 07/03/2001
+*
+Parameter FormObj
+NEW Frighter(FormObj,"Root")
+CLASS Frighter(FormObj,Name) OF MENUBAR(FormObj,Name)
+   this.Text = ""
+   this.OnInit = {;set procedure to SampProc.prg}
+
+   DEFINE MENU FILE OF THIS;
+       PROPERTY;
+         Text "&File"
+
+         DEFINE MENU EXIT OF THIS.FILE;
+             PROPERTY; 
+               StatusMessage "Return to the Previous Menu.",;
+               Text "&Return to Previous Menu",;
+               ShortCut "F4",;
+               OnClick CLASS::ONEXITALL
+
+        
+       DEFINE MENU SEPARATOR000 OF THIS.FILE;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+
+
+         DEFINE MENU QUITS OF THIS.FILE;
+             PROPERTY; 
+               StatusMessage "Leave Kenserve Integrated System.",;
+               Text "Exit",;
+               ShortCut "F8",;
+               OnClick CLASS::QUITALL
+
+   DEFINE MENU Frighter OF THIS;
+       PROPERTY;
+         Text "Customer"
+
+         DEFINE MENU VIEWEDIT OF THIS.Frighter;
+             PROPERTY;
+               OnClick CLASS::VIEWEDITONCLICK,;
+               Text "&Edit",;
+               Shortcut "Ctrl-E",;
+               StatusMessage "Edit data."
+
+         DEFINE MENU SEPARATOR1 OF THIS.Frighter;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+
+         DEFINE MENU ADD OF THIS.Frighter;
+             PROPERTY;
+               OnClick CLASS::ADDONCLICK,;
+               Text "Add",;
+               Enabled .f.,;
+               Shortcut "F3",;
+               StatusMessage "Add a new Customer Accounts."
+               
+        DEFINE MENU SEPARATOR3 OF THIS.Frighter;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+
+
+ DEFINE MENU REPORT OF THIS;
+       PROPERTY;
+         Text "&Reports"
+
+         DEFINE MENU ERRORCustomerREPORT OF THIS.REPORT;
+             PROPERTY;
+               OnClick {;create session ;set lock off ;report form Frighter},;
+               Text "Listing of Customers",;
+               Shortcut "F4"
+               
+ 
+   
+   ****************************************************************************
+   procedure AddOnClick
+
+   * Add new record.
+   ****************************************************************************
+   private addForm, newFrighter, inEditMode,lpsource,lpftyp,lppmod,lpFrighterNO,LNFrighter
+   local lwk1,lwk2,lwk3,lwk4,l1,l2,l3,l4,l5,l6,l7,l8
+   form.CheckChanged(.T.)
+   lpsource = ""
+        lpftyp = ""
+        lppmod = ""
+   if ConfirmationMessage("Are you sure you want to add a Customer?",;
+                          "Confirmation") = YES
+       inEditMode = iif(type("form.curPage") <> "U", form.curPage.inEditMode,;
+                                                    form.inEditMode)
+      if .not. inEditMode
+         form.ViewEdit()                 && Make sure record is editable
+         endif
+
+                                         && and begin a transaction
+        lpsource = form.psource
+        lpftyp = form.pftyp
+        lppmod = form.ppmod
+        IF .NOT. EMPTY(form.psource) .AND. .NOT. EMPTY(LPftyp) .AND. .NOT. EMPTY(LPpmod)
+             select Frighter3
+        form.previousRecord = recno()   
+      set filter to source = lpsource .and. ftyp = lpftyp .and. pmod = lppmod
+      go bottom
+      if eof()
+      lPFrighterNO = 1
+      else
+      lPFrighterNO = val(Frighter_n) + 1
+      endif
+      if LPFrighterNO < 10
+      LNFrighter = "000"+str(LPFrighterNO,1)
+      else
+     if LPFrighterNO < 100
+      LNFrighter = "00"+str(LPFrighterNO,2)
+      else
+      if LPFrighterNO < 1000
+      LNFrighter = "0"+str(LPFrighterNO,3)
+      else
+      if LPFrighterNO < 10000
+      LNFrighter = str(LPFrighterNO,4)
+      else
+      quit
+      endif
+      endif
+      endif
+      endif
+      LOCAL LERR
+      LERR = .F.
+      if  (lpsource = "2" .or. lpsource = "7");  && cheque or cash
+       .and. val(lnfrighter) > 1
+       lerr = .t.
+       endif
+       if lpsource = "B"    .and. val(lnfrighter) > 1 .and. form.blevel > 3
+       lerr = .t.
+       endif
+     *  if lpsource = "3"; && credit cards
+   *     .and. val(lnfrighter) > 10  && bon voyage , senator, bbk only
+    *   lerr = .t.
+   *    endif
+       select frighter4
+       go top
+       if .not. eof()
+       set filter to empty(name) .or. empty(category)
+       go top
+       if .not. eof()
+       lerr = .t.
+       endif
+       endif
+       select frighter4
+       set filter to
+       
+      IF .NOT. LERR
+      select Frighter
+      append blank
+      replace ftyp with LPftyp
+      replace Frighter_n with LNFrighter
+      REPLACE pmod WITH LPpmod
+      REPLACE source WITH lpsource
+      REPLACE CATEGORY WITH SOURCE
+      IF SOURCE = "9"
+      REPLACE VAGE WITH "S"
+      ENDIF
+      REPLACE CATNAME WITH FRSOURCS->NAME
+   
+       replace bal_this with 0   
+     replace bal_30 with 0    
+     replace bal_60 with 0    
+     replace bal_90 with 0    
+     replace bal_120 with 0    
+     replace bbf with 0    
+    replace bal_due with 0
+     replace bal_due_dr with 0
+     replace bal_due_cr with 0   
+     replace bbf_cr with 0    
+     replace bbf_dr with 0   
+     replace bal_15 with 0
+     replace turnover with 0
+     replace l_pay_amt with 0
+     replace l_inv_amt with 0
+     replace cdep_amt with 0
+     replace cr_days with 0
+     REPLACE CREDIT_LMT WITH 0
+         replace open_bal with 0
+         replace debits with 0
+         replace credits with 0
+         replace bl_due with 0
+         if fgcoy->veh = 'Yes'
+        replace  reg with 'Yes'
+        endif
+         REPLACE OPEN_USER WITH FORM.BLUSER
+         REPLACE OPEN_TIME WITH TIME()
+          FORM.Ssource.ENABLED = .F.
+       FORM.Spmod.ENABLED = .F.
+       FORM.Sftyp.ENABLED = .F.
+      *  
+        form.sacc.value = source+ftyp+pmod+Frighter_n
+        refresh
+      form.cNAME.setfocus()
+           endif
+*    ENDIF
+    endif
+     endif
+     select Frighter
+   
+
+   ***************************************************************************
+
+   procedure ViewEditOnClick
+   ****************************************************************************
+
+   form.ViewEdit()
+
+   
+   ****************************************************************************
+     procedure OnExitALL
+   
+  
+   ****************************************************************************
+   *      form.close()  
+     form.Release()
+   Procedure QUITALL
+            form.Release()
+            QUIT
+  
+
+ENDCLASS
+
+

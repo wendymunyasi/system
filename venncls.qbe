@@ -1,0 +1,18 @@
+* Visual dBASE .QBE file 9
+ON ERROR DO QBEERR WITH ERROR(), MESSAGE(),;
+PROGRAM(), LINENO()
+CLOSE DATABASES
+SET EXACT ON
+SELECT 1
+USE \KENSERVICE\DATA\vendor.DBF
+set filter to vsrce > "1"
+SELECT 2
+USE \KENSERVICE\DATA\VENNAMES.DBF
+select 90
+if .not. file("\kenservice\data\vendaudt.dbf")
+use \kenserve\idssys\vendaudt.dbf
+copy stru to \kenservice\data\vendaudt dbase prod
+endif
+use \kenservice\data\vendaudt.dbf
+SELECT 1
+GO TOP
