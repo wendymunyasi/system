@@ -1,4 +1,4 @@
-Project File generated 09/29/2021 19:30:23
+Project File generated 09/30/2021 16:26:27
 
 [Project]
 Name=kenslog
@@ -159,6 +159,40 @@ STSTo.qbe,1,0,1,0
 VNBUILD.QBE,1,0,1,0
 Fgtyp.qbe,1,0,1,0
 fgcoy.qbe,1,0,1,0
+FGTRNPRV.wfm,1,0,1,0
+Vendor.wfm,1,0,1,0
+Vendor.qbe,1,0,1,0
+Vendor.mnu,1,0,1,0
+fgtrnpvp.QBE,1,0,1,0
+fgtrnpvp.prg,1,0,1,0
+FGTRNPRV.QBE,1,0,1,0
+FGLPRD.wfm,1,0,1,0
+FGLPRD.qbe,1,0,1,0
+FGLPRD.mnu,1,0,1,0
+venncls.wfm,1,0,1,0
+venncls.qbe,1,0,1,0
+venncls.mnu,1,0,1,0
+Frigtcls.wfm,1,0,1,0
+Frigtcls.qbe,1,0,1,0
+Frigtcls.mnu,1,0,1,0
+FSt15f.wfm,1,0,1,0
+fst15fnc.prg,1,0,1,0
+FSt15f.qbe,1,0,1,0
+FSt15f.mnu,1,0,1,0
+Cashiers.qbe,1,0,1,0
+Cashiers.mnu,1,0,1,0
+Cashiers.wfm,1,0,1,0
+Fgoff.mnu,1,0,1,0
+Fgoff.wfm,1,0,1,0
+OfTitle.qbe,1,0,1,0
+OfTitle.mnu,1,0,1,0
+OfTitle.wfm,1,0,1,0
+KENSLSTR.PRG,1,0,1,0
+FGTRNPRV.MNU,1,0,1,0
+Fgoff.qbe,1,0,1,0
+Frighter.mnu,1,0,1,0
+Frighter.wfm,1,0,1,0
+Frighter.qbe,1,0,1,0
 
 [DEO]
 DEO0=C:\kenslog\idssys\deploy
@@ -391,3 +425,37 @@ Files139=STSTo.qbO >> DestDir: {app}
 Files140=VNBUILD.QBO >> DestDir: {app}
 Files141=Fgtyp.qbO >> DestDir: {app}
 Files142=fgcoy.qbO >> DestDir: {app}
+Files143=FGTRNPRV.wfO >> DestDir: {app}
+Files144=Vendor.wfO >> DestDir: {app}
+Files145=Vendor.qbO >> DestDir: {app}
+Files146=Vendor.mnO >> DestDir: {app}
+Files147=fgtrnpvp.QBO >> DestDir: {app}
+Files148=fgtrnpvp.prO >> DestDir: {app}
+Files149=FGTRNPRV.QBO >> DestDir: {app}
+Files150=FGLPRD.wfO >> DestDir: {app}
+Files151=FGLPRD.qbO >> DestDir: {app}
+Files152=FGLPRD.mnO >> DestDir: {app}
+Files153=venncls.wfO >> DestDir: {app}
+Files154=venncls.qbO >> DestDir: {app}
+Files155=venncls.mnO >> DestDir: {app}
+Files156=Frigtcls.wfO >> DestDir: {app}
+Files157=Frigtcls.qbO >> DestDir: {app}
+Files158=Frigtcls.mnO >> DestDir: {app}
+Files159=FSt15f.wfO >> DestDir: {app}
+Files160=fst15fnc.prO >> DestDir: {app}
+Files161=FSt15f.qbO >> DestDir: {app}
+Files162=FSt15f.mnO >> DestDir: {app}
+Files163=Cashiers.qbO >> DestDir: {app}
+Files164=Cashiers.wfO >> DestDir: {app}
+Files165=Fgoff.mnO >> DestDir: {app}
+Files166=Fgoff.wfO >> DestDir: {app}
+Files167=OfTitle.qbO >> DestDir: {app}
+Files168=OfTitle.mnO >> DestDir: {app}
+Files169=OfTitle.wfO >> DestDir: {app}
+Files170=KENSLSTR.PRO >> DestDir: {app}
+Files171=Cashiers.mnO >> DestDir: {app}
+Files172=FGTRNPRV.MNO >> DestDir: {app}
+Files173=Fgoff.qbO >> DestDir: {app}
+Files174=Frighter.mnO >> DestDir: {app}
+Files175=Frighter.wfO >> DestDir: {app}
+Files176=Frighter.qbO >> DestDir: {app}
