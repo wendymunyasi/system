@@ -1,0 +1,19 @@
+* Visual dBASE .QBE file 9
+on error do fgvehstr.prg
+use \kenservice\data\fgveh.dbf
+? close_date
+ON ERROR DO QBEERR WITH ERROR(), MESSAGE(),;
+PROGRAM(), LINENO()
+CLOSE DATABASES
+SET EXACT ON
+SELECT 1
+USE \kenservice\data\fgveh.DBf
+SELECT 3
+USE \KENSERVICE\DATA\fgvehS.DBF EXCLUSIVE
+select 4
+use \kenservice\data\fgveh.dbf again alias fgveh3
+select 5
+use \kenservice\data\fgveh.dbf again alias fgveh4
+
+SELECT 1
+GO TOP

@@ -1,0 +1,25 @@
+* Visual dBASE .QBE file 9
+ON ERROR DO QBEERR WITH ERROR(), MESSAGE(),;
+PROGRAM(), LINENO()
+CLOSE DATABASES
+SET EXACT ON
+SELECT 1
+if .not. file("\kenservice\data\FGTRNSP.DBf")
+use \kenserve\idssys\FGTRNSP.DBf
+copy stru to \kenservice\data\FGTRNSP dbase prod
+endif
+
+if .not. file("\kenservice\data\FGTRNSPS.DBf")
+use \kenserve\idssys\FGTRNSPS.DBf
+copy stru to \kenservice\data\FGTRNSPS dbase prod
+endif
+USE \kenservice\data\FGTRNSP.DBf
+SELECT 3
+USE \KENSERVICE\DATA\FGTRNSPS.DBF EXCLUSIVE
+select 4
+use \kenservice\data\FGTRNSP.dbf again alias FGTRNSP3
+select 5
+use \kenservice\data\FGTRNSP.dbf again alias FGTRNSP4
+
+SELECT 1
+GO TOP

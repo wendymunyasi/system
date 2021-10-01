@@ -1,0 +1,428 @@
+////////////////////////////////////////////////////////////////////////////////
+// Output Filename: C:\KENSERVICE\IDSSYS\FSHPUMPC_FCV.WFM                     //
+// Created By:      dBASE Form Converter Wizard                               //
+// Created On:      Thursday June 16, 2016 At 07:31:33                        //
+// Object Count:    6                                                         //
+////////////////////////////////////////////////////////////////////////////////
+*******************************************************************************
+*  PROGRAM:      Fshpumpc.wfm
+*
+*  WRITTEN BY:   W Nyongesa
+*
+*  DATE:         05/2000
+*
+*  UPDATED:     02/2013
+*
+*  REVISION:     $Revision:   1.0
+*
+*  VERSION:      Visual dBASE
+*
+*  DESCRIPTION:  This program maintains the companies master file
+*
+*  PARAMETERS:   None
+*
+*  CALLS:        Fshpumpc.mnu         (Menu file)
+*                KBUTTONS.CC          (Custom Controls file)
+*                Shift Cashier.qbe         (View of tables)
+*
+*  USAGE:        DO Fshpumpc.wfm
+*
+*******************************************************************************
+#include <messdlg.h>
+shell(.F.)
+create session
+set talk off
+set DBTYPE to dbase
+_app.FrameWin.Visible = .F.
+_app.FrameWin.Text = "Fshpumpc"
+set century on
+set ldCheck off && To avoid language driver conflicts
+#define Maxcoy 999
+** END HEADER -- do not remove this line
+//
+// Generated on 16/06/2016
+//
+parameter bUser,bLevel,bModal
+local f
+f = new FshpumpcFORM()
+if (bModal)
+   f.mdi = false // ensure not MDI
+   f.readModal()
+else
+   f.open()
+endif
+
+class FshpumpcFORM of FORM
+   with (this)
+      onClose = class::ONCLOSE
+      open = class::OPEN
+      metric = 6	// Pixels
+      colorNormal = "N+"
+      height = 932.0
+      left = 53.0
+      top = 7.0
+      width = 1284.0
+      text = "Current Shift Staff Allocation Form"
+      windowState = 2	// Normal
+      mdi = false
+      sizeable = false
+      moveable = false
+      view = "Fshpumpc.QBE"
+      menuFile = "FSHPUMPC.MNU"
+      escExit = false
+      mousePointer = 1	// Arrow
+      maximize = false
+      minimize = false
+   endwith
+
+   this.TEXT1 = new TEXTLABEL(this)
+   with (this.TEXT1)
+      height = 17.0
+      left = 7.0
+      top = 33.0
+      width = 196.0
+      text = "Select Island/Pump:"
+      colorNormal = "B+/W"
+      fontName = "MS Sans Serif"
+      fontSize = 12.0
+      fontBold = true
+   endwith
+
+   this.SCASHR = new COMBOBOX(this)
+   with (this.SCASHR)
+      onChange = class::SCASHR_ONCHANGE
+      dataLink = "FGCOY->CNAME"
+      enabled = false
+      height = 24.0
+      left = 210.0
+      top = 33.0
+      width = 120.0
+      fontName = "MS Sans Serif"
+      fontSize = 11.0
+      fontBold = true
+      colorNormal = "N/G+"
+      dataSource = "FIELD ststo->sto"
+      style = 2	// DropDownList
+      dropDownHeight = 132.0
+   endwith
+
+   this.TEXT3 = new TEXTLABEL(this)
+   with (this.TEXT3)
+      height = 17.0
+      left = 420.0
+      top = 22.0
+      width = 469.0
+      text = "Select Officer"
+      colorNormal = "B+/W"
+      fontName = "MS Sans Serif"
+      fontSize = 12.0
+      fontBold = true
+   endwith
+
+   this.CHILDBROWSE = new BROWSE(this)
+   with (this.CHILDBROWSE)
+      onLostFocus = class::CHILDBROWSE_ONLOSTFOCUS
+      enabled = false
+      colorNormal = "N/W"
+      colorHighLight = "R+/W"
+      fontName = "MS Sans Serif"
+      fontSize = 8.0
+      fontBold = true
+      height = 781.0
+      left = 394.0
+      top = 55.0
+      width = 530.0
+      append = false
+      alias = "FgoffS"
+      fields = 'sn=FgoffS->NAME\H="Emp Name"\35\R\C="0x40/0xff80ff",stit=OFTITLES->NAME\H="Title"\35\R'
+      delete = false
+      modify = false
+      showRecNo = false
+   endwith
+
+   this.TEXT4 = new TEXTLABEL(this)
+   with (this.TEXT4)
+      height = 17.0
+      left = 126.0
+      top = 77.0
+      width = 204.0
+      text = "Allocated Officer:"
+      colorNormal = "B+/W"
+      fontName = "MS Sans Serif"
+      fontSize = 12.0
+      fontBold = true
+   endwith
+
+   this.CNAME = new ENTRYFIELD(this)
+   with (this.CNAME)
+      dataLink = "STSTO->OFFNAME"
+      enabled = false
+      height = 26.0
+      left = 28.0
+      top = 110.0
+      width = 351.0
+      colorNormal = "0x8000ff/W"
+      fontName = "MS Sans Serif"
+      fontSize = 12.0
+   endwith
+
+
+   procedure Open
+   ****************************************************************************
+   private CodeField
+                on error DO ddeerr WITH ERROR(), MESSAGE(),;
+   PROGRAM(), LINENO()
+      FORM.blUSER = BUSER
+   FORM.bLEVEL = BLEVEL
+   IF EMPTY(FORM.blUSER) .or. empty(form.blevel) &&.OR. EMPTY(FORM.PLEVEL)
+   QUIT
+   ENDIF
+   form.firstime = .T.
+   if type("form.init") = "U"
+      form.init = .T.
+
+      set skip to                     && Fshpumpc.qbe contains set skip to gldtl
+      set exact off                   && the .qbe file contains SET EXACT ON
+
+      set procedure to sampProc.prg additive
+    Form.duplicate = .F.
+      form.inEditMode = .F.           && indicator of view/edit state
+      form.changesMade = .F.          && indicator of changes made to field values
+      form.previousRecord = .F.       && Save record number when appending
+        *** do calculations in another area so form doesn't get updated
+        form.updated = .f.
+   SET REPROCESS TO 10
+   SELECT ST15F
+
+   SELECT FGOFF
+
+   SET ORDER TO OFF
+      select Fgoffs
+      set order to name
+   select ststo
+
+   set order to sto
+   SELECT FGCOY
+   go top
+   SELECT FGOFFS
+
+   SEEK ststo->offNAME
+   IF .NOT. FOUND()
+   GO TOP
+   ENDIF
+   select ststo
+   go top
+   if fgcoy->pospost = "Yes"
+   form.pshdate = st15f->shift_date
+   form.pshno = st15f->shift_no
+   form.pshid = st15f->shift_id
+   else
+    form.pshdate = date()
+   form.pshno = "0"
+   form.pshid = "0"
+
+   endif
+      *** Open table for calculating totals and balance due in another work area
+      *** so that datalinks are not affected by record movements
+
+
+      ***
+    *  if type("form.parentpayeeForm") <> "U" && Esc ok if have parent
+    *     form.escExit = .T.
+   *   endif
+
+   endif
+   * form.CoyInfoButton.KenpName = "Fshpumpc.WFM"
+   GO TOP
+   form::Open()                         && Now the form actually opens
+   *    form.BrowseOnNavigate()              && calculate totals
+   *       form.codingerrors()                        && check coding errors
+
+   *      form.next.setfocus()
+   ****************************************************************************
+
+   procedure OnClose
+
+   * Clean up.
+   ****************************************************************************
+   if this.inEditMode
+      form.ViewEdit()                      && Finish transaction
+   endif
+      close procedure sampproc.prg
+     close databases
+         form.close()
+   ****************************************************************************
+
+   procedure BrowseOnNavigate
+   ****************************************************************************
+       form.ptyp.Enabled = .F.
+       if eof()
+      form.root.Fshpumpc.viewEdit.enabled = .F.
+   else
+      form.root.Fshpumpc.viewEdit.enabled = .T.
+   endif
+
+
+
+   ****************************************************************************
+
+   procedure ChangesMade
+
+   * Indicate that changes have been made to the current record
+   ****************************************************************************
+   Form.ChangesMade = .T.
+   ****************************************************************************
+
+  
+   ****************************************************************************
+
+   procedure CheckCommit (newInEditMode)
+
+        * Finish transaction, if it has been started.
+   ****************************************************************************
+   private CodeField, changesMade
+    local lk1
+   changesMade = form.changesMade
+   if form.changesMade
+      CodeField = field(1)  && Field period
+     * if     ConfirmationMessage("Commit changes?",;
+                FormatStr("Company %1",&CodeField)) = YES
+         commit()
+
+
+    if form.inEditMode .and. newInEditMode
+         begintrans()
+                      on error DO transerr WITH ERROR(), MESSAGE(),;
+   PROGRAM(), LINENO()
+
+      endif
+      form.changesMade = .F.
+   endif
+   if form.inEditMode <> newInEditMode
+      if newInEditMode                       && Going to Edit mode
+         begintrans()
+                      on error DO transerr WITH ERROR(), MESSAGE(),;
+   PROGRAM(), LINENO()
+
+      else                                   && Going to View mode
+         if .not. changesMade .AND. .NOT. FORM.DUPLICATE
+            rollback()
+         endif
+      endif
+      form.inEditMode = newInEditMode
+   endif
+
+   * form.root.Receipt.add.enabled = .T.
+   *form.codingerrors()
+   ****************************************************************************
+
+   procedure ViewEdit
+
+   * Toggle between View and Edit modes.
+   ****************************************************************************
+   local inEditMode, editMenu, control
+
+   editMenu = form.root.Fshpumpc.VIEWEdit
+
+   *** If ending edit mode then close transaction, otherwise open it.
+   if form.inEditMode
+      form.checkChanged(.F.)
+      editMenu.text = "&Edit"
+      editMenu.shortcut = "Ctrl-E"
+      editMenu.statusMessage = "Edit data."
+      *form.root.Fshpumpc.delete.enabled = .F.      && disabled in view mode
+      form.CheckCommit(.F.)                        && Check transaction and
+      form.text = "Current Shift Staff Allocation Form -- View Mode"          && change mode to View
+   *      form.notesEditor.colorNormal = "N/W"
+         form.childBrowse.modify = .F.
+          form.childBrowse.enabled = .F.
+   *      form.notesEditor.modify = .F.
+      form.statusmessage = "In View Mode. " + ;
+                           "Select Officer -  Edit menu to " + ;
+                           "edit/delete data."
+   *    form.nextCOYBUTTON.SetFocus()
+   else                                            && Switch to edit mode
+      editMenu.text = "Vi&ew"
+      editMenu.shortcut = "Ctrl-E"
+      editMenu.statusMessage = "View data."
+      *form.root.Fshpumpc.delete.enabled = .f.      && enabled in edit mode
+      form.CheckCommit(.T.)                        && Check transaction and
+      form.text = "Current Shift Staff Allocation Form -- Edit Mode"          && change mode to Edit
+
+   *     form.notesEditor.modify = .T.
+   form.childBrowse.enabled = .t.
+   form.childBrowse.modify = .t.
+      form.statusmessage = "In Edit Mode.  " + ;
+                           "Select menu Officer -  View to switch " + ;
+                           "to View mode."
+
+
+   endif
+
+   inEditMode = form.inEditMode     && Faster if we don't reference a form
+   control = form.first             &&    variable each time through the loop
+   do
+      if .not. control.className $ "BROWSE,EDITOR,NEXTBUTTON,PREVBUTTON,PUSHBUTTON,IMAGE,TEXT"
+         control.enabled = inEditMode
+      endif
+      control = control.before
+   until control.name = form.first.name
+
+     form.cname.enabled = .f.
+*     form.adate.enabled = .f.
+   *  form.resp1.enabled = .f.
+
+   ****************************************************************************
+
+   procedure CheckChanged(callCommit)
+
+   * Check if changes have been made to the current entryfield.  This procedure
+   * is called from menu routines to make sure the form.changesMade gets
+   * updated when a menu is selected while the changed control has focus.
+   ****************************************************************************
+   private control, fieldValue, controlValue, typeText, typeValue
+
+   if form.inEditMode
+      control = form.activeControl
+      if type("control.datalink") <> "U"
+         fieldValue = control.datalink          && name of table field
+
+         typeText = type("control.text")
+         typeValue = type("control.value")
+         do case
+            case typeValue = "C"
+               controlValue = control.value
+            case typeValue $ "LU" .and. typeText = "C"
+               controlValue = control.text
+            otherwise
+               controlValue = Null
+         endcase
+         if controlValue <> &fieldValue
+            form.changesMade = .T.
+         endif
+      endif
+   endif
+   if form.changesMade .and. callCommit
+      CLASS::CheckCommit(form.inEditMode)     && Check transactions
+   endif
+
+   Procedure CHILDBROWSE_OnLostFocus
+         select ststo
+         replace off with Fgoffs->off
+         replace offname with Fgoffs->name
+
+         select ststo
+      *   refresh
+         form.changesmade = .t.
+
+   Procedure SCASHR_OnChange
+      select ststo
+      seek this.value
+      if .not. empty(ststo->name)
+      select Fgoffs
+      seek ststo->offname
+      endif
+      select ststo
+
+endclass
+

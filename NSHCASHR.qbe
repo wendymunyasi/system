@@ -1,0 +1,78 @@
+* Visual dBASE .QBE file 9
+             on error DO qbeerr WITH ERROR(), MESSAGE(),;
+   PROGRAM(), LINENO()
+ 
+ CLOSE DATABASES
+ use \kenservice\data\vendor.dbf
+go top
+if eof()
+wait "Error with vendor masterfile!"
+    QUIT
+    ENDIF
+ use \kenservice\data\frighter.dbf
+go top
+if eof()
+wait "Error with customer masterfile!"
+    QUIT
+    ENDIF
+    use \kenservice\data\fgcod.dbf
+go top
+if eof()
+wait "Error with product masterfile!"
+    QUIT
+    ENDIF
+    use \kenservice\data\fgmast.dbf
+go top
+if eof()
+wait "Error with stock masterfile!"
+    QUIT
+    ENDIF
+ use  \kenservice\data\st15f.dbf
+set order to mkey
+go top
+pcen = cen
+ptyp = typ
+pcla = cla
+pcod = cod
+psto = sto
+CLOSE DATABASES
+SET EXACT ON
+SELECT 1
+USE \KENSERVICE\DATA\CASHIERS.DBF
+if .not. file("\kenservice\data\fccashrs.dbf")
+copy stru to \kenservice\data\fccashrs dbase prod
+endif
+select 2
+use \kenservice\data\fgcoy.dbf
+SELECT 3
+USE \KENSERVICE\DATA\OFTITLES.DBF ORDER TAG TITLE
+SELECT 5
+USE \KENSERVICE\DATA\FGOFFS.DBF
+set filter to empty(date_left) 
+select 6
+USE \KENSERVICE\DATA\FGOFF.DBF
+select 7
+use \kenservice\data\FGOFF.dbF again alias FGOFF2 ORDER TAG OFF
+select 8
+set safety off
+use \kenserve\idssys\st15f.dbf
+copy stru to \kenservice\data\st15casn dbase prod
+use \kenservice\data\st15casn.dbf exclusive alias st15f ORDER TAG MKEY
+appe from \kenservice\data\st15f.dbf for cen = pcen .and. typ = ptyp .and. cod = pcod .and. sto = psto
+go top
+select 10
+use \kenservice\data\fgoffs.dbf again alias fgoffs2
+SET FILT TO EMPTY(DATE_LEFT)
+select 5
+set relation to title into oftitles
+select 11
+use \kenservice\data\cashiers.dbf again alias cashiers2
+select 50
+use \kenservice\data\fgcens.dbf
+set filter to div = "1" .and. used = "Yes"
+select 51
+use \kenservice\data\fgcenall.dbf
+go top
+SELECT 1
+set relation to OFF into FGOFF2
+GO TOP
