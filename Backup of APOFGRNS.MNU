@@ -1,0 +1,765 @@
+
+******************************************************************************
+*  PROGRAM:      apofgrns.mnu
+*
+*  WRITTEN BY:   W M Nyongesa
+*
+*  DATE:         12/93
+*
+*  UPDATED:      04/2015
+*
+*  REVISION:     $Revision:   1.58  $
+*
+*  VERSION:      Visual dBASE
+*
+*  DESCRIPTION:  This is a menu file used by apofgrns.wfm for
+*                performing simple tasks.  It allows adding and deleting
+*                records, searching for a value in the purchase field of the
+*                current table viewed, and exiting the form in view.
+*
+*  PARAMETERS:   FormObj -- the form to which this menu will belong.
+*
+*  CALLS:        None
+*
+*  USAGE:        form.menuFile = "apofgrns.mnu"
+*
+*******************************************************************************
+#include <Messdlg.h>
+
+** END HEADER -- do not remove this line*
+* Generated on 05/06/94
+*
+Parameter FormObj
+NEW apogrns(FormObj,"Root")
+CLASS apogrns(FormObj,Name) OF MENUBAR(FormObj,Name)
+   this.Text = ""
+   this.OnInit = {;set procedure to Sampproc.prg}
+
+   DEFINE MENU FILE OF THIS;
+       PROPERTY;
+         Text "&FILE"
+         
+      DEFINE MENU PREVEXIT OF THIS.FILE;
+       PROPERTY; 
+          StatusMessage "Return to the Previous Menu.",;
+          Text "&RETURN TO PREVIOUS MENU",;
+          OnClick {;msgbox("wow", "results")}
+  
+      
+       DEFINE MENU SEPARATOR000 OF THIS.FILE;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+
+            
+   DEFINE MENU QUITALL OF THIS.FILE;
+       PROPERTY; 
+          StatusMessage "Leave Kenserve System.",;
+          Text "EXIT",;
+          SHORTCUT "F8",;
+          OnClick CLASS::ONQUITALL
+
+   DEFINE MENU ORDER OF THIS;
+       PROPERTY;
+         Text "PURCHASE"
+
+         DEFINE MENU VIEWEDIT OF THIS.ORDER;
+             PROPERTY;
+               OnClick CLASS::VIEWEDITONCLICK,;
+               Text "&EDIT",;
+               Shortcut "Ctrl-E",;
+               StatusMessage "Edit data."
+
+         DEFINE MENU SEPARATOR1 OF THIS.ORDER;
+             PROPERTY;
+               Separator .T.,;
+                  Text ""
+
+         DEFINE MENU ADDORDER OF THIS.order;
+             PROPERTY;
+               OnClick CLASS::ADDORDERONCLICK,;
+               Text "ADD-NEW PURCHASE",;
+               Enabled .t.,;
+               Shortcut "F3",;
+               StatusMessage "Add New Purchase."
+
+       DEFINE MENU ADDLINE OF THIS.order;
+             PROPERTY;
+               OnClick CLASS::ADDLINEONCLICK,;
+               Text "ADD-ITEM",;
+               Enabled .t.,;
+               Shortcut "F7",;
+               StatusMessage "Add a new product, item or service to the purchase."
+               
+           DEFINE MENU DELETELINE OF THIS.ORDER;
+             PROPERTY;
+               OnClick CLASS::DELETELINEONCLICK,;
+               Text "Delete IteM",;
+               Enabled .F.,;
+               Shortcut "Ctrl-M",;
+               StatusMessage "Delete the current product."
+      
+         DEFINE MENU SEPARATOR2 OF THIS.ORDER;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+
+       
+DEFINE MENU REPORT OF THIS;
+       PROPERTY; 
+         Text "TASKS"
+
+   DEFINE MENU REPORT OF THIS.report;
+       PROPERTY;
+         Text "1. Save - No Print",;
+         enabled .t.,;
+        OnClick CLASS::F5_RTN,;
+               Shortcut "F5"
+               
+                DEFINE MENU SEPARATORREP1 OF THIS.report;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+               
+     DEFINE MENU REPORT2 OF THIS.report;
+       PROPERTY;
+         Text "2. Print and save - Goods Received Note",;
+         enabled .t.,;
+        OnClick CLASS::F9_RTN,;
+               Shortcut "F9"
+               
+                  DEFINE MENU SEPARATORREP2 OF THIS.report;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+               
+                      DEFINE MENU REPORT3 OF THIS.report;
+       PROPERTY;
+         Text "3. Print Duplicate Goods Received Note",;
+         enabled .t.,;
+        OnClick class::F1_rtn,;
+               Shortcut "F1"
+
+         DEFINE MENU SEPARATORREP4 OF THIS.report;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+               
+                              DEFINE MENU REPORT4 OF THIS.report;
+       PROPERTY;
+         Text "4. Print Fuel Received Note",;
+         enabled .t.,;
+        OnClick class::F6_rtn,;
+               Shortcut "F6"
+
+         DEFINE MENU SEPARATORREP5 OF THIS.report;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+   
+   
+
+  procedure DeleteLineOnClick
+   PRIVATE Ppcoy,Ppdiv,Ppcen,Ppsto,Pptyp,Ppcla,Ppcod,PPRQTY,pamt,porder,porddate,pstock
+   
+   * Delete current record.
+   ****************************************************************************
+      select apogrlin
+      if ConfirmationMessage("Are you sure you want to delete this Item?",;
+                          "Confirm") = YES .AND. grn_stk_no > "00" ;
+                           .and. empty(post_date)
+                           
+            
+            pamt = total
+      delete  && DELETED is ON, so deleted records are still there until
+              && a PACK is executed
+           
+                
+              
+      commit()
+      form.changesMade = .t.
+      begintrans()
+           on error DO transerr WITH ERROR(), MESSAGE(),;
+  PROGRAM(), LINENO()
+   endif
+   
+    FORM.BrowseChangesMade()
+      SELECT apogrns
+    *  refresh
+   ****************************************************************************
+   procedure ADDORDERONCLICK
+
+   * Add new record.
+   ****************************************************************************
+   private addForm, newOrder, saleDateField, orderNoField, custNoField, custNo,;
+           inEditMode, integrityInEffect,CustTyp
+   form.CheckChanged(.T.)
+      orderNoField = field(1)                 && grn_no field
+          OrderDateField = field(7)                && grn_date field
+         select apogrns3
+         go bottom
+      IF Empty(grn_no) .or. .not. empty(post_date)
+      if type("form.curPage") <> "U"
+         inEditMode = form.curPage.inEditMode
+         integrityInEffect = .T.              && Table integrity rules are used
+      else
+         inEditMode = form.inEditMode
+         integrityInEffect = .F.
+      endif
+
+      if .not. inEditMode
+         form.ViewEdit()                      && Make sure record is editable
+      else if type("form.childBrowse") <> "U" && If calling from Customer/apogrns
+         form.childBrowse.setFocus()
+      endif
+      form.changesMade = .T.
+        form.previousRecord = recno()
+       select apogrns3
+         go bottom
+    
+    form.maxOrder = grn_no
+     local ls1,ls2,ls3,ls4,ls5
+      SELECT apogrns
+     
+         if empty(form.maxOrder)
+      form.maxOrder = apogrnsn->grn_no  && start of first operator
+      endif
+   
+      append blank
+      orderNoField = field(1)
+      newOrder = val(form.maxOrder) + 1
+      local wk1,wk2
+       wk1 = neworder
+      if wk1 > 0 .and. wk1 < 10
+      wk2 = "00000"+str(wk1,1)
+      else
+      if wk1 > 9 .and. wk1 < 100
+      wk2 = "0000"+str(wk1,2)
+      else
+       if wk1 > 99 .and. wk1 < 1000
+      wk2 = "000"+str(wk1,3)
+      else
+       if wk1 > 999 .and. wk1 < 10000
+      wk2 = "00"+str(wk1,4)
+      else
+       if wk1 > 9999 .and. wk1 < 100000
+      wk2 = "0"+str(wk1,5)
+      else
+      wk2 = str(wk1,6)
+      endif
+      endif
+      endif
+      endif
+      endif
+     replace grn_no with wk2     && Assign new order number
+      replace items with 1
+       replace  total with 0             
+        replace inv_py_amt with 0
+          replace grn_date with  form.PSALEDATESPIN
+      replace order_stat with time()
+        replace inv_due with grn_date
+          replace grn_qty with 0
+       replace inv_status with "Yes"
+       replace ashipname with form.bluser
+          replace supply_qty  with 0
+          replace supply_amt  with 0
+            replace grn_tax  with 0
+          replace grn_disc  with 0
+          replace grn_levy  with 0
+         * replace disc_taken  with 0
+          replace grn_gross with 0
+          replace pay_method with "Credit"
+          replace grn_reject with 0
+          replace grn_total with 0
+          replace grn_off with apogrns3->GRN_off
+          replace offname with apogrns3->offname
+          replace cashier_no with apogrns3->cashier_no
+          REPLACE DDE_DATE WITH DATE()
+          REPLACE DDE_TIME WITH TIME()
+          REPLACE DDE_USER WITH FORM.BLUSER
+          replace shiftno with form.pshiftno
+          replace shiftid with form.pshiftid
+          replace paytype with "Invoice"
+           replace vname with apogrns3->vname
+          replace vsrce with apogrns3->vsrce
+          replace vtyp with apogrns3->vtyp
+          replace vpmod with apogrns3->vpmod
+          replace vendor_n with apogrns3->vendor_n
+          replace job_name with apogrns3->job_name
+          replace job_order with "00"
+          replace pname with apogrns3->pname
+          REPLACE BCOY WITH "1"
+            REPLACE BDIV WITH "5"
+              REPLACE BCEN WITH "1"
+                REPLACE BSTO WITH "A1"
+                  REPLACE BTYP WITH "L0"
+                    REPLACE BCLA WITH "00"
+                      REPLACE BCOD WITH "00"
+                              *
+                       replace prd with apogrns3->prd 
+          replace inv_date with apogrns3->inv_date
+          replace start_date with apogrns3->start_date
+          replace end_date with apogrns3->end_date
+          *
+    select apogrnsl
+    replace grn_no with apogrns->grn_no
+    replace grn_date with apogrns->grn_date
+  
+          select apogrlin3
+     append blank
+     replace grn_no with apogrns->grn_no
+         replace grn_stk_no with "01"
+          replace grn_date with apogrns->grn_date
+       replace cost_price with 0
+        replace total with 0
+          replace supply_qty with 0
+          replace supply_amt with 0
+          replace levy_rate with 0
+          replace levy_amt with 0
+          replace tax_rate with 0
+          replace tax_amt with 0
+          replace disc_rate with 0
+          replace disc_amt with 0
+          REPLACE LIST_PRICE WITH 0
+           replace supp_order with 0
+           replace volume with 0
+           replace grntax_amt with 0
+           replace grn_total with 0
+           replace grn_gross with 0
+           replace  items_unit with 0
+           replace grn_cost with 0
+             replace supply_tot with 0
+          replace reject_tot with 0
+          replace return_qty with 0
+          replace return_amt with 0
+          replace grn_cost with 0
+          replace basic_amt with 0
+          replace gross_amt with 0
+            replace gratax_amt with 0
+           replace gra_total with 0
+           
+           replace gra_gross with 0
+             REPLACE DDE_DATE WITH DATE()
+          REPLACE DDE_TIME WITH TIME()
+          REPLACE DDE_USER WITH FORM.BLUSER
+           replace gra_cost with 0
+           replace vatprice with apogrlin2->vatprice
+           if empty(vatprice)
+           replace vatprice with "Exclusive"
+           endif
+           replace trantype with apogrlin2->trantype
+           if empty(trantype)
+           replace trantype with "No Job Order"
+           endif
+            
+      
+     select apogrlin
+     refresh
+     go bottom
+            
+          
+     REFRESH
+         select apogrns
+         seek apogrnsl->grn_no
+    REFRESH
+    
+        
+        form.sinvt.enabled = .t.
+        
+      
+        FORM.sinvt.SETFOCUS()
+      
+   
+   endif
+ * endif
+   ****************************************************************************
+   procedure ADDLINEONCLICK
+      LOCAL L1,wk1,wk2,l2,l3,lpshdate,ls3,ls4,ls5,LNAME
+ 
+   form.CheckChanged(.T.)
+   select apogrlin
+   go bottom  
+if (val(grn_stk_no) > 0 .and. .not. (typ < '10' .and. (total = 0 .or. qty = 0)) .and. .not. ((total = 0 .and. qty = 0);
+.or. ((SUPPLY_QTY < -7 .OR. SUPPLY_QTY > 7) .and. form.blevel > 3)) ;
+ .aND. .NOT. EMPTY(APOGRNS->GRN_NO));
+.or. (empty(grn_stk_no) .AND. EMPTY(apogrns->post_date))  .and. .not. empty(apogrns->grn_no)
+      form.changesMade = .T.
+        LNAME = NAME
+         L1 = val(grn_STk_NO) + 1
+         wk1 = l1
+         if wk1 > 99
+         quit
+         endif
+          if wk1 > 0 .and. wk1 < 10
+      wk2 = "0"+str(wk1,1)
+      else
+      wk2 = str(wk1,2)
+      endif
+      select apogrlin3
+         append blank
+         
+     replace grn_no with apogrns->grn_no
+     
+      replace grn_stk_no with wk2
+ replace cost_price with 0
+        replace total with 0
+          replace supply_qty with 0
+          replace supply_amt with 0
+          replace levy_rate with 0
+          replace levy_amt with 0
+          replace tax_rate with 0
+          replace volume with 0
+          replace tax_amt with 0
+           replace grn_date with apogrns->grn_date
+          replace disc_rate with 0
+          replace disc_amt with 0
+          REPLACE LIST_PRICE WITH 0
+           replace supp_order with 0
+            replace grntax_amt with 0
+           replace grn_total with 0
+           replace grn_gross with 0
+           replace grn_cost with 0
+             replace supply_tot with 0
+          replace reject_tot with 0
+          replace return_qty with 0
+          replace return_amt with 0
+          replace grn_cost with 0
+             replace basic_amt with 0
+          replace gross_amt with 0
+           replace gratax_amt with 0
+            replace  items_unit with 0
+           replace gra_total with 0
+             REPLACE DDE_DATE WITH DATE()
+          REPLACE DDE_TIME WITH TIME()
+          REPLACE DDE_USER WITH FORM.BLUSER
+           replace gra_gross with 0
+           replace gra_cost with 0
+           replace trantype with apogrlin2->trantype
+           replace reg with apogrlin2->reg
+          replace vatprice with apogrlin2->vatprice
+           if empty(vatprice)
+           replace vatprice with "Exclusive"
+           endif
+           replace trantype with apogrlin2->trantype
+           if empty(trantype)
+           replace trantype with "No Job Order"
+           endif
+          select apogrlin
+          refresh
+          go bottom
+           select apogrns
+  
+        replace items with items + 1
+         flush
+          FORM.sprod.setfocus()
+   endif
+  
+   ***************************************************************************
+   procedure ViewEditOnClick
+   ****************************************************************************
+   if .not. empty(apogrns->grn_no)
+   form.ViewEdit()
+   endif
+
+   ****************************************************************************
+   procedure Exit_OnClick
+   ****************************************************************************
+FORM.OKEXIT = .T.
+       form.Release()
+   
+   Procedure F1_rtn
+      do APOGRNST.prg WITH FORM.BLUSER
+     *  IF APOGRNS->JOB_ORDER = "00"
+      do APOGRNSF.prg WITH FORM.BLUSER
+   *   ENDIF
+      
+   Procedure F6_rtn
+      do APOGRNSF.prg WITH FORM.BLUSER
+      
+Procedure F5_rtn
+   local l1,l2,l3,l4,l5,l6,l7,l8,l9,l10,l11,l12,l13,l14,l15,l16,l17,l18,lok,L19,l20
+       
+ form.CheckCommit(form.inEditMode) 
+if    form.inEditMode
+      form.ViewEdit()
+      form.root.order.viewEdit.enabled = .F.
+   endif
+   form.root.order.ADDorder.enabled = .f.      
+    form.root.order.ADDline.enabled = .f.
+    l20 = .f.
+select temp
+set filt to typ='00' .and. .not. return_amt > 0 .and. qty > 0
+go top
+if .not. eof()
+l20 = .t.
+endif
+ 
+   select apogrns
+   lok = .t.
+   l1 = vsrce
+   l2 = vtyp
+   l3 = vpmod
+   l4 = vendor_n
+   l5 = grn_off
+   l7 = inv_no
+   l8 = inv_date
+   l9 = pay_method
+   l10 = btyp
+   l11 = bcla
+   l12 = bcod
+   l13 = bcoy
+   l14 = bdiv
+   l15 = bcen
+   l16 = bsto
+   l17 = cashier_no
+   L19 = JOB_ORDER
+   
+   if empty(l1) .or. empty(l2) .or. empty(l3) .or. empty(l4) .or. empty(l5) ;
+     .or. empty(l9) .or. empty(l10) .or. empty(l11) .or. empty(l12) ;
+     .or. .not. empty(post_date)  .or.  empty(l17) .OR. apogrlin->TOTAL = 0 ;
+       .or. empty(l15) .or. empty(l14) .or. empty(l13) .OR. EMPTY(L19) ;
+         .or. (empty(inv_no) .and. empty(serialno)) .OR. VTYP = "B" .OR. EMPTY(TRANSP) ;
+         .or. .not. l19 = "00" .or. .not. pay_method = "Credit"  .or. l20
+    lok = .f.
+    ? "step 1 wrong"
+    endif
+   
+      if  (pay_method = "Credit" .or. pay_method = "Hqdebit") ;
+      .and. .not. (btyp = "L0" .and. bcla = "00" .and. bcod = "00")
+     lok = .f.
+     ? "problem 2"
+     endif
+      if   pay_method = "Loan"   .and. .not. (btyp = "L0" .and. bcla > "00")
+     lok = .f.
+     ? "problem 2A"
+     endif
+    if  btyp = "L0" .and. .not. (pay_method = "Credit" .OR. pay_method = "Hqdebit" .or. pay_method = "Loan")
+    lok = .f.
+     ? "problem 3"
+     endif
+     
+      if  pay_method = "FC Cash" .and. .not. (btyp = "C0" .and. bcla = "00" .and. bcod = "01")
+     lok = .f.
+     ? "problem 4"
+     endif
+    if  btyp = "C0" .and. bcla = "00" .and. bcod = "01" .and. .not. pay_method = "FC Cash"
+    lok = .f.
+     ? "problem 5"
+     endif
+     
+       if  pay_method = "Float Cash" .and. .not. (btyp = "C0" .and. bcla = "00" .and. bcod = "11")
+     lok = .f.
+     ? "problem 6"
+     endif
+    if  btyp = "C0" .and. bcla = "00" .and. bcod = "11" .and. .not. pay_method = "Float Cash"
+    lok = .f.
+     ? "problem 7"
+     endif
+        if  (pay_method = "Cheque" .or. pay_method = "Bank Debit" .or. pay_method = "FT" .or. pay_method = "Card(credit)") ;
+        .and. .not. (btyp = "C0" .and. bcla = "00";
+        .and.  .NOT. (right(bcod,2) = "11" .or. right(bcod,2) = "01"))
+     lok = .f.
+     ? "problem 8"
+     endif
+    if  btyp = "C0" .and. bcla = "00" .and. .not. (right(bcod,2) = "01" .or. right(bcod,2) = "11") .and. ;
+  .not. (pay_method = "Cheque" .or. pay_method = "Bank Debit" .or. pay_method = "FT" .or. pay_method = "Card(credit)")
+    lok = .f.
+     ? "problem 9"
+     endif
+       if  pay_method = "Capital" .and. .not. btyp = "W0"
+     lok = .f.
+     ? "problem 10"
+     endif
+    if  btyp = "W0" .and. .not. pay_method = "Capital"
+    lok = .f.
+     ? "problem 11"
+     endif
+     
+       if .NOT. ROUND(SUPPLY_AMT,1) = ROUND(TOTAL,1)
+    lok = .f.
+    ? "Problem 12"
+    endif
+       if  TOTAL < 0 .and. form.blevel  > 4
+    lok = .f.
+    ? "Problem 13"
+    endif
+    if  .not. (pay_method = "Credit" .or. pay_method = "FC Cash";
+    .or. pay_method = "Float Cash") .and. empty(lpo)
+    lok = .f.
+    ? "Problem 14"
+    endif
+     if pay_method = 'Loan' .and. (empty(cname) .or. empty(source) .or. empty(ftyp) .or. empty(pmod) ;
+     .or. empty(frighter_n))
+     lok = .f.
+     ? 'problem 15'
+     endif
+      if  empty(reg) .or. empty(shipname)
+      lok = .f.
+     ? 'problem 16'
+     endif
+     IF FORM.BLEVEL > 3
+       if  APOGRLIN->SUPPLY_QTY < -7 .OR. APOGRLIN->SUPPLY_QTY > 7
+      lok = .f.
+     ? 'problem 17'
+     endif
+     ENDIF
+     if  APOGRLIN->typ < '10' .and. (APOGRLIN->total = 0 .or. APOGRLIN->qty = 0)
+        lok = .f.
+     ? 'problem 18'
+     endif
+ if lok
+  DO fgpospuf.prg WITH FORM.BLUSER,FORM.BLEVEL
+form.Go_Top()
+
+  ENDIF
+ 
+
+Procedure F9_rtn
+   local l1,l2,l3,l4,l5,l6,l7,l8,l9,l10,l11,l12,l13,l14,l15,l16,l17,l18,lok,L19,l20
+ form.CheckCommit(form.inEditMode) 
+if    form.inEditMode
+      form.ViewEdit()
+      form.root.order.viewEdit.enabled = .F.
+   endif
+   form.root.order.ADDorder.enabled = .f.      
+    form.root.order.ADDline.enabled = .f.
+    l20 = .f.
+    select temp
+set filt to typ='00' .and. .not. return_amt > 0 .and. qty > 0
+go top
+if .not. eof()
+l20 = .t.
+endif
+   select apogrns
+    lok = .t.
+   l1 = vsrce
+   l2 = vtyp
+   l3 = vpmod
+   l4 = vendor_n
+   l5 = grn_off
+   l7 = inv_no
+   l8 = inv_date
+   l9 = pay_method
+   l10 = btyp
+   l11 = bcla
+   l12 = bcod
+   l13 = bcoy
+   l14 = bdiv
+   l15 = bcen
+   l16 = bsto
+   l17 = cashier_no
+   L19 = JOB_ORDER
+     if empty(l1) .or. empty(l2) .or. empty(l3) .or. empty(l4) .or. empty(l5) ;
+     .or. empty(l9) .or. empty(l10) .or. empty(l11) .or. empty(l12) ;
+     .or. .not. empty(post_date)  .or.  empty(l17) .OR. apogrlin->TOTAL = 0 ; 
+       .or. empty(l15) .or. empty(l14) .or. empty(l13) .OR. EMPTY(L19) ;
+         .or. (empty(inv_no) .and. empty(serialno)) .OR. VTYP = "B" .OR. EMPTY(TRANSP);
+         .or. .not. l19 = "00" .or. .not. pay_method = "Credit" .or. l20
+    lok = .f.
+    ? "step 1 wrong"
+    endif
+     if  (pay_method = "Credit" .or. pay_method = "Hqdebit") ;
+      .and. .not. (btyp = "L0" .and. bcla = "00" .and. bcod = "00")
+     lok = .f.
+     ? "problem 2"
+     endif
+      if   pay_method = "Loan"   .and. .not. (btyp = "L0" .and. bcla > "00")
+     lok = .f.
+     ? "problem 2A"
+     endif
+    if  btyp = "L0" .and. .not. (pay_method = "Credit" .OR. pay_method = "Hqdebit" .or. pay_method = "Loan")
+    lok = .f.
+     ? "problem 3"
+     endif
+     
+      if  pay_method = "FC Cash" .and. .not. (btyp = "C0" .and. bcla = "00" .and. bcod = "01")
+     lok = .f.
+     ? "problem 4"
+     endif
+    if  btyp = "C0" .and. bcla = "00" .and. bcod = "01" .and. .not. pay_method = "FC Cash"
+    lok = .f.
+     ? "problem 5"
+     endif
+     
+       if  pay_method = "Float Cash" .and. .not. (btyp = "C0" .and. bcla = "00" .and. bcod = "11")
+     lok = .f.
+     ? "problem 6"
+     endif
+    if  btyp = "C0" .and. bcla = "00" .and. bcod = "11" .and. .not. pay_method = "Float Cash"
+    lok = .f.
+     ? "problem 7"
+     endif
+        if  (pay_method = "Cheque" .or. pay_method = "Bank Debit" .or. pay_method = "FT" .or. pay_method = "Card(credit)") ;
+        .and. .not. (btyp = "C0" .and. bcla = "00";
+        .and.  .NOT. (right(bcod,2) = "11" .or. right(bcod,2) = "01"))
+     lok = .f.
+     ? "problem 8"
+     endif
+    if  btyp = "C0" .and. bcla = "00" .and. .not. (right(bcod,2) = "01" .or. right(bcod,2) = "11") .and. ;
+  .not. (pay_method = "Cheque" .or. pay_method = "Bank Debit" .or. pay_method = "FT" .or. pay_method = "Card(credit)")
+    lok = .f.
+     ? "problem 9"
+     endif
+       if  pay_method = "Capital" .and. .not. btyp = "W0"
+     lok = .f.
+     ? "problem 10"
+     endif
+    if  btyp = "W0" .and. .not. pay_method = "Capital"
+    lok = .f.
+     ? "problem 11"
+     endif
+     
+       if .NOT. ROUND(SUPPLY_AMT,1) = ROUND(TOTAL,1)
+    lok = .f.
+    ? "Problem 12"
+    endif
+       if  TOTAL < 0 .and. form.blevel  > 4
+    lok = .f.
+    ? "Problem 13"
+    endif
+    if  .not. (pay_method = "Credit" .or. pay_method = "FC Cash";
+    .or. pay_method = "Float Cash") .and. empty(lpo)
+    lok = .f.
+    ? "Problem 14"
+    endif
+    if pay_method = 'Loan' .and. (empty(cname) .or. empty(source) .or. empty(ftyp) .or. empty(pmod) ;
+     .or. empty(frighter_n))
+     lok = .f.
+     ? 'problem 15'
+     endif
+     if  empty(reg) .or. empty(shipname)
+      lok = .f.
+     ? 'problem 16'
+     endif
+     IF FORM.BLEVEL > 3
+       if  APOGRLIN->SUPPLY_QTY < -7 .OR. APOGRLIN->SUPPLY_QTY > 7
+      lok = .f.
+     ? 'problem 17'
+     endif
+     ENDIF
+      if  APOGRLIN->typ < '10' .and. (APOGRLIN->total = 0 .or. APOGRLIN->qty = 0)
+        lok = .f.
+     ? 'problem 18'
+     endif
+ if lok
+    DO fgpospuf.prg WITH FORM.BLUSER,FORM.BLEVEL  && fuel
+
+      DO APOGRNSt.PRG  WITH FORM.BLUSER
+      do APOGRNSF.prg WITH FORM.BLUSER
+      form.Go_Top()
+  ENDIF
+ 
+ 
+  ****************************************************************************
+    procedure ONEXIT
+    * form.Release()
+	 FORM.CLOSE()
+
+    procedure OnQuitAll
+   
+     form.Release()
+
+ quit   
+ 
+ENDCLASS
+

@@ -1,0 +1,94 @@
+******************************************************************************
+*  PROGRAM:      Fshpumpc.mnu
+*
+*  WRITTEN BY:   W Nyongesa
+*
+*  DATE:         03/2001
+*
+*  UPDATED:      09/2012
+*******************************************************************************
+#include <messdlg.h>
+
+** END HEADER -- do not remove this line*
+* Generated on 07/03/2001
+*
+Parameter FormObj
+NEW TypeS(FormObj,"Root")
+CLASS TypeS(FormObj,Name) OF MENUBAR(FormObj,Name)
+   this.Text = ""
+   this.OnInit = {;set procedure to SampProc.prg}
+
+   DEFINE MENU FILE OF THIS;
+       PROPERTY;
+         Text "&File"
+
+         DEFINE MENU EXIT OF THIS.FILE;
+             PROPERTY; 
+               StatusMessage "Return to the Previous Menu.",;
+               Text "RETURN TO PREVIOUS MENU",;
+               SHORTCUT "F4",;
+               OnClick CLASS::ONEXIT
+
+             
+          DEFINE MENU SEPARATOR1 OF THIS.FILE;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+  
+   DEFINE MENU QUITALL OF THIS.FILE;
+             PROPERTY; 
+               StatusMessage "Leave the Kenserve Integrated System.",;
+               Text "EXIT",;
+               SHORTCUT "F8",;
+               OnClick CLASS::ONQUITALL
+
+   DEFINE MENU Fshpumpc OF THIS;
+       PROPERTY;
+         Text "&Officer"
+
+         DEFINE MENU VIEWEDIT OF THIS.Fshpumpc;
+             PROPERTY;
+               OnClick CLASS::VIEWEDITONCLICK,;
+               Text "&Edit",;
+               Shortcut "Ctrl-E",;
+               StatusMessage "Edit data."
+
+         DEFINE MENU SEPARATOR1 OF THIS.Fshpumpc;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+
+       
+
+
+  DEFINE MENU REPORT OF THIS;
+       PROPERTY;
+         Text "&Reports"
+
+             DEFINE MENU ERRSSORTypeSREPORT OF THIS.REPORT;
+             PROPERTY;
+               OnClick {;create session ;set lock off ;report form Fshpumpc},;
+               Text "Lis&t Attendants Allocated To Pumps",;
+               enabled .t.
+  
+   procedure ViewEditOnClick
+   ****************************************************************************
+
+   form.ViewEdit()
+
+   ****************************************************************************
+   
+   procedure OnExit
+   ****************************************************************************
+             form.Release()
+*             CLOSE DATABASES
+   
+   Procedure OnQuitAll
+             form.Release()
+             CLOSE DATABASES
+             QUIT
+
+ENDCLASS
+
+
+

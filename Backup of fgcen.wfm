@@ -886,13 +886,12 @@ class fgcenFORM of FORM
 	rollback()
    select fgcen
 	go top
-	*if .not. eof()
-*    do fgcens_rtn
-*    endif
+	if .not. eof()
+    do fgcens_rtn
+    endif
      close procedure SAMPProc.prg
    close databases
-	form.close()
-	do fgcenupd.prg
+
    ****************************************************************************
 
    procedure BrowseOnNavigate
