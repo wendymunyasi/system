@@ -1,0 +1,119 @@
+* Visual dBASE .QBE file 9
+close databases
+on error do apogrnsn.prg
+use  \kenservice\data\apogrnsn.dbf
+close databases
+on error do fgcodsr.prg
+use  \kenservice\data\fGcod.dbf
+? snonvat
+on erro do stotank.prg
+use \kenservice\data\ststo.dbf
+? tank_cap
+use  \kenservice\data\apogrlin.dbf
+? tank_cap
+close databases
+on error do fgvehstr
+use \kenservice\data\fgveh.dbf
+? close_date
+close databases
+on error do fgtrnspr
+use   \kenservice\data\fgtrnsp.dbf
+ON ERROR DO QBEERR WITH ERROR(), MESSAGE(),;
+PROGRAM(), LINENO()
+CLOSE DATABASES
+seT EXACT ON
+
+*SET EXCLUSIVE ON
+SELECT 1
+USE \KENSERVICE\DATA\apogrns.DBF ORDER TAG GRN_NO
+delete all for empty(grn_no)
+set filter to empty(post_date)
+SELECT 2
+USE \KENSERVICE\DATA\apogrlin.DBF ORDER TAG GRN_NO
+delete all for empty(grn_no)
+set filter to empty(post_date)
+SELECT 80
+set safety off
+use \kenserve\idssys\st15f.dbf
+copy stru to \kenservice\data\st15fpur dbase prod
+use \kenservice\data\st15fpur.dbf exclusive alias st15f ORDER TAG MKEY
+appe from \kenservice\data\st15f.dbf
+go top
+select 3
+select 4
+use \kenservice\data\fgvehs.dbf order tag name
+set filter to empty(close_date)
+select 5
+use \kenservice\data\fgtrnsps.dbf order tag name
+set filter to empty(close_date)
+SELECT 6
+USE \KENSERVICE\DATA\STSTO.DBF ORDER TAG STO
+SET FILT TO LEFT(STO,1) =  'T'
+SELECT 90
+USE \KENSERVICE\DATA\FGCODS.DBF oRDER TAG name
+set filter to TYP = "L0" .or. typ = "C0" .OR. typ = "W0" 
+SELECT 68
+USE \KENSERVICE\DATA\FGCOD.DBF ORDER TAG MKEY
+SELECT 60
+USE \KENSERVICE\DATA\VENNAMES.DBF ORDER TAG NAME
+set filter to vsrce > "1" .AND. .NOT. VSRCE = "B" .and. empty(close_date)
+select 61
+use \kenservice\data\vennames.dbf again alias vennames2 order tag name
+set filter to vsrce > "1" .AND. .NOT. VSRCE = "B" .and. empty(close_date)
+select 81
+use \kenservice\data\fgtyps order tag NAME
+select 83
+use \kenservice\data\fgunits.dbf order tag unit alias fgunit
+SELECT 65
+USE \KENSERVICE\DATA\FGMASTP.DBF order tag name
+     **
+   set filter to ((typ = "00" .or. typ = '05') .and. .not. div='1')   .or. left(typ,1) = "F" ;
+   .or. left(typ,1) = "E"  .or. left(typ,1) = "P" .OR. (TYP = "C0" .AND. CLA > "20") ;
+    .and. .not. stopsto = "Yes"  .and. active = "Yes"
+SELECT 67
+USE \KENSERVICE\DATA\FGOFFS.DBF ORDER TAG NAME
+set filter to .not. empty(shift_date) .and. .not. empty(cashier_no) .and. empty(date_left)
+select 69
+use \kenservice\data\fgoffs.dbf order tag name again alias fgoffs2
+SET FILTER TO EMPTY(DATE_LEFT)
+SELECT 1
+SET RELATION TO grn_no INTO apogrlin CONSTRAIN INTEGRITY
+
+select 29
+use \kenservice\data\apogrns.dbf again alias apogrns3
+
+select 31
+set safety off
+use \kenserve\idssys\fgmast.dbf
+copy stru to \kenservice\data\fgmastpu dbase prod
+use \kenservice\data\fgmastpu.dbf exclusive alias fgmast order tag mkey
+appe from \kenservice\data\fgmast.dbf 
+SELECT 40
+USE \KENSERVICE\DATA\apogrnsl.DBF
+SELECT 99
+USE \KENSERVICE\DATA\FGCOY.DBF 
+
+select 101
+USE \KENSERVICE\DATA\apogrlin.DBF again alias apogrlin3
+select 126
+use \kenservice\data\apogrnup.dbf
+delete all for empty(grn_no)
+set filter to .not. empty(post_date)
+SELECT 127
+ use \KENSERVICE\DATA\apogrlin.DBF again  alias apogrlin2 order tag grn_no
+  select 128
+ use \kenservice\data\apogrnsn.dbf
+ select 129
+ use \kenservice\data\fgtyp.dbf
+SELECT 130
+USE \KENSERVICE\DATA\APOGERR.DBF
+SELECT 131
+ use \KENSERVICE\DATA\apogrlin.DBF again  alias temp
+ select 133
+ if .not. file("\kenservice\data\apogrnss.dbf")
+use  \kenserve\idssys\fgjcadss.dbf
+copy stru to \kenservice\data\apogrnss dbase prod
+endif
+use \kenservice\data\apogrnss.dbf exclusive
+SELECT 1
+GO TOP

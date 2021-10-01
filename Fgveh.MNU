@@ -1,0 +1,183 @@
+******************************************************************************
+*  PROGRAM:      Fgveh.mnu
+*
+*  WRITTEN BY:   W Nyongesa
+*
+*  DATE:         03/2001
+*
+*  UPDATED:      12/2012
+*
+*  REVISION:     $Revision:   1.58  $
+*
+*  VERSION:      Visual dBASE
+*
+*  DESCRIPTION:  This is a menu file used by Fgveh.WFM for
+*                performing simple tasks.  It allows adding and deleting
+*                records, searching for a value in the Type field of the
+*                current table viewed, and exiting the form in view.
+*
+*  PARAMETERS:   FormObj -- the form to which this menu will belong.
+*
+*  CALLS:        None
+*
+*  USAGE:        form.menuFile = "Fgveh.mnu"
+*
+*******************************************************************************
+#include <messdlg.h>
+
+** END HEADER -- do not remove this line*
+* Generated on 07/03/2001
+*
+Parameter FormObj
+NEW TypeS(FormObj,"Root")
+CLASS TypeS(FormObj,Name) OF MENUBAR(FormObj,Name)
+   this.Text = ""
+   this.OnInit = {;set procedure to SampProc.prg}
+
+   DEFINE MENU FILE OF THIS;
+       PROPERTY;
+         Text "&File"
+
+            DEFINE MENU EXIT OF THIS.FILE;
+             PROPERTY; 
+               StatusMessage "Return to the Previous Menu.",;
+               Text "&Return to Previous Menu",;
+               ShortCut "F4",;
+               OnClick CLASS::ONEXITALL
+
+        
+       DEFINE MENU SEPARATOR000 OF THIS.FILE;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+
+
+         DEFINE MENU QUITS OF THIS.FILE;
+             PROPERTY; 
+               StatusMessage "Leave Kenserve Integrated System.",;
+               Text "Exit",;
+               ShortCut "F8",;
+               OnClick CLASS::QUITALL
+   DEFINE MENU Fgveh OF THIS;
+       PROPERTY;
+         Text "&Veh"
+
+         DEFINE MENU VIEWEDIT OF THIS.Fgveh;
+             PROPERTY;
+               OnClick CLASS::VIEWEDITONCLICK,;
+               Text "&Edit",;
+               Shortcut "Ctrl-E",;
+               StatusMessage "Edit data."
+
+         DEFINE MENU SEPARATOR1 OF THIS.Fgveh;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+
+         DEFINE MENU ADD OF THIS.Fgveh;
+             PROPERTY;
+               OnClick CLASS::ADDONCLICK,;
+               Text "&Add",;
+               Enabled .T.,;
+               Shortcut "Ctrl-A",;
+               StatusMessage "Add a new Veh."
+
+        
+         DEFINE MENU SEPARATOR2 OF THIS.Fgveh;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+
+       
+    
+
+  DEFINE MENU REPORT OF THIS;
+       PROPERTY;
+         Text "&Reports"
+
+         DEFINE MENU ERRORTypeSREPORT OF THIS.REPORT;
+             PROPERTY;
+               OnClick {;create session ;set lock off ;report form Fgveh},;
+               Text "Listing of Vehicless.",;
+               Shortcut "Ctrl-V"
+
+
+
+
+    
+   ****************************************************************************
+   procedure AddOnClick
+
+   * Add new record.
+   ****************************************************************************
+   private addForm, newType, inEditMode
+           
+   form.CheckChanged(.T.)
+   if ConfirmationMessage("Are you sure you want to add a Vehicle?",;
+                          "Confirmation") = YES 
+       inEditMode = iif(type("form.curPage") <> "U", form.curPage.inEditMode,;
+                                                    form.inEditMode)
+      if .not. inEditMode
+         form.ViewEdit()                 && Make sure record is editable
+         endif
+
+                                            && and begin a transaction
+      form.changesMade = .F.            && Since we are adding a record
+         form.previousRecord = recno()   
+          local ltyp,l1
+                   select Fgveh
+                 go top
+                 if eof()
+                 ltyp = 0
+                 else
+                 
+     GO bottom
+          ltyp = val(veh)
+          endif
+          
+      ltyp = ltyp + 1 && current Type code
+      
+      if ltyp < 10
+      l1 = "000"+str(ltyp,1)
+      else
+      if ltyp < 100
+      l1 = "00"+str(ltyp,2)
+      else
+      if ltyp < 1000
+      l1 = "0"+str(ltyp,3)
+      else
+      if ltyp < 10000
+      l1 = str(ltyp,4)
+      else
+      quit
+      endif
+   endif
+   endif
+   endif
+   select Fgveh
+      append blank
+      replace Veh with l1
+             form.lnameentry.setfocus()
+     endif
+   ***************************************************************************
+   procedure ViewEditOnClick
+   ****************************************************************************
+
+   form.ViewEdit()
+
+   ****************************************************************************
+     procedure OnExitALL
+   
+  
+   ****************************************************************************
+   *      form.close()  
+     form.Release()
+   Procedure QUITALL
+            form.Release()
+            QUIT
+  
+
+ENDCLASS
+
+
+
