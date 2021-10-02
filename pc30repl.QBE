@@ -1,0 +1,56 @@
+* Visual dBASE .QBE file 9
+close databases
+on error do vnstruct.prg
+use \kenservice\data\vnstat.dbf
+? dis_qty
+on error do FGNFPS.PRG
+use \kenservice\data\FGPURCH.dbf 
+? paysrce
+ON ERROR DO QBEERR WITH ERROR(), MESSAGE(),;
+PROGRAM(), LINENO()
+CLOSE DATABASES
+SET EXACT ON
+*set exclusive on
+SELECT 24
+USE \KENSERVICE\DATA\pcreplsL.DBF
+SELECT 1
+USE \KENSERVICE\DATA\pcrepls.DBF 
+set filter to empty(post_date) .and.  pcreplsl->ORDER_NO = ORDER_NO
+GO TOP
+SELECT 2
+USE \KENSERVICE\DATA\pcreplin.DBF 
+
+SELECT 5
+USE \KENSERVICE\DATA\VNSTAT.DBF 
+*
+SELECT 55
+USE \KENSERVICE\DATA\fgnfpur.DBF 
+
+SELECT 60
+USE \KENSERVICE\DATA\SCASHREC.DBF  
+SELECT 62
+USE \KENSERVICE\DATA\VNCOUNT.DBF 
+
+SELECT 64
+USE \KENSERVICE\DATA\VNDOCREF.DBF 
+
+SELECT 70
+USE \KENSERVICE\DATA\ST15F.DBF
+
+SELECT 90
+USE \KENSERVICE\DATA\CASHIERS.DBF
+
+SELECT 92
+USE \KENSERVICE\DATA\VENDOR.DBF
+
+SELECT 93
+USE \KENSERVICE\DATA\FGCOY.DBF
+
+select 104
+use \kenservice\data\pcrepupd.dbf
+select 105
+use \kenservice\data\pcrepupd.dbf again alias pcrepupd2
+select 130
+use \kenservice\data\pcreplsn.dbf
+SELECT 131
+USE \KENSERVICE\DATA\FGTRAN.DBF 

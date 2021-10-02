@@ -68,7 +68,7 @@ endif
 class apogrnsFORM of FORM
 SET PROCEDURE TO BUTTONS.CC ADDITIVE
    with (this)
-      canClose = class::FORM_CANCLOSE
+    *  canClose = class::FORM_CANCLOSE
       onClose = class::ONCLOSE
       open = class::OPEN
       metric = 6	// Pixels
@@ -1018,10 +1018,8 @@ SET PROCEDURE TO BUTTONS.CC ADDITIVE
    private orderNoField
       on error DO ddeerr WITH ERROR(), MESSAGE(),;
    PROGRAM(), LINENO()
-	bUser = 'Q'
-	bLevel=1
-       FORM.BLUSER=bUser
-   FORM.BLEVEL=bLevel
+        FORM.BLUSER=BUSER
+   FORM.BLEVEL=BLEVEL
    IF EMPTY(FORM.BLUSER) .OR. EMPTY(FORM.BLEVEL)
       QUIT
    ENDIF
@@ -1178,9 +1176,9 @@ SET PROCEDURE TO BUTTONS.CC ADDITIVE
    replace post_date with date()
    endif
    endif
+   commit()
    close databases
-   rollback()
-	form.close()
+   FORM.CLOSE()
    do APPOGRNS.PRG
    close databases
 

@@ -68,7 +68,7 @@ endif
 class apogrnsFORM of FORM
 SET PROCEDURE TO BUTTONS.CC ADDITIVE
    with (this)
-      canClose = class::FORM_CANCLOSE
+  *    canClose = class::FORM_CANCLOSE
       onClose = class::ONCLOSE
       open = class::OPEN
       metric = 6	// Pixels
@@ -1180,7 +1180,8 @@ SET PROCEDURE TO BUTTONS.CC ADDITIVE
    endif
    close databases
    rollback()
- *  do APPOGRNS.PRG
+	form.close()
+   do APPOGRNS.PRG
    close databases
 
    procedure ChangesMade
