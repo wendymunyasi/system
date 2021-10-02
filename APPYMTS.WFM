@@ -1,0 +1,1712 @@
+////////////////////////////////////////////////////////////////////////////////
+// Output Filename: C:\KENSERVICE\IDSSYS\APPYMTS_FCV.WFM                      //
+// Created By:      dBASE Form Converter Wizard                               //
+// Created On:      Friday June 17, 2016 At 22:15:09                          //
+// Object Count:    50                                                        //
+////////////////////////////////////////////////////////////////////////////////
+                                                                                                                  *******************************************************************************
+*  PROGRAM:      APPYMTS.WFM
+*
+*  WRITTEN BY:   W Nyongesa
+*  DATE:         10/2003
+*
+*  UPDATED:      04/2015
+*
+*  REVISION:     $Revision:   1.97  $
+*
+*  VERSION:      Visual dBASE
+*
+*  DESCRIPTION:  This form displays information about an order from a company.
+*                It allows traversing through APPYMTS and going to the top and
+*                bottom.  This form also has a corresponding menu, OrdCust.mnu,
+*                which allows adding,deleting and searching for an order.
+*                When an unknown VENDOR number is entered, a dialog will come
+*                up asking you if you want to add a new VENDOR.  If you
+*                selecte the Yes button, the VENDOR form (in stcusj.Wfm)
+*                will be opened, so a new VENDOR can be added.
+*
+*  PARAMETERS:   None
+*
+*  CALLS:        APPYMTS.mnu       (Menu file)
+*                Buttons.cc       (Custom controls file)
+*                stcusj.Wfm     (Form for displaying VENDOR information)
+*                APPYMTS.qbe       (View of tables)
+*
+*  USAGE:        DO APPYMTS.WFM    && Note that you can also DO stcusj.Wfm
+*
+*******************************************************************************
+#include <Messdlg.h>
+shell(.F.)
+create session
+set talk off
+*ET DESIGN OFF
+*if .not. user() = "WYCLIFFE"
+_app.FrameWin.Visible = .F.
+set design off
+*ENDIF
+_app.FrameWin.Text = "APPYMTS"
+set ldCheck off                        && To avoid language driver conflicts
+*SET DBTYPE TO PARADOX
+SET CUAENTER OFF
+** END HEADER -- do not remove this line
+//
+// Generated on 18/06/2016
+//
+parameter bUser,bLevel,bModal
+local f
+f = new APPYMTSFORM()
+if (bModal)
+   f.mdi = false // ensure not MDI
+   f.readModal()
+else
+   f.open()
+endif
+
+class APPYMTSFORM of FORM
+set procedure to buttons.cc additive
+   with (this)
+   *   canClose = class::FORM_CANCLOSE
+      onClose = class::ONCLOSE
+      open = class::OPEN
+      metric = 6	// Pixels
+      colorNormal = "N+"
+      height = 932.0
+      left = 0.0
+      top = 3.0
+      width = 1296.0
+      text = "VENDOR PAYMENTS -- View Mode"
+      windowState = 2	// Maximized
+      mdi = false
+      sizeable = false
+      moveable = false
+      view = "APPYMTS.QBE"
+      menuFile = "APPYMTS.MNU"
+      escExit = false
+      mousePointer = 1	// Arrow
+      scrollBar = 1	// On
+      maximize = false
+      minimize = false
+   endwith
+
+   this.TEXT9 = new TEXTLABEL(this)
+   with (this.TEXT9)
+      height = 21.0
+      left = 14.0
+      top = 22.0
+      width = 54.0
+      text = "No.:"
+      colorNormal = "R+/W"
+      fontName = "Verdana"
+      fontSize = 12.0
+      fontBold = true
+      borderStyle = 7	// Client
+      alignVertical = 1	// Middle
+      alignHorizontal = 1	// Center
+   endwith
+
+   this.ORDERNOENTRY = new ENTRYFIELD(this)
+   with (this.ORDERNOENTRY)
+      dataLink = "APPYMTS->ORDER_NO"
+      enabled = false
+      height = 21.0
+      left = 77.0
+      top = 22.0
+      width = 63.0
+      colorNormal = "R+/W"
+      colorHighLight = "GB+/W"
+      fontName = "MS Sans Serig"
+      fontSize = 12.0
+      fontBold = true
+   endwith
+
+   this.TEXT2 = new TEXTLABEL(this)
+   with (this.TEXT2)
+      height = 25.0
+      left = 140.0
+      top = 22.0
+      width = 52.0
+      text = "Date:"
+      colorNormal = "R+/W"
+      fontName = "Verdana"
+      fontSize = 12.0
+      fontBold = true
+      borderStyle = 7	// Client
+      alignVertical = 1	// Middle
+      alignHorizontal = 1	// Center
+   endwith
+
+   this.SDATE = new SPINBOX(this)
+   with (this.SDATE)
+      dataLink = "APPYMTS->order_date"
+      enabled = false
+      height = 21.0
+      left = 203.0
+      top = 22.0
+      width = 108.0
+      colorNormal = "R+/W"
+      colorHighLight = "W+/N"
+      rangeMax = {17/07/2015}
+      rangeMin = {08/04/2015}
+      fontName = "MS Sans Serif"
+      fontSize = 12.0
+      fontBold = true
+      validErrorMsg = "Date out of Range"
+   endwith
+
+   this.TEXT10 = new TEXTLABEL(this)
+   with (this.TEXT10)
+      height = 28.0
+      left = 12.0
+      top = 51.0
+      width = 78.0
+      text = "Cashier:"
+      colorNormal = "0x400000/W"
+      fontName = "Verdana"
+      fontBold = true
+      borderStyle = 7	// Client
+      alignVertical = 1	// Middle
+      alignHorizontal = 1	// Center
+   endwith
+
+   this.SOFF = new COMBOBOX(this)
+   with (this.SOFF)
+      onChange = class::SEMP1_ONCHANGE
+      dataLink = "APPYMTS->ANAME"
+      enabled = false
+      height = 24.0
+      left = 98.0
+      top = 55.0
+      width = 330.0
+      fontName = "MS Sans Serif"
+      fontBold = true
+      colorNormal = "0xc08000/W"
+      dataSource = "FIELD fgoffs->NAME"
+      mousePointer = 1	// Arrow
+      style = 1	// DropDown
+      dropDownHeight = 132.0
+   endwith
+
+   this.TEXT4 = new TEXTLABEL(this)
+   with (this.TEXT4)
+      height = 24.0
+      left = 12.0
+      top = 96.0
+      width = 120.0
+      text = "Vendor:"
+      colorNormal = "0x400000/W"
+      fontName = "Verdana"
+      fontSize = 12.0
+      fontBold = true
+      borderStyle = 7	// Client
+      alignVertical = 1	// Middle
+      alignHorizontal = 1	// Center
+   endwith
+
+   this.SCUST = new COMBOBOX(this)
+   with (this.SCUST)
+      onChange = class::SCUST_ONCHANGE
+      dataLink = "APPYMTS->VENDOR"
+      enabled = false
+      height = 24.0
+      left = 144.0
+      top = 96.0
+      width = 324.0
+      fontName = "MS Sans Serif"
+      colorNormal = "0x400040/W+"
+      dataSource = "FIELD VENNAMES->NAME"
+      mousePointer = 1	// Arrow
+      style = 1	// DropDown
+      dropDownHeight = 132.0
+   endwith
+
+   this.TEXT6 = new TEXTLABEL(this)
+   with (this.TEXT6)
+      height = 25.0
+      left = 480.0
+      top = 89.0
+      width = 180.0
+      text = "FLOAT BALANCE:"
+      colorNormal = "0xff8000/W"
+      fontName = "Verdana"
+      fontSize = 12.0
+      fontBold = true
+      borderStyle = 7	// Client
+      alignVertical = 1	// Middle
+      alignHorizontal = 1	// Center
+   endwith
+
+   this.SFLOAT = new ENTRYFIELD(this)
+   with (this.SFLOAT)
+      dataLink = "APPYMTS->BL_AMT"
+      enabled = false
+      height = 25.0
+      left = 674.0
+      top = 89.0
+      width = 166.0
+      picture = "99,999,999,999.99"
+      colorNormal = "0xff8000/W"
+      colorHighLight = "G+/0xc08000"
+      fontName = "arial"
+      fontSize = 12.0
+      fontBold = true
+   endwith
+
+   this.TEXT3 = new TEXTLABEL(this)
+   with (this.TEXT3)
+      height = 21.0
+      left = 12.0
+      top = 125.0
+      width = 120.0
+      text = "P V/NO:"
+      colorNormal = "0x400000/W"
+      fontName = "Verdana"
+      fontBold = true
+      borderStyle = 7	// Client
+      alignVertical = 1	// Middle
+      alignHorizontal = 1	// Center
+   endwith
+
+   this.SSERIAL = new ENTRYFIELD(this)
+   with (this.SSERIAL)
+      onChange = class::SSERIAL_ONCHANGE
+      dataLink = "APPYMTS->SERIALNO"
+      enabled = false
+      height = 21.0
+      left = 144.0
+      top = 125.0
+      width = 318.0
+      colorNormal = "0x400000/W"
+      colorHighLight = "G+/N"
+      fontName = "MS Sans Serig"
+      fontSize = 12.0
+      fontBold = true
+   endwith
+
+   this.RECTANGLE1 = new RECTANGLE(this)
+   with (this.RECTANGLE1)
+      left = 0.0
+      top = 148.0
+      width = 678.0
+      height = 47.0
+      text = "Payment Method"
+      colorNormal = "N/0xc8d0d8"
+      fontName = "MS Sans Serif"
+      fontSize = 12.0
+      fontBold = true
+   endwith
+
+   this.SFCCASH = new RADIOBUTTON(this)
+   with (this.SFCCASH)
+      onGotFocus = class::SFCCASH_ONGOTFOCUS1
+      dataLink = "APPYMTS->PAY_METHOD"
+      enabled = false
+      height = 19.0
+      left = 12.0
+      top = 169.0
+      width = 72.0
+      text = "FC Cash"
+      fontName = "MS Sans Serif"
+      fontSize = 8.0
+      fontBold = true
+      group = true
+   endwith
+
+   this.SCHQ = new RADIOBUTTON(this)
+   with (this.SCHQ)
+      onGotFocus = class::SCHQ_ONGOTFOCUS
+      dataLink = "APPYMTS->PAY_METHOD"
+      enabled = false
+      height = 19.0
+      left = 96.0
+      top = 169.0
+      width = 72.0
+      text = "Cheque"
+      fontName = "MS Sans Serif"
+      fontSize = 8.0
+      fontBold = true
+   endwith
+
+   this.SDD = new RADIOBUTTON(this)
+   with (this.SDD)
+      onGotFocus = class::SDD_ONGOTFOCUS
+      dataLink = "APPYMTS->PAY_METHOD"
+      enabled = false
+      height = 19.0
+      left = 180.0
+      top = 169.0
+      width = 84.0
+      text = "Bank Debit"
+      fontName = "MS Sans Serif"
+      fontSize = 8.0
+      fontBold = true
+   endwith
+
+   this.SFC = new RADIOBUTTON(this)
+   with (this.SFC)
+      onGotFocus = class::SFC_ONGOTFOCUS
+      dataLink = "APPYMTS->PAY_METHOD"
+      enabled = false
+      height = 19.0
+      left = 276.0
+      top = 169.0
+      width = 84.0
+      text = "Float Cash"
+      fontName = "MS Sans Serif"
+      fontSize = 8.0
+      fontBold = true
+   endwith
+
+   this.SCAPITAL = new RADIOBUTTON(this)
+   with (this.SCAPITAL)
+      onGotFocus = class::SCAPITAL_ONGOTFOCUS
+      dataLink = "APPYMTS->PAY_METHOD"
+      enabled = false
+      height = 19.0
+      left = 372.0
+      top = 169.0
+      width = 60.0
+      text = "Capital"
+      fontName = "MS Sans Serif"
+      fontSize = 8.0
+      fontBold = true
+   endwith
+
+   this.SHQDEBIT = new RADIOBUTTON(this)
+   with (this.SHQDEBIT)
+      onGotFocus = class::SHQDEBIT_ONGOTFOCUS
+      dataLink = "APPYMTS->PAY_METHOD"
+      enabled = false
+      height = 19.0
+      left = 444.0
+      top = 169.0
+      width = 72.0
+      text = "Hqdebit"
+      fontName = "MS Sans Serif"
+      fontSize = 8.0
+      fontBold = true
+   endwith
+
+   this.SLOAN = new RADIOBUTTON(this)
+   with (this.SLOAN)
+      onGotFocus = class::SLOAN_ONGOTFOCUS
+      dataLink = "APPYMTS->PAY_METHOD"
+      enabled = false
+      height = 19.0
+      left = 528.0
+      top = 169.0
+      width = 60.0
+      text = "Loan"
+      fontName = "MS Sans Serif"
+      fontSize = 8.0
+      fontBold = true
+   endwith
+
+   this.SMBO = new RADIOBUTTON(this)
+   with (this.SMBO)
+      onGotFocus = class::SMBO_ONGOTFOCUS
+      dataLink = "APPYMTS->PAY_METHOD"
+      enabled = false
+      height = 19.0
+      left = 594.0
+      top = 169.0
+      width = 72.0
+      text = "M-Money"
+      fontName = "MS Sans Serif"
+      fontSize = 8.0
+      fontBold = true
+   endwith
+
+   this.STPAY = new TEXTLABEL(this)
+   with (this.STPAY)
+      visible = false
+      height = 21.0
+      left = 6.0
+      top = 195.0
+      width = 174.0
+      text = "Paid On Behalf by:"
+      colorNormal = "0x400000/W"
+      fontName = "Verdana"
+      fontBold = true
+      borderStyle = 7	// Client
+   endwith
+
+   this.SPAY = new COMBOBOX(this)
+   with (this.SPAY)
+      onChange = class::SPAY_ONCHANGE
+      dataLink = "APPYMTS->PAYNAME"
+      enabled = false
+      visible = false
+      height = 24.0
+      left = 192.0
+      top = 195.0
+      width = 168.0
+      fontName = "MS Sans Serif"
+      fontBold = true
+      colorNormal = "0xc08000/W"
+      dataSource = "FIELD VENNAMES2->NAME"
+      mousePointer = 1	// Arrow
+      style = 1	// DropDown
+      dropDownHeight = 132.0
+   endwith
+
+   this.TEXT13 = new TEXTLABEL(this)
+   with (this.TEXT13)
+      height = 26.0
+      left = 6.0
+      top = 221.0
+      width = 174.0
+      text = "Ref./Chq no./Remarks:"
+      colorNormal = "0x400000/W"
+      fontName = "Verdana"
+      fontBold = true
+      borderStyle = 7	// Client
+      alignVertical = 1	// Middle
+      alignHorizontal = 1	// Center
+   endwith
+
+   this.SLPO = new ENTRYFIELD(this)
+   with (this.SLPO)
+      dataLink = "APPYMTS->LPO"
+      enabled = false
+      height = 26.0
+      left = 192.0
+      top = 221.0
+      width = 120.0
+      function = "!"
+      colorNormal = "B/BTNFACE"
+      colorHighLight = "W+/B"
+      fontName = "MS Sans Serif"
+      fontSize = 12.0
+      fontBold = true
+   endwith
+
+   this.SPRICING = new RECTANGLE(this)
+   with (this.SPRICING)
+      left = 12.0
+      top = 251.0
+      width = 504.0
+      height = 47.0
+      text = "Payment for"
+      colorNormal = "N/0xc8d0d8"
+      fontName = "MS Sans Serif"
+      fontSize = 12.0
+      fontBold = true
+   endwith
+
+   this.SINCL = new RADIOBUTTON(this)
+   with (this.SINCL)
+      onGotFocus = class::SINCL_ONGOTFOCUS1
+      dataLink = "APPYMTS->PAYTYPE"
+      enabled = false
+      height = 19.0
+      left = 24.0
+      top = 272.0
+      width = 72.0
+      text = "Invoice"
+      fontName = "MS Sans Serif"
+      fontSize = 8.0
+      fontBold = true
+      group = true
+   endwith
+
+   this.SCAP = new RADIOBUTTON(this)
+   with (this.SCAP)
+      onGotFocus = class::RADIOBUTTON2_ONGOTFOCUS
+      dataLink = "APPYMTS->PAYTYPE"
+      enabled = false
+      height = 19.0
+      left = 120.0
+      top = 272.0
+      width = 72.0
+      text = "Capital"
+      fontName = "MS Sans Serif"
+      fontSize = 8.0
+      fontBold = true
+   endwith
+
+   this.SLN = new RADIOBUTTON(this)
+   with (this.SLN)
+      onGotFocus = class::RADIOBUTTON1_ONGOTFOCUS
+      dataLink = "APPYMTS->PAYTYPE"
+      enabled = false
+      height = 19.0
+      left = 204.0
+      top = 272.0
+      width = 72.0
+      text = "Loan"
+      fontName = "MS Sans Serif"
+      fontSize = 8.0
+      fontBold = true
+   endwith
+
+   this.SHDB = new RADIOBUTTON(this)
+   with (this.SHDB)
+      onGotFocus = class::RADIOBUTTON3_ONGOTFOCUS
+      dataLink = "APPYMTS->PAYTYPE"
+      enabled = false
+      height = 19.0
+      left = 288.0
+      top = 272.0
+      width = 96.0
+      text = "Debtordep"
+      fontName = "MS Sans Serif"
+      fontSize = 8.0
+      fontBold = true
+   endwith
+
+   this.RADIOBUTTON4 = new RADIOBUTTON(this)
+   with (this.RADIOBUTTON4)
+      onGotFocus = class::RADIOBUTTON4_ONGOTFOCUS
+      dataLink = "APPYMTS->PAYTYPE"
+      enabled = false
+      height = 19.0
+      left = 396.0
+      top = 272.0
+      width = 96.0
+      text = "Debtorbal"
+      fontName = "MS Sans Serif"
+      fontSize = 8.0
+      fontBold = true
+   endwith
+
+   this.TCUST = new TEXTLABEL(this)
+   with (this.TCUST)
+      visible = false
+      height = 24.0
+      left = 12.0
+      top = 302.0
+      width = 120.0
+      text = "Customer"
+      colorNormal = "0x400000/W"
+      fontName = "Verdana"
+      fontSize = 12.0
+      fontBold = true
+      borderStyle = 7	// Client
+      alignVertical = 1	// Middle
+      alignHorizontal = 1	// Center
+   endwith
+
+   this.SCUSTN = new COMBOBOX(this)
+   with (this.SCUSTN)
+      onChange = class::SCUSTN_ONCHANGE
+      key = class::SCUSTN_KEY
+      dataLink = "APPYMTS->CNAME"
+      enabled = false
+      visible = false
+      height = 24.0
+      left = 144.0
+      top = 302.0
+      width = 563.0
+      fontName = "MS Sans Serif"
+      colorNormal = "0x400040/W+"
+      dataSource = "FIELD FRIGTMES->NAME"
+      mousePointer = 1	// Arrow
+      style = 1	// DropDown
+      dropDownHeight = 132.0
+   endwith
+
+   this.TBAL = new TEXTLABEL(this)
+   with (this.TBAL)
+      height = 26.0
+      left = 14.0
+      top = 332.0
+      width = 166.0
+      text = "Balance Due:"
+      colorNormal = "N/W"
+      fontName = "Verdana"
+      fontSize = 12.0
+      fontBold = true
+      borderStyle = 7	// Client
+      alignVertical = 1	// Middle
+      alignHorizontal = 1	// Center
+   endwith
+
+   this.SBALDUE = new ENTRYFIELD(this)
+   with (this.SBALDUE)
+      dataLink = "APPYMTS->BAL_DUE"
+      enabled = false
+      height = 26.0
+      left = 192.0
+      top = 332.0
+      width = 180.0
+      picture = "99,999,999,999.99"
+      colorNormal = "N/W"
+      colorHighLight = "N/W"
+      fontName = "arial"
+      fontBold = true
+   endwith
+
+   this.TSDEP = new TEXTLABEL(this)
+   with (this.TSDEP)
+      height = 26.0
+      left = 384.0
+      top = 332.0
+      width = 168.0
+      text = "Security Deposit:"
+      colorNormal = "N/W"
+      fontName = "Verdana"
+      fontSize = 12.0
+      fontBold = true
+      borderStyle = 7	// Client
+      alignVertical = 1	// Middle
+      alignHorizontal = 1	// Center
+   endwith
+
+   this.SCDEP = new ENTRYFIELD(this)
+   with (this.SCDEP)
+      dataLink = "APPYMTS->CDEP"
+      enabled = false
+      height = 26.0
+      left = 552.0
+      top = 332.0
+      width = 144.0
+      picture = "99,999,999,999.99"
+      colorNormal = "N/W"
+      colorHighLight = "N/W"
+      fontName = "arial"
+      fontBold = true
+   endwith
+
+   this.TEXT5 = new TEXTLABEL(this)
+   with (this.TEXT5)
+      height = 24.0
+      left = 12.0
+      top = 366.0
+      width = 120.0
+      text = "Debit  A/C"
+      colorNormal = "0x400000/W"
+      fontName = "Verdana"
+      fontSize = 12.0
+      fontBold = true
+      borderStyle = 7	// Client
+      alignVertical = 1	// Middle
+      alignHorizontal = 1	// Center
+   endwith
+
+   this.SDRS = new COMBOBOX(this)
+   with (this.SDRS)
+      onChange = class::SDRS_ONCHANGE
+      dataLink = "APPYNLIN->BNAME"
+      enabled = false
+      height = 24.0
+      left = 144.0
+      top = 366.0
+      width = 570.0
+      fontName = "MS Sans Serif"
+      fontBold = true
+      colorNormal = "0xc08000/W"
+      dataSource = "FIELD FGMASTP2->NAME"
+      mousePointer = 1	// Arrow
+      style = 1	// DropDown
+      dropDownHeight = 132.0
+   endwith
+
+   this.TEXT1 = new TEXTLABEL(this)
+   with (this.TEXT1)
+      height = 24.0
+      left = 12.0
+      top = 391.0
+      width = 120.0
+      text = "Credit A/C:"
+      colorNormal = "0x400000/W"
+      fontName = "Verdana"
+      fontSize = 12.0
+      fontBold = true
+      borderStyle = 7	// Client
+      alignVertical = 1	// Middle
+      alignHorizontal = 1	// Center
+   endwith
+
+   this.SBANKA = new COMBOBOX(this)
+   with (this.SBANKA)
+      onChange = class::SBANKA_ONCHANGE
+      dataLink = "APPYMTS->BNAME"
+      enabled = false
+      height = 24.0
+      left = 144.0
+      top = 391.0
+      width = 563.0
+      fontName = "MS Sans Serif"
+      fontBold = true
+      colorNormal = "0xc08000/W"
+      dataSource = "FIELD fgmastp->NAME"
+      mousePointer = 1	// Arrow
+      style = 1	// DropDown
+      dropDownHeight = 132.0
+   endwith
+
+   this.TEXT14 = new TEXTLABEL(this)
+   with (this.TEXT14)
+      height = 26.0
+      left = 12.0
+      top = 417.0
+      width = 108.0
+      text = "AMOUNT:"
+      colorNormal = "N/W"
+      fontName = "Verdana"
+      fontSize = 12.0
+      fontBold = true
+      borderStyle = 7	// Client
+      alignVertical = 1	// Middle
+      alignHorizontal = 1	// Center
+   endwith
+
+   this.SDTOTAL = new ENTRYFIELD(this)
+   with (this.SDTOTAL)
+      onChange = class::SDTOTAL_ONCHANGE
+      dataLink = "appynlin->TOTAL"
+      enabled = false
+      height = 26.0
+      left = 144.0
+      top = 417.0
+      width = 168.0
+      picture = "9999,999,999.99"
+      colorNormal = "N/W"
+      colorHighLight = "0x40/W"
+      fontName = "MS Sans Serif"
+      fontSize = 12.0
+      fontBold = true
+   endwith
+
+   this.TEXT7 = new TEXTLABEL(this)
+   with (this.TEXT7)
+      height = 25.0
+      left = 330.0
+      top = 417.0
+      width = 180.0
+      text = "PYMT TOTAL:"
+      colorNormal = "0x400000/W"
+      fontName = "Verdana"
+      fontSize = 12.0
+      fontBold = true
+      borderStyle = 7	// Client
+      alignVertical = 1	// Middle
+      alignHorizontal = 1	// Center
+   endwith
+
+   this.STOTAL = new ENTRYFIELD(this)
+   with (this.STOTAL)
+      dataLink = "APPYMTS->TOTAL"
+      enabled = false
+      height = 25.0
+      left = 524.0
+      top = 417.0
+      width = 166.0
+      picture = "99,999,999,999.99"
+      colorNormal = "0x400000/W"
+      colorHighLight = "G+/0xc08000"
+      fontName = "arial"
+      fontSize = 12.0
+      fontBold = true
+   endwith
+
+   this.PREVBUTTON = new PUSHBUTTON(this)
+   with (this.PREVBUTTON)
+      onClick = class::PREVIOUS
+      height = 26.0
+      left = 133.0
+      top = 660.0
+      width = 85.0
+      text = "&PREVIOUS"
+      fontName = "MS Sans Serif"
+      fontSize = 8.0
+      fontBold = true
+   endwith
+
+   this.NEXTBUTTON = new PUSHBUTTON(this)
+   with (this.NEXTBUTTON)
+      onClick = class::NEXT
+      height = 26.0
+      left = 245.0
+      top = 660.0
+      width = 85.0
+      text = "&NEXT"
+      fontName = "MS Sans Serif"
+      fontSize = 8.0
+      fontBold = true
+   endwith
+
+   this.CHILDBROWSE = new BROWSE(this)
+   with (this.CHILDBROWSE)
+      colorNormal = "R/W"
+      colorHighLight = "R+/W"
+      fontName = "MS Sans Serif"
+      height = 196.0
+      left = 12.0
+      top = 442.0
+      width = 744.0
+      append = false
+      alias = "appynlin"
+      fields = 'appynlin->STOCK_NO\H="NO."\6\P="99"\R\C="N/0xffff80",appynlin->OTHER_DATE\H="REF DATE"\12\R\C="N/0xffff80",bnak = appymts->bcoy+appymts->bdiv+appymts->bcen+appymts->bsto+appymts->btyp+appymts->bcla+appymts->bcod\H="Bank Code"\12,appynlin->TOTAL\H="AMOUNT"\15\P="99,999,999,999.99"\R\C="N/0xffff80",bname = fgmastp->name'
+      delete = false
+      modify = false
+      showDeleted = false
+      showRecNo = false
+      text = "DETAIL LINES"
+      scrollBar = 1	// On
+   endwith
+
+
+   procedure Open
+   ****************************************************************************
+   private orderNoField
+      on error DO ddeerr WITH ERROR(), MESSAGE(),;
+   PROGRAM(), LINENO()
+    FORM.BLUSER=BUSER
+   FORM.BLEVEL=BLEVEL
+   IF EMPTY(FORM.BLUSER) .OR. EMPTY(FORM.BLEVEL)
+      QUIT
+   ENDIF
+                    set safety off
+                     SET REPROCESS TO 10
+                     SELECT VENDOR
+                  SET ORDER TO VENDOR
+                                      select appymtsn
+    go top
+    if eof()
+    append blank
+    replace order_no with "0"
+    endif
+    form.closeprd = .f.
+   
+     select appymupd
+    set order to orderdate
+    
+                     select appynlin3
+                  set order to order_no
+                      SELECT APPYMTS3
+                     SET ORDER TO ORDER_NO
+                     GO BOTTOM
+     select st15f
+   set order to mkey
+   GO TOP
+     select VENNAMES
+   set order to name
+     select frigtmes
+   set order to name
+   select frighter
+   set order to frighter
+    form.bcents = .f.
+     local l1,l2,l3
+      select appynlin
+      go top
+      if .not. eof()
+      l1 = rtrim(str(total * 100))
+      l2 = right(l1,1)
+      l3 = val(l2)
+      if l3=0 .or. l3 = 5
+      form.bcents =.t.
+      else
+      form.bcents = .f.
+      endif
+      endif
+   select appynlin
+   go top
+   if .not. eof()
+   if empty(order_no) 
+   delete
+   endif
+   endif
+   select APPYMTS
+   go top
+   if .not. eof()
+   if empty(order_no) 
+   delete
+   endif
+   endif
+      select fgoffs
+   set order to name
+    select APPYMTS3
+    SET ORDER TO ORDER_NO
+   go bottom
+    form.maxOrder = order_no 
+   if type("form.init") = "U"
+      form.init = .T.
+    ENDIF
+   SELECT FGCOY
+   GO TOP
+   IF FCCASH = 'Yes'
+   form.fccash = .t.
+   else
+   form.fccash = .f.
+   endif
+    FORM.PSHIFTDATE = st15f->shift_date
+   FORM.PSHIFTNO = st15f->shift_no
+    FORM.PSHIFTID = st15f->shift_id
+   form.pfc = .t.
+   
+   
+   FORM.PDIV = ""
+   FORM.PCOY = ""
+   FORM.OKEXIT = .F.
+   FORM.PVATPRICE = "Inclusive"
+   FORM.PCEN = ""
+    form.pcashierno = ""
+    form.pemp1 = ""
+    form.pf1name = ""
+    FORM.PSERVED = ""
+   FORM.PSTO = ""
+   form.pclass = ""
+   FORM.PTYP = ""
+   form.pcard = "B/V"
+   form.ptypname = ""
+   form.pclaname = ""
+   form.pcodname = ""
+   form.pcod = ""
+   form.pf1dr = "No"
+   FORM.PCLA = ""
+      set skip to                     && APPYMTS.qbe contains set skip to appynlin
+      set exact off                   && the .qbe file contains SET EXACT ON
+   
+      set procedure to Sampproc.prg additive
+   
+      form.inEditMode = .F.           && indicator of view/edit state
+      form.changesMade = .F.          && indicator of changes made to field values
+      form.previousRecord = .F.       && Save record number when appending
+      form.pspdiv = "1"
+      form.pspdivname = "Depot"
+      *** do calculations in another area so form doesn't get updated
+        select APPYMTS
+      set order to order_no
+          local lmax
+       select APPYMTSL
+       go top
+       if eof()
+       append blank
+       endif
+   
+   form.Psdate = FORM.PSHIFTDATE
+   form.pserialno = ""
+      select APPYMTS
+      set relation to order_no into appynlin2 constrain integrity  additive
+      ***
+   
+   
+   go top
+   refresh
+   if appymts->paytype = "Debtorbal" .or.  appymts->paytype = "Debtordep"
+      form.tcust.visible = .t.
+         form.tbal.visible = .t.
+         form.sbaldue.visible = .t.
+         form.scdep.visible = .t.
+         form.scustn.visible = .t.
+         form.scustn.value = ""
+         form.changesmade =.t.
+          form.tsdep.visible = .t.
+          else
+            form.tcust.visible = .f.
+         form.tbal.visible = .f.
+         form.sbaldue.visible = .f.
+         form.scdep.visible = .f.
+         form.sbaldue.value = 0
+         form.scdep.value = 0
+         form.scustn.visible = .f.
+         form.scustn.value = ""
+         form.changesmade =.t.
+          form.tsdep.visible = .f.
+          endif
+   form::Open() 
+   
+   shell(.F.)
+   
+   ****************************************************************************
+   
+   procedure OnClose
+   ****************************************************************************
+   *  form.CheckCommit(form.inEditMode) 
+      if form.inEditMode
+      form.ViewEdit()
+   endif
+          && Close VENDOR form if it exists
+   
+   *  if type("form.parentVENDORForm") = "U"  && If called from VENDOR,
+                                             && leave shell(.F.)
+        shell(.f.)
+   *  endif
+   close procedure SampProc.prg
+	if .not. empty(dbf())
+    if .not. empty(appymts->order_no)
+   select appymupd
+   
+   seek appymts->order_no+dtos(appymts->order_date)
+   if found() .and. .not. empty(post_date)
+   select appymts
+   replace post_date with date()
+   endif
+   endif
+	endif
+   commit()
+   close databases
+   clear program
+   do apppymts.prg
+   form.close()
+    close databases
+     ****************************************************************************
+     
+   procedure ChangesMade
+   
+   * Indicate that changes have been made to current record.
+   ****************************************************************************
+   
+   form.changesMade = .T.
+   
+    
+   procedure BrowseChangesMade
+   ****************************************************************************
+   local t,t2,t3,t4,T5,t6,t7,t8
+     if form.changesmade = .t.
+   select appynlin
+   IF .NOT. EOF()
+    form.changesMade = .T.
+     go recno("appynlin") in appynlin    && Make sure change is posted
+   
+   select appynlin2  && recalculate totals in other workarea
+   calculate sum(appynlin2->total), sum(appynlin2->invtotal), sum(appynlin2->paytotal),;
+   sum(appynlin2->deptotal) to t, t2,t3,t4 
+   select APPYMTS
+   replace total with t
+   replace invtotal with t2
+   replace paytotal with t3
+   replace deptotal with t4
+         ENDIF
+     SELECT APPYMTS
+   endif
+   
+      procedure Next
+   ****************************************************************************
+   
+   form.CheckCommit(form.inEditMode)
+   if .not. empty(appymts->order_no)
+   select appymupd
+   seek appymts->order_no+dtos(appymts->order_date)
+   if found() .and. .not. empty(post_date)
+   select appymts
+   replace post_date with date()
+   flush
+   endif
+   endif
+   form.root.order.viewEdit.enabled = .t.
+   form.root.order.ADDorder.enabled = .T.      
+    form.root.order.ADDline.enabled = .T.
+   SELECT appymts
+   
+   if .not. eof()
+      NEXTBUTTON::OnClick()
+   endif
+   form.root.file.exit.enabled =   .t.
+   
+   ****************************************************************************
+   
+   procedure Previous
+   ****************************************************************************
+   
+   form.CheckCommit(form.inEditMode)
+   if .not. empty(appymts->order_no)
+   select appymupd
+   seek appymts->order_no+dtos(appymts->order_date)
+   if found() .and. .not. empty(post_date)
+   select appymts
+   replace post_date with date()
+   flush
+   endif
+   endif
+   form.root.order.viewEdit.enabled = .t.
+   form.root.order.ADDorder.enabled = .T.      
+    form.root.order.ADDline.enabled = .T.
+   SELECT appymts
+   if .not. bof()
+   PREVBUTTON::OnClick()
+   endif
+     form.root.file.exit.enabled =   .t.
+    ****************************************************************************
+   
+   procedure CheckCommit (newInEditMode)
+    
+    * Finish transaction, if it has been started.
+    ****************************************************************************
+    private orderField, changesMade,prcoy,prdiv,prcen,prsto,prtyp,prcla,prcod,prqty,;
+    pcoy,pdiv,pcen,psto,ptyp,pcla,pcod
+    changesMade = form.changesMade
+     if form.changesMade .and. .not. empty(dbf())
+       orderField = field(1)                  && Field Order_no   
+            commit()
+            on error DO ddeerr WITH ERROR(), MESSAGE(),;
+   PROGRAM(), LINENO()
+              
+       if form.inEditMode .and. newInEditMode
+          begintrans()
+               on error DO transerr WITH ERROR(), MESSAGE(),;
+   PROGRAM(), LINENO()
+       endif
+       form.changesMade = .F.
+    endif
+    if form.inEditMode <> newInEditMode
+       if newInEditMode                       && Going to Edit mode
+          begintrans()
+            on error DO transerr WITH ERROR(), MESSAGE(),;
+   PROGRAM(), LINENO()
+       else                                   && Going to View mode
+          if .not. changesMade
+             rollback()
+            on error   DO ddeerr WITH ERROR(), MESSAGE(),;
+   PROGRAM(), LINENO()
+          endif
+       endif
+       form.inEditMode = newInEditMode
+    endif
+	 if .not. empty(dbf())
+      select fgcoy
+      flush
+		select APPYMTS
+	 endif
+    ****************************************************************************
+    
+   procedure ViewEdit
+   ****************************************************************************
+   local inEditMode, control, editMenu
+   
+   editMenu = form.root.order.viewEdit
+   *** If editing is completed, close transaction, otherwise open a transaction
+   if form.inEditMode                           && Change to View mode
+      form.checkChanged(.F.)
+      editMenu.text = "&Edit"
+      editMenu.shortcut = "Ctrl-E"
+      editMenu.statusMessage = "Edit data."
+       form.root.order.deleteline.enabled = .F.
+      form.CheckCommit(.F.)                     && Check transaction and
+      form.text = "VENDOR PAYMENTS -- View Mode"         && change mode to View
+      form.childBrowse.modify = .F.
+      form.statusMessage = "Select payment - Edit menu choice to " +;
+                           "edit/delete data."
+   else                                         && Change to Edit mode
+      editMenu.text = "&View"
+      editMenu.shortcut = "Ctrl-E"
+      editMenu.statusMessage = "View data."
+         form.root.order.deleteline.enabled = .t.
+      form.CheckCommit(.T.)                     && Check transaction and
+      form.text = "VENDOR PAYMENTS -- Edit Mode"         && change mode to Edit
+      form.childBrowse.modify = .F.
+      form.statusMessage = "In Edit Mode.  " +;
+                           "Select payment - View menu choice to switch " +;
+                           "to View mode."
+   endif
+   control = form.first
+   
+   inEditMode = form.inEditMode    && so don't have to reference many times
+   do
+      do case
+         case control.name $ "ORDERNOENTRY,cno,TOTINVENTRY,BALDUEENTRY"
+            * these are never editable
+            control.enabled = .F.
+         case .not. control.className $ "BROWSE,NEXTBUTTON,PREVBUTTON,PUSHBUTTON,IMAGE,TEXT"
+            * doesn't make sense to make the above classes enabled/not
+            control.enabled = inEditMode
+         case control.className = "BROWSE"
+            control.Modify = inEditMode
+            control.Delete = inEditMode
+            control.Append = inEditMode
+      endcase
+      control = control.before
+   until control.name = form.first.name
+   
+   *   form.cno.enabled = .F.       && Key field is always disabled
+   form.OrderNoEntry.enabled = .F.          && Key field is always disabled
+   form.childBrowse.append = .F.
+   form.childBrowse.delete = .F.
+   *  form.sref.enabled = .f.
+    FORM.CHILDBROWSE.MODIFY = .F.
+    form.stotal.enabled = .f.
+    FORM.STOTAL.ENABLED = .F.
+   FORM.SDATE.ENABLED = .F.
+     form.scdep.enabled = .f.
+     form.sbaldue.enabled = .f.
+   if .not. form.blevel = 3 .and. .not. form.blevel = 1
+   form.scap.enabled = .f.
+   form.sln.enabled = .f.
+   endif
+   IF FORM.FCCASH
+   FORM.SFCCASH.ENABLED = .F.
+   ENDIF
+   FORM.SFLOAT.ENABLED = .F.
+   
+   procedure CheckChanged(callCommit)
+    private control, fieldValue, controlValue, typeText, typeValue
+   
+   if form.inEditMode
+      control = form.activeControl
+      if type("control.datalink") <> "U"
+         fieldValue = control.datalink          && name of table field
+   
+         typeText = type("control.text")
+         typeValue = type("control.value")
+         do case
+            case typeValue = "C0"
+               controlValue = control.value
+            case typeValue $ "LU" .and. typeText = "C0"
+               controlValue = control.text
+            otherwise
+               controlValue = Null
+         endcase
+         if controlValue <> &fieldValue
+            form.changesMade = .T.
+         endif
+      endif
+   endif
+   if form.changesMade .and. callCommit
+      CLASS::CheckCommit(form.inEditMode)     && Check transactions
+   endif
+   
+   Procedure Go_last
+      form.CheckCommit(form.inEditMode)
+      if .not. empty(appymts->order_no)
+   select appymupd
+   seek appymts->order_no+dtos(appymts->order_date)
+   if found() .and. .not. empty(post_date)
+   select appymts
+   replace post_date with date()
+   flush
+   endif
+   endif
+   form.root.order.viewEdit.enabled = .t.
+   form.root.order.ADDorder.enabled = .T.      
+    form.root.order.ADDline.enabled = .T.
+   SELECT appymts
+      go bottom
+   form.root.file.exit.enabled =   .t.
+    
+     Procedure Go_Top
+	  if .not. empty(dbf())
+     form.CheckCommit(form.inEditMode)
+     if .not. empty(appymts->order_no)
+   select appymupd
+   seek appymts->order_no+dtos(appymts->order_date)
+   if found() .and. .not. empty(post_date)
+   select appymts
+   replace post_date with date()
+   flush
+   endif
+   endif
+   form.root.order.viewEdit.enabled = .t.
+   form.root.order.ADDorder.enabled = .T.      
+    form.root.order.ADDline.enabled = .T.
+   SELECT appymts
+     go top
+	 endif
+    form.root.file.exit.enabled =   .t.
+    
+   Procedure Form_CanClose
+      RETURN IIF(form.changesmade = .F., .F., .T.)
+   
+   Procedure SEMP1_ONCHANGE
+         local l1,l2
+        
+         l1 = this.value
+         select fgoffs
+         seek l1
+         
+           select APPYMTS
+           replace aname with fgoffs->name
+         replace off with fgoffs->off
+         replace cashier_no with fgoffs->cashier_no
+          form.changesmade = .t.
+             form.CheckCommit(form.inEditMode)
+   
+        
+   
+   Procedure SCUST_ONCHANGE
+   SELECT appynlin
+   if .not. eof()
+        REPLACE total with  0
+        endif
+          select VENNAMES
+         seek this.value
+            select APPYMTS
+            replace VENDOR with this.value
+            replace VSRCE with VENNAMES->VSRCE
+             replace VTYP   with VENNAMES->VTYP
+              replace VPMOD   with VENNAMES->VPMOD
+               replace VENDOR_n with VENNAMES->VENDOR_n
+                replace err_cust with .t.
+                
+          form.changesmade = .t.
+          form.CheckCommit(form.inEditMode)
+   
+      
+    
+   Procedure SDTOTAL_OnChange
+   SELECT appynlin
+        REPLACE TOTAL with  this.value
+        form.changesmade = .t.
+        if appymts->paytype = "Debtordep"
+        if .not. TOTAL = appymts->cdep  .or. appymts->bal_due > 0
+        InformationMessage("Amount out of Range.", "Sorry")
+        replace TOTAL with 0
+        endif
+        endif
+        if form.blevel > 3 .and. .not. appymts->source = '9' && staff exempted
+        if appymts->paytype = "Debtorbal"
+        if total > appymts->bal_due * -1 
+        InformationMessage("Amount out of Range.", "Sorry")
+        replace TOTAL with 0
+        endif
+        endif
+        endif
+          local l1,l2,l3
+      l1 = rtrim(str(TOTAL * 100))
+      l2 = right(l1,1)
+      l3 = val(l2)
+      if l3=0 .or. l3 = 5
+      form.bcents =.t.
+      else
+      form.bcents = .f.
+      endif
+        form.browsechangesmade()
+        select APPYMTS
+         form.CheckCommit(form.inEditMode)
+       
+    Procedure SSERIAL_OnChange
+         form.changesmade = .t.
+         select APPYMTS
+         replace serialno with this.value
+   
+   Procedure SBANKA_ONCHANGE
+      select fgmastp
+      seek this.value
+      if found()
+          select APPYMTS
+       replace bcoy with "1"
+      replace bdiv with "5"
+      replace bcen with "1"
+      replace bsto with "A1"
+      replace btyp with fgmastp->typ
+      replace bcla with fgmastp->cla
+      replace bcod with fgmastp->cod
+      REPLACE BNAME WITH THIS.VALUE
+      else
+      select APPYMTS
+       replace bcoy with ""
+      replace bdiv with ""
+      replace bcen with ""
+      replace bsto with ""
+      replace btyp with ""
+      replace bcla with ""
+      replace bcod with ""
+      REPLACE BNAME WITH ""
+     endif
+      form.changesmade = .t.
+      form.CheckCommit(form.inEditMode)
+      
+    Procedure SFCCASH_OnGotFocus1
+        FORM.STPAY.VISIBLE = .F.
+         FORM.SPAY.VISIBLE = .F.
+         FORM.SPAY.ENABLED = .F.
+         FORM.CHANGESMADE = .T.
+          select APPYMTS
+               replace PAYNAME with ""
+               replace PAYSRCE WITH ""
+               REPLACE PAYTYP WITH ""
+               REPLACE PAYMOD WITH ""
+               REPLACE PAY_N WITH ""
+   
+   Procedure SCHQ_OnGotFocus
+         FORM.STPAY.VISIBLE = .F.
+         FORM.SPAY.VISIBLE = .F.
+         FORM.SPAY.ENABLED = .F.
+         FORM.CHANGESMADE = .T.
+          select APPYMTS
+               replace PAYNAME with ""
+               replace PAYSRCE WITH ""
+               REPLACE PAYTYP WITH ""
+               REPLACE PAYMOD WITH ""
+               REPLACE PAY_N WITH ""
+   
+   Procedure SDD_OnGotFocus
+      FORM.STPAY.VISIBLE = .F.
+         FORM.SPAY.VISIBLE = .F.
+         FORM.SPAY.ENABLED = .F.
+         FORM.CHANGESMADE = .T.
+          select APPYMTS
+               replace PAYNAME with ""
+               replace PAYSRCE WITH ""
+               REPLACE PAYTYP WITH ""
+               REPLACE PAYMOD WITH ""
+               REPLACE PAY_N WITH ""
+   
+   Procedure SINCL_OnGotFocus1
+         form.tcust.visible = .f.
+         form.tbal.visible = .f.
+         form.sbaldue.visible = .f.
+         form.scdep.visible = .f.
+         form.sbaldue.value = 0
+         form.scdep.value = 0
+         form.scustn.visible = .f.
+         form.scustn.value = ""
+         form.changesmade =.t.
+          form.tsdep.visible = .f.
+          form.sdtotal.value = 0
+          form.stotal.value = 0
+           select appymts
+      replace bal_due with 0
+      replace  cdep with 0
+      replace source with ""
+      replace ftyp with ""
+      replace pmod with ""
+      replace frighter_n with ""
+   
+   Procedure RADIOBUTTON2_OnGotFocus
+   form.tcust.visible = .f.
+         form.tbal.visible = .f.
+         form.sbaldue.visible = .f.
+         form.scdep.visible = .f.
+         form.sbaldue.value = 0
+         form.scdep.value = 0
+         form.scustn.visible = .f.
+         form.scustn.value = ""
+         form.changesmade =.t.
+          form.tsdep.visible = .f.
+          form.sdtotal.value = 0
+          form.stotal.value = 0
+           select appymts
+      replace bal_due with 0
+      replace  cdep with 0
+      replace source with ""
+      replace ftyp with ""
+      replace pmod with ""
+      replace frighter_n with ""
+   
+   Procedure RADIOBUTTON1_OnGotFocus
+   form.tcust.visible = .f.
+         form.tbal.visible = .f.
+         form.tsdep.visible = .f.
+         form.sbaldue.visible = .f.
+         form.scdep.visible = .f.
+         form.sbaldue.value = 0
+         form.scdep.value = 0
+         form.scustn.visible = .f.
+         form.scustn.value = ""
+         form.changesmade =.t.
+         form.sdtotal.value = 0
+          form.stotal.value = 0
+   
+    select appymts
+      replace bal_due with 0
+      replace  cdep with 0
+      replace source with ""
+      replace ftyp with ""
+      replace pmod with ""
+      replace frighter_n with ""
+   
+   Procedure RADIOBUTTON3_OnGotFocus
+         form.tcust.visible = .t.
+         form.tbal.visible = .t.
+         form.sbaldue.visible = .t.
+         form.scdep.visible = .t.
+         form.sbaldue.value = 0
+         form.scdep.value = 0
+         form.scustn.visible = .t.
+         form.scustn.value = ""
+         form.changesmade =.t.
+          form.tsdep.visible = .t.
+          form.sdtotal.value = 0
+          form.stotal.value = 0
+   
+   Procedure RADIOBUTTON4_OnGotFocus
+         form.tcust.visible = .t.
+         form.tbal.visible = .t.
+         form.sbaldue.visible = .t.
+         form.scdep.visible = .t.
+         form.sbaldue.value = 0
+         form.scdep.value = 0
+         form.scustn.visible = .t.
+         form.scustn.value = ""
+         form.changesmade =.t.
+          form.tsdep.visible = .t.
+         form.sdtotal.value = 0
+          form.stotal.value = 0
+   
+   Procedure SCUSTN_OnChange
+      select appymts
+      replace bal_due with 0
+      replace  cdep with 0
+      replace source with ""
+      replace ftyp with ""
+      replace pmod with ""
+      replace frighter_n with ""
+         select frigtmes
+         seek this.value
+         if found()
+         select appymts
+         replace cname with this.value
+         replace source with frigtmes->source
+         replace ftyp with frigtmes->ftyp
+         replace pmod with frigtmes->pmod
+         replace frighter_n with frigtmes->frighter_n
+         select frighter
+         seek frigtmes->source+frigtmes->ftyp+frigtmes->pmod+frigtmes->frighter_n
+         if found()
+         select appymts
+         replace bal_due with frighter->bal_due
+         replace cdep with frighter->cdep_amt
+         endif
+         endif
+         select APPYNLIN
+         replace total with 0
+         select appymts
+         form.changesmade = .t.
+   
+      form.stotal.value = 0
+      form.sdtotal.value = 0
+   
+   Procedure SFC_OnGotFocus
+      FORM.STPAY.VISIBLE = .F.
+         FORM.SPAY.VISIBLE = .F.
+         FORM.SPAY.ENABLED = .F.
+         FORM.CHANGESMADE = .T.
+          select APPYMTS
+               replace PAYNAME with ""
+               replace PAYSRCE WITH ""
+               REPLACE PAYTYP WITH ""
+               REPLACE PAYMOD WITH ""
+               REPLACE PAY_N WITH ""
+   
+   Procedure SDRS_OnChange
+    select fgmastp2
+         seek this.value
+         if found()
+             select appynlin
+          replace coy with "1"
+         replace div with "5"
+         replace cen with "1"
+         replace sto with "A1"
+         replace typ with fgmastp2->typ
+         replace cla with fgmastp2->cla
+         replace cod with fgmastp2->cod
+         REPLACE BNAME WITH THIS.VALUE
+         else
+         select appynlin
+          replace coy with ""
+         replace div with ""
+         replace cen with ""
+         replace sto with ""
+         replace typ with ""
+         replace cla with ""
+         replace cod with ""
+         REPLACE BNAME WITH ""
+        endif
+        select appymts
+         form.changesmade = .t.
+         form.CheckCommit(form.inEditMode)
+   
+   Procedure SCUSTN_Key(nChar, nPosition,bShift,bControl)
+   
+    Procedure SCREDICARD_OnGotFocus
+      FORM.STPAY.VISIBLE = .F.
+         FORM.SPAY.VISIBLE = .F.
+         FORM.SPAY.ENABLED = .F.
+         FORM.CHANGESMADE = .T.
+          select APPYMTS
+               replace PAYNAME with ""
+               replace PAYSRCE WITH ""
+               REPLACE PAYTYP WITH ""
+               REPLACE PAYMOD WITH ""
+               REPLACE PAY_N WITH ""
+   
+   Procedure SLPO_OnChange
+         FORM.CHAMGESMADE = .T.
+   
+   Procedure SLOAN_OnGotFocus
+         FORM.STPAY.VISIBLE = .T.
+         FORM.SPAY.VISIBLE = .T.
+         FORM.SPAY.ENABLED = .T.
+         FORM.CHANGESMADE = .T.
+       select appymts
+    replace PAYNAME with ""
+               replace PAYSRCE WITH ""
+               REPLACE PAYTYP WITH ""
+               REPLACE PAYMOD WITH ""
+               REPLACE PAY_N WITH ""
+   
+   Procedure SHQDEBIT_OnGotFocus
+    FORM.STPAY.VISIBLE = .T.
+         FORM.SPAY.VISIBLE = .T.
+         FORM.SPAY.ENABLED = .T.
+         FORM.CHANGESMADE = .T.
+         select appymts
+    replace PAYNAME with ""
+               replace PAYSRCE WITH ""
+               REPLACE PAYTYP WITH ""
+               REPLACE PAYMOD WITH ""
+               REPLACE PAY_N WITH ""
+   
+   Procedure SCAPITAL_OnGotFocus
+         FORM.STPAY.VISIBLE = .f.
+          FORM.SPAY.VISIBLE = .F.
+         FORM.SPAY.ENABLED = .F.
+         FORM.CHANGESMADE = .T.
+          select APPYMTS
+               replace PAYNAME with ""
+               replace PAYSRCE WITH ""
+               REPLACE PAYTYP WITH ""
+               REPLACE PAYMOD WITH ""
+               REPLACE PAY_N WITH ""
+   
+   Procedure SPAY_OnChange
+      select vennames2
+            seek this.value
+            if found() .and. (APPYMTS->pay_method = "Loan" .OR. APPYMTS->pay_method = "Hqdebit")
+            select APPYMTS
+               replace PAYNAME with this.value
+               replace PAYSRCE WITH VENNAMES2->VSRCE
+               REPLACE PAYTYP WITH VENNAMES2->VTYP
+               REPLACE PAYMOD WITH VENNAMES2->VPMOD
+               REPLACE PAY_N WITH VENNAMES2->VENDOR_N
+               ELSE
+               select APPYMTS
+               replace PAYNAME with ""
+               replace PAYSRCE WITH ""
+               REPLACE PAYTYP WITH ""
+               REPLACE PAYMOD WITH ""
+               REPLACE PAY_N WITH ""
+           ENDIF
+           FORM.CHANGESMADE = .T.
+   
+   Procedure SFT_OnGotFocus
+     FORM.STPAY.VISIBLE = .F.
+         FORM.SPAY.VISIBLE = .F.
+         FORM.SPAY.ENABLED = .F.
+         FORM.CHANGESMADE = .T.
+          select APPYMTS
+               replace PAYNAME with ""
+               replace PAYSRCE WITH ""
+               REPLACE PAYTYP WITH ""
+               REPLACE PAYMOD WITH ""
+               REPLACE PAY_N WITH ""
+   
+   Procedure SMBO_OnGotFocus
+   form.changesmade = .t.
+   
+   Procedure SWHVAT_OnChange
+   SELECT appynlin
+        REPLACE whvat with  this.value
+        form.changesmade = .t.
+        if appymts->paytype = "Debtordep"
+        replace whvat with 0
+        endif
+        if appymts->paytype = "Debtorbal"
+        replace whvat with 0
+        endif
+    
+        REPLACE TOTAL WITH TOTAL - WHVAT - WHTAX
+        IF TOTAL > invtotal
+        REPLACE TOTAL WITH 0
+        REPLACE invtotal WITH 0
+         replace whtax with 0
+        replace whvat with 0
+        ENDIF
+        form.changesmade = .t.
+        form.browsechangesmade()
+        select APPYMTS
+         form.CheckCommit(form.inEditMode)
+   
+   
+ENDCLASS

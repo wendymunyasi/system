@@ -1,0 +1,93 @@
+* Visual dBASE .QBE file 9
+ON ERROR DO QBEERR WITH ERROR(), MESSAGE(),;
+PROGRAM(), LINENO()
+CLOSE DATABASES
+seT EXACT ON
+
+*SET EXCLUSIVE ON
+SELECT 1
+if .not. file('\KENSERVICE\DATA\apdrcrs.DBF')
+use \kenserve\idssys\apdrcrs.DBF
+copy stru to \KENSERVICE\DATA\apdrcrs dbase prod
+endif
+USE \KENSERVICE\DATA\apdrcrs.DBF ORDER TAG GRN_NO
+delete all for empty(grn_no)
+set filter to empty(post_date)
+SELECT 2
+if .not. file('\KENSERVICE\DATA\apdrcrln.DBF')
+use \kenserve\idssys\apdrcrln.DBF
+copy stru to \KENSERVICE\DATA\apdrcrln dbase prod
+endif
+USE \KENSERVICE\DATA\apdrcrln.DBF ORDER TAG GRN_NO
+delete all for empty(grn_no)
+set filter to empty(post_date)
+SELECT 3
+USE \KENSERVICE\DATA\FGLPRDS.DBF order tag period
+set filter to open_prd
+go top
+SELECT 68
+USE \KENSERVICE\DATA\FGCODS.DBF ORDER TAG MKEY ALIAS FGCOD
+SELECT 60
+USE \KENSERVICE\DATA\VENNAMES.DBF ORDER TAG NAME
+go top
+select 81
+use \kenservice\data\fgtyps order tag NAME
+select 82
+use \kenservice\data\fgtaxtyp.dbf order tag tax_type
+select 83
+use \kenservice\data\fgunit.dbf order tag unit
+select 68
+set relation to tax_type into fgtaxtyp, unit into fgunit
+SELECT 65
+USE \KENSERVICE\DATA\FGMASTP.DBF order tag name
+     **
+   set filter to .NOT. (typ = "L0" .and. cla = '00' .and. cod = '00');
+   .AND. .NOT. (TYP = "C0" .and. cla <='10')  ;
+    .and.  .not. (div = "3" .and.(cen =  "5" .or. cen = "4"));
+     .and. .not. (shs_auto = "Grs" .or. shs_auto = "Ccc" .or. shs_auto = "Dcn") ;
+      .and. .not. cen = "D" ;
+      .and. .not. (div = "1" .and. typ = "00") .and. .not. stopsto = "Yes"  .and. active = "Yes"
+SELECT 67
+USE \KENSERVICE\DATA\FGOFFS.DBF ORDER TAG NAME
+set filter to .not. empty(shift_date) .and. .not. empty(cashier_no)
+
+SELECT 1
+SET RELATION TO grn_no INTO apdrcrln CONSTRAIN INTEGRITY
+SELECT 80
+USE \KENSERVICE\DATA\ST15F.DBF
+select 29
+use \kenservice\data\apdrcrs.dbf again alias apdrcrs3
+
+select 31
+use \kenservice\data\fgmast.dbf order tag mkey
+
+SELECT 40
+if .not. file('\KENSERVICE\DATA\apdrcrsl.DBF')
+use \kenserve\idssys\apdrcrsl.DBF
+copy stru to \KENSERVICE\DATA\apdrcrsl dbase prod
+endif
+USE \KENSERVICE\DATA\apdrcrsl.DBF
+SELECT 99
+USE \KENSERVICE\DATA\FGCOY.DBF 
+
+select 101
+USE \KENSERVICE\DATA\apdrcrln.DBF again alias apdrcrln3
+select 126
+if .not. file('\KENSERVICE\DATA\apdrcrup.DBF')
+use \kenserve\idssys\apdrcrup.DBF
+copy stru to \KENSERVICE\DATA\apdrcrup dbase prod
+endif
+use \kenservice\data\apdrcrup.dbf
+delete all for empty(grn_no)
+set filter to .not. empty(post_date)
+SELECT 127
+ use \KENSERVICE\DATA\apdrcrln.DBF again  alias apdrcrln2 order tag grn_no
+  select 128
+  if .not. file('\kenservice\data\apdrcrsn.DBF')
+  use \kenserve\idssys\apdrcrsn.dbf
+  copy stru to \kenservice\data\apdrcrsn dbase prod
+  endif
+ use \kenservice\data\apdrcrsn.dbf
+ select 129
+ use \kenservice\data\fgtyp.dbf
+

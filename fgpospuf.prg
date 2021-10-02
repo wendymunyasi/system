@@ -170,7 +170,7 @@ procedure cont_rtn
       IF PSHM
                  select fgmast
       seek PCOY+PDIV+PCEN+PSTO+PTYP+PCLA+PCOD  && stock master
-     if  found() .and. rlock()
+     if  found() 
       do fgpurchs_3018RTN
       else
       Wait "Record lock failed/No Record in Stock Master. Try again Later"
@@ -280,5 +280,4 @@ procedure cont_rtn
       select fgmast
       replace m_var with m_var + APOGRLIN->QTY
       endif
-      unlock
          

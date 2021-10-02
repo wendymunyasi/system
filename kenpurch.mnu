@@ -86,7 +86,7 @@ CLASS KenpurchMENU(FormObj,Name) OF MENUBAR(FormObj,Name)
     
           DEFINE MENU APSYSB2FUEL1 OF THIS.APSYS2.APSYS2REG;
              PROPERTY; 
-               Text "&1. REGVEHICLE.",;
+               Text "&1. REGISTER VEHICLES.",;
                OnClick {;do FGVEH.WFM WITH FORM.BLUSER,FORM.BLEVEL}
                   
        DEFINE MENU SEPAAPSYSB201FUEL2 OF THIS.APSYS2.APSYS2REG;
@@ -96,7 +96,7 @@ CLASS KenpurchMENU(FormObj,Name) OF MENUBAR(FormObj,Name)
 
    DEFINE MENU APSYSB2FUEL3 OF THIS.APSYS2.APSYS2REG;
              PROPERTY; 
-               Text "&2. REGTRANSPORTER.",;
+               Text "&2. REGISTER TRANSPORTERS.",;
                OnClick {;do FGTRNSP.WFM WITH FORM.BLUSER,FORM.BLEVEL}
                
                   DEFINE MENU SEPAAPSYSB201FUEL22X OF THIS.APSYS2.APSYS2REG;
@@ -106,7 +106,7 @@ CLASS KenpurchMENU(FormObj,Name) OF MENUBAR(FormObj,Name)
 
                DEFINE MENU APSYSB2FUEL OF THIS.APSYS2.APSYS2REG;
              PROPERTY; 
-               Text "&3. PURCHASE.",;
+               Text "&3. PURCHASE FUEL.",;
                OnClick {;do apoFgrns.wfm WITH FORM.BLUSER,FORM.BLEVEL}
    
                   
@@ -174,7 +174,7 @@ endif
          
         DEFINE MENU APSYSB8 OF THIS.APSYS4;
              PROPERTY; 
-               Text "&2. DRNCRNT",;
+               Text "&2. DEBIT/CREDIT NOTE",;
                OnClick {;do apdrcrs.wfm WITH FORM.BLUSER,FORM.BLEVEL}
                
                   DEFINE MENU SEPAAPSYS4018 OF THIS.APSYS4;
