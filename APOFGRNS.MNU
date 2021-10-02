@@ -39,11 +39,12 @@ CLASS apogrns(FormObj,Name) OF MENUBAR(FormObj,Name)
        PROPERTY;
          Text "&FILE"
          
-      DEFINE MENU PREVEXIT OF THIS.FILE;
+      DEFINE MENU EXIT OF THIS.FILE;
        PROPERTY; 
           StatusMessage "Return to the Previous Menu.",;
           Text "&RETURN TO PREVIOUS MENU",;
-          OnClick {;form.release()}
+          SHORTCUT "F4",;
+          OnClick CLASS::ONEXIT
   
       
        DEFINE MENU SEPARATOR000 OF THIS.FILE;
@@ -751,9 +752,9 @@ endif
  
  
   ****************************************************************************
-    procedure ONEXIT
-    * form.Release()
-	 FORM.CLOSE()
+    procedure OnExit
+     form.Release()
+    *FORM.CLOSE()
 
     procedure OnQuitAll
    

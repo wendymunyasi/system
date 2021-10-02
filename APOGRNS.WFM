@@ -68,7 +68,7 @@ endif
 class apogrnsFORM of FORM
 SET PROCEDURE TO BUTTONS.CC ADDITIVE
    with (this)
-      canClose = class::FORM_CANCLOSE
+     * canClose = class::FORM_CANCLOSE
       onClose = class::ONCLOSE
       open = class::OPEN
       metric = 6	// Pixels
@@ -78,7 +78,7 @@ SET PROCEDURE TO BUTTONS.CC ADDITIVE
       top = 0.0
       width = 1284.0
       text = "GOODS RECEIVED - NON-FUELS ONLY -- View Mode"
-      windowState = 0	// Normal
+      windowState = 2	// Normal
       mdi = false
       sizeable = false
       moveable = false

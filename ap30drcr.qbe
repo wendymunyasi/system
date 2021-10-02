@@ -1,0 +1,58 @@
+* Visual dBASE .QBE file 9
+close databases
+on error do vnstruct.prg
+use \kenservice\data\vnstat.dbf
+? dis_qty
+ON ERROR DO QBEERR WITH ERROR(), MESSAGE(),;
+PROGRAM(), LINENO()
+CLOSE DATABASES
+seT EXACT ON
+
+*SET EXCLUSIVE ON
+SELECT 40
+USE \KENSERVICE\DATA\APDRCRSl.DBF
+SELECT 1
+USE \KENSERVICE\DATA\APDRCRS.DBF
+set filter to empty(post_date) .and. GRN_no = APDRCRSl->GRN_no
+go top
+SELECT 2
+USE \KENSERVICE\DATA\APDRCRLN.DBF
+*ZAP
+SELECT 80
+USE \KENSERVICE\DATA\ST15F.DBF
+
+
+select 78
+use \kenservice\data\dacoysum.dbf
+
+select 30
+use \kenservice\data\fgnfpur.dbf
+
+
+select 31
+use \kenservice\data\fgmast.dbf
+
+
+select 91
+use \kenservice\data\vnstat.dbf
+
+select 92
+use \kenservice\data\vncount.dbf
+
+select 93
+use \kenservice\data\vndocref.dbf
+
+select 94
+use \kenservice\data\vendor.dbf
+
+SELECT 99
+USE \KENSERVICE\DATA\FGCOY.DBF 
+select 106
+use \kenservice\data\apdrcrup.dbf
+select 105
+use \kenservice\data\apdrcrup.dbf again alias apdrcrup2
+select 107
+use \kenservice\data\fgcod.dbf
+
+select 130
+use \kenservice\data\APDRCRSN.dbf
