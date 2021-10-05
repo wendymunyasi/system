@@ -1,4 +1,4 @@
-Project File generated 10/02/2021 18:49:07
+Project File generated 10/02/2021 20:30:23
 
 [Project]
 Name=kenslog
@@ -273,6 +273,7 @@ ARGRNSPT.QBE,1,0,1,0
 AR30GRN.QBE,1,0,1,0
 ARPGRNS.QBE,1,0,1,0
 ARGRNS.QBE,1,0,1,0
+APOGRNST.QBE,1,0,1,0
 
 [DEO]
 DEO0=C:\kenslog\idssys\deploy
@@ -619,3 +620,4 @@ Files253=ARGRNSPT.QBO >> DestDir: {app}
 Files254=AR30GRN.QBO >> DestDir: {app}
 Files255=ARPGRNS.QBO >> DestDir: {app}
 Files256=ARGRNS.QBO >> DestDir: {app}
+Files257=APOGRNST.QBO >> DestDir: {app}
