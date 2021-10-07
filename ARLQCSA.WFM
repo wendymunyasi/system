@@ -1,0 +1,1059 @@
+////////////////////////////////////////////////////////////////////////////////
+// Output Filename: C:\KENSERVICE\IDSSYS\ARLQCSA_FCV.WFM                      //
+// Created By:      dBASE Form Converter Wizard                               //
+// Created On:      Sunday October 3, 2021 At 17:14:59                        //
+// Object Count:    27                                                        //
+////////////////////////////////////////////////////////////////////////////////
+                                                                                                                  *******************************************************************************
+*  PROGRAM:      ARLQCSA.WFM
+*
+*  WRITTEN BY:   W Nyongesa
+*  DATE:         10/2003
+*
+*  UPDATED:      09/2012
+*
+*  REVISION:     $Revision:   1.97  $
+*
+*  VERSION:      Visual dBASE
+*
+*  DESCRIPTION:  This form displays information about an order from a company.
+*                It allows traversing through ARCMPS and going to the top and
+*                bottom.  This form also has a corresponding menu, OrdCust.mnu,
+*                which allows adding,deleting and searching for an order.
+*                When an unknown customer number is entered, a dialog will come
+*                up asking you if you want to add a new customer.  If you
+*                selecte the Yes button, the customer form (in stcusj.Wfm)
+*                will be opened, so a new customer can be added.
+*
+*  PARAMETERS:   None
+*
+*  CALLS:        ARLQCSA.MNU       (Menu file)
+*                Buttons.cc       (Custom controls file)
+*                stcusj.Wfm     (Form for displaying customer information)
+*                ARLQCSA.QBE       (View of tables)
+*
+*  USAGE:        DO ARLQCSA.WFM    && Note that you can also DO stcusj.Wfm
+*
+*******************************************************************************
+#include <Messdlg.h>
+shell(.F.)
+create session
+set talk off
+*ET DESIGN OFF
+*if .not. user() = "WYCLIFFE"
+_app.FrameWin.Visible = .F.
+set design off
+*ENDIF
+_app.FrameWin.Text = "ARLQCSA"
+set ldCheck off                        && To avoid language driver conflicts
+*SET DBTYPE TO PARADOX
+SET CUAENTER OFF
+SET CENTURY ON
+SET DATE TO BRITISH
+** END HEADER -- do not remove this line*
+* Generated on 27/11/2019
+*
+parameter bUser,bLevel,bModal
+local f
+f = new ARCMPSFORM()
+if (bModal)
+   f.mdi = .F. && ensure not MDI
+   f.ReadModal()
+else
+   f.Open()
+endif
+CLASS ARCMPSFORM OF FORM
+   Set Procedure To BUTTONS.CC additive
+   this.Metric = 6  // Pixels
+   this.Maximize = .F.
+   this.OnClose = CLASS::ONCLOSE
+   this.Text = "TRANSFER LIQUID CASH TO FC CASH -- View Mode"
+   this.MDI = .F.
+   this.CanClose = CLASS::FORM_CANCLOSE
+   this.WindowState = 2
+   this.Minimize = .F.
+   this.View = "ARLQCSA.QBE"
+   this.MousePointer = 1
+   this.MenuFile = "ARLQCSA.MNU"
+   this.ColorNormal = "N+"
+   this.Moveable = .F.
+   this.Sizeable = .F.
+   this.Left = 0
+   this.Top = 3
+   this.Height = 339
+   this.EscExit = .F.
+   this.Width = 406
+
+   DEFINE TEXTLABEL TEXT9 OF THIS;
+       PROPERTY;
+       BorderStyle 7,;
+         FontName "Verdana",;
+         FontSize 12,;
+         Text "No.:",;
+         ColorNormal "R+/W",;
+         Top 4,;
+         Height 21,;
+         Width 54,;
+       FontBold .T.,;
+       AlignHorizontal 1,;
+       AlignVertical 1
+
+   DEFINE ENTRYFIELD ORDERNOENTRY OF THIS;
+       PROPERTY;
+         FontName "MS Sans Serig",;
+         FontSize 12,;
+         ColorHighLight "GB+/W",;
+         DataLink "ARCMPS->ORDER_NO",;
+         Enabled .F.,;
+         ColorNormal "R+/W",;
+         Left 60,;
+         Top 4,;
+         Height 21,;
+         Width 63,;
+       FontBold .T.
+
+   DEFINE TEXTLABEL TEXT2 OF THIS;
+       PROPERTY;
+       BorderStyle 7,;
+         FontName "Verdana",;
+         FontSize 12,;
+         Text "Date:",;
+         ColorNormal "R+/W",;
+         Left 128,;
+         Height 25,;
+         Width 64,;
+       FontBold .T.,;
+       AlignHorizontal 1,;
+       AlignVertical 1
+
+   DEFINE SPINBOX SDATE OF THIS;
+       PROPERTY;
+         FontSize 12,;
+         ColorHighLight "W+/N",;
+         DataLink "ARCMPS->order_date",;
+         Enabled .F.,;
+         Rangemax {21/02/2020},;
+         ValidErrorMsg "Date out of Range",;
+         ColorNormal "R+/W",;
+         Rangemin {13/11/2019},;
+         Left 192,;
+         Top 3,;
+         Height 21,;
+         Width 120,;
+       FontName "MS Sans Serif",;
+       FontBold .T.
+
+   DEFINE TEXTLABEL TEXT10 OF THIS;
+       PROPERTY;
+       BorderStyle 7,;
+         FontName "Verdana",;
+         FontSize 12,;
+         Text "Cashier:",;
+         ColorNormal "0x400000/W",;
+         Left 320,;
+         Height 28,;
+         Width 148,;
+       FontBold .T.,;
+       AlignHorizontal 1,;
+       AlignVertical 1
+
+   DEFINE COMBOBOX SOFF OF THIS;
+       PROPERTY;
+         FontSize 10,;
+         DataLink "ARCMPS->ANAME",;
+         Enabled .F.,;
+         MousePointer 1,;
+         OnChange CLASS::SEMP1_ONCHANGE,;
+         ColorNormal "0xc08000/W",;
+         DataSource "FIELD fgoffs->NAME",;
+         Left 480,;
+         Style 1,;
+         Top 2,;
+         Height 24,;
+         Width 240,;
+       FontName "MS Sans Serif",;
+       FontBold .T.
+
+   DEFINE TEXTLABEL TEXT4 OF THIS;
+       PROPERTY;
+       BorderStyle 7,;
+         FontName "Verdana",;
+         FontSize 11,;
+         Text "M-MONEY AGENT (EMPLOYEE):",;
+         ColorNormal "0x400000/W",;
+         Left 12,;
+         Top 30,;
+         Height 21,;
+         Width 276,;
+       FontBold .T.,;
+       AlignHorizontal 1,;
+       AlignVertical 1
+
+   DEFINE COMBOBOX SCUST OF THIS;
+       PROPERTY;
+         FontBold .F.,;
+         FontSize 10,;
+         DataLink "ARCMPS->CUSTOMER",;
+         Enabled .F.,;
+         MousePointer 1,;
+         OnChange CLASS::SCUST_ONCHANGE,;
+         ColorNormal "0x400040/W+",;
+         DataSource "FIELD FRIGTMES->NAME",;
+         Left 312,;
+         Style 1,;
+         Top 30,;
+         Height 24,;
+         Width 408,;
+       FontName "MS Sans Serif"
+
+   DEFINE RECTANGLE RECTANGLE1 OF THIS;
+       PROPERTY;
+         FontSize 12,;
+         Text "Payment Method",;
+         ColorNormal "N/0xc8d0d8",;
+         Left 12,;
+         Height 51,;
+         Top 68,;
+         Width 156,;
+       FontName "MS Sans Serif",;
+       FontBold .T.
+
+   DEFINE RADIOBUTTON SCASH OF THIS;
+       PROPERTY;
+         Group .T.,;
+         FontSize 11,;
+         Text "M-Depcash",;
+         DataLink "ARCMPS->PAY_METHOD",;
+         Enabled .F.,;
+         Left 12,;
+         Top 89,;
+         Height 19,;
+         Width 132,;
+       FontName "MS Sans Serif",;
+       FontBold .T.
+
+   DEFINE RECTANGLE SPRICING OF THIS;
+       PROPERTY;
+         FontSize 12,;
+         Text "Deposit For",;
+         ColorNormal "N/0xc8d0d8",;
+         Left 180,;
+         Height 51,;
+         Top 68,;
+         Width 168,;
+       FontName "MS Sans Serif",;
+       FontBold .T.
+
+   DEFINE RADIOBUTTON SMPESA OF THIS;
+       PROPERTY;
+          Group .T.,;
+         FontSize 11,;
+         Text "M-MONEY",;
+         DataLink "ARCMPS->PAYTYPE",;
+         Enabled .F.,;
+         Left 192,;
+         Top 89,;
+         Height 19,;
+         Width 108,;
+       FontName "MS Sans Serif",;
+       FontBold .T.
+
+   DEFINE TEXTLABEL TEXT1 OF THIS;
+       PROPERTY;
+       BorderStyle 7,;
+         FontName "Verdana",;
+         FontSize 12,;
+         Text "EDIT TOTAL:",;
+         ColorNormal "W+/0xff0080",;
+         Left 12,;
+         Top 123,;
+         Height 25,;
+         Width 144,;
+       FontBold .T.,;
+       AlignHorizontal 1,;
+       AlignVertical 1
+
+   DEFINE ENTRYFIELD SEDT OF THIS;
+       PROPERTY;
+         Picture "9,999,999,999.99",;
+         FontName "arial",;
+         FontSize 12,;
+         ColorHighLight "G+/0xc08000",;
+         DataLink "ARCMPS->DEPTOTAL",;
+         Enabled .F.,;
+         OnChange CLASS::SEDT_ONCHANGE,;
+         ColorNormal "W+/B",;
+         Left 12,;
+         Top 149,;
+         Height 25,;
+         Width 144,;
+       FontBold .T.
+
+   DEFINE RECTANGLE RECTANGLE3 OF THIS;
+       PROPERTY;
+         FontSize 12,;
+         Text "Select Liquid Cash Account",;
+         ColorNormal "N/0xc8d0d8",;
+         Left 12,;
+         Height 68,;
+         Top 187,;
+         Width 708,;
+       FontName "MS Sans Serif",;
+       FontBold .T.
+
+   DEFINE COMBOBOX SCREDIT OF THIS;
+       PROPERTY;
+         FontSize 10,;
+         DataLink "ARCMPLN->BNAME",;
+         Enabled .F.,;
+         MousePointer 1,;
+         OnChange CLASS::SCREDIT_ONCHANGE,;
+         ColorNormal "0xc08000/W",;
+         DataSource "FIELD FGCODS->NAME",;
+         Left 24,;
+         Style 2,;
+         Top 221,;
+         Height 24,;
+         Width 684,;
+       FontName "MS Sans Serif",;
+       FontBold .T.
+
+   DEFINE TEXTLABEL TEXT6 OF THIS;
+       PROPERTY;
+       BorderStyle 7,;
+         FontName "Verdana",;
+         FontSize 12,;
+         Text "Trans Ref.:",;
+         ColorNormal "N/W",;
+         Left 24,;
+         Top 264,;
+         Height 26,;
+         Width 120,;
+       FontBold .T.,;
+       AlignHorizontal 1,;
+       AlignVertical 1
+
+   DEFINE ENTRYFIELD SREF OF THIS;
+       PROPERTY;
+         FontName "arial",;
+         FontSize 12,;
+         ColorHighLight "G+/N",;
+         DataLink "ARCMPLN->REF",;
+         Enabled .F.,;
+         OnChange CLASS::SREF_ONCHANGE,;
+         ColorNormal "0x400000/W",;
+         Left 156,;
+         Top 264,;
+         Height 26,;
+         Width 192,;
+       FontBold .T.
+
+   DEFINE TEXTLABEL TEXT14 OF THIS;
+       PROPERTY;
+       BorderStyle 7,;
+         FontName "Verdana",;
+         FontSize 12,;
+         Text "Amount:",;
+         ColorNormal "N/W",;
+         Left 396,;
+         Top 264,;
+         Height 26,;
+         Width 144,;
+       FontBold .T.,;
+       AlignHorizontal 1,;
+       AlignVertical 1
+
+   DEFINE ENTRYFIELD SDTOTAL OF THIS;
+       PROPERTY;
+         Picture "999,999,999.99",;
+         FontSize 12,;
+         ColorHighLight "0x40/W",;
+         DataLink "ARCMPLN->TOTAL",;
+         Enabled .F.,;
+         OnChange CLASS::SDTOTAL_ONCHANGE,;
+         ColorNormal "N/W",;
+         Left 552,;
+         Top 264,;
+         Height 26,;
+         Width 168,;
+       FontName "MS Sans Serif",;
+       FontBold .T.
+
+   DEFINE TEXTLABEL TEXT7 OF THIS;
+       PROPERTY;
+       BorderStyle 7,;
+         FontName "Verdana",;
+         FontSize 12,;
+         Text "DOCUMENT TOTAL:",;
+         ColorNormal "0x400000/0xffff80",;
+         Left 360,;
+         Top 506,;
+         Height 25,;
+         Width 180,;
+       FontBold .T.,;
+       AlignHorizontal 1,;
+       AlignVertical 1
+
+   DEFINE ENTRYFIELD STOTAL OF THIS;
+       PROPERTY;
+         Picture "999,999,999.99",;
+         FontName "arial",;
+         FontSize 12,;
+         ColorHighLight "G+/0xc08000",;
+         DataLink "ARCMPS->TOTAL",;
+         Enabled .F.,;
+         ColorNormal "0x400000/0xffff80",;
+         Left 552,;
+         Top 506,;
+         Height 25,;
+         Width 168,;
+       FontBold .T.
+
+   DEFINE PUSHBUTTON FIRSTORDERBUTTON OF THIS;
+       PROPERTY;
+         Group .F.,;
+         FontSize 12,;
+         Text "First",;
+         OnClick CLASS::GO_TOP,;
+         ColorNormal "0x40/W",;
+         Left 42,;
+         Top 546,;
+         Height 26,;
+         Width 120,;
+       FontName "MS Sans Serif",;
+       FontBold .T.
+
+   DEFINE PUSHBUTTON LASTORDERBUTTON OF THIS;
+       PROPERTY;
+         Group .F.,;
+         FontSize 12,;
+         Text "Last",;
+         OnClick CLASS::GO_LAST,;
+         ColorNormal "0x40/W",;
+         Left 192,;
+         Top 546,;
+         Height 26,;
+         Width 120,;
+       FontName "MS Sans Serif",;
+       FontBold .T.
+
+   DEFINE PREVBUTTON PREVORDERBUTTON OF THIS;
+       PROPERTY;
+         Group .T.,;
+         FontSize 12,;
+         Text "Previous",;
+         OnClick CLASS::PREVIOUS,;
+         ColorNormal "0x40/W",;
+         Left 342,;
+         Top 546,;
+         Height 26,;
+         Width 120,;
+       FontName "MS Sans Serif",;
+       FontBold .T.
+
+   DEFINE NEXTBUTTON NEXTORDERBUTTON OF THIS;
+       PROPERTY;
+         Group .F.,;
+         FontSize 12,;
+         Text "Next",;
+         Default .T.,;
+         OnClick CLASS::NEXT,;
+         ColorNormal "0x40/W",;
+         Left 492,;
+         Top 546,;
+         Height 26,;
+         Width 120,;
+       FontName "MS Sans Serif",;
+       FontBold .T.
+
+   DEFINE BROWSE CHILDBROWSE OF THIS;
+       PROPERTY;
+         Text "DETAIL LINES",;
+         FontSize 10,;
+         ShowDeleted .F.,;
+         ColorHighLight "R/BTNFACE",;
+         Fields 'ARCMPLN->STOCK_NO\H="NO."\6\P="99"\R\C="N/0xffff80",ARCMPLN->REF\H="REF NO."\30\R\C="N/0xffff80",ARCMPLN->OTHER_DATE\H="REF DATE"\12\R\C="N/0xffff80",ARCMPLN->TOTAL\H="AMOUNT"\25\P="999,999,999.99"\R\C="N/0xffff80"',;
+         Modify .F.,;
+         CUATab .T.,;
+         Alias "ARCMPLN",;
+         ColorNormal "R/W",;
+         ShowRecNo .F.,;
+         Delete .F.,;
+         Append .F.,;
+         Left 12,;
+         Top 340,;
+         Height 136,;
+         ScrollBar 1,;
+         Width 708,;
+       FontName "MS Sans Serif"
+
+   procedure Open
+   ****************************************************************************
+   private orderNoField
+      on error DO ddeerr WITH ERROR(), MESSAGE(),;
+   PROGRAM(), LINENO()
+                    set safety off
+
+   FORM.BLUSER = BUSER
+   FORM.BLEVEL = BLEVEL
+    IF EMPTY(FORM.BLUSER) .OR. EMPTY(FORM.BLEVEL)
+   QUIT
+   ENDIF
+
+                     SET REPROCESS TO 10
+                     select ARCMPSn
+    go top
+    if eof()
+    append blank
+    replace order_no with "0"
+    endif
+                         select ARCMPDUP
+    set order to orderdate
+
+                  select ARCMPLN3
+                  set order to order_no
+                     SELECT ARCMPS3
+                     SET ORDER TO ORDER_NO
+                     GO BOTTOM
+   SET SAFETY ON
+   select st15f
+   set order to mkey
+   GO TOP
+   Select fgcods
+   set order to name
+     select frigtmes
+   set order to name
+
+   select ARCMPLN
+   go top
+   if .not. eof()
+   if empty(order_no)
+   delete
+   endif
+   endif
+   select ARCMPS
+   go top
+   if .not. eof()
+   if empty(order_no)
+   delete
+   endif
+   endif
+      select fgoffs
+   set order to name
+    select ARCMPS3
+    SET ORDER TO ORDER_NO
+   go bottom
+    form.maxOrder = order_no
+   if type("form.init") = "U"
+      form.init = .T.
+    ENDIF
+   SELECT FGCOY
+   GO TOP
+   FORM.PSHIFTDATE = DATE()
+   FORM.PSHIFTNO = "0"
+   FORM.PSHIFTID = "0"
+   form.pfc = .f.
+   IF POSPOST = "Yes"
+    FORM.PSHIFTDATE = st15f->shift_date
+   FORM.PSHIFTNO = st15f->shift_no
+   SELECT FGCOY
+   REPLACE START_DATE WITH ST15F->SHIFT_DATE
+   REPLACE END_DATE WITH START_DATE
+   FORM.PSHIFTID = st15f->shift_id
+   form.pfc = .t.
+
+   endif
+   if .not. form.pfc  && not forecourt
+      if .not. empty(ARCMPS3->order_date)
+      form.PSHIFTDATE = ARCMPS3->order_date
+      select fgcoy
+      replace start_date with FORM.PSHIFTDATE
+      else
+      form.PSHIFTDATE = fgcoy->start_date
+      if empty(form.PSHIFTDATE)
+       InformationMessage("Missing Data Entry Dates Range in the company info file.", "Sorry")
+       quit
+       endif
+
+      endif
+   endif
+
+   FORM.PDIV = ""
+   FORM.PCOY = ""
+   FORM.OKEXIT = .F.
+   FORM.PVATPRICE = "Inclusive"
+   FORM.PCEN = ""
+    form.pcashierno = ""
+    form.pemp1 = ""
+    form.pf1name = ""
+    FORM.PSERVED = ""
+   FORM.PSTO = ""
+   form.pclass = ""
+   FORM.PTYP = ""
+   form.pcard = "B/V"
+   form.ptypname = ""
+   form.pclaname = ""
+   form.pcodname = ""
+   form.pcod = ""
+   form.pf1dr = "No"
+
+   FORM.PCLA = ""
+      set skip to                     && ARLQCSA.QBE contains set skip to ARCMPLN
+      set exact off                   && the .qbe file contains SET EXACT ON
+
+      set procedure to Sampproc.prg additive
+
+      form.inEditMode = .F.           && indicator of view/edit state
+      form.changesMade = .F.          && indicator of changes made to field values
+      form.previousRecord = .F.       && Save record number when appending
+      form.pspdiv = "1"
+      form.pspdivname = "Depot"
+      *** do calculations in another area so form doesn't get updated
+         select ARCMPS
+      set order to order_no
+
+
+        && max value for key field -- for creating
+
+          local lmax
+
+       ***
+       select ARCMPSL
+       go top
+       if eof()
+       append blank
+       endif
+
+   form.Psdate = FORM.PSHIFTDATE
+   form.pserialno = ""
+          select ARCMPS
+       go top
+
+      *** Open table for calculating totals and balance due in another work area
+      *** so that datalinks are not affected by record movements
+
+       select ARCMPS
+      set relation to order_no into ARCMPLN2 constrain integrity additive
+   go top
+   refresh
+    form::Open()
+    shell(.F.)
+
+
+   ****************************************************************************
+
+   procedure OnClose
+   ****************************************************************************
+   *  form.CheckCommit(form.inEditMode)
+      if form.inEditMode
+      form.ViewEdit()
+   endif
+          && Close customer form if it exists
+    *  if type("form.parentcustomerForm") = "U"  && If called from customer,
+                                             && leave shell(.F.)
+        shell(.f.)
+   *  endif
+   close procedure SampProc.prg, Buttons.cc
+    if .not. empty(ARCMPS->order_no)
+   select ARCMPDUP
+   seek ARCMPS->order_no+dtos(ARCMPS->order_date)
+   if found() .and. .not. empty(post_date)
+   select ARCMPS
+   replace post_date with date()
+   endif
+   endif
+
+   close databases
+   clear program
+   do arpcmps.prg
+   form.close()
+    close databases
+     ****************************************************************************
+
+   procedure BrowseOnNavigate
+    select ARCMPSL
+    replace order_no with ARCMPS->order_no
+    REPLACE ORDER_DATE WITH ARCMPS->ORDER_DATE
+        replace title with "RECEIPT"
+         select ARCMPS
+   *  form.changesmade = .t.
+
+    ****************************************************************************
+
+   procedure ChangesMade
+
+   * Indicate that changes have been made to current record.
+   ****************************************************************************
+
+   form.changesMade = .T.
+
+     procedure BrowseChangesMade
+   ****************************************************************************
+   local t,t2,t3,t4,T5,t6,t7,t8
+     if form.changesmade = .t.
+   select ARCMPLN
+   IF .NOT. EOF()
+   *  form.changesMade = .T.
+     go recno("ARCMPLN") in ARCMPLN    && Make sure change is posted
+
+   select ARCMPLN2  && recalculate totals in other workarea
+   calculate sum(ARCMPLN2->total), sum(ARCMPLN2->invtotal), sum(ARCMPLN2->paytotal),;
+   sum(ARCMPLN2->deptotal) to t, t2,t3,t4
+   FORM.STOTAL.VALUE = t
+          ENDIF
+     SELECT ARCMPS
+   endif
+
+
+
+   procedure Next
+   ****************************************************************************
+
+   form.CheckCommit(form.inEditMode)
+   if .not. empty(ARCMPS->order_no)
+   select ARCMPDUP
+   seek ARCMPS->order_no+dtos(ARCMPS->order_date)
+   if found() .and. .not. empty(post_date)
+   select ARCMPS
+   replace post_date with date()
+   flush
+   endif
+   endif
+   form.root.order.viewEdit.enabled = .t.
+   form.root.order.ADDorder.enabled = .t.
+    form.root.order.ADDline.enabled = .t.
+
+
+   select ARCMPS
+   if .not. eof()
+      NEXTBUTTON::OnClick()
+   endif
+   *form.BrowseOnNavigate()
+   form.root.file.exit.enabled =   .t.
+
+   ****************************************************************************
+
+   procedure Previous
+   ****************************************************************************
+
+   form.CheckCommit(form.inEditMode)
+   if .not. empty(ARCMPS->order_no)
+   select ARCMPDUP
+   seek ARCMPS->order_no+dtos(ARCMPS->order_date)
+   if found() .and. .not. empty(post_date)
+   select ARCMPS
+   replace post_date with date()
+   flush
+   endif
+   endif
+   form.root.order.viewEdit.enabled = .t.
+   form.root.order.ADDorder.enabled = .t.
+    form.root.order.ADDline.enabled = .t.
+
+   select ARCMPS
+   if .not. bof()
+   PREVBUTTON::OnClick()
+   endif
+     form.root.file.exit.enabled =   .t.
+   *form.BrowseOnNavigate()
+
+   ****************************************************************************
+
+   procedure CheckCommit (newInEditMode)
+
+    * Finish transaction, if it has been started.
+    ****************************************************************************
+    private orderField, changesMade,prcoy,prdiv,prcen,prsto,prtyp,prcla,prcod,prqty,;
+    pcoy,pdiv,pcen,psto,ptyp,pcla,pcod
+
+
+    changesMade = form.changesMade
+     if form.changesMade
+       orderField = field(1)                  && Field Order_no
+            commit()
+            on error DO ddeerr WITH ERROR(), MESSAGE(),;
+   PROGRAM(), LINENO()
+        if form.inEditMode .and. newInEditMode
+          begintrans()
+               on error DO transerr WITH ERROR(), MESSAGE(),;
+   PROGRAM(), LINENO()
+       endif
+       form.changesMade = .F.
+    endif
+
+
+    if form.inEditMode <> newInEditMode
+       if newInEditMode                       && Going to Edit mode
+          begintrans()
+            on error DO transerr WITH ERROR(), MESSAGE(),;
+   PROGRAM(), LINENO()
+       else                                   && Going to View mode
+          if .not. changesMade
+             rollback()
+            on error   DO ddeerr WITH ERROR(), MESSAGE(),;
+   PROGRAM(), LINENO()
+          endif
+       endif
+       form.inEditMode = newInEditMode
+    endif
+
+      *form.BrowseOnNavigate()
+
+    select ARCMPS
+    ****************************************************************************
+
+   procedure ViewEdit
+   ****************************************************************************
+   local inEditMode, control, editMenu
+
+   editMenu = form.root.ORDER.viewEdit
+   *** If editing is completed, close transaction, otherwise open a transaction
+   if form.inEditMode                           && Change to View mode
+      form.checkChanged(.F.)
+      editMenu.text = "&Edit"
+      editMenu.shortcut = "Ctrl-E"
+      editMenu.statusMessage = "Edit data."
+      form.root.order.deleteline.enabled = .F.
+   *     form.root.order.REPLACECUST.enabled = .f.
+      form.CheckCommit(.F.)                     && Check transaction and
+      form.text = "TRANSFER LIQUID CASH TO FC CASH -- View Mode"         && change mode to View
+      form.childBrowse.modify = .F.
+      form.statusMessage = "Select RECEIPT - Edit menu choice to " +;
+                           "edit/delete data."
+   else                                         && Change to Edit mode
+      editMenu.text = "&View"
+      editMenu.shortcut = "Ctrl-E"
+      editMenu.statusMessage = "View data."
+        form.root.order.deleteline.enabled = .t.
+   *        form.root.order.REPLACECUST.enabled = .t.
+      form.CheckCommit(.T.)                     && Check transaction and
+      form.text = "TRANSFER LIQUID CASH TO FC CASH -- Edit Mode"         && change mode to Edit
+      form.childBrowse.modify = .F.
+      form.statusMessage = "In Edit Mode.  " +;
+                           "Select RECEIPT - View menu choice to switch " +;
+                           "to View mode."
+
+
+   endif
+
+   control = form.first
+
+   inEditMode = form.inEditMode    && so don't have to reference many times
+   do
+      do case
+         case control.name $ "ORDERNOENTRY,cno,TOTINVENTRY,BALDUEENTRY"
+            * these are never editable
+            control.enabled = .F.
+         case .not. control.className $ "BROWSE,NEXTBUTTON,PREVBUTTON,PUSHBUTTON,IMAGE,TEXT"
+            * doesn't make sense to make the above classes enabled/not
+            control.enabled = inEditMode
+         case control.className = "BROWSE"
+            control.Modify = inEditMode
+            control.Delete = inEditMode
+            control.Append = inEditMode
+      endcase
+      control = control.before
+   until control.name = form.first.name
+
+   *   form.cno.enabled = .F.       && Key field is always disabled
+   form.OrderNoEntry.enabled = .F.          && Key field is always disabled
+   form.childBrowse.append = .F.
+   form.childBrowse.delete = .F.
+    FORM.CHILDBROWSE.MODIFY = .F.
+    form.stotal.enabled = .f.
+    FORM.STOTAL.ENABLED = .F.
+    if fgcoy->pospost = "Yes"
+   FORM.SDATE.ENABLED = .F.
+   endif
+
+
+   procedure CheckChanged(callCommit)
+
+   * Check if changes have been made to the current entryfield.  This procedure
+   * is called from menu routines to make sure the form.changesMade gets
+   * updated when a menu is selected while the changed control has focus.
+   ****************************************************************************
+   private control, fieldValue, controlValue, typeText, typeValue
+
+   if form.inEditMode
+      control = form.activeControl
+      if type("control.datalink") <> "U"
+         fieldValue = control.datalink          && name of table field
+
+         typeText = type("control.text")
+         typeValue = type("control.value")
+         do case
+            case typeValue = "C0"
+               controlValue = control.value
+            case typeValue $ "LU" .and. typeText = "C0"
+               controlValue = control.text
+            otherwise
+               controlValue = Null
+         endcase
+         if controlValue <> &fieldValue
+            form.changesMade = .T.
+         endif
+      endif
+   endif
+   if form.changesMade .and. callCommit
+      CLASS::CheckCommit(form.inEditMode)     && Check transactions
+   endif
+
+
+    procedure change_saledate
+
+     form.Psdate = this.value
+     SELECT ARCMPLN
+     REPLACE ORDER_DATE WITH THIS.VALUE
+     SELECT ARCMPSL
+      REPLACE ORDER_DATE WITH THIS.VALUE
+      SELECT ARCMPS
+      REPLACE ORDER_DATE WITH THIS.VALUE
+      form.changesmade = .T.
+
+   Procedure Go_last
+      form.CheckCommit(form.inEditMode)
+      if .not. empty(ARCMPS->order_no)
+   select ARCMPDUP
+   seek ARCMPS->order_no+dtos(ARCMPS->order_date)
+   if found() .and. .not. empty(post_date)
+   select ARCMPS
+   replace post_date with date()
+   flush
+   endif
+   endif
+   form.root.order.viewEdit.enabled = .t.
+   form.root.order.ADDorder.enabled = .t.
+    form.root.order.ADDline.enabled = .t.
+
+
+   select ARCMPS
+      go bottom
+   form.root.file.exit.enabled =   .t.
+   *form.BrowseOnNavigate()
+
+
+     Procedure Go_Top
+     form.CheckCommit(form.inEditMode)
+     if .not. empty(ARCMPS->order_no)
+   select ARCMPDUP
+   seek ARCMPS->order_no+dtos(ARCMPS->order_date)
+   if found() .and. .not. empty(post_date)
+   select ARCMPS
+   replace post_date with date()
+   flush
+   endif
+   endif
+   form.root.order.viewEdit.enabled = .t.
+   form.root.order.ADDorder.enabled = .t.
+    form.root.order.ADDline.enabled = .t.
+
+
+   select ARCMPS
+     go top
+    form.root.file.exit.enabled =   .t.
+
+   Procedure Form_CanClose
+      RETURN IIF(form.changesmade = .F., .F., .T.)
+
+
+   Procedure SEMP1_ONCHANGE
+         local l1,l2
+
+         l1 = this.value
+         select fgoffs
+         seek l1
+
+           select ARCMPS
+           replace aname with fgoffs->name
+         replace off with fgoffs->off
+         replace cashier_no with fgoffs->cashier_no
+          form.changesmade = .t.
+
+
+      Procedure SCUST_ONCHANGE
+         select frigtmes
+         seek this.value
+         if found()
+            select ARCMPS
+            replace customer with this.value
+            replace source with frigtmes->source
+             replace ftyp   with frigtmes->ftyp
+              replace pmod   with frigtmes->pmod
+               replace frighter_n with frigtmes->frighter_n
+                replace err_cust with .t.
+                else
+            select ARCMPS
+            replace customer with ""
+            replace source with ""
+             replace ftyp   with ""
+              replace pmod   with ""
+               replace frighter_n with ""
+                replace err_cust with .f.
+
+                endif
+
+          form.changesmade = .t.
+
+
+    Procedure SREF_OnChange
+        form.changesmade = .t.
+        select ARCMPLN
+        replace ref with this.value
+        select ARCMPS
+
+   Procedure SCHQD_OnChange
+       form.changesmade = .t.
+       select ARCMPLN
+       replace other_date with this.value
+       select ARCMPS
+
+   Procedure SDTOTAL_OnChange
+   SELECT ARCMPLN
+        REPLACE total with  this.value
+        if this.value < 0
+        replace total with 0
+        endif
+        form.changesmade = .t.
+        form.browsechangesmade()
+        select ARCMPS
+
+   Procedure SCREDIT_OnChange
+   LOCAL LN1,ln2
+   LN1 = LEFT(THIS.VALUE,2)
+   LN2 = LEFT(ARCMPS->paytype,2)
+     select fgcods
+      seek this.value
+      if found()
+          select ARCMPLN
+       replace coy with "1"
+      replace div with "5"
+      replace cen with "1"
+      replace sto with "A1"
+      replace typ with fgcods->typ
+      replace cla with fgcods->cla
+      replace cod with fgcods->cod
+      REPLACE BNAME WITH THIS.VALUE
+      else
+        select ARCMPLN
+       replace coy with ""
+      replace div with ""
+      replace cen with ""
+      replace sto with ""
+      replace typ with ""
+      replace cla with ""
+      replace cod with ""
+      REPLACE BNAME WITH ""
+      endif
+    select ARCMPS
+      form.changesmade = .t.
+
+
+
+   Procedure SEDT_OnChange
+      SELECT ARCMPS
+      REPLACE DEPTOTAL WITH THIS.VALUE
+      FORM.CHANGESMADE = .T.
+
+
+ENDCLASS

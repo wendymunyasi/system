@@ -1,0 +1,858 @@
+////////////////////////////////////////////////////////////////////////////////
+// Output Filename: C:\KENSERVICE\IDSSYS\ARCASHS_FCV.WFM                      //
+// Created By:      dBASE Form Converter Wizard                               //
+// Created On:      Sunday October 3, 2021 At 17:09:39                        //
+// Object Count:    17                                                        //
+////////////////////////////////////////////////////////////////////////////////
+                                                                                                                  *******************************************************************************
+*  PROGRAM:      ARCASHS.WFM
+*
+*  WRITTEN BY:   W Nyongesa
+*  DATE:         10/2003
+*
+*  UPDATED:     01/2014
+*
+*  REVISION:     $Revision:   1.97  $
+*
+*  VERSION:      Visual dBASE
+*
+*  DESCRIPTION:  This form displays information about an order from a company.
+*                It allows traversing through ARCASHS and going to the top and
+*                bottom.  This form also has a corresponding menu, OrdCust.mnu,
+*                which allows adding,deleting and searching for an order.
+*                When an unknown customer number is entered, a dialog will come
+*                up asking you if you want to add a new customer.  If you
+*                selecte the Yes button, the customer form (in stcusj.Wfm)
+*                will be opened, so a new customer can be added.
+*
+*  PARAMETERS:   None
+*
+*  CALLS:        ARCASHS.mnu       (Menu file)
+*                Buttons.cc       (Custom controls file)
+*                stcusj.Wfm     (Form for displaying customer information)
+*                ARCASHS.qbe       (View of tables)
+*
+*  USAGE:        DO ARCASHS.WFM    && Note that you can also DO stcusj.Wfm
+*
+*******************************************************************************
+#include <Messdlg.h>
+shell(.F.)
+create session
+set talk off
+*ET DESIGN OFF
+*if .not. user() = "WYCLIFFE"
+_app.FrameWin.Visible = .F.
+set design off
+*ENDIF
+_app.FrameWin.Text = "ARCASHS"
+set ldCheck off                        && To avoid language driver conflicts
+*SET DBTYPE TO PARADOX
+SET CUAENTER OFF
+** END HEADER -- do not remove this line*
+* Generated on 17/09/2020
+*
+parameter bUser,bLevel,bModal
+local f
+f = new ARCASHSFORM()
+if (bModal)
+   f.mdi = .F. && ensure not MDI
+   f.ReadModal()
+else
+   f.Open()
+endif
+CLASS ARCASHSFORM OF FORM
+   Set Procedure To BUTTONS.CC additive
+   this.Metric = 6  // Pixels
+   this.OnClose = CLASS::ONCLOSE
+   this.Text = "ACTUAL CASH IN HAND ENTRY FORM -- View Mode"
+   this.MDI = .F.
+   this.CanClose = CLASS::FORM_CANCLOSE
+   this.Moveable = .F.
+   this.WindowState = 2
+   this.Top = 3
+   this.ColorNormal = "N+"
+   this.Left = 0
+   this.EscExit = .F.
+   this.Sizeable = .F.
+   this.Minimize = .F.
+   this.Maximize = .F.
+   this.View = "ARCASHS.QBE"
+   this.MenuFile = "ARCASHS.MNU"
+   this.Height = 339
+   this.MousePointer = 1
+   this.Width = 406
+
+   DEFINE TEXTLABEL TEXT9 OF THIS;
+       PROPERTY;
+       BorderStyle 7,;
+         FontName "Verdana",;
+         FontSize 12,;
+         Text "No.:",;
+         Top 4,;
+         ColorNormal "R+/W",;
+         Left -1,;
+         Height 21,;
+         Width 88,;
+       FontBold .T.,;
+       AlignHorizontal 1,;
+       AlignVertical 1
+
+   DEFINE ENTRYFIELD ORDERNOENTRY OF THIS;
+       PROPERTY;
+         FontName "MS Sans Serig",;
+         FontSize 12,;
+         ColorHighLight "GB+/W",;
+         Top 4,;
+         ColorNormal "R+/W",;
+         Left 82,;
+         Enabled .F.,;
+         Height 21,;
+         DataLink "ARCASHS->ORDER_NO",;
+         Width 122,;
+       FontBold .T.
+
+   DEFINE TEXTLABEL TEXT2 OF THIS;
+       PROPERTY;
+       BorderStyle 7,;
+         FontName "Verdana",;
+         FontSize 12,;
+         Text "Date:",;
+         ColorNormal "R+/W",;
+         Left 224,;
+         Height 25,;
+         Width 60,;
+       FontBold .T.,;
+       AlignHorizontal 1,;
+       AlignVertical 1
+
+   DEFINE SPINBOX SDATE OF THIS;
+       PROPERTY;
+         FontSize 12,;
+         ColorHighLight "W+/N",;
+         Top 3,;
+         ColorNormal "R+/W",;
+         ValidErrorMsg "Date out of Range",;
+         Left 300,;
+         Enabled .F.,;
+         Rangemin {17/09/2020},;
+         Rangemax {26/12/2020},;
+         Height 21,;
+         DataLink "ARCASHS->order_date",;
+         Width 156,;
+       FontName "MS Sans Serif",;
+       FontBold .T.
+
+   DEFINE TEXTLABEL TEXT10 OF THIS;
+       PROPERTY;
+       BorderStyle 7,;
+         FontName "Verdana",;
+         FontSize 12,;
+         Text "Cashier:",;
+         Top 34,;
+         ColorNormal "0x400000/W",;
+         Height 28,;
+         Width 96,;
+       FontBold .T.,;
+       AlignHorizontal 1,;
+       AlignVertical 1
+
+   DEFINE COMBOBOX SOFF OF THIS;
+       PROPERTY;
+         FontSize 12,;
+         Top 36,;
+         ColorNormal "0xc08000/W",;
+         Left 108,;
+         Enabled .F.,;
+         OnChange CLASS::SEMP1_ONCHANGE,;
+         Style 2,;
+         DataSource "FIELD fgoffs->NAME",;
+         Height 28,;
+         MousePointer 1,;
+         DataLink "ARCASHS->ANAME",;
+         Width 372,;
+       FontName "MS Sans Serif",;
+       FontBold .T.
+
+   DEFINE TEXTLABEL TEXT7 OF THIS;
+       PROPERTY;
+       BorderStyle 7,;
+         FontName "Verdana",;
+         FontSize 12,;
+         Text "TOTAL CASH ON HAND",;
+         Top 80,;
+         ColorNormal "0x400000/0xffff80",;
+         Height 25,;
+         Width 210,;
+       FontBold .T.,;
+       AlignHorizontal 1,;
+       AlignVertical 1
+
+   DEFINE ENTRYFIELD STOTAL OF THIS;
+       PROPERTY;
+         Picture "999,999,999,999.99",;
+         FontName "arial",;
+         FontSize 12,;
+         ColorHighLight "G+/0xc08000",;
+         Top 78,;
+         ColorNormal "0x400000/0xffff80",;
+         Left 218,;
+         Enabled .F.,;
+         Height 24,;
+         DataLink "ARCASHS->TOTAL",;
+         Width 250,;
+       FontBold .T.
+
+   DEFINE RECTANGLE RECTANGLE1 OF THIS;
+       PROPERTY;
+         FontSize 10,;
+         Text "ACTUAL CASH IN HAND TYPE",;
+         Top 136,;
+         ColorNormal "N/0xc8d0d8",;
+         Height 62,;
+         Width 732,;
+       FontName "MS Sans Serif",;
+       FontBold .T.
+
+   DEFINE COMBOBOX SCASH OF THIS;
+       PROPERTY;
+         FontBold .F.,;
+         FontSize 10,;
+         Top 153,;
+         Left 12,;
+         Enabled .F.,;
+         OnChange CLASS::SCASH_ONCHANGE,;
+         Style 2,;
+         DataSource "FIELD FGACASH->NAME",;
+         Height 24,;
+         DataLink "aracasln->PAY_METHOD",;
+         Width 318,;
+       FontName "MS Sans Serif"
+
+   DEFINE TEXTLABEL TEXT1 OF THIS;
+       PROPERTY;
+       BorderStyle 7,;
+         FontName "Verdana",;
+         FontSize 12,;
+         Text "Amount:",;
+         Top 166,;
+         ColorNormal "0x400000/W",;
+         Left 344,;
+         Height 28,;
+         Width 100,;
+       FontBold .T.,;
+       AlignHorizontal 1,;
+       AlignVertical 1
+
+   DEFINE ENTRYFIELD SDTOTAL OF THIS;
+       PROPERTY;
+         Picture "999,999,999,999.99",;
+         FontSize 12,;
+         ColorHighLight "0x40/W",;
+         Top 166,;
+         ColorNormal "N/W",;
+         Left 468,;
+         Enabled .F.,;
+         OnChange CLASS::SDTOTAL_ONCHANGE,;
+         Height 25,;
+         DataLink "aracasln->TOTAL",;
+         Width 228,;
+       FontName "MS Sans Serif",;
+       FontBold .T.
+
+   DEFINE BROWSE CHILDBROWSE OF THIS;
+       PROPERTY;
+         Append .F.,;
+         Alias "aracasln",;
+         CUATab .T.,;
+         FontSize 12,;
+         Text "BREAK-DOWN OF ACTUAL CASH IN HAND",;
+         ColorHighLight "R/BTNFACE",;
+         Top 215,;
+         ColorNormal "R/W",;
+         Fields 'aracasln->STOCK_NO\H="No"\15\R,aracasln->PAY_METHOD\H="Cash Type"\25\R,aracasln->TOTAL\H="Amount"\20\P="999,999,999,999.99"\R',;
+         ShowDeleted .F.,;
+         ShowRecNo .F.,;
+         ScrollBar 1,;
+         Modify .F.,;
+         Height 170,;
+         Delete .F.,;
+         Width 648,;
+       FontName "MS Sans Serif"
+
+   DEFINE PUSHBUTTON FIRSTORDERBUTTON OF THIS;
+       PROPERTY;
+         Group .F.,;
+         FontSize 12,;
+         Text "First",;
+         Top 427,;
+         ColorNormal "0x40/W",;
+         Left 18,;
+         OnClick CLASS::GO_TOP,;
+         Height 26,;
+         Width 120,;
+       FontName "MS Sans Serif",;
+       FontBold .T.
+
+   DEFINE PUSHBUTTON LASTORDERBUTTON OF THIS;
+       PROPERTY;
+         Group .F.,;
+         FontSize 12,;
+         Text "Last",;
+         Top 427,;
+         ColorNormal "0x40/W",;
+         Left 168,;
+         OnClick CLASS::GO_LAST,;
+         Height 26,;
+         Width 120,;
+       FontName "MS Sans Serif",;
+       FontBold .T.
+
+   DEFINE PREVBUTTON PREVORDERBUTTON OF THIS;
+       PROPERTY;
+         Group .T.,;
+         FontSize 12,;
+         Text "Previous",;
+         Top 427,;
+         ColorNormal "0x40/W",;
+         Left 318,;
+         OnClick CLASS::PREVIOUS,;
+         Height 26,;
+         Width 120,;
+       FontName "MS Sans Serif",;
+       FontBold .T.
+
+   DEFINE NEXTBUTTON NEXTORDERBUTTON OF THIS;
+       PROPERTY;
+         Group .F.,;
+         FontSize 12,;
+         Text "Next",;
+         Top 427,;
+         ColorNormal "0x40/W",;
+         Default .T.,;
+         Left 468,;
+         OnClick CLASS::NEXT,;
+         Height 26,;
+         Width 120,;
+       FontName "MS Sans Serif",;
+       FontBold .T.
+
+*   DEFINE SAMPLEINFOBUTTON ARCASHSINFOBUTTON OF THIS;
+       PROPERTY;
+         Group .T.,;
+         Visible .F.,;
+         Top 9,;
+         Left 754,;
+         Height 20,;
+         Width 21
+
+   procedure Open
+   ****************************************************************************
+   private orderNoField
+      on error DO ddeerr WITH ERROR(), MESSAGE(),;
+   PROGRAM(), LINENO()
+          FORM.BLUSER = BUSER
+   FORM.BLEVEL = BLEVEL
+
+   set reprocess to 10
+                   select arcashsn
+    go top
+    if eof()
+    append blank
+    replace order_no with "0"
+    endif
+                         select arcasupd
+    set order to orderdate
+
+   select fgacash
+   set order to name
+
+      select st15f
+   set order to mkey
+   GO TOP
+
+   select aracasln
+   go top
+   if .not. eof()
+   if empty(order_no)
+   delete
+   endif
+   endif
+   select ARCASHS
+   go top
+   if .not. eof()
+   if empty(order_no)
+   delete
+   endif
+   endif
+      select fgoffs
+   set order to name
+    select ARCASHS3
+    SET ORDER TO ORDER_NO
+   go bottom
+    form.maxOrder = order_no
+   if type("form.init") = "U"
+      form.init = .T.
+    ENDIF
+   SELECT FGCOY
+   GO TOP
+   FORM.PSHIFTDATE = DATE()
+   FORM.PSHIFTNO = "0"
+   FORM.PSHIFTID = "0"
+   form.pfc = .f.
+   IF POSPOST = "Yes"
+   FORM.PSHIFTDATE = st15f->shift_date
+   FORM.PSHIFTNO = st15f->shift_no
+   FORM.PSHIFTID = st15f->shift_id
+   form.pfc = .t.
+
+   endif
+
+   FORM.PDIV = ""
+   FORM.PCOY = ""
+   FORM.OKEXIT = .F.
+   FORM.PVATPRICE = "Inclusive"
+   FORM.PCEN = ""
+    form.pcashierno = ""
+    form.pemp1 = ""
+    form.pf1name = ""
+    FORM.PSERVED = ""
+   FORM.PSTO = ""
+   form.pclass = ""
+   FORM.PTYP = ""
+   form.pcard = "B/V"
+   form.ptypname = ""
+   form.pclaname = ""
+   form.pcodname = ""
+   form.pcod = ""
+   form.pf1dr = "No"
+
+
+   *
+
+
+   FORM.PCLA = ""
+      set skip to                     && ARCASHS.qbe contains set skip to aracasln
+      set exact off                   && the .qbe file contains SET EXACT ON
+
+      set procedure to Sampproc.prg additive
+
+      form.inEditMode = .F.           && indicator of view/edit state
+      form.changesMade = .F.          && indicator of changes made to field values
+      form.previousRecord = .F.       && Save record number when appending
+      form.pspdiv = "1"
+      form.pspdivname = "Depot"
+      *** do calculations in another area so form doesn't get updated
+      *  delete all for empty(order_no) .or. empty(ctyp) .or. empty(customer_n) .or. empty(order_date)
+      select ARCASHS
+      set order to order_no
+
+
+        && max value for key field -- for creating
+
+          local lmax
+       ***
+        select ARCASHSL
+       go top
+       if eof()
+       append blank
+       endif
+
+   form.Psdate = FORM.PSHIFTDATE
+   form.pserialno = ""
+          select ARCASHS
+       go top
+
+      *** Open table for calculating totals and balance due in another work area
+      *** so that datalinks are not affected by record movements
+
+     * SET FILTER TO TOTAL > 0 .AND. BL_AMT > 0
+      select ARCASHS
+      set relation to order_no into aracasln2 constrain integrity   additive
+
+
+
+   go top
+   refresh
+   form::Open()
+
+   *                   && calculate totals&& Now the form actually opens
+   shell(.F.)
+   ****************************************************************************
+
+   procedure OnClose
+   ****************************************************************************
+   *  form.CheckCommit(form.inEditMode)
+      if form.inEditMode
+      form.ViewEdit()
+   endif
+          && Close customer form if it exists
+    *  if type("form.parentcustomerForm") = "U"  && If called from customer,
+                                             && leave shell(.F.)
+        shell(.f.)
+   *  endif
+   close procedure SampProc.prg, Buttons.cc
+     if .not. empty(arcashs->order_no)
+   select arcasupd
+   seek arcashs->order_no+dtos(arcashs->order_date)
+   if found() .and. .not. empty(post_date)
+   select arcashs
+   replace post_date with date()
+   endif
+   endif
+   close databases
+   clear program
+     do arpcashS.prg
+   form.close()
+
+   close databases
+     ****************************************************************************
+
+   procedure BrowseOnNavigate
+    select ARCASHSL
+    replace order_no with ARCASHS->order_no
+    REPLACE ORDER_DATE WITH ARCASHS->ORDER_DATE
+        replace title with "CASH"
+         select ARCASHS
+    form.changesmade = .t.
+
+    ****************************************************************************
+
+   procedure ChangesMade
+
+   * Indicate that changes have been made to current record.
+   ****************************************************************************
+
+   form.changesMade = .T.
+
+   ****************************************************************************
+
+
+   procedure BrowseChangesMade
+   ****************************************************************************
+   local t,t2,t3,t4,T5,t6,t7,t8
+     if form.changesmade = .t.
+   select aracasln
+   IF .NOT. EOF()
+   *  form.changesMade = .T.
+     go recno("aracasln") in aracasln    && Make sure change is posted
+
+   select aracasln2  && recalculate totals in other workarea
+   calculate sum(aracasln2->total) to t
+   select ARCASHS
+   replace total with t
+         ENDIF
+     SELECT ARCASHS
+   endif
+
+
+   ****************************************************************************
+
+   procedure AmtPaidOnChange
+   ****************************************************************************
+
+   form.changesMade = .T.
+                       && calculate totals
+
+
+   ****************************************************************************
+
+   procedure Next
+   ****************************************************************************
+
+   form.CheckCommit(form.inEditMode)
+      if .not. empty(arcashs->order_no)
+   select arcasupd
+   seek arcashs->order_no+dtos(arcashs->order_date)
+   if found() .and. .not. empty(post_date)
+   select arcashs
+   replace post_date with date()
+   flush
+   endif
+   endif
+   form.root.order.viewEdit.enabled = .t.
+   form.root.order.ADDorder.enabled = .t.
+    form.root.order.ADDline.enabled = .t.
+
+
+   select arcashs
+   if .not. eof()
+      NEXTBUTTON::OnClick()
+   endif
+
+   form.root.file.exit.enabled =   .t.
+
+   ****************************************************************************
+
+   procedure Previous
+   ****************************************************************************
+
+   form.CheckCommit(form.inEditMode)
+      if .not. empty(arcashs->order_no)
+   select arcasupd
+   seek arcashs->order_no+dtos(arcashs->order_date)
+   if found() .and. .not. empty(post_date)
+   select arcashs
+   replace post_date with date()
+   flush
+   endif
+   endif
+   form.root.order.viewEdit.enabled = .t.
+   form.root.order.ADDorder.enabled = .t.
+    form.root.order.ADDline.enabled = .t.
+
+
+   select arcashs
+   if .not. bof()
+   PREVBUTTON::OnClick()
+   endif
+     form.root.file.exit.enabled =   .t.
+
+
+   ****************************************************************************
+
+   procedure CheckCommit (newInEditMode)
+
+    * Finish transaction, if it has been started.
+    ****************************************************************************
+    private orderField, changesMade,prcoy,prdiv,prcen,prsto,prtyp,prcla,prcod,prqty,;
+    pcoy,pdiv,pcen,psto,ptyp,pcla,pcod
+
+
+    changesMade = form.changesMade
+     if form.changesMade
+       orderField = field(1)                  && Field Order_no
+           commit()
+            on error DO ddeerr WITH ERROR(), MESSAGE(),;
+   PROGRAM(), LINENO()
+
+       if form.inEditMode .and. newInEditMode
+          begintrans()
+               on error DO transerr WITH ERROR(), MESSAGE(),;
+   PROGRAM(), LINENO()
+       endif
+       form.changesMade = .F.
+    endif
+
+
+    if form.inEditMode <> newInEditMode
+       if newInEditMode                       && Going to Edit mode
+          begintrans()
+            on error DO transerr WITH ERROR(), MESSAGE(),;
+   PROGRAM(), LINENO()
+       else                                   && Going to View mode
+          if .not. changesMade
+             rollback()
+            on error   DO ddeerr WITH ERROR(), MESSAGE(),;
+   PROGRAM(), LINENO()
+          endif
+       endif
+       form.inEditMode = newInEditMode
+    endif
+
+
+
+    select ARCASHS
+    ****************************************************************************
+
+   procedure ViewEdit
+   ****************************************************************************
+   local inEditMode, control, editMenu
+
+   editMenu = form.root.ORDER.viewEdit
+   ON ERROR
+   *** If editing is completed, close transaction, otherwise open a transaction
+   if form.inEditMode                           && Change to View mode
+      form.checkChanged(.F.)
+      editMenu.text = "&Edit"
+      editMenu.shortcut = "Ctrl-E"
+      editMenu.statusMessage = "Edit data."
+      *form.root.order.deleteorder.enabled = .F.      && disabled in view mode
+     *form.root.order.deleteline.enabled = .F.
+   *     form.root.order.REPLACECUST.enabled = .f.
+      form.CheckCommit(.F.)                     && Check transaction and
+      form.text = "ACTUAL CASH IN HAND ENTRY FORM -- View Mode"         && change mode to View
+      form.childBrowse.modify = .F.
+      form.statusMessage = "Select CASH - Edit menu choice to " +;
+                           "edit/delete data."
+   else                                         && Change to Edit mode
+      editMenu.text = "&View"
+      editMenu.shortcut = "Ctrl-E"
+      editMenu.statusMessage = "View data."
+         *form.root.order.deleteorder.enabled = .F.      && enabled in edit mode
+        form.root.order.deleteline.enabled = .t.
+   *        form.root.order.REPLACECUST.enabled = .t.
+      form.CheckCommit(.T.)                     && Check transaction and
+      form.text = "ACTUAL CASH IN HAND ENTRY FORM -- Edit Mode"         && change mode to Edit
+      form.childBrowse.modify = .F.
+      form.statusMessage = "In Edit Mode.  " +;
+                           "Select CASH - View menu choice to switch " +;
+                           "to View mode."
+
+
+   endif
+
+   control = form.first
+
+   inEditMode = form.inEditMode    && so don't have to reference many times
+   do
+      do case
+         case control.name $ "ORDERNOENTRY,cno,TOTINVENTRY,BALDUEENTRY"
+            * these are never editable
+            control.enabled = .F.
+         case .not. control.className $ "BROWSE,NEXTBUTTON,PREVBUTTON,PUSHBUTTON,IMAGE,TEXT"
+            * doesn't make sense to make the above classes enabled/not
+            control.enabled = inEditMode
+         case control.className = "BROWSE"
+            control.Modify = inEditMode
+            control.Delete = inEditMode
+            control.Append = inEditMode
+      endcase
+      control = control.before
+   until control.name = form.first.name
+   on error
+   *   form.cno.enabled = .F.       && Key field is always disabled
+   form.OrderNoEntry.enabled = .F.          && Key field is always disabled
+   form.childBrowse.append = .F.
+   form.childBrowse.delete = .F.
+    FORM.CHILDBROWSE.MODIFY = .F.
+
+   form.stotal.enabled = .f.
+    FORM.STOTAL.ENABLED = .F.
+    if fgcoy->pospost = "Yes"
+   FORM.SDATE.ENABLED = .F.
+   endif
+   ? "passed here"
+   if fgcoy->pospost = "Yes" .and. ( .not. arcashs->order_date = form.pshiftdate ;
+    .or. .not. arcashs->shiftno = form.pshiftno .or. .not. arcashs->shiftid = ;
+     form.pshiftid)
+     select arcashs
+     if .not. eof()
+     replace order_date with   FORM.PSHIFTDATE
+   replace shiftno with   FORM.PSHIFTNO
+   replace shiftid with    FORM.PSHIFTID
+   endif
+   form.changesmade = .t.
+   endif
+
+     procedure CheckChanged(callCommit)
+
+   * Check if changes have been made to the current entryfield.  This procedure
+   * is called from menu routines to make sure the form.changesMade gets
+   * updated when a menu is selected while the changed control has focus.
+   ****************************************************************************
+   private control, fieldValue, controlValue, typeText, typeValue
+
+   if form.inEditMode
+      control = form.activeControl
+      if type("control.datalink") <> "U"
+         fieldValue = control.datalink          && name of table field
+
+         typeText = type("control.text")
+         typeValue = type("control.value")
+         do case
+            case typeValue = "C0"
+               controlValue = control.value
+            case typeValue $ "LU" .and. typeText = "C0"
+               controlValue = control.text
+            otherwise
+               controlValue = Null
+         endcase
+         if controlValue <> &fieldValue
+            form.changesMade = .T.
+         endif
+      endif
+   endif
+   if form.changesMade .and. callCommit
+      CLASS::CheckCommit(form.inEditMode)     && Check transactions
+   endif
+
+
+   Procedure Go_last
+      form.CheckCommit(form.inEditMode)
+         if .not. empty(arcashs->order_no)
+   select arcasupd
+   seek arcashs->order_no+dtos(arcashs->order_date)
+   if found() .and. .not. empty(post_date)
+   select arcashs
+   replace post_date with date()
+   flush
+   endif
+   endif
+   form.root.order.viewEdit.enabled = .t.
+   form.root.order.ADDorder.enabled = .t.
+    form.root.order.ADDline.enabled = .t.
+
+
+   select arcashs
+      go bottom
+   form.root.file.exit.enabled =   .t.
+
+
+
+     Procedure Go_Top
+     form.CheckCommit(form.inEditMode)
+        if .not. empty(arcashs->order_no)
+   select arcasupd
+   seek arcashs->order_no+dtos(arcashs->order_date)
+   if found() .and. .not. empty(post_date)
+   select arcashs
+   replace post_date with date()
+   flush
+   endif
+   endif
+   form.root.order.viewEdit.enabled = .t.
+   form.root.order.ADDorder.enabled = .t.
+    form.root.order.ADDline.enabled = .t.
+
+
+   select arcashs
+     go top
+    form.root.file.exit.enabled =   .t.
+
+
+
+
+   Procedure Form_CanClose
+      RETURN IIF(form.changesmade = .F., .F., .T.)
+
+    Procedure SEMP1_ONCHANGE
+         local l1,l2
+
+         l1 = this.value
+         select fgoffs
+         seek l1
+
+           select ARCASHS
+           REPLACE ANAME WITH THIS.VALUE
+         replace off with fgoffs->off
+         replace cashier_no with fgoffs->cashier_no
+          form.changesmade = .t.
+
+
+     Procedure SDTOTAL_OnChange
+   SELECT aracasln
+        REPLACE total with  this.value
+      FORM.CHANGESMADE = .T.
+        form.browsechangesmade()
+        select ARCASHS
+
+
+
+    Procedure SCASH_OnChange
+    form.changesmade = .t.
+    select fgacash
+    seek this.value
+    if found()
+         select aracasln
+         replace pay_method with fgacash->name
+         else
+         select aracasln
+         replace pay_method with ''
+         endif
+         select arcashs
+
+
+
+
+
+ENDCLASS

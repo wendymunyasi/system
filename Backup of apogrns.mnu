@@ -150,8 +150,8 @@ DEFINE MENU REPORT OF THIS;
               
       commit()
       form.changesMade = .t.
-      begintrans()
-           on error DO transerr WITH ERROR(), MESSAGE(),;
+  *    begintrans()
+   *        on error DO transerr WITH ERROR(), MESSAGE(),;
   PROGRAM(), LINENO()
    endif
    

@@ -1,0 +1,259 @@
+////////////////////////////////////////////////////////////////////////////////
+// Output Filename: C:\KENSERVICE\IDSSYS\SHCASDRP_FCV.WFM                     //
+// Created By:      dBASE Form Converter Wizard                               //
+// Created On:      Sunday October 3, 2021 At 17:02:46                        //
+// Object Count:    11                                                        //
+////////////////////////////////////////////////////////////////////////////////
+******************************************************************************
+*  PROGRAM:      SHCASDRP.wfm
+*
+*******************************************************************************
+create session
+set talk off
+set ldCheck off
+
+set century on
+_app.FrameWin.Visible = .F.
+set design off
+set design off
+*set procedure to ddeerr.prg additive
+
+_app.FrameWin.Text = "SHCASDRP"
+
+** END HEADER -- do not remove this line
+//
+// Generated on 05/10/2021
+//
+parameter bUser,bLevel,bModal
+local f
+f = new SHCASDRPFORM()
+if (bModal)
+   f.mdi = false // ensure not MDI
+   f.readModal()
+else
+   f.open()
+endif
+
+class SHCASDRPFORM of FORM
+  * set procedure to C:\KENSERVICE\IDSSYS\BUTTONS.CC additive
+   with (this)
+      onOpen = class::ONOPEN
+      onClose = class::ONCLOSE
+      metric = 6	// Pixels
+      colorNormal = "N+"
+      height = 932.0
+      left = -26.0
+      top = 120.0
+      width = 1296.0
+      text = "CASHIERS' DROPS"
+      windowState = 2	// Maximized
+      mdi = false
+      sizeable = false
+      moveable = false
+      view = "SHCASDRP.QBE"
+      menuFile = "SHIFTID.MNU"
+      mousePointer = 1	// Arrow
+      maximize = false
+      minimize = false
+   endwith
+
+
+
+   this.SHIFT = new ENTRYFIELD(this)
+   with (this.SHIFT)
+      dataLink = "ST15F->Shift_date"
+      enabled = false
+      height = 21.0
+      left = 132.0
+      top = 0.0
+      width = 120.0
+      colorNormal = "R/W"
+      fontName = "MS Sans Serif"
+      fontSize = 14.0
+      fontBold = true
+   endwith
+
+   this.ENTRYFIELD1 = new ENTRYFIELD(this)
+   with (this.ENTRYFIELD1)
+      dataLink = "ST15F->Shift_no"
+      enabled = false
+      height = 21.0
+      left = 264.0
+      top = 0.0
+      width = 24.0
+      colorNormal = "R/W"
+      colorHighLight = "W+/B+"
+      fontName = "MS Sans Serif"
+      fontSize = 14.0
+      fontBold = true
+   endwith
+
+   this.ENTRYFIELD27 = new ENTRYFIELD(this)
+   with (this.ENTRYFIELD27)
+      dataLink = "SHIFTS->Name"
+      enabled = false
+      height = 21.0
+      left = 432.0
+      top = 0.0
+      width = 312.0
+      colorNormal = "R/W"
+      fontName = "MS Sans Serif"
+      fontSize = 14.0
+      fontBold = true
+   endwith
+
+   this.ENTRYFIELD28 = new ENTRYFIELD(this)
+   with (this.ENTRYFIELD28)
+      dataLink = "ST15F->SHIFT_POST"
+      enabled = false
+      height = 21.0
+      left = 144.0
+      top = 34.0
+      width = 108.0
+      colorNormal = "R+/W"
+      colorHighLight = "R+/W"
+      fontName = "MS Sans Serif"
+      fontSize = 14.0
+      fontBold = true
+   endwith
+
+   this.ENTRYFIELD29 = new ENTRYFIELD(this)
+   with (this.ENTRYFIELD29)
+      dataLink = "ST15F->Shift_id"
+      enabled = false
+      height = 21.0
+      left = 336.0
+      top = 0.0
+      width = 60.0
+      colorNormal = "R/W"
+      colorHighLight = "W+/B+"
+      fontName = "MS Sans Serif"
+      fontSize = 14.0
+      fontBold = true
+   endwith
+
+   this.ERROR = new ENTRYFIELD(this)
+   with (this.ERROR)
+      dataLink = "ST15F->ERRORS"
+      enabled = false
+      height = 21.0
+      left = 264.0
+      top = 34.0
+      width = 480.0
+      colorNormal = "R+/W"
+      colorHighLight = "R+/W"
+      fontName = "MS Sans Serif"
+      fontSize = 14.0
+      fontBold = true
+   endwith
+
+   this.TEXT37 = new TEXTLABEL(this)
+   with (this.TEXT37)
+      height = 21.0
+      left = 12.0
+      top = 0.0
+      width = 108.0
+      text = "Shift Date:"
+      colorNormal = "N/GB+"
+      fontName = "MS Sans Serif"
+      fontSize = 14.0
+      fontBold = true
+   endwith
+
+   this.BROWSE6 = new BROWSE(this)
+   with (this.BROWSE6)
+      onLeftDblClick = class::CAL_CASH_RTN
+      onRightDblClick = class::CAL_CASH_RTN
+      fontName = "MS Sans Serif"
+      fontBold = true
+      height = 476.0
+      left = 19.0
+      top = 96.0
+      width = 933.0
+      append = false
+      alias = "CASHIERS"
+      fields = "casna = CASHIERS->NAME\H=" + '"' + "Cashier's Name" + '"' + "\35\C=" + '"' + "N/W" + '"' + ",off = CASHIERS->OFF\H=" + '"' + "Empl no" + '"' + "\10\C=" + '"' + "n/w" + '"' + ",casno = CASHIERS->CASHR_NO\H=" + '"' + "Point No." + '"' + "\10\C=" + '"' + "n/w" + '"' + ",resp = CASHIERS->RESPNSE\H=" + '"' + "Responsiblity" + '"' + "\25\C=" + '"' + "n/w" + '"' + ",CASHIERS->A_CASH\H=" + '"' + "CASH DROPPED" + '"' + "\20\P=" + '"' + "9999,999,999,999.99" + '"' + "\C=" + '"' + "N/W+" + '"' + ",divna = FGDIV->NAME\H=" + '"' + "Division" + '"' + "\25\C=" + '"' + "n/w" + '"'
+      delete = false
+      showRecNo = false
+      text = "CASHIERS' CASH DROPS ENTRY  FORM"
+   endwith
+
+   this.TEXT1 = new TEXTLABEL(this)
+   with (this.TEXT1)
+      height = 21.0
+      left = 12.0
+      top = 34.0
+      width = 132.0
+      text = "Check Error:"
+      colorNormal = "N/GB+"
+      fontName = "MS Sans Serif"
+      fontSize = 14.0
+      fontBold = true
+   endwith
+
+
+    procedure OnOpen
+   *******************************************************************************
+     ON ERROR DO ddeerr WITH ERROR(), MESSAGE(),;
+   PROGRAM(), LINENO()
+      FORM.BLUSER = bUser
+   FORM.BLEVEL = bLevel
+   set procedure to SampProc.prg additive
+
+    select shsum
+    go top
+    if eof()
+    append blank
+    endif
+    replace shift_date with st15f->shift_date
+    replace shift_id with st15f->shift_id
+    replace shift_no with st15f->shift_no
+    replace coy with st15f->coy
+
+     FORM.CAL_CASH_RTN()
+     SELECT CASHIERS
+     GO TOP
+   *******************************************************************************
+
+   procedure OnClose
+   *******************************************************************************
+   SELECT ST15F
+   GO TOP
+   select shsum
+   delete all for empty(coy) .or. empty(shift_date) .or. empty(shift_id)
+   go top
+   if eof()
+   append blank
+   endif
+    replace shift_date with st15f->shift_date
+    replace shift_id with st15f->shift_id
+    replace shift_no with st15f->shift_no
+    replace coy with st15f->coy
+    FORM.CAL_CASH_RTN()
+      close procedure SampProc.prg
+   close databases
+   clear program
+   FORM.CLOSE()
+   *   do shverify.prg
+   *******************************************************************************
+
+   Procedure CAL_CASH_RTN
+     SELECT ST15F
+    GO TOP
+            SELECT SCASHREC
+            go top
+            REPLACE ALL A_CASH WITH 0
+            SELECT CASHIERS
+               SCAN
+               SELECT SCASHREC
+               SET FILTER TO  CASHR_NO = CASHIERS->CASHR_NO
+             GO TOP
+             IF .NOT. EOF()
+                REPLACE A_CASH WITH CASHIERS->A_CASH
+                replace off with cashiers->off
+                ENDIF
+               SELECT CASHIERS
+               ENDSCAN
+
+endclass
+

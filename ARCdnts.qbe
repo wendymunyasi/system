@@ -1,0 +1,74 @@
+* Visual dBASE .QBE file 9
+ON ERROR DO QBEERR WITH ERROR(), MESSAGE(),;
+PROGRAM(), LINENO()
+use  \kenservice\data\st15f.dbf
+set order to mkey
+go top
+pcen = cen
+ptyp = typ
+pcla = cla
+pcod = cod
+psto = sto
+CLOSE DATABASES
+SET EXACT ON
+*set exclusive on
+SELECT 1
+USE \KENSERVICE\DATA\arcdnts.DBF ORDER TAG ORDER_NO
+delete all for empty(order_no)
+set filter to empty(post_date)
+SELECT 2
+USE \KENSERVICE\DATA\arcsdlin.DBF ORDER TAG ORDER_NO
+delete all for empty(order_no)
+set filter to empty(post_date)
+SELECT 7
+USE \KENSERVICE\DATA\FGOFFS.DBF ORDER TAG NAME
+set filter to .not. empty(shift_date) .and. .not. empty(Cashier_no) .and. empty(date_left)
+SELECT 3
+USE \KENSERVICE\DATA\FRIGTMES.DBF ORDER TAG NAME
+set filter to SOURCE = "9" .and. empty(close_date) .AND. .NOT. (VAGE='C' .AND. BLEVEL > 3) &&  STAFF
+select 100
+use \kenservice\data\FGCODS.dbf order tag name
+set filter to TYP="C0" .AND. CLA="00" .and. cod = "01"
+GO TOP
+SELECT 1
+SET RELATION TO ORDER_NO INTO arcsdlin CONSTRAIN INTEGRITY, ANAME INTO ;
+FGOFFS, CUSTOMER INTO FRIGTMES
+SET SKIP TO arcsdlin
+SELECT 24
+USE \KENSERVICE\DATA\arcdntsL.DBF
+**zap
+SET SKIP TO arcsdlin
+SELECT 25
+USE \KENSERVICE\DATA\arcdnts.DBF AGAIN alias arcdnts3
+SET SKIP TO arcsdlin
+SELECT 70
+set safety off
+use \kenserve\idssys\st15f.dbf
+copy stru to \kenservice\data\st15fcdn dbase prod
+use \kenservice\data\st15fcdn.dbf exclusive alias st15f
+appe from \kenservice\data\st15f.dbf for cen = pcen .and. typ = ptyp .and. cod = pcod .and. sto = psto
+SET SKIP TO arcsdlin
+SELECT 93
+USE \KENSERVICE\DATA\FGCOY.DBF
+go top
+SET SKIP TO arcsdlin
+select 101
+USE \KENSERVICE\DATA\arcsdlin.DBF again alias arcsdlin3
+select 102
+USE \KENSERVICE\DATA\arcsdlin.DBF again alias arcsdlin2 order tag order_no
+select 126
+use \kenservice\data\arcsdupd.dbf
+delete all for empty(order_no)
+set filter to .not. empty(post_date)
+select 128
+ use \kenservice\data\arcdntsn.dbf
+ select 129
+use \kenserve\idssys\frighter.dbf
+copy stru to \kenservice\data\frightdn dbase prod
+use \kenservice\data\frightdn.dbf exclusive alias frighter order tag frighter
+appe from \kenservice\data\frighter.dbf for source = '9' .and. empty(close_date) 
+SET SKIP TO arcsdlin
+   select 130
+ use \kenservice\data\fgsstop.dbf
+SELECT 1
+GO TOP

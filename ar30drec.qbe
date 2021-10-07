@@ -1,0 +1,79 @@
+* Visual dBASE .QBE file 9
+close databases
+on error do fghqs.prg
+USE \KENSERVicE\data\ARDRCPST.DBF 
+? svc_total
+close databases
+ON ERROR DO QBEERR WITH ERROR(), MESSAGE(),;
+PROGRAM(), LINENO()
+CLOSE DATABASES
+if .not. file("\kenservice\data\vendors.dbf")
+use \kenserve\idssys\vendor.dbf
+copy stru to \kenservice\data\vendors dbase prod
+endif
+close databases
+SET EXACT ON
+*set exclusive on
+SELECT 1
+IF .NOT. FILE('\KENSERVICE\DATA\ARDRCPST.DBF')
+USE  \KENSERVE\IDSSYS\ARDRCPST.DBF
+COPY STRU TO \KENSERVICE\DATA\ARDRCPST DBASE
+ENDIF
+USE \KENSERVICE\DATA\ARDRCPST.DBF exclusive
+? svc_total
+select 2
+if .not. file("\kenservice\data\frcustbl.dbf")
+use \kenserve\idssys\frcustbl.dbf
+copy stru to \kenservice\data\frcustbl dbase prod
+endif
+use \kenservice\data\frcustbl.dbf EXCLUSIVE
+SELECT 5
+USE \KENSERVICE\DATA\frshtrn.DBF EXCLUSIVE
+
+SELECT 55
+USE \KENSERVICE\DATA\FGTRAN.DBF  EXCLUSIVE
+
+SELECT 60
+USE \KENSERVICE\DATA\SCASHREC.DBF  EXCLUSIVE
+
+SELECT 62
+USE \KENSERVICE\DATA\FRCOUNT.DBF EXCLUSIVE
+
+SELECT 64
+USE \KENSERVICE\DATA\FRDOCREF.DBF EXCLUSIVE
+
+SELECT 65
+USE \KENSERVICE\DATA\FRDDEBTP.DBF EXCLUSIVE
+
+SELECT 69
+USE \KENSERVICE\DATA\FRMODEBT.DBF EXCLUSIVE
+
+SELECT 70
+USE \KENSERVICE\DATA\ST15F.DBF  EXCLUSIVE
+
+SELECT 90
+USE \KENSERVICE\DATA\CASHIERS.DBF EXCLUSIVE
+
+SELECT 92
+USE \KENSERVICE\DATA\FRIGHTER.DBF  EXCLUSIVE
+
+SELECT 93
+USE \KENSERVICE\DATA\FGCOY.DBF
+
+select 133
+use \kenservice\data\vnstat.dbf EXCLUSIVE
+
+select 134
+use \kenservice\data\vncount.dbf EXCLUSIVE
+
+select 135
+use \kenservice\data\vndocref.dbf EXCLUSIVE
+
+select 136
+use \kenservice\data\vendor.dbf EXCLUSIVE
+SELECT 137
+USE \KENSERVICE\DATA\SHCATSUM.DBF EXCLUSIVE
+select 109
+use \kenservice\data\vendors.dbf excl
+select 110
+use  \kenservice\data\fgcods.dbf order tag mkey

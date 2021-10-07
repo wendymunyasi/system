@@ -1,0 +1,95 @@
+* Visual dBASE .QBE file 9
+close databases
+on error do fghqs.prg
+USE \KENSERVICE\DATA\fgvisnos.dbf
+? system
+close databases
+USE \KENSERVICE\DATA\ARDRCPST.DBF 
+? svc_total
+close databases
+use  \kenservice\data\st15f.dbf
+set order to mkey
+go top
+pcen = cen
+ptyp = typ
+pcla = cla
+pcod = cod
+psto = sto
+close databases
+on error do FGtrnS.PRG
+use \kenservice\data\fgtran.dbf EXCLUSIVE
+? UNUSED_F
+ON ERROR DO QBEERR WITH ERROR(), MESSAGE(),;
+PROGRAM(), LINENO()
+CLOSE DATABASES
+SET EXACT ON
+*set exclusive on
+SELECT 1
+USE \KENSERVICE\DATA\ardrecs.DBF ORDER TAG ORDER_NO
+delete all for empty(order_no)
+set filter to empty(post_date)
+SELECT 2
+USE \KENSERVICE\DATA\ardrecln.DBF ORDER TAG ORDER_NO
+delete all for empty(order_no)
+set filter to empty(post_date)
+SELECT 7
+USE \KENSERVICE\DATA\FGOFFS.DBF ORDER TAG NAME
+set filter to .not. empty(shift_date) .and. .not. empty(Cashier_no) .and. empty(date_left)
+select 8
+use  \kenservice\data\fghqoffs.dbf
+set filter to empty(date_left)
+SELECT 3
+USE \KENSERVICE\DATA\FRIGTMES.DBF ORDER TAG NAME
+set filter to source > "2"  .and. empty(close_Date)
+select 100
+use \kenservice\data\fgmastp.dbf order tag name alias fgcod
+set filter to ((TYP="C0" .AND. CLA="00" .and. .not. cod = "11") .or. typ='E0' .or. typ = 'F0') .and. active = "Yes" && banker/expense a/c
+SELECT 1
+SET RELATION TO ORDER_NO INTO ardrecln CONSTRAIN INTEGRITY
+SET SKIP TO ardrecln
+SELECT 24
+USE \KENSERVICE\DATA\ardrecsL.DBF
+**zap
+SET SKIP TO ardrecln
+SELECT 25
+USE \KENSERVICE\DATA\ardrecs.DBF AGAIN alias ardrecs3
+SET SKIP TO ardrecln
+SELECT 70
+set safety off
+use \kenserve\idssys\st15f.dbf
+copy stru to \kenservice\data\st15frec dbase prod
+use \kenservice\data\st15frec.dbf exclusive alias st15f
+appe from \kenservice\data\st15f.dbf for cen = pcen .and. typ = ptyp .and. cod = pcod .and. sto = psto
+SET SKIP TO ardrecln
+SELECT 93
+USE \KENSERVICE\DATA\FGCOY.DBF
+SET SKIP TO ardrecln
+select 101
+USE \KENSERVICE\DATA\ardrecln.DBF again alias ardrecln3
+select 102
+USE \KENSERVICE\DATA\ardrecln.DBF again alias ardrecln2 order tag order_no
+select 126
+use \kenservice\data\ardredup.dbf
+delete all for empty(order_no)
+set filter to .not. empty(post_date)
+ select 128
+ use \kenservice\data\ardrecsn.dbf
+ select 129
+use \kenservice\data\fgmastp.dbf order tag name again alias fgcodds
+set filter to (typ = 'E0'.or. typ = 'W0'  .or. ;
+(typ='L0' .and. cla = '40' .and. cod = '00'))  .and. active = "Yes" && credit a/cs in the line file
+ select 130
+use \kenservice\data\vennames.dbf order tag name
+set filt to vsrce > "1"  .and. empty(close_date)
+ SELECT 134
+ if .not. file("\kenservice\data\FGVISNOS.dbf")
+use  \kenserve\idssys\FGVISNOS.dbf
+copy stru to \kenservice\data\FGVISNOS dbase prod
+endif
+use \kenservice\data\FGVISNOS.dbf
+SELECT 135
+USE \KENSERVICE\DATA\FRIGTMES.DBF AGAIN ALIAS FRIGTMES2
+select 136
+use  \kenservice\data\fgcods.dbf order tag mkey
+SELECT 1
+GO TOP

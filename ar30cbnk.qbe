@@ -1,0 +1,47 @@
+* Visual dBASE .QBE file 9
+on error do SHIFTMNS.PRG
+use \kenservice\data\st15f.DBF
+? mbk_money
+ON ERROR DO QBEERR WITH ERROR(), MESSAGE(),;
+PROGRAM(), LINENO()
+CLOSE DATABASES
+SET EXACT ON
+*set exclusive on
+SELECT 24
+USE \KENSERVICE\DATA\arcbnksL.DBF
+
+SELECT 1
+USE \KENSERVICE\DATA\arcbnks.DBF
+set filter to empty(post_date) .and. order_no = arcbnksL->order_no
+
+SELECT 2
+USE \KENSERVICE\DATA\arcbnkln.DBF
+
+SELECT 55
+USE \KENSERVICE\DATA\FGTRAN.DBF
+if .not.  file("\kenservice\data\fgtrand.dbf")
+copy stru to \kenservice\data\fgtrand dBase prod
+endif
+select  56
+USE \KENSERVICE\DATA\FGTRANd.DBF
+SELECT 60
+USE \KENSERVICE\DATA\SCASHREC.DBF  
+
+SELECT 70
+USE \KENSERVICE\DATA\ST15F.DBF 
+
+SELECT 90
+USE \KENSERVICE\DATA\CASHIERS.DBF
+
+
+SELECT 93
+USE \KENSERVICE\DATA\FGCOY.DBF
+select 101
+use \kenservice\data\arcbnupd.dbf
+select 105
+use \kenservice\data\arcbnupd.dbf again alias arcbnupd2
+select 106
+use \kenservice\data\arcbnksn.dbf
+ 
+SELECT 1
+GO TOP

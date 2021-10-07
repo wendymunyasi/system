@@ -1,0 +1,88 @@
+* Visual dBASE .QBE file 9
+close databases
+on error do fgaged.PRG
+USE \KENSERVICE\DATA\frtrnage.DBf
+? reserved1
+close databases
+on error do vnstruct.prg
+use \kenservice\data\vnstat.dbf
+? dis_qty
+on error do FGNFPS.PRG
+use \kenservice\data\FGPURCH.dbf 
+? paysrce
+close databases
+
+ON ERROR DO QBEERR WITH ERROR(), MESSAGE(),;
+PROGRAM(), LINENO()
+CLOSE DATABASES
+SET EXACT ON
+*set exclusive on
+SELECT 24
+USE \KENSERVICE\DATA\appymtsL.DBF
+*zap
+SELECT 1
+USE \KENSERVICE\DATA\appymts.DBF 
+set filter to empty(post_date) .and.  appymtsl->ORDER_NO = ORDER_NO
+GO TOP
+*zap
+SELECT 2
+USE \KENSERVICE\DATA\appynlin.DBF 
+*zap
+SELECT 5
+USE \KENSERVICE\DATA\VNSTAT.DBF 
+*zap
+*
+SELECT 55
+USE \KENSERVICE\DATA\fgnfpur.DBF 
+*zap
+SELECT 62
+USE \KENSERVICE\DATA\VNCOUNT.DBF 
+*zap
+SELECT 64
+USE \KENSERVICE\DATA\VNDOCREF.DBF exclusive
+*zap
+*zap
+SELECT 92
+USE \KENSERVICE\DATA\VENDOR.DBF
+*zap
+SELECT 93
+USE \KENSERVICE\DATA\FGCOY.DBF
+
+select 104
+use \kenservice\data\appymupd.dbf
+*zap
+select 105
+use \kenservice\data\appymupd.dbf again alias appymupd2
+select 130
+use \kenservice\data\appymtsn.dbf
+select 131
+use \kenservice\data\st15f.dbf 
+select 132
+use \kenservice\data\scashrec.dbf  
+*zap
+select 133
+use \kenservice\data\cashiers.dbf
+SELECT 135
+USE \KENSERVICE\DATA\frshtrn.DBF 
+SELECT 136
+USE \KENSERVICE\DATA\FRCOUNT.DBF
+
+SELECT 137
+USE \KENSERVICE\DATA\FRDOCREF.DBF exclusive
+
+SELECT 138
+USE \KENSERVICE\DATA\FRDDEBTP.DBF
+
+SELECT 139
+USE \KENSERVICE\DATA\FRMODEBT.DBF
+
+SELECT 140
+USE \KENSERVICE\DATA\FRIGHTER.DBF
+select 141
+use \kenservice\data\frtrnage.dbf
+select 142
+if .not. file("\kenservice\data\frcustbl.dbf")
+use \kenserve\idssys\frcustbl.dbf
+copy stru to \kenservice\data\frcustbl dbase prod
+endif
+use \kenservice\data\frcustbl.dbf

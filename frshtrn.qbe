@@ -1,0 +1,12 @@
+* Visual dBASE .QBE file 9
+close databases
+ON ERROR DO QBEERR WITH ERROR(), MESSAGE(),;
+PROGRAM(), LINENO()
+CLOSE DATABASES
+SET EXACT ON
+SELECT 1
+USE \KENSERVICE\DATA\FRSHTRN.DBF exclusive
+SELECT 2
+USE \KENSERVICE\DATA\FRSTAT.DBF
+select 7
+use \kenservice\data\frighter.dbf

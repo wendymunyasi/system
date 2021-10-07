@@ -1,0 +1,77 @@
+* Visual dBASE .QBE file 9
+*set exclusive on
+
+ON ERROR DO QBEERR WITH ERROR(), MESSAGE(),;
+PROGRAM(), LINENO()
+CLOSE DATABASES
+SET EXACT ON
+*Set exclusive on
+SELECT 1
+USE \KENSERVICE\DATA\ARCINVS.DBF ORDER TAG ORDER_NO
+delete all for empty(order_no)
+set filter to empty(post_date)
+SELECT 2
+USE \KENSERVICE\DATA\ARCILINE.DBF ORDER TAG ORDER_NO
+delete all for empty(order_no)
+set filter to empty(post_date)
+SELECT 3
+USE \KENSERVICE\DATA\FRIGTMES.DBF order tag name
+SET FILTER TO SOURCE > "2" .and. .not. source = "9" .and. .not. source = "7" ;
+ .and. .not. source = "B" .and. empty(close_Date)
+***ZAP
+select 30
+USE \KENSERVICE\DATA\FRIGTMES.DBF order tag name again alias frigtmes2
+SET FILTER TO SOURCE > "2" .and. .not. source = "9" .and. .not. source = "7" ;
+ .AND. .NOT. SOURCE = "B" .and. empty(close_Date)
+***ZAP
+select 7
+use \kenservice\data\FGOFFS.dbf order tag name
+set filter to  .not. empty(cashier_no) .and. empty(date_left)
+SELECT 18
+use \kenservice\data\FGOFFS.dbf order tag name AGAIN ALIAS FGOFFS2
+set filt to empty(date_left)
+SELECT 19
+use \kenservice\data\FGOFFS.dbf order tag name AGAIN ALIAS FGOFFS3
+set filter to  .not. empty(cashier_no).and. empty(Date_left)
+select 51
+use \kenservice\data\fgcods.dbf order tag name again alias fgcods2
+set filter to (typ = "C0" .and. cla = "00") .OR. (TYP = "L0" .AND. CLA = "00")
+select 53
+use \kenservice\data\fgtaxtyp.dbf order tag tax_type
+select 54
+use \kenservice\data\fgmast.dbf order tag mkey
+SELECT 1
+SET RELATION TO ORDER_NO INTO ARCILINE constrain INTEGRITY
+SELECT 20
+USE \KENSERVICE\DATA\fgmastp.DBF order tag name
+set filter to (left(typ,1) = "0" .and. cen > "0") .or. (typ > "00" .and. typ <= "9Z" ;
+ .and. .not. ((div = "2" .AND. CEN < "5") .or. div = "5"))  && no main store sales
+* set filter to (typ = "00" .and. cen > "0") .or. (typ > "00" .and. typ <= "99" ;
+ .and. .not. (div = "1" .or. div = "5"))  && no  forecourt sales
+SELECT 21
+USE \KENSERVICE\DATA\fgcod.dbf  order tag mkey
+SELECT 24
+USE \KENSERVICE\DATA\ARCINVSL.dbf
+*ZAP
+SELECT 25
+USE \KENSERVICE\DATA\ARCINVS.DBF AGAIN alias ARCINVS3
+
+***ZAP
+SELECT 70
+USE \KENSERVICE\DATA\ST15F.dbf
+select 120
+use \kenservice\data\fgcoy.dbf
+select 121
+use \kenservice\data\ARCILINE.dbf again alias ARCILINE3
+select 122
+use \kenservice\data\ARCILINE.dbf again alias ARCILINE4
+select 126
+use \kenservice\data\ARCINVUP.dbf
+delete all for empty(order_no)
+set filter to .not. empty(post_date)
+SELECT 127
+use \KENSERVICE\DATA\ARCILINE.DBF again alias ARCILINE2 order tag order_no
+ select 128
+ use \kenservice\data\ARCINVSn.dbf
+SELECT 1
+GO TOP

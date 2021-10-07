@@ -1,0 +1,691 @@
+
+******************************************************************************
+*  PROGRAM:      APPYMTS.mnu
+*
+*  WRITTEN BY:   W M Nyongesa
+*
+*  DATE:         12/93
+*
+*  UPDATED:      06/2015
+*
+*  REVISION:     $Revision:   1.58  $
+*
+*  VERSION:      Visual dBASE
+*
+*  DESCRIPTION:  This is a menu file used by APPYMTS.wfm for
+*                performing simple tasks.  It allows adding and deleting
+*                records, searching for a value in the order field of the
+*                current table viewed, and exiting the form in view.
+*
+*  PARAMETERS:   FormObj -- the form to which this menu will belong.
+*
+*  CALLS:        None
+*
+*  USAGE:        form.menuFile = "APPYMTS.mnu"
+*
+*******************************************************************************
+#include <Messdlg.h>
+
+** END HEADER -- do not remove this line*
+* Generated on 05/06/94
+*
+Parameter FormObj
+NEW APPYMTS(FormObj,"Root")
+CLASS APPYMTS(FormObj,Name) OF MENUBAR(FormObj,Name)
+   this.Text = ""
+   this.OnInit = {;set procedure to Sampproc.prg}
+
+   DEFINE MENU FILE OF THIS;
+       PROPERTY;
+         Text "&FILE"
+
+         DEFINE MENU EXIT OF THIS.FILE;
+             PROPERTY; 
+               StatusMessage "Return to the Previous Menu.",;
+               Text "&Return to Previous Menu",;
+                ShortCut "F4",;
+               OnClick CLASS::ONEXITALL
+
+        
+       DEFINE MENU SEPARATOR000 OF THIS.FILE;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+
+
+         DEFINE MENU QUITS OF THIS.FILE;
+             PROPERTY; 
+               StatusMessage "Leave Kenserve Integrated System.",;
+               Text "Exit",;
+               ShortCut "F8",;
+               OnClick CLASS::QUITALL
+
+
+   DEFINE MENU ORDER OF THIS;
+       PROPERTY;
+         Text "Payment"
+
+         DEFINE MENU VIEWEDIT OF THIS.order;
+             PROPERTY;
+               OnClick CLASS::VIEWEDITONCLICK,;
+               Text "&EDIT",;
+               Shortcut "Ctrl-E",;
+               StatusMessage "Edit data."
+
+         DEFINE MENU SEPARATOR1 OF THIS.ORDER;
+             PROPERTY;
+               Separator .T.,;
+                  Text ""
+
+         DEFINE MENU ADDORDER OF THIS.order;
+             PROPERTY;
+               OnClick CLASS::ADDORDERONCLICK,;
+               Text "ADD - New Payment",;
+               Enabled .T.,;
+               Shortcut "F3",;
+               StatusMessage "Add payment."
+
+       DEFINE MENU ADDLINE OF THIS.order;
+             PROPERTY;
+               OnClick CLASS::ADDLINEONCLICK,;
+               Text "ADD-ITEM",;
+               Enabled .T.,;
+               Shortcut "F7",;
+               StatusMessage "Add a new product, item or service to the Payment."
+               
+        
+       DEFINE MENU DELETELINE OF THIS.ORDER;
+             PROPERTY;
+               OnClick CLASS::DELETELINEONCLICK,;
+               Text "Delete IteM",;
+               Enabled .F.,;
+               Shortcut "Ctrl-M",;
+               StatusMessage "Delete the current product."
+          
+         DEFINE MENU SEPARATOR2 OF THIS.ORDER;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+
+       
+DEFINE MENU REPORT OF THIS;
+       PROPERTY; 
+         Text "Tasks"
+
+         DEFINE MENU REPORT OF THIS.report;
+       PROPERTY;
+         Text "1. Save No Print",;
+         enabled .t.,;
+        OnClick CLASS::F5_RTN,;
+               Shortcut "F5"
+        
+         DEFINE MENU REPORT2 OF THIS.report;
+       PROPERTY;
+         Text "2. Print and Save",;
+         enabled .t.,;
+        OnClick CLASS::F9_RTN,;
+               Shortcut "F9"
+               
+                
+         DEFINE MENU REPORT3 OF THIS.report;
+       PROPERTY;
+         Text "3. Print Duplicate",;
+         enabled .T.,;
+        OnClick {; do APPYMTSp.prg WITH FORM.BLUSER},;
+               Shortcut "F1"
+   
+  procedure DeleteLineOnClick
+   PRIVATE Ppcoy,Ppdiv,Ppcen,Ppsto,Pptyp,Ppcla,Ppcod,PPRQTY,pamt
+   * Delete current record.
+   ****************************************************************************
+      select APPYNLIN
+   if ConfirmationMessage("Are you sure you want to delete this Item?",;
+                          "Confirm") = YES .AND. EMPTY(APPYMTS->post_date) ;
+                           .and. .not. eof()
+            
+     select APPYNLIN
+            
+             pamt = total
+      delete  && DELETED is ON, so deleted records are still there until
+              && a PACK is executed
+              select APPYMTS
+              replace APPYMTS->items with APPYMTS->items - 1
+              replace total with total - pamt
+              IF APPYMTS->ITEMS = 0
+              REPLACE APPYMTS->TOTAL WITH 0
+    
+              ENDIF
+           SELECT APPYMTS
+              
+      commit()
+      form.changesMade = .F.
+      begintrans()
+           on error DO transerr WITH ERROR(), MESSAGE(),;
+  PROGRAM(), LINENO()
+   endif
+   SELECT APPYNLIN
+   IF .NOT. EOF() .and. .not. bof()
+     FORM.BROWSECHANGESMADE()
+     ELSE
+     SELECT APPYMTS
+      replace APPYMTS->total with 0
+   replace APPYMTS->items with 0
+ ENDIF
+   SELECT APPYMTS
+   ****************************************************************************
+   procedure ADDORDERONCLICK
+
+   * Add new record.
+   ****************************************************************************
+   private addForm, newOrder, saleDateField, orderNoField, custNoField, custNo,;
+           inEditMode, integrityInEffect,CustTyp,pdate1,pvatp
+   form.CheckChanged(.T.)
+                           pvatp = FORM.PVATPRICE
+                          pdate1 = FORM.PSHIFTDATE
+  
+      orderNoField = field(1)                 && order_no field
+          OrderDateField = field(7)                && Order_date field
+ select APPYNLIN2
+ go bottom
+      select APPYMTS3
+      go bottom
+       IF empty(order_no) .or. .not. empty(post_date)
+       if type("form.curPage") <> "U"
+         inEditMode = form.curPage.inEditMode
+         integrityInEffect = .T.              && Table integrity rules are used
+      else
+         inEditMode = form.inEditMode
+         integrityInEffect = .F.
+      endif
+
+      if .not. inEditMode
+         form.ViewEdit()                      && Make sure record is editable
+      else if type("form.childBrowse") <> "U" && If calling from VENDOR/APPYMTS
+         form.childBrowse.setFocus()
+      endif
+      form.changesMade = .T.
+        form.previousRecord = recno()
+        SELECT VENDOR
+   SET ORDER TO VENDOR
+   SEEK '1'+'1'+'1'+'0001'
+        select APPYMTS3
+      go bottom
+    
+    form.maxOrder = order_no
+     local ls1,ls2,ls3,ls4,ls5
+      SELECT APPYMTS
+  
+  * neworder = order_no  && new order no.
+       if empty(form.maxOrder)
+      form.maxOrder = APPYMTSn->order_no  && start of first operator
+      endif
+      append blank
+      orderNoField = field(1)
+      newOrder = val(form.maxOrder) + 1
+      local wk1,wk2
+       wk1 = neworder
+      if wk1 > 0 .and. wk1 < 10
+      wk2 = "00000"+str(wk1,1)
+      else
+      if wk1 > 9 .and. wk1 < 100
+      wk2 = "0000"+str(wk1,2)
+      else
+       if wk1 > 99 .and. wk1 < 1000
+      wk2 = "000"+str(wk1,3)
+      else
+       if wk1 > 999 .and. wk1 < 10000
+      wk2 = "00"+str(wk1,4)
+      else
+       if wk1 > 9999 .and. wk1 < 100000
+      wk2 = "0"+str(wk1,5)
+      else
+      wk2 = str(wk1,6)
+      endif
+      endif
+      endif
+      endif
+      endif
+     replace order_no with wk2     && Assign new order number
+      replace items with 1
+       replace  total with 0
+       replace order_date with  pdate1
+         
+        replace al_amt with 0
+        replace l_amt with 0
+            REPLACE BL_AMT WITH VENDOR->BAL_DUE
+
+       
+        replace invtotal with 0
+        replace paytotal with 0
+        replace deptotal with 0
+         REPLACE DDE_DATE WITH DATE()
+        REPLACE DDE_TIME WITH TIME()
+        REPLACE DDE_USER WITH FORM.BLUSER
+        REPLACE SHIFTNO WITH FORM.PSHIFTNO
+        REPLACE SHIFTID WITH FORM.PSHIFTID
+                            *
+        replace inv_date with order_date
+       replace recdate with order_date
+            
+       select APPYMTSL
+       replace order_no with APPYMTS->order_no
+       refresh
+       flush
+          
+      select APPYNLIN3
+      IF .NOT. EMPTY(APPYMTS->ORDER_NO)
+     append blank
+     replace order_no with APPYMTS->order_no
+     replace stock_no with "01"
+      replace order_date with APPYMTS->order_date
+       replace other_date with order_date
+        replace total with 0
+           replace invtotal with 0
+        replace paytotal with 0
+        replace deptotal with 0
+        replace  coy with "1"
+replace  div with "5"
+replace  cen with "1"
+replace  sto with "A1"
+ REPLACE DDE_DATE WITH DATE()
+        REPLACE DDE_TIME WITH TIME()
+        REPLACE DDE_USER WITH FORM.BLUSER
+         select APPYMTSL
+    replace order_no with APPYMTS->order_no
+    replace order_date with APPYMTS->order_date
+   
+       
+      selec APPYNLIN
+refresh
+go bottom
+     
+            
+     
+         select APPYMTS
+        SEEK APPYMTSL->ORDER_NO
+    
+    
+     REPLACE SHIFTNO WITH FORM.PSHIFTNO
+        REPLACE SHIFTID WITH FORM.PSHIFTID
+       
+        
+        form.soff.enabled = .t.
+        if fgcoy->pospost = "Yes"
+        form.CheckCommit(form.inEditMode)
+        select APPYMTS
+        seek APPYMTSl->order_no
+          
+    
+  
+       refresh
+         form.soff.setfocus()
+         else
+         form.sdate.enabled = .t.
+         form.CheckCommit(form.inEditMode)
+         select APPYMTS
+        seek APPYMTSl->order_no
+         
+    
+     REPLACE SHIFTNO WITH FORM.PSHIFTNO
+   
+         refresh
+         form.sdate.setfocus()
+         endif
+   
+   endif
+   
+  endif
+   ****************************************************************************
+   procedure ADDLINEONCLICK
+      LOCAL L1,wk1,wk2,l2,l3,l4,ls3,ls4,ls5,LNAME
+ 
+   form.CheckChanged(.T.)
+      form.changesMade = .T.
+         select APPYNLIN2
+        go bottom
+        if (empty(stock_no)  .and. .not. empty(order_no) ;
+         .and. .not. empty(APPYMTS->order_no) .and. .not. APPYNLIN2->total = 0 ) ;
+          .or. (empty(stock_no) .and. .not. empty(APPYMTS->ORDER_NO))
+         L1 = val(STOCK_NO) + 1
+         wk1 = l1
+         if wk1 > 99
+         quit
+         endif
+          if wk1 > 0 .and. wk1 < 10
+      wk2 = "0"+str(wk1,1)
+      else
+      wk2 = str(wk1,2)
+      endif
+      if val(wk2) < 2
+      select APPYNLIN3
+         append blank
+          
+         replace order_no with APPYMTS->order_no
+      replace stock_no with wk2
+            replace order_date with APPYMTS->order_date
+       replace total with 0
+        replace other_date with APPYNLIN2->other_date
+        if empty(other_date)
+        replace other_date with APPYMTS->order_date
+        endif
+     
+        REPLACE DDE_DATE WITH DATE()
+        REPLACE DDE_TIME WITH TIME()
+        REPLACE DDE_USER WITH FORM.BLUSER
+       
+          replace invtotal with 0
+          replace whvat with 0
+          replace whtax with 0
+        replace paytotal with 0
+        replace deptotal with 0
+       replace  coy with "1"
+replace  div with "5"
+replace  cen with "1"
+replace  sto with "A1"
+select APPYNLIN
+refresh
+go bottom
+          select APPYMTS
+         replace APPYMTS->items with APPYMTS->items + 1
+         REPLACE SHIFTNO WITH FORM.PSHIFTNO
+        REPLACE SHIFTID WITH FORM.PSHIFTID
+     REPLACE ORDER_DATE WITH FORM.PSHIFTDATE
+        
+           FORM.sref.setfocus()
+  
+   endif
+   endif
+     ***************************************************************************
+   procedure ViewEditOnClick
+   ****************************************************************************
+if .not. empty(APPYMTS->order_no)
+   form.ViewEdit()
+   endif
+
+   ****************************************************************************
+   procedure Exit_OnClick
+   ****************************************************************************
+FORM.OKEXIT = .T.
+      form.Release()
+Procedure F9_rtn
+ form.CheckCommit(form.inEditMode)
+if    form.inEditMode
+      form.ViewEdit()
+      form.root.order.viewEdit.enabled = .F.
+   endif
+   form.sdtotal.enabled = .f.
+   form.root.order.ADDorder.enabled = .f.      
+    form.root.order.ADDline.enabled = .f.
+    local lerr
+lerr = .f.
+    SELECT APPYMTS
+  if  APPYMTS->total = 0  .or. .not. EMPTY(post_DATE) 
+ lerr = .t.
+ ? "Error 1"
+ endif
+ 
+if .not. (pAY_METHOD = "FC Cash" .or. pay_method = "Cheque" .or. pay_method = "Bank Debit"  .or. pay_method = "FT";
+ .or. pay_method = "Float Cash" .or. pay_method = "Card(credit)";
+ .or. pay_method = "Loan" .or. pay_method = "Capital" .or. pay_method = "Hqdebit" .or. pay_method = "M-Money") 
+ lerr = .t.
+  ? "Error 2"
+ endif
+ 
+   if EMPTY(BCOY)  .or. EMPTY(BTYP) .or. EMPTY(BCLA) .or. empty(bdiv) .or. empty(bcen) ;
+       .or. EMPTY(BCOD)  .or. EMPTY(vsrce) .or. EMPTY(vtyp) .or. EMPTY(vpmod) .or. EMPTY(VENDOR_N) 
+       lerr = .t.
+        ? "Error 3"
+       endif
+       
+   if .not. (paytype = "Invoice" .or. paytype = "Loan" .or. paytype = "Capital" .or. ;
+    paytype = "Debtorbal" .or. paytype = "Debtordep")
+    lerr = .t.
+     ? "Error 4"
+    endif
+    
+    if  (paytype = "Debtorbal" .or. paytype = "Debtordep") .and. (empty(source) .or. empty(ftyp) ;
+     .or. empty(pmod) .or. empty(frighter_n) .or. empty(cname))
+     lerr = .t.
+      ? "Error 5"
+     endif
+     
+      if empty(shiftno) .or. empty(shiftid)   .or.  EMPTY(OFF)  .or. empty(cashier_no)
+      lerr = .t.
+       ? "Error 6"
+      endif
+      
+  if (paytype = "Invoice" .or. paytype = "Debtordep" .or. paytype = "Loan" .or. paytype = "Hqdebit") .and.;
+  .not. APPYNLIN->typ = "L0" 
+   lerr = .t.
+    ? "Error 7"
+   endif
+    if  pay_method = "Capital" .and. paytype = "Capital"
+   lerr = .t.
+    ? "Error 7A"
+   endif
+   
+   if paytype = "Debtorbal" .and. .not. (APPYNLIN->typ = "C0" .and. APPYNLIN->cla = "10"  .and. APPYNLIN->cod = "00")
+   lerr = .t.
+    ? "Error 8"
+   endif
+   
+    if paytype = "Capital" .and. .not.  APPYNLIN->typ = "W0"
+   lerr = .t.
+    ? "Error 9"
+   endif
+   
+    if pay_method = "FC Cash" .and.  .not. (btyp = "C0" .and. bcla = "00" .and. bcod = "01")
+   lerr = .t.
+    ? "Error 10"
+   endif
+   
+     if pay_method = "Float Cash" .and.  .not. (btyp = "C0" .and. bcla = "00" .and. bcod = "11")
+   lerr = .t.
+    ? "Error 11"
+   endif
+   
+      if (pay_method = "Cheque" .or. pay_method = "Bank Debit"  .or. pay_method = "M-Money";
+      .or. pay_method = "FT" .or. pay_method = "Card(credit)") ;
+      .and.  .not. (btyp = "C0" .and. bcla = "00" .and. .not. (bcod = "01" .or. bcod = "11") .and. .not. empty(lpo))
+   lerr = .t.
+    ? "Error 12"
+   endif
+   
+     if   APPYNLIN->typ = "W0" .and. .not. paytype = "Capital"
+   lerr = .t.
+    ? "Error 13"
+   endif
+   
+     if btyp = "C0" .and. bcla = "00" .and. bcod = "11" .and. .not. pay_method = "Float Cash" 
+   lerr = .t.
+    ? "Error 14"
+   endif
+     if btyp = "C0" .and. bcla = "00" .and. bcod = "01" .and. .not. pay_method = "FC Cash" 
+   lerr = .t.
+    ? "Error 15"
+   endif
+   if btyp = "C0" .and. bcla = "00" .and. .not. (bcod = "01" .or. bcod = "11") .and.  .not. ;
+    (pay_method = "Cheque" .or. pay_method = "Bank Debit" .or. pay_method = "M-Money";
+    .or. pay_method = "FT" .or. pay_method = "Card(credit)")
+    lerr = .t.
+    ? "Error 16"
+   endif
+   IF   paytype = "Capital" .and. .not. (btyp = "C0" .and. bcla = "00")
+    lerr = .t.
+    ? "Error 17"
+   endif
+    if  (pay_method = "FC Cash" .or. pay_method = "Float Cash") .and. .not. form.bcents
+       lerr = .t.
+     ? 'problem 18'
+     endif
+     if vsrce+vtyp+pmod+vendor_n = paysrce+paytyp+paymod+pay_n
+       lerr = .t.
+     ? 'problem 19'
+     endif
+      if pay_method = "M-Money"  .and. .not. RIGHT(LEFT(BNAME,10),2) = 'M-'
+       lerr = .t.
+     ? 'problem 20'
+     endif
+      if  RIGHT(LEFT(BNAME,10),2) = 'M-' .and. .not. pay_method = "M-Money" 
+       lerr = .t.
+     ? 'problem 21'
+     endif
+      IF pay_method = "Float Cash" .AND. TOTAL > BL_AMT  *-1
+      lerr = .t.
+     ? 'problem 22'
+     endif
+   if .not. lerr
+  
+ FORM.CHANGESMADE = .T.
+ do ap30pymt.prg WITH FORM.BLUSER,FORM.BLEVEL
+    
+do APPYMTSp.prg WITH FORM.BLUSER
+
+form.go_top()
+*flush
+endif
+
+
+Procedure F5_rtn
+ form.CheckCommit(form.inEditMode)
+if    form.inEditMode
+      form.ViewEdit()
+      form.root.order.viewEdit.enabled = .F.
+   endif
+   form.sdtotal.enabled = .f.
+   form.root.order.ADDorder.enabled = .f.      
+    form.root.order.ADDline.enabled = .f.
+local lerr
+lerr = .f.
+
+SELECT APPYMTS
+ if  APPYMTS->total = 0  .or. .not. EMPTY(post_DATE) 
+ lerr = .t.
+ ? "Error 1"
+ endif
+ 
+if .not. (pAY_METHOD = "FC Cash" .or. pay_method = "Cheque" .or. pay_method = "Bank Debit"  .or. pay_method = "FT";
+ .or. pay_method = "Float Cash" .or. pay_method = "Card(credit)";
+ .or. pay_method = "Loan" .or. pay_method = "Capital" .or. pay_method = "Hqdebit" .or. pay_method = "M-Money")
+ lerr = .t.
+  ? "Error 2"
+ endif
+ 
+   if EMPTY(BCOY)  .or. EMPTY(BTYP) .or. EMPTY(BCLA) .or. empty(bdiv) .or. empty(bcen) ;
+       .or. EMPTY(BCOD)  .or. EMPTY(vsrce) .or. EMPTY(vtyp) .or. EMPTY(vpmod) .or. EMPTY(VENDOR_N) 
+       lerr = .t.
+        ? "Error 3"
+       endif
+       
+   if .not. (paytype = "Invoice" .or. paytype = "Loan" .or. paytype = "Capital" .or. ;
+    paytype = "Debtorbal" .or. paytype = "Debtordep")
+    lerr = .t.
+     ? "Error 4"
+    endif
+    
+    if  (paytype = "Debtorbal" .or. paytype = "Debtordep") .and. (empty(source) .or. empty(ftyp) ;
+     .or. empty(pmod) .or. empty(frighter_n) .or. empty(cname))
+     lerr = .t.
+      ? "Error 5"
+     endif
+     
+      if empty(shiftno) .or. empty(shiftid)   .or.  EMPTY(OFF)  .or. empty(cashier_no)
+      lerr = .t.
+       ? "Error 6"
+      endif
+  if (paytype = "Invoice" .or. paytype = "Debtordep" .or. paytype = "Loan" .or. paytype = "Hqdebit") .and.;
+  .not. APPYNLIN->typ = "L0" 
+   lerr = .t.
+    ? "Error 7"
+   endif
+    if  pay_method = "Capital" .and. paytype = "Capital"
+   lerr = .t.
+    ? "Error 7A"
+   endif
+   if paytype = "Debtorbal" .and. .not. (APPYNLIN->typ = "C0" .and. APPYNLIN->cla = "10"  .and. APPYNLIN->cod = "00")
+   lerr = .t.
+    ? "Error 8"
+   endif
+   
+    if paytype = "Capital" .and. .not.  APPYNLIN->typ = "W0"
+   lerr = .t.
+    ? "Error 9"
+   endif
+   
+    if pay_method = "FC Cash" .and.  .not. (btyp = "C0" .and. bcla = "00" .and. bcod = "01")
+   lerr = .t.
+    ? "Error 10"
+   endif
+   
+     if pay_method = "Float Cash" .and.  .not. (btyp = "C0" .and. bcla = "00" .and. bcod = "11")
+   lerr = .t.
+    ? "Error 11"
+   endif
+   
+   if (pay_method = "Cheque" .or. pay_method = "Bank Debit" .or. pay_method = "M-Money";
+   .or. pay_method = "FT" .or. pay_method = "Card(credit)") ;
+      .and.  .not. (btyp = "C0" .and. bcla = "00" .and. .not. (bcod = "01" .or. bcod = "11") .and. .not. empty(lpo))
+   lerr = .t.
+    ? "Error 12"
+   endif
+     if   APPYNLIN->typ = "W0" .and. .not. paytype = "Capital"
+   lerr = .t.
+    ? "Error 13"
+   endif
+     if btyp = "C0" .and. bcla = "00" .and. bcod = "11" .and. .not. pay_method = "Float Cash" 
+   lerr = .t.
+    ? "Error 14"
+   endif
+     if btyp = "C0" .and. bcla = "00" .and. bcod = "01" .and. .not. pay_method = "FC Cash" 
+   lerr = .t.
+    ? "Error 15"
+   endif
+   if btyp = "C0" .and. bcla = "00" .and. .not. (bcod = "01" .or. bcod = "11") .and.  .not. ;
+    (pay_method = "Cheque" .or. pay_method = "Bank Debit" .or. pay_method = "M-Money";
+    .or. pay_method = "FT" .or. pay_method = "Card(credit)")
+    lerr = .t.
+    ? "Error 16"
+   endif
+   IF   paytype = "Capital" .and. .not. (btyp = "C0" .and. bcla = "00")
+    lerr = .t.
+    ? "Error 17"
+   endif
+    if  (pay_method = "FC Cash" .or. pay_method = "Float Cash") .and. .not. form.bcents
+       lerr = .t.
+     ? 'problem 18'
+     endif
+     if vsrce+vtyp+pmod+vendor_n = paysrce+paytyp+paymod+pay_n
+       lerr = .t.
+     ? 'problem 19'
+     endif
+      if pay_method = "M-Money"  .and. .not. RIGHT(LEFT(BNAME,10),2) = 'M-'
+       lerr = .t.
+     ? 'problem 20'
+     endif
+      if  RIGHT(LEFT(BNAME,10),2) = 'M-' .and. .not. pay_method = "M-Money" 
+       lerr = .t.
+     ? 'problem 21'
+     endif
+      IF pay_method = "Float Cash" .AND. TOTAL > BL_AMT*-1
+      lerr = .t.
+     ? 'problem 22'
+     endif
+  if .not. lerr
+ FORM.CHANGESMADE = .T.
+ do ap30pymt.prg WITH FORM.BLUSER,FORM.BLEVEL
+
+form.go_top()
+ *flush
+  ENDIF
+
+ procedure OnExitALL
+            form.Release()
+            
+            
+  Procedure QUITALL
+             form.Release()
+             QUIT
+   
+ENDCLASS
+
+         

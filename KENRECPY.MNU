@@ -1,0 +1,301 @@
+******************************************************************************
+*  PROGRAM:      KenRecPy.mnu
+*
+*  WRITTEN BY:   W Nyongesa
+*
+*  DATE:        06/2000
+*
+*  UPDATED:      05/2014
+*
+*  REVISION:     $Revision:   1.0 $
+*
+*  VERSION:      Visual dBASE
+*
+*  DESCRIPTION:  This menu file is used by KenRecPy.wfm for controlling the running 
+*                of the KENPAY Payroll system.
+*
+*  PARAMETERS:   FormObj -- the form to which this menu is attached.
+*
+*  CALLS:        None
+*
+*  USAGE:        form.menuFile = "KenRecPy.mnu"
+*
+*******************************************************************************
+#include <Messdlg.h>
+
+** END HEADER -- do not remove this line*
+* Generated on 17/10/2000
+*
+Parameter FormObj
+NEW KenRecPyMENU(FormObj,"Root")
+CLASS KenRecPyMENU(FormObj,Name) OF MENUBAR(FormObj,Name)
+
+
+   DEFINE MENU FILE OF THIS;
+       PROPERTY; 
+         Text "FILE",;
+         OnClick CLASS::FILE_ONCLICK
+
+         
+     DEFINE MENU EXIT OF THIS.FILE;
+             PROPERTY; 
+               StatusMessage "Return to the Previous Menu.",;
+               Text "Return to Previous Menu",;
+                ShortCut "F4",;
+               OnClick CLASS::ONEXITALL
+
+        
+       DEFINE MENU SEPARATOR000 OF THIS.FILE;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+
+
+         DEFINE MENU QUITS OF THIS.FILE;
+             PROPERTY; 
+               StatusMessage "Leave Kenserve Integrated Sstem.",;
+               Text "EXIT",;
+               ShortCut "F8",;
+               OnClick CLASS::QUITALL
+       
+
+            
+ DEFINE MENU ARSYS OF THIS;
+       PROPERTY; 
+         Text "CUSTOMER"
+           if (.not. validdrive("W:") .AND. .NOT. validdrive("Y:") .AND. .NOT. validdrive("X:"));
+           .OR. BLEVEL = 1 .OR. BLEVEL = 3 
+    IF (BLEVEL = 1 .OR.  BLEVEL = 4 .or. blevel= 9 .OR.  BLEVEL = 7 .OR. (BLEVEL = 2  .and. .not. bladmin) ;
+              .or. (blevel = 3 .and. bladmin)) .and. .not. BLMISREPORTS
+          
+    DEFINE MENU cdnots1 OF THIS.ARSYS;
+             PROPERTY; 
+               Text "&1. Debit Notes.",;
+               OnClick {;do ardrnts.wfm WITH FORM.BLUSER,FORM.BLEVEL}
+             
+             DEFINE MENU SEPAARSYS01 OF THIS.ARSYS;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+               
+               endif
+   IF ((bLEVEL = 1) .OR.  BLEVEL = 4 .or. blevel= 9 .OR. (BLEVEL =2 .AND. BLDOC13) .OR.;
+   BLEVEL = 7 .or. (blevel = 3 .and. bladmin)) .and. .not. BLMISREPORTS
+             
+            DEFINE MENU arcur1 OF THIS.ARSYS;
+             PROPERTY; 
+               Text "&2. Receipts.",;
+               enabled .t.,;
+               OnClick {;do ardrecs.wfm WITH FORM.BLUSER,FORM.BLEVEL,FORM.BLDOC13,FORM.BLADMIN}
+               DEFINE MENU SEPAARSYS02 OF THIS.ARSYS;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+
+             ENDIF
+             
+             IF ((BLEVEL = 1.and. .not. bldoc13) .OR.;
+             (BLEVEL = 4 .and. .not. bldoc13) .OR.  (BLEVEL = 7 .and. .not. bldoc13);
+             .or. (blevel= 9 .and. .not. bldoc13)  .or. blevel= 2;
+              .or. (blevel = 3 .and. bladmin)) .and. .not. BLMISREPORTS
+             
+                DEFINE MENU cdcrnnots1 OF THIS.ARSYS;
+             PROPERTY; 
+               Text "&3. Credit Notes.",;
+               OnClick {;do arcrnts.wfm WITH FORM.BLUSER,FORM.BLEVEL}
+     DEFINE MENU SEPAARSYS03 OF THIS.ARSYS;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+
+               ENDIF
+          *    IF .NOT. BLNOMASTER
+           *  IF BLEVEL = 1 .OR.  BLEVEL = 4 .OR.  BLEVEL = 7 .or. blevel= 9 .or. (blevel = 3 .and. bladmin)
+           *  DEFINE MENU bfstata OF THIS.ARSYS;
+             PROPERTY; 
+               Text "&4. Credit Note - Details/Receipts.",;
+               ENABLED .f.,;
+               OnClick {;do arccrts.wfm WITH FORM.BLUSER,FORM.BLEVEL}
+               
+            *   DEFINE MENU SEPAARSYS04 OF THIS.ARSYS;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+
+*              endif
+ *             ENDIF
+  *                 IF BLEVEL = 1 .OR.  BLEVEL = 4 .OR.  BLEVEL = 7 .or. blevel= 9 .or. (blevel = 3 .and. bladmin)
+           
+   *           
+    *           DEFINE MENU ARSYS3m OF  THIS.ARSYS;
+             PROPERTY; 
+             Text "5. MATCH"
+*            
+ *                
+  *               DEFINE MENU openstat3 OF THIS.ARSYS.ARSYS3M;
+             PROPERTY; 
+               Text "&1. Debits/Credits",;
+                OnClick {;do frmpdcrd.prg WITH FORM.BLUSER,FORM.BLEVEL},;
+                 ENABLED .T.,;
+               StatusMessage "Automatically Match - Debits/Credits."
+   *           
+    *        DEFINE MENU SEPARAopenstat003 OF THIS.ARSYS.ARSYS3M;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+     *         
+      *             DEFINE MENU MATSEPAARSYS05 OF THIS.ARSYS;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+       *     DEFINE MENU ARSYS3m3 OF  THIS.ARSYS;
+             PROPERTY; 
+             Text "6. VIEW/PRINT"
+   *
+    *                DEFINE MENU bfstatA9a OF THIS.ARSYS.ARSYS3m3;
+                   PROPERTY; 
+                     Text "&1. Unmatched Credits.",;
+                     enabled .T.,;
+                     OnClick {;do FRCRUMTC.WFM WITH FORM.BLUSER,FORM.BLEVEL}
+     *               
+      *              DEFINE MENU SEPAVEW1 OF THIS.ARSYS.ARSYS3m3;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+       *       
+        *       DEFINE MENU bfstatA9a2 OF THIS.ARSYS.ARSYS3m3;
+                   PROPERTY; 
+                     Text "&2. Unmatched Debits.",;
+                     enabled .T.,;
+                     OnClick {;do FRDRUMTC.WFM WITH FORM.BLUSER,FORM.BLEVEL}
+         *           
+          *          DEFINE MENU SEPAVEW2 OF THIS.ARSYS.ARSYS3m3;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+          
+         *  DEFINE MENU bfstatA9axa OF THIS.ARSYS.ARSYS3m3;
+                   PROPERTY; 
+                     Text "&3. Matched Credits.",;
+                     enabled .T.,;
+                     OnClick {;do FRCRUMT.WFM WITH FORM.BLUSER,FORM.BLEVEL}
+          *          
+           *         DEFINE MENU SEPAVEW1xa OF THIS.ARSYS.ARSYS3m3;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+               
+            *   DEFINE MENU bfstatA9a2xa OF THIS.ARSYS.ARSYS3m3;
+                   PROPERTY; 
+                     Text "&4. Matched Debits.",;
+                     enabled .T.,;
+                     OnClick {;do FRDRUMT.WFM WITH FORM.BLUSER,FORM.BLEVEL}
+                     
+        *            DEFINE MENU SEPAVEW2xa OF THIS.ARSYS.ARSYS3m3;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+          
+          
+         *          DEFINE MENU openstat4 OF THIS.ARSYS.ARSYS3m3;
+             PROPERTY; 
+               Text "&5. View/Print Credit Notes Payments.",;
+                OnClick {;do fredtcrn.wfm WITH FORM.BLUSER,FORM.BLEVEL},;
+                 ENABLED .T.,;
+               StatusMessage "View/Print Credit Notes Payments."
+*        
+ *                DEFINE MENU SEPAVEW2OP4 OF THIS.ARSYS.ARSYS3m3;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+         
+  *           DEFINE MENU bfstat2 OF THIS.ARSYS.ARSYS3m3;
+             PROPERTY; 
+               Text "&4. Refresh.",;
+               ENABLED .F.,;
+               OnClick {;do frshtrn.prg WITH form.BLUSER, form.BLEVEL}
+            
+   *          DEFINE MENU SEPAVEW2OP45 OF THIS.ARSYS.ARSYS3m3;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+               
+    *       DEFINE MENU bfstat1 OF THIS.ARSYS.ARSYS3m3;
+             PROPERTY; 
+               Text "&5. Statements.",;
+               ENABLED .F.,;
+               OnClick {;do frstatm.wfm WITH FORM.BLUSER,FORM.BLEVEL}
+     
+         
+     *    DEFINE MENU SEPAVEW2OP456 OF THIS.ARSYS.ARSYS3m3;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+      *         endif
+                DEFINE MENU SEPAARSYS05 OF THIS.ARSYS;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+             
+               
+             
+          if blevel < 8
+                  DEFINE MENU QUOTESS OF THIS.ARSYS;
+         PROPERTY; 
+         Text "&4. Quote.",;
+         OnClick {;do arcinvsq.wfm WITH FORM.BLUSER,FORM.BLEVEL}
+         
+         DEFINE MENU SEPAARSYS06last OF THIS.ARSYS;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+        ENDIF
+        **
+            DEFINE MENU SEPAARSYS05TOPUP OF THIS.ARSYS;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+             
+               
+             
+          if blevel < 7
+                  DEFINE MENU TOPTOCRS OF THIS.ARSYS;
+         PROPERTY; 
+         Text "&5. Top Up Credit Note.",;
+         OnClick {;do artrecs.wfm WITH FORM.BLUSER,FORM.BLEVEL,FORM.BLADMIN}
+         
+         DEFINE MENU SEPAARSYS06lastTOPCRS OF THIS.ARSYS;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+        ENDIF
+        
+        endif
+         
+       
+   procedure ViewEditOnClick
+   
+   * Toggle View/Edit modes.
+   ****************************************************************************
+   
+   form.ViewEdit()
+   
+   
+   ****************************************************************************
+   
+  
+     
+   procedure OnExitALL
+   
+  
+   ****************************************************************************
+   *      form.close()  
+     form.Release()
+   *   QUIT
+   Procedure QUITALL
+            form.Release()
+            QUIT
+   
+   Procedure FILE_OnClick
+   
+ENDCLASS

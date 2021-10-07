@@ -1,0 +1,42 @@
+* Visual dBASE .QBE file 9
+on error do fgjcstrc.prg
+if .not. file("\kenservice\data\fglpsals.dbf")
+use \kenserve\idssys\fglpsals.dbf
+copy stru to \kenservice\data\fglpsals dbase prod
+endif
+use \kenservice\data\fglpsals.db
+? nonvat
+close databases
+ON ERROR DO QBEERR WITH ERROR(), MESSAGE(),;
+PROGRAM(), LINENO()
+CLOSE DATABASES
+SET EXACT ON
+*set exclusive on
+SELECT 24
+USE \KENSERVICE\DATA\fglcntsL.dbf
+SELECT 1
+USE \KENSERVICE\DATA\fglcnts.DBF
+*zap
+set filter to empty(post_date) .and.  fglcntsL->ORDER_NO = ORDER_NO
+GO TOP
+SELECT 2
+USE \KENSERVICE\DATA\fglcnlin.DBF
+select 11
+if .not. file("\kenservice\data\fglpsals.dbf")
+use \kenserve\idssys\fglpsals.dbf
+copy stru to \kenservice\data\fglpsals dbase prod
+endif
+use \kenservice\data\fglpsals.dbf
+select 100
+use \kenservice\data\fgcoy.dbf
+select 104
+use \kenservice\data\fglcrup.dbf
+select 130
+use \kenservice\data\fglcntsN.dbf
+SELECT 108
+USE \KENSERVICE\DATA\FGCOD.DBF
+SELECT 3
+use  \kenservice\data\fgmcclg.DBF alias fgmast
+SELECT 4
+USE \KENSERVICE\DATA\FGMAST.DBF ALIAS FGMAST2
+GO TOP

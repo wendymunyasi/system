@@ -1,0 +1,33 @@
+* Visual dBASE .QBE file 9
+ON ERROR DO QBEERR WITH ERROR(), MESSAGE(),;
+PROGRAM(), LINENO()
+CLOSE DATABASES
+SET EXACT ON
+SELECT 1
+USE \KENSERVICE\DATA\ARCRNTSL.DBF
+go top
+SELECT 3
+USE \KENSERVICE\DATA\arcrnlNE.DBF
+set filter to order_no = ARCRNTSL->order_no .and. .not. total = 0 ;
+ .AND. .NOT.  EMPTY(POST_DATE)
+select 5
+use \kenservice\data\fgcods.dbf order tag mkey
+SELECT 2
+USE \KENSERVICE\DATA\ARCRNTS.DBF
+set filter to order_no = ARCRNTSL->order_no
+SELECT 21
+USE \KENSERVICE\DATA\FGOFFS.DBF ORDER TAG OFF ALIAS FGOFF
+SELECT 4
+USE \KENSERVICE\DATA\FRIGTMES.DBF ORDER TAG FRIGHTER ALIAS FRIGHTER
+SELECT 2
+SET RELATION TO  OFF INTO FGOFF, source+ftyp+pmod+frighter_n INTO FRIGHTER
+select 3
+set relation to typ+cla+cod into fgcods
+SELECT 6
+USE \KENSERVICE\DATA\FGCOY.DBF
+select 125
+use \kenservice\data\fgprint.dbf
+select 60
+use \kenservice\data\ARCRNUPD.dbf
+SELECT 1
+GO TOP

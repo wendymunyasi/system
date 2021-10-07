@@ -1,0 +1,72 @@
+* Visual dBASE .QBE file 9
+use \kenservice\data\dayfgmas.DBF
+? purch
+close databases
+use \kenservice\data\vnstat.dbf
+? dis_qty
+use \kenservice\data\FGnfpur.dbf 
+? transp
+if .not. file("\kenservice\data\dayfgmas.dbf")
+use \kenserve\idssys\dayfgmas.dbf
+copy stru to \kenservice\data\dayfgmas dbase prod
+endif
+if .not. file("\kenservice\data\vendors.dbf")
+use \kenserve\idssys\vendor.dbf
+copy stru to \kenservice\data\vendors dbase prod
+endif
+close databases
+ON ERROR DO QBEERR WITH ERROR(), MESSAGE(),;
+PROGRAM(), LINENO()
+CLOSE DATABASES
+seT EXACT ON
+
+select 1
+if .not. file("\kenservice\data\fgpurchs.dbf")
+use \kenserve\idssys\fgpurchs.dbf
+copy stru to \kenservice\data\fgpurchs dbase prod
+endif
+use \kenservice\data\fgpurchs.dbf exclusive
+select 3
+use \kenservice\data\dayfgmas.dbf  
+SELECT 80
+USE \KENSERVICE\DATA\ST15F.DBF  
+
+select 70
+use \kenservice\data\scashrec.dbf 
+
+select 72
+use \kenservice\data\shcatsum.dbf  
+
+select 74
+use \kenservice\data\shstmast.dbf 
+
+select 30
+use \kenservice\data\fgnfpur.dbf 
+
+
+select 31
+use \kenservice\data\fgmast.dbf
+
+
+select 91
+use \kenservice\data\vnstat.dbf 
+
+select 92
+use \kenservice\data\vncount.dbf 
+
+select 93
+use \kenservice\data\vndocref.dbf exclusive
+
+select 94
+use \kenservice\data\vendor.dbf  
+
+select 98
+use \kenservice\data\cashiers.dbf
+SELECT 99
+USE \KENSERVICE\DATA\FGCOY.DBF 
+select 107
+use \kenservice\data\fgcod.dbf
+select 108
+use \kenservice\data\fgtrnref.dbf
+select 109
+use \kenservice\data\vendors.dbf excl

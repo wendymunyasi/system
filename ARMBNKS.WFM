@@ -1,0 +1,1018 @@
+////////////////////////////////////////////////////////////////////////////////
+// Output Filename: C:\KENSERVICE\IDSSYS\ARMBNKS_FCV.WFM                      //
+// Created By:      dBASE Form Converter Wizard                               //
+// Created On:      Sunday October 3, 2021 At 17:12:35                        //
+// Object Count:    27                                                        //
+////////////////////////////////////////////////////////////////////////////////
+                                                                                                                  *******************************************************************************
+*  PROGRAM:      ARMBNKS.WFM
+*
+*  WRITTEN BY:   W Nyongesa
+*  DATE:         10/2003
+*
+*  UPDATED:      09/2012
+*
+*  REVISION:     $Revision:   1.97  $
+*
+*  VERSION:      Visual dBASE
+*
+*  DESCRIPTION:  This form displays information about an order from a company.
+*                It allows traversing through armbnks and going to the top and
+*                bottom.  This form also has a corresponding menu, OrdCust.mnu,
+*                which allows adding,deleting and searching for an order.
+*                When an unknown customer number is entered, a dialog will come
+*                up asking you if you want to add a new customer.  If you
+*                selecte the Yes button, the customer form (in stcusj.Wfm)
+*                will be opened, so a new customer can be added.
+*
+*  PARAMETERS:   None
+*
+*  CALLS:        armbnks.mnu       (Menu file)
+*                Buttons.cc       (Custom controls file)
+*                stcusj.Wfm     (Form for displaying customer information)
+*                ARMBNKS.QBE       (View of tables)
+*
+*  USAGE:        DO ARMBNKS.WFM    && Note that you can also DO stcusj.Wfm
+*
+*******************************************************************************
+#include <Messdlg.h>
+shell(.F.)
+create session
+set talk off
+*ET DESIGN OFF
+*if .not. user() = "WYCLIFFE"
+_app.FrameWin.Visible = .F.
+set design off
+*ENDIF
+_app.FrameWin.Text = "armbnks"
+set ldCheck off                        && To avoid language driver conflicts
+*SET DBTYPE TO PARADOX
+SET CUAENTER OFF
+SET CENTURY ON
+** END HEADER -- do not remove this line*
+* Generated on 25/08/2020
+*
+parameter bUser,bLevel,bModal
+local f
+f = new armbnksFORM()
+if (bModal)
+   f.mdi = .F. && ensure not MDI
+   f.ReadModal()
+else
+   f.Open()
+endif
+CLASS armbnksFORM OF FORM
+   Set Procedure To BUTTONS.CC additive
+   this.Metric = 6  // Pixels
+   this.Moveable = .F.
+   this.Sizeable = .F.
+   this.Left = 0
+   this.OnClose = CLASS::ONCLOSE
+   this.Top = 3
+   this.EscExit = .F.
+   this.Maximize = .F.
+   this.Text = "MOBILE CASH  WITHDRAWALS -- View Mode"
+   this.CanClose = CLASS::FORM_CANCLOSE
+   this.Minimize = .F.
+   this.WindowState = 2
+   this.View = "ARMBNKS.QBE"
+   this.MousePointer = 1
+   this.MDI = .F.
+   this.MenuFile = "ARMBNKS.MNU"
+   this.Height = 355
+   this.ColorNormal = "N+"
+   this.Width = 422
+
+   DEFINE TEXTLABEL TEXT9 OF THIS;
+       PROPERTY;
+         Left -1,;
+         Top 4,;
+         Text "No.:",;
+       BorderStyle 7,;
+         FontName "Verdana",;
+         FontSize 10,;
+         Height 21,;
+         ColorNormal "R+/W",;
+         Width 52,;
+       FontBold .T.,;
+       AlignHorizontal 1,;
+       AlignVertical 1
+
+   DEFINE ENTRYFIELD ORDERNOENTRY OF THIS;
+       PROPERTY;
+         DataLink "armbnks->ORDER_NO",;
+         Left 48,;
+         Top 4,;
+         FontName "MS Sans Serig",;
+         FontSize 10,;
+         ColorHighLight "GB+/W",;
+         Height 21,;
+         ColorNormal "R+/W",;
+         Width 75,;
+         Enabled .F.,;
+       FontBold .T.
+
+   DEFINE TEXTLABEL TEXT2 OF THIS;
+       PROPERTY;
+         Left 128,;
+         Text "Date:",;
+       BorderStyle 7,;
+         FontName "Verdana",;
+         FontSize 10,;
+         Height 25,;
+         ColorNormal "R+/W",;
+         Width 60,;
+       FontBold .T.,;
+       AlignHorizontal 1,;
+       AlignVertical 1
+
+   DEFINE SPINBOX SDATE OF THIS;
+       PROPERTY;
+         DataLink "armbnks->order_date",;
+         Left 192,;
+         Rangemax {09/06/2011},;
+         Top 3,;
+         ValidErrorMsg "Date out of Range",;
+         Rangemin {09/09/2012},;
+         FontSize 10,;
+         ColorHighLight "W+/N",;
+         Height 21,;
+         ColorNormal "R+/W",;
+         Width 108,;
+         Enabled .F.,;
+       FontName "MS Sans Serif",;
+       FontBold .T.
+
+   DEFINE TEXTLABEL TEXT3 OF THIS;
+       PROPERTY;
+         Left 305,;
+         Top 2,;
+         Text "Slip No:",;
+       BorderStyle 7,;
+         FontName "Verdana",;
+         FontSize 10,;
+         Height 24,;
+         ColorNormal "0x400000/W",;
+         Width 63,;
+       FontBold .T.,;
+       AlignHorizontal 1,;
+       AlignVertical 1
+
+   DEFINE ENTRYFIELD SSERIAL OF THIS;
+       PROPERTY;
+         DataLink "armbnks->SERIALNO",;
+         Left 370,;
+         Top 3,;
+         OnChange CLASS::SSERIAL_ONCHANGE,;
+         FontName "MS Sans Serig",;
+         FontSize 10,;
+         ColorHighLight "W+/N",;
+         Height 21,;
+         ColorNormal "R+/W",;
+         Width 77,;
+         Enabled .F.,;
+       FontBold .T.
+
+   DEFINE TEXTLABEL TEXT10 OF THIS;
+       PROPERTY;
+         Left 452,;
+         Text "Cashier:",;
+       BorderStyle 7,;
+         FontName "Verdana",;
+         FontSize 10,;
+         Height 28,;
+         ColorNormal "0x400000/W",;
+         Width 76,;
+       FontBold .T.,;
+       AlignHorizontal 1,;
+       AlignVertical 1
+
+   DEFINE COMBOBOX SOFF OF THIS;
+       PROPERTY;
+         DataLink "armbnks->ANAME",;
+         Left 528,;
+         Top 2,;
+         MousePointer 1,;
+         DataSource "FIELD fgoffs->NAME",;
+         OnChange CLASS::SEMP1_ONCHANGE,;
+         Style 1,;
+         FontSize 10,;
+         Height 24,;
+         ColorNormal "0xc08000/W",;
+         Width 196,;
+         Enabled .F.,;
+       FontName "MS Sans Serif",;
+       FontBold .T.
+
+   DEFINE RECTANGLE RECTANGLE1 OF THIS;
+       PROPERTY;
+         Top 31,;
+         Text "Pay Method",;
+         FontSize 10,;
+         Height 48,;
+         ColorNormal "N/0xc8d0d8",;
+         Width 156,;
+       FontName "MS Sans Serif",;
+       FontBold .T.
+
+   DEFINE RADIOBUTTON SCASH OF THIS;
+       PROPERTY;
+         DataLink "armbnks->PAY_METHOD",;
+         Left 4,;
+         Top 49,;
+         Text "M-Withdrcash",;
+         FontName "Arial",;
+         FontSize 10,;
+         Group .T.,;
+         Height 20,;
+         Width 128,;
+         Enabled .F.,;
+       FontBold .T.
+
+   DEFINE RECTANGLE RECTANGLE2 OF THIS;
+       PROPERTY;
+         Left 162,;
+         Top 31,;
+         Text "Trans Type",;
+         FontSize 10,;
+         Height 48,;
+         ColorNormal "N/0xc8d0d8",;
+         Width 180,;
+       FontName "MS Sans Serif",;
+       FontBold .T.
+
+   DEFINE RADIOBUTTON STTYP OF THIS;
+       PROPERTY;
+         OnGotFocus CLASS::STTYP_ONGOTFOCUS,;
+         DataLink "armbnks->PAYTYPE",;
+         Left 166,;
+         Top 49,;
+         Text "M-MONEY",;
+         FontName "Arial",;
+         FontSize 10,;
+         Group .T.,;
+         Height 20,;
+         Width 104,;
+         Enabled .F.,;
+       FontBold .T.
+
+   DEFINE TEXTLABEL TEXT8 OF THIS;
+       PROPERTY;
+         Top 99,;
+         Text "Cash/Liquid Account",;
+       BorderStyle 7,;
+         FontName "Verdana",;
+         FontSize 12,;
+         Height 26,;
+         ColorNormal "0x400000/W",;
+         Width 204,;
+       FontBold .T.,;
+       AlignHorizontal 1,;
+       AlignVertical 1
+
+   DEFINE COMBOBOX SBANKA OF THIS;
+       PROPERTY;
+         DataLink "armbnks->BNAME",;
+         Left 210,;
+         Top 99,;
+         MousePointer 1,;
+         DataSource "FIELD FGCOD->NAME",;
+         OnChange CLASS::SBANKA_ONCHANGE,;
+         Style 1,;
+         FontSize 12,;
+         Height 28,;
+         ColorNormal "0xc08000/W",;
+         Width 510,;
+         Enabled .F.,;
+       FontName "MS Sans Serif",;
+       FontBold .T.
+
+   DEFINE TEXTLABEL TEXT1 OF THIS;
+       PROPERTY;
+         Top 150,;
+         Text "Float Account:",;
+       BorderStyle 7,;
+         FontName "Verdana",;
+         FontSize 12,;
+         Height 26,;
+         ColorNormal "0x400000/W",;
+         Width 180,;
+       FontBold .T.,;
+       AlignHorizontal 1,;
+       AlignVertical 1
+
+   DEFINE COMBOBOX SCRACCT OF THIS;
+       PROPERTY;
+         DataLink "ARMBNKLN->BNAME",;
+         Left 210,;
+         Top 150,;
+         MousePointer 1,;
+         DataSource "FIELD FGCODs->NAME",;
+         OnChange CLASS::SCRACCT_ONCHANGE,;
+         Style 1,;
+         FontSize 12,;
+         Height 28,;
+         ColorNormal "0xc08000/W",;
+         Width 510,;
+         Enabled .F.,;
+       FontName "MS Sans Serif",;
+       FontBold .T.
+
+   DEFINE TEXTLABEL TEXT12 OF THIS;
+       PROPERTY;
+         Top 184,;
+         Text "Date Banked:",;
+       BorderStyle 7,;
+         FontName "Verdana",;
+         FontSize 12,;
+         Height 25,;
+         ColorNormal "N/W",;
+         Width 180,;
+       FontBold .T.,;
+       AlignHorizontal 1,;
+       AlignVertical 1
+
+   DEFINE SPINBOX SCHQD OF THIS;
+       PROPERTY;
+         DataLink "armbnks->recdate",;
+         Left 195,;
+         Rangemax {09/06/2011},;
+         Top 184,;
+         ValidErrorMsg "Date out of Range",;
+         Rangemin {09/09/2012},;
+         FontSize 10,;
+         ColorHighLight "W+/N",;
+         Height 26,;
+         ColorNormal "R+/W",;
+         Width 171,;
+         Enabled .F.,;
+       FontName "MS Sans Serif",;
+       FontBold .T.
+
+   DEFINE TEXTLABEL TEXT14 OF THIS;
+       PROPERTY;
+         Left 396,;
+         Top 184,;
+         Text "Amount:",;
+       BorderStyle 7,;
+         FontName "Verdana",;
+         FontSize 12,;
+         Height 25,;
+         ColorNormal "N/W",;
+         Width 132,;
+       FontBold .T.,;
+       AlignHorizontal 1,;
+       AlignVertical 1
+
+   DEFINE ENTRYFIELD SDTOTAL OF THIS;
+       PROPERTY;
+         DataLink "armbnkln->TOTAL",;
+         Left 540,;
+         Top 184,;
+         OnChange CLASS::SDTOTAL_ONCHANGE,;
+         FontSize 12,;
+         Picture "99999,999,999.99",;
+         ColorHighLight "0x40/W",;
+         Height 25,;
+         ColorNormal "N/W",;
+         Width 180,;
+         Enabled .F.,;
+       FontName "MS Sans Serif",;
+       FontBold .T.
+
+   DEFINE TEXTLABEL TEXT7 OF THIS;
+       PROPERTY;
+         Left 312,;
+         Top 213,;
+         Text "TOTAL WITHDRAWAL:",;
+       BorderStyle 7,;
+         FontName "Verdana",;
+         FontSize 12,;
+         Height 25,;
+         ColorNormal "0x400000/0xffff80",;
+         Width 222,;
+       FontBold .T.,;
+       AlignHorizontal 1,;
+       AlignVertical 1
+
+   DEFINE ENTRYFIELD STOTAL OF THIS;
+       PROPERTY;
+         DataLink "armbnks->TOTAL",;
+         Left 540,;
+         Top 211,;
+         FontName "arial",;
+         FontSize 12,;
+         Picture "99999,999,999.99",;
+         ColorHighLight "G+/0xc08000",;
+         Height 25,;
+         ColorNormal "0x400000/0xffff80",;
+         Width 180,;
+         Enabled .F.,;
+       FontBold .T.
+
+   DEFINE PUSHBUTTON FIRSTORDERBUTTON OF THIS;
+       PROPERTY;
+         Left 18,;
+         Top 427,;
+         Text "First",;
+         OnClick CLASS::GO_TOP,;
+         FontSize 12,;
+         Group .F.,;
+         Height 26,;
+         ColorNormal "0x40/W",;
+         Width 120,;
+       FontName "MS Sans Serif",;
+       FontBold .T.
+
+   DEFINE PUSHBUTTON LASTORDERBUTTON OF THIS;
+       PROPERTY;
+         Left 168,;
+         Top 427,;
+         Text "Last",;
+         OnClick CLASS::GO_LAST,;
+         FontSize 12,;
+         Group .F.,;
+         Height 26,;
+         ColorNormal "0x40/W",;
+         Width 120,;
+       FontName "MS Sans Serif",;
+       FontBold .T.
+
+   DEFINE PREVBUTTON PREVORDERBUTTON OF THIS;
+       PROPERTY;
+         Left 318,;
+         Top 427,;
+         Text "Previous",;
+         OnClick CLASS::PREVIOUS,;
+         FontSize 12,;
+         Group .T.,;
+         Height 26,;
+         ColorNormal "0x40/W",;
+         Width 120,;
+       FontName "MS Sans Serif",;
+       FontBold .T.
+
+   DEFINE NEXTBUTTON NEXTORDERBUTTON OF THIS;
+       PROPERTY;
+         Default .T.,;
+         Left 468,;
+         Top 427,;
+         Text "Next",;
+         OnClick CLASS::NEXT,;
+         FontSize 12,;
+         Group .F.,;
+         Height 26,;
+         ColorNormal "0x40/W",;
+         Width 120,;
+       FontName "MS Sans Serif",;
+       FontBold .T.
+
+   DEFINE BROWSE CHILDBROWSE OF THIS;
+       PROPERTY;
+         CUATab .T.,;
+         Alias "armbnkln",;
+         ShowRecNo .F.,;
+         Top 255,;
+         Delete .F.,;
+         Text "LISTING OF BREAK-DOWN OF DEPOSIT MADE",;
+         Append .F.,;
+         ShowDeleted .F.,;
+         Fields 'armbnkln->DRAWER\H="Banked By"\20\R,armbnkln->CHQNO\H="Deposit Slip No."\20\R,armbnkln->BANK\H="Bank/Branch"\20\R,armbnkln->TOTAL\H="Amount"\15\P="99999,999,999.99"\R',;
+         Modify .F.,;
+         ScrollBar 1,;
+         FontSize 11,;
+         Height 130,;
+         ColorHighLight "R/BTNFACE",;
+         Width 746,;
+         ColorNormal "R/W",;
+       FontName "MS Sans Serif"
+
+   procedure Open
+   ****************************************************************************
+   private orderNoField
+      on error DO ddeerr WITH ERROR(), MESSAGE(),;
+   PROGRAM(), LINENO()
+         FORM.BLUSER = BUSER
+   FORM.BLEVEL = BLEVEL
+
+                     set safety off
+                     set reprocess to 10
+                       select armbnksn
+                      go top
+    if eof()
+    append blank
+    replace order_no with "0"
+    endif
+                         select armbnupd
+    set order to orderdate
+
+                     select fgcods
+                     set order to name
+      select st15f
+   set order to mkey
+   GO TOP
+
+   select armbnkln3
+   set order to order_no
+      select fgoffs
+   set order to name
+    select armbnks3
+    SET ORDER TO ORDER_NO
+   go bottom
+    form.maxOrder = order_no
+   if type("form.init") = "U"
+      form.init = .T.
+    ENDIF
+   SELECT FGCOY
+   GO TOP
+   FORM.PSHIFTDATE = DATE()
+   FORM.PSHIFTNO = "0"
+   FORM.PSHIFTID = "0"
+   form.pfc = .f.
+   IF POSPOST = "Yes"
+    FORM.PSHIFTDATE = st15f->shift_date
+   FORM.PSHIFTNO = st15f->shift_no
+   FORM.PSHIFTID = st15f->shift_id
+   form.pfc = .t.
+
+   endif
+
+   FORM.PDIV = ""
+   FORM.PCOY = ""
+   FORM.OKEXIT = .F.
+   FORM.PVATPRICE = "Inclusive"
+   FORM.PCEN = ""
+    form.pcashierno = ""
+    form.pemp1 = ""
+    form.pf1name = ""
+    FORM.PSERVED = ""
+   FORM.PSTO = ""
+   form.pclass = ""
+   FORM.PTYP = ""
+   form.pcard = "B/V"
+   form.ptypname = ""
+   form.pclaname = ""
+   form.pcodname = ""
+   form.pcod = ""
+   form.pf1dr = "No"
+
+   FORM.PCLA = ""
+      set skip to                     && ARMBNKS.QBE contains set skip to armbnkln
+      set exact off                   && the .qbe file contains SET EXACT ON
+
+      set procedure to Sampproc.prg additive
+
+      form.inEditMode = .F.           && indicator of view/edit state
+      form.changesMade = .F.          && indicator of changes made to field values
+      form.previousRecord = .F.       && Save record number when appending
+      form.pspdiv = "1"
+      form.pspdivname = "Depot"
+      *** do calculations in another area so form doesn't get updated
+      select temp
+      orderNoField = field(1)         && order_no field
+    *  delete all for empty(order_no) .or. empty(ctyp) .or. empty(customer_n) .or. empty(order_date)
+      set order to order_no      && order_no -- tag name is same as field
+      select armbnks
+      set order to order_no
+
+
+        && max value for key field -- for creating
+
+          local lmax
+
+      use in temp
+
+      ***
+       select armbnksL
+       go top
+       if eof()
+       append blank
+       endif
+
+   form.Psdate = FORM.PSHIFTDATE
+   form.pserialno = ""
+
+      *** Open table for calculating totals and balance due in another work area
+      *** so that datalinks are not affected by record movements
+
+     * SET FILTER TO TOTAL > 0 .AND. BL_AMT > 0
+      select armbnks
+      set relation to order_no into armbnkln2 constrain integrity   additive
+
+      ***
+
+
+   go top
+   refresh
+   form::Open()
+
+   *     form.BrowseOnNavigate()              && calculate totals&& Now the form actually opens
+   shell(.F.)
+    ****************************************************************************
+
+   procedure OnClose
+   ****************************************************************************
+   *  form.CheckCommit(form.inEditMode)
+      if form.inEditMode
+      form.ViewEdit()
+   endif
+          && Close customer form if it exists
+    *  if type("form.parentcustomerForm") = "U"  && If called from customer,
+                                             && leave shell(.F.)
+        shell(.f.)
+   *  endif
+   close procedure SampProc.prg, Buttons.cc
+   if .not. empty(armbnks->order_no)
+   select armbnupd
+   seek armbnks->order_no+dtos(armbnks->order_date)
+   if found() .and. .not. empty(post_date)
+   select armbnks
+   replace post_date with date()
+   endif
+   endif
+   close databases
+   clear program
+     do arpmbnks.prg
+   form.close()
+   close databases
+
+     ****************************************************************************
+
+   procedure BrowseOnNavigate
+    select armbnksL
+    replace order_no with armbnks->order_no
+    REPLACE ORDER_DATE WITH armbnks->ORDER_DATE
+        replace title with "DEPOSIT"
+         select armbnks
+    form.changesmade = .t.
+
+    ****************************************************************************
+
+   procedure ChangesMade
+
+   * Indicate that changes have been made to current record.
+   ****************************************************************************
+
+   form.changesMade = .T.
+
+   ****************************************************************************
+
+
+   procedure BrowseChangesMade
+   ****************************************************************************
+   local t,t2,t3,t4,T5,t6,t7,t8
+     if form.changesmade = .t.
+   select armbnkln
+   IF .NOT. EOF()
+   *  form.changesMade = .T.
+     go recno("armbnkln") in armbnkln    && Make sure change is posted
+
+   select armbnkln2  && recalculate totals in other workarea
+   calculate sum(armbnkln2->total) to t
+   * select armbnks
+   FORM.Stotal.VALUE =  t
+         ENDIF
+     SELECT armbnks
+   endif
+
+    procedure Next
+   ****************************************************************************
+
+   form.CheckCommit(form.inEditMode)
+   if .not. empty(armbnks->order_no)
+   select armbnupd
+   seek armbnks->order_no+dtos(armbnks->order_date)
+   if found() .and. .not. empty(post_date)
+   select armbnks
+   replace post_date with date()
+   flush
+   endif
+   endif
+   form.root.order.viewEdit.enabled = .t.
+     form.root.order.ADDorder.enabled = .T.
+    form.root.order.ADDline.enabled = .T.
+   if .not. eof()
+      NEXTBUTTON::OnClick()
+   endif
+   form.BrowseOnNavigate()
+   form.root.file.exit.enabled =   .t.
+
+   ****************************************************************************
+
+   procedure Previous
+   ****************************************************************************
+
+   form.CheckCommit(form.inEditMode)
+   if .not. empty(armbnks->order_no)
+   select armbnupd
+   seek armbnks->order_no+dtos(armbnks->order_date)
+   if found() .and. .not. empty(post_date)
+   select armbnks
+   replace post_date with date()
+   flush
+   endif
+   endif
+   form.root.order.viewEdit.enabled = .t.
+     form.root.order.ADDorder.enabled = .T.
+    form.root.order.ADDline.enabled = .T.
+   if .not. bof()
+   PREVBUTTON::OnClick()
+   endif
+     form.root.file.exit.enabled =   .t.
+   form.BrowseOnNavigate()
+
+   ****************************************************************************
+
+   procedure CheckCommit (newInEditMode)
+
+    * Finish transaction, if it has been started.
+    ****************************************************************************
+    private orderField, changesMade,prcoy,prdiv,prcen,prsto,prtyp,prcla,prcod,prqty,;
+    pcoy,pdiv,pcen,psto,ptyp,pcla,pcod
+
+
+    changesMade = form.changesMade
+     if form.changesMade
+       orderField = field(1)                  && Field Order_no
+    *   if     ConfirmationMessage("Commit changes?",;
+                FormatStr("Order %1",&OrderField)) = YES .and. ;
+                 (armbnks->dde_user = user() .or. user() = "JAFRADA" ;
+                  .OR. USER() = "WYCLIFFE" .OR. USER() = "DANIEL")
+          commit()
+            on error DO ddeerr WITH ERROR(), MESSAGE(),;
+   PROGRAM(), LINENO()
+     *     ELSE
+      *    ROLLBACK()
+       *   ENDIF
+
+       if form.inEditMode .and. newInEditMode
+          begintrans()
+               on error DO transerr WITH ERROR(), MESSAGE(),;
+   PROGRAM(), LINENO()
+       endif
+       form.changesMade = .F.
+    endif
+
+
+    if form.inEditMode <> newInEditMode
+       if newInEditMode                       && Going to Edit mode
+          begintrans()
+            on error DO transerr WITH ERROR(), MESSAGE(),;
+   PROGRAM(), LINENO()
+       else                                   && Going to View mode
+          if .not. changesMade
+             rollback()
+            on error   DO ddeerr WITH ERROR(), MESSAGE(),;
+   PROGRAM(), LINENO()
+          endif
+       endif
+       form.inEditMode = newInEditMode
+    endif
+
+      select fgcoy
+      flush
+
+    select armbnks
+    ****************************************************************************
+
+   procedure ViewEdit
+   ****************************************************************************
+   local inEditMode, control, editMenu
+
+   editMenu = form.root.order.viewEdit
+
+   *** If editing is completed, close transaction, otherwise open a transaction
+   if form.inEditMode                           && Change to View mode
+      form.checkChanged(.F.)
+      editMenu.text = "&Edit"
+      editMenu.shortcut = "Ctrl-E"
+      editMenu.statusMessage = "Edit data."
+      form.root.order.deleteline.enabled = .F.
+   *     form.root.order.REPLACECUST.enabled = .f.
+      form.CheckCommit(.F.)                     && Check transaction and
+      form.text = "MOBILE CASH  WITHDRAWALS -- View Mode"         && change mode to View
+      form.childBrowse.modify = .F.
+      form.statusMessage = "Select DEPOSIT - Edit menu choice to " +;
+                           "edit/delete data."
+   else                                         && Change to Edit mode
+      editMenu.text = "&View"
+      editMenu.shortcut = "Ctrl-E"
+      editMenu.statusMessage = "View data."
+        form.root.order.deleteline.enabled = .t.
+   *        form.root.order.REPLACECUST.enabled = .t.
+      form.CheckCommit(.T.)                     && Check transaction and
+      form.text = "MOBILE CASH  WITHDRAWALS -- Edit Mode"         && change mode to Edit
+      form.childBrowse.modify = .F.
+      form.statusMessage = "In Edit Mode.  " +;
+                           "Select DEPOSIT - View menu choice to switch " +;
+                           "to View mode."
+
+
+   endif
+
+   control = form.first
+
+   inEditMode = form.inEditMode    && so don't have to reference many times
+   do
+      do case
+         case control.name $ "ORDERNOENTRY,cno,TOTINVENTRY,BALDUEENTRY"
+            * these are never editable
+            control.enabled = .F.
+         case .not. control.className $ "BROWSE,NEXTBUTTON,PREVBUTTON,PUSHBUTTON,IMAGE,TEXT"
+            * doesn't make sense to make the above classes enabled/not
+            control.enabled = inEditMode
+         case control.className = "BROWSE"
+            control.Modify = inEditMode
+            control.Delete = inEditMode
+            control.Append = inEditMode
+      endcase
+      control = control.before
+   until control.name = form.first.name
+   *   form.cno.enabled = .F.       && Key field is always disabled
+   form.OrderNoEntry.enabled = .F.          && Key field is always disabled
+   form.childBrowse.append = .F.
+   form.childBrowse.delete = .F.
+    FORM.CHILDBROWSE.MODIFY = .F.
+   form.stotal.enabled = .f.
+    FORM.STOTAL.ENABLED = .F.
+   FORM.SDATE.ENABLED = .F.
+     FORM.STTYP.ENABLED = .F.
+   FORM.SCHQD.ENABLED = .F.
+
+   procedure CheckChanged(callCommit)
+
+   * Check if changes have been made to the current entryfield.  This procedure
+   * is called from menu routines to make sure the form.changesMade gets
+   * updated when a menu is selected while the changed control has focus.
+   ****************************************************************************
+   private control, fieldValue, controlValue, typeText, typeValue
+
+   if form.inEditMode
+      control = form.activeControl
+      if type("control.datalink") <> "U"
+         fieldValue = control.datalink          && name of table field
+
+         typeText = type("control.text")
+         typeValue = type("control.value")
+         do case
+            case typeValue = "C0"
+               controlValue = control.value
+            case typeValue $ "LU" .and. typeText = "C0"
+               controlValue = control.text
+            otherwise
+               controlValue = Null
+         endcase
+         if controlValue <> &fieldValue
+            form.changesMade = .T.
+         endif
+      endif
+   endif
+   if form.changesMade .and. callCommit
+      CLASS::CheckCommit(form.inEditMode)     && Check transactions
+   endif
+
+   Procedure Go_last
+       form.CheckCommit(form.inEditMode)
+       if .not. empty(armbnks->order_no)
+    select armbnupd
+    seek armbnks->order_no+dtos(armbnks->order_date)
+    if found() .and. .not. empty(post_date)
+    select armbnks
+    replace post_date with date()
+    flush
+    endif
+    endif
+    form.root.order.viewEdit.enabled = .t.
+       go bottom
+    form.root.file.exit.enabled =   .t.
+      form.root.order.ADDorder.enabled = .T.
+     form.root.order.ADDline.enabled = .T.
+    form.BrowseOnNavigate()
+
+
+     Procedure Go_Top
+     form.CheckCommit(form.inEditMode)
+     if .not. empty(armbnks->order_no)
+   select armbnupd
+   seek armbnks->order_no+dtos(armbnks->order_date)
+   if found() .and. .not. empty(post_date)
+   select armbnks
+   replace post_date with date()
+   flush
+   endif
+   endif
+   form.root.order.viewEdit.enabled = .t.
+     go top
+    form.root.file.exit.enabled =   .t.
+      form.root.order.ADDorder.enabled = .T.
+    form.root.order.ADDline.enabled = .T.
+    form.BrowseOnNavigate()
+
+    Procedure Form_CanClose
+      RETURN IIF(form.changesmade = .F., .F., .T.)
+
+
+
+
+   Procedure SEMP1_Onchange
+         local l1,l2
+
+         l1 = this.value
+         select fgoffs
+         seek l1
+
+           select armbnks
+         replace off with fgoffs->off
+         replace aname with this.value
+         replace cashier_no with fgoffs->cashier_no
+          form.changesmade = .t.
+
+
+   Procedure SDTOTAL_OnChange
+   SELECT armbnkln
+   if this.value > 0 .AND. FORM.BLEVEL > 4
+   replace total with 0
+   else
+        REPLACE total with  this.value
+        endif
+      FORM.CHANGESMADE = .T.
+       select armbnks
+        form.browsechangesmade()
+
+     Procedure SSERIAL_OnChange
+   select armbnks
+   replace serialno with this.value
+         form.changesmade = .t.
+
+   Procedure SBANKA_ONchange
+      select fgcod
+      seek this.value
+      if found()
+      select armbnks
+      replace bname with this.value
+      replace bcoy with "1"
+      replace bdiv with "5"
+      replace bcen with "1"
+      replace bsto with "A1"
+      replace btyp with fgcod->typ
+      replace bcla with fgcod->cla
+      replace bcod with fgcod->cod
+      else
+       select armbnks
+      replace bname with ''
+      replace bcoy with ""
+      replace bdiv with ""
+      replace bcen with ""
+      replace bsto with ""
+      replace btyp with ""
+      replace bcla with ""
+      replace bcod with ""
+      endif
+    *  replace pay_method with "Cash"
+      form.changesmade = .t.
+
+   Procedure SDRAWER_OnChange
+         SELECT armbnkln
+         REPLACE DRAWER WITH THIS.VALUE
+         FORM.CHANGESMADE = .T.
+         SELECT armbnks
+
+   Procedure sbank_OnChange
+      SELECT armbnkln
+      REPLACE BANK WITH THIS.VALUE
+      SELECT armbnks
+      FORM.CHANGESMADE = .T.
+
+
+   Procedure STTYP_OnGotFocus
+     FORM.CHANGESMADE = .T.
+
+   Procedure SCRACCT_OnChange
+   select fgcods
+      seek this.value
+      if found()
+      select armbnkln
+      replace bname with this.value
+      replace coy with "1"
+      replace div with "5"
+      replace cen with "1"
+      replace sto with "A1"
+      replace typ with fgcods->typ
+      replace cla with fgcods->cla
+      replace cod with fgcods->cod
+      else
+       select armbnkln
+      replace bname with ''
+      replace coy with ""
+      replace div with ""
+      replace cen with ""
+      replace sto with ""
+      replace typ with ""
+      replace cla with ""
+      replace cod with ""
+      endif
+     select armbnks
+    *  replace pay_method with "Cash"
+      form.changesmade = .t.
+
+ENDCLASS

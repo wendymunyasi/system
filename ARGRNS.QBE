@@ -1,0 +1,126 @@
+* Visual dBASE .QBE file 9
+*set exclusive on
+close databases
+ON ERROR DO QBEERR WITH ERROR(), MESSAGE(),;
+PROGRAM(), LINENO()
+CLOSE DATABASES
+SET EXACT ON
+*Set exclusive on
+select 120
+use \kenservice\data\fgcoy.dbf
+go top
+SELECT 1
+if .not. file('\KENSERVICE\DATA\ARGRNS.DBF')
+use \KENSERVE\IDSSYS\ARGRNS.DBF
+copy stru to \KENSERVICE\DATA\ARGRNS dbase prod
+endif
+USE \KENSERVICE\DATA\ARGRNS.DBF ORDER TAG ORDER_NO
+delete all for empty(order_no)
+set filter to empty(post_date)
+SELECT 2
+if .not. file('\KENSERVICE\DATA\argrline.DBF')
+use \KENSERVE\IDSSYS\argrline.DBF
+copy stru to \KENSERVICE\DATA\argrline dbase prod
+endif
+USE \KENSERVICE\DATA\argrline.DBF ORDER TAG ORDER_NO
+delete all for empty(order_no)
+set filter to empty(post_date)
+SELECT 3
+USE \KENSERVICE\DATA\FRIGTMES.DBF order tag name
+if FGCOY->ASHIPNAME = 'Yes'
+SET FILTER TO SOURCE > "3" .and. .not. source = "9" .and. .not. source = "7" ;
+ .and. .not. source = "B" .and. empty(close_date)
+ else
+ SET FILTER TO SOURCE > "3" .and. .not. source = "9" .and. .not. source = "7" ;
+ .and. .not. source = "B" .and. empty(close_date) .and. .not. source = 'S'
+ endif
+select 5
+if .not. file("\kenservice\data\fccashrs.dbf")
+use \kenserve\idssys\cashiers.dbf
+copy stru to \kenservice\data\fccashrs dbase prod
+use  \kenservice\data\fccashrs.dbf
+appe from \kenservice\data\cashiers.dbf
+endif
+use  \kenservice\data\fccashrs.dbf
+select 7
+use \kenservice\data\FGOFFS.dbf order tag name
+set filter to  .not. empty(cashier_no) .and. empty(DATE_LEFT)
+select 8
+use  \kenservice\data\fghqoffs.dbf
+set filter to empty(date_left)
+SELECT 18
+use \kenservice\data\FGOFFS.dbf order tag name AGAIN ALIAS FGOFFS2
+set filter to empty(DATE_LEFT)
+SELECT 19
+use \kenservice\data\FGOFFS.dbf order tag name AGAIN ALIAS FGOFFS3
+set filter to  .not. empty(cashier_no) .and. empty(DATE_LEFT)
+select 53
+use \kenservice\data\fgtaxtyp.dbf order tag tax_type
+select 54
+SET SAFETY OFF
+USE  \KENSERVE\IDSSYS\FGMAST.DBF
+COPY STRU TO \KENSERVICE\DATA\FGMARGRN DBASE PROD
+USE  \KENSERVICE\DATA\FGMARGRN.DBF  ORDER TAG MKEY  ALIAS FGMAST
+APPE FROM  \KENSERVICE\DATA\FGMAST FOR TYP <='9Z' .and. .not. left(typ,1) = '7' .and. .not. (typ ='00' .and. div ='1')
+GO TOP
+SELECT 1
+SET RELATION TO ORDER_NO INTO argrline constrain INTEGRITY
+SELECT 20
+USE \KENSERVICE\DATA\fgmastp.DBF order tag name
+set filt to typ >='00'.and. typ <='9Z' .and. .not. left(typ,1) = '7' .and. .not. (typ ='00' .and. div ='1')
+go top
+SELECT 21
+USE \KENSERVICE\DATA\fgcods.dbf  order tag mkey
+SELECT 22
+USE \KENSERVICE\DATA\fgcod.dbf  order tag mkey
+SELECT 24
+IF .NOT. FILE ('\kenservice\data\argrnsl.dbf')
+ use \kenserve\idssys\argrnsl.dbf
+ COPY STRU TO  \kenservice\data\argrnsl DBASE PROD
+ ENDIF
+USE \KENSERVICE\DATA\argrnsl.dbf
+*ZAP
+SELECT 25
+USE \KENSERVICE\DATA\ARGRNS.DBF AGAIN alias ARGRNS3
+SELECT 70
+SET SAFETY OFF
+USE \KENSERVE\IDSSYS\ST15F.DBF
+COPY STRU TO \KENSERVICE\DATA\ST15ARGR DBASE PROD
+USE \KENSERVICE\DATA\ST15ARGR.DBF ALIAS ST15F ORDER TAG MKEY
+APPE FROM \KENSERVICE\DATA\ST15F.DBF
+GO TOP
+select 121
+use \kenservice\data\argrline.dbf again alias argrline3
+select 122
+use \kenservice\data\argrline.dbf again alias argrline4
+select 126
+ IF .NOT. FILE ('\kenservice\data\argrnup.dbf')
+ use \kenserve\idssys\argrnup.dbf
+ COPY STRU TO  \kenservice\data\argrnup DBASE PROD
+ ENDIF
+use \kenservice\data\argrnup.dbf
+delete all for empty(order_no)
+set filter to .not. empty(post_date)
+SELECT 127
+use \KENSERVICE\DATA\argrline.DBF again alias argrline2 order tag order_no
+ select 128
+ IF .NOT. FILE ('\kenservice\data\ARGRNSn.dbf')
+ use \kenserve\idssys\ARGRNSn.dbf
+ COPY STRU TO  \kenservice\data\ARGRNSn DBASE PROD
+ ENDIF
+ use \kenservice\data\ARGRNSn.dbf
+ select 131
+ SET SAFETY OFF
+ USE \KENSERVE\IDSSYS\FRIGHTER.DBF
+ COPY STRU TO \KENSERVICE\DATA\frigargr DBASE PROD
+ USE  \KENSERVICE\DATA\frigargr.DBF  ALIAS FRIGHTER ORDER TAG FRIGHTER
+ APPE FROM \kenservice\data\frighter.dbf FOR .NOT. SOURCE ='1' .AND. .NOT. SOURCE='2' .AND. .NOT. SOURCE='3' ;
+  .AND. .NOT. SOURCE='7' .AND. .NOT. SOURCE='9' .AND. .NOT. SOURCE = 'B' .AND. .NOT. SOURCE = 'L'
+  GO TOP
+ select 132
+ use \kenservice\data\vennames.dbf order tag vendor
+ go top
+select 133
+use \kenservice\data\fgnfpur.dbf 
+select 134
+use \kenservice\data\fgtrnsps.dbf order tag transp

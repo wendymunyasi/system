@@ -1,0 +1,55 @@
+* Visual dBASE .QBE file 9
+*set exclusive on
+CLOSE DATABASES
+if .not. file("\kenservice\data\rdbms\fgorinvs.dbf")
+! xcopy \kenserve\idssys\fgorinvs.dbf  \kenservice\data\rdbms\
+endif
+on error do ARINVSTR.PRG
+use \kenservice\data\rdbms\fgorinvs.dbf
+? main_key
+on error do fgjcstrc.prg
+USE \KENSERVICE\DATA\fgjcsals.dbf
+? NONVAT
+close databases
+ON ERROR DO QBEERR WITH ERROR(), MESSAGE(),;
+PROGRAM(), LINENO()
+CLOSE DATABASES
+SET EXACT ON
+SELECT 1
+USE \KENSERVICE\DATA\fgjcsals.DBF exclusive
+select 2
+use \kenservice\data\FGMAST.dbF  EXCLUSIVE
+select 3
+IF .NOT.  FILE("\KENSERVICE\DATA\fgjobcad.DBF")
+USE \KENSERVE\IDSSYS\fgjobcad.DBF
+COPY STRU TO  \KENSERVICE\DATA\fgjobcad DBASE PROD
+ENDIF
+USE \KENSERVICE\DATA\fgjobcad.DBF EXCLUSIVE
+select 4
+use \kenservice\data\SHSTMAST.dbf EXCLUSIVE
+select 5
+use \kenservice\data\shcatsum.dbf EXCLUSIVE
+select 6
+use \kenservice\data\scashrec.dbf EXCLUSIVE
+select 7
+use \kenservice\data\cashiers.dbf EXCLUSIVE
+SELECT 8
+use \kenservice\data\st15f.dbf  EXCLUSIVE
+select 9
+use \kenservice\data\fgcoy.dbf
+go top
+select 10
+use \kenservice\data\fgtrnref.dbf
+SELECT  11
+USE   \KENSERVICE\DATA\FGCOD.DBF
+select 12
+use \kenservice\data\dayfgmas.dbf
+select 132
+IF .NOT.  FILE("\KENSERVICE\DATA\FGOFFCAS.DBF")
+USE \KENSERVE\IDSSYS\FGOFFCAS.DBF
+COPY STRU TO  \KENSERVICE\DATA\FGOFFCAS DBASE PROD
+ENDIF
+USE \KENSERVICE\DATA\FGOFFCAS.DBF
+ select 148
+use \kenservice\data\rdbms\fgorinvs.dbf exclusive
+

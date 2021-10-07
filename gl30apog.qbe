@@ -1,0 +1,39 @@
+* Visual dBASE .QBE file 9
+close databases
+use \kenservice\data\vnstat.dbf
+? dis_qty
+use \kenservice\data\FGnfpur.dbf 
+if .not. file("\kenservice\data\vendors.dbf")
+use \kenserve\idssys\vendor.dbf
+copy stru to \kenservice\data\vendors dbase prod
+endif
+close databases
+ON ERROR DO QBEERR WITH ERROR(), MESSAGE(),;
+PROGRAM(), LINENO()
+CLOSE DATABASES
+seT EXACT ON
+
+select 1
+if .not. file("\kenservice\data\glpurchs.dbf")
+use \kenserve\idssys\glpurchs.dbf
+copy stru to \kenservice\data\glpurchs dbase prod
+endif
+use \kenservice\data\glpurchs.dbf exclusive
+select 2
+use  \kenservice\data\fgmast.dbf order tag mkey
+select 30
+use \kenservice\data\fgnfpur.dbf 
+select 91
+use \kenservice\data\vnstat.dbf 
+select 92
+use \kenservice\data\vncount.dbf 
+select 93
+use \kenservice\data\vndocref.dbf exclusive
+select 94
+use \kenservice\data\vendor.dbf  
+SELECT 99
+USE \KENSERVICE\DATA\FGCOY.DBF 
+select 107
+use \kenservice\data\fgcod.dbf
+select 109
+use \kenservice\data\vendors.dbf excl
