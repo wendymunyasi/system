@@ -1,0 +1,68 @@
+* Visual dBASE .QBE file 9
+close databases
+ON ERROR DO QBEERR WITH ERROR(), MESSAGE(),;
+PROGRAM(), LINENO()
+CLOSE DATABASES
+SET EXACT ON
+*SET  ON
+set safety off
+SELECT 1
+if .not. file("\kenservice\data\FGTRANRS.dbf")
+    use \kenserve\idssys\FGTRANRS.dbf
+copy stru to \kenservice\data\FGTRANRS dbase prod
+endif
+use \kenservice\data\FGTRANRS.dbf
+SELECT 2
+USE \KENSERVICE\DATA\FGPITSVC.DBF 
+SELECT 3
+if .not. file("\kenservice\data\fginvtrs.dbf")
+    use \kenserve\idssys\fginvtrs.dbf
+copy stru to \kenservice\data\fginvtrs dbase prod
+endif
+use \kenservice\data\fginvtrs.dbf
+SELECT 4
+if .not. file("\kenservice\data\fgjobtrs.dbf")
+    use \kenserve\idssys\fgjobtrs.dbf
+copy stru to \kenservice\data\fgjobtrs dbase prod
+endif
+use \kenservice\data\fgjobtrs.dbf
+SELECT 5
+if .not. file("\kenservice\data\fgvistrs.dbf")
+    use \kenserve\idssys\fgvistrs.dbf
+copy stru to \kenservice\data\fgvistrs dbase prod
+endif
+use \kenservice\data\fgvistrs.dbf
+select 7
+use \kenservice\data\fgcod.dbf
+select 8
+use \kenservice\data\fgfilter.dbf 
+select 9
+if .not. file("\kenservice\data\fgsalrep.dbf")
+    use \kenserve\idssys\fgsalrep.dbf
+copy stru to \kenservice\data\fgsalrep dbase prod
+endif
+use \kenservice\data\fgsalrep.dbf
+select 10
+if .not. file("\kenservice\data\fgoffsal.dbf")
+    use \kenserve\idssys\fgoffsal.dbf
+copy stru to \kenservice\data\fgoffsal dbase prod
+endif
+use \kenservice\data\fgoffsal.dbf
+select 11
+if .not. file("\kenservice\data\fgshtrns.dbf")
+    use \kenserve\idssys\fgshtrns.dbf
+copy stru to \kenservice\data\fgshtrns dbase prod
+endif
+use \kenservice\data\fgshtrns.dbf
+select 12
+if .not. file("\kenservice\data\hcashtrs.dbf")
+    use \kenserve\idssys\hcashtrs.dbf
+copy stru to \kenservice\data\hcashtrs dbase prod
+endif
+use \kenservice\data\hcashtrs.dbf
+select 13
+if .not. file("\kenservice\data\fglpgtrs.dbf")
+    use \kenserve\idssys\fglpgtrs.dbf
+copy stru to \kenservice\data\fglpgtrs dbase prod
+endif
+use \kenservice\data\fglpgtrs.dbf

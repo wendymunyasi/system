@@ -162,7 +162,7 @@ DEFINE MENU REPORT OF THIS;
               
       commit()
       form.changesMade = .F.
-      begintrans()
+      *begintrans()
            on error DO transerr WITH ERROR(), MESSAGE(),;
   PROGRAM(), LINENO()
    endif

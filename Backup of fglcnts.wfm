@@ -1,0 +1,2124 @@
+////////////////////////////////////////////////////////////////////////////////
+// Output Filename: C:\KENSERVICE\IDSSYS\FGLCNTS_FCV.WFM                      //
+// Created By:      dBASE Form Converter Wizard                               //
+// Created On:      Sunday October 3, 2021 At 11:53:00                        //
+// Object Count:    58                                                        //
+////////////////////////////////////////////////////////////////////////////////
+                                                                                                                  *******************************************************************************
+*  PROGRAM:      FGLCNTS.WFM
+*
+*  WRITTEN BY:   W Nyongesa
+*  DATE:         10/2003
+*
+*  UPDATED:      04/2015
+*
+*  REVISION:     $Revision:   1.97  $
+*
+*  VERSION:      Visual dBASE
+*
+*  DESCRIPTION:  This form displays information about an order from a company.
+*                It allows traversing through FGLCNTS and going to the top and
+*                bottom.  This form also has a corresponding menu, OrdCust.mnu,
+*                which allows adding,deleting and searching for an order.
+*                When an unknown customer number is entered, a dialog will come
+*                up asking you if you want to add a new customer.  If you
+*                selecte the Yes button, the customer form (in stcusj.Wfm)
+*                will be opened, so a new customer can be added.
+*
+*  PARAMETERS:   None
+*
+*  CALLS:        FGLCNTS.mnu       (Menu file)
+*                Buttons.cc       (Custom controls file)
+*                stcusj.Wfm     (Form for displaying customer information)
+*                FGLCNTS.qbe       (View of tables)
+*
+*  USAGE:        DO FGLCNTS.WFM    && Note that you can also DO stcusj.Wfm
+*
+*******************************************************************************
+#include <Messdlg.h>
+shell(.F.)
+create session
+set talk off
+*ET DESIGN OFF
+*f .not. user() = "WYCLIFFE"
+_app.FrameWin.Visible = .F.
+set design off
+*NDIF
+_app.FrameWin.Text = "FGLCNTS"
+set ldCheck off                        && To avoid language driver conflicts
+*SET DBTYPE TO PARADOX
+SET CUAENTER OFF
+** END HEADER -- do not remove this line*
+* Generated on 16/03/2008
+*
+parameter BUSER,BLEVEL,bModal
+local f
+f = new FGLCNTSFORM()
+if (bModal)
+   f.mdi = .F. && ensure not MDI
+   f.ReadModal()
+else
+   f.Open()
+endif
+CLASS FGLCNTSFORM OF FORM
+   Set Procedure To BUTTONS.CC additive
+   this.Metric = 6  // Pixels
+   this.Maximize = .F.
+   this.OnClose = CLASS::ONCLOSE
+   this.MDI = .F.
+   this.Text = "REVERSE LPG - CASH SALES -- View Mode"
+   this.CanClose = CLASS::FORM_CANCLOSE
+   this.Moveable = .F.
+   this.WindowState = 2
+   this.ColorNormal = "n+"
+   this.Left = 0
+   this.Top = 3
+   this.EscExit = .F.
+   this.View = "FGLCNTS.QBE"
+   this.MenuFile = "FGLCNTS.MNU"
+   this.Sizeable = .F.
+   this.MousePointer = 1
+   this.Height = 303
+   this.Minimize = .F.
+   this.Width = 446
+
+   DEFINE TEXTLABEL TEXT9 OF THIS;
+       PROPERTY;
+         FontSize 12,;
+         FontName "Verdana",;
+       BorderStyle 7,;
+         Text "Seq. No.:",;
+         ColorNormal "R+/W",;
+         Height 21,;
+         Width 96,;
+       FontBold .T.,;
+       AlignHorizontal 1,;
+       AlignVertical 1
+
+   DEFINE ENTRYFIELD ORDERNOENTRY OF THIS;
+       PROPERTY;
+         FontSize 12,;
+         FontName "MS Sans Serig",;
+         Enabled .F.,;
+         ColorHighLight "GB+/W",;
+         ColorNormal "R+/W",;
+         DataLink "FGLCNTS->ORDER_NO",;
+         Left 108,;
+          Height 21,;
+         Width 84,;
+       FontBold .T.
+
+   DEFINE TEXTLABEL TEXT2 OF THIS;
+       PROPERTY;
+         FontSize 12,;
+         FontName "Verdana",;
+       BorderStyle 7,;
+         Text "Date:",;
+         ColorNormal "R+/W",;
+         Left 192,;
+         Height 25,;
+         Width 60,;
+       FontBold .T.,;
+       AlignHorizontal 1,;
+       AlignVertical 1
+
+   DEFINE SPINBOX SDATE OF THIS;
+       PROPERTY;
+         Rangemax {20/03/2008},;
+         FontSize 12,;
+         Enabled .F.,;
+         ColorHighLight "W+/N",;
+         ColorNormal "R+/W",;
+         DataLink "FGLCNTS->order_date",;
+         Left 252,;
+         ValidErrorMsg "Date out of Range",;
+         Height 21,;
+         Rangemin {11/06/2006},;
+         Width 120,;
+       FontName "MS Sans Serif",;
+       FontBold .T.
+
+   DEFINE TEXTLABEL TEXT15 OF THIS;
+       PROPERTY;
+         FontSize 12,;
+         FontName "Verdana",;
+       BorderStyle 7,;
+         Text "REF:",;
+         ColorNormal "0x400000/W",;
+         Left 360,;
+         Height 21,;
+         Width 96,;
+       FontBold .T.,;
+       AlignHorizontal 1,;
+       AlignVertical 1
+
+   DEFINE COMBOBOX SMKEYREF OF THIS;
+       PROPERTY;
+         Style 1,;
+         FontSize 12,;
+         DataSource "FIELD FGTRNREF->MKEY",;
+         Enabled .F.,;
+         ColorNormal "G+/0xa00000",;
+         DataLink "FGLCNTS->MKEYREF",;
+         Left 480,;
+         OnChange CLASS::SMKEYREF_ONCHANGE,;
+         MousePointer 1,;
+         Height 28,;
+         Width 240,;
+       FontName "MS Sans Serif",;
+       FontBold .T.
+
+   DEFINE TEXTLABEL TEXT8 OF THIS;
+       PROPERTY;
+         FontSize 12,;
+         FontName "Verdana",;
+       BorderStyle 7,;
+         Text "Authorised by:",;
+         ColorNormal "0x400000/W",;
+         Top 26,;
+         Height 21,;
+         Width 156,;
+       FontBold .T.,;
+       AlignHorizontal 1,;
+       AlignVertical 1
+
+   DEFINE COMBOBOX SEMP1 OF THIS;
+       PROPERTY;
+         Style 1,;
+         FontSize 12,;
+         DataSource "FIELD FGOFFS->NAME",;
+         Enabled .F.,;
+         ColorNormal "0xc08000/W",;
+         DataLink "FGLCNTS->CASHNAME",;
+         Left 156,;
+         Top 26,;
+         OnChange CLASS::SEMP1_ONCHANGE,;
+         MousePointer 1,;
+         Height 28,;
+         Width 228,;
+       FontName "MS Sans Serif",;
+       FontBold .T.
+
+   DEFINE TEXTLABEL TEXT1 OF THIS;
+       PROPERTY;
+         FontSize 12,;
+         FontName "Verdana",;
+       BorderStyle 7,;
+         Text "Client:",;
+         ColorNormal "0x400000/W",;
+         Top 55,;
+         Height 24,;
+         Width 72,;
+       FontBold .T.,;
+       AlignHorizontal 1,;
+       AlignVertical 1
+
+   DEFINE ENTRYFIELD SFRIGHTER OF THIS;
+       PROPERTY;
+         TabStop .F.,;
+         Function "!",;
+         FontSize 12,;
+         Enabled .F.,;
+         ColorHighLight "W+/B",;
+         ColorNormal "B/BTNFACE",;
+         DataLink "FGLCNTS->CUSTOMER",;
+         Left 84,;
+         Top 55,;
+          Height 24,;
+         Width 216,;
+       FontName "MS Sans Serif",;
+       FontBold .T.
+
+   DEFINE TEXTLABEL TEXT4 OF THIS;
+       PROPERTY;
+         FontSize 12,;
+         FontName "Verdana",;
+       BorderStyle 7,;
+         Text "CASH SALE TOTAL:",;
+         ColorNormal "W+/0x408000",;
+         Left 420,;
+         Top 39,;
+         Height 25,;
+         Width 180,;
+       FontBold .T.,;
+       AlignHorizontal 1,;
+       AlignVertical 1
+
+   DEFINE ENTRYFIELD SREFT OF THIS;
+       PROPERTY;
+         FontSize 12,;
+         FontName "arial",;
+         Picture "9,999,999.99",;
+         Enabled .F.,;
+         ColorHighLight "B+/W+",;
+         ColorNormal "W+/0x400000",;
+         DataLink "FGTRNREF->TOTAL",;
+         Left 612,;
+         Top 39,;
+         Height 25,;
+         Width 111,;
+       FontBold .T.
+
+
+
+   DEFINE TEXTLABEL TEXT6 OF THIS;
+       PROPERTY;
+         FontSize 12,;
+         FontName "Verdana",;
+       BorderStyle 7,;
+         Text "Cashier:",;
+         ColorNormal "0x400000/W",;
+         Left 300,;
+         Top 213,;
+         Height 24,;
+         Width 84,;
+       FontBold .T.,;
+       AlignHorizontal 1,;
+       AlignVertical 1
+
+   DEFINE COMBOBOX SCASHIER OF THIS;
+       PROPERTY;
+         Style 1,;
+         FontSize 12,;
+         DataSource "FIELD FGOFFS3->NAME",;
+         Enabled .F.,;
+         ColorNormal "0xc08000/W",;
+         DataLink "FGLCNLIN->OFFNAME",;
+         Left 384,;
+         Top 213,;
+         OnChange CLASS::SCASHIER_ONCHANGE,;
+         MousePointer 1,;
+         Height 28,;
+         Width 204,;
+       FontName "MS Sans Serif",;
+       FontBold .T.
+
+   DEFINE TEXTLABEL TEXT23 OF THIS;
+       PROPERTY;
+         FontSize 12,;
+         FontName "Verdana",;
+       BorderStyle 7,;
+         Text "DL NO:",;
+         ColorNormal "W+/0x408000",;
+         Left 588,;
+         Top 213,;
+         Height 25,;
+         Width 84,;
+       FontBold .T.,;
+       AlignHorizontal 1,;
+       AlignVertical 1
+
+   DEFINE ENTRYFIELD SDL OF THIS;
+       PROPERTY;
+         TabStop .F.,;
+         FontSize 12,;
+         FontName "arial",;
+         Picture "99",;
+         Enabled .F.,;
+         ColorHighLight "B+/W+",;
+         ColorNormal "W+/0x400000",;
+         DataLink "fgstknos->stock_no",;
+         Left 672,;
+         Top 213,;
+         OnChange CLASS::SDL_ONCHANGE,;
+         Height 25,;
+         Width 51,;
+       FontBold .T.
+
+   DEFINE TEXTLABEL STINV OF THIS;
+       PROPERTY;
+         FontSize 12,;
+         FontName "Verdana",;
+       BorderStyle 7,;
+         Text "Item/Centre:",;
+         ColorNormal "N/W",;
+         Top 241,;
+         Height 25,;
+         Width 132,;
+       FontBold .T.,;
+       AlignHorizontal 1,;
+       AlignVertical 1
+
+   DEFINE COMBOBOX SPROD OF THIS;
+       PROPERTY;
+         Style 1,;
+         FontSize 10,;
+         DataSource "FIELD FGMASTP->name",;
+         Enabled .F.,;
+         ColorNormal "0x400040/W+",;
+         DataLink "FGLCNLIN->name",;
+         Left 132,;
+         Top 241,;
+         OnChange CLASS::SPROD_ONCHANGE,;
+         FontBold .F.,;
+         MousePointer 1,;
+         Height 24,;
+         Width 588,;
+       FontName "MS Sans Serif"
+
+   DEFINE TEXTLABEL TEXT22 OF THIS;
+       PROPERTY;
+         FontSize 10,;
+         FontName "Verdana",;
+       BorderStyle 7,;
+         Text "Detail Line Qty:",;
+         ColorNormal "W+/0x408000",;
+         Top 264,;
+         Height 26,;
+         Width 132,;
+       FontBold .T.,;
+       AlignHorizontal 1,;
+       AlignVertical 1
+
+   DEFINE ENTRYFIELD SDLQ OF THIS;
+       PROPERTY;
+         FontSize 10,;
+         FontName "arial",;
+         Picture "9,999,999.99",;
+         Enabled .F.,;
+         ColorHighLight "B+/W+",;
+         ColorNormal "W+/0x400000",;
+         DataLink "FGLCNLIN->BASIC_QTY",;
+         Left 132,;
+         Top 264,;
+         Height 26,;
+         Width 96,;
+       FontBold .T.
+
+   DEFINE TEXTLABEL TEXT19 OF THIS;
+       PROPERTY;
+         FontSize 10,;
+         FontName "Verdana",;
+       BorderStyle 7,;
+         Text "Detail Line Basic:",;
+         ColorNormal "W+/0x408000",;
+         Left 228,;
+         Top 272,;
+         Height 18,;
+         Width 144,;
+       FontBold .T.,;
+       AlignHorizontal 1,;
+       AlignVertical 1
+
+   DEFINE ENTRYFIELD SDLT OF THIS;
+       PROPERTY;
+         FontSize 10,;
+         FontName "arial",;
+         Picture "9,999,999.99",;
+         Enabled .F.,;
+         ColorHighLight "B+/W+",;
+         ColorNormal "W+/0x400000",;
+         DataLink "FGLCNLIN->BAS_AMT",;
+         Left 372,;
+         Top 264,;
+         Height 26,;
+         Width 96,;
+       FontBold .T.
+
+   DEFINE TEXTLABEL TEXT3 OF THIS;
+       PROPERTY;
+         FontSize 10,;
+         FontName "Verdana",;
+       BorderStyle 7,;
+         Text "No.",;
+         ColorNormal "N/W",;
+         Top 298,;
+         Height 25,;
+         Width 39,;
+       FontBold .T.,;
+       AlignHorizontal 1,;
+       AlignVertical 1
+
+   DEFINE ENTRYFIELD SITEM OF THIS;
+       PROPERTY;
+         FontSize 10,;
+         FontName "arial",;
+         Enabled .F.,;
+         ColorHighLight "0x40/W",;
+         ColorNormal "0x400000/0xffff80",;
+         DataLink "FGLCNLIN->STOCK_NO",;
+         Left 1,;
+         Top 328,;
+         Height 25,;
+         Width 36,;
+       FontBold .T.
+
+   DEFINE TEXTLABEL TEXT12 OF THIS;
+       PROPERTY;
+         FontSize 10,;
+         FontName "Verdana",;
+       BorderStyle 7,;
+         Text "Qty",;
+         ColorNormal "N/W",;
+         Left 36,;
+         Top 298,;
+         Height 25,;
+         Width 96,;
+       FontBold .T.,;
+       AlignHorizontal 1,;
+       AlignVertical 1
+
+   DEFINE ENTRYFIELD QTYENTRY OF THIS;
+       PROPERTY;
+         FontSize 10,;
+         Picture "9999,999.99",;
+         Enabled .F.,;
+         ColorHighLight "W+/N+",;
+         ColorNormal "N/BtnFace",;
+         DataLink "FGLCNLIN->QTY",;
+         Left 36,;
+         Top 328,;
+         OnChange CLASS::QTYENTRY_ONCHANGE,;
+         ValidErrorMsg "Quantity Must Be Greater Than Zero",;
+         Height 25,;
+         Width 96,;
+       FontName "MS Sans Serif",;
+       FontBold .T.
+
+   DEFINE TEXTLABEL TEXT13 OF THIS;
+       PROPERTY;
+         FontSize 10,;
+         FontName "Verdana",;
+       BorderStyle 7,;
+         Text "Price",;
+         ColorNormal "N/W",;
+         Left 132,;
+         Top 298,;
+         Height 25,;
+         Width 84,;
+       FontBold .T.,;
+       AlignHorizontal 1,;
+       AlignVertical 1
+
+   DEFINE ENTRYFIELD SPRICE OF THIS;
+       PROPERTY;
+         FontSize 10,;
+         Picture "999,999.99",;
+         Enabled .F.,;
+         ColorHighLight "W+/N+",;
+         ColorNormal "N/BtnFace",;
+         DataLink "FGLCNLIN->SELL_PRICE",;
+         Left 132,;
+         Top 328,;
+         Height 25,;
+         Width 84,;
+       FontName "MS Sans Serif",;
+       FontBold .T.
+
+   DEFINE TEXTLABEL TEXT5 OF THIS;
+       PROPERTY;
+         FontSize 10,;
+         FontName "Verdana",;
+       BorderStyle 7,;
+         Text "Basic Amt",;
+         ColorNormal "N/W",;
+         Left 219,;
+         Top 298,;
+         Height 25,;
+         Width 93,;
+       FontBold .T.,;
+       AlignHorizontal 1,;
+       AlignVertical 1
+
+   DEFINE ENTRYFIELD AMTENTRY OF THIS;
+       PROPERTY;
+         FontSize 10,;
+         Picture "9999,999.99",;
+         Enabled .F.,;
+         ColorHighLight "W+/N+",;
+         ColorNormal "N/BtnFace",;
+         DataLink "FGLCNLIN->TOTAL_AMT",;
+         Left 219,;
+         Top 328,;
+         OnChange CLASS::AMTENTRY_ONCHANGE,;
+         Height 25,;
+         Width 93,;
+       FontName "MS Sans Serif",;
+       FontBold .T.
+
+   DEFINE TEXTLABEL TEXT18 OF THIS;
+       PROPERTY;
+         FontSize 10,;
+         FontName "Verdana",;
+       BorderStyle 7,;
+         Text "Disc Amt",;
+         ColorNormal "N/W",;
+         Left 315,;
+         Top 298,;
+         Height 25,;
+         Width 93,;
+       FontBold .T.,;
+       AlignHorizontal 1,;
+       AlignVertical 1
+
+   DEFINE ENTRYFIELD SDISC OF THIS;
+       PROPERTY;
+         FontSize 10,;
+         Picture "9999,999.99",;
+         Enabled .F.,;
+         ColorHighLight "W+/N+",;
+         ColorNormal "N/BtnFace",;
+         DataLink "FGLCNLIN->discount",;
+         Left 315,;
+         Top 328,;
+         Height 25,;
+         Width 93,;
+       FontName "MS Sans Serif",;
+       FontBold .T.
+
+   DEFINE TEXTLABEL TEXT14 OF THIS;
+       PROPERTY;
+         FontSize 10,;
+         FontName "Verdana",;
+       BorderStyle 7,;
+         Text "Gross Amt",;
+         ColorNormal "N/W",;
+         Left 420,;
+         Top 298,;
+         Height 25,;
+         Width 108,;
+       FontBold .T.,;
+       AlignHorizontal 1,;
+       AlignVertical 1
+
+   DEFINE ENTRYFIELD SGROSS OF THIS;
+       PROPERTY;
+         FontSize 10,;
+         Picture "9999,999.99",;
+         Enabled .F.,;
+         ColorHighLight "0x40/W",;
+         ColorNormal "0x400000/GB+",;
+         DataLink "FGLCNLIN->GROSS_AMT",;
+         Left 420,;
+         Top 328,;
+         Height 25,;
+         Width 108,;
+       FontName "MS Sans Serif",;
+       FontBold .T.
+
+   DEFINE TEXTLABEL TEXT20 OF THIS;
+       PROPERTY;
+         FontSize 10,;
+         FontName "Verdana",;
+       BorderStyle 7,;
+         Text "VAT",;
+         ColorNormal "N/W",;
+         Left 528,;
+         Top 298,;
+         Height 25,;
+         Width 84,;
+       FontBold .T.,;
+       AlignHorizontal 1,;
+       AlignVertical 1
+
+   DEFINE ENTRYFIELD SVATOUT OF THIS;
+       PROPERTY;
+         FontSize 10,;
+         Picture "9999,999.99",;
+         Enabled .F.,;
+         ColorHighLight "0x40/W",;
+         ColorNormal "0x400000/GB+",;
+         DataLink "FGLCNLIN->VAT_OUT",;
+         Left 528,;
+         Top 328,;
+         Height 25,;
+         Width 84,;
+       FontName "MS Sans Serif",;
+       FontBold .T.
+
+   DEFINE TEXTLABEL TEXT21 OF THIS;
+       PROPERTY;
+         FontSize 10,;
+         FontName "Verdana",;
+       BorderStyle 7,;
+         Text "TOTAL",;
+         ColorNormal "N/W",;
+         Left 612,;
+         Top 298,;
+         Height 25,;
+         Width 108,;
+       FontBold .T.,;
+       AlignHorizontal 1,;
+       AlignVertical 1
+
+   DEFINE ENTRYFIELD SNET OF THIS;
+       PROPERTY;
+         FontSize 10,;
+         Picture "99,999,999.99",;
+         Enabled .F.,;
+         ColorHighLight "0x40/W",;
+         ColorNormal "0x400000/GB+",;
+         DataLink "FGLCNLIN->TOTAL",;
+         Left 612,;
+         Top 328,;
+         Height 25,;
+         Width 108,;
+       FontName "MS Sans Serif",;
+       FontBold .T.
+
+   DEFINE TEXTLABEL TEXT11 OF THIS;
+       PROPERTY;
+         FontSize 12,;
+         FontName "Verdana",;
+       BorderStyle 7,;
+         Text "BASIC",;
+         ColorNormal "0x400000/W",;
+         Top 362,;
+         Height 25,;
+         Width 108,;
+       FontBold .T.,;
+       AlignHorizontal 1,;
+       AlignVertical 1
+
+   DEFINE ENTRYFIELD TGROSS OF THIS;
+       PROPERTY;
+         FontSize 12,;
+         FontName "arial",;
+         Picture "9,999,999.99",;
+         Enabled .F.,;
+         ColorHighLight "GB+/W",;
+         ColorNormal "0x400000/W",;
+         DataLink "FGLCNTS->SAMOUNT",;
+         Left 108,;
+         Top 362,;
+         Height 25,;
+         Width 111,;
+       FontBold .T.
+
+   DEFINE TEXTLABEL TEXT16 OF THIS;
+       PROPERTY;
+         FontSize 12,;
+         FontName "Verdana",;
+       BorderStyle 7,;
+         Text "V.A.T.",;
+         ColorNormal "0x400000/W",;
+         Left 228,;
+         Top 362,;
+         Height 25,;
+         Width 84,;
+       FontBold .T.,;
+       AlignHorizontal 1,;
+       AlignVertical 1
+
+   DEFINE ENTRYFIELD SVAT OF THIS;
+       PROPERTY;
+         FontSize 10,;
+         FontName "arial",;
+         Picture "999.99",;
+         Enabled .F.,;
+         ColorHighLight "0x40/W",;
+         ColorNormal "0x400000/0xffff80",;
+         DataLink "fgtaxtyp->rate",;
+         Left 312,;
+         Top 362,;
+         Height 25,;
+         Width 48,;
+       FontBold .T.
+
+   DEFINE ENTRYFIELD TVAT OF THIS;
+       PROPERTY;
+         FontSize 12,;
+         FontName "arial",;
+         Picture "999,999.99",;
+         Enabled .F.,;
+         ColorHighLight "GB+/W",;
+         ColorNormal "0x400000/W",;
+         DataLink "FGLCNTS->VAT",;
+         Left 372,;
+         Top 362,;
+         Height 25,;
+         Width 99,;
+       FontBold .T.
+
+   DEFINE TEXTLABEL TEXT7 OF THIS;
+       PROPERTY;
+         FontSize 12,;
+         FontName "Verdana",;
+       BorderStyle 7,;
+         Text "J/C TOTAL:",;
+         ColorNormal "W+/B+",;
+         Left 480,;
+         Top 362,;
+         Height 25,;
+         Width 120,;
+       FontBold .T.,;
+       AlignHorizontal 1,;
+       AlignVertical 1
+
+   DEFINE ENTRYFIELD STOTAL OF THIS;
+       PROPERTY;
+         FontSize 12,;
+         FontName "arial",;
+         Picture "9,999,999.99",;
+         Enabled .F.,;
+         ColorHighLight "B+/W+",;
+         ColorNormal "W+/B+",;
+         DataLink "FGLCNTS->TOTAL",;
+         Left 612,;
+         Top 362,;
+         Height 25,;
+         Width 111,;
+       FontBold .T.
+
+   DEFINE TEXTLABEL TEXT10 OF THIS;
+       PROPERTY;
+         FontSize 11,;
+         FontName "Verdana",;
+       BorderStyle 7,;
+         Text "Available Qty",;
+         ColorNormal "W+/B+",;
+         Top 383,;
+         Height 27,;
+         Width 132,;
+       FontBold .T.,;
+       AlignHorizontal 1,;
+       AlignVertical 1
+
+   DEFINE ENTRYFIELD SONHAND OF THIS;
+       PROPERTY;
+         FontSize 11,;
+         FontName "arial",;
+         Picture "99,999.9",;
+         Enabled .F.,;
+         ColorHighLight "B+/W+",;
+         ColorNormal "W+/B+",;
+         DataLink "fgmast->on_hand",;
+         Left 144,;
+         Top 383,;
+         Height 27,;
+         Width 72,;
+       FontBold .T.
+
+   DEFINE TEXTLABEL CCARDT OF THIS;
+       PROPERTY;
+         FontSize 14,;
+         FontName "Verdana",;
+         Visible .F.,;
+       BorderStyle 7,;
+         Text "Card/Order No.:",;
+         ColorNormal "N/W+",;
+         Left -7,;
+         Top 413,;
+         FontItalic .T.,;
+         Height 25,;
+         Width 236,;
+       FontBold .T.,;
+       AlignHorizontal 1,;
+       AlignVertical 1
+
+   DEFINE ENTRYFIELD CCARD OF THIS;
+       PROPERTY;
+         FontSize 14,;
+         FontName "arial",;
+         Visible .F.,;
+         Enabled .F.,;
+         ColorHighLight "GB+/W",;
+         ColorNormal "0x400000/0xffff80",;
+         DataLink "FGLCNTS->lpo",;
+         Left 192,;
+         Top 413,;
+         Height 25,;
+         Width 228,;
+       FontBold .T.
+
+   DEFINE TEXTLABEL CHQT OF THIS;
+       PROPERTY;
+         FontSize 14,;
+         FontName "Verdana",;
+         Visible .F.,;
+       BorderStyle 7,;
+         Text "Cheque No.:",;
+         ColorNormal "N/W+",;
+         Left 444,;
+         Top 413,;
+         FontItalic .T.,;
+         Height 25,;
+         Width 144,;
+       FontBold .T.,;
+       AlignHorizontal 1,;
+       AlignVertical 1
+
+   DEFINE ENTRYFIELD SCHQ OF THIS;
+       PROPERTY;
+         FontSize 14,;
+         FontName "arial",;
+         Visible .F.,;
+         Enabled .F.,;
+         ColorHighLight "GB+/W",;
+         ColorNormal "0x400000/0xffff80",;
+         DataLink "FGLCNTS->lpo",;
+         Left 588,;
+         Top 413,;
+         Height 25,;
+         Width 132,;
+       FontBold .T.
+
+   DEFINE PUSHBUTTON FIRSTORDERBUTTON OF THIS;
+       PROPERTY;
+         FontSize 12,;
+         Text "First",;
+         ColorNormal "0x40/W",;
+         Group .F.,;
+         Left 18,;
+         OnClick CLASS::GO_TOP,;
+         Top 442,;
+         Height 26,;
+         Width 120,;
+       FontName "MS Sans Serif",;
+       FontBold .T.
+
+   DEFINE PUSHBUTTON LASTORDERBUTTON OF THIS;
+       PROPERTY;
+         FontSize 12,;
+         Text "Last",;
+         ColorNormal "0x40/W",;
+         Group .F.,;
+         Left 168,;
+         OnClick CLASS::GO_LAST,;
+         Top 442,;
+         Height 26,;
+         Width 120,;
+       FontName "MS Sans Serif",;
+       FontBold .T.
+
+   DEFINE PREVBUTTON PREVORDERBUTTON OF THIS;
+       PROPERTY;
+         FontSize 12,;
+         Text "Previous",;
+         ColorNormal "0x40/W",;
+         Group .T.,;
+         Left 318,;
+         OnClick CLASS::PREVIOUS,;
+         Top 442,;
+         Height 26,;
+         Width 120,;
+       FontName "MS Sans Serif",;
+       FontBold .T.
+
+   DEFINE NEXTBUTTON NEXTORDERBUTTON OF THIS;
+       PROPERTY;
+         FontSize 12,;
+         Text "Next",;
+         ColorNormal "0x40/W",;
+         Group .F.,;
+         Left 468,;
+         OnClick CLASS::NEXT,;
+         Default .T.,;
+         Top 442,;
+         Height 26,;
+         Width 120,;
+       FontName "MS Sans Serif",;
+       FontBold .T.
+
+   DEFINE BROWSE CHILDBROWSE OF THIS;
+       PROPERTY;
+         ScrollBar 1,;
+         Alias "FGLCNLIN",;
+         Fields 'FGLCNLIN->STOCK_NO\H="No"\4\P="99"\R,FGCOD->NAME\H="Description"\17\R,FGLCNLIN->REFERENCE\H="REF."\10\R,FGLCNLIN->QTY\H="Qty"\6\P="99999.9"\R,FGLCNLIN->SELL_PRICE\H="S/Price"\6\P="99,999.99"\R,FGLCNLIN->TOTAL_AMT\H="Gross Amt"\9\P="9,999,999.99"\R,FGLCNLIN->VAT_OUT\H="VAT Out"\8\P="999,999.99"\R,FGLCNLIN->TOTAL\H="Nett Amt"\8\P="9,999,999.99"\R,shiftsd = dtos(FGLCNLIN->SHIFT_DATE)+" "+FGLCNLIN->shift_no+FGLCNLIN->shift_id\H="Shift Info"\10',;
+         Modify .F.,;
+         CUATab .T.,;
+         FontSize 9.5,;
+         ShowRecNo .F.,;
+         Text "DETAIL LINES",;
+         Append .F.,;
+         ColorHighLight "R/BTNFACE",;
+         ColorNormal "R/W",;
+         OnRightDblClick CLASS::CHILDBROWSE_ONRIGHTDBLCLICK,;
+         Top 85,;
+         Height 119,;
+         ShowDeleted .F.,;
+         Delete .F.,;
+         Width 720,;
+       FontName "MS Sans Serif"
+
+   DEFINE TEXTLABEL TEXT24 OF THIS;
+       PROPERTY;
+         FontSize 10,;
+         FontName "Verdana",;
+       BorderStyle 7,;
+         Text "Detail Line Disc:",;
+         ColorNormal "W+/0x408000",;
+         Left 468,;
+         Top 272,;
+         Height 18,;
+         Width 144,;
+       FontBold .T.,;
+       AlignHorizontal 1,;
+       AlignVertical 1
+
+   DEFINE ENTRYFIELD SDDISC OF THIS;
+       PROPERTY;
+         FontSize 10,;
+         FontName "arial",;
+         Picture "9999,999.99",;
+         Enabled .F.,;
+         ColorHighLight "B+/W+",;
+         ColorNormal "W+/0x400000",;
+         DataLink "FGLCNLIN->discount",;
+         Left 624,;
+         Top 264,;
+         Height 26,;
+         Width 96,;
+       FontBold .T.
+
+   procedure Open
+   ****************************************************************************
+   private orderNoField
+      on error DO ddeerr WITH ERROR(), MESSAGE(),;
+   PROGRAM(), LINENO()
+   FORM.BLUSER=BUSER
+   FORM.BLEVEL=BLEVEL
+   IF EMPTY(FORM.BLUSER) .OR. EMPTY(FORM.BLEVEL)
+      QUIT
+   ENDIF
+    if form.blevel = 2
+   wait 'Not Permitted to Reverse'
+   quit
+   endif
+    *   SET REPROCESS TO 10
+     select FGLCNTSn
+    go top
+    if eof()
+    append blank
+    replace order_no with "0"
+    endif
+    SELECT FGSTKNOS
+    GO TOP
+    IF EOF()
+    APPEND BLANK
+    ENDIF
+   REPLACE STOCK_NO WITH ""
+   SELECT FCCASHRS
+         set order to cashier
+
+      select FGLPGCAD
+    set order to mkey
+    select fgtrnref
+    set order to mkey
+
+    select FGLCRUP
+    set order to orderdate
+    select fgmastp
+                   set safety off
+   select             FGLCNLIN3
+                   set order to order_no
+
+   set safety on
+   select FGLCNLIN4
+   set order to order_no
+   select FGLCNTS3
+   set order to order_no
+   go bottom
+
+   select fgmast
+   set order to mkey
+   select ST15F
+   set order to MKEY
+   select FGOFFS
+   set order to name
+     select FGOFFS2
+   set order to name
+    select FGOFFS3
+   set order to name
+
+    select FGLCNTS3
+   go bottom
+    form.maxOrder = order_no
+   if type("form.init") = "U"
+      form.init = .T.
+   FORM.PSHIFTDATE = {}
+   FORM.PSHIFTNO = ""
+   FORM.PDIV = ""
+   FORM.PCOY = ""
+   FORM.OKEXIT = .F.
+   FORM.PCEN = ""
+    form.pcashierno = FGOFFS->cashier_no
+    form.pemp1 = FGOFFS->OFF
+    form.pf1name = FGOFFS->name
+    FORM.PSERVED = ""
+   FORM.PSTO = ""
+   form.pclass = ""
+   FORM.PTYP = ""
+   form.pcard = "B/V"
+   form.ptypname = ""
+   form.pclaname = ""
+   form.pcodname = ""
+   form.pcod = ""
+   form.pf1dr = "No"
+    FORM.PCLA = ""
+      set skip to                     && FGLCNTS.qbe contains set skip to FGLCNLIN
+      set exact off                   && the .qbe file contains SET EXACT ON
+
+      set procedure to Sampproc.prg additive
+
+      form.inEditMode = .F.           && indicator of view/edit state
+      form.changesMade = .F.          && indicator of changes made to field values
+      form.previousRecord = .F.       && Save record number when appending
+      form.pspdiv = "1"
+      form.pspdivname = "Forecourt"
+      *** do calculations in another area so form doesn't get updated
+        select FGLCNTS
+      set order to order_no
+
+
+        && max value for key field -- for creating
+
+          local lmax
+      select FGLCNTS
+      go top
+      lmax = order_no
+    *  delete all for order_no < lmax .or. empty(order_no) .or. empty(FRIGHTER_N) .or. empty(order_date)
+               && new FGLCNTS
+
+      ***
+       select FGLCNTSl
+       go top
+       if eof()
+       append blank
+       endif
+
+    select FGCOD
+    set order to MKEY
+
+   select fgcoy
+   go top
+    form.pf1dr = "Yes"
+     select ST15F
+   go top
+   form.pshdate = shift_date
+   select fgcoy
+   replace start_date with st15f->shift_date
+   replace end_date with start_date
+   form.pshno = st15f->shift_no
+   form.pshid = st15f->shift_id
+   form.pfc = .t.
+
+   if .not. form.pfc  && not forecourt
+      if .not. empty(FGLCNTS3->order_date)
+      form.pshdate = FGLCNTS3->order_date
+      select fgcoy
+      replace start_date with form.pshdate
+      else
+      form.pshdate = fgcoy->start_date
+      if empty(form.pshdate)
+       InformationMessage("Check Date range for data entry in the company info file", "Sorry")
+
+   quit
+   endif
+      endif
+   endif
+
+
+   form.PSALEDATESPIN = form.pshdate
+   form.pserialno = FGLCNTS3->serialno
+   SELECT FGMASTp
+   SET ORDER TO NAME
+     SELECT FGLCNLIN
+    DELETE ALL FOR (QTY = 0 .AND. TOTAL = 0) .OR. EMPTY(ORDER_NO) .OR. EMPTY(STOCK_NO);
+     .OR. EMPTY(COY) .OR. EMPTY(DIV) .OR. EMPTY(CEN) .OR. EMPTY(STO) .OR. EMPTY(TYP) .OR.;
+      EMPTY(CLA) .OR. EMPTY(COD)  .or. order_no < lmax
+       select FGLCNTS
+       go top
+
+      *** Open table for calculating totals and balance due in another work area
+      *** so that datalinks are not affected by record movements
+
+
+      select FGLCNTS
+      set relation to order_no into FGLCNLIN2 constrain integrity additive
+
+      ***
+
+      if type("form.parentcustomerForm") <> "U" && Esc ok if have parent
+         form.escExit = .T.
+      endif
+
+   endif
+   go top
+   form::Open()
+
+    *     *form.BrowseOnNavigate()              && calculate totals&& Now the form actually opens
+   shell(.F.)
+    ****************************************************************************
+
+   procedure OnClose
+   ****************************************************************************
+   *  form.CheckCommit(form.inEditMode)
+      if form.inEditMode
+      form.ViewEdit()
+   endif
+          && Close customer form if it exists
+        shell(.f.)
+   *  endif
+   close procedure SampProc.prg
+    if .not. empty(FGLCNTS->order_no)
+   select FGLCRUP
+   seek FGLCNTS->order_no+dtos(FGLCNTS->order_date)
+   if found() .and. .not. empty(post_date)
+   select FGLCNTS
+   replace post_date with date()
+   select fgtrnref
+   replace post_date with date()
+   endif
+   endif
+   commit()
+   close databases
+      do fgpLcNTS.prg
+   *   DO AR3020.PRG
+   close databases
+   form.close()
+   * quit
+     ****************************************************************************
+
+   procedure BrowseOnNavigate
+    select FGLCNTSl
+    replace order_no with FGLCNTS->order_no
+   *    REPLACE ORDER_DATE WITH FGLCNTS->ORDER_DATE
+    *    replace title with "LPG - CREDIT NOTE"
+         select FGLCNTS
+    form.changesmade = .t.
+
+    ****************************************************************************
+
+   procedure ChangesMade
+
+   * Indicate that changes have been made to current record.
+   ****************************************************************************
+
+   form.changesMade = .T.
+
+   ****************************************************************************
+
+   procedure BrowseChangesMade
+   ****************************************************************************
+   ****************************************************************************
+   local t,t2,t3,t4
+     if form.changesmade = .t.
+   select FGLCNLIN
+   IF .NOT. EOF()
+   *  form.changesMade = .T.
+     go recno("FGLCNLIN") in FGLCNLIN    && Make sure change is posted
+
+   select FGLCNLIN2  && recalculate totals in other workarea
+   calculate sum(FGLCNLIN2->total),SUM(FGLCNLIN2->DISCOUNT),SUM(FGLCNLIN2->Stotal),;
+   SUM(FGLCNLIN2->vat_out) to t,T2,T3,T4
+   select FGLCNTS
+   replace FGLCNTS->total with t
+   replace FGLCNTS->discount with t2
+   replace FGLCNTS->samount with t3
+   replace FGLCNTS->vat with t4
+    replace FGLCNTS->total with t
+    if tcash < total .and. FGLCNTS->pay_method = "Cash"
+    replace tcash with total
+    endif
+    replace tchange with tcash - total
+
+    if tchange < 0
+    replace tchange with 0
+     ENDIF
+     endif
+     SELECT FGLCNTS
+   endif
+
+     ****************************************************************************
+
+   procedure Next
+   ****************************************************************************
+
+   form.CheckCommit(form.inEditMode)
+    if .not. empty(FGLCNTS->order_no)
+   select FGLCRUP
+   seek FGLCNTS->order_no+dtos(FGLCNTS->order_date)
+   if found() .and. .not. empty(post_date)
+   select FGLCNTS
+   replace post_date with date()
+   select fgtrnref
+   replace post_date with date()
+   flush
+   endif
+   endif
+   form.root.order.viewEdit.enabled = .t.
+   form.root.order.ADDorder.enabled = .t.
+    form.root.order.ADDline.enabled = .t.
+
+   SELECT FGLCNTS
+   if .not. eof()
+      NEXTBUTTON::OnClick()
+   endif
+   *form.BrowseOnNavigate()
+   form.root.file.exit.enabled =   .t.
+
+   ****************************************************************************
+
+   procedure Previous
+   ****************************************************************************
+
+   form.CheckCommit(form.inEditMode)
+    if .not. empty(FGLCNTS->order_no)
+   select FGLCRUP
+   seek FGLCNTS->order_no+dtos(FGLCNTS->order_date)
+   if found() .and. .not. empty(post_date)
+   select FGLCNTS
+   replace post_date with date()
+   select fgtrnref
+   replace post_date with date()
+   flush
+   endif
+   endif
+   form.root.order.viewEdit.enabled = .t.
+   SELECT FGLCNTS
+   if .not. bof()
+   PREVBUTTON::OnClick()
+   endif
+     form.root.file.exit.enabled =   .t.
+    form.root.order.ADDorder.enabled = .t.
+    form.root.order.ADDline.enabled = .t.
+
+   *form.BrowseOnNavigate()
+
+
+   ****************************************************************************
+
+   procedure CheckCommit (newInEditMode)
+
+    * Finish transaction, if it has been started.
+    ****************************************************************************
+    private orderField, changesMade,prcoy,prdiv,prcen,prsto,prtyp,prcla,prcod,prqty,;
+    pcoy,pdiv,pcen,psto,ptyp,pcla,pcod
+
+
+    changesMade = form.changesMade
+     if form.changesMade
+       orderField = field(1)                  && Field Order_no
+    *   if     ConfirmationMessage("Commit changes?",;
+                FormatStr("Order %1",&OrderField)) = YES .and. ;
+                 (FGLCNTS->dde_user = user() .or. user() = "JAFRADA" ;
+                  .OR. USER() = "WYCLIFFE" .OR. USER() = "DANIEL")
+          commit()
+            on error DO ddeerr WITH ERROR(), MESSAGE(),;
+   PROGRAM(), LINENO()
+     *     ELSE
+      *    ROLLBACK()
+       *   ENDIF
+          flush
+        *  clear
+       if form.inEditMode .and. newInEditMode
+          begintrans()
+               on error DO transerr WITH ERROR(), MESSAGE(),;
+   PROGRAM(), LINENO()
+       endif
+       form.changesMade = .F.
+    endif
+
+
+    if form.inEditMode <> newInEditMode
+       if newInEditMode                       && Going to Edit mode
+          begintrans()
+            on error DO transerr WITH ERROR(), MESSAGE(),;
+   PROGRAM(), LINENO()
+       else                                   && Going to View mode
+          if .not. changesMade
+             rollback()
+            on error   DO ddeerr WITH ERROR(), MESSAGE(),;
+   PROGRAM(), LINENO()
+          endif
+       endif
+       form.inEditMode = newInEditMode
+    endif
+
+      select fgcoy
+      flush
+
+    select FGLCNTS
+    ****************************************************************************
+
+   procedure ViewEdit
+   ****************************************************************************
+   local inEditMode, control, editMenu
+
+   editMenu = form.root.ORDER.viewEdit
+   *** If editing is completed, close transaction, otherwise open a transaction
+   if form.inEditMode                           && Change to View mode
+      form.checkChanged(.F.)
+      editMenu.text = "&Edit"
+      editMenu.shortcut = "Ctrl-E"
+      editMenu.statusMessage = "Edit data."
+      form.root.order.deleteline.enabled = .F.
+   *     form.root.order.REPLACECUST.enabled = .f.
+      form.CheckCommit(.F.)                     && Check transaction and
+      form.text = "REVERSE LPG - CASH SALES -- View Mode"         && change mode to View
+      form.childBrowse.modify = .F.
+      form.statusMessage = "Select LPG - CREDIT NOTE - Edit menu choice to " +;
+                           "edit/delete data."
+   else                                         && Change to Edit mode
+      editMenu.text = "&View"
+      editMenu.shortcut = "Ctrl-E"
+      editMenu.statusMessage = "View data."
+        form.root.order.deleteline.enabled = .t.
+   *        form.root.order.REPLACECUST.enabled = .t.
+      form.CheckCommit(.T.)                     && Check transaction and
+      form.text = "REVERSE LPG - CASH SALES -- Edit Mode"         && change mode to Edit
+      form.childBrowse.modify = .F.
+      form.statusMessage = "In Edit Mode.  " +;
+                           "Select LPG - CREDIT NOTE - View menu choice to switch " +;
+                           "to View mode."
+   endif
+   control = form.first
+   inEditMode = form.inEditMode    && so don't have to reference many times
+   do
+      do case
+         case control.name $ "ORDERNOENTRY,cno,TOTINVENTRY,BALDUEENTRY"
+            * these are never editable
+            control.enabled = .F.
+         case .not. control.className $ "BROWSE,NEXTBUTTON,PREVBUTTON,PUSHBUTTON,IMAGE,TEXT"
+            * doesn't make sense to make the above classes enabled/not
+            control.enabled = inEditMode
+         case control.className = "BROWSE"
+            control.Modify = inEditMode
+            control.Delete = inEditMode
+            control.Append = inEditMode
+      endcase
+      control = control.before
+   until control.name = form.first.name
+   form.OrderNoEntry.enabled = .F.          && Key field is always disabled
+   form.childBrowse.modify = .F.
+   form.childBrowse.append = .F.
+   form.tgross.enabled = .f.
+   form.childBrowse.delete = .F.
+    form.tvat.enabled = .f.
+   form.sgross.enabled  = .f.
+   form.stotal.enabled = .f.
+   FORM.CHILDBROWSE.MODIFY = .F.
+   FORM.STOTAL.ENABLED = .F.
+   form.sitem.enabled = .f.
+    if fgcoy->pospost = "Yes"
+   FORM.SDATE.ENABLED = .F.
+   endif
+   FORM.SVAT.ENABLED = .F.
+    if fgcoy->stream = "Yes"
+           form.sprice.enabled = .f.
+            endif
+
+     if FGCOD->qty = "Yes" .and. .not. FGCOD->shs_auto = "Yes" .and. .not. FGCOD->typ = "00"
+              form.qtyentry.enabled = .t.
+              else
+             form.qtyentry.enabled = .f.
+               endif
+
+   form.sonhand.enabled = .f.
+   FORM.SNET.ENABLED = .F.
+   FORM.SVATOUT.ENABLED = .F.
+
+   FORM.Sdlt.ENABLED = .F.
+   FORM.SFRIGHTER.ENABLED = .F.
+
+   FORM.Sdlq.ENABLED = .F.
+   form.sreft.enabled = .f.
+
+   if (empty(FGLCNLIN->order_no) .and. .not. empty(FGLCNTS->order_no)) .or. empty(FGLCNTS->mkeyref)
+   form.smkeyref.enabled = .t.
+   else
+    form.smkeyref.enabled = .f.
+   endif
+
+   form.sdisc.enabled = .f.
+   form.sddisc.enabled = .f.
+
+   procedure CheckChanged(callCommit)
+
+   * Check if changes have been made to the current entryfield.  This procedure
+   * is called from menu routines to make sure the form.changesMade gets
+   * updated when a menu is selected while the changed control has focus.
+   ****************************************************************************
+   private control, fieldValue, controlValue, typeText, typeValue
+
+   if form.inEditMode
+      control = form.activeControl
+      if type("control.datalink") <> "U"
+         fieldValue = control.datalink          && name of table field
+
+         typeText = type("control.text")
+         typeValue = type("control.value")
+         do case
+            case typeValue = "C0"
+               controlValue = control.value
+            case typeValue $ "LU" .and. typeText = "C0"
+               controlValue = control.text
+            otherwise
+               controlValue = Null
+         endcase
+         if controlValue <> &fieldValue
+            form.changesMade = .T.
+         endif
+      endif
+   endif
+   if form.changesMade .and. callCommit
+      CLASS::CheckCommit(form.inEditMode)     && Check transactions
+   endif
+    Procedure Go_last
+      form.CheckCommit(form.inEditMode)
+       if .not. empty(FGLCNTS->order_no)
+   select FGLCRUP
+   seek FGLCNTS->order_no+dtos(FGLCNTS->order_date)
+   if found() .and. .not. empty(post_date)
+   select FGLCNTS
+   replace post_date with date()
+   select fgtrnref
+   replace post_date with date()
+   flush
+   endif
+   endif
+   form.root.order.viewEdit.enabled = .t.
+   form.root.order.ADDorder.enabled = .t.
+    form.root.order.ADDline.enabled = .t.
+
+   SELECT FGLCNTS
+      go bottom
+   form.root.file.exit.enabled =   .t.
+
+     Procedure Go_Top
+     form.CheckCommit(form.inEditMode)
+      if .not. empty(FGLCNTS->order_no)
+   select FGLCRUP
+   seek FGLCNTS->order_no+dtos(FGLCNTS->order_date)
+   if found() .and. .not. empty(post_date)
+   select FGLCNTS
+   replace post_date with date()
+   select fgtrnref
+   replace post_date with date()
+   flush
+   endif
+   endif
+   form.root.order.viewEdit.enabled = .t.
+   form.root.order.ADDorder.enabled = .t.
+    form.root.order.ADDline.enabled = .t.
+
+   SELECT FGLCNTS
+     go top
+    form.root.file.exit.enabled =   .t.
+
+   Procedure Form_CanClose
+      RETURN IIF(form.changesmade = .F., .F., .T.)
+
+
+   Procedure SPROD_ONCHANGE
+        local l1,l2,l3,l4,l5,l6,l7,e1,L8,L9,L10,L11,L12,L13,L14,lprice,lcost,lst15,;
+        l111,l112,l113,l114
+              e1 = .f.
+               FORM.AMTENTRY.ENABLED = .F.
+                FORM.qtyENTRY.ENABLED = .F.
+
+                lst15 = .t.
+    select FGMASTp
+   seek this.value
+   if found()
+      form.changesmade = .t.
+
+            select FGLCNLIN
+            replace name with this.value
+                l1 = FGMASTp->COY
+               l2 = FGMASTp->dIV
+               l3 = FGMASTp->CEN
+               l4 = FGMASTp->STO
+               l5 = FGMASTp->TYP
+               l6 = FGMASTp->CLA
+               l7 = FGMASTp->COD
+                if .not. (l5 = FGLCNLIN->typ .and. l6 = FGLCNLIN->cla .and. l7 = FGLCNLIN->cod)
+
+           REPLACE SELL_PRICE WITH 0
+           REPLACE ON_HAND WITH 0
+   REPLACE NDISCOUNT WITH 0
+      replace sprice with 0
+     replace stotal with 0
+     replace qty with 0
+     replace svat with 0
+        replace qty with 0
+        replace sell_price with 0
+        replace total with 0
+        replace amt_alloc with 0
+        replace bal_alloc with 0
+         REPLACE discount WITH 0
+         replace gross_amt with 0
+          replace volume with 0
+     replace cost_price with 0
+         REPLACE TOTAL_AMT WITH 0
+          REPLACE NDISCOUNT WITH 0
+          replace basic_qty with 0
+          replace bas_amt with 0
+          form.changesmade = .t.
+             endif
+
+               l111 = FGMASTp->st_COY
+               l112 = FGMASTp->st_dIV
+               l113 = FGMASTp->st_CEN
+               l114 = FGMASTp->st_STO
+
+
+
+               L8 = form.pshdate
+               L9 = form.pshno
+               L10 = form.pshid
+
+           SELECT FGLCNLIN
+           REPLACE SHIFT_DATE WITH {}
+           REPLACE SHIFT_NO WITH ""
+           REPLACE SHIFT_ID WITH ""
+           REPLACE COY WITH ""
+           REPLACE DIV WITH ""
+           REPLACE CEN WITH ""
+           REPLACE STO WITH ""
+           REPLACE TYP WITH ""
+           REPLACE CLA WITH ""
+           REPLACE COD WITH ""
+            select fgmast
+               seek l111+l112+l113+l114+l5+l6+l7
+               if .not. found()
+               e1 = .t.
+               endif
+           select FGCOD
+           seek l5+l6+l7
+                if .not. found()
+        e1 = .t.
+        endif
+
+           select fgtaxtyp
+           seek FGCOD->tax_type
+                if .not. found()
+        e1 = .t.
+        endif
+
+
+            if e1 = .F.
+
+           lprice = FGCOD->sale_Price
+           lcost  = FGCOD->cost_pricE
+               select FGLCNLIN
+               replace FGLCNLIN->cod with L7
+                replace FGLCNLIN->SELL_PRICE with lprice
+                replace cost_price with lcost
+                REPLACE COY WITH FGMASTp->COY
+           REPLACE DIV WITH FGMASTp->DIV
+           REPLACE CEN WITH FGMASTp->CEN
+           REPLACE STO WITH FGMASTp->STO
+           REPLACE TYP WITH FGMASTp->TYP
+           REPLACE CLA WITH FGMASTp->CLA
+           REPLACE COD WITH FGMASTp->COD
+           replace st_coy with fgmastp->st_coy
+           replace st_div with fgmastp->st_div
+           replace st_cen with fgmastp->st_cen
+           replace st_sto with fgmastp->st_sto
+            replace volume with FGCOD->volume
+            replace fcdiv with FGCOD->fcdiv
+           replace fcpurch with FGCOD->fcpurch
+           replace vat with fgtaxtyp->rate
+           IF DIV = "1" .and. typ >= "00" .and. typ <= "99" .and. form.pfc
+           REPLACE SHIFT_DATE WITH L8
+           REPLACE SHIFT_NO WITH L9
+           REPLACE SHIFT_ID WITH L10
+            SELECT ST15F
+             SEEK DTOS(L8)+L9+L10+L3+L5+L6+L7+L4+L1+l2
+             if .not. found()
+             lst15 = .f.
+
+             go top
+             endif
+              SELECT FCCASHRS
+             SEEK FGLCNLIN->cen  && Island
+             if found() .and. OFF = FGLCNLIN->OFF
+             else
+                LST15 = .F.
+                       InformationMessage("The Cashier is not Allocated to This  Island", "Sorry!")
+           ENDIF
+           ENDIF
+              if .not. lst15
+               SELECT FGLCNLIN
+               replace coy with ""
+               replace cen with ""
+               replace sto with ""
+               REPLACE DIV WITH ""
+               endif
+               IF EMPTY(FGSTKNOS->STOCK_NO)
+                select FGLPGCAD
+              go top
+              IF  coy =  FGLCNLIN->st_coy .and. div =  FGLCNLIN->st_div ;
+               .and. cen =  FGLCNLIN->st_cen .and. sto =  FGLCNLIN->st_sto ;
+                .and. typ =  FGLCNLIN->typ .and. cla =  FGLCNLIN->cla ;
+                 .and. cod =  FGLCNLIN->cod .and. order_no =  FGLCNTS->o_order ;
+                  .and. order_date =  FGLCNTS->o_date
+                       select FGLCNLIN
+                  replace bas_amt with FGLPGCAD->total_amt*-1
+                   replace driver  with FGLPGCAD->driver
+                  replace discount with FGLPGCAD->new_bal * -1
+                  replace basic_qty with FGLPGCAD->qty
+                  replace qty with basic_qty
+                  REPLACE STOCK_NO WITH FGLPGCAD->STOCK_NO
+                  REPLACE REFERENCE WITH FGLPGCAD->SERIALNO
+                   REPLACE PR_QTY WITH FGLPGCAD->GROSS_AMT
+                  form.smkeyref.enabled = .f.
+                  ELSE
+                locate REST FOR coy =  FGLCNLIN->st_coy .and. div =  FGLCNLIN->st_div ;
+               .and. cen =  FGLCNLIN->st_cen .and. sto =  FGLCNLIN->st_sto ;
+                .and. typ =  FGLCNLIN->typ .and. cla =  FGLCNLIN->cla ;
+                 .and. cod =  FGLCNLIN->cod .and. order_no =  FGLCNTS->o_order ;
+                  .and. order_date =  FGLCNTS->o_date
+                  if found()
+                  select FGLCNLIN
+                  replace bas_amt with FGLPGCAD->total_amt*-1
+                   replace driver  with FGLPGCAD->driver
+                  replace discount with FGLPGCAD->new_bal * -1
+                  replace basic_qty with FGLPGCAD->qty
+                  replace qty with basic_qty
+                  REPLACE STOCK_NO WITH FGLPGCAD->STOCK_NO
+                  REPLACE REFERENCE WITH FGLPGCAD->SERIALNO
+                  REPLACE PR_QTY WITH FGLPGCAD->GROSS_AMT
+                  form.smkeyref.enabled = .f.
+                  ELSE
+                   select FGLCNLIN
+                      REPLACE SELL_PRICE WITH 0
+           REPLACE ON_HAND WITH 0
+   REPLACE NDISCOUNT WITH 0
+      replace sprice with 0
+     replace stotal with 0
+     replace qty with 0
+     replace svat with 0
+        replace qty with 0
+        replace sell_price with 0
+        replace total with 0
+        replace amt_alloc with 0
+        replace bal_alloc with 0
+         REPLACE discount WITH 0
+         replace gross_amt with 0
+          replace volume with 0
+     replace cost_price with 0
+         REPLACE TOTAL_AMT WITH 0
+          REPLACE NDISCOUNT WITH 0
+          replace basic_qty with 0
+          replace bas_amt with 0
+
+                  ENDIF
+                  ENDIF
+              *    ENDIF
+                  ELSE
+                   select FGLPGCAD
+              go top
+              IF  coy =  FGLCNLIN->st_coy .and. div =  FGLCNLIN->st_div ;
+               .and. cen =  FGLCNLIN->st_cen .and. sto =  FGLCNLIN->st_sto ;
+                .and. typ =  FGLCNLIN->typ .and. cla =  FGLCNLIN->cla ;
+                 .and. cod =  FGLCNLIN->cod .and. order_no =  FGLCNTS->o_order ;
+                  .and. order_date =  FGLCNTS->o_date .AND. STOCK_NO = FGSTKNOS->STOCK_NO
+                       select FGLCNLIN
+                  replace bas_amt with FGLPGCAD->total_amt*-1
+                  replace driver  with FGLPGCAD->driver
+                  replace discount with FGLPGCAD->new_bal * -1
+                  replace basic_qty with FGLPGCAD->qty
+                  replace qty with basic_qty
+                  REPLACE STOCK_NO WITH FGLPGCAD->STOCK_NO
+                  REPLACE REFERENCE WITH FGLPGCAD->SERIALNO
+                   REPLACE PR_QTY WITH FGLPGCAD->GROSS_AMT
+                  form.smkeyref.enabled = .f.
+                  ELSE
+                locate REST FOR coy =  FGLCNLIN->st_coy .and. div =  FGLCNLIN->st_div ;
+               .and. cen =  FGLCNLIN->st_cen .and. sto =  FGLCNLIN->st_sto ;
+                .and. typ =  FGLCNLIN->typ .and. cla =  FGLCNLIN->cla ;
+                 .and. cod =  FGLCNLIN->cod .and. order_no =  FGLCNTS->o_order ;
+                  .and. order_date =  FGLCNTS->o_date .AND. STOCK_NO = FGSTKNOS->STOCK_NO
+                  if found()
+                  select FGLCNLIN
+                  replace bas_amt with FGLPGCAD->total_amt*-1
+                   replace driver  with FGLPGCAD->driver
+                  replace discount with FGLPGCAD->new_bal * -1
+                  replace basic_qty with FGLPGCAD->qty
+                  replace qty with basic_qty
+                  REPLACE STOCK_NO WITH FGLPGCAD->STOCK_NO
+                  REPLACE REFERENCE WITH FGLPGCAD->SERIALNO
+                   REPLACE PR_QTY WITH FGLPGCAD->GROSS_AMT
+                  form.smkeyref.enabled = .f.
+                  ELSE
+                   select FGLCNLIN
+                      REPLACE SELL_PRICE WITH 0
+           REPLACE ON_HAND WITH 0
+   REPLACE NDISCOUNT WITH 0
+      replace sprice with 0
+     replace stotal with 0
+     replace qty with 0
+     replace svat with 0
+        replace qty with 0
+        replace sell_price with 0
+        replace total with 0
+        replace amt_alloc with 0
+        replace bal_alloc with 0
+         REPLACE discount WITH 0
+         replace gross_amt with 0
+          replace volume with 0
+     replace cost_price with 0
+         REPLACE TOTAL_AMT WITH 0
+          REPLACE NDISCOUNT WITH 0
+          replace basic_qty with 0
+          replace bas_amt with 0
+
+                  ENDIF
+                  ENDIF
+                   ENDIF
+                 select FGLCNTS
+                   IF FGCOD->qty = "Yes" .and. .not. FGCOD->shs_auto = "Yes" ;
+                    .and. .not. FGCOD->typ = "00"
+                   if fgcoy->stream = "Yes"
+             FORM.qtyENTRY.ENABLED = .t.
+             form.sprice.enabled = .f.
+              else
+               FORM.qtyENTRY.ENABLED = .t.
+             form.sprice.enabled = .t.
+       endif
+              ELSE
+              FORM.amtENTRY.ENABLED = .t.
+            ENDIF
+
+           endif
+           endif
+
+
+
+   Procedure SEMP1_ONCHANGE
+          local l1
+          l1 = this.value
+         form.pf1name = this.value
+         select FGOFFS
+         seek l1
+         if found()
+               SELECT FGLCNTSl
+    replace OFF with FGOFFS->OFF
+         select FGLCNTS
+         replace OFF with FGOFFS->OFF
+         replace cashier_no with FGOFFS->cashier_no
+         form.pcashierno = cashier_no
+         form.pemp1 = OFF
+         endif
+         select FGLCNTS
+         if empty(OFF) .or. empty(cashier_no)
+        InformationMessage("Cashier Not Allocated to this function", "Note!")
+                form.changesmade = .f.
+                else
+         form.changesmade = .t.
+         endif
+
+
+
+   Procedure QTYENTRY_OnChange
+         LOCAL WK1,WK2,WK3,WK4,lvat
+         lvat = fgtaxtyp->rate
+     select FGLCNLIN
+
+   WK3 = form.qtyentry.value
+     wk1 = 0
+     if typ > "00" .and. typ <= "99" .and. .not. left(typ,1) = "7"  ;
+      .and. .not. FGCOD->shs_auto = "Yes"
+       wk1 = fgmast->on_hand - wk3
+      endif
+    *  wk1 = 0 && no stock control working
+
+       if .not. this.value = FGLPGCAD->qty
+       InformationMessage("Quantity Out Of Range", "Sorry!")
+       form.qtyentry.value = 0
+       endif
+        if empty(off) .or. empty(cashier_no) .or. empty(driver)
+      InformationMessage("Check Served By and Cashier", "Sorry!")
+      replace qty with 0
+   form.qtyentry.value = 0
+   endif
+   replace on_hand with wk1
+   replace qty with form.qtyentry.value
+
+      replace FGLCNLIN->total_AMT with  FGLCNLIN->sell_price * QTY
+     replace FGLCNLIN->total with FGLCNLIN->total_AMT - FGLCNLIN->discount
+     replace FGLCNLIN->vat_OUT with round(FGLCNLIN->total /(lvat + 100) * lvat,2) && VAT
+     WK1 = round(FGLCNLIN->DISCOUNT/(lvat+100)*100,2)
+     REPLACE FGLCNLIN->NDISCOUNT WITH WK1
+     replace FGLCNLIN->sprice with;
+     round((FGLCNLIN->total + WK1 -  FGLCNLIN->VAT_OUT)/FGLCNLIN->qty,2)
+     replace FGLCNLIN->stotal with FGLCNLIN->qty * FGLCNLIN->sprice
+      replace FGLCNLIN->gross_amt with FGLCNLIN->total - FGLCNLIN->vat_out
+                   local ltyp,lcla,lvol,ltvol,LDIV
+   ltyp = FGLCNLIN->typ
+   lcla = FGLCNLIN->cla
+   lvol = FGCOD->volume
+
+   LDIV = DIV
+   ltvol = FGLCNLIN->qty * lvol
+   replace dis_qty with 0
+   replace lub_qty with 0
+   replace unl_qty with 0
+   replace ker_qty with 0
+   replace reg_qty with 0
+   replace sup_qty with 0
+   replace lpg_qty with 0
+   replace mis_qty with 0
+   replace ser_qty with 0
+   replace spa_qty with 0
+   replace scr_qty with 0
+
+   replace dis_amt with 0
+   replace lub_amt with 0
+   replace unl_amt with 0
+   replace ker_amt with 0
+   replace reg_amt with 0
+   replace sup_amt with 0
+   replace lpg_amt with 0
+   replace mis_amt with 0
+   replace ser_amt with 0
+   replace spa_amt with 0
+   replace scr_amt with 0
+
+
+   if LTYP = "00"
+      if Lcla = "00"
+      replace sup_qty with qty
+      replace sup_amt with total
+   endif
+   if Lcla = "10"
+      replace unl_qty with qty
+      replace unl_amt with total
+   endif
+   if Lcla = "20"
+      replace reg_qty with qty
+      replace reg_amt with total
+   endif
+   if Lcla = "30"
+      replace dis_qty with qty
+      replace dis_amt with total
+   endif
+   if Lcla = "40"
+      replace ker_qty with qty
+      replace ker_amt with total
+   endif
+   else
+   if LTYP = "10"
+   replace lub_qty with LTVOL
+   replace lub_amt with total
+     else
+   if LTYP = "70"
+   replace ser_qty with qty
+   replace ser_amt with total
+   else
+   replace mis_qty with qty
+   replace mis_amt with TOTAL
+   endif
+   endif
+   endif
+          form.changesmade = .t.
+
+      form.browsechangesmade()
+
+      select FGLCNTS
+
+    Procedure AMTENTRY_OnChange
+     LOCAL WK1,WK2,WK4,WK3,lcoy,ldiv,lcen,lsto,ltyp,lcla,lcod,lqty,lprice,lvat,lprice,lcost
+         lvat = fgtaxtyp->rate
+
+
+     lcoy = FGLCNLIN->coy
+      ldiv = FGLCNLIN->div
+      lcen = FGLCNLIN->cen
+       lsto = FGLCNLIN->sto
+         ltyp = FGLCNLIN->typ
+          lcla = FGLCNLIN->cla
+           lcoD = FGLCNLIN->cod
+             lprice = FGCOD->sale_Price
+           lcost = FGCOD->cost_pricE
+
+      select FGLCNLIN
+      if .not.  this.value = FGLPGCAD->total*-1
+
+       InformationMessage("Value Out Of Range", "Sorry!")
+       form.amtentry.value = 0
+       endif
+         if empty(off) .or. empty(cashier_no) .or. empty(driver)
+      InformationMessage("Check Served By and Cashier", "Sorry!")
+    form.amtentry.value = 0
+   endif
+
+   * IF .NOT. lprice = 0
+   * replace FGLCNLIN->qty with this.value/lprice
+   * ENDIF
+     WK3 = FGLCNLIN->QTY
+
+     WK1 = 0
+     IF lvat > 0
+        WK1 = round(FGLCNLIN->DISCOUNT/(lvat+100)*100,2)
+          ENDIF
+       replace FGLCNLIN->total_AMT with  THIS.VALUE
+       replace FGLCNLIN->total with FGLCNLIN->total_AMT - FGLCNLIN->discount
+       replace FGLCNLIN->VAT_OUT with round(FGLCNLIN->total /(lvat + 100) * lvat,2) && VAT
+       REPLACE FGLCNLIN->NDISCOUNT WITH WK1
+       IF .NOT. FGLCNLIN->QTY = 0
+       replace FGLCNLIN->sprice with;
+     round((FGLCNLIN->total + WK1 -  FGLCNLIN->VAT_OUT)/FGLCNLIN->qty,2)
+       replace FGLCNLIN->stotal with FGLCNLIN->qty * FGLCNLIN->sprice
+      ENDIF
+     replace FGLCNLIN->gross_amt with FGLCNLIN->total - FGLCNLIN->vat_out
+     replace FGLCNLIN->cost_price with lcost
+   ltyp = FGLCNLIN->typ
+   lcla = FGLCNLIN->cla
+   lvol = FGCOD->volume
+   LDIV = DIV
+   ltvol = FGLCNLIN->qty * lvol
+   replace dis_qty with 0
+   replace lub_qty with 0
+   replace unl_qty with 0
+   replace ker_qty with 0
+   replace reg_qty with 0
+   replace sup_qty with 0
+   replace lpg_qty with 0
+   replace mis_qty with 0
+   replace ser_qty with 0
+   replace spa_qty with 0
+   replace scr_qty with 0
+
+   replace dis_amt with 0
+   replace lub_amt with 0
+   replace unl_amt with 0
+   replace ker_amt with 0
+   replace reg_amt with 0
+   replace sup_amt with 0
+   replace lpg_amt with 0
+   replace mis_amt with 0
+   replace ser_amt with 0
+   replace spa_amt with 0
+   replace scr_amt with 0
+
+
+   if LTYP = "00"
+      if LCla = "00"
+      replace sup_qty with qty
+      replace sup_amt with total
+   endif
+   if Lcla = "10"
+      replace unl_qty with qty
+      replace unl_amt with total
+   endif
+   if Lcla = "20"
+      replace reg_qty with qty
+      replace reg_amt with total
+   endif
+   if Lcla = "30"
+      replace dis_qty with qty
+      replace dis_amt with total
+   endif
+   if Lcla = "40"
+      replace ker_qty with qty
+      replace ker_amt with total
+   endif
+   else
+   if LTYP = "10"
+   replace lub_qty with LTVOL
+   replace lub_amt with total
+     else
+   if LTYP = "70"
+   replace ser_qty with qty
+   replace ser_amt with total
+   else
+   replace mis_qty with qty
+   replace mis_amt with TOTAL
+   endif
+   endif
+   endif
+
+     form.changesmade = .t.
+     IF THIS.VALUE = 0
+           SELECT FGLCNLIN
+           REPLACE ON_HAND WITH 0
+           ENDIF
+      form.browsechangesmade()
+
+    FORM.AMTENTRY.ENABLED = .F.
+
+        *form.BrowseOnNavigate()
+        select FGLCNTS
+
+
+
+   Procedure SCASHIER_OnChange
+         select fgoffs3
+         seek this.value
+         if found()
+         select FGLCNLIN
+         replace cashier_no with fgoffs3->cashier_no
+         replace off with fgoffs3->off
+         replace offname with this.value
+         else
+          select FGLCNLIN
+         replace cashier_no with ""
+         replace off with ""
+         replace offname with ""
+         endif
+           replace name with ''
+            replace coy with ""
+               replace cen with ""
+               replace sto with ""
+         replace qty with 0
+             replace total with 0
+             replace TOTAL_amt with 0
+         select FGLCNTS
+         form.changesmade = .t.
+
+   Procedure CHILDBROWSE_OnRightDblClick(flags, col, row)
+   form.root.report.report3.enabled = .t.
+
+   Procedure SMKEYREF_OnChange
+   local ler
+      ler = .t.
+      select fgtrnref
+      seek this.value
+      if found()
+         select FGLCNTS
+         replace mkeyref with fgtrnref->mkey
+         replace o_order with fgtrnref->order_no
+         replace o_date  with fgtrnref->order_date
+         replace o_doc with fgtrnref->doctype
+         replace o_sys with fgtrnref->system
+         replace o_qty with fgtrnref->qty
+         replace o_total with fgtrnref->total
+         local l1,l2,l3,l4,l5,l6
+         l1 = o_order
+         l2 = dtos(o_date)
+         l3 = o_doc
+         l4 = o_sys
+         select FGLPGCAD
+         set filter to doctype = "LP" .and. system = "PS" .and. .not. (total = 0 .and. qty = 0) ;
+          .AND. ORDER_NO = FGLCNTS->O_ORDER .AND. ORDER_DATE = FGLCNTS->O_DATE
+          GO TOP
+         seek l1+l2+l3+l4
+         if found()
+         select FGLCNTS
+         replace source with "1"
+         replace ftyp with "1"
+         replace pmod with "1"
+         replace frighter_n with "0001"
+           replace customer with "CASH"
+           ler = .f.
+         endif
+         endif
+
+   if  ler
+      select FGLCNTS
+        replace mkeyref with ""
+         replace o_order with ""
+         replace o_date  with {}
+         replace o_doc with ""
+         replace o_qty with 0
+         replace o_total with 0
+         replace o_sys with ""
+          replace source with ""
+         replace ftyp with ""
+         replace pmod with ""
+         replace frighter_n with ""
+          REPLACE SERIALNO WITH ""
+         endif
+         form.changesmade = .t.
+
+   Procedure SDL_OnChange
+      select fgstknos
+      replace stock_no with this.value
+      select FGLCNTS
+      form.changesmade = .t.
+
+ENDCLASS

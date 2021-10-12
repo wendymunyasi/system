@@ -1,0 +1,1282 @@
+////////////////////////////////////////////////////////////////////////////////
+// Output Filename: C:\KENSERVICE\IDSSYS\FRIGHTER_FCV.WFM                     //
+// Created By:      dBASE Form Converter Wizard                               //
+// Created On:      Tuesday June 15, 2010 At 06:57:54                         //
+// Object Count:    38                                                        //
+////////////////////////////////////////////////////////////////////////////////
+*******************************************************************************
+*  PROGRAM:      Frighter.wfm
+*
+*  WRITTEN BY:   W Nyongesa
+*
+*  DATE:         05/2011
+*
+*  UPDATED:     12/2012
+*
+*  REVISION:     $Revision:   1.0
+*
+*  VERSION:      Visual dBASE
+*
+*  DESCRIPTION:  This program maintains the Customer Account master file
+*
+*  PARAMETERS:   None
+*
+*  CALLS:        Frighter.mnu         (Menu file)
+*                BUTTONS.CC          (Custom Controls file)
+*                Customer Account.qbe         (View of tables)
+*
+*  USAGE:        DO Frighter.wfm
+*
+*******************************************************************************
+#include <messdlg.h>
+shell(.F.)
+create session
+set talk off
+*set DBTYPE to PARADOX
+set century on
+*if .not. FORM.BLEVEL = 1
+set design off
+*endif
+_app.FrameWin.Visible = .F.
+_app.FrameWin.Text = "Frighter"
+set ldCheck off && To avoid language driver conflicts
+#define Maxcoy 999
+** END HEADER -- do not remove this line
+//
+// Generated on 15/06/2010
+//
+parameter bUser,bLevel,bLhqs,bModal
+local f
+f = new FrighterFORM()
+if (bModal)
+   f.mdi = false // ensure not MDI
+   f.readModal()
+else
+   f.open()
+endif
+
+class FrighterFORM of FORM
+   with (this)
+      onClose = class::ONCLOSE
+      open = class::OPEN
+      metric = 6	// Pixels
+      colorNormal = "N+"
+      height = 819.0
+      left = 40.0
+      top = 26.0
+      width = 1267.0
+      text = "Create New Customers Form"
+      windowState = 2	// Normal
+      mdi = false
+      sizeable = false
+      moveable = false
+      view = "Frighter.QBE"
+      menuFile = "FRIGHTER.MNU"
+      escExit = false
+      mousePointer = 1	// Arrow
+      scrollBar = 1	// On
+      maximize = false
+      minimize = false
+   endwith
+
+   this.TEXT2 = new TEXTLABEL(this)
+   with (this.TEXT2)
+      height = 25.0
+      left = 15.0
+      top = 38.0
+      width = 132.0
+      text = "Select Category:"
+      colorNormal = "B/BtnFace"
+      fontName = "MS Sans Serif"
+      fontBold = true
+      alignVertical = 1	// Middle
+      alignHorizontal = 2	// Right
+   endwith
+
+   this.SSOURCE = new COMBOBOX(this)
+   with (this.SSOURCE)
+      onChange = class::SSOURCE_ONCHANGE
+      dataLink = "fgcoy->SRCENAME"
+      enabled = false
+      height = 25.0
+      left = 175.0
+      top = 44.0
+      width = 378.0
+      fontName = "Arial Black"
+      fontSize = 9.0
+      fontBold = true
+      colorNormal = "B/BtnFace"
+      dataSource = "FIELD Frsourcs->NAME"
+      style = 2	// DropDownList
+      dropDownHeight = 132.0
+   endwith
+
+   this.DSRCE = new ENTRYFIELD(this)
+   with (this.DSRCE)
+      dataLink = "Frighter->source"
+      enabled = false
+      height = 61.0
+      left = 1736.0
+      top = 56.0
+      width = 75.0
+      function = "!"
+      colorNormal = "N/BtnFace"
+      colorHighLight = "B+/W*"
+      fontName = "MS Sans Serif"
+      fontBold = true
+   endwith
+
+   this.TEXT5 = new TEXTLABEL(this)
+   with (this.TEXT5)
+      height = 25.0
+      left = 15.0
+      top = 88.0
+      width = 132.0
+      text = "Type:"
+      colorNormal = "B/BtnFace"
+      fontName = "MS Sans Serif"
+      fontBold = true
+      alignVertical = 1	// Middle
+      alignHorizontal = 2	// Right
+   endwith
+
+   this.SFTYP = new ENTRYFIELD(this)
+   with (this.SFTYP)
+      dataLink = "frittyp->NAME"
+      enabled = false
+      height = 25.0
+      left = 175.0
+      top = 88.0
+      width = 375.0
+      function = "!"
+      colorNormal = "N/BtnFace"
+      colorHighLight = "B+/W*"
+      fontName = "MS Sans Serif"
+      fontBold = true
+   endwith
+
+   this.DTYP = new ENTRYFIELD(this)
+   with (this.DTYP)
+      dataLink = "Frighter->ftyp"
+      enabled = false
+      height = 25.0
+      left = 581.0
+      top = 55.0
+      width = 75.0
+      function = "!"
+      colorNormal = "N/BtnFace"
+      colorHighLight = "B+/W*"
+      fontName = "MS Sans Serif"
+      fontBold = true
+   endwith
+
+   this.TEXT7 = new TEXTLABEL(this)
+   with (this.TEXT7)
+      height = 25.0
+      left = 15.0
+      top = 121.0
+      width = 132.0
+      text = "Sub-Type:"
+      colorNormal = "B/BtnFace"
+      fontName = "MS Sans Serif"
+      fontBold = true
+   endwith
+
+   this.SPMOD = new ENTRYFIELD(this)
+   with (this.SPMOD)
+      dataLink = "frpymod->NAME"
+      enabled = false
+      height = 25.0
+      left = 175.0
+      top = 121.0
+      width = 368.0
+      function = "!"
+      colorNormal = "N/BtnFace"
+      colorHighLight = "B+/W*"
+      fontName = "MS Sans Serif"
+      fontBold = true
+   endwith
+
+   this.DPMOD = new ENTRYFIELD(this)
+   with (this.DPMOD)
+      dataLink = "Frighter->pmod"
+      enabled = false
+      height = 62.0
+      left = 1321.0
+      top = 140.0
+      width = 75.0
+      function = "!"
+      colorNormal = "N/BtnFace"
+      colorHighLight = "B+/W*"
+      fontName = "MS Sans Serif"
+      fontBold = true
+   endwith
+
+   this.DFRIGHTER = new ENTRYFIELD(this)
+   with (this.DFRIGHTER)
+      dataLink = "Frighter->Frighter_N"
+      enabled = false
+      height = 62.0
+      left = 1399.0
+      top = 140.0
+      width = 120.0
+      function = "!"
+      colorNormal = "N/BtnFace"
+      colorHighLight = "B+/W*"
+      fontName = "MS Sans Serif"
+      fontBold = true
+   endwith
+
+   this.SACC = new ENTRYFIELD(this)
+   with (this.SACC)
+      enabled = false
+      height = 62.0
+      left = 1528.0
+      top = 140.0
+      width = 321.0
+      function = "!"
+      colorNormal = "N/W"
+      colorHighLight = "B+/W*"
+      fontName = "MS Sans Serif"
+      fontBold = true
+      value = "                                        "
+      maxLength = 40
+   endwith
+
+   this.SSNAME = new ENTRYFIELD(this)
+   with (this.SSNAME)
+      dataLink = "frsource->NAME"
+      enabled = false
+      height = 25.0
+      left = 175.0
+      top = 154.0
+      width = 205.0
+      function = "!"
+      colorNormal = "N/BtnFace"
+      colorHighLight = "B+/W*"
+      fontName = "MS Sans Serif"
+      fontBold = true
+   endwith
+
+   this.FTNAME = new ENTRYFIELD(this)
+   with (this.FTNAME)
+      dataLink = "frittyp->NAME"
+      enabled = false
+      height = 25.0
+      left = 385.0
+      top = 154.0
+      width = 231.0
+      function = "!"
+      colorNormal = "N/BtnFace"
+      colorHighLight = "B+/W*"
+      fontName = "MS Sans Serif"
+      fontBold = true
+   endwith
+
+   this.FPNAME = new ENTRYFIELD(this)
+   with (this.FPNAME)
+      dataLink = "frpymod->NAME"
+      enabled = false
+      height = 25.0
+      left = 630.0
+      top = 154.0
+      width = 185.0
+      function = "!"
+      colorNormal = "N/BtnFace"
+      colorHighLight = "B+/W*"
+      fontName = "MS Sans Serif"
+      fontBold = true
+   endwith
+
+   this.SOPENDATE = new ENTRYFIELD(this)
+   with (this.SOPENDATE)
+      dataLink = "Frighter->OPEN_DATE"
+      enabled = false
+      height = 49.0
+      left = 1613.0
+      top = 214.0
+      width = 292.0
+      function = "!"
+      colorNormal = "B+/BtnFace"
+      colorHighLight = "B+/W"
+      fontName = "Arial Black"
+      fontBold = true
+   endwith
+
+   this.TEXT1 = new TEXTLABEL(this)
+   with (this.TEXT1)
+      height = 25.0
+      left = 15.0
+      top = 209.0
+      width = 132.0
+      text = "Name:"
+      colorNormal = "B/BtnFace"
+      fontName = "MS Sans Serif"
+      fontBold = true
+   endwith
+
+   this.CNAME = new ENTRYFIELD(this)
+   with (this.CNAME)
+      onChange = class::CNAME_ONCHANGE
+      valid = class::CNAME_VALID
+      dataLink = "Frighter->NAME"
+      enabled = false
+      height = 25.0
+      left = 175.0
+      top = 198.0
+      width = 462.0
+      function = "!"
+      colorNormal = "N/BtnFace"
+      colorHighLight = "B+/W*"
+      fontName = "MS Sans Serif"
+      fontBold = true
+      validErrorMsg = "Name Required"
+   endwith
+
+   this.TEXT23 = new TEXTLABEL(this)
+   with (this.TEXT23)
+      height = 25.0
+      left = 15.0
+      top = 242.0
+      width = 132.0
+      text = "Address:"
+      colorNormal = "B/BtnFace"
+      fontName = "MS Sans Serif"
+      fontBold = true
+   endwith
+
+   this.ADDRESS1 = new ENTRYFIELD(this)
+   with (this.ADDRESS1)
+      onChange = class::ADDRESS1_ONCHANGE
+      valid = class::ADDRESS1_VALID
+      dataLink = "Frighter->Address1"
+      enabled = false
+      height = 25.0
+      left = 175.0
+      top = 242.0
+      width = 469.0
+      function = "!"
+      colorNormal = "N/BtnFace"
+      colorHighLight = "B+/W*"
+      fontName = "MS Sans Serif"
+      fontBold = true
+      validErrorMsg = "Address Required"
+   endwith
+
+   this.TEXT15 = new TEXTLABEL(this)
+   with (this.TEXT15)
+      height = 25.0
+      left = 15.0
+      top = 275.0
+      width = 132.0
+      text = "Phone:"
+      colorNormal = "B/BtnFace"
+      fontName = "MS Sans Serif"
+      fontBold = true
+   endwith
+
+   this.SPHONE = new ENTRYFIELD(this)
+   with (this.SPHONE)
+      onChange = class::ENTRYFIELD4_ONCHANGE
+      dataLink = "Frighter->PHONE"
+      enabled = false
+      height = 25.0
+      left = 175.0
+      top = 275.0
+      width = 189.0
+      function = "!"
+      colorNormal = "N/BtnFace"
+      colorHighLight = "B+/W*"
+      fontName = "MS Sans Serif"
+      fontBold = true
+   endwith
+
+   this.TEXT9 = new TEXTLABEL(this)
+   with (this.TEXT9)
+      height = 25.0
+      left = 15.0
+      top = 308.0
+      width = 132.0
+      text = "PIN No.:"
+      colorNormal = "B/BtnFace"
+      fontName = "MS Sans Serif"
+      fontBold = true
+   endwith
+
+   this.SPIN = new ENTRYFIELD(this)
+   with (this.SPIN)
+      onChange = class::SPIN_ONCHANGE
+      dataLink = "Frighter->PIN"
+      enabled = false
+      height = 25.0
+      left = 175.0
+      top = 308.0
+      width = 189.0
+      function = "!"
+      colorNormal = "N/BtnFace"
+      colorHighLight = "B+/W*"
+      fontName = "MS Sans Serif"
+      fontBold = true
+   endwith
+
+   this.TEXT12 = new TEXTLABEL(this)
+   with (this.TEXT12)
+      height = 25.0
+      left = 15.0
+      top = 374.0
+      width = 132.0
+      text = "V.A.T. No.:"
+      colorNormal = "B/BtnFace"
+      fontName = "MS Sans Serif"
+      fontBold = true
+   endwith
+
+   this.SVAT = new ENTRYFIELD(this)
+   with (this.SVAT)
+      onChange = class::ENTRYFIELD8_ONCHANGE
+      dataLink = "Frighter->VAT"
+      enabled = false
+      height = 25.0
+      left = 175.0
+      top = 374.0
+      width = 189.0
+      function = "!"
+      colorNormal = "N/BtnFace"
+      colorHighLight = "B+/W*"
+      fontName = "MS Sans Serif"
+      fontBold = true
+   endwith
+
+   this.TEXT26 = new TEXTLABEL(this)
+   with (this.TEXT26)
+      height = 33.0
+      left = 14.0
+      top = 440.0
+      width = 154.0
+      text = "Special Instructions"
+      colorNormal = "B/BtnFace"
+      fontName = "MS Sans Serif"
+      fontBold = true
+   endwith
+
+   this.NOTESEDITOR2 = new EDITOR(this)
+   with (this.NOTESEDITOR2)
+      onGotFocus = {;if this.Modify;this.colorNormal = "B+/W*";endif}
+      onLostFocus = {;if this.Modify;this.colorNormal = "N/BtnFace";endif}
+      onChange = class::NOTESEDITOR2_ONCHANGE
+      height = 99.0
+      left = 189.0
+      top = 418.0
+      width = 294.0
+      colorNormal = "N/BtnFace"
+      modify = false
+      fontName = "MS Sans Serif"
+      fontSize = 8.0
+      fontBold = true
+      dataLink = "Frighter->INST_SP"
+   endwith
+
+   this.NOTESEDITOR3 = new EDITOR(this)
+   with (this.NOTESEDITOR3)
+      onGotFocus = {;if this.Modify;this.colorNormal = "B+/W*";endif}
+      onLostFocus = {;if this.Modify;this.colorNormal = "N/BtnFace";endif}
+      onChange = class::NOTESEDITOR3_ONCHANGE
+      height = 110.0
+      left = 511.0
+      top = 418.0
+      width = 315.0
+      colorNormal = "N/BtnFace"
+      modify = false
+      fontName = "MS Sans Serif"
+      fontSize = 8.0
+      fontBold = true
+      dataLink = "Frighter->INST_DEL"
+   endwith
+
+   this.PREVBUTTON = new PUSHBUTTON(this)
+   with (this.PREVBUTTON)
+      onClick = class::PREVIOUS
+      height = 26.0
+      left = 42.0
+      top = 605.0
+      width = 85.0
+      text = "&PREVIOUS"
+      fontName = "MS Sans Serif"
+      fontSize = 8.0
+      fontBold = true
+   endwith
+
+   this.NEXTBUTTON = new PUSHBUTTON(this)
+   with (this.NEXTBUTTON)
+      onClick = class::NEXT
+      height = 26.0
+      left = 147.0
+      top = 605.0
+      width = 85.0
+      text = "&NEXT"
+      fontName = "MS Sans Serif"
+      fontSize = 8.0
+      fontBold = true
+   endwith
+
+   this.FIRSTBUTTON = new PUSHBUTTON(this)
+   with (this.FIRSTBUTTON)
+      onClick = {; form.CheckCommit(form.inEditMode);GO TOP;}
+      height = 26.0
+      left = 259.0
+      top = 605.0
+      width = 85.0
+      text = "F&IRST"
+      fontName = "MS Sans Serif"
+      fontSize = 8.0
+      fontBold = true
+   endwith
+
+   this.LASTBUTTON = new PUSHBUTTON(this)
+   with (this.LASTBUTTON)
+      onClick = {; form.CheckCommit(form.inEditMode);GO BOTTOM;}
+      height = 26.0
+      left = 385.0
+      top = 605.0
+      width = 85.0
+      text = "&LAST"
+      fontName = "MS Sans Serif"
+      fontSize = 8.0
+      fontBold = true
+   endwith
+
+   this.TEXT4 = new TEXTLABEL(this)
+   with (this.TEXT4)
+      height = 42.0
+      left = 94.0
+      top = 925.0
+      width = 377.0
+      text = "Date A/c Closed:"
+      colorNormal = "B/BtnFace"
+      fontName = "MS Sans Serif"
+      fontBold = true
+   endwith
+
+   this.SDCLOSE = new ENTRYFIELD(this)
+   with (this.SDCLOSE)
+      dataLink = "FRIGHTER->CLOSE_DATE"
+      enabled = false
+      height = 61.0
+      left = 519.0
+      top = 925.0
+      width = 368.0
+      function = "!"
+      colorNormal = "B+/BtnFace"
+      colorHighLight = "B+/W"
+      fontName = "Arial Black"
+      fontBold = true
+   endwith
+
+   this.SDUSER = new ENTRYFIELD(this)
+   with (this.SDUSER)
+      dataLink = "FRIGHTER->CLOSE_USER"
+      enabled = false
+      height = 49.0
+      left = 915.0
+      top = 963.0
+      width = 443.0
+      function = "!"
+      colorNormal = "N/BtnFace"
+      colorHighLight = "B+/W*"
+      fontName = "MS Sans Serif"
+      fontBold = true
+   endwith
+
+   this.SDTIME = new ENTRYFIELD(this)
+   with (this.SDTIME)
+      dataLink = "FRIGHTER->CLOSE_TIME"
+      enabled = false
+      height = 49.0
+      left = 1396.0
+      top = 963.0
+      width = 528.0
+      function = "!"
+      colorNormal = "N/BtnFace"
+      colorHighLight = "B+/W*"
+      fontName = "MS Sans Serif"
+      fontBold = true
+   endwith
+
+   this.TEXT6 = new TEXTLABEL(this)
+   with (this.TEXT6)
+      height = 49.0
+      left = 82.0
+      top = 1052.0
+      width = 390.0
+      text = "Staff A/C Type:"
+      colorNormal = "B/BtnFace"
+      fontName = "MS Sans Serif"
+      fontBold = true
+   endwith
+
+   this.SVAGE = new COMBOBOX(this)
+   with (this.SVAGE)
+      onChange = class::SVAGE_ONCHANGE
+      dataLink = "FRIGHTER->VAGE"
+      height = 54.0
+      left = 509.0
+      top = 1045.0
+      width = 189.0
+      fontName = "Arial Black"
+      fontSize = 8.0
+      fontBold = true
+      colorNormal = "B/BtnFace"
+      dataSource = 'array {"","S","C"}'
+      style = 1	// DropDown
+      dropDownHeight = 132.0
+   endwith
+
+
+   procedure Open
+   ****************************************************************************
+   private TypeField,CodeField
+    ON ERROR DO ddeerr WITH ERROR(), MESSAGE(),;
+   PROGRAM(), LINENO()
+        FORM.BLUSER = BUSER
+   FORM.BLEVEL = BLEVEL
+   form.BLHQS = BLHQS
+   IF EMPTY(FORM.BLUSER) .OR. EMPTY(FORM.BLEVEL)
+   QUIT
+   ENDIF
+
+   form.firstime = .T.
+   if type("form.init") = "U"
+      form.init = .T.
+
+      set skip to                     && Frighter.qbe contains set skip to gldtl
+      set exact off                   && the .qbe file contains SET EXACT ON
+
+      set procedure to sampProc.prg additive
+    Form.duplicate = .F.
+      form.inEditMode = .F.           && indicator of view/edit state
+      form.changesMade = .F.          && indicator of changes made to field values
+      form.previousRecord = .F.       && Save record number when appending
+      form.updated = .f.
+      form.pnation = .f.
+      FORM.NALLOC = .F.
+      FORM.PDEPTYP = ""
+   FORM.PDEPCLA = ""
+   FORM.PDEPCOD = ""
+   FORM.PVTYP = ""
+   FORM.PVCLA = ""
+   FORM.PVCOD = ""
+   FORM.PDISCTYP = ""
+   FORM.PDISCCLA = ""
+   FORM.PDISCCOD = ""
+   FORM.PDTYP  = ""
+   FORM.PDCLA  = ""
+   FORM.PDCOD = ""
+   FORM.DSRCE.ENABLED = .F.
+   FORM.DPMOD.ENABLED = .F.
+   FORM.DTYP.ENABLED = .F.
+   FORM.DFrighter.ENABLED = .F.
+
+          form.psource= ""
+            FORM.PFTYP = ""
+            FORM.PPMOD = ""
+      form.cnt = 1
+       TypeField = field(1)         && company field
+      CodeField = field(2)
+   *   set order to &TypeField      && period -- tag name is same as field
+      select frighter4
+     set order to name
+     select frighter3
+     set order to frighter
+      select Frighter
+      set order to Frighter
+    GO TOP                                  && new Receipts
+   if empty(ftyp) .or. empty(Frighter_n) .or. empty(pmod) .or. empty(source)
+        delete
+   endif
+   select frigtmes
+      set order to name
+
+        *** do calculations in another area so form doesn't get updated
+
+    FORM.PDEPTYP = "L0"
+   FORM.PDEPCLA = "00"
+   FORM.PDEPCOD = "01"
+   FORM.Pftyp = "L0"
+   FORM.PVCLA = "00"
+   FORM.PVCOD = "00"
+   FORM.PDISCTYP = "E0"
+   FORM.PDISCCLA = "00"
+   FORM.PDISCCOD = "00"
+    FORM.PDTYP = "C0"
+   FORM.PDCLA = "01"
+   FORM.PDCOD = "00"
+
+      *** Open table for calculating totals and balance due in another work area
+      *** so that datalinks are not affected by record movements
+
+
+      ***
+    *  if type("form.parentpayeeForm") <> "U" && Esc ok if have parent
+    *     form.escExit = .T.
+   *   endif
+
+   endif
+   select fgcoy
+   replace SRCENAME with ""
+   select Frighter
+   * form.CoyInfoButton.KenpName = "Frighter.WFM"
+   *form.root.Frighter.add.enabled = .T.
+   go top
+   form::Open()                         && Now the form actually opens
+       form.BrowseOnNavigate()              && calculate totals
+   *       form.codingerrors()                        && check coding errors
+
+   *      form.next.setfocus()
+
+   ****************************************************************************
+
+   procedure OnClose
+
+   * Clean up.
+   ****************************************************************************
+
+   if this.inEditMode
+      form.ViewEdit()                      && Finish transaction
+   endif
+      close procedure SAMPProc.prg
+     
+     if .not. validdrive("Z:") .and.  .not. validdrive("W:")
+      do Frighter_rtn WITH FORM.BLUSER
+      endif
+   select frighter
+   set filter to empty(name) .and. empty(l_inv_date) .and. empty(l_pay_date) ;
+   .and. bal_due = 0 .and. cdep_amt = 0
+   go top
+   delete all
+
+   close databases
+   ****************************************************************************
+
+   procedure BrowseOnNavigate
+   ****************************************************************************
+
+   *
+   *       if eof()
+   *     form.root.Frighter.viewEdit.enabled = .F.
+   *   else
+   *     form.root.Frighter.viewEdit.enabled = .T.
+
+   *   endif
+   form.sacc.value = Frighter->source+Frighter->ftyp+Frighter->pmod+Frighter->Frighter_n
+
+   ****************************************************************************
+
+   procedure ChangesMade
+
+   * Indicate that changes have been made to the current record
+   ****************************************************************************
+   Form.ChangesMade = .T.
+   ****************************************************************************
+
+   procedure Next
+
+   * Go to next record.
+   ****************************************************************************
+
+   form.CheckCommit(form.inEditMode)
+   if .not. empty(dbf())  .and. .not. eof()      && if a table is open in the current workarea
+      skip
+      if eof()
+         go bottom
+         AlertMessage("At the last record","Alert")
+      endif
+   else
+      InformationMessage("There is no table open in the current workarea.",;
+         "Info")
+   endif
+    ****************************************************************************
+
+   procedure Previous
+
+   * Go to previous record.
+   ****************************************************************************
+
+   form.CheckCommit(form.inEditMode)
+ if .not. empty(dbf())  .and. .not. eof() && if a table is open in the current workarea
+      skip - 1
+      if bof()
+         go top
+         AlertMessage("At the first record","Alert")
+      endif
+   else
+      InformationMessage("There is no table open in the current workarea.",;
+         "Info")
+   endif
+   ****************************************************************************
+
+   procedure CheckCommit (newInEditMode)
+
+        * Finish transaction, if it has been started.
+   ****************************************************************************
+   private CodeField, changesMade
+   changesMade = form.changesMade
+   if form.changesMade
+      CodeField = field(1)  && Field period
+      if     ConfirmationMessage("Commit changes?",;
+                FormatStr("Customer %1",&CodeField)) = YES
+              
+         commit()
+       form.updated = .t.
+      else
+         rollback()
+         if .not. bof()
+       *  if .not. empty(form.previousRecord)
+   *            go bookmark()
+           * form.previousRecord
+            form.previousRecord = .F.
+         endif
+      endif
+
+    if form.inEditMode .and. newInEditMode
+         begintrans()
+      endif
+      form.changesMade = .F.
+   endif
+   if form.inEditMode <> newInEditMode
+      if newInEditMode                       && Going to Edit mode
+         begintrans()
+      else                                   && Going to View mode
+         if .not. changesMade .AND. .NOT. FORM.DUPLICATE
+            rollback()
+         endif
+      endif
+      form.inEditMode = newInEditMode
+   endif
+
+   * form.root.Receipt.add.enabled = .T.
+   *form.codingerrors()
+   ****************************************************************************
+
+   procedure ViewEdit
+
+   * Toggle between View and Edit modes.
+   ****************************************************************************
+   local inEditMode, editMenu, control
+
+   editMenu = form.root.Frighter.VIEWEdit
+
+   *** If ending edit mode then close transaction, otherwise open it.
+   if form.inEditMode
+      form.checkChanged(.F.)
+      editMenu.text = "&Edit"
+      editMenu.shortcut = "Ctrl-E"
+      editMenu.statusMessage = "Edit data."
+      form.CheckCommit(.F.)                        && Check transaction and
+      form.text = "Create New Customers -- View Mode"          && change mode to View
+           form.notesEditor3.colorNormal = "N/W"
+           form.notesEditor2.colorNormal = "N/W"
+      *  form.childBrowse.modify = .F.
+        form.notesEditor3.modify = .F.
+          form.address1.enabled = .f.
+   form.sphone.enabled = .f.
+   form.spin.enabled = .f.
+   form.svat.enabled = .f.
+
+          form.notesEditor2.modify = .F.
+      form.statusmessage = "In View Mode. " + ;
+                           "Select Customer Account - Edit menu to " + ;
+                           "edit/delete data."
+      else                                            && Switch to edit mode
+      editMenu.text = "Vi&ew"
+      editMenu.shortcut = "Ctrl-E"
+      editMenu.statusMessage = "View data."
+        form.address1.enabled = .t.
+   form.sphone.enabled = .t.
+   form.spin.enabled = .t.
+   form.svat.enabled = .t.
+
+      form.CheckCommit(.T.)                        && Check transaction and
+      form.text = "Create New Customers -- Edit Mode"          && change mode to Edit
+
+          form.notesEditor3.modify = .T.
+         form.notesEditor2.modify = .T.
+      form.statusmessage = "In Edit Mode.  " + ;
+                           "Select menu Customer Account - View to switch " + ;
+                           "to View mode."
+
+   endif
+
+   inEditMode = form.inEditMode     && Faster if we don't reference a form
+   control = form.first             &&    variable each time through the loop
+   do
+      if .not. control.className $ "BROWSE,EDITOR,NEXTBUTTON,PREVBUTTON,PUSHBUTTON,IMAGE,TEXT"
+         control.enabled = inEditMode
+
+      endif
+
+      control = control.before
+   until control.name = form.first.name
+
+   form.sopendate.enabled = .f.
+   *   form.svshipname.enabled = .f.
+   * form.stypname.enabled = .f.
+   *form.sclaname.enabled = .f.
+   * form.SDTYPNAME.enabled = .f.
+   *   form.svpurtname.enabled = .f.
+   *   form.sacname.enabled = .f.
+   *   form.sagename.enabled = .f.
+   *   form.sphsname.enabled = .f.
+   FORM.DSRCE.ENABLED = .F.
+   FORM.DPMOD.ENABLED = .F.
+   FORM.DTYP.ENABLED = .F.
+   FORM.DFrighter.ENABLED = .F.
+   form.sacc.enabled = .f.
+   *   form.sshipa.enabled = .f.
+   *  form.cname.enabled = .f.
+ *  FORM.SCDEP.ENABLED = .F.
+   form.ftname.enabled = .f.
+   form.fpname.enabled = .f.
+   FORM.SFTYP.ENABLED = .F.
+   FORM.SPMOD.ENABLED = .F.
+   FORM.SSNAME.ENABLED = .F.
+   *  form.root.Frighter.add.enabled = .F.
+*   form.sbal.enabled = .f.
+     * form.childBrowse.delete = .F.
+      * form.childBrowse.append = .F.
+       * form.childBrowse.modify = .F.
+       form.sdclose.enabled = .f.
+       form.sduser.enabled = .f.
+       form.sdtime.enabled = .f.
+          IF  FORM.BLEVEL > 3
+       FORM.SVAGE.ENABLED = .F.
+       ENDIF
+       select Frighter
+          FORM.SSOURCE.SETFOCUS()
+
+
+   ****************************************************************************
+
+   procedure CheckChanged(callCommit)
+
+   * Check if changes have been made to the current entryfield.  This procedure
+   * is called from menu routines to make sure the form.changesMade gets
+   * updated when a menu is selected while the changed control has focus.
+   ****************************************************************************
+   private control, fieldValue, controlValue, typeText, typeValue
+
+   if form.inEditMode
+      control = form.activeControl
+      if type("control.datalink") <> "U"
+         fieldValue = control.datalink          && name of table field
+
+         typeText = type("control.text")
+         typeValue = type("control.value")
+         do case
+            case typeValue = "C"
+               controlValue = control.value
+            case typeValue $ "LU" .and. typeText = "C"
+               controlValue = control.text
+            otherwise
+               controlValue = Null
+         endcase
+         if controlValue <> &fieldValue
+            form.changesMade = .T.
+         endif
+      endif
+   endif
+   if form.changesMade .and. callCommit
+      CLASS::CheckCommit(form.inEditMode)     && Check transactions
+   endif
+
+
+
+   ****************************************************************************
+
+   Procedure OnLostFocus_sftyp
+         local lcode1,lcode2,lsave
+            lcode1 = THIS.VALUE
+           SELECT frittyp
+            SEEK LCODE1
+            form.pftyp = ftyp
+            select Frighter
+        IF .NOT. EMPTY(FORM.PFTYP) .AND. .NOT. EMPTY(FORM.Psource) .AND. .NOT. EMPTY(FORM.Ppmod)
+        form.root.Frighter.add.enabled = .T.
+            ELSE
+            form.root.Frighter.add.enabled = .F.
+            ENDIF
+
+   Procedure OPENBAL_OnChange
+      select Frighter
+      replace open_bal with this.value
+      replace bbf with this.value
+      replace bal_due with this.value
+      if this.value > 0
+      replace bal_due_dr with this.value
+      replace bbf_dr with this.value
+      else
+      replace bal_due_cr with this.value * -1
+      replace bbf_cr with this.value * -1
+      endif
+      form.changesmade = .t.
+
+   Procedure TDATE_OnChange
+      form.changesmade = .t.
+
+   Procedure CREDITLMT_OnChange
+      form.changesmade = .t.
+
+   Procedure SSOURCE_ONCHANGE
+    local lcode1,lcode2,lsave
+     form.psource= ""
+     FORM.PFTYP = ""
+     FORM.PPMOD = ""
+   *  if .not. eof() .and. .not. bof()
+            lcode1 = THIS.VALUE
+           SELECT Frsourcs
+           go top
+           if .not. eof()
+            SEEK LCODE1
+            form.psource= source
+            FORM.PFTYP = SOURCE
+            FORM.PPMOD = SOURCE
+            endif
+                 select Frighter
+      IF .NOT. EMPTY(FORM.PFTYP) .AND. .NOT. EMPTY(FORM.Psource) .AND. .NOT. EMPTY(FORM.Ppmod)
+      form.root.Frighter.add.enabled = .T.
+            ELSE
+            form.root.Frighter.add.enabled = .F.
+            ENDIF
+
+
+   * endif
+
+   Procedure Spmod_OnLostFocus
+   local lcode1,lcode2,lsave
+            lcode1 = THIS.VALUE
+           SELECT frpymod
+            SEEK LCODE1
+            form.ppmod = pmod
+
+            select Frighter
+            IF .NOT. EMPTY(FORM.Ppmod) .AND. .NOT. EMPTY(FORM.Psource) .AND. .NOT. EMPTY(FORM.Ppmod)
+            form.root.Frighter.add.enabled = .T.
+            ELSE
+            form.root.Frighter.add.enabled = .F.
+            ENDIF
+
+   Procedure SCONTACT_OnChange
+        form.changesmade = .t.
+
+   Procedure ENTRYFIELD1_OnChange
+         form.changesmade = .t.
+
+   Procedure SCITY_OnChange
+      form.changesmade = .t.
+
+   Procedure SCOUNTRY_OnChange
+   form.changesmade = .t.
+
+   Procedure ENTRYFIELD4_OnChange
+   form.changesmade = .t.
+   select frighter
+   replace phone with this.value
+
+   Procedure SFAX_OnChange
+   form.changesmade = .t.
+
+   Procedure SEMAIL_OnChange
+   form.changesmade = .t.
+
+   Procedure SPIN_OnChange
+   form.changesmade = .t.
+   select frighter
+   replace pin with this.value
+
+   Procedure ENTRYFIELD8_OnChange
+   form.changesmade = .t.
+   select frighter
+   replace vat with this.value
+
+   Procedure SACCREF_OnChange
+      form.changesmade = .t.
+
+   Procedure NOTESEDITOR3_OnChange
+      form.changesmade =.t.
+      select frighter
+      replace inst_del with this.value
+
+   Procedure SOPEN_OnChange
+         form.changesmade = .t.
+
+   Procedure SCDEP_OnChange
+         form.changesmade = .t.
+
+   Procedure SCLIMIT_OnDesignOpen(bFromPalette)
+         form.changesmade = .t.
+
+    Procedure SDAYS_OnChange
+         form.changesmade = .t.
+
+   Procedure CNAME_OnChange
+         form.CNAME.value = ltrim(form.CNAME.value)
+         if  .not. empty(this.value)
+             select frighter4
+   seek  form.CNAME.value
+         if found()  .AND. .NOT. (SOURCE = FRIGHTER->SOURCE .AND. FRIGHTER_N = FRIGHTER->FRIGHTER_N)
+   InformationMessage("Duplicate Customer name not allowed", "Note!")
+   form.CNAME.value =""
+   else
+   select frighter
+   replace name with this.value
+     form.changesmade = .t.
+   endif
+   endif
+
+         select frighter
+         if .not. empty(form.CNAME.value)
+         form.root.Frighter.add.enabled = .T.
+         else
+         form.root.Frighter.add.enabled = .f.
+         endif
+
+   Procedure ADDRESS1_Valid
+         if empty(this.value)
+         isvalid = .f.
+         else
+         isvalid = .t.
+         endif
+         return isvalid
+
+   Procedure CNAME_Valid
+     if empty(this.value) .and. .not. empty(Frighter->source)
+         isvalid = .f.
+         form.cnt = form.cnt + 1
+         else
+         isvalid = .t.
+         endif
+         if form.cnt > 2
+         isvalid = .t.
+         form.cnt = 0
+         endif
+         return isvalid
+
+   Procedure SGROUP_OnChange
+         select frcategs
+         seek this.value
+         select Frighter
+         replace catname with this.value
+         replace category with frcategs->category
+         form.changesmade = .t.
+
+   Procedure ENTRYFIELD1_OnChange1
+         form.changesmade = .t.
+
+   Procedure ENTRYFIELD2_OnChange
+      form.changesmade = .t.
+
+   Procedure ENTRYFIELD1_OnChange2
+         form.changesmade = .t.
+
+   Procedure SVAGE_OnChange
+      FORM.CHANGESMADE = .T.
+
+   Procedure ADDRESS1_OnChange
+   select frighter
+   replace address1 with this.value
+   form.changesmade = .t.
+
+   Procedure NOTESEDITOR2_OnChange
+   select frighter
+   replace inst_sp with this.value
+   form.changesmade = .t.
+
+endclass
+
+Procedure Frighter_rtn
+ PARAMETER BLUSER
+ PLUSER = BLUSER
+  eofFrighter3 = .f.
+   set safety off
+      select frigtmes
+ set order to frighter
+     set safety on
+   select Frighter3
+   set order to frighter
+     SET FILTER TO .NOT. EMPTY(NAME) .AND. .NOT. EMPTY(CATEGORY) ;
+    .AND. .NOT. EMPTY(SOURCE) .AND. .NOT. EMPTY(FTYP) .AND. .NOT. EMPTY(PMOD) ;
+     .AND. .NOT. EMPTY(Frighter_n)
+   go top
+   if .not. eof()
+      do
+         do rtn2
+         until eofFrighter3
+     endif
+
+
+Procedure rtn2
+   local l1,l2,l3,l4
+   l1 = source
+   l2 = ftyp
+   l3 = pmod
+   l4 = Frighter_n
+   select frigtmes
+      seek l1+l2+l3+l4
+      if .not. found() .and. .not. empty(Frighter3->name) .and. .not. empty(Frighter3->category) ;
+       .and. .not. empty(Frighter3->ftyp) .and. .not. empty(Frighter3->pmod);
+        .and. .not. empty(Frighter3->source) .and. .not. empty(Frighter3->Frighter_n) ;
+        .and.  .not. (fgcoy->shipname = 'Orc' .and. empty(cus_acc) .AND. .NOT. SOURCE='1')
+      append blank
+      replace pmod with l3
+      replace ftyp with Frighter3->ftyp
+      replace Frighter_n with Frighter3->Frighter_n
+         replace source with l1
+    endif
+       replace category with frighter3->category
+      REPLACE VAGE WITH Frighter3->VAGE
+       replace vpurt with frighter3->vpurt
+      replace vship with frighter3->vship
+      replace SACNAME with frighter3->SACNAME
+        replace close_date with  frighter3->close_date
+        replace name with Frighter3->name
+          select Frighter3
+          IF EMPTY(OPEN_DATE)
+          REPLACE OPEN_DATE WITH DATE()
+          REPLACE OPEN_USER WITH PLUSER
+          REPLACE OPEN_TIME WITH TIME()
+          ENDIF
+           if vsac = "Z"
+          replace vsac with ""
+          select custaudt
+          append blank
+          replace source with Frighter3->source
+          replace ftyp with Frighter3->ftyp
+          replace pmod with Frighter3->pmod
+          replace Frighter_n with Frighter3->Frighter_n
+          replace vary_date with  Frighter3->vary_date
+          replace vary_time with Frighter3->vary_time
+          replace vary_user with Frighter3->vary_user
+           replace close_date with  Frighter3->close_date
+          replace close_time with Frighter3->close_time
+          replace close_user with Frighter3->close_user
+           replace open_date with  Frighter3->open_date
+          replace open_time with Frighter3->open_time
+          replace open_user with Frighter3->open_user
+          replace bal_due with Frighter3->bal_due
+          replace cr_days with Frighter3->cr_days
+          replace category with Frighter3->category
+          replace cdep_amt with Frighter3->cdep_amt
+          replace credit_lmt with Frighter3->credit_lmt
+          replace name with Frighter3->name
+          replace phone  with Frighter3->phone
+          replace address1  with Frighter3->address1
+          replace address2 with Frighter3->address2
+          replace contact with Frighter3->contact
+          replace fax with Frighter3->fax
+          replace email with Frighter3->email
+          replace acc_ref  with Frighter3->acc_ref
+          endif
+        select Frighter3
+   skip
+   if eof()
+   eofFrighter3 = .t.
+   endif

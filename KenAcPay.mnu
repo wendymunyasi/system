@@ -1,0 +1,107 @@
+******************************************************************************
+*  PROGRAM:      KenAcPay.mnu
+*
+*  WRITTEN BY:   W Nyongesa
+*
+*  DATE:        12/2012
+*
+*  UPDATED:      09/2012
+*
+*  REVISION:     $Revision:   1.0 $
+*
+*  VERSION:      Visual dBASE
+*
+*  DESCRIPTION:  This menu file is used by KenAcPay.wfm for controlling the running 
+*                of the KENPAY Payroll system.
+*
+*  PARAMETERS:   FormObj -- the form to which this menu is attached.
+*
+*  CALLS:        None
+*
+*  USAGE:        form.menuFile = "KenAcPay.mnu"
+*
+*******************************************************************************
+#include <Messdlg.h>
+
+** END HEADER -- do not remove this line*
+* Generated on 17/10/2000
+*
+Parameter FormObj
+NEW KenAcPayMENU(FormObj,"Root")
+CLASS KenAcPayMENU(FormObj,Name) OF MENUBAR(FormObj,Name)
+
+   DEFINE MENU FILE OF THIS;
+       PROPERTY; 
+         Text "&FILE",;
+         OnClick CLASS::FILE_ONCLICK
+
+          
+          DEFINE MENU EXIT OF THIS.FILE;
+                PROPERTY; 
+          StatusMessage "Return to the Previous Menu.",;
+          Text "&RETURN TO PREVIOUS MENU",;
+          SHORTCUT "F4",;
+          OnClick CLASS::ONEXIT
+  
+      
+       DEFINE MENU SEPARATOR000 OF THIS.FILE;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+
+            
+   DEFINE MENU QUITALL OF THIS.FILE;
+       PROPERTY; 
+          StatusMessage "Leave Kenserve System.",;
+          Text "EXIT",;
+          SHORTCUT "F8",;
+          OnClick CLASS::ONQUITALL
+          
+    DEFINE MENU ApSYS3 OF THIS;
+             PROPERTY; 
+             Text "STATEMENTS"
+             
+       DEFINE MENU SEPARAApSYS31 OF THIS.ApSYS3;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+                    
+      
+            
+         DEFINE MENU bfstat1 OF THIS.APSYS3;
+             PROPERTY; 
+               Text "&1. B/F Statements.",;
+               OnClick {;do VNstat.wfm WITH FORM.blUSER,FORM.bLEVEL}
+             
+             DEFINE MENU SEPARAApSYS33 OF THIS.ApSYS3;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+      
+   
+   procedure ViewEditOnClick
+   
+   * Toggle View/Edit modes.
+   ****************************************************************************
+   
+   form.ViewEdit()
+   
+   
+   ****************************************************************************
+   
+     procedure OnExit
+   
+  
+   ****************************************************************************
+   
+     form.Release()
+
+  Procedure OnQuitAll
+   
+     form.Release()
+    QUIT
+
+
+     Procedure FILE_OnClick
+   
+ENDCLASS

@@ -1,0 +1,39 @@
+* Visual dBASE .QBE file 9
+ON ERROR DO dsshreps.PRG
+USE \KENSERVICE\DATA\HCASHREC.DBF
+SET  ORDER TO OFF
+ON ERROR DO QBEERR WITH ERROR(), MESSAGE(),;
+PROGRAM(), LINENO()
+CLOSE DATABASES
+SET EXACT ON
+SELECT 1
+USE \KENSERVICE\DATA\st15fhis.DBF alias st15f
+GO TOP
+select 3
+use  \kenservice\data\fgcoy.dbf
+go top
+SELECT 5
+USE \KENSERVICE\DATA\fgstkcal.DBF alias shiftcla
+select 6
+use \kenservice\data\fgcens.dbf order tag mkey
+select 7
+use \kenservice\data\fgcods.dbf order tag mkey
+select 8
+use \kenservice\data\HCASHREC.dbf alias scashrec  order tag off
+select 9
+use \kenservice\data\fgoffs.dbf order tag off
+select 10
+use  \kenservice\data\shiftbk.dbf
+select 11
+use  \kenservice\data\shsum.dbf
+go top
+select 12
+use \kenservice\data\fgcods.dbf again alias fgcods2 order tag mkey
+SELECT 4
+USE  \KENSERVICE\DATA\SHIFTS.DBF
+SET FILTER TO SHIFTNO = SHSUM->SHIFT_NO
+GO TOP
+SELECT 1
+SET RELATION TO TYP+CLA+COD INTO FGCODS, COY+DIV+CEN INTO FGCENS
+select 5
+set relation to typ+cla+cod into fgcods2

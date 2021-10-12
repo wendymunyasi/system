@@ -1,0 +1,595 @@
+////////////////////////////////////////////////////////////////////////////////
+// Output Filename: C:\KENSERVICE\IDSSYS\KENGLJNL_FCV.WFM                     //
+// Created By:      dBASE Form Converter Wizard                               //
+// Created On:      Saturday June 25, 2016 At 22:38:36                        //
+// Object Count:    15                                                        //
+////////////////////////////////////////////////////////////////////////////////
+*******************************************************************************
+*  PROGRAM:      KENGLJNL.WFM
+*
+*  WRITTEN BY:   W Nyongesa
+*
+*  DATE:         05/2000
+*
+*  UPDATED:     12/2012
+*
+*  REVISION:     $Revision:   1.0
+*
+*  VERSION:      Visual dBASE
+*
+*  DESCRIPTION:  This program maintains the Divisions master file
+*
+*  PARAMETERS:   None
+*
+*  CALLS:        KENGLJNL..MNU         (Menu file)
+*                KBUTTONS.CC          (Custom Controls file)
+*                Company Code.qbe         (View of tables)
+*
+*  USAGE:        DO KENGLJNL.WFM
+*
+*******************************************************************************
+#include <messdlg.h>
+shell(.F.)
+create session
+set design off
+set talk off
+set Design off
+set century on
+set date TO  BRITISH
+set ldCheck off && To avoid language driver conflicts
+#define Maxcoy 999
+** END HEADER -- do not remove this line
+//
+// Generated on 25/06/2016
+//
+parameter bUser,bLevel,bModal
+local f
+f = new KENGLJNLFORM()
+if (bModal)
+   f.mdi = false // ensure not MDI
+   f.readModal()
+else
+   f.open()
+endif
+
+class KENGLJNLFORM of FORM
+set procedure to buttons.cc additive
+   with (this)
+      onClose = class::ONCLOSE
+      open = class::OPEN
+      metric = 6	// Pixels
+      colorNormal = "n+"
+      height = 932.0
+      left = 0.0
+      top = 0.0
+      width = 1296.0
+      text = "GENERAL LEDGER JOURNALS"
+      windowState = 2	// Maximized
+      mdi = false
+      sizeable = false
+      moveable = false
+      view = "KENGLJNL.QBE"
+      menuFile = "KENGLJNL.MNU"
+      escExit = false
+      mousePointer = 1	// Arrow
+      maximize = false
+      minimize = false
+   endwith
+
+   this.CODETEXT = new TEXTLABEL(this)
+   with (this.CODETEXT)
+      height = 21.0
+      left = 42.0
+      top = 20.0
+      width = 48.0
+      text = "Coy:"
+      colorNormal = "B/BtnFace"
+      fontName = "MS Sans Serif"
+      fontSize = 12.0
+      fontBold = true
+      alignVertical = 1	// Middle
+      alignHorizontal = 2	// Right
+   endwith
+
+   this.COYCOMBOBOX = new COMBOBOX(this)
+   with (this.COYCOMBOBOX)
+      dataLink = "dacoysum->Coy"
+      enabled = false
+      height = 31.0
+      left = 126.0
+      top = 20.0
+      width = 48.0
+      fontName = "Arial Black"
+      fontSize = 12.0
+      fontBold = true
+      colorNormal = "B/BtnFace"
+      dataSource = "FIELD fgcoy->COY"
+      style = 2	// DropDownList
+      dropDownHeight = 132.0
+   endwith
+
+   this.COYDISPLAY = new ENTRYFIELD(this)
+   with (this.COYDISPLAY)
+      dataLink = "fgcoy->STREET"
+      enabled = false
+      height = 21.0
+      left = 196.0
+      top = 20.0
+      width = 483.0
+      function = "!"
+      colorNormal = "N/BtnFace"
+      colorHighLight = "B+/W*"
+      fontName = "MS Sans Serif"
+      fontSize = 12.0
+      fontBold = true
+   endwith
+
+   this.CHILDBROWSE = new BROWSE(this)
+   with (this.CHILDBROWSE)
+      fontName = "MS Sans Serif"
+      fontSize = 8.0
+      height = 649.0
+      left = 49.0
+      top = 154.0
+      width = 1120.0
+      append = false
+      alias = "nglnlif"
+      fields = 'NGLNLIF->YEAR\H="YEAR"\6\R,NGLNLIF->PERIOD\H="PRD"\4\R,NGLNLIF->ORDER_NO\H="Ref.No."\8\R,TRANDA = NGLNLIF->TRANSDATE\H="Date"\10,accno = NGLNLIF->ACTYPE+NGLNLIF->ACCLASS+NGLNLIF->ACC\H="Acc"\8,ACCNA = NLACC->LNAME\H="Acc Name"\40,NGLNLIF->QTY\H="Qty"\12\P="999,999.99"\R,NGLNLIF->PRICE\H="Price"\8\P="999,999.99"\R,NGLNLIF->AMOUNT\H="Amount"\15\P="999,999,999,999.99"\R,NGLNLIF->DDE_DATE\H="DDE Date"\10\R,NGLNLIF->DDE_TIME\H="Time"\5\R,NGLNLIF->DDE_USER\H="User"\10\R,NGLNLIF->GL_POST\H="POSTED"\10\R'
+      delete = false
+      modify = false
+      showRecNo = false
+      text = "Journal Entry Information"
+   endwith
+
+   this.TEXT1 = new TEXTLABEL(this)
+   with (this.TEXT1)
+      height = 21.0
+      left = 686.0
+      top = 20.0
+      width = 60.0
+      text = "Date:"
+      colorNormal = "B/BtnFace"
+      fontName = "MS Sans Serif"
+      fontSize = 12.0
+      fontBold = true
+      alignVertical = 1	// Middle
+      alignHorizontal = 2	// Right
+   endwith
+
+   this.TDATE = new SPINBOX(this)
+   with (this.TDATE)
+      dataLink = "dacoysum->shift_date"
+      enabled = false
+      height = 21.0
+      left = 749.0
+      top = 20.0
+      width = 144.0
+      fontName = "MS Sans Serif"
+      fontSize = 12.0
+   endwith
+
+   this.RECTANGLE3 = new RECTANGLE(this)
+   with (this.RECTANGLE3)
+      left = 42.0
+      top = 55.0
+      width = 719.0
+      height = 77.0
+      text = "Filter reports by start and end dates, Item Type, Class and  Code, Div/Centre"
+      colorNormal = "r/btnface"
+      fontName = "Arial Black"
+      fontSize = 12.0
+      fontBold = true
+   endwith
+
+   this.TEXT5 = new TEXTLABEL(this)
+   with (this.TEXT5)
+      height = 21.0
+      left = 49.0
+      top = 88.0
+      width = 108.0
+      text = "Start Date:"
+      colorNormal = "B/BtnFace"
+      fontName = "MS Sans Serif"
+      fontSize = 12.0
+      fontBold = true
+      alignVertical = 1	// Middle
+      alignHorizontal = 2	// Right
+   endwith
+
+   this.STARTENTRY = new SPINBOX(this)
+   with (this.STARTENTRY)
+      onChange = class::STARTENTRY_ONCHANGE
+      dataLink = "KENGLJNL->START_DATE"
+      enabled = false
+      height = 21.0
+      left = 182.0
+      top = 88.0
+      width = 132.0
+      colorNormal = "n/btnface"
+      colorHighLight = "B+/W*"
+      fontName = "MS Sans Serif"
+      fontSize = 12.0
+      fontBold = true
+   endwith
+
+   this.TEXT6 = new TEXTLABEL(this)
+   with (this.TEXT6)
+      height = 21.0
+      left = 378.0
+      top = 88.0
+      width = 108.0
+      text = "End Date:"
+      colorNormal = "B/BtnFace"
+      fontName = "MS Sans Serif"
+      fontSize = 12.0
+      fontBold = true
+      alignVertical = 1	// Middle
+      alignHorizontal = 2	// Right
+   endwith
+
+   this.ENDENTRY = new SPINBOX(this)
+   with (this.ENDENTRY)
+      onChange = class::ENDENTRY_ONCHANGE
+      dataLink = "KENGLJNL->END_DATE"
+      enabled = false
+      height = 21.0
+      left = 532.0
+      top = 88.0
+      width = 132.0
+      colorNormal = "n/btnface"
+      colorHighLight = "B+/W*"
+      fontName = "MS Sans Serif"
+      fontSize = 12.0
+      fontBold = true
+   endwith
+
+   this.PREVBUTTON = new PUSHBUTTON(this)
+   with (this.PREVBUTTON)
+      onClick = class::PREVIOUS
+      height = 26.0
+      left = 322.0
+      top = 825.0
+      width = 85.0
+      text = "&PREVIOUS"
+      fontName = "MS Sans Serif"
+      fontSize = 8.0
+      fontBold = true
+   endwith
+
+   this.NEXTBUTTON = new PUSHBUTTON(this)
+   with (this.NEXTBUTTON)
+      onClick = class::NEXT
+      height = 26.0
+      left = 406.0
+      top = 825.0
+      width = 85.0
+      text = "&NEXT"
+      fontName = "MS Sans Serif"
+      fontSize = 8.0
+      fontBold = true
+   endwith
+
+   this.FIRSTBUTTON = new PUSHBUTTON(this)
+   with (this.FIRSTBUTTON)
+      onClick = {; form.CheckCommit(form.inEditMode);GO TOP; form.BrowseOnNavigate();}
+      height = 26.0
+      left = 497.0
+      top = 825.0
+      width = 85.0
+      text = "F&IRST"
+      fontName = "MS Sans Serif"
+      fontSize = 8.0
+      fontBold = true
+   endwith
+
+   this.LASTBUTTON = new PUSHBUTTON(this)
+   with (this.LASTBUTTON)
+      onClick = {; form.CheckCommit(form.inEditMode);GO BOTTOM; form.BrowseOnNavigate();}
+      height = 26.0
+      left = 588.0
+      top = 825.0
+      width = 85.0
+      text = "&LAST"
+      fontName = "MS Sans Serif"
+      fontSize = 8.0
+      fontBold = true
+   endwith
+
+
+   procedure Open
+   ****************************************************************************
+   private CodeField
+        ON ERROR DO ddeerr WITH ERROR(), MESSAGE(),;
+   PROGRAM(), LINENO()
+  FORM.BLUSER=BUSER
+   FORM.BLEVEL=BLEVEL
+   IF EMPTY(FORM.BLUSER) .OR. EMPTY(FORM.BLEVEL)
+      QUIT
+   ENDIF
+
+   form.firstime = .T.
+   if type("form.init") = "U"
+      form.init = .T.
+
+      set skip to                     && KENGLJNL.QBE contains set skip to gldtl
+      set exact off                   && the .qbe file contains SET EXACT ON
+
+      set procedure to sampProc.prg additive
+    Form.duplicate = .F.
+      form.inEditMode = .F.           && indicator of view/edit state
+      form.changesMade = .F.          && indicator of changes made to field values
+      form.previousRecord = .F.       && Save record number when appending
+        *** do calculations in another area so form doesn't get updated
+         select KENGLJNL
+      go top
+      if eof()
+      append blank
+      REPLACE START_DATE WITH dacoysum->SHIFT_DATE
+      REPLACE END_DATE WITH dacoysum->SHIFT_DATE
+      REPLACE START_ID WITH "000000"
+       REPLACE END_ID WITH "999999"
+       REPLACE START_DIV WITH "11"
+        REPLACE END_DIV WITH  "99"
+        IF EMPTY (dacoysum->SHIFT_DATE)
+        REPLACE START_DATE WITH DATE()
+        REPLACE END_DATE WITH DATE()
+        ENDIF
+
+      endif
+      replace message with "Data Extract in Progress - Please wait"
+       select dacoysum
+      set order to mkey
+    GO BOTTOM                                  && new Receipts
+
+
+      *** Open table for calculating totals and balance due in another work area
+      *** so that datalinks are not affected by record movements
+
+
+      ***
+    *  if type("form.parentpayeeForm") <> "U" && Esc ok if have parent
+    *     form.escExit = .T.
+   *   endif
+
+   endif
+   * form.CoyInfoButton.KenpName = "KENGLJNL.WFM"
+
+   form::Open()                         && Now the form actually opens
+       form.BrowseOnNavigate()              && calculate totals
+   *       form.codingerrors()                        && check coding errors
+
+   *      form.next.setfocus()
+   ****************************************************************************
+
+   procedure OnClose
+
+   * Clean up.
+   ****************************************************************************
+
+   if this.inEditMode
+     form.ViewEdit()                      && Finish transaction
+   endif
+   close procedure  sampProc.prg 
+   form.close()
+     clear program
+
+  procedure Next
+
+   * Go to next record.
+   ****************************************************************************
+
+   form.CheckCommit(form.inEditMode)
+   if .not. empty(dbf())  .and. .not. eof()      && if a table is open in the current workarea
+      skip
+       form.BrowseOnNavigate()
+      if eof()
+         go bottom
+         AlertMessage("At the last record","Alert")
+      endif
+   else
+      InformationMessage("There is no table open in the current workarea.",;
+         "Info")
+   endif
+    ****************************************************************************
+
+   procedure Previous
+
+   * Go to previous record.
+   ****************************************************************************
+
+   form.CheckCommit(form.inEditMode)
+ if .not. empty(dbf())  .and. .not. eof() && if a table is open in the current workarea
+      skip - 1
+      form.BrowseOnNavigate()
+      if bof()
+         go top
+         AlertMessage("At the first record","Alert")
+      endif
+   else
+      InformationMessage("There is no table open in the current workarea.",;
+         "Info")
+   endif
+
+   ****************************************************************************
+
+   procedure BrowseOnNavigate
+     ****************************************************************************
+
+   procedure ChangesMade
+
+   * Indicate that changes have been made to the current record
+   ****************************************************************************
+   Form.ChangesMade = .T.
+   ****************************************************************************
+
+   procedure CheckCommit (newInEditMode)
+
+        * Finish transaction, if it has been started.
+   ****************************************************************************
+   private CodeField, changesMade
+    local lk1,lk2
+    select dacoysum
+    lk1 = form.COYCOMBOBOX.value
+   changesMade = form.changesMade
+   if form.changesMade
+      CodeField = field(2)  && Field division
+   *     if     ConfirmationMessage("Commit changes?",;
+                FormatStr("Division %1",&CodeField)) = YES
+         commit()
+              ON ERROR DO ddeerr WITH ERROR(), MESSAGE(),;
+   PROGRAM(), LINENO()
+    *   do racodsal_rtn
+     *  do lmcodsal_rtn
+    *  else
+         rollback()
+    *          ON ERROR DO ddeerr WITH ERROR(), MESSAGE(),;
+   PROGRAM(), LINENO()
+     *    if .not. bof()
+       *  if .not. empty(form.previousRecord)
+   *            go bookmark()
+           * form.previousRecord
+       *     form.previousRecord = .F.
+   *      endif
+   *    endif
+
+       form.COYCOMBOBOX.enabled = .F.
+    if form.inEditMode .and. newInEditMode
+         begintrans()
+              ON ERROR DO TRANSerr WITH ERROR(), MESSAGE(),;
+   PROGRAM(), LINENO()
+      endif
+      form.changesMade = .F.
+   endif
+   if form.inEditMode <> newInEditMode
+      if newInEditMode                       && Going to Edit mode
+         begintrans()
+                ON ERROR DO TRANSerr WITH ERROR(), MESSAGE(),;
+   PROGRAM(), LINENO()
+      else                                   && Going to View mode
+         if .not. changesMade .AND. .NOT. FORM.DUPLICATE
+            rollback()
+                 ON ERROR DO ddeerr WITH ERROR(), MESSAGE(),;
+   PROGRAM(), LINENO()
+         endif
+      endif
+      form.inEditMode = newInEditMode
+   endif
+
+   * form.root.Receipt.add.enabled = .T.
+   *form.codingerrors()
+   ****************************************************************************
+
+   procedure ViewEdit
+
+   * Toggle between View and Edit modes.
+   ****************************************************************************
+   local inEditMode, editMenu, control
+
+   editMenu = form.root.KENGLJNL.VIEWEdit
+
+   *** If ending edit mode then close transaction, otherwise open it.
+   if form.inEditMode
+      form.checkChanged(.F.)
+      editMenu.text = "&Edit"
+      editMenu.shortcut = "Ctrl-E"
+      editMenu.statusMessage = "Edit data."
+      *form.root.KENGLJNL.delete.enabled = .F.      && disabled in view mode
+      form.CheckCommit(.F.)                        && Check transaction and
+      form.text = "GENERAL LEDGER JOURNALS-- View Mode"          && change mode to View
+   *      form.notesEditor.colorNormal = "N/W"
+        form.childBrowse.modify = .F.
+   *      form.notesEditor.modify = .F.
+      form.statusmessage = "In View Mode. " + ;
+                           "Select Company Code - Edit menu to " + ;
+                           "edit/delete data."
+   else                                            && Switch to edit mode
+      editMenu.text = "Vi&ew"
+      editMenu.shortcut = "Ctrl-E"
+      editMenu.statusMessage = "View data."
+      *form.root.KENGLJNL.delete.enabled = .F.      && enabled in edit mode
+      form.CheckCommit(.T.)                        && Check transaction and
+      form.text = "GENERAL LEDGER JOURNALS-- Edit Mode"          && change mode to Edit
+
+   *     form.notesEditor.modify = .T.
+      form.statusmessage = "In Edit Mode.  " + ;
+                           "Select menu Company Code - View to switch " + ;
+                           "to View mode."
+           form.coydisplay.enabled =.F.
+       *form.LnameEntry.SetFocus()
+
+   endif
+
+   inEditMode = form.inEditMode     && Faster if we don't reference a form
+   control = form.first             &&    variable each time through the loop
+   do
+      if .not. control.className $ "BROWSE,EDITOR,NEXTBUTTON,PREVBUTTON,PUSHBUTTON,IMAGE,TEXT"
+         control.enabled = inEditMode
+      endif
+      control = control.before
+   until control.name = form.first.name
+          form.COYCOMBOBOX.Enabled = .F.
+      form.coydisplay.enabled =.F.
+          form.tdate.enabled = .f.
+           form.childBrowse.modify = .F.
+           form.childBrowse.append = .F.
+           form.childBrowse.delete = .F.
+
+       *form.LnameEntry.SetFocus()
+   *     form.smess.enabled = .f.
+
+   ****************************************************************************
+
+   procedure CheckChanged(callCommit)
+
+   * Check if changes have been made to the current entryfield.  This procedure
+   * is called from menu routines to make sure the form.changesMade gets
+   * updated when a menu is selected while the changed control has focus.
+   ****************************************************************************
+   private control, fieldValue, controlValue, typeText, typeValue
+
+   if form.inEditMode
+      control = form.activeControl
+      if type("control.datalink") <> "U"
+         fieldValue = control.datalink          && name of table field
+
+         typeText = type("control.text")
+         typeValue = type("control.value")
+         do case
+            case typeValue = "C"
+               controlValue = control.value
+            case typeValue $ "LU" .and. typeText = "C"
+               controlValue = control.text
+            otherwise
+               controlValue = Null
+         endcase
+         if controlValue <> &fieldValue
+            form.changesMade = .T.
+         endif
+      endif
+   endif
+   if form.changesMade .and. callCommit
+      CLASS::CheckCommit(form.inEditMode)     && Check transactions
+   endif
+
+   Procedure STARTENTRY_OnChange
+   form.changesmade = .t.
+   select kengljnl
+   replace start_date with this.value
+   form.CheckCommit(form.inEditMode)
+
+   Procedure ENDENTRY_OnChange
+   form.changesmade = .t.
+     select kengljnl
+   replace end_date with this.value
+   form.CheckCommit(form.inEditMode)
+
+   Procedure ENTRYFIELD4_OnChange
+   form.changesmade = .t.
+   form.CheckCommit(form.inEditMode)
+
+   Procedure ENTRYFIELD5_OnChange
+   form.changesmade = .t.
+   form.CheckCommit(form.inEditMode)
+
+endclass
+

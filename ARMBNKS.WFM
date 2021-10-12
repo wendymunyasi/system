@@ -490,7 +490,7 @@ CLASS armbnksFORM OF FORM
    procedure Open
    ****************************************************************************
    private orderNoField
-      on error DO ddeerr WITH ERROR(), MESSAGE(),;
+  on error DO transerr WITH ERROR(), MESSAGE(),;
    PROGRAM(), LINENO()
          FORM.BLUSER = BUSER
    FORM.BLEVEL = BLEVEL
@@ -621,7 +621,7 @@ CLASS armbnksFORM OF FORM
                                              && leave shell(.F.)
         shell(.f.)
    *  endif
-   close procedure SampProc.prg, Buttons.cc
+   close procedure SampProc.prg
    if .not. empty(armbnks->order_no)
    select armbnupd
    seek armbnks->order_no+dtos(armbnks->order_date)
@@ -630,6 +630,7 @@ CLASS armbnksFORM OF FORM
    replace post_date with date()
    endif
    endif
+   *commit()
    close databases
    clear program
      do arpmbnks.prg
@@ -673,6 +674,7 @@ CLASS armbnksFORM OF FORM
    FORM.Stotal.VALUE =  t
          ENDIF
      SELECT armbnks
+     replace total with t
    endif
 
     procedure Next
@@ -738,16 +740,16 @@ CLASS armbnksFORM OF FORM
                 FormatStr("Order %1",&OrderField)) = YES .and. ;
                  (armbnks->dde_user = user() .or. user() = "JAFRADA" ;
                   .OR. USER() = "WYCLIFFE" .OR. USER() = "DANIEL")
-          commit()
-            on error DO ddeerr WITH ERROR(), MESSAGE(),;
+          *commit()
+            *on error DO ddeerr WITH ERROR(), MESSAGE(),;
    PROGRAM(), LINENO()
      *     ELSE
       *    ROLLBACK()
        *   ENDIF
 
        if form.inEditMode .and. newInEditMode
-          begintrans()
-               on error DO transerr WITH ERROR(), MESSAGE(),;
+          *begintrans()
+               *on error DO transerr WITH ERROR(), MESSAGE(),;
    PROGRAM(), LINENO()
        endif
        form.changesMade = .F.
@@ -756,8 +758,8 @@ CLASS armbnksFORM OF FORM
 
     if form.inEditMode <> newInEditMode
        if newInEditMode                       && Going to Edit mode
-          begintrans()
-            on error DO transerr WITH ERROR(), MESSAGE(),;
+          *begintrans()
+            *on error DO transerr WITH ERROR(), MESSAGE(),;
    PROGRAM(), LINENO()
        else                                   && Going to View mode
           if .not. changesMade

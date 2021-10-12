@@ -25,7 +25,7 @@ USE \KENSERVICE\DATA\FGOFFS.DBF ORDER TAG NAME
 set filter to .not. empty(shift_date) .and. .not. empty(Cashier_no) .and. empty(date_left)
 SELECT 3
 USE \KENSERVICE\DATA\FRIGTMES.DBF ORDER TAG NAME
-set filter to SOURCE = "9" .and. empty(close_date) .AND. .NOT. (VAGE='C' .AND. BLEVEL > 3) &&  STAFF
+set filter to SOURCE = "9" .and. empty(close_date) .AND. .NOT. VAGE='C'  &&  STAFF
 select 100
 use \kenservice\data\FGCODS.dbf order tag name
 set filter to TYP="C0" .AND. CLA="00" .and. cod = "01"

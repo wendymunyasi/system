@@ -1,18 +1,18 @@
 ////////////////////////////////////////////////////////////////////////////////
-// Output Filename: C:\KENSERVICE\IDSSYS\ShFcLPG_FCV.WFM                      //
+// Output Filename: C:\KENSERVICE\IDSSYS\SHFCLPG_FCV.WFM                      //
 // Created By:      dBASE Form Converter Wizard                               //
-// Created On:      Sunday October 3, 2021 At 16:59:13                        //
+// Created On:      Sunday October 3, 2021 At 17:01:58                        //
 // Object Count:    12                                                        //
 ////////////////////////////////////////////////////////////////////////////////
 ******************************************************************************
-*  PROGRAM:      ShFcLPG.wfm
+*  PROGRAM:      SHFCLPG.wfm
 *
 *******************************************************************************
 create session
 set talk off
 set ldCheck off
 set reprocess to 10
-SET DATE TO  BRITISH
+
 set century on
 *f .not. user() = "WYCLIFFE"
 _app.FrameWin.Visible = .F.
@@ -20,15 +20,15 @@ set design off
 *NDIF
 *set procedure to ddeerr.prg additive
 
-_app.FrameWin.Text = "ShFcLPG"
+_app.FrameWin.Text = "SHFCLPG"
 
 ** END HEADER -- do not remove this line
 //
-// Generated on 05/10/2021
+// Generated on 09/10/2021
 //
 parameter bUser,bLevel,bModal
 local f
-f = new ShFcLPGFORM()
+f = new SHFCLPGFORM()
 if (bModal)
    f.mdi = false // ensure not MDI
    f.readModal()
@@ -36,27 +36,41 @@ else
    f.open()
 endif
 
-class ShFcLPGFORM of FORM
+class SHFCLPGFORM of FORM
+set procedure to buttons.cc additive
    with (this)
       onOpen = class::ONOPEN
       onClose = class::ONCLOSE
       metric = 6	// Pixels
       colorNormal = "N+"
       height = 932.0
-      left = 104.0
-      top = 57.0
-      width = 1280.0
-      text = "EDIT CLOSING STOCK OF FORECOURT OTHER STOCKS STOCKS"
-      windowState = 2	// Normal
+      left = -75.0
+      top = 49.0
+      width = 1296.0
+      text = "EDIT CLOSING STOCK OF FORECOURT LPGS & OTHER RESABLE MERCHANDISE READINGS"
+      windowState = 2	// Maximized
       mdi = false
       sizeable = false
       moveable = false
-      view = "ShFcLPG.QBE"
+      view = "SHFCLPG.QBE"
       menuFile = "SHIFTID.MNU"
       mousePointer = 1	// Arrow
-      scrollBar = 0	// Off
       maximize = false
       minimize = false
+   endwith
+
+   this.OKSHFCLPG = new OKBUTTON(this)
+   with (this.OKSHFCLPG)
+      height = 27.0
+      left = 1281.0
+      top = 17.0
+      width = 86.0
+      text = "OK"
+      default = true
+      fontName = "MS Sans Serif"
+      fontSize = 8.0
+      fontBold = true
+      group = true
    endwith
 
    this.BROWSE1 = new BROWSE(this)
@@ -68,16 +82,16 @@ class ShFcLPGFORM of FORM
       fontName = "MS Sans Serif"
       fontSize = 8.0
       fontBold = true
-      height = 627.0
-      left = 35.0
-      top = 55.0
-      width = 1036.0
+      height = 803.0
+      left = 12.0
+      top = 44.0
+      width = 961.0
       append = false
       alias = "ST15F"
-      fields = 'ISLAND = ST15F->CEN\H="Isl"\5\C="W+/0x808040",sto = ST15F->TYP+ST15F->CLA+ST15F->COD\H="Prd Cd"\10\C="W+/0x808040",Product = LEFT(fgcod->name,32)\H="Product Description"\35\C="W+/0x808040",BBFQTY = ST15F->OP_M_Q\H="BBF"\10\P="99,999.99"\C="W+/0x808040",TRANS = st15f->Trans_in-st15f->trans_out\H="Recpts"\10\P="99,999.99"\C="W+/0x808040",ST15F->CL_M_Q\H="Cls Qty"\10\P="99,999.99"\C="N/W+",QTYSOLD = ST15F->SOLD_QTY\H="Qty Sold"\10\P="99,999.99"\C="W+/0x808040",PRICE = ST15F->SALE_PRICE\H="Price"\10\P="999,999.99"\C="W+/0x808040",expsa = st15f->exp_sales\H="Exp Sales"\15\P="99,999,999.99"\C="W+/0x808040",crsqty = st15f->cr_sal_qty\H="Crs Qty"\10\P="99,999.99"\C="W+/0x808040",nonc = ST15F->NON_CASH\H="Crs(Amt)"\15\P="99,999,999.99"\C="W+/0x808040"'
+      fields = 'ISLAND = ST15F->CEN\H="Isld"\3\C="W+/0x808040",sto = ST15F->TYP+ST15F->CLA+ST15F->COD\H="Prd Cd"\6\C="W+/0x808040",Product = LEFT(FGCODS->name,35)\H="Product Description"\36\C="W+/0x808040",BBFQTY = ST15F->OP_M_Q\H="BBF"\10\P="99,999.99"\C="W+/0x808040",TRANS = st15f->Trans_in-st15f->trans_out\H="Recpts"\10\P="99,999.99"\C="W+/0x808040",ST15F->CL_M_Q\H="Cls Qty"\10\P="99,999.99"\C="N/W+",QTYSOLD = ST15F->SOLD_QTY\H="Qty Sold"\10\P="99,999.99"\C="W+/0x808040",PRICE = ST15F->SALE_PRICE\H="Price"\10\P="999,999.99"\C="W+/0x808040",expsa = st15f->exp_sales\H="Exp Sales"\12\P="9,999,999.99"\C="W+/0x808040",crsqty = st15f->cr_sal_qty\H="Crs Qty"\10\P="99,999.99"\C="W+/0x808040",nonc = ST15F->NON_CASH\H="Crs(Amt)"\13\P="99,999,999.99"\C="W+/0x808040"'
       delete = false
       showRecNo = false
-      text = "EDIT CLOSING STOCK OF FORECOURT OTHER STOCKS STOCKS HERE"
+      text = "EDIT CLOSING STOCK OF FORECOURT LPGS & OTHER RESABLE MERCHANDISE READINGS HERE"
       scrollBar = 1	// On
    endwith
 
@@ -86,7 +100,7 @@ class ShFcLPGFORM of FORM
       dataLink = "ST15F->Shift_date"
       enabled = false
       height = 21.0
-      left = 329.0
+      left = 118.0
       top = 11.0
       width = 108.0
       colorNormal = "N/W"
@@ -100,7 +114,7 @@ class ShFcLPGFORM of FORM
       dataLink = "ST15F->Shift_no"
       enabled = false
       height = 21.0
-      left = 434.0
+      left = 233.0
       top = 11.0
       width = 24.0
       colorNormal = "N/W"
@@ -115,7 +129,7 @@ class ShFcLPGFORM of FORM
       dataLink = "ST15F->SHIFT_POST"
       enabled = false
       height = 21.0
-      left = 630.0
+      left = 485.0
       top = 11.0
       width = 108.0
       colorNormal = "0x8000ff/W"
@@ -129,7 +143,7 @@ class ShFcLPGFORM of FORM
       dataLink = "ST15F->Shift_id"
       enabled = false
       height = 21.0
-      left = 462.0
+      left = 271.0
       top = 11.0
       width = 24.0
       colorNormal = "N/W"
@@ -142,7 +156,7 @@ class ShFcLPGFORM of FORM
    this.TEXT36 = new TEXTLABEL(this)
    with (this.TEXT36)
       height = 21.0
-      left = 490.0
+      left = 309.0
       top = 11.0
       width = 48.0
       text = "Error:"
@@ -157,7 +171,7 @@ class ShFcLPGFORM of FORM
       dataLink = "ST15F->ERRORS"
       enabled = false
       height = 21.0
-      left = 756.0
+      left = 630.0
       top = 11.0
       width = 276.0
       colorNormal = "N/W"
@@ -169,7 +183,7 @@ class ShFcLPGFORM of FORM
    this.TEXT37 = new TEXTLABEL(this)
    with (this.TEXT37)
       height = 21.0
-      left = 280.0
+      left = 56.0
       top = 11.0
       width = 48.0
       text = "Shift:"
@@ -184,7 +198,7 @@ class ShFcLPGFORM of FORM
       dataLink = "SHIFTCOY->ERROR"
       enabled = false
       height = 21.0
-      left = 539.0
+      left = 378.0
       top = 11.0
       width = 72.0
       colorNormal = "GB+/R+"
@@ -193,18 +207,46 @@ class ShFcLPGFORM of FORM
       fontBold = true
    endwith
 
-   this.BROWSE4 = new BROWSE(this)
-   with (this.BROWSE4)
+   this.BROWSE3 = new BROWSE(this)
+   with (this.BROWSE3)
+      colorNormal = "W"
+      colorHighLight = "G+/0x408080"
+      fontName = "MS Sans Serif"
+      fontSize = 8.0
       fontBold = true
-      height = 231.0
-      left = 301.0
-      top = 693.0
-      width = 385.0
+      height = 274.0
+      left = 973.0
+      top = 44.0
+      width = 147.0
       append = false
-      alias = "SHIFTID"
-      fields = 'a = SHIFTID->ID,b = SHIFTID->CENNAME\H="Name"\20\R,c = SHIFTID->TOTAL_SALE\H="Sales Value"\20\P="999,999,999,999.99"\R'
+      alias = "shiftid"
+      fields = 'Island = SHIFTID->ID\H="Isd"\4\C="R+/W",desc = SHIFTID->CENNAME\H="Description"\14\C="W+/0x408080"'
+      toggle = false
+      delete = false
       modify = false
-      scrollBar = 1	// On
+      showRecNo = false
+      text = "DESCRIPTIONS"
+   endwith
+
+   this.BROWSE2 = new BROWSE(this)
+   with (this.BROWSE2)
+      colorNormal = "W"
+      colorHighLight = "G+/0x408080"
+      fontName = "MS Sans Serif"
+      fontSize = 8.0
+      fontBold = true
+      height = 275.0
+      left = 1120.0
+      top = 44.0
+      width = 133.0
+      append = false
+      alias = "shiftid"
+      fields = 'Island = SHIFTID->ID\H="ls"\3\C="R+/W",total_sales = SHIFTID->TOTAL_SALE\H="AMOUNT"\12\P="9,999,999.99"\C="W+/0x408080"'
+      toggle = false
+      delete = false
+      modify = false
+      showRecNo = false
+      text = "TOTAL SALES"
    endwith
 
 
@@ -212,32 +254,32 @@ class ShFcLPGFORM of FORM
    *******************************************************************************
      ON ERROR DO ddeerr WITH ERROR(), MESSAGE(),;
    PROGRAM(), LINENO()
-   form.bluser = bUser
-      form.blevel = bLevel
+   form.bluser = buser
+      form.blevel = blevel
       IF EMPTY(FORM.BLUSER) .OR. EMPTY(FORM.BLEVEL)
       QUIT
       ENDIF
    set procedure to SampProc.prg additive
    select cashiers
+   *  if flock()
    set order to cashier
-     SELECT STSTO
+    SELECT STSTO
     SET ORDER TO STO
 
     select fgmast
     set order to mkey
-      SELECT fgcod
+     SELECT FGCODS
    *  if flock()
     SET ORDER TO MKEY
-    SELECT FGCOD2
+    SELECT FGCODS2
     SET ORDER TO MKEY
-       SELECT SHIFTID
-   *  if flock()
+     SELECT SHIFTID
+   *   if flock()
     SET ORDER TO ID
       SELECT SHIFTCLS
-   *     if flock()
+   *    if flock()
     SET ORDER TO COYCLA
-
-    select shiftcoy
+       select shiftcoy
     set order to coy
 
    *      SET ORDER TO SHIFTID
@@ -245,7 +287,8 @@ class ShFcLPGFORM of FORM
      *    if flock()
          set order to mkey
    go toP
-       select shsum
+
+    select shsum
    *   if flock()
     go top
     if eof()
@@ -256,7 +299,7 @@ class ShFcLPGFORM of FORM
     replace shift_no with st15f->shift_no
     replace coy with st15f->coy
 
-     USE \KENSERVICE\DATA\SHIFTCOY.DBf AGAIN IN SELECT() ALIAS SHIFTCOY2
+    USE \KENSERVICE\DATA\SHIFTCOY.DBf AGAIN IN SELECT() ALIAS SHIFTCOY2
            SELECT St15f2
       *   if flock()
     GO TOP
@@ -264,15 +307,10 @@ class ShFcLPGFORM of FORM
      form.ST15F_CAL_RTN()
      endif
 
-
-
-   *******************************************************************************
-
-   procedure OnClose
+    procedure OnClose
    *******************************************************************************
    form.MousePointer = 11
-   *  do shiftbk_rtn
-   SELECT ST15F2
+    SELECT ST15F2
    GO TOP
    select shsum
    delete all for empty(coy) .or. empty(shift_date) .or. empty(shift_id)
@@ -302,22 +340,19 @@ class ShFcLPGFORM of FORM
       PDIV = DIV
       PCEN = CEN
       PSTO = STO
-       LVAR = 0
       PTYP = TYP
       PCLA = CLA
       PCOD = COD
       replace shift_post with {}
       replace errors with ""
-   select fgcod
+   select FGCODS
    seek ptyp+pcla+pcod
-   IF FOUND()
-   IF sale_price <= 0 .and. .not. fgcod->promotion = 'Yes'
+    IF  FGCODS->sale_price <= 0 .and. .not. fgcods->promotion = 'Yes'
            SELECT ST15F2
              REPLACE SHIFT_POST WITH DATE()
            replace ST15F2->errors with "CHECK SALE PRICE"
         ENDIF
-        ENDIF
-         if (fgcoy->shipname = 'Yes' .OR. fgcoy->shipname = 'Orc') .and. empty(fgcod->mat_code)
+         if (fgcoy->shipname = 'Yes' .OR. fgcoy->shipname = 'Orc') .and. empty(fgcods->mat_code)
           SELECT ST15F2
              REPLACE SHIFT_POST WITH DATE()
            replace ST15F2->errors with "CHECK MATERIAL CODE"
@@ -385,21 +420,15 @@ class ShFcLPGFORM of FORM
             L3 = op_m_q
             L2M = CL_mM_QTY
             L3M = OP_mM_QTY
-
+          t5 = 0
         ** past here
             L5 = 0
-            IF TYP = "00" .or. (typ = "10" .and. fgcod->shs_auto = "Yes")
+            IF TYP = "00" .or. (typ = "10" .and. FGCODS->shs_auto = "Yes")
             l5 = test_QTY
             ENDIF
-            L55 = L5 * fgcod->SALE_PRICE
+            L55 = L5 * FGCODS->SALE_PRICE
             REPLACE TEST_AMT WITH L55
-        replace sale_price with fgcod->sale_price
-
-        *  if typ = "10" .and. fgcod->shs_auto = "Yes"
-         *   replace cl_m_A with op_m_a +  ((cl_m_q - ST15F2->op_m_q)) * SALE_PRICE
-          *   ENDIF
-
-         t5 = 0
+        replace sale_price with FGCODS->sale_price
 
              if .NOT. TYP = "00"
              replace cl_m_a with 0
@@ -407,19 +436,16 @@ class ShFcLPGFORM of FORM
             SHSRETURN = L55 && SHS RETURN TO TANK
             t55 = 0
             SHSPLOSS = T55  && SHS PUMP LOSS
-            if  .not. TEST_AMT =  0 .and. fgcod->sale_price > 0
-            L5 =  TEST_AMT / fgcod->SALE_PRICE
+            if  .not. TEST_AMT =  0 .and. fgcods->sale_price > 0
+            L5 =  TEST_AMT / FGCODS->SALE_PRICE
             else
             l5 = 0
             endif
-
             QTYRETURN = L5 && QTY RETURN
-            if fgcod->sale_price > 0
-            t5 = t55 / fgcod->SALE_PRICE && pumps loss qty
+            if fgcods->sale_price > 0
+            t5 = t55 / FGCODS->SALE_PRICE && pumps loss qty
             endif
             QTYPLOSS = T5 && QUANTITY PUMP LOSS
-
-
 
                 IF ST15F2->typ = "00"
         if  .not. st15f2->f1cashr = "Yes"
@@ -437,7 +463,7 @@ class ShFcLPGFORM of FORM
             L11 = ST15F2->PURCHASES
             L4m = 0
 
-          IF ST15F2->TYP = "00"   .or. (ST15F2->TYP = "10" .and. fgcod->shs_auto = "Yes") && fuels/auto lubes
+          IF ST15F2->TYP = "00"   .or. (ST15F2->TYP = "10" .and. FGCODS->shs_auto = "Yes") && fuels/auto lubes
                L4 = L2 - L3        && && VOLUME electronic
                   L4m = L2M-L3M  && volume manual
                lvar = L4 - L4m  && variance
@@ -457,9 +483,7 @@ class ShFcLPGFORM of FORM
                     replace mm_qty_var with lvar
 
 
-
-
-                          if  FGCOY->CASHIER_NO = "Y"  .and. FGCOD->shs_auto = "No" .and. form.blevel > 4
+                       if  FGCOY->CASHIER_NO = "Y"  .and. FGCODS->shs_auto = "No" .and.form.blevel > 4
                       IF TYP = "20"  .AND. .NOT.  cr_sal_qty = SOLD_QTY
         replace ST15F2->errors with "Sales Doc Required"
         REPLACE SHIFT_POST WITH DATE()
@@ -469,8 +493,7 @@ class ShFcLPGFORM of FORM
         REPLACE SHIFT_POST WITH DATE()
         ENDIF
         ENDIF
-
-                       IF  ST15F2->TYP = "00" .or.  (ST15F2->typ = "10" .and. fgcod->shs_auto = "Yes")
+                       IF  ST15F2->TYP = "00" .or.  (ST15F2->typ = "10" .and. FGCODS->shs_auto = "Yes")
           if  (ST15F2->cl_m_q  - ST15F2->op_m_q) > 99999 .or. (ST15F2->cl_m_q  - ST15F2->op_m_q) < -9999
 
                    replace shift_post with date()
@@ -488,7 +511,8 @@ class ShFcLPGFORM of FORM
               replace shift_post with date()
                replace ST15F2->errors with "D2. Check Electronic qty meters"
                 endif
-                 IF st15f2->TYP = "00" .OR. (TYP="10" .AND. FGCOD->SHS_AUTO = "Yes")
+
+                 IF st15f2->TYP = "00" .OR. (TYP="10" .AND. FGCODS->SHS_AUTO = "Yes")
                  if  (ST15F2->cl_m_q  - ST15F2->op_m_q) < 0
               replace shift_post with date()
                replace ST15F2->errors with "D2. Check Electronic qty meters"
@@ -513,7 +537,7 @@ class ShFcLPGFORM of FORM
            ** past here
 
                      LOCAL L12,L13,L14,L15,L16,L17,L18,L19,L20,l22,t17
-            L13 = fgcod->SALE_PRICE
+            L13 = FGCODS->SALE_PRICE
             L12 = L4 * L13                && SOLD AMT
               L22 = 0           && CASH DISCOUNTS
           SHSDISCOUNT = L22
@@ -543,8 +567,8 @@ class ShFcLPGFORM of FORM
              L21 = ST15F2->NON_CASH        && ACTUAL NONCASH SALES
              SHSNONCASH = L21  && SHS CREDIT SALES
              QTYNONCASH = ST15F2->cr_sal_qty  && QTY CREDIT SALES
-             SHSQTYSALE = (QTYSALE * fgcod->SALE_PRICE) - SHSDISCOUNT
-             expsalesprice = fgcod->SALE_PRICE
+             SHSQTYSALE = (QTYSALE * FGCODS->SALE_PRICE) - SHSDISCOUNT
+             expsalesprice = FGCODS->SALE_PRICE
              QTYEXPSALE = QTYSALE
              SHSEXPSALE = SHSSALE
               if   shsexpsale > 0
@@ -565,8 +589,8 @@ class ShFcLPGFORM of FORM
             L27 = L25 - L26        && VARIANCE QTY
              LOCAL L28,L29,L30,l31,l32,l33,L33A,L33B
              l31 = fgmast->cr_purch + fgmast->cs_purch + fgmast->ADJ_IN - fgmast->ADJ_OUT && purchases
-             replace ST15F2->cost_price with fgcod->cost_price
-             replace ST15F2->vat with fgcod->vat
+             replace ST15F2->cost_price with FGCODS->cost_price
+             replace ST15F2->vat with FGCODS->vat
              l33 = a_c_inhand  && actual cash
              L33A = CASH_BANK
              L33B  = CL_C_HAND
@@ -589,8 +613,8 @@ class ShFcLPGFORM of FORM
                LOCAL WK55
                WK55 = SOLD_QTY
              replace sold_qty with QTYSALE
-             replace sold_amt with (qtythruput * fgcod->SALE_PRICE)   && new entry
-            IF .NOT. ST15F2->typ = "00" .and. .not.  fgcod->shs_auto = "Yes"
+             replace sold_amt with (qtythruput * FGCODS->SALE_PRICE)   && new entry
+            IF .NOT. ST15F2->typ = "00" .and. .not.  FGCODS->shs_auto = "Yes"
              IF cr_sal_qty > SOLD_QTY  .and. .not. cr_sal_qty = 0
              replace ST15F2->errors with "Check credit sales"
              REPLACE SHIFT_POST WITH DATE()
@@ -610,7 +634,7 @@ class ShFcLPGFORM of FORM
             replace c_sh_cards with shsexpcash  && s scratch cards
             endif
              if ST15F2->typ > "30"
-            replace c_sh_shop with shsexpcash  && sodas
+            replace c_sh_shop with shsexpcash  && sodas/spares
             endif
             if ST15F2->typ = "00"
             replace c_sh_fuels with shsexpcash
@@ -622,7 +646,7 @@ class ShFcLPGFORM of FORM
             replace c_sh_cant with shsexpcash
             endif
 
-    IF  ST15F2->TYP = "00" .or.  (ST15F2->typ = "10" .and. fgcod->shs_auto = "Yes")
+    IF  ST15F2->TYP = "00" .or.  (ST15F2->typ = "10" .and. FGCODS->shs_auto = "Yes")
        replace ST15F2->meter_var with ST15F2->meter_amt - ST15F2->sold_amt
        endif
 
@@ -703,8 +727,6 @@ class ShFcLPGFORM of FORM
         REPLACE TOTAL_SALE WITH TOTAL_SALE + ST15F2->EXP_SALES
         SELECT ST15F2
     ENDSCAN
-    select shiftid
-    go top
     SELECT ST15F
     refresh
 

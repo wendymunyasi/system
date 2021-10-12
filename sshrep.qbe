@@ -1,0 +1,27 @@
+* Visual dBASE .QBE file 9
+ON ERROR DO QBEERR WITH ERROR(), MESSAGE(),;
+PROGRAM(), LINENO()
+CLOSE DATABASES
+SET EXACT ON
+SELECT 1
+USE \KENSERVICE\DATA\st15f.DBF
+GO TOP
+select 3
+use  \kenservice\data\fgcoy.dbf
+go top
+SELECT 4
+USE  \KENSERVICE\DATA\SHIFTS.DBF
+SET FILTER TO SHIFTNO = ST15F->SHIFT_NO
+GO TOP
+SELECT 5
+USE \KENSERVICE\DATA\SHIFTCLA.DBF
+select 6
+use \kenservice\data\fgcens.dbf order tag mkey
+select 7
+use \kenservice\data\fgcods.dbf order tag mkey
+select 8
+use \kenservice\data\scashrec.dbf order tag off
+select 9
+use \kenservice\data\fgoffs.dbf order tag off
+select 10
+use  \kenservice\data\shiftbk.dbf

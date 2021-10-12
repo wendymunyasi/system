@@ -1,0 +1,184 @@
+* Visual dBASE .QBE file 9
+if .not. file("\kenservice\data\rdbms\fgorinvs.dbf")
+! XCOPY \kenserve\idssys\fgorinvs.dbf  \kenservice\data\rdbms\
+endif
+CLOSE DATABASES
+on error do ARINVSTR.PRG
+use \kenservice\data\rdbms\fgorinvs.dbf
+? main_key
+CLOSE DATABASES
+if .not. file("\kenservice\data\st15dmtr.dbf")
+use \kenserve\idssys\st15dmtr.dbf
+copy stru to \kenservice\data\st15dmtr dbase prod
+endif
+use \kenservice\data\st15dmtr.dbf
+? order_date
+
+CLOSE DATABASES
+
+ ON ERROR DO QBEERR WITH ERROR(), MESSAGE(),;
+  PROGRAM(), LINENO()
+  set safety off
+CLOSE DATABASES
+SET EXACT ON
+select 3
+ IF .NOT. FILE("\kenservice\data\fgshtran.dbf")
+ USE  \kenserve\idssys\fgshtran.dbf
+ copy stru to \kenservice\data\fgshtran dbase prod
+ endif
+USE \KENSERVICE\DATA\fgshtran.DBF EXCLUSIVE
+SELECT 2
+USE \KENSERVICE\DATA\fgmast.DBf  exclusive
+REPLACE ALL M_VAR WITH 0 for typ <='9Z' .and. .not. left(typ,1)='7'
+SELECT 8
+USE \KENSERVICE\DATA\shstmast.DBf exclusive
+SELECT 9
+use  \kenserve\idssys\fgmastf.dbf
+copy stru to \KENSERVICE\DATA\fgmastF.DBf dbase prod
+USE \KENSERVICE\DATA\fgmastF.DBf  exclusive
+SELECT 18
+USE \KENSERVICE\DATA\fgcod.DBf
+SELECT 1
+USE \KENSERVICE\DATA\FGCOD.DBF AGAIN ALIAS FGCOD1
+SELECT 20
+USE \KENSERVICE\DATA\dacoysum.DBF 
+SELECT 43
+ IF .NOT. FILE("\kenservice\data\shcatsum.dbf")
+ USE  \kenserve\idssys\shcatsum.dbf
+ copy stru to \kenservice\data\shcatsum dbase prod
+ endif
+USE \KENSERVICE\DATA\shcatsum.DBF EXCLUSIVE
+SELECT 44
+USE \KENSERVICE\DATA\SHIFTCLA.DBf   exclusive
+SELECT 69
+USE \KENSERVICE\DATA\fgcoy.DBf
+GO TOP
+select 70
+use \kenservice\data\st15f.dbf exclusive order tag mkey
+ select 80
+ IF .NOT. FILE("\kenservice\data\st15fhis.dbf")
+ USE  \kenserve\idssys\st15fhis.dbf
+ copy stru to \kenservice\data\st15fhis dbase prod
+ endif
+USE \KENSERVICE\DATA\st15fhis.DBF EXCLUSIVE
+ select 81
+ use  \kenserve\idssys\st15fwkf.dbf
+ copy stru to \kenservice\data\st15fwkf.dbf dbase prod
+ use \kenservice\data\st15fwkf.dbf EXCLUSIVE
+
+ SELECT 86
+USE \KENSERVICE\DATA\FGSTKFLW.DBF
+*select 89
+*use \kenservice\data\mocatsum.dbf again alias mocatsum2
+SELECT 91
+USE \KENSERVICE\DATA\KENSBACK.DBF  exclusive
+
+select 92
+use \kenservice\data\fgcla.dbf
+
+SELECT 160
+USE \KENSERVICE\DATA\SCASHREC.DBF  exclusive
+
+SELECT 190
+USE \KENSERVICE\DATA\CASHIERS.DBF
+select 192
+use \kenservice\data\shsum.dbf
+SELECT 195
+USE \KENSERVICE\DATA\SHIFTBK.DBF
+SELECT 196
+USE \KENSERVICE\DATA\FGTAXTYP.DBF
+go top
+select 197
+use \kenservice\data\shcongt0.dbf   exclusive
+select 198
+use \kenservice\data\fgsys.dbf
+select 199
+use \kenservice\data\ARNIVCES.dbf exclusive
+select 200
+USE \KENSERVICE\DATA\fgnjcads.DBF exclusive
+SELECT 201
+USE \KENSERVICE\DATA\SHIFTCAS.DBF
+select 102
+USE \KENSERVICE\DATA\ARNICADS.DBF  exclusive
+select 103
+use \kenservice\data\fgsprice.dbf
+select 132
+use \kenservice\data\fgdacash.dbf 
+select 133
+use \kenservice\data\FGNCLPGS.dbf   exclusive
+SELECT 134
+USE \KENSERVICE\DATA\SHIFTCLP.DBF EXCLUSIVE
+select 145
+use \kenservice\data\fgmocash.dbf 
+select 146
+use  \kenservice\data\fgjcsals.dbf  exclusive
+select 147
+use \kenservice\data\fglpsals.dbf exclusive
+select 148
+use \kenservice\data\fglusals.dbf exclusive
+select 149
+use \kenservice\data\fgviscad.dbf exclusive
+select 150
+use \kenservice\data\arwinvce.dbf exclusive
+select 151
+use \kenservice\data\dayfgmas.dbf
+select 152
+if .not. file("\kenservice\data\fgcprice.dbf")
+use \kenserve\idssys\fgcprice.dbf
+copy stru to \kenservice\data\fgcprice dbase prod
+endif
+use \kenservice\data\fgcprice.dbf
+select 153
+if .not. file("\kenservice\data\fgpurchs.dbf")
+use \kenserve\idssys\fgpurchs.dbf
+copy stru to \kenservice\data\fgpurchs dbase prod
+endif
+use \kenservice\data\fgpurchs.dbf exclusive
+select 154
+if .not. file("\kenservice\data\fgpaymts.dbf")
+use \kenserve\idssys\fgpaymts.dbf
+copy stru to \kenservice\data\fgpaymts dbase prod
+endif
+USE \KENSERVICE\DATA\fgpaymts.DBF exclusive
+select 155
+if .not. file("\kenservice\data\fgtransf.dbf")
+use \kenserve\idssys\fgtransf.dbf
+copy stru to \kenservice\data\fgtransf dbase prod
+endif
+USE \KENSERVICE\DATA\fgtransf.DBF  exclusive
+SELECT 156
+IF .NOT. FILE('\KENSERVICE\DATA\ARDRCPST.DBF')
+USE  \KENSERVE\IDSSYS\ARDRCPST.DBF
+COPY STRU TO \KENSERVICE\DATA\ARDRCPST DBASE
+ENDIF
+USE \KENSERVICE\DATA\ARDRCPST.DBF exclusive
+select 158
+use  \kenservice\data\frighter.dbf exclusive
+select 159
+use \kenservice\data\fccashrs.dbf exclusive
+select 161
+use \kenservice\data\vendor.dbf exclusive
+select 162
+USE \KENSERVICE\DATA\FRSHTRN.DBF exclusive
+ select 163
+ USE \KENSERVICE\DATA\fgstkcal.DBF exclusive
+ select 168
+use \kenservice\data\rdbms\fgorinvs.dbf exclusive
+select 169
+if .not. file('\kenservice\data\ngljnls.dbf')
+use  \kenserve\idssys\ngljnls.dbf
+copy stru to \kenservice\data\ngljnls dbase prod
+endif
+use  \kenservice\data\ngljnls.dbf exclusive
+select 170
+if .not. file('\kenservice\data\jnwinvce.dbf')
+use  \kenserve\idssys\jnwinvce.dbf
+copy stru to \kenservice\data\jnwinvce dbase prod
+endif
+use \kenservice\data\jnwinvce.dbf exclusive
+SELECT 171
+IF .NOT. FILE('\KENSERVICE\DATA\JNDRCPST.DBF')
+USE  \KENSERVE\IDSSYS\JNDRCPST.DBF
+COPY STRU TO \KENSERVICE\DATA\JNDRCPST DBASE
+ENDIF
+USE \KENSERVICE\DATA\JNDRCPST.DBF exclusive

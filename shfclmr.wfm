@@ -41,7 +41,7 @@ endif
 class ShFcLmrFORM of FORM
    with (this)
       onOpen = class::ONOPEN
-     * onClose = class::ONCLOSE
+     onClose = class::ONCLOSE
       metric = 6	// Pixels
       colorNormal = "N+"
       height = 762.0
@@ -267,8 +267,10 @@ class ShFcLmrFORM of FORM
    *******************************************************************************
     ON ERROR DO ddeerr WITH ERROR(), MESSAGE(),;
    PROGRAM(), LINENO()
-   form.bluser = buser
-      form.blevel = blevel
+   bUser='w'
+   bLevel=1
+   form.bluser = bUser
+      form.blevel = bLevel
       IF EMPTY(FORM.BLUSER) .OR. EMPTY(FORM.BLEVEL)
       QUIT
       ENDIF
@@ -297,7 +299,7 @@ class ShFcLmrFORM of FORM
            go top
            if  eof()
            append blank
-           replace coy with st15f2->coy
+           replace coy with st15f->coy
            replace exp_cash with 0
            replace exp_sales with 0
            replace non_cash with 0
@@ -326,7 +328,7 @@ class ShFcLmrFORM of FORM
     GO TOP
     if .not. eof()
     form.ST15F_CAL_RTN()
-   endif
+    endif
      
     
      
@@ -346,7 +348,7 @@ class ShFcLmrFORM of FORM
       
           SELECT SHIFTID
           REPLACE ALL TOTAL_SALE WITH 0
-          SELECT ST15F2
+          SELECT st15f
          SCAN  
           PCOY = COY
       PDIV = DIV
@@ -360,14 +362,14 @@ class ShFcLmrFORM of FORM
    select FGCODS
    seek ptyp+pcla+pcod
     IF .not. FGCODS->sale_price > 0
-           SELECT ST15F2
+           SELECT st15f
              REPLACE SHIFT_POST WITH DATE()
-           replace ST15F2->errors with "CHECK SALE PRICE"
+           replace st15f->errors with "CHECK SALE PRICE"
         ENDIF
         if (fgcoy->shipname = 'Yes' .OR. fgcoy->shipname = 'Orc') .and. empty(fgcods->mat_code)
-          SELECT ST15F2
+          SELECT st15f
              REPLACE SHIFT_POST WITH DATE()
-           replace ST15F2->errors with "CHECK MATERIAL CODE"
+           replace st15f->errors with "CHECK MATERIAL CODE"
         ENDIF
            LOCAL LX1
            LX1 = .F.
@@ -375,18 +377,20 @@ class ShFcLmrFORM of FORM
            SEEK PCEN
            IF FOUND() .AND. .NOT. EMPTY(OFF)
            LX1 = .T.
-           replace  coy with ST15F2->coy
-           replace div with ST15F2->div
-           replace cen with ST15F2->cen
+           replace  coy with st15f->coy
+           replace div with st15f->div
+           replace cen with st15f->cen
            ENDIF
            IF .NOT. LX1
-           SELECT ST15F2
+           SELECT st15f
              REPLACE SHIFT_POST WITH DATE()
-           replace ST15F2->errors with "CHECK OFFICER"
+           replace st15f->errors with "CHECK OFFICER"
         ENDIF
            select shiftcoy
+           if .not. eof()
            REPLACE ERROR WITH ""
-           select ST15F2
+           endif
+           select st15f
            PCOY1 = ST_COY
            PDIV1 = ST_DIV
            PCEN1 = ST_CEN
@@ -395,16 +399,16 @@ class ShFcLmrFORM of FORM
            select ststo
            seek psto
            if .not. found() .or. (empty(off) .and. rate_on = "Yes")
-           select ST15F2
+           select st15f
            REPLACE SHIFT_POST WITH DATE()
-           replace ST15F2->errors with "Check STORE/PUM"
+           replace st15f->errors with "Check STORE/PUM"
            else
           select stpum
           seek ststo->pum
           if .not. found()
-          select ST15F2
+          select st15f
           REPLACE SHIFT_POST WITH DATE()
-           replace ST15F2->errors with "Check store/pump"
+           replace st15f->errors with "Check store/pump"
            else
            if .not. shs_auto = "Yes"
            replace shs_auto with "Yes"
@@ -417,17 +421,17 @@ class ShFcLmrFORM of FORM
            SELECT fgmast
            SEEK PCOY+PDIV+PCEN+PSTO+PTYP+PCLA+PCOD
            IF .NOT. FOUND()
-           SELECT ST15F2
+           SELECT st15f
            REPLACE SHIFT_POST WITH DATE()
-           replace ST15F2->errors with "Check stock masterfile code - fgmast"
+           replace st15f->errors with "Check stock masterfile code - fgmast"
             ENDIF
            SELECT fgmast
            SEEK PCOY1+PDIV1+PCEN1+PSTO1+PTYP+PCLA+PCOD
            IF .NOT. FOUND()
            
-           SELECT ST15F2
+           SELECT st15f
            REPLACE SHIFT_POST WITH DATE()
-           replace ST15F2->errors with "Check stock masterfile code - fgmAST1"
+           replace st15f->errors with "Check stock masterfile code - fgmAST1"
            ENDIF
            
           
@@ -440,15 +444,15 @@ class ShFcLmrFORM of FORM
            replace typ with ptyp
            replace cla with pcla
            endif
-           replace sale_price with ST15F2->SALE_PRICE
+           replace sale_price with st15f->SALE_PRICE
            ENDIF
            L2M = 0
            L3M = 0
            
-          select ST15F2
-            L1 = ST15F2->TYP
-            t1 = ST15F2->cla
-            t6 = ST15F2->cod
+          select st15f
+            L1 = st15f->TYP
+            t1 = st15f->cla
+            t6 = st15f->cod
             L2 = cl_m_q
             L3 = op_m_q
             L2M = CL_mM_QTY
@@ -464,7 +468,7 @@ class ShFcLmrFORM of FORM
         replace sale_price with FGCODS->sale_price   
            
         *  if typ = "10" .and. FGCODS->shs_auto = "Yes"
-         *   replace cl_m_A with op_m_a +  ((cl_m_q - ST15F2->op_m_q)) * SALE_PRICE
+         *   replace cl_m_A with op_m_a +  ((cl_m_q - st15f->op_m_q)) * SALE_PRICE
           *   ENDIF
         
         
@@ -483,29 +487,29 @@ class ShFcLmrFORM of FORM
             QTYRETURN = L5 && QTY RETURN
             t5 = t55 / FGCODS->SALE_PRICE && pumps loss qty
             QTYPLOSS = T5 && QUANTITY PUMP LOSS
-           *   if .not. (ST15F2->typ = "00" .and. stpum->shs_auto = "Yes") && new entry
+           *   if .not. (st15f->typ = "00" .and. stpum->shs_auto = "Yes") && new entry
            * replace cl_m_A with cl_m_a - l55
            *  ENDIF
         
            
                 
-                IF ST15F2->typ = "00" 
-        if  .not. st15f2->f1cashr = "Yes"
-               IF .NOT. st15f2->PHY_QTY = 0
+                IF st15f->typ = "00" 
+        if  .not. st15f->f1cashr = "Yes"
+               IF .NOT. st15f->PHY_QTY = 0
                REPLACE SHIFT_POST WITH DATE()
-                replace ST15F2->errors with "Check Dippings 2"
+                replace st15f->errors with "Check Dippings 2"
           ENDIF
           ENDIF
           ENDIF
           
-            L7 = ST15F2->TRANS_IN
-            L8 = ST15F2->TRANS_OUT
-            L9 = ST15F2->ADJ_IN
-            L10 = ST15F2->ADJ_OUT
-            L11 = ST15F2->PURCHASES
+            L7 = st15f->TRANS_IN
+            L8 = st15f->TRANS_OUT
+            L9 = st15f->ADJ_IN
+            L10 = st15f->ADJ_OUT
+            L11 = st15f->PURCHASES
             L4m = 0
         
-          IF ST15F2->TYP = "00"   .or. (ST15F2->TYP = "10" .and. FGCODS->shs_auto = "Yes") && fuels/auto lubes
+          IF st15f->TYP = "00"   .or. (st15f->TYP = "10" .and. FGCODS->shs_auto = "Yes") && fuels/auto lubes
                L4 = L2 - L3        && && VOLUME electronic
                   L4m = L2M-L3M  && volume manual
                lvar = L4 - L4m  && variance
@@ -525,61 +529,61 @@ class ShFcLmrFORM of FORM
                     replace mm_qty_var with lvar
               
                    
-                 IF  (ST15F2->TYP = "00" .AND. .NOT. stPUM->SHS_AUTO = "Yes" ) ;
-                 .or.  (ST15F2->typ = "10" .and. FGCODS->shs_auto = "Yes")  
-                   if  (ST15F2->cl_m_q  - ST15F2->op_m_q) < 0 .or. (ST15F2->cl_mm_qty - ST15F2->op_mm_qty) < 0
+                 IF  (st15f->TYP = "00" .AND. .NOT. stPUM->SHS_AUTO = "Yes" ) ;
+                 .or.  (st15f->typ = "10" .and. FGCODS->shs_auto = "Yes")  
+                   if  (st15f->cl_m_q  - st15f->op_m_q) < 0 .or. (st15f->cl_mm_qty - st15f->op_mm_qty) < 0
           
                    replace shift_post with date()
-                    replace ST15F2->errors with "D1. Check qty meters"
+                    replace st15f->errors with "D1. Check qty meters"
                      endif
                      endif
                      
-                       IF  ST15F2->TYP = "00" .or.  (ST15F2->typ = "10" .and. FGCODS->shs_auto = "Yes")  
-                   if  (ST15F2->cl_m_q  - ST15F2->op_m_q) < 0 .or. (ST15F2->cl_mm_qty - ST15F2->op_mm_qty) < 0
+                       IF  st15f->TYP = "00" .or.  (st15f->typ = "10" .and. FGCODS->shs_auto = "Yes")  
+                   if  (st15f->cl_m_q  - st15f->op_m_q) < 0 .or. (st15f->cl_mm_qty - st15f->op_mm_qty) < 0
            
                    replace shift_post with date()
-                    replace ST15F2->errors with "D1. Check qty meters"
+                    replace st15f->errors with "D1. Check qty meters"
                      endif
                      endif
                      
                  
-                       IF  ST15F2->TYP = "00" .or.  (ST15F2->typ = "10" .and. FGCODS->shs_auto = "Yes")  
-          if  (ST15F2->cl_m_q  - ST15F2->op_m_q) > 99999 .or. (ST15F2->cl_m_q  - ST15F2->op_m_q) < -9999
+                       IF  st15f->TYP = "00" .or.  (st15f->typ = "10" .and. FGCODS->shs_auto = "Yes")  
+          if  (st15f->cl_m_q  - st15f->op_m_q) > 99999 .or. (st15f->cl_m_q  - st15f->op_m_q) < -9999
             
                    replace shift_post with date()
-                    replace ST15F2->errors with "D1. Check qty meters"
+                    replace st15f->errors with "D1. Check qty meters"
                      endif
                      endif
                      
-                    if  (ST15F2->cl_m_a  - ST15F2->op_m_a) < 0
+                    if  (st15f->cl_m_a  - st15f->op_m_a) < 0
             
               replace shift_post with date()
-               replace ST15F2->errors with "D1. Check shs meters"
+               replace st15f->errors with "D1. Check shs meters"
                 endif
-                if  ST15F2->cl_m_q   < 0
+                if  st15f->cl_m_q   < 0
              
               replace shift_post with date()
-               replace ST15F2->errors with "D2. Check Electronic qty meters"
+               replace st15f->errors with "D2. Check Electronic qty meters"
                 endif
-                 if  (ST15F2->cl_m_q  - ST15F2->op_m_q) < 0
+                 if  (st15f->cl_m_q  - st15f->op_m_q) < 0
               replace shift_post with date()
-               replace ST15F2->errors with "D2. Check Electronic qty meters"
+               replace st15f->errors with "D2. Check Electronic qty meters"
                 endif
              
-              if  ST15F2->cl_m_a   < 0
+              if  st15f->cl_m_a   < 0
               
               replace shift_post with date()
-               replace ST15F2->errors with "D2. Check shs meters"
+               replace st15f->errors with "D2. Check shs meters"
                 endif
           
-           if  ST15F2->cl_mm_qty   < 0
+           if  st15f->cl_mm_qty   < 0
              
               replace shift_post with date()
-               replace ST15F2->errors with "D3. Check Manual qty meters"
+               replace st15f->errors with "D3. Check Manual qty meters"
                 endif
-                 if  (ST15F2->cl_mm_qty  - ST15F2->op_mm_qty) < 0
+                 if  (st15f->cl_mm_qty  - st15f->op_mm_qty) < 0
               replace shift_post with date()
-               replace ST15F2->errors with "D3. Check Manual qty meters"
+               replace st15f->errors with "D3. Check Manual qty meters"
                 endif
            ** past here
                    
@@ -588,19 +592,19 @@ class ShFcLmrFORM of FORM
             L12 = L4 * L13                && SOLD AMT
               L22 = 0           && CASH DISCOUNTS
           SHSDISCOUNT = L22
-           if .not. ST15F2->typ = "00" 
+           if .not. st15f->typ = "00" 
        l14 = 0
        else
        L14 = cl_m_A
        endif
-   if .not. ST15F2->typ = "00"   .and. .not. cl_m_A = 0
+   if .not. st15f->typ = "00"   .and. .not. cl_m_A = 0
        replace shift_post with date()
-        replace ST15F2->errors with "(a) Check shillings meters - 2"
+        replace st15f->errors with "(a) Check shillings meters - 2"
        endif
        if .not. typ="00" .and.  .not. op_m_a = 0
        replace op_m_a with 0
        endif
-             L15 = ST15F2->op_m_a
+             L15 = st15f->op_m_a
             L16 = L14 - L15                && METER AMOUNT
             SHSTHRUPUT = L16
             SHSSALE = SHSTHRUPUT - SHSPLOSS - SHSRETURN - SHSDISCOUNT && SHS METER SALE
@@ -608,12 +612,12 @@ class ShFcLmrFORM of FORM
               L17 = L55        && TEST AMOUNT  
               t17 = t55  && pump loss amount
              L18 = L16 - L17 - t17         && NETT SOLD METER AMOUNT   
-              L19 = ST15F2->cr_sal_qty        && CREDIT SALES QTY
+              L19 = st15f->cr_sal_qty        && CREDIT SALES QTY
              L20 = L19 * L13        && CREDIT SALES AMOUNT
              LOCAL L21,L23,L24,L25,L26,L27  
-             L21 = ST15F2->NON_CASH        && ACTUAL NONCASH SALES
+             L21 = st15f->NON_CASH        && ACTUAL NONCASH SALES
              SHSNONCASH = L21  && SHS CREDIT SALES
-             QTYNONCASH = ST15F2->cr_sal_qty  && QTY CREDIT SALES
+             QTYNONCASH = st15f->cr_sal_qty  && QTY CREDIT SALES
              SHSQTYSALE = (QTYSALE * FGCODS->SALE_PRICE) - SHSDISCOUNT
              expsalesprice = FGCODS->SALE_PRICE
              QTYEXPSALE = QTYSALE
@@ -626,28 +630,28 @@ class ShFcLmrFORM of FORM
      
         
    
-           if .not. st15f2->typ = "00"  .and. .not. FGCODS->shs_auto = "Yes"
+           if .not. st15f->typ = "00"  .and. .not. FGCODS->shs_auto = "Yes"
               shsexpsale = shsqtysale
               endif   && new 08/12/06
               
               
            
-   if  .not. st15f2->typ = "00" .and. FGCODS->shs_auto = "Yes"   .and.  st15f2->non_cash > shsexpsale
-        SHSEXPSALE = st15f2->non_cash
+   if  .not. st15f->typ = "00" .and. FGCODS->shs_auto = "Yes"   .and.  st15f->non_cash > shsexpsale
+        SHSEXPSALE = st15f->non_cash
         ENDIF
       if form.blevel = 1 .or. form.blevel = 3
-     if qtysale >= 0 .and. st15f2->non_cash <= (qtysale *  fgcods->sale_price)
-     SHSEXPSALE = st15f2->non_cash
+     if qtysale >= 0 .and. st15f->non_cash <= (qtysale *  fgcods->sale_price)
+     SHSEXPSALE = st15f->non_cash
      endif
-     if qtysale+st15f2->cr_sal_qty > 0 .and. st15f2->non_cash < 0
-     SHSEXPSALE = st15f2->non_cash + (qtysale+st15f2->cr_sal_qty)*  fgcods->sale_price
+     if qtysale+st15f->cr_sal_qty > 0 .and. st15f->non_cash < 0
+     SHSEXPSALE = st15f->non_cash + (qtysale+st15f->cr_sal_qty)*  fgcods->sale_price
      endif
-     if qtysale + st15f2->cr_sal_qty > 0 .and. st15f2->non_cash <  shsqtysale
+     if qtysale + st15f->cr_sal_qty > 0 .and. st15f->non_cash <  shsqtysale
      SHSEXPSALE = shsqtysale
      endif
      endif  && new 2012 1
-*   IF  .not. st15f2->typ = "00" .and. FGCODS->shs_auto = "Yes"   .and.  st15f2->non_cash < 0
- *       SHSEXPSALE = st15f2->non_cash + SHSEXPSALE
+*   IF  .not. st15f->typ = "00" .and. FGCODS->shs_auto = "Yes"   .and.  st15f->non_cash < 0
+ *       SHSEXPSALE = st15f->non_cash + SHSEXPSALE
       
   *      ENDIF
         
@@ -662,8 +666,8 @@ class ShFcLmrFORM of FORM
             L27 = L25 - L26        && VARIANCE QTY
              LOCAL L28,L29,L30,l31,l32,l33,L33A,L33B
              l31 = fgmast->cr_purch + fgmast->cs_purch + fgmast->ADJ_IN - fgmast->ADJ_OUT && purchases
-             replace ST15F2->cost_price with FGCODS->cost_price
-             replace ST15F2->vat with FGCODS->vat
+             replace st15f->cost_price with FGCODS->cost_price
+             replace st15f->vat with FGCODS->vat
              l33 = a_c_inhand  && actual cash
              L33A = CASH_BANK
              L33B  = CL_C_HAND
@@ -687,9 +691,9 @@ class ShFcLmrFORM of FORM
                WK55 = SOLD_QTY
              replace sold_qty with QTYSALE
              replace sold_amt with (qtythruput - l5) * FGCODS->SALE_PRICE   && new entry
-            IF .NOT. ST15F2->typ = "00" .and. .not.  FGCODS->shs_auto = "Yes"
+            IF .NOT. st15f->typ = "00" .and. .not.  FGCODS->shs_auto = "Yes"
              IF cr_sal_qty > SOLD_QTY  .and. .not. cr_sal_qty = 0
-             replace ST15F2->errors with "Check credit sales"
+             replace st15f->errors with "Check credit sales"
              REPLACE SHIFT_POST WITH DATE()
              ENDIF
              ENDIF
@@ -703,74 +707,74 @@ class ShFcLmrFORM of FORM
                replace exp_cash with SHSEXPCASH
                replace exp_sales with SHSEXPSALE
                replace sh_c_SALES WITH SHSEXPCASH
-              if ST15F2->typ = "30" 
+              if st15f->typ = "30" 
             replace c_sh_cards with shsexpcash  && s scratch cards
             endif
-             if ST15F2->typ > "30" 
+             if st15f->typ > "30" 
             replace c_sh_shop with shsexpcash  && sodas
             endif
-            if ST15F2->typ = "00"
+            if st15f->typ = "00"
             replace c_sh_fuels with shsexpcash
             endif
-            if ST15F2->typ = "10" 
+            if st15f->typ = "10" 
             replace c_sh_work with shsexpcash
             endif
-            if ST15F2->typ = "20" 
+            if st15f->typ = "20" 
             replace c_sh_cant with shsexpcash
             endif
                 
-    IF  ST15F2->TYP = "00" .or.  (ST15F2->typ = "10" .and. FGCODS->shs_auto = "Yes")  
-       replace ST15F2->meter_var with ST15F2->meter_amt - ST15F2->sold_amt
+    IF  st15f->TYP = "00" .or.  (st15f->typ = "10" .and. FGCODS->shs_auto = "Yes")  
+       replace st15f->meter_var with st15f->meter_amt - st15f->sold_amt
        endif
     
             local ll1,ll2,ll3,lL4,ll5,ll6,ll7,ll8,ll9
-            ll1 = ST15F2->shift_date
-            ll2 = ST15F2->shift_no
-            ll3 = ST15F2->shift_id
-            lL4 = ST15F2->cen
-            ll5 = ST15F2->cashier_no
-            ll6 = ST15F2->sto
-            ll7 = ST15F2->typ
-            ll8 = ST15F2->cla
-            ll9 = ST15F2->cod
-            select ST15F2
+            ll1 = st15f->shift_date
+            ll2 = st15f->shift_no
+            ll3 = st15f->shift_id
+            lL4 = st15f->cen
+            ll5 = st15f->cashier_no
+            ll6 = st15f->sto
+            ll7 = st15f->typ
+            ll8 = st15f->cla
+            ll9 = st15f->cod
+            select st15f
                 LOCAL WK55
-               WK55 = ST15F2->SOLD_QTY
+               WK55 = st15f->SOLD_QTY
                local wk1,wk2,wk3,wk4,wk5,wk6,wk7
-           WK1 =  ST15F2->sh_c_sales+ST15F2->cash_debt;
-          + ST15F2->cash_work+ST15F2->cash_shop+ST15F2->cash_cards+ST15F2->CASH_CANT;
-          + ST15F2->cash_soda;
-           + ST15F2->vs_others + ST15F2->chqs_sale + ST15F2->fc_c_sales && total cash
-          wk4 = ST15F2->CASH_MERCH + ST15F2->cash_motor + ST15F2->cash_food;  && total payments
-             + ST15F2->cash_withd + ST15F2->cash_staff + ST15F2->cash_lubes;
-             + ST15F2->cash_gen + ST15F2->cash_coy + ST15F2->vs_company + ST15F2->vs_barclay 
+           WK1 =  st15f->sh_c_sales+st15f->cash_debt;
+          + st15f->cash_work+st15f->cash_shop+st15f->cash_cards+st15f->CASH_CANT;
+          + st15f->cash_soda;
+           + st15f->vs_others + st15f->chqs_sale + st15f->fc_c_sales && total cash
+          wk4 = st15f->CASH_MERCH + st15f->cash_motor + st15f->cash_food;  && total payments
+             + st15f->cash_withd + st15f->cash_staff + st15f->cash_lubes;
+             + st15f->cash_gen + st15f->cash_coy + st15f->vs_company + st15f->vs_barclay 
           wk2 = wk1 - wk4 && net cash
-          wk6 = ST15F2->a_c_inhand
-          wk5 = ST15F2->CL_C_HAND  && cash in hand carried forward
+          wk6 = st15f->a_c_inhand
+          wk5 = st15f->CL_C_HAND  && cash in hand carried forward
           wk3 = wk6 - wk2  && cash shortage
-          wk3 = ST15F2->a_c_inhand - ((ST15F2->Cash_cards + ST15F2->c_sh_fuels;
-        + ST15F2->c_sh_work +  ST15F2->cash_soda;
-        + ST15F2->c_sh_shop+ST15F2->c_sh_cards+ST15F2->c_sh_cant + ST15F2->fc_c_sales;
-        +ST15F2->cash_debt+ST15F2->CASH_CANT+ST15F2->Cash_shop + ST15F2->cash_work);
-        - (ST15F2->CASH_COY+ST15F2->cash_staff+ST15F2->cash_gen;
-        +ST15F2->cash_withd+ST15F2->VS_COMPANY+ST15F2->VS_BARCLAY ;
-        +ST15F2->cash_lubes+ST15F2->cash_food+ST15F2->cash_motor))
+          wk3 = st15f->a_c_inhand - ((st15f->Cash_cards + st15f->c_sh_fuels;
+        + st15f->c_sh_work +  st15f->cash_soda;
+        + st15f->c_sh_shop+st15f->c_sh_cards+st15f->c_sh_cant + st15f->fc_c_sales;
+        +st15f->cash_debt+st15f->CASH_CANT+st15f->Cash_shop + st15f->cash_work);
+        - (st15f->CASH_COY+st15f->cash_staff+st15f->cash_gen;
+        +st15f->cash_withd+st15f->VS_COMPANY+st15f->VS_BARCLAY ;
+        +st15f->cash_lubes+st15f->cash_food+st15f->cash_motor))
         
-          wk7 = ST15F2->sh_c_sales+ST15F2->cash_debt;
-        + ST15F2->cash_work+ST15F2->cash_shop+ST15F2->cash_cards+ST15F2->CASH_CANT ;
-        + ST15F2->cash_soda ;
-        + ST15F2->vs_others + ST15F2->chqs_sale + ST15F2->fc_c_sales && total cash
+          wk7 = st15f->sh_c_sales+st15f->cash_debt;
+        + st15f->cash_work+st15f->cash_shop+st15f->cash_cards+st15f->CASH_CANT ;
+        + st15f->cash_soda ;
+        + st15f->vs_others + st15f->chqs_sale + st15f->fc_c_sales && total cash
           replace total_cash with wk1
           replace cash_short with wk3
           replace net_cash with wk2
-          replace ST15F2->t_cash_pay with wk4
+          replace st15f->t_cash_pay with wk4
           replace t_cash_rec with wk7
           if mm_sold < 0 
-           replace ST15F2->errors with "Check Manual Litres"
+           replace st15f->errors with "Check Manual Litres"
              REPLACE SHIFT_POST WITH DATE()
            endif
               if .not. typ = "00" .and. .not. cl_mm_qty = 0
-               replace ST15F2->errors with "Check Manual Litres"
+               replace st15f->errors with "Check Manual Litres"
              REPLACE SHIFT_POST WITH DATE()
          endif
          LOCAL LNQTY
@@ -779,33 +783,35 @@ class ShFcLmrFORM of FORM
          LNQTY = TOTAL_QTY
          ENDIF
           if TEST_QTY > LNQTY 
-           replace ST15F2->errors with "Check RTT"
+           replace st15f->errors with "Check RTT"
              REPLACE SHIFT_POST WITH DATE()
            endif
            if meter_amt > 0 .and. sold_amt <=0 
-           replace ST15F2->errors with "Check Ltrs Mtrs"
+           replace st15f->errors with "Check Ltrs Mtrs"
              REPLACE SHIFT_POST WITH DATE()
            endif
            IF EMPTY(ERRORS)
            REPLACE ERRORS WITH "VERIFY ENTRY"
             REPLACE SHIFT_POST WITH DATE()
           ENDIF
-        if st15f2->cen = "D"
+        if st15f->cen = "D"
         SELECT SHIFTID
-        SEEK ST15F2->CEN
+        SEEK st15f->CEN
         IF .NOT. FOUND() 
         APPEND BLANK
-        REPLACE ID WITH ST15F2->CEN
+        REPLACE ID WITH st15f->CEN
         IF .NOT. BOF()
         REPLACE TOTAL_SALE WITH 0
         ENDIF
         ENDIF
-        REPLACE TOTAL_SALE WITH TOTAL_SALE + ST15F2->EXP_SALES
+        REPLACE TOTAL_SALE WITH TOTAL_SALE + st15f->EXP_SALES
         endif
-        SELECT ST15F2
+        SELECT st15f
     ENDSCAN
     SELECT ST15F
-    refresh  
+    go top
+    form.CHILDBROWSE2.setfocus()
+ *   refresh  
 GO TOP
 
 endclass

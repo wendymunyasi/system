@@ -720,8 +720,8 @@ CLASS FORDERSFORM OF FORM
                   on error DO ddeerr WITH ERROR(), MESSAGE(),;
    PROGRAM(), LINENO()
         if form.inEditMode .and. newInEditMode
-         begintrans()
-                     on error DO transerr WITH ERROR(), MESSAGE(),;
+        * begintrans()
+                  *   on error DO transerr WITH ERROR(), MESSAGE(),;
    PROGRAM(), LINENO()
 
       endif
@@ -729,8 +729,8 @@ CLASS FORDERSFORM OF FORM
    endif
    if form.inEditMode <> newInEditMode
       if newInEditMode                       && Going to Edit mode
-         begintrans()
-                     on error DO transerr WITH ERROR(), MESSAGE(),;
+    *     begintrans()
+                   *  on error DO transerr WITH ERROR(), MESSAGE(),;
    PROGRAM(), LINENO()
 
       else                                   && Going to View mode

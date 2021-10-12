@@ -1,0 +1,1106 @@
+////////////////////////////////////////////////////////////////////////////////
+// Output Filename: C:\KENSERVICE\IDSSYS\FG15S_FCV.WFM                        //
+// Created By:      dBASE Form Converter Wizard                               //
+// Created On:      Thursday June 23, 2016 At 19:43:57                        //
+// Object Count:    43                                                        //
+////////////////////////////////////////////////////////////////////////////////
+
+*******************************************************************************
+*  PROGRAM:      Fg15s.wfm
+*
+*  WRITTEN BY:   W Nyongesa
+*
+*  DATE:         05/2000
+*
+*  UPDATED:     12/2012
+*
+*  REVISION:     $Revision:   1.0
+*
+*  VERSION:      Visual dBASE
+*
+*  DESCRIPTION:  This program maintains the StockMaster master file
+*
+*  PARAMETERS:   None
+*
+*  CALLS:        Fg15s.mnu         (Menu file)
+*                KBUTTONS.CC          (Custom Controls file)
+*                Stock Inventory.qbe         (View of tables)
+*
+*  USAGE:        DO Fg15s.wfm
+*
+*******************************************************************************
+#include <messdlg.h>
+shell(.F.)
+create session
+set talk off
+set Design off
+set century on
+SET DATE TO  BRITISH
+set ldCheck off && To avoid language driver conflicts
+#define Maxcoy 999
+set DATE TO BRITISH
+** END HEADER -- do not remove this line
+//
+// Generated on 23/06/2016
+//
+parameter bUser,Blevel,bModal
+local f
+f = new Fg15sFORM()
+if (bModal)
+   f.mdi = false // ensure not MDI
+   f.readModal()
+else
+   f.open()
+endif
+
+class Fg15sFORM of FORM
+set procedure to buttons.cc additive
+   with (this)
+      onClose = class::ONCLOSE
+      open = class::OPEN
+      metric = 6	// Pixels
+      colorNormal = "n+"
+      height = 932.0
+      left = 20.0
+      top = 0.0
+      width = 1284.0
+      text = "Stock Inventory -- View Mode"
+      windowState = 2	// Normal
+      mdi = false
+      sizeable = false
+      moveable = false
+      view = "Fg15S.QBE"
+      menuFile = "FG15S.MNU"
+      escExit = false
+      mousePointer = 1	// Arrow
+      minimize = false
+   endwith
+
+   this.RECTANGLE1 = new RECTANGLE(this)
+   with (this.RECTANGLE1)
+      left = 14.0
+      top = 11.0
+      width = 840.0
+      height = 121.0
+      text = "Item  Descriptions, Item Type, Class and Code, and Unit of Measure"
+      colorNormal = "r/btnface"
+      fontName = "Arial Black"
+      fontSize = 12.0
+      fontBold = true
+   endwith
+
+   this.TEXT3 = new TEXTLABEL(this)
+   with (this.TEXT3)
+      height = 21.0
+      left = 28.0
+      top = 48.0
+      width = 70.0
+      text = "Type:"
+      colorNormal = "B/BtnFace"
+      fontName = "MS Sans Serif"
+      fontSize = 12.0
+      fontBold = true
+      alignVertical = 1	// Middle
+      alignHorizontal = 2	// Right
+   endwith
+
+   this.TYPENTRY = new ENTRYFIELD(this)
+   with (this.TYPENTRY)
+      onChange = class::CHANGE_CODES
+      dataLink = "fgmast->Typ"
+      enabled = false
+      height = 21.0
+      left = 110.0
+      top = 48.0
+      width = 48.0
+      function = "!"
+      colorNormal = "N/BtnFace"
+      colorHighLight = "B+/W*"
+      fontName = "MS Sans Serif"
+      fontSize = 12.0
+      fontBold = true
+      validErrorMsg = "Code Does Not Exist"
+   endwith
+
+   this.TYPDISPLAY = new ENTRYFIELD(this)
+   with (this.TYPDISPLAY)
+      dataLink = "fgtyp->Name"
+      enabled = false
+      height = 21.0
+      left = 170.0
+      top = 48.0
+      width = 396.0
+      function = "!"
+      colorNormal = "N/BtnFace"
+      colorHighLight = "B+/W*"
+      fontName = "MS Sans Serif"
+      fontSize = 12.0
+      fontBold = true
+   endwith
+
+   this.TEXT4 = new TEXTLABEL(this)
+   with (this.TEXT4)
+      height = 21.0
+      left = 28.0
+      top = 73.0
+      width = 70.0
+      text = "Class:"
+      colorNormal = "B/BtnFace"
+      fontName = "MS Sans Serif"
+      fontSize = 12.0
+      fontBold = true
+      alignVertical = 1	// Middle
+      alignHorizontal = 2	// Right
+   endwith
+
+   this.CLAENTRY = new ENTRYFIELD(this)
+   with (this.CLAENTRY)
+      onChange = class::CHANGE_CODES
+      dataLink = "fgmast->Cla"
+      enabled = false
+      height = 21.0
+      left = 110.0
+      top = 73.0
+      width = 48.0
+      function = "!"
+      colorNormal = "N/BtnFace"
+      colorHighLight = "B+/W*"
+      fontName = "MS Sans Serif"
+      fontSize = 12.0
+      fontBold = true
+      validErrorMsg = "Code Does Not Exist"
+   endwith
+
+   this.CLADISPLAY = new ENTRYFIELD(this)
+   with (this.CLADISPLAY)
+      dataLink = "fgcla->Name"
+      enabled = false
+      height = 21.0
+      left = 170.0
+      top = 73.0
+      width = 396.0
+      function = "!"
+      colorNormal = "N/BtnFace"
+      colorHighLight = "B+/W*"
+      fontName = "MS Sans Serif"
+      fontSize = 12.0
+      fontBold = true
+   endwith
+
+   this.TEXT5 = new TEXTLABEL(this)
+   with (this.TEXT5)
+      height = 21.0
+      left = 21.0
+      top = 99.0
+      width = 77.0
+      text = "Id. Code:"
+      colorNormal = "B/BtnFace"
+      fontName = "MS Sans Serif"
+      fontSize = 12.0
+      fontBold = true
+      alignVertical = 1	// Middle
+      alignHorizontal = 2	// Right
+   endwith
+
+   this.CODENTRY = new ENTRYFIELD(this)
+   with (this.CODENTRY)
+      onChange = class::CHANGE_CODES
+      dataLink = "fgmast->Cod"
+      enabled = false
+      height = 21.0
+      left = 110.0
+      top = 99.0
+      width = 48.0
+      function = "!"
+      colorNormal = "N/BtnFace"
+      colorHighLight = "B+/W*"
+      fontName = "MS Sans Serif"
+      fontSize = 12.0
+      fontBold = true
+      validErrorMsg = "Code Does Not Exist"
+   endwith
+
+   this.CODDISPLAY = new ENTRYFIELD(this)
+   with (this.CODDISPLAY)
+      dataLink = "fgcod->Name"
+      enabled = false
+      height = 21.0
+      left = 170.0
+      top = 99.0
+      width = 396.0
+      function = "!"
+      colorNormal = "b/btnface"
+      colorHighLight = "B+/W*"
+      fontName = "MS Sans Serif"
+      fontSize = 12.0
+      fontBold = true
+   endwith
+
+   this.TEXT7 = new TEXTLABEL(this)
+   with (this.TEXT7)
+      height = 21.0
+      left = 571.0
+      top = 37.0
+      width = 264.0
+      text = "Unit of Measure - Vol-Qty/Unit"
+      colorNormal = "B/BtnFace"
+      fontName = "MS Sans Serif"
+      fontSize = 12.0
+      fontBold = true
+      alignVertical = 1	// Middle
+   endwith
+
+   this.SUNIT = new ENTRYFIELD(this)
+   with (this.SUNIT)
+      dataLink = "FGUNITS->NAME"
+      enabled = false
+      height = 21.0
+      left = 590.0
+      top = 73.0
+      width = 216.0
+      function = "!"
+      colorNormal = "b/btnface"
+      colorHighLight = "B+/W*"
+      fontName = "MS Sans Serif"
+      fontSize = 12.0
+      fontBold = true
+   endwith
+
+   this.SVOL = new ENTRYFIELD(this)
+   with (this.SVOL)
+      dataLink = "FGUNITS->VOLUME"
+      enabled = false
+      height = 21.0
+      left = 590.0
+      top = 99.0
+      width = 120.0
+      colorNormal = "b/btnface"
+      colorHighLight = "B+/W*"
+      fontName = "MS Sans Serif"
+      fontSize = 12.0
+      fontBold = true
+   endwith
+
+   this.SITEMS = new ENTRYFIELD(this)
+   with (this.SITEMS)
+      dataLink = "FGCOD->ITEMS_UNIT"
+      enabled = false
+      height = 21.0
+      left = 734.0
+      top = 99.0
+      width = 72.0
+      function = "!"
+      colorNormal = "b/btnface"
+      colorHighLight = "B+/W*"
+      fontName = "MS Sans Serif"
+      fontSize = 12.0
+      fontBold = true
+   endwith
+
+   this.RECTANGLE2 = new RECTANGLE(this)
+   with (this.RECTANGLE2)
+      left = 15.0
+      top = 146.0
+      width = 979.0
+      height = 85.0
+      text = "Item Quantity on Hand and Location"
+      colorNormal = "r/btnface"
+      fontName = "Arial Black"
+      fontSize = 12.0
+      fontBold = true
+   endwith
+
+   this.TEXT6 = new TEXTLABEL(this)
+   with (this.TEXT6)
+      height = 21.0
+      left = 49.0
+      top = 165.0
+      width = 84.0
+      text = "On Hand:"
+      colorNormal = "B/BtnFace"
+      fontName = "MS Sans Serif"
+      fontSize = 12.0
+      fontBold = true
+      alignVertical = 1	// Middle
+      alignHorizontal = 2	// Right
+   endwith
+
+   this.SHAND = new ENTRYFIELD(this)
+   with (this.SHAND)
+      onChange = class::CHANGE_QTY
+      valid = class::VALID_QTY
+      dataLink = "fgmast->On_hand"
+      enabled = false
+      height = 21.0
+      left = 23.0
+      top = 195.0
+      width = 111.0
+      picture = "999,999.99"
+      colorNormal = "N/BtnFace"
+      colorHighLight = "B+/W*"
+      fontName = "MS Sans Serif"
+      fontSize = 12.0
+      fontBold = true
+      validErrorMsg = "Negative Qty Not Required"
+   endwith
+
+   this.SCOY = new ENTRYFIELD(this)
+   with (this.SCOY)
+      dataLink = "FGMAST->COY"
+      enabled = false
+      height = 21.0
+      left = 146.0
+      top = 169.0
+      width = 24.0
+      function = "!"
+      colorNormal = "N/BtnFace"
+      colorHighLight = "B+/W*"
+      fontName = "MS Sans Serif"
+      fontSize = 12.0
+      fontBold = true
+      validErrorMsg = "Code Does Not Exist"
+   endwith
+
+   this.COYDISPLAY = new ENTRYFIELD(this)
+   with (this.COYDISPLAY)
+      dataLink = "FGCOY->STREET"
+      enabled = false
+      height = 21.0
+      left = 182.0
+      top = 169.0
+      width = 427.0
+      function = "!"
+      colorNormal = "N/BtnFace"
+      colorHighLight = "B+/W*"
+      fontName = "MS Sans Serif"
+      fontSize = 12.0
+      fontBold = true
+   endwith
+
+   this.SDIV = new ENTRYFIELD(this)
+   with (this.SDIV)
+      dataLink = "FGMAST->DIV"
+      enabled = false
+      height = 21.0
+      left = 623.0
+      top = 165.0
+      width = 36.0
+      function = "!"
+      colorNormal = "N/BtnFace"
+      colorHighLight = "B+/W*"
+      fontName = "MS Sans Serif"
+      fontSize = 12.0
+      fontBold = true
+      validErrorMsg = "Code Does Not Exist"
+   endwith
+
+   this.DIVDISPLAY = new ENTRYFIELD(this)
+   with (this.DIVDISPLAY)
+      dataLink = "fgdiv->Name"
+      enabled = false
+      height = 21.0
+      left = 672.0
+      top = 165.0
+      width = 300.0
+      function = "!"
+      colorNormal = "N/BtnFace"
+      colorHighLight = "B+/W*"
+      fontName = "MS Sans Serif"
+      fontSize = 12.0
+      fontBold = true
+   endwith
+
+   this.SCEN = new ENTRYFIELD(this)
+   with (this.SCEN)
+      dataLink = "FGMAST->CEN"
+      enabled = false
+      height = 21.0
+      left = 147.0
+      top = 198.0
+      width = 24.0
+      function = "!"
+      colorNormal = "N/BtnFace"
+      colorHighLight = "B+/W*"
+      fontName = "MS Sans Serif"
+      fontSize = 12.0
+      fontBold = true
+      validErrorMsg = "Code Does Not Exist"
+   endwith
+
+   this.CENDISPLAY = new ENTRYFIELD(this)
+   with (this.CENDISPLAY)
+      onChange = class::CHANGESMADE
+      dataLink = "fgcen->Name"
+      enabled = false
+      height = 21.0
+      left = 182.0
+      top = 195.0
+      width = 427.0
+      function = "!"
+      colorNormal = "b/btnface"
+      colorHighLight = "B+/W*"
+      fontName = "MS Sans Serif"
+      fontSize = 12.0
+      fontBold = true
+   endwith
+
+   this.SSTO = new ENTRYFIELD(this)
+   with (this.SSTO)
+      dataLink = "FGMAST->STO"
+      enabled = false
+      height = 21.0
+      left = 623.0
+      top = 198.0
+      width = 36.0
+      function = "!"
+      colorNormal = "N/BtnFace"
+      colorHighLight = "B+/W*"
+      fontName = "MS Sans Serif"
+      fontSize = 12.0
+      fontBold = true
+      validErrorMsg = "Code Does Not Exist"
+   endwith
+
+   this.STODISPLAY = new ENTRYFIELD(this)
+   with (this.STODISPLAY)
+      dataLink = "STSTO->Name"
+      enabled = false
+      height = 21.0
+      left = 672.0
+      top = 198.0
+      width = 300.0
+      function = "!"
+      colorNormal = "N/BtnFace"
+      colorHighLight = "B+/W*"
+      fontName = "MS Sans Serif"
+      fontSize = 12.0
+      fontBold = true
+   endwith
+
+   this.RECTANGLE3 = new RECTANGLE(this)
+   with (this.RECTANGLE3)
+      left = 14.0
+      top = 253.0
+      width = 839.0
+      height = 77.0
+      text = "Filter reports by start and end dates, Item Type, Class and  Code, Division"
+      colorNormal = "r/btnface"
+      fontName = "Arial Black"
+      fontSize = 12.0
+      fontBold = true
+   endwith
+
+   this.TEXT1 = new TEXTLABEL(this)
+   with (this.TEXT1)
+      height = 21.0
+      left = 28.0
+      top = 275.0
+      width = 132.0
+      text = "Start Item Code:"
+      colorNormal = "B/BtnFace"
+      fontName = "MS Sans Serif"
+      fontSize = 12.0
+      fontBold = true
+      alignVertical = 1	// Middle
+      alignHorizontal = 2	// Right
+   endwith
+
+   this.SITEM = new ENTRYFIELD(this)
+   with (this.SITEM)
+      onChange = class::SITEM_ONCHANGE
+      dataLink = "FG15S->START_ID"
+      enabled = false
+      height = 21.0
+      left = 168.0
+      top = 275.0
+      width = 132.0
+      function = "!"
+      colorNormal = "N/BtnFace"
+      colorHighLight = "B+/W*"
+      fontName = "MS Sans Serif"
+      fontSize = 12.0
+      fontBold = true
+      validErrorMsg = "Code Does Not Exist"
+   endwith
+
+   this.TEXT2 = new TEXTLABEL(this)
+   with (this.TEXT2)
+      height = 21.0
+      left = 28.0
+      top = 297.0
+      width = 132.0
+      text = "End Item Code:"
+      colorNormal = "B/BtnFace"
+      fontName = "MS Sans Serif"
+      fontSize = 12.0
+      fontBold = true
+      alignVertical = 1	// Middle
+      alignHorizontal = 2	// Right
+   endwith
+
+   this.EITEM = new ENTRYFIELD(this)
+   with (this.EITEM)
+      onChange = class::EITEM_ONCHANGE
+      dataLink = "FG15S->END_ID"
+      enabled = false
+      height = 21.0
+      left = 168.0
+      top = 297.0
+      width = 132.0
+      function = "!"
+      colorNormal = "N/BtnFace"
+      colorHighLight = "B+/W*"
+      fontName = "MS Sans Serif"
+      fontSize = 12.0
+      fontBold = true
+      validErrorMsg = "Code Does Not Exist"
+   endwith
+
+   this.TEXT8 = new TEXTLABEL(this)
+   with (this.TEXT8)
+      height = 21.0
+      left = 301.0
+      top = 275.0
+      width = 108.0
+      text = "Start Date:"
+      colorNormal = "B/BtnFace"
+      fontName = "MS Sans Serif"
+      fontSize = 12.0
+      fontBold = true
+      alignVertical = 1	// Middle
+      alignHorizontal = 2	// Right
+   endwith
+
+   this.SDATE = new SPINBOX(this)
+   with (this.SDATE)
+      onChange = class::SDATE_ONCHANGE
+      dataLink = "FG15S->START_DATE"
+      enabled = false
+      height = 21.0
+      left = 420.0
+      top = 275.0
+      width = 144.0
+      colorNormal = "n/btnface"
+      colorHighLight = "B+/W*"
+      rangeMax = {10/03/2009}
+      rangeMin = {30/11/2008}
+      fontName = "MS Sans Serif"
+      fontSize = 12.0
+      fontBold = true
+   endwith
+
+   this.TEXT9 = new TEXTLABEL(this)
+   with (this.TEXT9)
+      height = 21.0
+      left = 301.0
+      top = 297.0
+      width = 108.0
+      text = "End Date:"
+      colorNormal = "B/BtnFace"
+      fontName = "MS Sans Serif"
+      fontSize = 12.0
+      fontBold = true
+      alignVertical = 1	// Middle
+      alignHorizontal = 2	// Right
+   endwith
+
+   this.EDATE = new SPINBOX(this)
+   with (this.EDATE)
+      onChange = class::EDATE_ONCHANGE
+      dataLink = "FG15S->END_DATE"
+      enabled = false
+      height = 21.0
+      left = 420.0
+      top = 297.0
+      width = 144.0
+      colorNormal = "n/btnface"
+      colorHighLight = "B+/W*"
+      rangeMax = {10/03/2009}
+      rangeMin = {30/11/2008}
+      fontName = "MS Sans Serif"
+      fontSize = 12.0
+      fontBold = true
+   endwith
+
+   this.TEXT10 = new TEXTLABEL(this)
+   with (this.TEXT10)
+      height = 21.0
+      left = 581.0
+      top = 275.0
+      width = 132.0
+      text = "Start Div-Cen.:"
+      colorNormal = "B/BtnFace"
+      fontName = "MS Sans Serif"
+      fontSize = 12.0
+      fontBold = true
+      alignVertical = 1	// Middle
+      alignHorizontal = 2	// Right
+   endwith
+
+   this.SCOYDIV = new ENTRYFIELD(this)
+   with (this.SCOYDIV)
+      onChange = class::SCOYDIV_ONCHANGE
+      dataLink = "FG15S->START_DIV"
+      enabled = false
+      height = 21.0
+      left = 735.0
+      top = 275.0
+      width = 48.0
+      function = "!"
+      colorNormal = "N/BtnFace"
+      colorHighLight = "B+/W*"
+      fontName = "MS Sans Serif"
+      fontSize = 12.0
+      fontBold = true
+      validErrorMsg = "Code Does Not Exist"
+   endwith
+
+   this.TEXT11 = new TEXTLABEL(this)
+   with (this.TEXT11)
+      height = 21.0
+      left = 581.0
+      top = 297.0
+      width = 132.0
+      text = "End Div-Cen.:"
+      colorNormal = "B/BtnFace"
+      fontName = "MS Sans Serif"
+      fontSize = 12.0
+      fontBold = true
+      alignVertical = 1	// Middle
+      alignHorizontal = 2	// Right
+   endwith
+
+   this.ECOYDIV = new ENTRYFIELD(this)
+   with (this.ECOYDIV)
+      onChange = class::ECOYDIV_ONCHANGE
+      dataLink = "FG15S->END_DIV"
+      enabled = false
+      height = 21.0
+      left = 735.0
+      top = 297.0
+      width = 48.0
+      function = "!"
+      colorNormal = "N/BtnFace"
+      colorHighLight = "B+/W*"
+      fontName = "MS Sans Serif"
+      fontSize = 12.0
+      fontBold = true
+      validErrorMsg = "Code Does Not Exist"
+   endwith
+
+   this.CHILDBROWSE = new BROWSE(this)
+   with (this.CHILDBROWSE)
+      onChange = class::CHILDBROWSE_ONCHANGE
+      fontName = "MS Sans Serif"
+      fontSize = 8.0
+      height = 429.0
+      left = 14.0
+      top = 352.0
+      width = 938.0
+      append = false
+      alias = "dshstmas"
+      fields = 'DSHSTMAS->SHIFT_DATE\H="DATE"\12\R\C="N/W",DSHSTMAS->BBF\H="BBF"\12\P="999,999.99"\R\C="N/W",PURCH = DSHSTMAS->CR_PURCH+DSHSTMAS->CS_PURCH\H="PURCH"\10\P="999,999.99"\C="N/W",ADJS = DSHSTMAS->ADJ_IN-DSHSTMAS->ADJ_OUT\H="ADJS"\10\P="999,999.99"\C="N/W",TRANS = DSHSTMAS->TRANS_IN-DSHSTMAS->TRANS_OUT\H="TRANS"\10\P="999,999.99"\C="N/W",SALES = DSHSTMAS->CR_SALES+DSHSTMAS->CS_SALES\H="SALES"\10\P="999,999.99"\C="N/W",DSHSTMAS->SALE_PRICE\H="Price"\10\P="999,999.99"\R\C="N/W",DSHSTMAS->ON_HAND\H="BCF"\10\P="999,999.99"\R\C="N/W",DSHSTMAS->PHY\H="PHY"\10\P="999,999.99",var = dshstmas->PHY-dshstmas->ON_HAND\H="Var"\10\P="999,999.99"\C="N/W",DSHSTMAS->STD_COST\H="U/Cost"\10\P="999,999.99"'
+      delete = false
+      modify = false
+      showRecNo = false
+      text = "RECENT INVENTORY STOCK MOVEMENTS"
+   endwith
+
+   this.PREVBUTTON = new PUSHBUTTON(this)
+   with (this.PREVBUTTON)
+      onClick = class::PREVIOUS
+      height = 26.0
+      left = 175.0
+      top = 792.0
+      width = 85.0
+      text = "&PREVIOUS"
+      fontName = "MS Sans Serif"
+      fontSize = 8.0
+      fontBold = true
+   endwith
+
+   this.NEXTBUTTON = new PUSHBUTTON(this)
+   with (this.NEXTBUTTON)
+      onClick = class::NEXT
+      height = 26.0
+      left = 259.0
+      top = 792.0
+      width = 85.0
+      text = "&NEXT"
+      fontName = "MS Sans Serif"
+      fontSize = 8.0
+      fontBold = true
+   endwith
+
+   this.FIRSTBUTTON = new PUSHBUTTON(this)
+   with (this.FIRSTBUTTON)
+      onClick = {; form.CheckCommit(form.inEditMode);GO TOP; form.BrowseOnNavigate();}
+      height = 26.0
+      left = 350.0
+      top = 792.0
+      width = 85.0
+      text = "F&IRST"
+      fontName = "MS Sans Serif"
+      fontSize = 8.0
+      fontBold = true
+   endwith
+
+   this.LASTBUTTON = new PUSHBUTTON(this)
+   with (this.LASTBUTTON)
+      onClick = {; form.CheckCommit(form.inEditMode);GO BOTTOM; form.BrowseOnNavigate();}
+      height = 26.0
+      left = 441.0
+      top = 792.0
+      width = 85.0
+      text = "&LAST"
+      fontName = "MS Sans Serif"
+      fontSize = 8.0
+      fontBold = true
+   endwith
+
+
+   procedure Open
+   ****************************************************************************
+   private CodeField
+    FORM.BLUSER=BUSER
+   FORM.BLEVEL=BLEVEL
+   IF EMPTY(FORM.BLUSER) .OR. EMPTY(FORM.BLEVEL)
+      QUIT
+   ENDIF
+   form.firstime = .T.
+   Form.Ldiv = ""
+   Form.Lcen = ""
+   Form.Lsto = ""
+   Form.Ltyp = ""
+   FORM.PCHANGE = .F.
+   Form.Lcla = ""
+   Form.Lcod = ""
+   if type("form.init") = "U"
+      form.init = .T.
+
+      set skip to                     && Fg15s.qbe contains set skip to gldtl
+      set exact ON                && the .qbe file contains SET EXACT ON
+
+      set procedure to sampProc.prg additive
+    Form.duplicate = .F.
+      form.inEditMode = .F.           && indicator of view/edit state
+      form.changesMade = .F.          && indicator of changes made to field values
+      form.previousRecord = .F.       && Save record number when appending
+      select FG15S
+      go top
+      if eof()
+      append blank
+      REPLACE START_DATE WITH DSHSTMAS->SHIFT_DATE
+      REPLACE END_DATE WITH DSHSTMAS->SHIFT_DATE
+      REPLACE START_ID WITH FGMAST->TYP+FGMAST->CLA+FGMAST->COD
+       REPLACE END_ID WITH FGMAST->TYP+FGMAST->CLA+FGMAST->COD
+       REPLACE START_DIV WITH FGMAST->COY+FGMAST->DIV
+        REPLACE END_DIV WITH  FGMAST->COY+FGMAST->DIV
+        IF EMPTY (DSHSTMAS->SHIFT_DATE)
+        REPLACE START_DATE WITH DATE()
+        REPLACE END_DATE WITH DATE()
+        ENDIF
+      endif
+      replace start_id with "000000"
+      replace end_id with "ZZZZZZ"
+      replace message with "Data Extract in Progress - Please wait"
+      select wshstmas
+      set order to mkey
+      flock()
+      select fgmast
+   *   SET FILTER TO TYP = "E"
+    GO TOP                                  && new Receipts
+   delete all for empty(coy) .or. empty(div) .or. empty(cen) .or. empty(sto);
+   .or. empty(typ) .or. empty(cla) .or. empty(cod)
+   go top
+
+
+   endif
+
+   form::Open()                         && Now the form actually opens
+       form.BrowseOnNavigate()              && calculate totals
+      shell(.F.)
+   ****************************************************************************
+
+   procedure OnClose
+
+   * Clean up.
+   ****************************************************************************
+
+   if this.inEditMode
+      form.ViewEdit()                      && Finish transaction
+   endif
+   SELECT dshstmas
+   GO TOP
+   IF .NOT. EOF()
+   close databases
+   ENDIF
+   FORM.CLOSE()
+   ****************************************************************************
+
+   procedure BrowseOnNavigate
+   ****************************************************************************
+
+     select FG15S
+     REPLACE COY WITH fgmast->COY
+     REPLACE DIV WITH fgmast->DIV
+     REPLACE TYP WITH fgmast->TYP
+     REPLACE CLA WITH fgmast->CLA
+     REPLACE COD WITH fgmast->COD
+     REPLACE STO WITH fgmast->STO
+     REPLACE CEN WITH fgmast->CEN
+     SELECT fgmast
+
+
+   ****************************************************************************
+
+   procedure ChangesMade
+
+   * Indicate that changes have been made to the current record
+   ****************************************************************************
+   Form.ChangesMade = .T.
+   ****************************************************************************
+
+   procedure CheckCommit (newInEditMode)
+
+        * Finish transaction, if it has been started.
+   ****************************************************************************
+   private CodeField, changesMade
+   changesMade = form.changesMade
+   if form.changesMade
+      CodeField = field(3)  && Field Center
+         commit()
+
+    if form.inEditMode .and. newInEditMode
+         begintrans()
+      endif
+      form.changesMade = .F.
+   endif
+   if form.inEditMode <> newInEditMode
+      if newInEditMode                       && Going to Edit mode
+         begintrans()
+      else                                   && Going to View mode
+            rollback()
+         endif
+     * endif
+      form.inEditMode = newInEditMode
+   endif
+
+   procedure ViewEdit
+
+   * Toggle between View and Edit modes.
+   ****************************************************************************
+   local inEditMode, editMenu, control
+
+   editMenu = form.root.Fg15s.VIEWEdit
+
+   *** If ending edit mode then close transaction, otherwise open it.
+   if form.inEditMode
+      form.checkChanged(.F.)
+      editMenu.text = "&Edit"
+      editMenu.shortcut = "Ctrl-E"
+      editMenu.statusMessage = "Edit data."
+      form.CheckCommit(.F.)                        && Check transaction and
+      form.text = "Stock Inventory -- View Mode"          && change mode to View
+         form.childBrowse.modify = .F.
+      form.statusmessage = "In View Mode. " + ;
+                           "Select Stock Inventory - Edit menu to " + ;
+                           "edit/delete data."
+   else                                            && Switch to edit mode
+      editMenu.text = "Vi&ew"
+      editMenu.shortcut = "Ctrl-E"
+      editMenu.statusMessage = "View data."
+      form.CheckCommit(.T.)                        && Check transaction and
+      form.text = "Stock Inventory -- Edit Mode"          && change mode to Edit
+    form.childBrowse.modify = .T.
+      form.statusmessage = "In Edit Mode.  " + ;
+                           "Select menu Stock Inventory - View to switch " + ;
+                           "to View mode."
+
+   endif
+
+   inEditMode = form.inEditMode     && Faster if we don't reference a form
+   control = form.first             &&    variable each time through the loop
+   do
+      if .not. control.className $ "BROWSE,EDITOR,NEXTBUTTON,PREVBUTTON,PUSHBUTTON,IMAGE,TEXT"
+         control.enabled = inEditMode
+      endif
+      control = control.before
+   until control.name = form.first.name
+          form.typentry.Enabled = .F.
+           form.claentry.Enabled = .F.
+            form.codentry.Enabled = .F.
+         form.coydisplay.enabled =.F.
+          form.divdisplay.enabled =.F.
+            form.cendisplay.enabled =.F.
+              form.typdisplay.enabled =.F.
+                form.stodisplay.enabled =.F.
+                  form.cladisplay.enabled =.F.
+                    form.coddisplay.enabled =.F.
+                    form.shand.enabled = .F.
+                    form.sunit.enabled = .f.
+                    form.sitems.enabled = .f.
+                    form.scoy.enabled = .f.
+                    form.sdiv.enabled = .f.
+                    form.scen.enabled = .f.
+                    form.ssto.enabled = .f.
+     form.svol.enabled = .f.
+      form.childBrowse.APPEND = .F.
+       form.childBrowse.DELETE = .F.
+
+   procedure CheckChanged(callCommit)
+
+   private control, fieldValue, controlValue, typeText, typeValue
+
+   if form.inEditMode
+      control = form.activeControl
+      if type("control.datalink") <> "U"
+         fieldValue = control.datalink          && name of table field
+
+         typeText = type("control.text")
+         typeValue = type("control.value")
+         do case
+            case typeValue = "C"
+               controlValue = control.value
+            case typeValue $ "LU" .and. typeText = "C"
+               controlValue = control.text
+            otherwise
+               controlValue = Null
+         endcase
+         if controlValue <> &fieldValue
+            form.changesMade = .T.
+         endif
+      endif
+   endif
+   if form.changesMade .and. callCommit
+      CLASS::CheckCommit(form.inEditMode)     && Check transactions
+   endif
+
+   Procedure Change_codes
+        local l1,l2,l3,l4,l5,l6,l7
+           l1 = form.coyentry.value
+           l2 = form.diventry.value
+           l3 = form.cenentry.value
+             l4 = form.stoentry.value
+               l5 = form.typentry.value
+                 l6 = form.claentry.value
+                   l7 = form.codentry.value
+                      Form.ChangesMade = .T.
+
+   Form.Ldiv = l2
+   Form.Lcen = l3
+   Form.Lsto = l4
+   Form.Ltyp = l5
+   Form.Lcla = l6
+               select fgcoy
+               seek l1
+
+              select fgdiv
+               seek l1,l2
+                select fgcen
+               seek l1,l2,l3
+          select ststo
+               seek l4
+           select fgtyp
+               seek l5
+              select fgcla
+               seek l5,l6
+                select fgcod
+               seek l5,l6,l7
+               select fgmast
+
+   Procedure Valid_qty
+      if this.value < 0
+         Isvalid = .F.
+      else
+         Isvalid = .T.
+     endif
+
+
+     Return Isvalid
+     RETURN
+
+   Procedure CHANGE_qty
+      Form.ChangesMade = .T.
+         Form.BBFDisplay.Value = this.value
+
+   Procedure SITEM_OnChange
+   form.changesmade = .t.
+   select fg15s
+   replace start_id with this.value
+   form.CheckCommit(form.inEditMode)
+
+   Procedure EITEM_OnChange
+   form.changesmade = .t.
+   select fg15s
+   replace end_id with this.value
+   form.CheckCommit(form.inEditMode)
+
+   Procedure SDATE_OnChange
+   form.changesmade = .t.
+   select fg15s
+   replace start_date with this.value
+   form.CheckCommit(form.inEditMode)
+
+   Procedure EDATE_OnChange
+   form.changesmade = .t.
+     select fg15s
+   replace end_date with this.value
+   form.CheckCommit(form.inEditMode)
+
+   Procedure SCOYDIV_OnChange
+   form.changesmade = .t.
+     select fg15s
+   replace start_div with this.value
+   form.CheckCommit(form.inEditMode)
+
+   Procedure ECOYDIV_OnChange
+   form.changesmade = .t.
+     select fg15s
+   replace end_div with this.value
+   form.CheckCommit(form.inEditMode)
+
+   Procedure CHILDBROWSE_OnChange
+         FORM.CHANGESMADE = .T.
+
+    form.CheckCommit(form.inEditMode)
+
+  procedure Next
+
+   * Go to next record.
+   ****************************************************************************
+
+   form.CheckCommit(form.inEditMode)
+   if .not. empty(dbf())  .and. .not. eof()      && if a table is open in the current workarea
+      skip
+       form.BrowseOnNavigate()
+      if eof()
+         go bottom
+         AlertMessage("At the last record","Alert")
+      endif
+   else
+      InformationMessage("There is no table open in the current workarea.",;
+         "Info")
+   endif
+    ****************************************************************************
+
+   procedure Previous
+
+   * Go to previous record.
+   ****************************************************************************
+
+   form.CheckCommit(form.inEditMode)
+ if .not. empty(dbf())  .and. .not. eof() && if a table is open in the current workarea
+      skip - 1
+      form.BrowseOnNavigate()
+      if bof()
+         go top
+         AlertMessage("At the first record","Alert")
+      endif
+   else
+      InformationMessage("There is no table open in the current workarea.",;
+         "Info")
+   endif
+
+endclass
+

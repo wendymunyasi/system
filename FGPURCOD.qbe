@@ -1,0 +1,31 @@
+* Visual dBASE .QBE file 9
+ON ERROR DO QBEERR WITH ERROR(), MESSAGE(),;
+PROGRAM(), LINENO()
+CLOSE DATABASES
+SET EXACT ON
+SELECT 1
+USE \KENSERVICE\DATA\FGMASTP.DBF ORDER TAG NAME
+SELECT 2
+USE \KENSERVICE\DATA\FGNFPUR.DBF ORDER TAG MKEY2
+SELECT 6
+USE \KENSERVICE\DATA\VENNAMES.DBF ORDER TAG VENDOR
+SELECT 1
+SET RELATION TO COY+DIV+CEN+STO+TYP+CLA+COD INTO FGNFPUR CONSTRAIN
+SELECT 2
+SET RELATION TO VSRCE+VTYP+VPMOD+VENDOR_N INTO VENNAMES
+SET SKIP TO FGNFPUR
+SELECT 4
+USE \KENSERVICE\DATA\fgshpur.DBF
+SET SKIP TO FGNFPUR
+SELECT 7
+USE \KENSERVICE\DATA\FGCOY.DBF
+SET SKIP TO FGNFPUR
+SELECT 1
+  set filter to (((typ <= "9Z"  .AND. .NOT. left(TYP,1) = "7") .or. left(typ,1) = "F" ;
+   .or. left(typ,1) = "E" ;
+   .OR. (TYP = "C0" .AND. CLA > "20")) .and. .not. (div = "1" .and. .not. (fcpurch = "Yes" ;
+    .or. left(typ,1) = "E")) ;
+    .and. .not. (div = "3" .and. cen = "4") .and. .not. (fcpurch = "Yes" .and. .not. div = "1") ;
+     .and. .not. (shs_auto = "Grs" .or. shs_auto = "Ccc" .or. shs_auto = "Dcn") ;
+      .and. .not. (div = "1" .and. typ = "00")) 
+GO TOP

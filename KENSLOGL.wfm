@@ -538,7 +538,7 @@ procedure Go_Last
 
     *  if form.inEditMode <> newInEditMode
       if newInEditMode                       && Going to Edit mode
-         begintrans()
+    *     begintrans()
       else                                   && Going to View mode
          if .not. changesMade
             rollback()

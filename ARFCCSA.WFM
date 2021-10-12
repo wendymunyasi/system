@@ -653,7 +653,7 @@ CLASS ARCMPSFORM OF FORM
                                              && leave shell(.F.)
         shell(.f.)
    *  endif
-   close procedure SampProc.prg, Buttons.cc
+   close procedure SampProc.prg
     if .not. empty(ARCMPS->order_no)
    select ARCMPDUP
    seek ARCMPS->order_no+dtos(ARCMPS->order_date)
@@ -770,11 +770,11 @@ CLASS ARCMPSFORM OF FORM
     changesMade = form.changesMade
      if form.changesMade
        orderField = field(1)                  && Field Order_no
-            commit()
+            *commit()
             on error DO ddeerr WITH ERROR(), MESSAGE(),;
    PROGRAM(), LINENO()
         if form.inEditMode .and. newInEditMode
-          begintrans()
+          *begintrans()
                on error DO transerr WITH ERROR(), MESSAGE(),;
    PROGRAM(), LINENO()
        endif
@@ -784,12 +784,12 @@ CLASS ARCMPSFORM OF FORM
 
     if form.inEditMode <> newInEditMode
        if newInEditMode                       && Going to Edit mode
-          begintrans()
+          *begintrans()
             on error DO transerr WITH ERROR(), MESSAGE(),;
    PROGRAM(), LINENO()
        else                                   && Going to View mode
           if .not. changesMade
-             rollback()
+             *rollback()
             on error   DO ddeerr WITH ERROR(), MESSAGE(),;
    PROGRAM(), LINENO()
           endif

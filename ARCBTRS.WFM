@@ -629,7 +629,7 @@ CLASS ARCBNKSFORM OF FORM
                                            && leave shell(.F.)
         shell(.f.)
    *  endif
-   close procedure SampProc.prg, Buttons.cc
+   close procedure SampProc.prg
    if .not. empty(ARCBNKS->order_no)
    select ARCBNUPD
    seek ARCBNKS->order_no+dtos(ARCBNKS->order_date)
@@ -638,6 +638,7 @@ CLASS ARCBNKSFORM OF FORM
    replace post_date with date()
    endif
    endif
+   COMMIT()
    close databases
    clear program
     do arpcbnks.prg
@@ -681,6 +682,7 @@ CLASS ARCBNKSFORM OF FORM
    FORM.Stotal.VALUE =  t
          ENDIF
      SELECT ARCBNKS
+     REPLACE TOTAL WITH T
    endif
 
 

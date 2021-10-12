@@ -1,0 +1,229 @@
+////////////////////////////////////////////////////////////////////////////////
+// Output Filename: C:\KENSERVICE\IDSSYS\ST15FCM_FCV.WFM                      //
+// Created By:      dBASE Form Converter Wizard                               //
+// Created On:      Sunday October 3, 2021 At 17:16:15                        //
+// Object Count:    9                                                         //
+////////////////////////////////////////////////////////////////////////////////
+*******************************************************************************
+*  PROGRAM:      st15fcm.wfm
+*
+*  WRITTEN BY:   W Nyongesa
+*
+*  DATE:         05/02
+*
+*  UPDATED:      05/2009
+*
+*  REVISION:     $Revision:   1.110  $
+*
+*  VERSION:      Visual dBASE
+*
+*  DESCRIPTION:  This program displays information about the closes of a
+*                company.  It contains entryfields and radio buttons with
+*                various close information.  A browse object displays
+*                orders made by this close.  To add, delete, and search
+*                for closes, a menu (close.mnu) is used.  This form
+*                also has custom buttons (from Buttons.cc) to allow traversing
+*                through closes.  Information can be viewed in either
+*                View mode or in Edit mode, which is toggled in the menu.
+*
+*  PARAMETERS:   None
+*
+*  CALLS:        close.mnu         (Menu file)
+*                Buttons.cc           (Custom Controls file)
+*                Stcord.wfm           (Orders detail form)
+*                close.qbe         (View of tables)
+*
+*  USAGE:        DO st15fcm.wfm      && Note that you can also DO Stcord.wfm
+*
+*******************************************************************************
+#include <Messdlg.h>
+shell(.F.)
+create session
+set talk off
+set ldCheck off
+_app.FrameWin.Visible = .F.
+_app.FrameWin.Text = "St15Fcm"
+&& To avoid language driver conflicts
+
+** END HEADER -- do not remove this line*
+* Generated on 22/06/2003
+*
+set design off
+parameter BUSER,BLEVEL,bModal
+local f
+f = new closeFORM()
+if (bModal)
+   f.mdi = .F. && ensure not MDI
+   f.ReadModal()
+else
+   f.Open()
+endif
+CLASS closeFORM OF FORM
+   Set Procedure To BUTTONS.CC additive
+   this.Metric = 6  // Pixels
+   this.MDI = .F.
+   this.OnClose = CLASS::ONCLOSE
+   this.EscExit = .F.
+   this.Text = "Shift Closing/Opening"
+   this.Left = 20
+   this.MousePointer = 1
+   this.Top = 0
+   this.WindowState = 2
+   this.SysMenu = .t.
+   this.ScrollBar = 0
+   this.View = "st15fcm.QBE"
+   this.Maximize = .F.
+   this.Minimize = .F.
+   this.sizeable = .f.
+   this.moveable = .f.
+   this.ColorNormal = "n+"
+   this.Height = 274
+   this.Width = 573
+
+   DEFINE TEXTLABEL TEXT1 OF THIS;
+       PROPERTY;
+         Text "CURRENT SHIFT INFORMATION ",;
+         Left 60,;
+         Top 34,;
+         FontBold .F.,;
+         FontSize 12,;
+         ColorNormal "B/BTNFACE",;
+         Height 30,;
+         Width 312,;
+       FontName "MS Sans Serif",;
+       AlignVertical 1
+
+   DEFINE TEXTLABEL TEXT2 OF THIS;
+       PROPERTY;
+         Text "SHIFT DATE:",;
+         Left 24,;
+         Top 85,;
+         FontBold .F.,;
+         FontSize 12,;
+         ColorNormal "B/BTNFACE",;
+         Height 30,;
+         Width 144,;
+       FontName "MS Sans Serif",;
+       AlignHorizontal 2
+
+   DEFINE TEXTLABEL TEXT3 OF THIS;
+       PROPERTY;
+         Text "SHIFT NO.:",;
+         Top 136,;
+         FontBold .F.,;
+         FontSize 12,;
+         ColorNormal "B/BTNFACE",;
+         Height 30,;
+         Width 168,;
+       FontName "MS Sans Serif",;
+       AlignHorizontal 2
+
+   DEFINE TEXTLABEL TEXT4 OF THIS;
+       PROPERTY;
+         Text "SHIFT DAY:",;
+         Left 24,;
+         Top 187,;
+         FontBold .F.,;
+         FontSize 12,;
+         ColorNormal "B/BTNFACE",;
+         Height 30,;
+         Width 144,;
+       FontName "MS Sans Serif",;
+       AlignHorizontal 2
+
+   DEFINE ENTRYFIELD ENTRYFIELD1 OF THIS;
+       PROPERTY;
+         Left 180,;
+         Top 85,;
+         Enabled .F.,;
+         FontBold .F.,;
+         DataLink "ST15F->Shift_date",;
+         FontSize 12,;
+         Height 34,;
+         Width 132,;
+       FontName "MS Sans Serif"
+
+   DEFINE ENTRYFIELD ENTRYFIELD2 OF THIS;
+       PROPERTY;
+         Left 180,;
+         Top 136,;
+         Enabled .F.,;
+         FontBold .F.,;
+         DataLink "ST15F->Shift_no",;
+         FontSize 12,;
+         Height 34,;
+         Width 95,;
+       FontName "MS Sans Serif"
+
+   DEFINE ENTRYFIELD ENTRYFIELD3 OF THIS;
+       PROPERTY;
+         Left 180,;
+         Top 187,;
+         Enabled .F.,;
+         FontBold .F.,;
+         DataLink "STDAYS->NAME",;
+         FontSize 12,;
+         Height 34,;
+         Width 156,;
+       FontName "MS Sans Serif"
+
+   DEFINE CANCELBUTTON CANCELBUTTON1 OF THIS;
+       PROPERTY;
+         Group .T.,;
+         Left 360,;
+         Top 272,;
+         Height 26,;
+         Width 109,;
+       FontName "MS Sans Serif",;
+       FontSize 8,;
+       FontBold .T.
+
+   DEFINE OKBUTTON OKBUTTON1 OF THIS;
+       PROPERTY;
+         Group .T.,;
+         Left 84,;
+         Top 272,;
+         OnClick CLASS::OKBUTTON1_ONCLICK,;
+         Height 26,;
+         Width 96,;
+       FontName "MS Sans Serif",;
+       FontSize 8,;
+       FontBold .T.
+
+   procedure Open
+   ****************************************************************************
+   * set procedure to ampProc.prg additive
+   * form.closeInfoButton.sampleName = "st15fcm.wfm"
+        form.bluser = buser
+      form.blevel = blevel
+      IF EMPTY(FORM.BLUSER) .OR. EMPTY(FORM.BLEVEL)
+      QUIT
+      ENDIF
+   form::Open()                            && Now the form actually opens
+
+   *   form.root.closes.enabled = .T.
+   shell(.F.)
+   ****************************************************************************
+
+   procedure OnClose
+
+   close tables
+   *     close procedure ampProc.prg
+
+   Procedure PUSHBUTTON2_OnClick
+         FORM.CLOSE()
+
+   Procedure OKBUTTON1_OnClick
+        FORM.CANCELBUTTON1.VISIBLE = .F.
+        FORM.OKBUTTON1.VISIBLE = .F.
+        form.MousePointer = 11
+        IF FORM.BLEVEL < 9
+        DO st15fc00.prg WITH FORM.BLUSER,FORM.BLEVEL
+        ENDIF
+        CLOSE DATABASES
+          clear program
+          FORM.CLOSE()
+ENDCLASS
+
+
+

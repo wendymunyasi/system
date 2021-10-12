@@ -1,0 +1,848 @@
+////////////////////////////////////////////////////////////////////////////////
+// Output Filename: C:\KENSERVICE\IDSSYS\DACOYSAL_FCV.WFM                     //
+// Created By:      dBASE Form Converter Wizard                               //
+// Created On:      Saturday June 25, 2016 At 16:50:05                        //
+// Object Count:    29                                                        //
+////////////////////////////////////////////////////////////////////////////////
+*******************************************************************************
+*  PROGRAM:      dacoysal.wfm
+*
+*  WRITTEN BY:   W Nyongesa
+*
+*  DATE:         05/2000
+*
+*  UPDATED:     04/2015
+*
+*  REVISION:     $Revision:   1.0
+*
+*  VERSION:      Visual dBASE
+*
+*  DESCRIPTION:  This program maintains the Divisions master file
+*
+*  PARAMETERS:   None
+*
+*  CALLS:        dacoysal.mnu         (Menu file)
+*                KBUTTONS.CC          (Custom Controls file)
+*                Company Code.qbe         (View of tables)
+*
+*  USAGE:        DO dacoysal.wfm
+*
+*******************************************************************************
+#include <messdlg.h>
+shell(.F.)
+create session
+set design off
+set talk off
+set Design off
+set century on
+set date TO  BRITISH
+set ldCheck off && To avoid language driver conflicts
+#define Maxcoy 999
+** END HEADER -- do not remove this line
+//
+// Generated on 25/06/2016
+//
+parameter bUser,bLevel,bModal
+local f
+f = new dacoysalFORM()
+if (bModal)
+   f.mdi = false // ensure not MDI
+   f.readModal()
+else
+   f.open()
+endif
+
+class dacoysalFORM of FORM
+set procedure to buttons.cc additive
+   with (this)
+      onClose = class::ONCLOSE
+      open = class::OPEN
+      metric = 6	// Pixels
+      colorNormal = "n+"
+      height = 932.0
+      left = 0.0
+      top = 0.0
+      width = 1296.0
+      text = "SALES"
+      windowState = 2	// Maximized
+      mdi = false
+      sizeable = false
+      moveable = false
+      view = "dacoysal.QBE"
+      menuFile = "DACOYSAL.MNU"
+      escExit = false
+      mousePointer = 1	// Arrow
+      maximize = false
+      minimize = false
+   endwith
+
+   this.CODETEXT = new TEXTLABEL(this)
+   with (this.CODETEXT)
+      height = 21.0
+      left = 24.0
+      top = 17.0
+      width = 48.0
+      text = "Coy:"
+      colorNormal = "B/BtnFace"
+      fontName = "MS Sans Serif"
+      fontSize = 12.0
+      fontBold = true
+      alignVertical = 1	// Middle
+      alignHorizontal = 2	// Right
+   endwith
+
+   this.COYCOMBOBOX = new COMBOBOX(this)
+   with (this.COYCOMBOBOX)
+      dataLink = "dacoysum->Coy"
+      enabled = false
+      height = 31.0
+      left = 90.0
+      top = 9.0
+      width = 48.0
+      fontName = "Arial Black"
+      fontSize = 12.0
+      fontBold = true
+      colorNormal = "B/BtnFace"
+      dataSource = "FIELD fgcoy->COY"
+      style = 2	// DropDownList
+      dropDownHeight = 132.0
+   endwith
+
+   this.COYDISPLAY = new ENTRYFIELD(this)
+   with (this.COYDISPLAY)
+      dataLink = "fgcoy->STREET"
+      enabled = false
+      height = 21.0
+      left = 141.0
+      top = 17.0
+      width = 435.0
+      function = "!"
+      colorNormal = "N/BtnFace"
+      colorHighLight = "B+/W*"
+      fontName = "MS Sans Serif"
+      fontSize = 12.0
+      fontBold = true
+   endwith
+
+   this.BROWSE1 = new BROWSE(this)
+   with (this.BROWSE1)
+      fontName = "MS Sans Serif"
+      fontSize = 8.0
+      height = 572.0
+      left = 35.0
+      top = 242.0
+      width = 952.0
+      append = false
+      alias = "fgtran"
+      fields = 'FGTRAN->SYSTEM\H="Sys"\5\R,FGTRAN->DOCTYPE\H="Doc"\5\R,FGTRAN->ORDER_NO\H="Order"\8\R,FGTRAN->COY\H="Coy"\5\R,FGTRAN->DIV\H="Div"\5\R,FGCOD->NAME\H="Item Description"\30\R,FGTRAN->QTY\H="Qty"\8\P="999,999.99"\R,FGTRAN->TOTAL\H="Amount"\10\P="999,999,999.99"\R,FGTRAN->SERIALNO\H="Ref."\8\R,FGTRAN->PAY_METHOD\H="Pay Mode"\10\R,FRIGHTER->NAME\H="Customer"\15\R'
+      delete = false
+      modify = false
+      showRecNo = false
+      text = "Poducts/Services Information"
+   endwith
+
+   this.TEXT1 = new TEXTLABEL(this)
+   with (this.TEXT1)
+      height = 21.0
+      left = 618.0
+      top = 25.0
+      width = 60.0
+      text = "Date:"
+      colorNormal = "B/BtnFace"
+      fontName = "MS Sans Serif"
+      fontSize = 12.0
+      fontBold = true
+      alignVertical = 1	// Middle
+      alignHorizontal = 2	// Right
+   endwith
+
+   this.TDATE = new SPINBOX(this)
+   with (this.TDATE)
+      dataLink = "dacoysum->shift_date"
+      enabled = false
+      height = 21.0
+      left = 690.0
+      top = 25.0
+      width = 144.0
+      fontName = "MS Sans Serif"
+      fontSize = 12.0
+   endwith
+
+   this.SMESS = new ENTRYFIELD(this)
+   with (this.SMESS)
+      dataLink = "FGshcat->MESSAGE"
+      visible = false
+      enabled = false
+      height = 34.0
+      left = 12.0
+      top = 43.0
+      width = 642.0
+      colorNormal = "WindowText/GB+"
+      fontName = "Lucida Handwriting"
+      fontSize = 12.0
+   endwith
+
+   this.RECTANGLE3 = new RECTANGLE(this)
+   with (this.RECTANGLE3)
+      left = 13.0
+      top = 85.0
+      width = 743.0
+      height = 77.0
+      text = "Filter reports by start and end dates, Item Type, Class and  Code, Div/Centre"
+      colorNormal = "r/btnface"
+      fontName = "Arial Black"
+      fontSize = 12.0
+      fontBold = true
+   endwith
+
+   this.TEXT3 = new TEXTLABEL(this)
+   with (this.TEXT3)
+      height = 21.0
+      left = 24.0
+      top = 111.0
+      width = 132.0
+      text = "Start Item Code:"
+      colorNormal = "B/BtnFace"
+      fontName = "MS Sans Serif"
+      fontSize = 12.0
+      fontBold = true
+      alignVertical = 1	// Middle
+      alignHorizontal = 2	// Right
+   endwith
+
+   this.ENTRYFIELD2 = new ENTRYFIELD(this)
+   with (this.ENTRYFIELD2)
+      onChange = class::ENTRYFIELD2_ONCHANGE
+      dataLink = "fgshcat->START_ID"
+      enabled = false
+      height = 21.0
+      left = 174.0
+      top = 111.0
+      width = 108.0
+      function = "!"
+      colorNormal = "N/BtnFace"
+      colorHighLight = "B+/W*"
+      fontName = "MS Sans Serif"
+      fontSize = 12.0
+      fontBold = true
+      validErrorMsg = "Code Does Not Exist"
+   endwith
+
+   this.TEXT4 = new TEXTLABEL(this)
+   with (this.TEXT4)
+      height = 21.0
+      left = 24.0
+      top = 136.0
+      width = 132.0
+      text = "End Item Code:"
+      colorNormal = "B/BtnFace"
+      fontName = "MS Sans Serif"
+      fontSize = 12.0
+      fontBold = true
+      alignVertical = 1	// Middle
+      alignHorizontal = 2	// Right
+   endwith
+
+   this.ENTRYFIELD3 = new ENTRYFIELD(this)
+   with (this.ENTRYFIELD3)
+      onChange = class::ENTRYFIELD3_ONCHANGE
+      dataLink = "fgshcat->END_ID"
+      enabled = false
+      height = 21.0
+      left = 174.0
+      top = 136.0
+      width = 108.0
+      function = "!"
+      colorNormal = "N/BtnFace"
+      colorHighLight = "B+/W*"
+      fontName = "MS Sans Serif"
+      fontSize = 12.0
+      fontBold = true
+      validErrorMsg = "Code Does Not Exist"
+   endwith
+
+   this.TEXT5 = new TEXTLABEL(this)
+   with (this.TEXT5)
+      height = 21.0
+      left = 294.0
+      top = 111.0
+      width = 90.0
+      text = "Start Date:"
+      colorNormal = "B/BtnFace"
+      fontName = "MS Sans Serif"
+      fontSize = 12.0
+      fontBold = true
+      alignVertical = 1	// Middle
+      alignHorizontal = 2	// Right
+   endwith
+
+   this.STARTENTRY = new SPINBOX(this)
+   with (this.STARTENTRY)
+      onChange = class::STARTENTRY_ONCHANGE
+      dataLink = "fgshcat->START_DATE"
+      enabled = false
+      height = 21.0
+      left = 396.0
+      top = 111.0
+      width = 132.0
+      colorNormal = "n/btnface"
+      colorHighLight = "B+/W*"
+      fontName = "MS Sans Serif"
+      fontSize = 12.0
+      fontBold = true
+   endwith
+
+   this.TEXT6 = new TEXTLABEL(this)
+   with (this.TEXT6)
+      height = 21.0
+      left = 294.0
+      top = 136.0
+      width = 90.0
+      text = "End Date:"
+      colorNormal = "B/BtnFace"
+      fontName = "MS Sans Serif"
+      fontSize = 12.0
+      fontBold = true
+      alignVertical = 1	// Middle
+      alignHorizontal = 2	// Right
+   endwith
+
+   this.ENDENTRY = new SPINBOX(this)
+   with (this.ENDENTRY)
+      onChange = class::ENDENTRY_ONCHANGE
+      dataLink = "fgshcat->END_DATE"
+      enabled = false
+      height = 21.0
+      left = 396.0
+      top = 136.0
+      width = 132.0
+      colorNormal = "n/btnface"
+      colorHighLight = "B+/W*"
+      fontName = "MS Sans Serif"
+      fontSize = 12.0
+      fontBold = true
+   endwith
+
+   this.TEXT7 = new TEXTLABEL(this)
+   with (this.TEXT7)
+      height = 21.0
+      left = 540.0
+      top = 111.0
+      width = 132.0
+      text = "Start Div-Cen.:"
+      colorNormal = "B/BtnFace"
+      fontName = "MS Sans Serif"
+      fontSize = 12.0
+      fontBold = true
+      alignVertical = 1	// Middle
+      alignHorizontal = 2	// Right
+   endwith
+
+   this.ENTRYFIELD4 = new ENTRYFIELD(this)
+   with (this.ENTRYFIELD4)
+      onChange = class::ENTRYFIELD4_ONCHANGE
+      dataLink = "fgshcat->START_DIV"
+      enabled = false
+      height = 21.0
+      left = 684.0
+      top = 111.0
+      width = 48.0
+      function = "!"
+      colorNormal = "N/BtnFace"
+      colorHighLight = "B+/W*"
+      fontName = "MS Sans Serif"
+      fontSize = 12.0
+      fontBold = true
+      validErrorMsg = "Code Does Not Exist"
+   endwith
+
+   this.TEXT10 = new TEXTLABEL(this)
+   with (this.TEXT10)
+      height = 21.0
+      left = 528.0
+      top = 136.0
+      width = 144.0
+      text = "End Div-Cen.:"
+      colorNormal = "B/BtnFace"
+      fontName = "MS Sans Serif"
+      fontSize = 12.0
+      fontBold = true
+      alignVertical = 1	// Middle
+      alignHorizontal = 2	// Right
+   endwith
+
+   this.ENTRYFIELD5 = new ENTRYFIELD(this)
+   with (this.ENTRYFIELD5)
+      onChange = class::ENTRYFIELD5_ONCHANGE
+      dataLink = "fgshcat->END_DIV"
+      enabled = false
+      height = 21.0
+      left = 684.0
+      top = 136.0
+      width = 48.0
+      function = "!"
+      colorNormal = "N/BtnFace"
+      colorHighLight = "B+/W*"
+      fontName = "MS Sans Serif"
+      fontSize = 12.0
+      fontBold = true
+      validErrorMsg = "Code Does Not Exist"
+   endwith
+
+   this.RECTANGLE1 = new RECTANGLE(this)
+   with (this.RECTANGLE1)
+      left = 32.0
+      top = 165.0
+      width = 568.0
+      height = 67.0
+      text = "Edit Order Number and Date for Reprint"
+      colorNormal = "r/btnface"
+      fontName = "Arial Black"
+      fontSize = 12.0
+      fontBold = true
+   endwith
+
+   this.TEXT2 = new TEXTLABEL(this)
+   with (this.TEXT2)
+      height = 21.0
+      left = 78.0
+      top = 200.0
+      width = 84.0
+      text = "Order No:"
+      colorNormal = "B/BtnFace"
+      fontName = "MS Sans Serif"
+      fontSize = 12.0
+      fontBold = true
+      alignVertical = 1	// Middle
+      alignHorizontal = 2	// Right
+   endwith
+
+   this.SORDERNO = new ENTRYFIELD(this)
+   with (this.SORDERNO)
+      onChange = class::SORDERNO_ONCHANGE
+      dataLink = "FGSHCAT->ORDER_NO"
+      enabled = false
+      height = 21.0
+      left = 174.0
+      top = 200.0
+      width = 108.0
+      function = "!"
+      colorNormal = "N/BtnFace"
+      colorHighLight = "B+/W*"
+      fontName = "MS Sans Serif"
+      fontSize = 12.0
+      fontBold = true
+      validErrorMsg = "Code Does Not Exist"
+   endwith
+
+   this.TEXT8 = new TEXTLABEL(this)
+   with (this.TEXT8)
+      height = 21.0
+      left = 294.0
+      top = 200.0
+      width = 108.0
+      text = "Order Date:"
+      colorNormal = "B/BtnFace"
+      fontName = "MS Sans Serif"
+      fontSize = 12.0
+      fontBold = true
+      alignVertical = 1	// Middle
+      alignHorizontal = 2	// Right
+   endwith
+
+   this.SORDERDATE = new SPINBOX(this)
+   with (this.SORDERDATE)
+      onChange = class::SORDERDATE_ONCHANGE
+      dataLink = "FGSHCAT->ORDER_DATE"
+      enabled = false
+      height = 21.0
+      left = 414.0
+      top = 200.0
+      width = 132.0
+      colorNormal = "n/btnface"
+      colorHighLight = "B+/W*"
+      fontName = "MS Sans Serif"
+      fontSize = 12.0
+      fontBold = true
+   endwith
+
+   this.PREVBUTTON = new PUSHBUTTON(this)
+   with (this.PREVBUTTON)
+      onClick = class::PREVIOUS
+      height = 26.0
+      left = 175.0
+      top = 847.0
+      width = 85.0
+      text = "&PREVIOUS"
+      fontName = "MS Sans Serif"
+      fontSize = 8.0
+      fontBold = true
+   endwith
+
+   this.NEXTBUTTON = new PUSHBUTTON(this)
+   with (this.NEXTBUTTON)
+      onClick = class::NEXT
+      height = 26.0
+      left = 259.0
+      top = 847.0
+      width = 85.0
+      text = "&NEXT"
+      fontName = "MS Sans Serif"
+      fontSize = 8.0
+      fontBold = true
+   endwith
+
+   this.FIRSTBUTTON = new PUSHBUTTON(this)
+   with (this.FIRSTBUTTON)
+      onClick = {; form.CheckCommit(form.inEditMode);GO TOP; form.BrowseOnNavigate();}
+      height = 26.0
+      left = 350.0
+      top = 847.0
+      width = 85.0
+      text = "F&IRST"
+      fontName = "MS Sans Serif"
+      fontSize = 8.0
+      fontBold = true
+   endwith
+
+   this.LASTBUTTON = new PUSHBUTTON(this)
+   with (this.LASTBUTTON)
+      onClick = {; form.CheckCommit(form.inEditMode);GO BOTTOM; form.BrowseOnNavigate();}
+      height = 26.0
+      left = 441.0
+      top = 847.0
+      width = 85.0
+      text = "&LAST"
+      fontName = "MS Sans Serif"
+      fontSize = 8.0
+      fontBold = true
+   endwith
+
+
+   procedure Open
+   ****************************************************************************
+   private CodeField
+        ON ERROR DO ddeerr WITH ERROR(), MESSAGE(),;
+   PROGRAM(), LINENO()
+   FORM.BLUSER=BUSER
+   FORM.BLEVEL=BLEVEL
+   IF EMPTY(FORM.BLUSER) .OR. EMPTY(FORM.BLEVEL)
+      QUIT
+   ENDIF
+
+   form.firstime = .T.
+   if type("form.init") = "U"
+      form.init = .T.
+
+      set skip to                     && dacoysal.qbe contains set skip to gldtl
+      set exact off                   && the .qbe file contains SET EXACT ON
+
+      set procedure to sampProc.prg additive
+    Form.duplicate = .F.
+      form.inEditMode = .F.           && indicator of view/edit state
+      form.changesMade = .F.          && indicator of changes made to field values
+      form.previousRecord = .F.       && Save record number when appending
+        *** do calculations in another area so form doesn't get updated
+          select fgshcat
+      go top
+      if eof()
+      append blank
+      REPLACE START_DATE WITH dacoysum->SHIFT_DATE
+      REPLACE END_DATE WITH dacoysum->SHIFT_DATE
+          IF EMPTY (dacoysum->SHIFT_DATE)
+        REPLACE START_DATE WITH DATE()
+        REPLACE END_DATE WITH DATE()
+        ENDIF
+
+      endif
+         REPLACE START_ID WITH "000000"
+       REPLACE END_ID WITH "ZZZZZZ"
+       REPLACE START_DIV WITH "00"
+        REPLACE END_DIV WITH  "ZZ"
+   replace order_no with ''
+   replace order_date with {}
+      replace message with "Data Extract in Progress - Please wait"
+     select dasp
+     GO  TOP
+     IF  EOF()
+     append blank
+     ENDIF
+      select dacoysum
+      set order to mkey
+    GO BOTTOM                                  && new Receipts
+
+     endif
+   * form.CoyInfoButton.KenpName = "dacoysal.WFM"
+
+   form::Open()                         && Now the form actually opens
+       form.BrowseOnNavigate()              && calculate totals
+   *       form.codingerrors()                        && check coding errors
+
+   *      form.next.setfocus()
+   ****************************************************************************
+
+   procedure OnClose
+
+   * Clean up.
+   ****************************************************************************
+
+   if this.inEditMode
+      form.ViewEdit()                      && Finish transaction
+   endif
+   CLOSE DATABASES
+   *  if Empty(dacoysum->COY)
+   *  delete
+   *  endif
+   close procedure sampProc.prg 
+   form.close()
+     clear program
+
+
+   ****************************************************************************
+
+   procedure BrowseOnNavigate
+   ****************************************************************************
+   local l1,l2
+   l1 = month(dacoysum->shift_date)
+   l2 = year(dacoysum->shift_date)
+   if l1 < 10
+   l1 = "0"+str(l1,1)
+   else
+   l1 = str(l1,2)
+   endif
+   l2 = str(l2,4)
+   SELECT DASP
+   go top
+   if eof()
+   append blank
+   endif
+    REPLACE DASP->TRANS_DATE WITH dacoysum->shift_date
+
+   REPLACE DASP->COY WITH dacoysum->COY
+   replace mm with l1
+   replace yy with l2
+   select dacoysum
+
+   ****************************************************************************
+
+   procedure ChangesMade
+
+   * Indicate that changes have been made to the current record
+   ****************************************************************************
+   Form.ChangesMade = .T.
+   ****************************************************************************
+
+  procedure Next
+
+   * Go to next record.
+   ****************************************************************************
+
+   form.CheckCommit(form.inEditMode)
+   if .not. empty(dbf())  .and. .not. eof()      && if a table is open in the current workarea
+      skip
+       form.BrowseOnNavigate()
+      if eof()
+         go bottom
+         AlertMessage("At the last record","Alert")
+      endif
+   else
+      InformationMessage("There is no table open in the current workarea.",;
+         "Info")
+   endif
+    ****************************************************************************
+
+   procedure Previous
+
+   * Go to previous record.
+   ****************************************************************************
+
+   form.CheckCommit(form.inEditMode)
+ if .not. empty(dbf())  .and. .not. eof() && if a table is open in the current workarea
+      skip - 1
+      form.BrowseOnNavigate()
+      if bof()
+         go top
+         AlertMessage("At the first record","Alert")
+      endif
+   else
+      InformationMessage("There is no table open in the current workarea.",;
+         "Info")
+   endif
+
+    procedure CheckCommit (newInEditMode)
+
+        * Finish transaction, if it has been started.
+   ****************************************************************************
+   private CodeField, changesMade
+    local lk1,lk2
+    select dacoysum
+    lk1 = form.COYCOMBOBOX.value
+   changesMade = form.changesMade
+   if form.changesMade
+      CodeField = field(2)  && Field division
+         commit()
+              ON ERROR DO ddeerr WITH ERROR(), MESSAGE(),;
+   PROGRAM(), LINENO()
+          rollback()
+
+     if form.inEditMode .and. newInEditMode
+         begintrans()
+              ON ERROR DO TRANSerr WITH ERROR(), MESSAGE(),;
+   PROGRAM(), LINENO()
+      endif
+      form.changesMade = .F.
+   endif
+   if form.inEditMode <> newInEditMode
+      if newInEditMode                       && Going to Edit mode
+         begintrans()
+                ON ERROR DO TRANSerr WITH ERROR(), MESSAGE(),;
+   PROGRAM(), LINENO()
+      else                                   && Going to View mode
+         if .not. changesMade .AND. .NOT. FORM.DUPLICATE
+            rollback()
+                 ON ERROR DO ddeerr WITH ERROR(), MESSAGE(),;
+   PROGRAM(), LINENO()
+         endif
+      endif
+      form.inEditMode = newInEditMode
+   endif
+
+   * form.root.Receipt.add.enabled = .T.
+   *form.codingerrors()
+   ****************************************************************************
+
+   procedure ViewEdit
+
+   * Toggle between View and Edit modes.
+   ****************************************************************************
+   local inEditMode, editMenu, control
+
+   editMenu = form.root.dacoysal.VIEWEdit
+
+   *** If ending edit mode then close transaction, otherwise open it.
+   if form.inEditMode
+      form.checkChanged(.F.)
+      editMenu.text = "&Edit"
+      editMenu.shortcut = "Ctrl-E"
+      editMenu.statusMessage = "Edit data."
+      form.CheckCommit(.F.)                        && Check transaction and
+      form.text = "Daily Sales Form -- View Mode"          && change mode to View
+      form.statusmessage = "In View Mode. " + ;
+                           "Select Company Code - Edit menu to " + ;
+                           "edit/delete data."
+    else                                            && Switch to edit mode
+      editMenu.text = "Vi&ew"
+      editMenu.shortcut = "Ctrl-E"
+      editMenu.statusMessage = "View data."
+      form.CheckCommit(.T.)                        && Check transaction and
+      form.text = "Daily Sales Form -- Edit Mode"          && change mode to Edit
+
+      form.statusmessage = "In Edit Mode.  " + ;
+                           "Select menu Company Code - View to switch " + ;
+                           "to View mode."
+           form.coydisplay.enabled =.F.
+
+   endif
+
+   inEditMode = form.inEditMode     && Faster if we don't reference a form
+   control = form.first             &&    variable each time through the loop
+   do
+      if .not. control.className $ "BROWSE,EDITOR,NEXTBUTTON,PREVBUTTON,PUSHBUTTON,IMAGE,TEXT"
+         control.enabled = inEditMode
+      endif
+      control = control.before
+   until control.name = form.first.name
+          form.COYCOMBOBOX.Enabled = .F.
+      form.coydisplay.enabled =.F.
+          form.tdate.enabled = .f.
+       *form.LnameEntry.SetFocus()
+     form.smess.enabled = .f.
+     if form.blevel > 3
+     form.sorderno.enabled = .f.
+     form.sorderdate.enabled = .f.
+     endif
+
+   ****************************************************************************
+
+   procedure CheckChanged(callCommit)
+
+   * Check if changes have been made to the current entryfield.  This procedure
+   * is called from menu routines to make sure the form.changesMade gets
+   * updated when a menu is selected while the changed control has focus.
+   ****************************************************************************
+   private control, fieldValue, controlValue, typeText, typeValue
+
+   if form.inEditMode
+      control = form.activeControl
+      if type("control.datalink") <> "U"
+         fieldValue = control.datalink          && name of table field
+
+         typeText = type("control.text")
+         typeValue = type("control.value")
+         do case
+            case typeValue = "C"
+               controlValue = control.value
+            case typeValue $ "LU" .and. typeText = "C"
+               controlValue = control.text
+            otherwise
+               controlValue = Null
+         endcase
+         if controlValue <> &fieldValue
+            form.changesMade = .T.
+         endif
+      endif
+   endif
+   if form.changesMade .and. callCommit
+      CLASS::CheckCommit(form.inEditMode)     && Check transactions
+   endif
+
+   Procedure ENTRYFIELD2_OnChange
+   select fgshcat
+   replace start_id with this.value
+   form.changesmade = .t.
+   form.CheckCommit(form.inEditMode)
+
+   Procedure ENTRYFIELD3_OnChange
+   form.changesmade = .t.
+    select fgshcat
+   replace end_id with this.value
+   form.CheckCommit(form.inEditMode)
+
+   Procedure STARTENTRY_OnChange
+   form.changesmade = .t.
+    select fgshcat
+   replace start_date with this.value
+   form.CheckCommit(form.inEditMode)
+
+   Procedure ENDENTRY_OnChange
+   form.changesmade = .t.
+    select fgshcat
+   replace end_date with this.value
+   form.CheckCommit(form.inEditMode)
+
+   Procedure ENTRYFIELD4_OnChange
+   form.changesmade = .t.
+    select fgshcat
+   replace start_div with this.value
+   form.CheckCommit(form.inEditMode)
+
+   Procedure ENTRYFIELD5_OnChange
+   form.changesmade = .t.
+    select fgshcat
+   replace end_div with this.value
+   form.CheckCommit(form.inEditMode)
+
+   Procedure SORDERNO_OnChange
+   form.changesmade = .t.
+    select fgshcat
+   replace order_no with this.value
+   form.CheckCommit(form.inEditMode)
+
+   Procedure SORDERDATE_OnChange
+   form.changesmade = .t.
+    select fgshcat
+   replace order_date with this.value
+   form.CheckCommit(form.inEditMode)
+
+endclass
+

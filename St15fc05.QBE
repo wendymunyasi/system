@@ -1,0 +1,43 @@
+* Visual dBASE .QBE file 9
+ON ERROR DO QBEERR WITH ERROR(), MESSAGE(),;
+  PROGRAM(), LINENO()
+CLOSE DATABASES
+set safety off
+use \KENSERVICE\DATA\shiftcla.dbf
+delete all
+use \kenserve\idssys\kensback.dbf
+copy stru to \KENSERVICE\DATA\kensback dbase prod
+use \kenserve\idssys\scashrec.dbf
+copy stru to \kenservice\data\scashrec dbase prod
+close databases
+SET EXACT ON
+set safety off
+select 12
+USE \KENSERVICE\DATA\fgoffs.dbf
+select 13
+USE \KENSERVICE\DATA\fgoff.dbf 
+select 14
+USE \KENSERVICE\DATA\cashiers.dbf
+select 17
+use \kenservice\data\st15f.dbf  exclusive
+select 18
+use \kenservice\data\scashrec.dbf exclusive
+select 33
+use \kenservice\data\fgnewmth.dbf
+select 34
+use \kenservice\data\fgtrnref.dbf exclusive
+select 35
+use \kenservice\data\dasalsum.dbf exclusive
+select 36
+use \kenservice\data\ststo.dbf
+select 37
+use \kenservice\data\fgpumsal.dbf 
+select 162
+use \kenserve\idssys\arinvflg.dbf
+copy stru to \kenservice\data\arinvflg dbase prod
+ select 163
+use \kenserve\idssys\arvisflg.dbf
+copy stru to \kenservice\data\arvisflg dbase prod
+select 164
+use \kenservice\data\fgcoy.dbf
+repl all doc17 with .f., doc18 with .f.

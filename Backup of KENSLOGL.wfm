@@ -334,30 +334,30 @@ class KENSLOGDFORM of FORM
     pmuser = pkenuser
                appMid = ""
              mCount = 1
-      do while mCount <= len(trim(pkenuser))
-      MCHUCK = (chr(asc(substr(trim(pkenuser),mCount,1))-128))
-      appmId = appmId + mChuck
-      mCount = mCount + 1
-      enddo
+      *do while mCount <= len(trim(pkenuser))
+      *MCHUCK = (chr(asc(substr(trim(pkenuser),mCount,1))-128))
+      *appmId = appmId + mChuck
+      *mCount = mCount + 1
+      *enddo
        form.euser.VALUE = appmId
    pkgroup = kenslog->ken_group
                appMid = ""
              mCount = 1
-      do while mCount <= len(trim(pkgroup))
-      MCHUCK = (chr(asc(substr(trim(pkgroup),mCount,1))-128))
-      appmId = appmId + mChuck
-      mCount = mCount + 1
-      enddo
+      *do while mCount <= len(trim(pkgroup))
+      *MCHUCK = (chr(asc(substr(trim(pkgroup),mCount,1))-128))
+      *appmId = appmId + mChuck
+      *mCount = mCount + 1
+      *enddo
       form.egroup.VALUE =  appmId
 
    pkpwds = kenslog->USER_NAME
                appMid = ""
              mCount = 1
-      do while mCount <= len(trim(pkpwds))
-      MCHUCK = (chr(asc(substr(trim(pkpwds),mCount,1))-128))
-      appmId = appmId + mChuck
-      mCount = mCount + 1
-      enddo
+      *do while mCount <= len(trim(pkpwds))
+      *MCHUCK = (chr(asc(substr(trim(pkpwds),mCount,1))-128))
+      *appmId = appmId + mChuck
+      *mCount = mCount + 1
+      *enddo
       form.EUNAME.VALUE = appmId
       ENDIF
 
@@ -433,30 +433,30 @@ procedure Go_Last
     pmuser = pkenuser
                appMid = ""
              mCount = 1
-      do while mCount <= len(trim(pkenuser))
-      MCHUCK = (chr(asc(substr(trim(pkenuser),mCount,1))-128))
-      appmId = appmId + mChuck
-      mCount = mCount + 1
-      enddo
+      *do while mCount <= len(trim(pkenuser))
+      *MCHUCK = (chr(asc(substr(trim(pkenuser),mCount,1))-128))
+      *appmId = appmId + mChuck
+      *mCount = mCount + 1
+      *enddo
        form.euser.VALUE = appmId
    pkgroup = kenslog->ken_group
                appMid = ""
              mCount = 1
-      do while mCount <= len(trim(pkgroup))
-      MCHUCK = (chr(asc(substr(trim(pkgroup),mCount,1))-128))
-      appmId = appmId + mChuck
-      mCount = mCount + 1
-      enddo
+      *do while mCount <= len(trim(pkgroup))
+      *MCHUCK = (chr(asc(substr(trim(pkgroup),mCount,1))-128))
+      *appmId = appmId + mChuck
+      *mCount = mCount + 1
+      *enddo
       form.egroup.VALUE =  appmId
 
    pkpwds = kenslog->USER_NAME
                appMid = ""
              mCount = 1
-      do while mCount <= len(trim(pkpwds))
-      MCHUCK = (chr(asc(substr(trim(pkpwds),mCount,1))-128))
-      appmId = appmId + mChuck
-      mCount = mCount + 1
-      enddo
+      *do while mCount <= len(trim(pkpwds))
+      *MCHUCK = (chr(asc(substr(trim(pkpwds),mCount,1))-128))
+      *appmId = appmId + mChuck
+      *mCount = mCount + 1
+      *enddo
       form.EUNAME.VALUE = appmId
       ENDIF
 
@@ -538,7 +538,7 @@ procedure Go_Last
 
     *  if form.inEditMode <> newInEditMode
       if newInEditMode                       && Going to Edit mode
-         begintrans()
+    *     begintrans()
       else                                   && Going to View mode
          if .not. changesMade
             rollback()
@@ -669,11 +669,11 @@ procedure Go_Last
              pkgroup = this.value
                   appMid = ""
                 mCount = 1
-         do while mCount <= len(trim(pkgroup))
-         MCHUCK = (chr(asc(substr(trim(pkgroup),mCount,1))+128))
-         appmId = appmId + mChuck
-         mCount = mCount + 1
-         enddo
+         *do while mCount <= len(trim(pkgroup))
+         *MCHUCK = (chr(asc(substr(trim(pkgroup),mCount,1))+128))
+         *appmId = appmId + mChuck
+         *mCount = mCount + 1
+         *enddo
          form.eHgroup =  appmId
             select kenslog
             form.changesmade = .t.

@@ -591,7 +591,7 @@ CLASS arcbnksFORM OF FORM
           && Close customer form if it exists
         shell(.f.)
    *  endif
-   close procedure SampProc.prg, Buttons.cc
+   close procedure SampProc.prg
    if .not. empty(arcbnks->order_no)
    select arcbnupd
    seek arcbnks->order_no+dtos(arcbnks->order_date)
@@ -600,6 +600,7 @@ CLASS arcbnksFORM OF FORM
    replace post_date with date()
    endif
    endif
+   commit()
    close databases
    clear program
      do arpcbnks.prg
@@ -643,6 +644,7 @@ CLASS arcbnksFORM OF FORM
    FORM.Stotal.VALUE =  t
          ENDIF
      SELECT arcbnks
+     replace total with t
    endif
 
 

@@ -1,0 +1,79 @@
+////////////////////////////////////////////////////////////////////////////////
+// Output Filename: C:\KENSERVICE\IDSSYS\KENACREC_FCV.WFM                     //
+// Created By:      dBASE Form Converter Wizard                               //
+// Created On:      Saturday June 25, 2016 At 22:34:36                        //
+// Object Count:    0                                                         //
+////////////////////////////////////////////////////////////////////////////////
+**************************************************************************
+*  PROGRAM:      KenAcRec.wfm
+*
+*
+*******************************************************************************
+
+
+ON ERROR DO QBEERR WITH ERROR(), MESSAGE(),;
+PROGRAM(), LINENO()
+create session
+set talk off
+set ldCheck off
+_app.FrameWin.Visible = .F.
+_app.FrameWin.Text = "Kenacrec"
+*if .not. access() = 1
+set design off
+*endif
+shell(.F.)
+** END HEADER -- do not remove this line
+//
+// Generated on 25/06/2016
+//
+parameter bUser,bLevel,bModal
+local f
+f = new KenAcRecFORM()
+if (bModal)
+   f.mdi = false // ensure not MDI
+   f.readModal()
+else
+   f.open()
+endif
+
+class KenAcRecFORM of FORM
+set procedure to buttons.cc additive
+   with (this)
+      onOpen = class::ONOPEN
+      onClose = class::ONCLOSE
+      metric = 6	// Pixels
+      colorNormal = "N+"
+      height = 302.0
+      left = 113.0
+      top = 0.0
+      width = 506.0
+      text = "DEBTORS REPORTS"
+      windowState = 2	// Normal
+      mdi = false
+      sizeable = false
+      moveable = false
+      sysMenu = true
+      menuFile = "KenAcRec.MNU"
+      escExit = false
+      mousePointer = 1	// Arrow
+      scrollBar = 0	// Off
+      maximize = false
+      minimize = false
+   endwith
+
+
+   procedure OnOpen
+   ********************************************************************************
+    FORM.BLUSER=BUSER
+   FORM.BLEVEL=BLEVEL
+   IF EMPTY(FORM.BLUSER) .OR. EMPTY(FORM.BLEVEL)
+      QUIT
+   ENDIF
+
+   procedure OnClose
+   ********************************************************************************
+      form.close()
+   ********************************************************************************
+
+endclass
+

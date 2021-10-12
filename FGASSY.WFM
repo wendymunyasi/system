@@ -924,8 +924,8 @@ CLASS FGASSYFORM OF FORM
       orderField = field(1)                  && Field Order_no
           commit()
           if form.inEditMode .and. newInEditMode
-         begintrans()
-                      on error DO transerr WITH ERROR(), MESSAGE(),;
+    *    begintrans()
+              *        on error DO transerr WITH ERROR(), MESSAGE(),;
    PROGRAM(), LINENO()
 
       endif
@@ -933,8 +933,8 @@ CLASS FGASSYFORM OF FORM
    endif
    if form.inEditMode <> newInEditMode
       if newInEditMode                       && Going to Edit mode
-         begintrans()
-                      on error DO transerr WITH ERROR(), MESSAGE(),;
+      *   begintrans()
+                *      on error DO transerr WITH ERROR(), MESSAGE(),;
    PROGRAM(), LINENO()
 
       else                                   && Going to View mode

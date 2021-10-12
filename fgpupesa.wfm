@@ -523,7 +523,7 @@ CLASS FGADJSFORM OF FORM
    procedure Open
    ****************************************************************************
    private orderNoField
-      on error DO ddeerr WITH ERROR(), MESSAGE(),;
+                      on error DO transerr WITH ERROR(), MESSAGE(),;
    PROGRAM(), LINENO()
     FORM.BLUSER = BUSER
    FORM.BLEVEL = BLEVEL
@@ -656,7 +656,7 @@ CLASS FGADJSFORM OF FORM
    endif
                                              && Close Customer form if it exists
       shell(.f.)
-   CLOSE PROCEDURE BUTTONS.CC, SAMPPROC.PRG
+   CLOSE PROCEDURE SAMPPROC.PRG
     if .not. empty(fgadjs->order_no)
    select fgadjsup
 
@@ -765,24 +765,14 @@ CLASS FGADJSFORM OF FORM
    changesMade = form.changesMade
    if form.changesMade
       orderField = field(1)                  && Field Order_no
-          commit()
-         if form.inEditMode .and. newInEditMode
-         begintrans()
-                      on error DO transerr WITH ERROR(), MESSAGE(),;
-   PROGRAM(), LINENO()
-
-      endif
+       
       form.changesMade = .F.
    endif
    if form.inEditMode <> newInEditMode
       if newInEditMode                       && Going to Edit mode
-         begintrans()
-                      on error DO transerr WITH ERROR(), MESSAGE(),;
-   PROGRAM(), LINENO()
-
-      else                                   && Going to View mode
+          else                                   && Going to View mode
          if .not. changesMade
-            rollback()
+            *rollback()
          endif
       endif
       form.inEditMode = newInEditMode

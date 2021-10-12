@@ -48,310 +48,324 @@ _app.FrameWin.Text = "ARCASHS"
 set ldCheck off                        && To avoid language driver conflicts
 *SET DBTYPE TO PARADOX
 SET CUAENTER OFF
-** END HEADER -- do not remove this line*
-* Generated on 17/09/2020
-*
+** END HEADER -- do not remove this line
+//
+// Generated on 07/10/2021
+//
 parameter bUser,bLevel,bModal
 local f
 f = new ARCASHSFORM()
 if (bModal)
-   f.mdi = .F. && ensure not MDI
-   f.ReadModal()
+   f.mdi = false // ensure not MDI
+   f.readModal()
 else
-   f.Open()
+   f.open()
 endif
-CLASS ARCASHSFORM OF FORM
-   Set Procedure To BUTTONS.CC additive
-   this.Metric = 6  // Pixels
-   this.OnClose = CLASS::ONCLOSE
-   this.Text = "ACTUAL CASH IN HAND ENTRY FORM -- View Mode"
-   this.MDI = .F.
-   this.CanClose = CLASS::FORM_CANCLOSE
-   this.Moveable = .F.
-   this.WindowState = 2
-   this.Top = 3
-   this.ColorNormal = "N+"
-   this.Left = 0
-   this.EscExit = .F.
-   this.Sizeable = .F.
-   this.Minimize = .F.
-   this.Maximize = .F.
-   this.View = "ARCASHS.QBE"
-   this.MenuFile = "ARCASHS.MNU"
-   this.Height = 339
-   this.MousePointer = 1
-   this.Width = 406
 
-   DEFINE TEXTLABEL TEXT9 OF THIS;
-       PROPERTY;
-       BorderStyle 7,;
-         FontName "Verdana",;
-         FontSize 12,;
-         Text "No.:",;
-         Top 4,;
-         ColorNormal "R+/W",;
-         Left -1,;
-         Height 21,;
-         Width 88,;
-       FontBold .T.,;
-       AlignHorizontal 1,;
-       AlignVertical 1
+class ARCASHSFORM of FORM
+   set procedure to C:\KENSERVICE\IDSSYS\BUTTONS.CC additive
+   with (this)
+      canClose = class::FORM_CANCLOSE
+      onClose = class::ONCLOSE
+      open = class::OPEN
+      metric = 6	// Pixels
+      colorNormal = "N+"
+      height = 932.0
+      left = 0.0
+      top = 3.0
+      width = 1296.0
+      text = "ACTUAL CASH IN HAND ENTRY FORM -- View Mode"
+      windowState = 2	// Maximized
+      mdi = false
+      sizeable = false
+      moveable = false
+      view = "ARCASHS.QBE"
+      menuFile = "ARCASHS.MNU"
+      escExit = false
+      mousePointer = 1	// Arrow
+      maximize = false
+      minimize = false
+   endwith
 
-   DEFINE ENTRYFIELD ORDERNOENTRY OF THIS;
-       PROPERTY;
-         FontName "MS Sans Serig",;
-         FontSize 12,;
-         ColorHighLight "GB+/W",;
-         Top 4,;
-         ColorNormal "R+/W",;
-         Left 82,;
-         Enabled .F.,;
-         Height 21,;
-         DataLink "ARCASHS->ORDER_NO",;
-         Width 122,;
-       FontBold .T.
+   this.TEXT9 = new TEXTLABEL(this)
+   with (this.TEXT9)
+      height = 21.0
+      left = 62.0
+      top = 15.0
+      width = 88.0
+      text = "No.:"
+      colorNormal = "R+/W"
+      fontName = "Verdana"
+      fontSize = 12.0
+      fontBold = true
+      borderStyle = 7	// Client
+      alignVertical = 1	// Middle
+      alignHorizontal = 1	// Center
+   endwith
 
-   DEFINE TEXTLABEL TEXT2 OF THIS;
-       PROPERTY;
-       BorderStyle 7,;
-         FontName "Verdana",;
-         FontSize 12,;
-         Text "Date:",;
-         ColorNormal "R+/W",;
-         Left 224,;
-         Height 25,;
-         Width 60,;
-       FontBold .T.,;
-       AlignHorizontal 1,;
-       AlignVertical 1
+   this.ORDERNOENTRY = new ENTRYFIELD(this)
+   with (this.ORDERNOENTRY)
+      dataLink = "ARCASHS->ORDER_NO"
+      enabled = false
+      height = 21.0
+      left = 145.0
+      top = 15.0
+      width = 122.0
+      colorNormal = "R+/W"
+      colorHighLight = "GB+/W"
+      fontName = "MS Sans Serig"
+      fontSize = 12.0
+      fontBold = true
+   endwith
 
-   DEFINE SPINBOX SDATE OF THIS;
-       PROPERTY;
-         FontSize 12,;
-         ColorHighLight "W+/N",;
-         Top 3,;
-         ColorNormal "R+/W",;
-         ValidErrorMsg "Date out of Range",;
-         Left 300,;
-         Enabled .F.,;
-         Rangemin {17/09/2020},;
-         Rangemax {26/12/2020},;
-         Height 21,;
-         DataLink "ARCASHS->order_date",;
-         Width 156,;
-       FontName "MS Sans Serif",;
-       FontBold .T.
+   this.TEXT2 = new TEXTLABEL(this)
+   with (this.TEXT2)
+      height = 25.0
+      left = 287.0
+      top = 11.0
+      width = 60.0
+      text = "Date:"
+      colorNormal = "R+/W"
+      fontName = "Verdana"
+      fontSize = 12.0
+      fontBold = true
+      borderStyle = 7	// Client
+      alignVertical = 1	// Middle
+      alignHorizontal = 1	// Center
+   endwith
 
-   DEFINE TEXTLABEL TEXT10 OF THIS;
-       PROPERTY;
-       BorderStyle 7,;
-         FontName "Verdana",;
-         FontSize 12,;
-         Text "Cashier:",;
-         Top 34,;
-         ColorNormal "0x400000/W",;
-         Height 28,;
-         Width 96,;
-       FontBold .T.,;
-       AlignHorizontal 1,;
-       AlignVertical 1
+   this.SDATE = new SPINBOX(this)
+   with (this.SDATE)
+      dataLink = "ARCASHS->order_date"
+      enabled = false
+      height = 21.0
+      left = 363.0
+      top = 14.0
+      width = 156.0
+      colorNormal = "R+/W"
+      colorHighLight = "W+/N"
+      rangeMax = {12/01/2022}
+      rangeMin = {04/10/2021}
+      fontName = "MS Sans Serif"
+      fontSize = 12.0
+      fontBold = true
+      validErrorMsg = "Date out of Range"
+   endwith
 
-   DEFINE COMBOBOX SOFF OF THIS;
-       PROPERTY;
-         FontSize 12,;
-         Top 36,;
-         ColorNormal "0xc08000/W",;
-         Left 108,;
-         Enabled .F.,;
-         OnChange CLASS::SEMP1_ONCHANGE,;
-         Style 2,;
-         DataSource "FIELD fgoffs->NAME",;
-         Height 28,;
-         MousePointer 1,;
-         DataLink "ARCASHS->ANAME",;
-         Width 372,;
-       FontName "MS Sans Serif",;
-       FontBold .T.
+   this.TEXT10 = new TEXTLABEL(this)
+   with (this.TEXT10)
+      height = 25.0
+      left = 63.0
+      top = 45.0
+      width = 210.0
+      text = "Cashier:"
+      colorNormal = "0x400000/W"
+      fontName = "Verdana"
+      fontSize = 12.0
+      fontBold = true
+      borderStyle = 7	// Client
+      alignVertical = 1	// Middle
+      alignHorizontal = 1	// Center
+   endwith
 
-   DEFINE TEXTLABEL TEXT7 OF THIS;
-       PROPERTY;
-       BorderStyle 7,;
-         FontName "Verdana",;
-         FontSize 12,;
-         Text "TOTAL CASH ON HAND",;
-         Top 80,;
-         ColorNormal "0x400000/0xffff80",;
-         Height 25,;
-         Width 210,;
-       FontBold .T.,;
-       AlignHorizontal 1,;
-       AlignVertical 1
+   this.SOFF = new COMBOBOX(this)
+   with (this.SOFF)
+      onChange = class::SEMP1_ONCHANGE
+      dataLink = "ARCASHS->ANAME"
+      enabled = false
+      height = 28.0
+      left = 283.0
+      top = 47.0
+      width = 372.0
+      fontName = "MS Sans Serif"
+      fontSize = 12.0
+      fontBold = true
+      colorNormal = "0xc08000/W"
+      dataSource = "FIELD fgoffs->NAME"
+      mousePointer = 1	// Arrow
+      style = 2	// DropDownList
+      dropDownHeight = 132.0
+   endwith
 
-   DEFINE ENTRYFIELD STOTAL OF THIS;
-       PROPERTY;
-         Picture "999,999,999,999.99",;
-         FontName "arial",;
-         FontSize 12,;
-         ColorHighLight "G+/0xc08000",;
-         Top 78,;
-         ColorNormal "0x400000/0xffff80",;
-         Left 218,;
-         Enabled .F.,;
-         Height 24,;
-         DataLink "ARCASHS->TOTAL",;
-         Width 250,;
-       FontBold .T.
+   this.TEXT7 = new TEXTLABEL(this)
+   with (this.TEXT7)
+      height = 25.0
+      left = 63.0
+      top = 80.0
+      width = 210.0
+      text = "TOTAL CASH ON HAND"
+      colorNormal = "0x400000/0xffff80"
+      fontName = "Verdana"
+      fontSize = 12.0
+      fontBold = true
+      borderStyle = 7	// Client
+      alignVertical = 1	// Middle
+      alignHorizontal = 1	// Center
+   endwith
 
-   DEFINE RECTANGLE RECTANGLE1 OF THIS;
-       PROPERTY;
-         FontSize 10,;
-         Text "ACTUAL CASH IN HAND TYPE",;
-         Top 136,;
-         ColorNormal "N/0xc8d0d8",;
-         Height 62,;
-         Width 732,;
-       FontName "MS Sans Serif",;
-       FontBold .T.
+   this.STOTAL = new ENTRYFIELD(this)
+   with (this.STOTAL)
+      dataLink = "ARCASHS->TOTAL"
+      enabled = false
+      height = 25.0
+      left = 281.0
+      top = 80.0
+      width = 250.0
+      picture = "999,999,999,999.99"
+      colorNormal = "0x400000/0xffff80"
+      colorHighLight = "G+/0xc08000"
+      fontName = "arial"
+      fontSize = 12.0
+      fontBold = true
+   endwith
 
-   DEFINE COMBOBOX SCASH OF THIS;
-       PROPERTY;
-         FontBold .F.,;
-         FontSize 10,;
-         Top 153,;
-         Left 12,;
-         Enabled .F.,;
-         OnChange CLASS::SCASH_ONCHANGE,;
-         Style 2,;
-         DataSource "FIELD FGACASH->NAME",;
-         Height 24,;
-         DataLink "aracasln->PAY_METHOD",;
-         Width 318,;
-       FontName "MS Sans Serif"
+   this.RECTANGLE1 = new RECTANGLE(this)
+   with (this.RECTANGLE1)
+      left = 63.0
+      top = 136.0
+      width = 732.0
+      height = 62.0
+      text = "ACTUAL CASH IN HAND TYPE"
+      colorNormal = "N/0xc8d0d8"
+      fontName = "MS Sans Serif"
+      fontBold = true
+   endwith
 
-   DEFINE TEXTLABEL TEXT1 OF THIS;
-       PROPERTY;
-       BorderStyle 7,;
-         FontName "Verdana",;
-         FontSize 12,;
-         Text "Amount:",;
-         Top 166,;
-         ColorNormal "0x400000/W",;
-         Left 344,;
-         Height 28,;
-         Width 100,;
-       FontBold .T.,;
-       AlignHorizontal 1,;
-       AlignVertical 1
+   this.SCASH = new COMBOBOX(this)
+   with (this.SCASH)
+      onChange = class::SCASH_ONCHANGE
+      dataLink = "aracasln->PAY_METHOD"
+      enabled = false
+      height = 24.0
+      left = 75.0
+      top = 166.0
+      width = 318.0
+      fontName = "MS Sans Serif"
+      dataSource = "FIELD FGACASH->NAME"
+      style = 2	// DropDownList
+      dropDownHeight = 132.0
+   endwith
 
-   DEFINE ENTRYFIELD SDTOTAL OF THIS;
-       PROPERTY;
-         Picture "999,999,999,999.99",;
-         FontSize 12,;
-         ColorHighLight "0x40/W",;
-         Top 166,;
-         ColorNormal "N/W",;
-         Left 468,;
-         Enabled .F.,;
-         OnChange CLASS::SDTOTAL_ONCHANGE,;
-         Height 25,;
-         DataLink "aracasln->TOTAL",;
-         Width 228,;
-       FontName "MS Sans Serif",;
-       FontBold .T.
+   this.TEXT1 = new TEXTLABEL(this)
+   with (this.TEXT1)
+      height = 28.0
+      left = 407.0
+      top = 166.0
+      width = 100.0
+      text = "Amount:"
+      colorNormal = "0x400000/W"
+      fontName = "Verdana"
+      fontSize = 12.0
+      fontBold = true
+      borderStyle = 7	// Client
+      alignVertical = 1	// Middle
+      alignHorizontal = 1	// Center
+   endwith
 
-   DEFINE BROWSE CHILDBROWSE OF THIS;
-       PROPERTY;
-         Append .F.,;
-         Alias "aracasln",;
-         CUATab .T.,;
-         FontSize 12,;
-         Text "BREAK-DOWN OF ACTUAL CASH IN HAND",;
-         ColorHighLight "R/BTNFACE",;
-         Top 215,;
-         ColorNormal "R/W",;
-         Fields 'aracasln->STOCK_NO\H="No"\15\R,aracasln->PAY_METHOD\H="Cash Type"\25\R,aracasln->TOTAL\H="Amount"\20\P="999,999,999,999.99"\R',;
-         ShowDeleted .F.,;
-         ShowRecNo .F.,;
-         ScrollBar 1,;
-         Modify .F.,;
-         Height 170,;
-         Delete .F.,;
-         Width 648,;
-       FontName "MS Sans Serif"
+   this.SDTOTAL = new ENTRYFIELD(this)
+   with (this.SDTOTAL)
+      onChange = class::SDTOTAL_ONCHANGE
+      dataLink = "aracasln->TOTAL"
+      enabled = false
+      height = 25.0
+      left = 531.0
+      top = 166.0
+      width = 228.0
+      picture = "999,999,999,999.99"
+      colorNormal = "N/W"
+      colorHighLight = "0x40/W"
+      fontName = "MS Sans Serif"
+      fontSize = 12.0
+      fontBold = true
+   endwith
 
-   DEFINE PUSHBUTTON FIRSTORDERBUTTON OF THIS;
-       PROPERTY;
-         Group .F.,;
-         FontSize 12,;
-         Text "First",;
-         Top 427,;
-         ColorNormal "0x40/W",;
-         Left 18,;
-         OnClick CLASS::GO_TOP,;
-         Height 26,;
-         Width 120,;
-       FontName "MS Sans Serif",;
-       FontBold .T.
+   this.CHILDBROWSE = new BROWSE(this)
+   with (this.CHILDBROWSE)
+      colorNormal = "R/W"
+      colorHighLight = "R/BTNFACE"
+      fontName = "MS Sans Serif"
+      fontSize = 12.0
+      height = 181.0
+      left = 63.0
+      top = 209.0
+      width = 648.0
+      append = false
+      alias = "aracasln"
+      fields = 'aracasln->STOCK_NO\H="No"\15\R,aracasln->PAY_METHOD\H="Cash Type"\25\R,aracasln->TOTAL\H="Amount"\25\P="999,999,999,999.99"\R'
+      delete = false
+      modify = false
+      showDeleted = false
+      showRecNo = false
+      text = "BREAK-DOWN OF ACTUAL CASH IN HAND"
+      scrollBar = 1	// On
+   endwith
 
-   DEFINE PUSHBUTTON LASTORDERBUTTON OF THIS;
-       PROPERTY;
-         Group .F.,;
-         FontSize 12,;
-         Text "Last",;
-         Top 427,;
-         ColorNormal "0x40/W",;
-         Left 168,;
-         OnClick CLASS::GO_LAST,;
-         Height 26,;
-         Width 120,;
-       FontName "MS Sans Serif",;
-       FontBold .T.
+   this.FIRSTORDERBUTTON = new PUSHBUTTON(this)
+   with (this.FIRSTORDERBUTTON)
+      onClick = class::GO_TOP
+      height = 26.0
+      left = 63.0
+      top = 429.0
+      width = 120.0
+      text = "First"
+      fontName = "MS Sans Serif"
+      fontSize = 12.0
+      fontBold = true
+      colorNormal = "0x40/W"
+   endwith
 
-   DEFINE PREVBUTTON PREVORDERBUTTON OF THIS;
-       PROPERTY;
-         Group .T.,;
-         FontSize 12,;
-         Text "Previous",;
-         Top 427,;
-         ColorNormal "0x40/W",;
-         Left 318,;
-         OnClick CLASS::PREVIOUS,;
-         Height 26,;
-         Width 120,;
-       FontName "MS Sans Serif",;
-       FontBold .T.
+   this.LASTORDERBUTTON = new PUSHBUTTON(this)
+   with (this.LASTORDERBUTTON)
+      onClick = class::GO_LAST
+      height = 26.0
+      left = 217.0
+      top = 429.0
+      width = 120.0
+      text = "Last"
+      fontName = "MS Sans Serif"
+      fontSize = 12.0
+      fontBold = true
+      colorNormal = "0x40/W"
+   endwith
 
-   DEFINE NEXTBUTTON NEXTORDERBUTTON OF THIS;
-       PROPERTY;
-         Group .F.,;
-         FontSize 12,;
-         Text "Next",;
-         Top 427,;
-         ColorNormal "0x40/W",;
-         Default .T.,;
-         Left 468,;
-         OnClick CLASS::NEXT,;
-         Height 26,;
-         Width 120,;
-       FontName "MS Sans Serif",;
-       FontBold .T.
+   this.PREVORDERBUTTON = new PREVBUTTON(this)
+   with (this.PREVORDERBUTTON)
+      onClick = class::PREVIOUS
+      height = 26.0
+      left = 360.0
+      top = 427.0
+      width = 120.0
+      text = "Previous"
+      fontName = "MS Sans Serif"
+      fontSize = 12.0
+      fontBold = true
+      group = true
+      colorNormal = "0x40/W"
+   endwith
 
-*   DEFINE SAMPLEINFOBUTTON ARCASHSINFOBUTTON OF THIS;
-       PROPERTY;
-         Group .T.,;
-         Visible .F.,;
-         Top 9,;
-         Left 754,;
-         Height 20,;
-         Width 21
+   this.NEXTORDERBUTTON = new NEXTBUTTON(this)
+   with (this.NEXTORDERBUTTON)
+      onClick = class::NEXT
+      height = 26.0
+      left = 518.0
+      top = 429.0
+      width = 120.0
+      text = "Next"
+      default = true
+      fontName = "MS Sans Serif"
+      fontSize = 12.0
+      fontBold = true
+      colorNormal = "0x40/W"
+   endwith
+
 
    procedure Open
    ****************************************************************************
    private orderNoField
       on error DO ddeerr WITH ERROR(), MESSAGE(),;
    PROGRAM(), LINENO()
-          FORM.BLUSER = BUSER
-   FORM.BLEVEL = BLEVEL
+          FORM.BLUSER = bUser
+   FORM.BLEVEL = bLevel
 
    set reprocess to 10
                    select arcashsn
@@ -490,7 +504,7 @@ CLASS ARCASHSFORM OF FORM
                                              && leave shell(.F.)
         shell(.f.)
    *  endif
-   close procedure SampProc.prg, Buttons.cc
+   close procedure SampProc.prg
      if .not. empty(arcashs->order_no)
    select arcasupd
    seek arcashs->order_no+dtos(arcashs->order_date)
@@ -499,6 +513,7 @@ CLASS ARCASHSFORM OF FORM
    replace post_date with date()
    endif
    endif
+   commit()
    close databases
    clear program
      do arpcashS.prg
@@ -526,7 +541,6 @@ CLASS ARCASHSFORM OF FORM
 
    ****************************************************************************
 
-
    procedure BrowseChangesMade
    ****************************************************************************
    local t,t2,t3,t4,T5,t6,t7,t8
@@ -542,6 +556,7 @@ CLASS ARCASHSFORM OF FORM
    replace total with t
          ENDIF
      SELECT ARCASHS
+     replace total with t
    endif
 
 
@@ -766,7 +781,6 @@ CLASS ARCASHSFORM OF FORM
       CLASS::CheckCommit(form.inEditMode)     && Check transactions
    endif
 
-
    Procedure Go_last
       form.CheckCommit(form.inEditMode)
          if .not. empty(arcashs->order_no)
@@ -786,8 +800,6 @@ CLASS ARCASHSFORM OF FORM
    select arcashs
       go bottom
    form.root.file.exit.enabled =   .t.
-
-
 
      Procedure Go_Top
      form.CheckCommit(form.inEditMode)
@@ -809,9 +821,6 @@ CLASS ARCASHSFORM OF FORM
      go top
     form.root.file.exit.enabled =   .t.
 
-
-
-
    Procedure Form_CanClose
       RETURN IIF(form.changesmade = .F., .F., .T.)
 
@@ -828,15 +837,12 @@ CLASS ARCASHSFORM OF FORM
          replace cashier_no with fgoffs->cashier_no
           form.changesmade = .t.
 
-
      Procedure SDTOTAL_OnChange
    SELECT aracasln
         REPLACE total with  this.value
       FORM.CHANGESMADE = .T.
         form.browsechangesmade()
         select ARCASHS
-
-
 
     Procedure SCASH_OnChange
     form.changesmade = .t.
@@ -851,8 +857,5 @@ CLASS ARCASHSFORM OF FORM
          endif
          select arcashs
 
+endclass
 
-
-
-
-ENDCLASS

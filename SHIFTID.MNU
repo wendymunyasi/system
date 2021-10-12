@@ -62,7 +62,7 @@ CLASS ShiftMasterMENU(FormObj,Name) OF MENUBAR(FormObj,Name)
    procedure OnExit
    
      form.Release()
-
+   
     procedure OnQuitAll
    
      form.Release()

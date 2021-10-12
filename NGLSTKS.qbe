@@ -1,0 +1,23 @@
+* Visual dBASE .QBE file 9
+ON ERROR DO QBEERR WITH ERROR(), MESSAGE(),;
+PROGRAM(), LINENO()
+CLOSE DATABASES
+on error do ngfnlstr.prg
+USE \KENSERVICE\DATA\ngFGNLIF.DBF 
+? pcentre
+close databases
+ON ERROR DO QBEERR WITH ERROR(), MESSAGE(),;
+PROGRAM(), LINENO()
+SET EXACT ON
+SELECT 1
+USE \KENSERVICE\data\ngltran.DBF
+SELECT 2
+USE \KENSERVICE\DATA\ngFGNLIF.DBF 
+SELECT 3
+USE \KENSERVICE\data\NGLMAST.DBF
+select 4
+use \kenservice\data\ngperiod.DBF
+select 5
+use \kenservice\data\FGtyp.dbF
+SELECT 6
+USE \KENSERVICE\DATA\NGLYEARS.DBF

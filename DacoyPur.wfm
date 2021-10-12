@@ -1,0 +1,685 @@
+////////////////////////////////////////////////////////////////////////////////
+// Output Filename: C:\KENSERVICE\IDSSYS\DACOYPUR_FCV.WFM                     //
+// Created By:      dBASE Form Converter Wizard                               //
+// Created On:      Saturday June 25, 2016 At 18:02:10                        //
+// Object Count:    22                                                        //
+////////////////////////////////////////////////////////////////////////////////
+*******************************************************************************
+*  PROGRAM:      DacoyPur.wfm
+*
+*  WRITTEN BY:   W Nyongesa
+*
+*  DATE:         05/2000
+*
+*  UPDATED:     12/2012
+*
+*  REVISION:     $Revision:   1.0
+*
+*  VERSION:      Visual dBASE
+*
+*  DESCRIPTION:  This program maintains the Divisions master file
+*
+*  PARAMETERS:   None
+*
+*  CALLS:        DacoyPur.mnu         (Menu file)
+*                KBUTTONS.CC          (Custom Controls file)
+*                Company Code.qbe         (View of tables)
+*
+*  USAGE:        DO DacoyPur.wfm
+*
+*******************************************************************************
+#include <messdlg.h>
+shell(.F.)
+create session
+set design off
+set talk off
+set century on
+SET DATE TO BRITISH
+set ldCheck off && To avoid language driver conflicts
+#define Maxcoy 999
+** END HEADER -- do not remove this line*
+* Generated on 25/06/2016
+*
+parameter bUser,bLevel,bModal
+local f
+f = new DacoyPurFORM()
+if (bModal)
+   f.mdi = .F. && ensure not MDI
+   f.ReadModal()
+else
+   f.Open()
+endif
+CLASS DacoyPurFORM OF FORM
+   this.Metric = 6  // Pixels
+   this.OnClose = CLASS::ONCLOSE
+   this.Text = "Standard Purchases Reports"
+   this.Sizeable = .F.
+   this.MDI = .F.
+   this.WindowState = 2
+   this.MenuFile = "DACOYPUR.MNU"
+   this.Minimize = .F.
+   this.View = "DacoyPur.QBE"
+   this.MousePointer = 1
+   this.Top = 0
+   this.ColorNormal = "n+"
+   this.Left = 0
+   this.EscExit = .F.
+   this.Height = 193
+   this.Moveable = .F.
+   this.Width = 608
+
+   DEFINE TEXTLABEL CODETEXT OF THIS;
+       PROPERTY;
+         FontSize 12,;
+         Text "Coy:",;
+         Top 25,;
+         ColorNormal "B/BtnFace",;
+         Left 30,;
+         Height 21,;
+         Width 48,;
+       FontName "MS Sans Serif",;
+       FontBold .T.,;
+       AlignHorizontal 2,;
+       AlignVertical 1
+
+   DEFINE COMBOBOX COYCOMBOBOX OF THIS;
+       PROPERTY;
+         DataLink "dacoysum->Coy",;
+         FontSize 12,;
+         Top 25,;
+         ColorNormal "B/BtnFace",;
+         Style 2,;
+         FontName "Arial Black",;
+         Left 78,;
+         DataSource "FIELD fgcoy->Coy",;
+         Height 31,;
+         Width 48,;
+         Enabled .F.,;
+       FontBold .T.
+
+   DEFINE ENTRYFIELD COYDISPLAY OF THIS;
+       PROPERTY;
+         DataLink "fgcoy->STREET",;
+         FontSize 12,;
+         ColorHighLight "B+/W*",;
+         Function "!",;
+         Top 25,;
+         ColorNormal "N/BtnFace",;
+         Left 135,;
+         Height 21,;
+         Width 453,;
+         Enabled .F.,;
+       FontName "MS Sans Serif",;
+       FontBold .T.
+
+   DEFINE BROWSE CHILDBROWSE OF THIS;
+       PROPERTY;
+         FontSize 7,;
+         Alias "fgnfpur",;
+         Append .F.,;
+         Text "Products/Services Information",;
+         Delete .F.,;
+         Fields 'fgnfpur->JOB_ORDER\H="PT"\3\R,fgnfpur->SERIALNO\H="D/No"\7\C="G+/0xa00000",fgnfpur->INV_NO\H="Inv No"\10\C="G+/0xa00000",FGCOD->NAME\H="Item Description"\20\R,FGCEN->NAME\H="Centre"\10\R,fgnfpur->QTY\H="Qty"\12\P="999,999.99"\R,fgnfpur->GROSS_AMT\H="Gross Amt"\15\P="9,999,999,999.99"\R,fgnfpur->TAX_RATE\H="Rate"\5\P="99.99"\R,fgnfpur->TAX_AMT\H="Tax Amt"\7\P="9999,999.99"\R,fgnfpur->TOTAL\H="Total"\15\P="99,999,999,999.99"\R,fgnfpur->PAY_METHOD\H="Pmode"\5\R,VENDOR->NAME\H="Vendor"\18\R,FGNFPUR->INV_DATE\H="Inv Date"\10\R\C="R+/W+",fgnfpur->ORDER_NO\H="Ref."\7\R,FGNFPUR->GL_POST\H="GL Pst"\10\R\C="R/W"',;
+         CUATab .T.,;
+         ShowRecNo .F.,;
+         OnChange CLASS::CHILDBROWSE_ONCHANGE,;
+         Modify .F.,;
+         Top 232,;
+         Left 24,;
+         Height 544,;
+         Width 1152,;
+       FontName "MS Sans Serif"
+
+   DEFINE TEXTLABEL TEXT1 OF THIS;
+       PROPERTY;
+         FontSize 12,;
+         Text "Date:",;
+         Top 25,;
+         ColorNormal "B/BtnFace",;
+         Left 600,;
+         Height 21,;
+         Width 60,;
+       FontName "MS Sans Serif",;
+       FontBold .T.,;
+       AlignHorizontal 2,;
+       AlignVertical 1
+
+   DEFINE SPINBOX TDATE OF THIS;
+       PROPERTY;
+         DataLink "dacoysum->shift_date",;
+         FontSize 12,;
+         Top 25,;
+         Left 672,;
+         FontBold .F.,;
+         Rangemin {30/01/2014},;
+         Rangemax {10/05/2014},;
+         Height 21,;
+         Width 144,;
+         Enabled .F.,;
+       FontName "MS Sans Serif"
+
+   DEFINE RECTANGLE RECTANGLE3 OF THIS;
+       PROPERTY;
+         FontSize 12,;
+         Text "Filter reports by start and end dates, Item Type, Class and  Code",;
+         Top 61,;
+         ColorNormal "r/btnface",;
+         FontName "Arial Black",;
+         Left 24,;
+         Height 77,;
+         Width 720,;
+       FontBold .T.
+
+   DEFINE TEXTLABEL TEXT3 OF THIS;
+       PROPERTY;
+         FontSize 12,;
+         Text "Start Purchase Type:",;
+         Top 87,;
+         ColorNormal "B/BtnFace",;
+         Left 78,;
+         Height 21,;
+         Width 180,;
+       FontName "MS Sans Serif",;
+       FontBold .T.,;
+       AlignHorizontal 2,;
+       AlignVertical 1
+
+   DEFINE ENTRYFIELD SSTARTID OF THIS;
+       PROPERTY;
+         DataLink "FGSHPUR->START_ID",;
+         FontSize 12,;
+         ColorHighLight "B+/W*",;
+         Function "!",;
+         ValidErrorMsg "Code Does Not Exist",;
+         OnChange CLASS::ENTRYFIELD2_ONCHANGE,;
+         Top 87,;
+         ColorNormal "N/BtnFace",;
+         Left 270,;
+         Height 21,;
+         Width 120,;
+         Enabled .F.,;
+       FontName "MS Sans Serif",;
+       FontBold .T.
+
+   DEFINE TEXTLABEL TEXT4 OF THIS;
+       PROPERTY;
+         FontSize 12,;
+         Text "End  Purchase Type:",;
+         Top 112,;
+         ColorNormal "B/BtnFace",;
+         Left 78,;
+         Height 21,;
+         Width 180,;
+       FontName "MS Sans Serif",;
+       FontBold .T.,;
+       AlignHorizontal 2,;
+       AlignVertical 1
+
+   DEFINE ENTRYFIELD SENDID OF THIS;
+       PROPERTY;
+         DataLink "FGSHPUR->END_ID",;
+         FontSize 12,;
+         ColorHighLight "B+/W*",;
+         Function "!",;
+         ValidErrorMsg "Code Does Not Exist",;
+         OnChange CLASS::ENTRYFIELD3_ONCHANGE,;
+         Top 112,;
+         ColorNormal "N/BtnFace",;
+         Left 270,;
+         Height 21,;
+         Width 120,;
+         Enabled .F.,;
+       FontName "MS Sans Serif",;
+       FontBold .T.
+
+   DEFINE TEXTLABEL TEXT5 OF THIS;
+       PROPERTY;
+         FontSize 12,;
+         Text "Start Date:",;
+         Top 87,;
+         ColorNormal "B/BtnFace",;
+         Left 420,;
+         Height 21,;
+         Width 108,;
+       FontName "MS Sans Serif",;
+       FontBold .T.,;
+       AlignHorizontal 2,;
+       AlignVertical 1
+
+   DEFINE SPINBOX STARTENTRY OF THIS;
+       PROPERTY;
+         DataLink "FGSHPUR->START_DATE",;
+         FontSize 12,;
+         ColorHighLight "B+/W*",;
+         OnChange CLASS::STARTENTRY_ONCHANGE,;
+         Top 87,;
+         ColorNormal "n/btnface",;
+         Left 540,;
+         Rangemin {25/06/2016},;
+         Rangemax {03/10/2016},;
+         Height 21,;
+         Width 132,;
+         Enabled .F.,;
+       FontName "MS Sans Serif",;
+       FontBold .T.
+
+   DEFINE TEXTLABEL TEXT6 OF THIS;
+       PROPERTY;
+         FontSize 12,;
+         Text "End Date:",;
+         Top 112,;
+         ColorNormal "B/BtnFace",;
+         Left 420,;
+         Height 21,;
+         Width 108,;
+       FontName "MS Sans Serif",;
+       FontBold .T.,;
+       AlignHorizontal 2,;
+       AlignVertical 1
+
+   DEFINE SPINBOX ENDENTRY OF THIS;
+       PROPERTY;
+         DataLink "FGSHPUR->END_DATE",;
+         FontSize 12,;
+         ColorHighLight "B+/W*",;
+         OnChange CLASS::ENDENTRY_ONCHANGE,;
+         Top 112,;
+         ColorNormal "n/btnface",;
+         Left 540,;
+         Rangemin {25/06/2016},;
+         Rangemax {03/10/2016},;
+         Height 21,;
+         Width 132,;
+         Enabled .F.,;
+       FontName "MS Sans Serif",;
+       FontBold .T.
+
+   DEFINE RECTANGLE RECTANGLE1 OF THIS;
+       PROPERTY;
+         FontSize 12,;
+         Text "Edit Transaction Date and Order Number to Reprint Purchase Order/GRN",;
+         Top 157,;
+         ColorNormal "r/btnface",;
+         FontName "Arial Black",;
+         Left 24,;
+         Height 67,;
+         Width 720,;
+       FontBold .T.
+
+   DEFINE SPINBOX TRNDATE OF THIS;
+       PROPERTY;
+         DataLink "FGSHPUR->ORDER_DATE",;
+         FontSize 12,;
+         ColorHighLight "B+/W*",;
+         OnChange CLASS::TRNDATE_ONCHANGE,;
+         Top 183,;
+         ColorNormal "n/btnface",;
+         Left 90,;
+         Rangemin {25/06/2016},;
+         Rangemax {03/10/2016},;
+         Height 21,;
+         Width 150,;
+         Enabled .F.,;
+       FontName "MS Sans Serif",;
+       FontBold .T.
+
+   DEFINE ENTRYFIELD TRNORDER OF THIS;
+       PROPERTY;
+         DataLink "FGSHPUR->ORDER_NO",;
+         FontSize 12,;
+         ColorHighLight "B+/W*",;
+         Function "!",;
+         ValidErrorMsg "Code Does Not Exist",;
+         OnChange CLASS::TRNORDER_ONCHANGE,;
+         Top 183,;
+         ColorNormal "N/BtnFace",;
+         Left 282,;
+         Height 21,;
+         Width 120,;
+         Enabled .F.,;
+       FontName "MS Sans Serif",;
+       FontBold .T.
+
+       this.PREVBUTTON = new PUSHBUTTON(this)
+   with (this.PREVBUTTON)
+      onClick = class::PREVIOUS
+      height = 26.0
+      left = 175.0
+      top = 847.0
+      width = 85.0
+      text = "&PREVIOUS"
+      fontName = "MS Sans Serif"
+      fontSize = 8.0
+      fontBold = true
+   endwith
+
+   this.NEXTBUTTON = new PUSHBUTTON(this)
+   with (this.NEXTBUTTON)
+      onClick = class::NEXT
+      height = 26.0
+      left = 259.0
+      top = 847.0
+      width = 85.0
+      text = "&NEXT"
+      fontName = "MS Sans Serif"
+      fontSize = 8.0
+      fontBold = true
+   endwith
+
+   this.FIRSTBUTTON = new PUSHBUTTON(this)
+   with (this.FIRSTBUTTON)
+      onClick = {; form.CheckCommit(form.inEditMode);GO TOP; form.BrowseOnNavigate();}
+      height = 26.0
+      left = 350.0
+      top = 847.0
+      width = 85.0
+      text = "F&IRST"
+      fontName = "MS Sans Serif"
+      fontSize = 8.0
+      fontBold = true
+   endwith
+
+   this.LASTBUTTON = new PUSHBUTTON(this)
+   with (this.LASTBUTTON)
+      onClick = {; form.CheckCommit(form.inEditMode);GO BOTTOM; form.BrowseOnNavigate();}
+      height = 26.0
+      left = 441.0
+      top = 847.0
+      width = 85.0
+      text = "&LAST"
+      fontName = "MS Sans Serif"
+      fontSize = 8.0
+      fontBold = true
+   endwith
+
+   procedure Open
+   ****************************************************************************
+   private CodeField
+        ON ERROR DO ddeerr WITH ERROR(), MESSAGE(),;
+   PROGRAM(), LINENO()
+   FORM.BLUSER=BUSER
+   FORM.BLEVEL=BLEVEL
+   IF EMPTY(FORM.BLUSER) .OR. EMPTY(FORM.BLEVEL)
+      QUIT
+   ENDIF
+   form.firstime = .T.
+   if type("form.init") = "U"
+      form.init = .T.
+
+      set skip to                     && DacoyPur.qbe contains set skip to gldtl
+      set exact off                   && the .qbe file contains SET EXACT ON
+
+      set procedure to sampProc.prg additive
+    Form.duplicate = .F.
+      form.inEditMode = .F.           && indicator of view/edit state
+      form.changesMade = .F.          && indicator of changes made to field values
+      form.previousRecord = .F.       && Save record number when appending
+        *** do calculations in another area so form doesn't get updated
+         select FGSHPUR
+      go top
+      if eof()
+      append blank
+      REPLACE START_DATE WITH dacoysum->SHIFT_DATE
+      REPLACE END_DATE WITH dacoysum->SHIFT_DATE
+         IF EMPTY (dacoysum->SHIFT_DATE)
+        REPLACE START_DATE WITH DATE()
+        REPLACE END_DATE WITH DATE()
+        ENDIF
+
+      endif
+        REPLACE START_ID WITH "000000"
+       REPLACE END_ID WITH "ZZZZZZ"
+       REPLACE START_DIV WITH "00"
+        REPLACE END_DIV WITH  "ZZ"
+
+      replace message with "Data Extract in Progress - Please wait"
+        select dacoysum
+      set order to mkey
+    GO BOTTOM                                  && new Receipts
+
+    endif
+   * form.CoyInfoButton.KenpName = "DacoyPur.WFM"
+
+   form::Open()                         && Now the form actually opens
+       form.BrowseOnNavigate()              && calculate totals
+
+   procedure OnClose
+
+   * Clean up.
+   ****************************************************************************
+
+   if this.inEditMode
+      form.ViewEdit()                      && Finish transaction
+   endif
+   close procedure SampProc.prg 
+   
+   CLOSE DATABASES
+      clear program
+      form.close()
+
+
+   ****************************************************************************
+
+   procedure BrowseOnNavigate
+   ****************************************************************************
+
+   ****************************************************************************
+
+   procedure ChangesMade
+
+   * Indicate that changes have been made to the current record
+   ****************************************************************************
+   Form.ChangesMade = .T.
+   ****************************************************************************
+
+    procedure Next
+
+   * Go to next record.
+   ****************************************************************************
+
+   form.CheckCommit(form.inEditMode)
+   if .not. empty(dbf())  .and. .not. eof()      && if a table is open in the current workarea
+      skip
+       form.BrowseOnNavigate()
+      if eof()
+         go bottom
+         AlertMessage("At the last record","Alert")
+      endif
+   else
+      InformationMessage("There is no table open in the current workarea.",;
+         "Info")
+   endif
+    ****************************************************************************
+
+   procedure Previous
+
+   * Go to previous record.
+   ****************************************************************************
+
+   form.CheckCommit(form.inEditMode)
+ if .not. empty(dbf())  .and. .not. eof() && if a table is open in the current workarea
+      skip - 1
+      form.BrowseOnNavigate()
+      if bof()
+         go top
+         AlertMessage("At the first record","Alert")
+      endif
+   else
+      InformationMessage("There is no table open in the current workarea.",;
+         "Info")
+   endif
+
+   ****************************************************************************
+
+
+   procedure CheckCommit (newInEditMode)
+
+        * Finish transaction, if it has been started.
+   ****************************************************************************
+   private CodeField, changesMade
+    local lk1,lk2
+    select dacoysum
+    lk1 = form.COYCOMBOBOX.value
+   changesMade = form.changesMade
+   if form.changesMade
+      CodeField = field(2)  && Field division
+          commit()
+              ON ERROR DO ddeerr WITH ERROR(), MESSAGE(),;
+   PROGRAM(), LINENO()
+         rollback()
+
+       form.COYCOMBOBOX.enabled = .F.
+    if form.inEditMode .and. newInEditMode
+         begintrans()
+              ON ERROR DO TRANSerr WITH ERROR(), MESSAGE(),;
+   PROGRAM(), LINENO()
+      endif
+      form.changesMade = .F.
+   endif
+   if form.inEditMode <> newInEditMode
+      if newInEditMode                       && Going to Edit mode
+         begintrans()
+                ON ERROR DO TRANSerr WITH ERROR(), MESSAGE(),;
+   PROGRAM(), LINENO()
+      else                                   && Going to View mode
+         if .not. changesMade .AND. .NOT. FORM.DUPLICATE
+            rollback()
+                 ON ERROR DO ddeerr WITH ERROR(), MESSAGE(),;
+   PROGRAM(), LINENO()
+         endif
+      endif
+      form.inEditMode = newInEditMode
+   endif
+
+    ****************************************************************************
+
+   procedure ViewEdit
+
+   * Toggle between View and Edit modes.
+   ****************************************************************************
+   local inEditMode, editMenu, control
+
+   editMenu = form.root.DacoyPur.VIEWEdit
+
+   *** If ending edit mode then close transaction, otherwise open it.
+   if form.inEditMode
+      form.checkChanged(.F.)
+      editMenu.text = "&Edit"
+      editMenu.shortcut = "Ctrl-E"
+      editMenu.statusMessage = "Edit data."
+      form.CheckCommit(.F.)                        && Check transaction and
+      form.text = "Standard Purchases Reports Form-- View Mode"          && change mode to View
+         form.childBrowse.modify = .F.
+      form.statusmessage = "In View Mode. " + ;
+                           "Select Company Code - Edit menu to " + ;
+                           "edit/delete data."
+   else                                            && Switch to edit mode
+      editMenu.text = "Vi&ew"
+      editMenu.shortcut = "Ctrl-E"
+      editMenu.statusMessage = "View data."
+      form.CheckCommit(.T.)                        && Check transaction and
+      form.text = "Standard Purchases Reports Form-- Edit Mode"          && change mode to Edit
+   form.childBrowse.modify = .T.
+      form.statusmessage = "In Edit Mode.  " + ;
+                           "Select menu Transaction  Date- View to switch " + ;
+                           "to View mode."
+        form.COYCOMBOBOX.Enabled = .F.
+          form.coydisplay.enabled =.F.
+    endif
+
+   inEditMode = form.inEditMode     && Faster if we don't reference a form
+   control = form.first             &&    variable each time through the loop
+   do
+      if .not. control.className $ "BROWSE,EDITOR,NEXTBUTTON,PREVBUTTON,PUSHBUTTON,IMAGE,TEXT"
+         control.enabled = inEditMode
+      endif
+      control = control.before
+   until control.name = form.first.name
+          form.COYCOMBOBOX.Enabled = .F.
+      form.coydisplay.enabled =.F.
+          form.tdate.enabled = .f.
+   *    form.smess.enabled = .f.
+
+   ****************************************************************************
+
+   procedure CheckChanged(callCommit)
+
+   * Check if changes have been made to the current entryfield.  This procedure
+   * is called from menu routines to make sure the form.changesMade gets
+   * updated when a menu is selected while the changed control has focus.
+   ****************************************************************************
+   private control, fieldValue, controlValue, typeText, typeValue
+
+   if form.inEditMode
+      control = form.activeControl
+      if type("control.datalink") <> "U"
+         fieldValue = control.datalink          && name of table field
+
+         typeText = type("control.text")
+         typeValue = type("control.value")
+         do case
+            case typeValue = "C"
+               controlValue = control.value
+            case typeValue $ "LU" .and. typeText = "C"
+               controlValue = control.text
+            otherwise
+               controlValue = Null
+         endcase
+         if controlValue <> &fieldValue
+            form.changesMade = .T.
+         endif
+      endif
+   endif
+   if form.changesMade .and. callCommit
+      CLASS::CheckCommit(form.inEditMode)     && Check transactions
+   endif
+
+
+   Procedure ENTRYFIELD2_OnChange
+   form.changesmade = .t.
+   select fgshpur
+   replace start_id with this.value
+   form.CheckCommit(form.inEditMode)
+
+   Procedure ENTRYFIELD3_OnChange
+   form.changesmade = .t.
+   select fgshpur
+   replace end_id with this.value
+   form.CheckCommit(form.inEditMode)
+
+   Procedure STARTENTRY_OnChange
+   form.changesmade = .t.
+   select fgshpur
+   replace start_date with this.value
+   form.CheckCommit(form.inEditMode)
+
+   Procedure ENDENTRY_OnChange
+   form.changesmade = .t.
+   select fgshpur
+   replace end_date with this.value
+   form.CheckCommit(form.inEditMode)
+
+   Procedure ENTRYFIELD4_OnChange
+   form.changesmade = .t.
+   form.CheckCommit(form.inEditMode)
+
+   Procedure ENTRYFIELD5_OnChange
+   form.changesmade = .t.
+   form.CheckCommit(form.inEditMode)
+
+   Procedure CHILDBROWSE_OnChange
+         form.changesmade = .t.
+
+   Procedure TRNDATE_OnChange
+    form.changesmade = .t.
+    select fgshpur
+   replace order_date with this.value
+   form.CheckCommit(form.inEditMode)
+
+   Procedure TRNORDER_OnChange
+   form.changesmade = .t.
+   select fgshpur
+   replace order_no with this.value
+   form.CheckCommit(form.inEditMode)
+
+ENDCLASS

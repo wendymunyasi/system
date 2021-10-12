@@ -782,7 +782,7 @@ CLASS ARDRECSFORM OF FORM
    procedure Open
    ****************************************************************************
    private orderNoField
-      on error DO ddeerr WITH ERROR(), MESSAGE(),;
+      *on error DO ddeerr WITH ERROR(), MESSAGE(),;
    PROGRAM(), LINENO()
                     set safety off
 
@@ -973,7 +973,7 @@ CLASS ARDRECSFORM OF FORM
    replace post_date with date()
    endif
    endif
-       COMMIT()
+
    close databases
    clear program
    do arpDRECS.prg
@@ -1003,6 +1003,7 @@ CLASS ARDRECSFORM OF FORM
    FORM.STOTAL.VALUE = t
            ENDIF
      SELECT ARDRECS
+     REPLACE TOTAL WITH T
    endif
 
 
@@ -1068,12 +1069,12 @@ CLASS ARDRECSFORM OF FORM
     changesMade = form.changesMade
      if form.changesMade
        orderField = field(1)                  && Field Order_no
-            commit()
-            on error DO ddeerr WITH ERROR(), MESSAGE(),;
+            *commit()
+            *on error DO ddeerr WITH ERROR(), MESSAGE(),;
    PROGRAM(), LINENO()
           if form.inEditMode .and. newInEditMode
-          begintrans()
-               on error DO transerr WITH ERROR(), MESSAGE(),;
+         * begintrans()
+               *on error DO transerr WITH ERROR(), MESSAGE(),;
    PROGRAM(), LINENO()
        endif
        form.changesMade = .F.
@@ -1082,13 +1083,13 @@ CLASS ARDRECSFORM OF FORM
 
     if form.inEditMode <> newInEditMode
        if newInEditMode                       && Going to Edit mode
-          begintrans()
-            on error DO transerr WITH ERROR(), MESSAGE(),;
+         * begintrans()
+            *on error DO transerr WITH ERROR(), MESSAGE(),;
    PROGRAM(), LINENO()
        else                                   && Going to View mode
           if .not. changesMade
-             rollback()
-            on error   DO ddeerr WITH ERROR(), MESSAGE(),;
+             *rollback()
+            *on error   DO ddeerr WITH ERROR(), MESSAGE(),;
    PROGRAM(), LINENO()
           endif
        endif

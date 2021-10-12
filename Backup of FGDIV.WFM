@@ -46,7 +46,7 @@ set ldCheck off && To avoid language driver conflicts
 parameter bUser,bLevel,bModal
 local f
 f = new FgdivFORM()
-if (bModal)
+if (bModal) = true
    f.mdi = false // ensure not MDI
    f.readModal()
 else

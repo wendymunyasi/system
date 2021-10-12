@@ -520,7 +520,7 @@ CLASS ARCMPSFORM OF FORM
    procedure Open
    ****************************************************************************
    private orderNoField
-      on error DO ddeerr WITH ERROR(), MESSAGE(),;
+      on error DO transerr WITH ERROR(), MESSAGE(),;
    PROGRAM(), LINENO()
                     set safety off
 
@@ -683,7 +683,7 @@ CLASS ARCMPSFORM OF FORM
                                              && leave shell(.F.)
         shell(.f.)
    *  endif
-   close procedure SampProc.prg, Buttons.cc
+   close procedure SampProc.prg
     if .not. empty(ARCMPS->order_no)
    select ARCMPDUP
    seek ARCMPS->order_no+dtos(ARCMPS->order_date)
@@ -692,7 +692,7 @@ CLASS ARCMPSFORM OF FORM
    replace post_date with date()
    endif
    endif
-
+     *COMMIT()
    close databases
    clear program
    do arpcmps.prg
@@ -732,6 +732,7 @@ CLASS ARCMPSFORM OF FORM
    FORM.STOTAL.VALUE = t
           ENDIF
      SELECT ARCMPS
+     REPLACE TOTAL WITH T
    endif
 
 
@@ -800,12 +801,12 @@ CLASS ARCMPSFORM OF FORM
     changesMade = form.changesMade
      if form.changesMade
        orderField = field(1)                  && Field Order_no
-            commit()
-            on error DO ddeerr WITH ERROR(), MESSAGE(),;
+            *COMMIT()
+            *on error DO ddeerr WITH ERROR(), MESSAGE(),;
    PROGRAM(), LINENO()
         if form.inEditMode .and. newInEditMode
-          begintrans()
-               on error DO transerr WITH ERROR(), MESSAGE(),;
+          **begintrans()
+               *on error DO transerr WITH ERROR(), MESSAGE(),;
    PROGRAM(), LINENO()
        endif
        form.changesMade = .F.
@@ -814,12 +815,12 @@ CLASS ARCMPSFORM OF FORM
 
     if form.inEditMode <> newInEditMode
        if newInEditMode                       && Going to Edit mode
-          begintrans()
-            on error DO transerr WITH ERROR(), MESSAGE(),;
+          **begintrans()
+            *on error DO transerr WITH ERROR(), MESSAGE(),;
    PROGRAM(), LINENO()
        else                                   && Going to View mode
           if .not. changesMade
-             rollback()
+             *rollback()
             on error   DO ddeerr WITH ERROR(), MESSAGE(),;
    PROGRAM(), LINENO()
           endif

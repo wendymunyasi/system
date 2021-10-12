@@ -281,7 +281,7 @@ CLASS ProdCode(FormObj,Name) OF MENUBAR(FormObj,Name)
            endif
            
    
-      
+            SELECT FGCOD
     if .not. PLERR2
     
      select fgcod
@@ -309,7 +309,29 @@ CLASS ProdCode(FormObj,Name) OF MENUBAR(FormObj,Name)
       seek fgcod->typ
         select fgcla
     seek fgcod->typ+fgcod->cla
+    SELECT FGCOD
+         *  REPLACE USENAME WITH FORM.BLUSER
+     if empty(cen)
+     replace cen with fgcod3->cen
+     endif
      
+     replace usename with fgcod3->usename
+     replace item_use with fgcod3->item_use
+     if empty(fcpurch)
+     replace fcpurch with fgcod3->fcpurch
+     endif
+     IF EMPTY(FCPURCH)
+     REPLACE FCPURCH WITH "No"
+     endif
+     if empty(qty)
+     replace qty with fgcod3->qty
+     endif
+     if empty(qty)
+     replace qty with "No"
+     endif
+     replace typname with  fgcod3->typname
+     replace claname  with fgcod3->claname
+     replace items_unit with 1
        select Fgcod
        replace item_use with fgtyp->use
        IF .NOT. TYP = '10'
@@ -359,39 +381,20 @@ CLASS ProdCode(FormObj,Name) OF MENUBAR(FormObj,Name)
      if empty(div)
      replace div with fgcod3->div
      endif
-     REPLACE DATE_CREAT WITH DATE()
-     REPLACE USENAME WITH FORM.BLUSER
-     if empty(cen)
-     replace cen with fgcod3->cen
-     endif
+     *REPLACE DATE_CREAT WITH DATE()
      
-     replace usename with fgcod3->usename
-     replace item_use with fgcod3->item_use
-     if empty(fcpurch)
-     replace fcpurch with fgcod3->fcpurch
-     endif
-     IF EMPTY(FCPURCH)
-     REPLACE FCPURCH WITH "No"
-     endif
-     if empty(qty)
-     replace qty with fgcod3->qty
-     endif
-     if empty(qty)
-     replace qty with "No"
-     endif
-     replace typname with  fgcod3->typname
-     replace claname  with fgcod3->claname
-     replace items_unit with 1
      if form.blevel > 3
      form.ptyp = ""
      form.pcla = ""
      form.root.FGCOD.add.enabled = .F.
       endif
+      SELECT FGCOD
    form.sname.SetFocus()  
      endif
      endif
      endif
      endif
+     SELECT FGCOD
    ***************************************************************************
    procedure ViewEditOnClick
    ****************************************************************************

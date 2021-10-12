@@ -41,7 +41,7 @@ CLASS KenFcMENU(FormObj,Name) OF MENUBAR(FormObj,Name)
           StatusMessage "Return to the Previous Menu.",;
           Text "&RETURN TO PREVIOUS MENU",;
           SHORTCUT "F4",;
-          OnClick CLASS::ONEXIT
+          OnClick CLASS::OnExit
   
       
        DEFINE MENU SEPARATOR000 OF THIS.FILE;
