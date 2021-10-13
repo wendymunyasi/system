@@ -1,0 +1,20 @@
+* Visual dBASE .QBE file 9
+ON ERROR DO QBEERR WITH ERROR(), MESSAGE(),;
+PROGRAM(), LINENO()
+CLOSE DATABASES
+ON ERROR DO frtrns.prg
+USE \KENSERVICE\DATA\FRAGEDRS.DBF ORDER TAG MKEY
+CLOSE DATABASES
+ON ERROR DO QBEERR WITH ERROR(), MESSAGE(),;
+PROGRAM(), LINENO()
+SET EXACT ON
+SELECT 1
+USE \KENSERVICE\DATA\frSTAT.DBf 
+SELECT 2
+USE \KENSERVICE\DATA\fragedrs.DBF exclusive
+select 3
+use \kenservice\data\fragecrs.dbf exclusive
+select 99
+ use \kenservice\data\fgshupdr.dbf exclusive
+SELECT 1
+set filter to empty(age_date)

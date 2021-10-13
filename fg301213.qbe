@@ -1,0 +1,37 @@
+* Visual dBASE .QBE file 9
+close databases
+on error do SHIFTMNS.PRG
+use \kenservice\data\dayfgmas.DBF
+? purch
+on error do shtrnsst.PRG
+use \kenservice\data\fgadasto.dbf
+? gl_post
+close databases
+ON ERROR DO QBEERR WITH ERROR(), MESSAGE(),;
+PROGRAM(), LINENO()
+CLOSE DATABASES
+SET EXACT ON
+SELECT 2
+if .not. file("\kenservice\data\fgtransf.dbf")
+use \kenserve\idssys\fgtransf.dbf
+copy stru to \kenservice\data\fgtransf dbase prod
+endif
+USE \KENSERVICE\DATA\fgtransf.DBF  exclusive
+select 3
+use \kenservice\data\dayfgmas.dbf 
+SELECT 15
+USE \KENSERVICE\DATA\fgmast.DBF 
+SELECT 4
+USE \KENSERVICE\DATA\st15f.DBf 
+select 25
+use \kenservice\data\fgadasto.dbf
+select 27
+use \kenservice\data\shstmast.dbf  
+select 31
+use \kenservice\data\fgcoy.dbf
+select 135
+use \kenservice\data\fgmmstks.dbf  
+   select 137
+   USE \KENSERVICE\DATA\DACOYSUM.DBF  
+   select 138
+   use  \kenservice\data\fgcod.dbf

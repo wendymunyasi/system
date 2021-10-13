@@ -1,0 +1,36 @@
+* Visual dBASE .QBE file 9
+ON ERROR DO QBEERR WITH ERROR(), MESSAGE(),;
+PROGRAM(), LINENO()
+CLOSE DATABASES
+SET EXACT ON
+select 68
+use \kenservice\data\fgassyD.dbf
+SELECT 3
+USE \KENSERVICE\DATA\fgassyl.DBF
+go top
+SELECT 1
+USE \KENSERVICE\DATA\fgassy.DBF
+set filter to order_no = fgassyL->order_no .AND. .not. aaQTY = 0 .and. .not. saqty = 0 ;
+ .and. .not.  empty(post_date)
+select 4
+use \kenservice\data\fgcoy.dbf
+select 5
+use \kenservice\data\fgoff.dbf order tag off
+select 6
+use \kenservice\data\fgcen.dbf order tag mkey
+select 8
+use \kenservice\data\fgcod.dbf order tag mkey
+select 16
+use \kenservice\data\fgcenS.dbf order tag mkey
+select 18
+use \kenservice\data\fgcodS.dbf order tag mkey
+select 1
+set relation to off into fgoff, coy+div+cen into fgcen, typ+cla+cod into fgcod, ;
+ coy1+div1+cen1 into fgcenS, typ1+cla1+cod1 into fgcodS 
+select 60
+use \kenservice\data\fgassyUP.dbf
+select 61
+use \kenservice\data\fgprint.dbf
+SELECT 1
+
+GO TOP

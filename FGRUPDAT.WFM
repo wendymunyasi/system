@@ -1,0 +1,354 @@
+////////////////////////////////////////////////////////////////////////////////
+// Output Filename: C:\KENSERVICE\IDSSYS\FGRUPDAT_FCV.WFM                     //
+// Created By:      dBASE Form Converter Wizard                               //
+// Created On:      Thursday June 23, 2016 At 15:38:24                        //
+// Object Count:    13                                                        //
+////////////////////////////////////////////////////////////////////////////////
+**  PROGRAM:      FGRUPDAT.WFM
+*  WRITTEN BY:   W Nyongesa
+*  DATE:         10/2003
+*
+*  UPDATED:      01/2009
+*
+*  REVISION:     $Revision:   1.97  $
+*
+*  VERSION:      Visual dBASE
+*
+*  DESCRIPTION:  This form displays information about an order from a company.
+*                It allows traversing through FGRUPDAT and going to the top and
+*                bottom.  This form also has a corresponding menu, OrdCust.mnu,
+*                which allows adding,deleting and searching for an order.
+*                When an unknown customer number is entered, a dialog will come
+*                up asking you if you want to add a new customer.  If you
+*                selecte the Yes button, the customer form (in stcusj.Wfm)
+*                will be opened, so a new customer can be added.
+*
+*  PARAMETERS:   None
+*
+*  CALLS:        FGRUPDAT.mnu       (Menu file)
+*                Buttons.cc       (Custom controls file)
+*                stcusj.Wfm     (Form for displaying customer information)
+*                FGRUPDAT.qbe       (View of tables)
+*
+*  USAGE:        DO FGRUPDAT.WFM    && Note that you can also DO stcusj.Wfm
+*
+*******************************************************************************
+#include <Messdlg.h>
+shell(.F.)
+create session
+set talk off
+*ET DESIGN OFF
+*if .not. user() = "WYCLIFFE"
+_app.FrameWin.Visible = .f.
+set design off
+*ENDIF
+_app.FrameWin.Text = "FGRUPDAT"
+set ldCheck off                        && To avoid language driver conflicts
+*SET DBTYPE TO PARADOX
+SET CUAENTER OFF
+** END HEADER -- do not remove this line
+//
+// Generated on 23/06/2016
+//
+parameter bModal
+local f
+f = new LOGINFORM()
+if (bModal)
+   f.mdi = false // ensure not MDI
+   f.readModal()
+else
+   f.open()
+endif
+
+class LOGINFORM of FORM
+   with (this)
+      onClose = class::ONCLOSE
+      open = class::OPEN
+      scaleFontSize = 10.0
+      metric = 6	// Pixels
+      height = 818.0
+      left = 59.0
+      top = 10.0
+      width = 630.0
+      text = "STATUS OF SHIFT CLOSING AND MIS REPORTS UPDATE"
+      topMost = true
+      windowState = 2	// Normal
+      mdi = false
+      moveable = false
+      view = "st15fc06.qbe"
+      maximize = false
+      minimize = false
+   endwith
+
+   this.RECTANGLE1 = new RECTANGLE(this)
+   with (this.RECTANGLE1)
+      left = 64.0
+      top = 77.0
+      width = 800.0
+      height = 473.0
+      text = ""
+      colorNormal = "0x808040/W"
+      fontName = "MS Sans Serif"
+   endwith
+
+   this.TEXT0 = new TEXTLABEL(this)
+   with (this.TEXT0)
+      height = 20.0
+      left = 96.0
+      top = 97.0
+      width = 672.0
+      text = "Error/Interruption  Encountered During Shift Closing In Phase 0"
+      colorNormal = "W+/0xc08000"
+      fontName = "MS Sans Serif"
+      fontSize = 15.0
+      fontBold = true
+      alignVertical = 1	// Middle
+      alignHorizontal = 1	// Center
+   endwith
+
+   this.TEXT1 = new TEXTLABEL(this)
+   with (this.TEXT1)
+      height = 20.0
+      left = 96.0
+      top = 137.0
+      width = 672.0
+      text = "Error/Interruption  Encountered During Shift Closing In Phase 1"
+      colorNormal = "W+/0xc08000"
+      fontName = "MS Sans Serif"
+      fontSize = 15.0
+      fontBold = true
+      alignVertical = 1	// Middle
+      alignHorizontal = 1	// Center
+   endwith
+
+   this.TEXT2 = new TEXTLABEL(this)
+   with (this.TEXT2)
+      height = 20.0
+      left = 96.0
+      top = 177.0
+      width = 672.0
+      text = "Error/Interruption  Encountered During Shift Closing In Phase 2"
+      colorNormal = "W+/0xc08000"
+      fontName = "MS Sans Serif"
+      fontSize = 15.0
+      fontBold = true
+      alignVertical = 1	// Middle
+      alignHorizontal = 1	// Center
+   endwith
+
+   this.TEXT3 = new TEXTLABEL(this)
+   with (this.TEXT3)
+      height = 20.0
+      left = 96.0
+      top = 217.0
+      width = 672.0
+      text = "Error/Interruption  Encountered During Shift Closing In Phase 3"
+      colorNormal = "W+/0xc08000"
+      fontName = "MS Sans Serif"
+      fontSize = 15.0
+      fontBold = true
+      alignVertical = 1	// Middle
+      alignHorizontal = 1	// Center
+   endwith
+
+   this.TEXT4 = new TEXTLABEL(this)
+   with (this.TEXT4)
+      height = 20.0
+      left = 96.0
+      top = 257.0
+      width = 672.0
+      text = "Error/Interruption  Encountered During Shift Closing In Phase 4"
+      colorNormal = "W+/0xc08000"
+      fontName = "MS Sans Serif"
+      fontSize = 15.0
+      fontBold = true
+      alignVertical = 1	// Middle
+      alignHorizontal = 1	// Center
+   endwith
+
+   this.TEXT5 = new TEXTLABEL(this)
+   with (this.TEXT5)
+      height = 20.0
+      left = 96.0
+      top = 297.0
+      width = 672.0
+      text = "Error/Interruption  Encountered During Shift Closing In Phase 5"
+      colorNormal = "W+/0xc08000"
+      fontName = "MS Sans Serif"
+      fontSize = 15.0
+      fontBold = true
+      alignVertical = 1	// Middle
+      alignHorizontal = 1	// Center
+   endwith
+
+   this.TSAL = new TEXTLABEL(this)
+   with (this.TSAL)
+      height = 20.0
+      left = 96.0
+      top = 337.0
+      width = 672.0
+      text = "Update Sales First"
+      colorNormal = "W+/0xc08000"
+      fontName = "MS Sans Serif"
+      fontSize = 15.0
+      fontBold = true
+      alignVertical = 1	// Middle
+      alignHorizontal = 1	// Center
+   endwith
+
+   this.TDRS = new TEXTLABEL(this)
+   with (this.TDRS)
+      height = 20.0
+      left = 96.0
+      top = 377.0
+      width = 672.0
+      text = "Update Debtors First"
+      colorNormal = "W+/0xc08000"
+      fontName = "MS Sans Serif"
+      fontSize = 15.0
+      fontBold = true
+      alignVertical = 1	// Middle
+      alignHorizontal = 1	// Center
+   endwith
+
+   this.TINV = new TEXTLABEL(this)
+   with (this.TINV)
+      height = 20.0
+      left = 96.0
+      top = 417.0
+      width = 672.0
+      text = "Update Inventory First"
+      colorNormal = "W+/0xc08000"
+      fontName = "MS Sans Serif"
+      fontSize = 15.0
+      fontBold = true
+      alignVertical = 1	// Middle
+      alignHorizontal = 1	// Center
+   endwith
+
+   this.TPUR = new TEXTLABEL(this)
+   with (this.TPUR)
+      height = 20.0
+      left = 96.0
+      top = 457.0
+      width = 672.0
+      text = "Update Purchases First"
+      colorNormal = "W+/0xc08000"
+      fontName = "MS Sans Serif"
+      fontSize = 15.0
+      fontBold = true
+      alignVertical = 1	// Middle
+      alignHorizontal = 1	// Center
+   endwith
+
+   this.TSTK = new TEXTLABEL(this)
+   with (this.TSTK)
+      height = 20.0
+      left = 96.0
+      top = 497.0
+      width = 672.0
+      text = "Update Stock Reports First"
+      colorNormal = "W+/0xc08000"
+      fontName = "MS Sans Serif"
+      fontSize = 15.0
+      fontBold = true
+      alignVertical = 1	// Middle
+      alignHorizontal = 1	// Center
+   endwith
+
+   this.OKBUTTON = new PUSHBUTTON(this)
+   with (this.OKBUTTON)
+      height = 24.0
+      left = 273.0
+      top = 616.0
+      Onclick = Class::SVERIFY_OnClick
+      width = 107.0
+      text = "OK"
+      fontBold = true
+      colorNormal = "black/0xf0f0f0"
+   endwith
+
+
+   procedure Open
+      form.text0.visible =.f.
+    form.text1.visible =.f.
+    form.text2.visible =.f.
+    form.text3.visible =.f.
+    form.text4.visible =.f.
+    form.text5.visible =.f.
+    form.tsal.visible =.f.
+    form.tdrs.visible =.f.
+    form.tinv.visible =.f.
+    form.tpur.visible =.f.
+    form.tstk.visible =.f.
+     SELECT SHCONGT0
+    GO TOP
+    IF .NOT. EOF()
+     form.text0.visible =.T.
+     ENDIF
+    SELECT SHCONGT1
+    GO TOP
+    IF .NOT. EOF()
+    form.text1.visible =.T.
+     ENDIF
+    SELECT SHCONGT2
+    GO TOP
+    IF .NOT. EOF()
+    form.text2.visible =.T.
+
+    ENDIF
+    SELECT SHCONGT3
+    GO TOP
+    IF .NOT. EOF()
+    form.text3.visible =.T.
+    ENDIF
+    SELECT SHCONGT4
+    GO TOP
+    IF .NOT. EOF()
+      form.text4.visible =.T.
+    ENDIF
+    SELECT SHCONGT5
+    GO TOP
+    IF .NOT. EOF()
+    form.text5.visible =.T.
+    ENDIF
+    select fgshupsl
+    go top
+    if .not. eof()
+     form.tsal.visible =.T.
+    ENDIF
+    select fgshupdr
+    go top
+    if .not. eof()
+     form.tdrs.visible =.T.
+    ENDIF
+    select fgshupiv
+    go top
+    if .not. eof()
+      form.tinv.visible =.T.
+
+    ENDIF
+    select fgshuppu
+    go top
+    if .not. eof()
+      form.tpur.visible =.T.
+    ENDIF
+    select fgshupst
+    go top
+    if .not. eof()
+     form.tstk.visible =.T.
+    ENDIF
+
+   form.trials = 0
+
+   form::Open()
+
+   procedure OnClose
+
+   form.close()
+
+   Procedure SVERIFY_OnClick
+         FORM.CLOSE()
+
+endclass
+

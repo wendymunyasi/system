@@ -1,0 +1,212 @@
+******************************************************************************
+*  PROGRAM:      FGSALCOD.mnu
+*
+*  WRITTEN BY:   W M Nyongesa
+*
+*  DATE:         12/93
+*
+*  UPDATED:     12/2011
+*
+*  REVISION:     $Revision:   1.55  $
+*
+*  VERSION:      Visual dBASE
+*
+*  DESCRIPTION:  This menu file is used by FGSALCOD.wfm for performing simple
+*                tasks.  It allows adding, deleting, and searching for
+*                Frstats, brings up the orders form for a Customer,
+*                and runs reports.
+*
+*  PARAMETERS:   FormObj -- the form to which this menu is attached.
+*
+*  CALLS:        None
+*
+*  USAGE:        form.menuFile = "FGSALCOD.mnu"
+*
+*******************************************************************************
+#include <Messdlg.h>
+
+** END HEADER -- do not remove this line*
+* Generated on 06/21/94
+*
+Parameter FormObj
+NEW FrstatMENU(FormObj,"Root")
+CLASS FrstatMENU(FormObj,Name) OF MENUBAR(FormObj,Name)
+   this.Text = ""
+   this.OnInit = {;set procedure to Sampproc.prg}
+
+   DEFINE MENU FILE OF THIS;
+       PROPERTY;
+         Text "&File"
+
+          DEFINE MENU EXIT OF THIS.FILE;
+                PROPERTY; 
+          StatusMessage "Return to the Previous Menu.",;
+          Text "&RETURN TO PREVIOUS MENU",;
+          SHORTCUT "F4",;
+          OnClick CLASS::ONEXIT
+  
+      
+       DEFINE MENU SEPARATOR000 OF THIS.FILE;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+
+            
+   DEFINE MENU QUITALL OF THIS.FILE;
+       PROPERTY; 
+          StatusMessage "Leave Kenserve System.",;
+          Text "Exit",;
+          SHORTCUT "F8",;
+          OnClick CLASS::ONQUITALL
+          
+   DEFINE MENU Frstat OF THIS;
+       PROPERTY;
+         Text "&Item Lookup Code/Name"
+
+         DEFINE MENU VIEWEDIT OF THIS.Frstat;
+             PROPERTY;
+               OnClick CLASS::VIEWEDITONCLICK,;
+               Text "&Edit",;
+               Shortcut "Ctrl-E",;
+               StatusMessage "Edit data."
+
+         DEFINE MENU SEPARATOR1 OF THIS.Frstat;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+
+         DEFINE MENU SEARCH OF THIS.Frstat;
+             PROPERTY;
+               OnClick CLASS::SEARCHONCLICK,;
+               Text "&Search ...",;
+               Shortcut "Ctrl-S",;
+               StatusMessage "Search for a Item Lookup Code/Name."
+
+         DEFINE MENU SEPARATOR3 OF THIS.Frstat;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+
+    
+   DEFINE MENU REPORT OF THIS;
+       PROPERTY;
+         Text "&Reports"
+         
+     DEFINE MENU CUST_STATS OF THIS.REPORT;
+           PROPERTY;
+              TEXT "1. INVOICE SALES for Selected Product for Selected Period BY PRODUCT.",;
+                ENABLED .t.,;
+                     OnClick {;create session ;set lock off ;report form FGcodsal},;
+                         StatusMessage "SALES for Selected Product for Selected Period BY PRODUCT."
+                
+                    DEFINE MENU SEPARREPO01 OF THIS.REPORT;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+               
+           DEFINE MENU CUST_STATSVEND OF THIS.REPORT;
+           PROPERTY;
+              TEXT "2. CREDIT CARDS SALES for Selected Product for Selected Period BY PRODUCT.",;
+                ENABLED .t.,;
+                     OnClick {;create session ;set lock off ;report form FGCODSCD},;
+                         StatusMessage "CREDIT CARDS SALES for Selected Product for Selected Period BY PRODUCT."
+                
+                   DEFINE MENU SEPARREPO01VEN OF THIS.REPORT;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+               
+            DEFINE MENU CUST_STATSVEND3 OF THIS.REPORT;
+           PROPERTY;
+              TEXT "3. JOB CARDS SALES for Selected Product for Selected Period BY PRODUCT.",;
+                ENABLED .t.,;
+                     OnClick {;create session ;set lock off ;report form FGCODSJC},;
+                         StatusMessage "JOB CARDS SALES for Selected Product for Selected Period BY PRODUCT."
+                
+                   DEFINE MENU SEPARREPO01VEN3 OF THIS.REPORT;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+               
+                   DEFINE MENU CUST_STATSVEND4 OF THIS.REPORT;
+           PROPERTY;
+              TEXT "4. LPGS/LUBES CASH SALES for Selected Product for Selected Period BY PRODUCT.",;
+                ENABLED .t.,;
+                     OnClick {;create session ;set lock off ;report form FGCODSLG},;
+                         StatusMessage "JLPGS/LUBES CASH SALES for Selected Product for Selected Period BY PRODUCT."
+                
+                   DEFINE MENU SEPARREPO01VEN4 OF THIS.REPORT;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+               
+   ****************************************************************************
+   procedure SearchOnClick
+
+   * Bring up Search.wfm modally.
+   ****************************************************************************
+   private searchForm, searchItem, saveRec,ssrc,sftyp,spmod,sno,sitem
+  select FGMASTP
+ *set order to mkey
+  if reccount() = 0                    && If table is empty, don't search
+      InformationMessage("This table is empty.", "Oops")
+   else
+      form.CheckChanged(.T.)
+      set procedure to Search.wfm additive
+    *  set order to custno
+      searchForm = new SearchForm()
+      searchForm.keyName = "ITEM CODE"       && Indicate to user expression to enter
+      searchForm.formatting = "@X"
+      searchForm.mdi = .F.              && Necessary for a modal form
+      searchItem = searchForm.Readmodal()
+      if type("searchItem") = "O" .and. searchItem.id <> 0;
+                                  .and. .not. empty(searchForm.value)
+         *** If Cancel or ESC wasn't used to exit Search.wfm
+         saveRec = recno()
+         form.enabled = .F.
+       l1 = left(searchform.value,6)
+       SearchTYP = LEFT(l1,2)  && TYP
+       SearchCLA = RIGHT(left(l1,4),2)  && CLA
+       SearchCOD = RIGHT(L1,2) && cOD
+      
+        seek SearchTYP+SearchCLA+SearchCOD
+         if .not. found()
+            InformationMessage(FormatStr("Item Code  %1 \n Was not Found.",;
+                                         searchForm.value),;
+                               "Info")
+            if saveRec <= reccount()    && If weren't at eof(), go to saveRec
+               go saveRec
+            else
+               go bottom
+            endif
+         endif
+         form.enabled = .T.
+      endif
+
+      searchForm.Release()
+      close procedure Search.wfm
+   endif
+   form.BrowseOnNavigate()  
+SET NEAR OFF
+
+ 
+   ****************************************************************************
+   procedure ViewEditOnClick
+
+   * Toggle View/Edit modes.
+   ****************************************************************************
+
+   form.ViewEdit()
+
+
+  
+   ****************************************************************************
+    procedure OnExit
+     form.Release()
+
+    procedure OnQuitAll
+   
+     form.Release()
+
+ quit
+ENDCLASS

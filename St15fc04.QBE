@@ -1,0 +1,87 @@
+* Visual dBASE .QBE file 9
+ON ERROR DO QBEERR WITH ERROR(), MESSAGE(),;
+  PROGRAM(), LINENO()
+CLOSE DATABASES
+SET EXACT ON
+SELECT 4
+USE \KENSERVICE\DATA\ST15F.DBf  exclusive
+SELECT 13
+USE \KENSERVICE\DATA\SHIFTBK.DBf order tag shiftid
+SELECT 14
+USE \KENSERVICE\DATA\DSHIFTBK.DBf order tag shiftdate
+SELECT 1
+USE \KENSERVICE\DATA\fgCOD.DBf
+go top
+replace all sale_price with new_p for typ = "00" .and. .not. sale_price = new_p
+replace all snonvat with nsnonvat for typ = "00" .and. .not. snonvat = nsnonvat
+SELECT 3
+USE \KENSERVICE\DATA\DAYFGMAS.DBF
+select 5
+use \kenservice\DATA\fgcoy.dbf
+go top
+replace CONTACT with 'No'
+SELECT 16
+USE \KENSERVICE\DATA\shiftmn.DBF
+*SET FILTER TO EMPTY(POST_DATE)
+SELECT 17
+USE \KENSERVICE\DATA\dshiftmn.DBF
+SELECT 19
+USE \KENSERVICE\DATA\SCASHREC.DBf  
+select 20
+use \kenservice\data\shcatsum.dbf
+select 21
+use \kenservice\data\dacatsum.dbf
+select 22
+use \kenservice\data\fgmast.dbf
+select 23
+use \kenservice\data\shstmast.dbf
+SELECT 25
+USE \KENSERVICE\DATA\shcongt4.DBf exclusive
+select 26
+use \kenservice\data\cashiers.dbf
+select 30
+use \kenservice\data\frighter.dbf
+replace all turnover with 0 for .not. turnover = 0
+select 31
+use \kenservice\data\FRDDEBTP.dbf
+select 33
+use \kenservice\data\FRMODEBT.dbf
+SELECT 27
+USE \KENSERVICE\DATA\fgcods.DBF
+go top
+replace all sale_price with new_p for typ = "00" .and. .not. sale_price = new_p
+select 34
+use \kenservice\data\mocatsum.dbf
+select 35
+use \kenservice\data\dacasrec.dbf
+select 38
+use \kenservice\data\fgoffs.dbf
+select 40
+use \kenservice\data\dacatsum.dbf again alias dacatsum2
+select 41
+use \kenservice\data\mocatsum.dbf again alias mocatsum2
+select 42
+USE \KENSERVICE\DATA\hCASHREC.DBf
+select 139
+use \kenservice\data\fgdacash.dbf
+select 140
+use \kenservice\data\fgmocash.dbf
+select 141
+use \kenservice\data\mshstmas.dbf
+select 145
+if .not. file("\kenservice\data\frcustbl.dbf")
+use \kenserve\idssys\frcustbl.dbf
+copy stru to \kenservice\data\frcustbl dbase prod
+endif
+use \kenservice\data\frcustbl.dbf order tag frighter
+select 146
+if .not. file("\kenservice\data\shcatsal.dbf")
+use \kenserve\idssys\shcatsal.dbf
+copy stru to \kenservice\data\shcatsal dbase prod
+endif
+use \kenservice\data\shcatsal.dbf 
+select 147
+if .not. file("\kenservice\data\dacatsal.dbf")
+use \kenserve\idssys\dacatsal.dbf
+copy stru to \kenservice\data\dacatsal dbase prod
+endif order tag frighter

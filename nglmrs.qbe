@@ -1,0 +1,42 @@
+ON ERROR DO QBEERR WITH ERROR(), MESSAGE(),;
+PROGRAM(), LINENO()
+CLOSE DATABASES
+on error do ngfnlstr.prg
+USE \KENSERVICE\DATA\ngltran.DBF 
+? pcentre
+close databases
+ON ERROR DO QBEERR WITH ERROR(), MESSAGE(),;
+PROGRAM(), LINENO()
+
+SET EXACT ON
+*set  on
+SELECT 1
+USE \KENSERVICE\data\ngltran.dbf 
+*ZAP
+SELECT 2
+use \kenservice\data\fgtran.dbf 
+*Replace all gl_post with {}
+SELECT 3
+USE \KENSERVICE\data\NGLMAST.DBF 
+*ZAP
+select 4
+use \kenservice\data\ngperiod.dbf 
+*ZAP
+SELECT 6
+USE \KENSERVICE\DATA\NLBANK.DBF 
+*ZAP
+SELECT 7
+USE \KENSERVICE\DATA\NLCASH.DBF 
+*ZAP
+SELECT 8
+USE \KENSERVICE\DATA\NLBANKC.DBF 
+*ZAP
+SELECT 9
+USE \KENSERVICE\DATA\NLCASHC.DBF 
+*ZAP
+select 10
+USE \KENSERVICE\DATA\fgtyp.DBF 
+SELECT 11
+USE \KENSERVICE\DATA\NGLYEARS.DBF
+select 12
+use  \kenservice\data\fgcod.dbf

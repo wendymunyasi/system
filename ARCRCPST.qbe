@@ -1,0 +1,33 @@
+* Visual dBASE .QBE file 9
+close databases
+ON ERROR DO QBEERR WITH ERROR(), MESSAGE(),;
+PROGRAM(), LINENO()
+CLOSE DATABASES
+SET EXACT ON
+*set exclusive on
+SELECT 24
+USE \KENSERVICE\DATA\arcrecsL.DBF
+GO TOP
+SELECT 1
+USE \KENSERVICE\DATA\arcrecs.DBF 
+set filter to empty(post_date) .and. order_no = arcrecsL->order_no
+GO TOP
+SELECT 2
+USE \KENSERVICE\DATA\arcrecln.DBF
+SELECT 55
+IF .NOT. FILE('\KENSERVICE\DATA\ARDRCPST.DBF')
+USE  \KENSERVE\IDSSYS\ARDRCPST.DBF
+COPY STRU TO \KENSERVICE\DATA\ARDRCPST DBASE
+ENDIF
+USE \KENSERVICE\DATA\ARDRCPST.DBF 
+SELECT 93
+USE \KENSERVICE\DATA\FGCOY.DBF
+GO TOP
+select 101
+use \kenservice\data\arcreupd.dbf
+select 105
+use \kenservice\data\arcreupd.dbf again alias arcreupd2
+select 106
+use \kenservice\data\arcrecsn.dbf
+
+

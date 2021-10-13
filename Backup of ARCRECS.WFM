@@ -1,0 +1,988 @@
+////////////////////////////////////////////////////////////////////////////////
+// Output Filename: C:\KENSERVICE\IDSSYS\ARCRECS_FCV.WFM                      //
+// Created By:      dBASE Form Converter Wizard                               //
+// Created On:      Sunday October 3, 2021 At 17:06:00                        //
+// Object Count:    6                                                         //
+////////////////////////////////////////////////////////////////////////////////
+                                                                                                                  *******************************************************************************
+*  PROGRAM:      ARCRECS.WFM
+*
+*  WRITTEN BY:   W Nyongesa
+*  DATE:         10/2003
+*
+*  UPDATED:      09/2011
+*
+*  REVISION:     $Revision:   1.97  $
+*
+*  VERSION:      Visual dBASE
+*
+*  DESCRIPTION:  This form displays information about an order from a company.
+*                It allows traversing through ARCRECS and going to the top and
+*                bottom.  This form also has a corresponding menu, OrdCust.mnu,
+*                which allows adding,deleting and searching for an order.
+*                When an unknown customer number is entered, a dialog will come
+*                up asking you if you want to add a new customer.  If you
+*                selecte the Yes button, the customer form (in stcusj.Wfm)
+*                will be opened, so a new customer can be added.
+*
+*  PARAMETERS:   None
+*
+*  CALLS:        ARCRECS.mnu       (Menu file)
+*                Buttons.cc       (Custom controls file)
+*                stcusj.Wfm     (Form for displaying customer information)
+*                ARCRECS.qbe       (View of tables)
+*
+*  USAGE:        DO ARCRECS    && Note that you can also DO stcusj.Wfm
+*
+*******************************************************************************
+#include <Messdlg.h>
+shell(.F.)
+create session
+set talk off
+*ET DESIGN OFF
+*if .not. user() = "WYCLIFFE"
+_app.FrameWin.Visible = .F.
+set design off
+*ENDIF
+_app.FrameWin.Text = "ARCRECS"
+set ldCheck off                        && To avoid language driver conflicts
+*SET DBTYPE TO PARADOX
+SET CUAENTER OFF
+SET CENTURY ON
+** END HEADER -- do not remove this line*
+* Generated on 14/11/2019
+*
+parameter bUser,bLevel,bModal
+local f
+f = new ARCRECSFORM()
+if (bModal)
+   f.mdi = .F. && ensure not MDI
+   f.ReadModal()
+else
+   f.Open()
+endif
+CLASS ARCRECSFORM OF FORM
+   Set Procedure To BUTTONS.CC additive
+   this.Metric = 6  // Pixels
+   this.Maximize = .F.
+   this.OnClose = CLASS::ONCLOSE
+   this.Text = "STAFF SHORTAGE RECOVERY -- View Mode"
+   this.MDI = .F.
+   this.CanClose = CLASS::FORM_CANCLOSE
+   this.WindowState = 2
+   this.Top = 3
+   this.Moveable = .F.
+   this.ColorNormal = "N+"
+   this.Sizeable = .F.
+   this.EscExit = .F.
+   this.View = "ARCRECS.QBE"
+   this.MenuFile = "ARCRECS.MNU"
+   this.Left = 0
+   this.MousePointer = 1
+   this.Height = 339
+   this.Minimize = .F.
+   this.Width = 406
+
+   DEFINE TEXTLABEL TEXT9 OF THIS;
+       PROPERTY;
+         FontSize 12,;
+         FontName "Verdana",;
+       BorderStyle 7,;
+         Text "No.:",;
+         Top 4,;
+         ColorNormal "R+/W",;
+         Height 21,;
+         Width 54,;
+       FontBold .T.,;
+       AlignHorizontal 1,;
+       AlignVertical 1
+
+   DEFINE ENTRYFIELD ORDERNOENTRY OF THIS;
+       PROPERTY;
+         FontSize 12,;
+         FontName "MS Sans Serig",;
+         Enabled .F.,;
+         DataLink "ARCRECS->ORDER_NO",;
+         Top 4,;
+         ColorHighLight "GB+/W",;
+         ColorNormal "R+/W",;
+         Left 60,;
+         Height 21,;
+         Width 63,;
+       FontBold .T.
+
+   DEFINE TEXTLABEL TEXT2 OF THIS;
+       PROPERTY;
+         FontSize 12,;
+         FontName "Verdana",;
+       BorderStyle 7,;
+         Text "Date:",;
+         ColorNormal "R+/W",;
+         Left 128,;
+         Height 25,;
+         Width 64,;
+       FontBold .T.,;
+       AlignHorizontal 1,;
+       AlignVertical 1
+
+   DEFINE SPINBOX SDATE OF THIS;
+       PROPERTY;
+         FontSize 12,;
+         Enabled .F.,;
+         DataLink "ARCRECS->order_date",;
+         Top 3,;
+         ColorHighLight "W+/N",;
+         ColorNormal "R+/W",;
+         Rangemax {22/02/2020},;
+         ValidErrorMsg "Date out of Range",;
+         Rangemin {05/01/2006},;
+         Left 192,;
+         Height 21,;
+         Width 120,;
+       FontName "MS Sans Serif",;
+       FontBold .T.
+
+   DEFINE TEXTLABEL TEXT3 OF THIS;
+       PROPERTY;
+         FontSize 12,;
+         FontName "Verdana",;
+       BorderStyle 7,;
+         Text "Serial:",;
+         Top 2,;
+         ColorNormal "0x400000/W",;
+         Left 317,;
+         Height 24,;
+         Width 63,;
+       FontBold .T.,;
+       AlignHorizontal 1,;
+       AlignVertical 1
+
+   DEFINE ENTRYFIELD SSERIAL OF THIS;
+       PROPERTY;
+         FontSize 12,;
+         FontName "MS Sans Serig",;
+         Enabled .F.,;
+         DataLink "ARCRECS->SERIALNO",;
+         Top 3,;
+         ColorHighLight "GB+/W",;
+          Function '!',;
+         ColorNormal "R+/W",;
+         OnChange CLASS::SSERIAL_ONCHANGE,;
+         Left 63.6641,;
+         Height 1.2354,;
+         Width 12.835
+
+   DEFINE TEXT TEXT10 OF THIS;
+       PROPERTY;
+         Alignment 4,;
+         FontSize 12,;
+         FontName "Verdana",;
+         Border .T.,;
+         Text "Cashier:",;
+         ColorNormal "0x400000/W",;
+         Left 77.3311,;
+         Height 1.6465,;
+         Width 12.668
+
+   DEFINE COMBOBOX SOFF OF THIS;
+       PROPERTY;
+         FontSize 10,;
+         Style 1,;
+         DataSource "FIELD fgoffs->NAME",;
+         Enabled .F.,;
+         DataLink "ARCRECS->ANAME",;
+         Top 0.1172,;
+         ColorNormal "0xc08000/W",;
+         OnChange CLASS::SEMP1_ONCHANGE,;
+         Left 90,;
+         MousePointer 1,;
+         Height 1.4102,;
+         Width 32
+
+   DEFINE TEXT TEXT4 OF THIS;
+       PROPERTY;
+         Alignment 4,;
+         FontSize 11,;
+         FontName "Verdana",;
+         Border .T.,;
+         Text "Employee:",;
+         Top 1.7637,;
+         ColorNormal "0x400000/W",;
+         Left 2,;
+         Height 1.25,;
+         Width 28
+
+   DEFINE COMBOBOX SCUST OF THIS;
+       PROPERTY;
+         FontSize 10,;
+         Style 1,;
+         DataSource "FIELD FRIGTMES->NAME",;
+         Enabled .F.,;
+         DataLink "ARCRECS->CUSTOMER",;
+         Top 1.7637,;
+         FontBold .F.,;
+         ColorNormal "0x400040/W+",;
+         OnChange CLASS::SCUST_ONCHANGE,;
+         Left 32,;
+         MousePointer 1,;
+         Height 1.4102,;
+         Width 90
+
+   DEFINE RECTANGLE SPRICING OF THIS;
+       PROPERTY;
+         FontSize 12,;
+         Text "Payment for",;
+         Top 3,;
+         ColorNormal "N/0xc8d0d8",;
+         Left 2,;
+         Height 3,;
+         Width 50
+
+   DEFINE RADIOBUTTON SINCL OF THIS;
+       PROPERTY;
+         TabStop .F.,;
+         FontSize 11,;
+         Text "Invoice",;
+         Enabled .F.,;
+         DataLink "ARCRECS->PAYTYPE",;
+         Top 4.25,;
+         OnChange CLASS::SINCL_ONCHANGE1,;
+         Group .T.,;
+         Left 4,;
+         Height 1.1172,;
+         Width 14
+
+   DEFINE RECTANGLE RECTANGLE1 OF THIS;
+       PROPERTY;
+         FontSize 12,;
+         Text "Payment Method",;
+         Top 3,;
+         ColorNormal "N/0xc8d0d8",;
+         Left 52,;
+         Height 3,;
+         Width 70
+
+   DEFINE RADIOBUTTON SCASH OF THIS;
+       PROPERTY;
+         TabStop .F.,;
+         FontSize 11,;
+         Text "Cash",;
+         Enabled .F.,;
+         DataLink "ARCRECS->PAY_METHOD",;
+         Top 4.25,;
+         OnChange CLASS::SCASH_ONCHANGE1,;
+         Group .T.,;
+         Left 54,;
+         Height 1.1172,;
+         Width 10
+
+   DEFINE TEXT TEXT6 OF THIS;
+       PROPERTY;
+         Alignment 4,;
+         FontSize 12,;
+         FontName "Verdana",;
+         Border .T.,;
+         Text "Ref.",;
+         Top 6.5293,;
+         ColorNormal "N/W",;
+         Left 2,;
+         Height 1.5293,;
+         Width 20
+
+   DEFINE ENTRYFIELD SREF OF THIS;
+       PROPERTY;
+         TabStop .F.,;
+         FontSize 12,;
+         FontName "arial",;
+         Enabled .F.,;
+          Function '!',;
+         DataLink "arcrecln->REF",;
+         Top 6.5293,;
+         ColorHighLight "G+/N",;
+         ColorNormal "0x400000/W",;
+         OnChange CLASS::SREF_ONCHANGE,;
+         Left 24,;
+         Height 1.5293,;
+         Width 20
+
+   DEFINE TEXT TEXT12 OF THIS;
+       PROPERTY;
+         Alignment 4,;
+         FontSize 12,;
+         FontName "Verdana",;
+         Border .T.,;
+         Text "A/c Date",;
+         Top 6.5293,;
+         ColorNormal "N/W",;
+         Left 54,;
+         Height 1.5293,;
+         Width 16
+
+   DEFINE SPINBOX SCHQD OF THIS;
+       PROPERTY;
+         TabStop .F.,;
+         FontSize 10,;
+         Enabled .F.,;
+         DataLink "arcrecln->OTHER_DATE",;
+         Top 6.5293,;
+         ColorHighLight "W+/N",;
+         ColorNormal "R+/W",;
+         OnChange CLASS::SCHQD_ONCHANGE,;
+         Rangemax {22/02/2020},;
+         Rangemin {05/01/2006},;
+         Left 74,;
+         Height 1.5293,;
+         Width 24
+
+   DEFINE TEXT TEXT14 OF THIS;
+       PROPERTY;
+         Alignment 4,;
+         FontSize 12,;
+         FontName "Verdana",;
+         Border .T.,;
+         Text "Enter Amount",;
+         Top 8.5293,;
+         ColorNormal "N/W",;
+         Left 10,;
+         Height 1.5293,;
+         Width 24
+
+   DEFINE ENTRYFIELD SDTOTAL OF THIS;
+       PROPERTY;
+         Picture "9,999,999,999.99",;
+         FontSize 12,;
+         Enabled .F.,;
+         DataLink "arcrecln->TOTAL",;
+         Top 8.5293,;
+         ColorHighLight "0x40/W",;
+         ColorNormal "N/W",;
+         OnChange CLASS::SDTOTAL_ONCHANGE,;
+         Left 36,;
+         Height 1.5293,;
+         Width 28
+
+   DEFINE TEXT TEXT7 OF THIS;
+       PROPERTY;
+         Alignment 4,;
+         FontSize 12,;
+         FontName "Verdana",;
+         Border .T.,;
+         Text "Receipt Total:",;
+         Top 8.7646,;
+         ColorNormal "0x400000/0xffff80",;
+         Left 66,;
+         Height 1.4697,;
+         Width 24
+
+   DEFINE ENTRYFIELD STOTAL OF THIS;
+       PROPERTY;
+         Picture "9999,999,999.99",;
+         FontSize 12,;
+         FontName "arial",;
+         Enabled .F.,;
+         DataLink "ARCRECS->TOTAL",;
+         Top 8.7646,;
+         ColorHighLight "G+/0xc08000",;
+         ColorNormal "0x400000/0xffff80",;
+         Left 92,;
+         Height 1.4697,;
+         Width 28
+
+   DEFINE PUSHBUTTON FIRSTORDERBUTTON OF THIS;
+       PROPERTY;
+         FontSize 12,;
+         Text "First",;
+         Top 26.1172,;
+         ColorNormal "0x40/W",;
+         OnClick CLASS::GO_TOP,;
+         Group .F.,;
+         Left 3,;
+         Height 1.5293,;
+         Width 20
+
+   DEFINE PUSHBUTTON LASTORDERBUTTON OF THIS;
+       PROPERTY;
+         FontSize 12,;
+         Text "Last",;
+         Top 26.1172,;
+         ColorNormal "0x40/W",;
+         OnClick CLASS::GO_LAST,;
+         Group .F.,;
+         Left 28,;
+         Height 1.5293,;
+         Width 20
+
+   DEFINE PREVBUTTON PREVORDERBUTTON OF THIS;
+       PROPERTY;
+         FontSize 12,;
+         Text "Previous",;
+         Top 26.1172,;
+         ColorNormal "0x40/W",;
+         OnClick CLASS::PREVIOUS,;
+         Group .T.,;
+         Left 53,;
+         Height 1.5293,;
+         Width 20
+
+   DEFINE NEXTBUTTON NEXTORDERBUTTON OF THIS;
+       PROPERTY;
+         Default .T.,;
+         FontSize 12,;
+         Text "Next",;
+         Top 26.1172,;
+         ColorNormal "0x40/W",;
+         OnClick CLASS::NEXT,;
+         Group .F.,;
+         Left 78,;
+         Height 1.5293,;
+         Width 20
+
+   DEFINE BROWSE CHILDBROWSE OF THIS;
+       PROPERTY;
+         ScrollBar 1,;
+         CUATab .T.,;
+         FontSize 10,;
+         Alias "arcrecln",;
+         Text "LISTING OF BREAK-DOWN OF PAYMENT RECEIVED",;
+         ShowRecNo .F.,;
+         Append .F.,;
+         ShowDeleted .F.,;
+         Top 11,;
+         Delete .F.,;
+         ColorHighLight "R/BTNFACE",;
+         Fields 'arcrecln->STOCK_NO\H="NO."\6\P="99"\R\C="N/0xffff80",arcrecln->REF\H="REF NO."\30\R\C="N/0xffff80",arcrecln->OTHER_DATE\H="REF DATE"\12\R\C="N/0xffff80",arcrecln->TOTAL\H="AMOUNT"\25\P="9999,999,999.99"\R\C="N/0xffff80"',;
+         ColorNormal "R/W",;
+         Modify .F.,;
+         Left 2,;
+         Height 10,;
+         Width 114
+
+   procedure Open
+   ****************************************************************************
+   private orderNoField
+      on error DO ddeerr WITH ERROR(), MESSAGE(),;
+   PROGRAM(), LINENO()
+         FORM.BLUSER = BUSER
+   FORM.BLEVEL = BLEVEL
+   IF EMPTY(FORM.BLUSER) .OR. EMPTY(FORM.BLEVEL)
+   QUIT
+   ENDIF
+
+                    set safety off
+                     SET REPROCESS TO 10
+                     select arcrecsn
+                      go top
+    if eof()
+    append blank
+    replace order_no with "0"
+    endif
+                         select arcreupd
+    set order to orderdate
+
+                  select arcrecln3
+                  set order to order_no
+                  select fgcods
+                  set order to name
+                     SELECT ARCRECS3
+                     SET ORDER TO ORDER_NO
+                     GO BOTTOM
+   SET SAFETY ON
+   select st15f
+   set order to mkey
+   GO TOP
+     select frigtmes
+   set order to name
+
+   select arcrecln
+   go top
+   if .not. eof()
+   if empty(order_no)
+   delete
+   endif
+   endif
+   select ARCRECS
+   go top
+   if .not. eof()
+   if empty(order_no)
+   delete
+   endif
+   endif
+      select fgoffs
+   set order to name
+    select ARCRECS3
+    SET ORDER TO ORDER_NO
+   go bottom
+    form.maxOrder = order_no
+   if type("form.init") = "U"
+      form.init = .T.
+    ENDIF
+   SELECT FGCOY
+   GO TOP
+   FORM.PSHIFTDATE = DATE()
+   FORM.PSHIFTNO = "0"
+   FORM.PSHIFTID = "0"
+   form.pfc = .f.
+   IF POSPOST = "Yes"
+    FORM.PSHIFTDATE = st15f->shift_date
+   FORM.PSHIFTNO = st15f->shift_no
+   SELECT FGCOY
+   REPLACE START_DATE WITH ST15F->SHIFT_DATE
+   REPLACE END_DATE WITH START_DATE
+   FORM.PSHIFTID = st15f->shift_id
+   form.pfc = .t.
+
+   endif
+   if .not. form.pfc  && not forecourt
+      if .not. empty(ARCRECS3->order_date)
+      form.PSHIFTDATE = ARCRECS3->order_date
+      select fgcoy
+      replace start_date with FORM.PSHIFTDATE
+      else
+      form.PSHIFTDATE = fgcoy->start_date
+      if empty(form.PSHIFTDATE)
+       InformationMessage("Missing Data Entry Dates Range in the company info file.", "Sorry")
+       quit
+       endif
+
+      endif
+   endif
+
+   FORM.PDIV = ""
+   FORM.PCOY = ""
+   FORM.OKEXIT = .F.
+   FORM.PVATPRICE = "Inclusive"
+   FORM.PCEN = ""
+    form.pcashierno = ""
+    form.pemp1 = ""
+    form.pf1name = ""
+    FORM.PSERVED = ""
+   FORM.PSTO = ""
+   form.pclass = ""
+   FORM.PTYP = ""
+   form.pcard = "B/V"
+   form.ptypname = ""
+   form.pclaname = ""
+   form.pcodname = ""
+   form.pcod = ""
+   form.pf1dr = "No"
+   FORM.PCLA = ""
+      set skip to                     && ARCRECS.qbe contains set skip to arcrecln
+      set exact off                   && the .qbe file contains SET EXACT ON
+
+      set procedure to Sampproc.prg additive
+
+      form.inEditMode = .F.           && indicator of view/edit state
+      form.changesMade = .F.          && indicator of changes made to field values
+      form.previousRecord = .F.       && Save record number when appending
+      form.pspdiv = "1"
+      form.pspdivname = "Depot"
+      *** do calculations in another area so form doesn't get updated
+         select ARCRECS
+      set order to order_no
+
+          local lmax
+
+       ***
+       select ARCRECSL
+       go top
+       if eof()
+       append blank
+       endif
+
+   form.Psdate = FORM.PSHIFTDATE
+   form.pserialno = ""
+          select ARCRECS
+       go top
+
+       select ARCRECS
+      set relation to order_no into arcrecln2 constrain integrity additive
+
+      if type("form.parentcustomerForm") <> "U" && Esc ok if have parent
+         form.escExit = .T.
+      endif
+
+   go top
+   refresh
+    form::Open()
+    shell(.F.)
+
+   procedure OnClose
+   ****************************************************************************
+   *  form.CheckCommit(form.inEditMode)
+      if form.inEditMode
+      form.ViewEdit()
+   endif
+          && Close customer form if it exists
+   if .not. type ("form.childcustomerForm") $ "U,L"
+      form.childcustomerForm.Release()
+      close procedure stcusj.Wfm
+   endif
+         shell(.f.)
+   *  endif
+   close procedure SampProc.prg, Buttons.cc
+    if .not. empty(ARCRECS->order_no)
+   select arcreupd
+   seek ARCRECS->order_no+dtos(ARCRECS->order_date)
+   if found() .and. .not. empty(post_date)
+   select ARCRECS
+   replace post_date with date()
+   endif
+   endif
+
+   close databases
+   clear program
+     do arpCRECS.prg
+   form.close()
+    close databases
+     ****************************************************************************
+
+   procedure BrowseOnNavigate
+    select ARCRECSL
+    replace order_no with ARCRECS->order_no
+    REPLACE ORDER_DATE WITH ARCRECS->ORDER_DATE
+        replace title with "RECEIPT"
+         select ARCRECS
+   *  form.changesmade = .t.
+
+    ****************************************************************************
+
+   procedure ChangesMade
+
+   * Indicate that changes have been made to current record.
+   ****************************************************************************
+
+   form.changesMade = .T.
+
+    procedure BrowseChangesMade
+   ****************************************************************************
+   local t,t2,t3,t4,T5,t6,t7,t8
+     if form.changesmade = .t.
+   select arcrecln
+   IF .NOT. EOF()
+   *  form.changesMade = .T.
+     go recno("arcrecln") in arcrecln    && Make sure change is posted
+
+   select arcrecln2  && recalculate totals in other workarea
+   calculate sum(arcrecln2->total), sum(arcrecln2->invtotal), sum(arcrecln2->paytotal),;
+   sum(arcrecln2->deptotal) to t, t2,t3,t4
+   FORM.STOTAL.VALUE = t
+          ENDIF
+     SELECT ARCRECS
+   endif
+
+
+
+   procedure Next
+   ****************************************************************************
+
+   form.CheckCommit(form.inEditMode)
+   if .not. empty(ARCRECS->order_no)
+   select arcreupd
+   seek ARCRECS->order_no+dtos(ARCRECS->order_date)
+   if found() .and. .not. empty(post_date)
+   select ARCRECS
+   replace post_date with date()
+   flush
+   endif
+   endif
+   form.root.order.viewEdit.enabled = .t.
+     form.root.order.ADDorder.enabled = .T.
+    form.root.order.ADDline.enabled = .T.
+
+   select ARCRECS
+   if .not. eof()
+      NEXTBUTTON::OnClick()
+   endif
+   *form.BrowseOnNavigate()
+   form.root.file.exit.enabled =   .t.
+
+   ****************************************************************************
+
+   procedure Previous
+   ****************************************************************************
+
+   form.CheckCommit(form.inEditMode)
+   if .not. empty(ARCRECS->order_no)
+   select arcreupd
+   seek ARCRECS->order_no+dtos(ARCRECS->order_date)
+   if found() .and. .not. empty(post_date)
+   select ARCRECS
+   replace post_date with date()
+   flush
+   endif
+   endif
+   form.root.order.viewEdit.enabled = .t.
+     form.root.order.ADDorder.enabled = .T.
+    form.root.order.ADDline.enabled = .T.
+
+   select ARCRECS
+   if .not. bof()
+   PREVBUTTON::OnClick()
+   endif
+     form.root.file.exit.enabled =   .t.
+   *form.BrowseOnNavigate()
+
+   ****************************************************************************
+
+   procedure CheckCommit (newInEditMode)
+
+    * Finish transaction, if it has been started.
+    ****************************************************************************
+    private orderField, changesMade,prcoy,prdiv,prcen,prsto,prtyp,prcla,prcod,prqty,;
+    pcoy,pdiv,pcen,psto,ptyp,pcla,pcod
+
+
+    changesMade = form.changesMade
+     if form.changesMade
+       orderField = field(1)                  && Field Order_no
+            commit()
+            on error DO ddeerr WITH ERROR(), MESSAGE(),;
+   PROGRAM(), LINENO()
+
+       if form.inEditMode .and. newInEditMode
+          begintrans()
+               on error DO transerr WITH ERROR(), MESSAGE(),;
+   PROGRAM(), LINENO()
+       endif
+       form.changesMade = .F.
+    endif
+
+
+    if form.inEditMode <> newInEditMode
+       if newInEditMode                       && Going to Edit mode
+          begintrans()
+            on error DO transerr WITH ERROR(), MESSAGE(),;
+   PROGRAM(), LINENO()
+       else                                   && Going to View mode
+          if .not. changesMade
+             rollback()
+            on error   DO ddeerr WITH ERROR(), MESSAGE(),;
+   PROGRAM(), LINENO()
+          endif
+       endif
+       form.inEditMode = newInEditMode
+    endif
+
+      *form.BrowseOnNavigate()
+
+    select ARCRECS
+    ****************************************************************************
+
+   procedure ViewEdit
+   ****************************************************************************
+   local inEditMode, control, editMenu
+
+   editMenu = form.root.ORDER.viewEdit
+   *** If editing is completed, close transaction, otherwise open a transaction
+   if form.inEditMode                           && Change to View mode
+      form.checkChanged(.F.)
+      editMenu.text = "&Edit"
+      editMenu.shortcut = "Ctrl-E"
+      editMenu.statusMessage = "Edit data."
+*      form.root.order.deleteorder.enabled = .F.      && disabled in view mode
+      form.root.order.deleteline.enabled = .F.
+   *     form.root.order.REPLACECUST.enabled = .f.
+      form.CheckCommit(.F.)                     && Check transaction and
+      form.text = "STAFF SHORTAGE RECOVERY -- View Mode"         && change mode to View
+      form.childBrowse.modify = .F.
+      form.statusMessage = "Select RECEIPT - Edit menu choice to " +;
+                           "edit/delete data."
+   else                                         && Change to Edit mode
+      editMenu.text = "&View"
+      editMenu.shortcut = "Ctrl-E"
+      editMenu.statusMessage = "View data."
+*         form.root.order.deleteorder.enabled = .F.      && enabled in edit mode
+        form.root.order.deleteline.enabled = .t.
+   *        form.root.order.REPLACECUST.enabled = .t.
+      form.CheckCommit(.T.)                     && Check transaction and
+      form.text = "STAFF SHORTAGE RECOVERY -- Edit Mode"         && change mode to Edit
+      form.childBrowse.modify = .F.
+      form.statusMessage = "In Edit Mode.  " +;
+                           "Select RECEIPT - View menu choice to switch " +;
+                           "to View mode."
+
+
+   endif
+
+   control = form.first
+
+   inEditMode = form.inEditMode    && so don't have to reference many times
+   do
+      do case
+         case control.name $ "ORDERNOENTRY,cno,TOTINVENTRY,BALDUEENTRY"
+            * these are never editable
+            control.enabled = .F.
+         case .not. control.className $ "BROWSE,NEXTBUTTON,PREVBUTTON,PUSHBUTTON,IMAGE,TEXT"
+            * doesn't make sense to make the above classes enabled/not
+            control.enabled = inEditMode
+         case control.className = "BROWSE"
+            control.Modify = inEditMode
+            control.Delete = inEditMode
+            control.Append = inEditMode
+      endcase
+      control = control.before
+   until control.name = form.first.name
+
+   *   form.cno.enabled = .F.       && Key field is always disabled
+   form.OrderNoEntry.enabled = .F.          && Key field is always disabled
+   form.childBrowse.append = .F.
+   form.childBrowse.delete = .F.
+    FORM.CHILDBROWSE.MODIFY = .F.
+
+   form.stotal.enabled = .f.
+    FORM.STOTAL.ENABLED = .F.
+    if fgcoy->pospost = "Yes"
+   FORM.SDATE.ENABLED = .F.
+   endif
+
+    procedure CheckChanged(callCommit)
+
+   * Check if changes have been made to the current entryfield.  This procedure
+   * is called from menu routines to make sure the form.changesMade gets
+   * updated when a menu is selected while the changed control has focus.
+   ****************************************************************************
+   private control, fieldValue, controlValue, typeText, typeValue
+
+   if form.inEditMode
+      control = form.activeControl
+      if type("control.datalink") <> "U"
+         fieldValue = control.datalink          && name of table field
+
+         typeText = type("control.text")
+         typeValue = type("control.value")
+         do case
+            case typeValue = "C0"
+               controlValue = control.value
+            case typeValue $ "LU" .and. typeText = "C0"
+               controlValue = control.text
+            otherwise
+               controlValue = Null
+         endcase
+         if controlValue <> &fieldValue
+            form.changesMade = .T.
+         endif
+      endif
+   endif
+   if form.changesMade .and. callCommit
+      CLASS::CheckCommit(form.inEditMode)     && Check transactions
+   endif
+
+   ****************************************************************************
+
+   Procedure Go_last
+      form.CheckCommit(form.inEditMode)
+      if .not. empty(ARCRECS->order_no)
+   select arcreupd
+   seek ARCRECS->order_no+dtos(ARCRECS->order_date)
+   if found() .and. .not. empty(post_date)
+   select ARCRECS
+   replace post_date with date()
+   flush
+   endif
+   endif
+   form.root.order.viewEdit.enabled = .t.
+     form.root.order.ADDorder.enabled = .T.
+    form.root.order.ADDline.enabled = .T.
+
+   select ARCRECS
+      go bottom
+   form.root.file.exit.enabled =   .t.
+   *form.BrowseOnNavigate()
+
+
+     Procedure Go_Top
+     form.CheckCommit(form.inEditMode)
+     if .not. empty(ARCRECS->order_no)
+   select arcreupd
+   seek ARCRECS->order_no+dtos(ARCRECS->order_date)
+   if found() .and. .not. empty(post_date)
+   select ARCRECS
+   replace post_date with date()
+   flush
+   endif
+   endif
+   form.root.order.viewEdit.enabled = .t.
+     form.root.order.ADDorder.enabled = .T.
+    form.root.order.ADDline.enabled = .T.
+
+   select ARCRECS
+     go top
+    form.root.file.exit.enabled =   .t.
+    *form.BrowseOnNavigate()
+
+
+
+   Procedure Form_CanClose
+      RETURN IIF(form.changesmade = .F., .F., .T.)
+
+
+   Procedure SEMP1_ONCHANGE
+         local l1,l2
+
+         l1 = this.value
+         select fgoffs
+         seek l1
+
+           select ARCRECS
+           replace aname with fgoffs->name
+         replace off with fgoffs->off
+         replace cashier_no with fgoffs->cashier_no
+          form.changesmade = .t.
+
+
+      Procedure SCUST_ONCHANGE
+         select frigtmes
+         seek this.value
+            select ARCRECS
+            replace customer with this.value
+            replace source with frigtmes->source
+             replace ftyp   with frigtmes->ftyp
+              replace pmod   with frigtmes->pmod
+               replace frighter_n with frigtmes->frighter_n
+                replace err_cust with .t.
+
+          form.changesmade = .t.
+
+
+    Procedure SREF_OnChange
+        form.changesmade = .t.
+        select arcrecln
+        replace ref with this.value
+        select ARCRECS
+
+   Procedure SCHQD_OnChange
+       form.changesmade = .t.
+       select arcrecln
+       replace other_date with this.value
+       select ARCRECS
+
+   Procedure SDTOTAL_OnChange
+   SELECT arcrecln
+                  if this.value < 0
+      InformationMessage("Amount Must Be Greater Than Zero", "Sorry!")
+
+    replace total with 0
+    else
+        REPLACE total with  this.value
+
+   endif
+        form.changesmade = .t.
+        form.browsechangesmade()
+        select ARCRECS
+
+
+
+   Procedure SSERIAL_OnChange
+         form.changesmade = .t.
+         select ARCRECS
+         replace serialno with this.value
+
+     Procedure SINCL_OnChange1
+         form.changesmade = .t.
+
+
+   Procedure SCASH_OnChange1
+       form.changesmade = .t.
+
+
+ENDCLASS

@@ -1,0 +1,21 @@
+* Visual dBASE .QBE file 9
+close databases
+on ERROR DO FGSDAST.PRG
+use \kenservice\data\fgadasto.dbf  ORDER TAG TKEY
+CLOSE DATABASES
+ON ERROR DO QBEERR WITH ERROR(), MESSAGE(),;
+PROGRAM(), LINENO()
+CLOSE DATABASES
+SET EXACT ON
+SELECT 1
+USE \KENSERVICE\data\NGFGNlif.dbf
+SELECT 2 
+USE \KENSERVICE\DATA\DSHSTMAS.DBf
+select 4
+use \kenservice\data\fgadasto.dbf 
+select  7
+use \kenservice\data\st15f.dbf
+select 9
+use \kenservice\data\sttsheet.dbf
+SELECT 132
+USE \KENSERVICE\DATA\FGCOD.DBF

@@ -313,7 +313,7 @@ class KENSLOGDFORM of FORM
    *   *enddo
       form.egroup.VALUE =  appmId
 
- *  pkpwds = kenslog->USER_NAME
+   pkpwds = kenslog->USER_NAME
                appMid = ""
              mCount = 1
     *  *do while mCount <= len(trim(pkpwds))

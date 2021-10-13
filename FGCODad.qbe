@@ -1,4 +1,9 @@
 * Visual dBASE .QBE file 9
+CLOSE DATABASES
+SET SAFETY OFF
+USE \kenservE\IDSSYS\FGCODTEM.DBF
+COPY STRU TO  \kenservice\data\FGCODTEM dbase prod
+set safety on
 on error do fgcodsr.prg
 use  \kenservice\data\st15f.dbf
 ? op_capital

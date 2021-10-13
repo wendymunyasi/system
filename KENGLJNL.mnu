@@ -1,0 +1,237 @@
+******************************************************************************
+*  PROGRAM:      KENGLJNL.MNU
+*
+*  WRITTEN BY:   W Nyongesa
+*
+*  DATE:         03/2001
+*
+*  UPDATED:      06/2013
+*
+*  REVISION:     $Revision:   1.58  $
+*
+*  VERSION:      Visual dBASE
+*
+*  DESCRIPTION:  This is a menu file used by KENGLJNL.WFM for
+*                performing simple tasks.  It allows adding and deleting
+*                records, searching for a value in the Division field of the
+*                current table viewed, and exiting the form in view.
+*
+*  PARAMETERS:   FormObj -- the form to which this menu will belong.
+*
+*  CALLS:        None
+*
+*  USAGE:        form.menuFile = "KENGLJNL.MNU"
+*
+*******************************************************************************
+#include <messdlg.h>
+
+** END HEADER -- do not remove this line*
+* Generated on 07/03/2001
+*
+Parameter FormObj
+NEW DivisionS(FormObj,"Root")
+CLASS DivisionS(FormObj,Name) OF MENUBAR(FormObj,Name)
+   this.Text = ""
+   this.OnInit = {;set procedure to KenpProc.prg}
+
+   DEFINE MENU FILE OF THIS;
+       PROPERTY;
+         Text "&File"
+
+          DEFINE MENU EXIT OF THIS.FILE;
+                PROPERTY; 
+          StatusMessage "Return to the Previous Menu.",;
+          Text "&RETURN TO PREVIOUS MENU",;
+          SHORTCUT "F4",;
+          OnClick CLASS::ONEXIT
+  
+      
+       DEFINE MENU SEPARATOR000 OF THIS.FILE;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+
+            
+   DEFINE MENU QUITALL OF THIS.FILE;
+       PROPERTY; 
+          StatusMessage "Leave Kenserve System.",;
+          Text "EXIT",;
+          SHORTCUT "F8",;
+          OnClick CLASS::ONQUITALL
+          
+
+   DEFINE MENU KENGLJNL OF THIS;
+       PROPERTY;
+         Text "&Date"
+
+        DEFINE MENU VIEWEDIT OF THIS.KENGLJNL;
+             PROPERTY;
+               OnClick CLASS::VIEWEDITONCLICK,;
+               Text "&Edit",;
+               Shortcut "Ctrl-E",;
+               StatusMessage "Edit data."
+
+               DEFINE MENU SEPARATOR2 OF THIS.KENGLJNL;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+
+         DEFINE MENU SEARCH OF THIS.KENGLJNL;
+             PROPERTY;
+               OnClick CLASS::SEARCHONCLICK,;
+               Text "&Search ...",;
+               Shortcut "Ctrl-S",;
+               StatusMessage "Search for a Division."
+        
+       
+
+         DEFINE MENU SEPARATOR3 OF THIS.KENGLJNL;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+
+
+   DEFINE MENU REPORT OF THIS;
+       PROPERTY;
+         Text "&Reports"
+      
+            DEFINE MENU SEPARATOR4 OF THIS.REPORT;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+
+
+    DEFINE MENU MONKYREPO5 OF THIS.REPORT;
+             PROPERTY;
+               OnClick {;create session ;set lock off ;report form FGGLJNLS},;
+               Text "&1. Standard Journals"
+               
+                DEFINE MENU SEPARATOR5 OF THIS.REPORT;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+               
+    DEFINE MENU MONKYREPO6 OF THIS.REPORT;
+             PROPERTY;
+               OnClick {;create session ;set lock off ;report form FGARJNLS},;
+               Text "&2. Debtors Journals"
+               
+                DEFINE MENU SEPARATOR6 OF THIS.REPORT;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+               
+   *    DEFINE MENU MONKYREPO7 OF THIS.REPORT;
+             PROPERTY;
+               OnClick {;create session ;set lock off ;report form FGAPJNLS},;
+               Text "&3. GL Creditors/Purchases Journals"
+               
+        *        DEFINE MENU SEPARATOR7 OF THIS.REPORT;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+               
+               **
+               DEFINE MENU MONKYREPO8 OF THIS.REPORT;
+             PROPERTY;
+               OnClick {;create session ;set lock off ;report form fgpurjnl},;
+               Text "&3. Purchases Journals sorted by account date, pay method for Selected Period"
+               
+                DEFINE MENU SEPARATOR8 OF THIS.REPORT;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+               
+ **
+               DEFINE MENU MONKYREPO9 OF THIS.REPORT;
+             PROPERTY;
+               OnClick {;create session ;set lock off ;report form fgtrnjnl},;
+               Text "&4. General Transactions Journal sorted by account date, pay method for Selected Period"
+               
+                DEFINE MENU SEPARATOR9 OF THIS.REPORT;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+               **
+                 DEFINE MENU MONKYREP10 OF THIS.REPORT;
+             PROPERTY;
+               OnClick {;create session ;set lock off ;report form fgjnld49},;
+               Text "&5. General Ledger Receipts sorted by account date, pay method for Selected Period"
+               
+                DEFINE MENU SEPARATOR10 OF THIS.REPORT;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+               **
+ ****************************************************************************
+   procedure SearchOnClick
+
+   * Bring up Search.WFM.
+   ****************************************************************************
+   private searchForm, searchItem, saveRec, saveFilt, searchcoy,;
+           searchdiv, searchcen,searchdate
+      local l1,l2,l3,l4,l5,l0
+   if reccount() = 0                     && If table is empty, don't search
+      InformationMessage("This table is empty.", "Sorry!")
+   else
+      form.CheckChanged(.T.)
+      set procedure to Search2a.WFM additive
+      searchForm = new SearchForm()
+      searchForm.keyName = "ddmmyyyy"  && Indicator of key expression
+        searchForm.formatting = "@X"
+      searchForm.mdi = .F.
+      searchItem = searchForm.Readmodal()
+      if type("searchItem") = "O" .and. searchItem.id <> 0
+                                      && If search wasn't cancelled
+         saveRec = Bookmark()            && save current record in case seek is
+                                      && unsuccessful
+       l0 = "1"
+       l1 = left(searchform.value,8)  && ddmmyyyy
+       l2 = right(l1,4)  && yyyy
+       l1 = left(l1,4)  && ddmm
+       l3 = left(l1,2) && dd
+       l4 = right(l1,2) && mm
+       l5 = l3+"/"+l4+"/"+l2
+       searchdate =  ctod(l5)
+     *  searchcen = right(searchform.value,6)
+       form.enabled = .F.
+    *  go top
+        seek dtos(searchdate)
+* locate for period = searchcoy .and. doctype = searchdiv
+         if .not. found()
+            InformationMessage(FormatStr("Trans Date %1 \n Was not Found.",;
+                                         searchForm.value),;
+                               "Info")
+            if .not. eof()
+               go saverec()
+            else
+               go bottom
+            endif
+         endif
+         form.enabled = .T.
+      endif
+
+      searchForm.Release()
+      close procedure Search2a.WFM
+        form.BrowseOnNavigate()    
+   endif
+
+   ***************************************************************************
+   procedure ViewEditOnClick
+   ****************************************************************************
+
+   form.ViewEdit()
+  ****************************************************************************
+    procedure OnExit
+     form.Release()
+
+    procedure OnQuitAll
+   
+     form.Release()
+
+ quit
+
+ENDCLASS
+
+
+

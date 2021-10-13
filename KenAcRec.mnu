@@ -1,0 +1,213 @@
+  ******************************************************************************
+*  PROGRAM:      KenAcRec.mnu
+*
+*  WRITTEN BY:   W Nyongesa
+*
+*  DATE:        05/2000
+*
+*  UPDATED:      04/2014
+*
+*  REVISION:     $Revision:   1.0 $
+*
+*  VERSION:      Visual dBASE
+*
+*  DESCRIPTION:  This menu file is used by KenAcRec.wfm for controlling the running 
+*                of the KENPAY Payroll system.
+*
+*  PARAMETERS:   FormObj -- the form to which this menu is attached.
+*
+*  CALLS:        None
+*
+*  USAGE:        form.menuFile = "KenAcRec.mnu"
+*
+*******************************************************************************
+#include <Messdlg.h>
+
+** END HEADER -- do not remove this line*
+* Generated on 17/10/2000
+*
+Parameter FormObj
+NEW KenAcRecMENU(FormObj,"Root")
+CLASS KenAcRecMENU(FormObj,Name) OF MENUBAR(FormObj,Name)
+
+
+   DEFINE MENU FILE OF THIS;
+       PROPERTY; 
+         Text "&FILE",;
+         OnClick CLASS::FILE_ONCLICK
+
+         DEFINE MENU EXIT OF THIS.FILE;
+             PROPERTY; 
+               StatusMessage "Return to the Previous Menu.",;
+                ShortCut "F4",;
+               Text "&Return to Previous Menu",;
+               OnClick CLASS::ONEXITALL
+
+        
+       DEFINE MENU SEPARATOR000 OF THIS.FILE;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+
+
+         DEFINE MENU QUITS OF THIS.FILE;
+             PROPERTY; 
+               StatusMessage "Return to the Previous Menu.",;
+               Text "EXIT",;
+               ShortCut "F8",;
+               OnClick CLASS::QUITALL
+  
+          
+         DEFINE MENU ARSYS3 OF THIS;
+             PROPERTY; 
+             Text "STATEMENTS"
+             
+                if .not. validdrive("Z:") .and. .not. validdrive("W:").and. .not. validdrive("Y:") .and. .not. validdrive("X:")
+                
+               DEFINE MENU bfstat2 OF THIS.ARSYS3;
+             PROPERTY; 
+               Text "0&1. Refresh Statements.",;
+               OnClick {;do frshtrn.prg WITH form.BLUSER, form.BLEVEL}
+               
+                      DEFINE MENU SEPARARSYS301m OF THIS.ARSYS3;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+                  endif
+            
+               
+          DEFINE MENU bfstat1m OF THIS.ARSYS3;
+             PROPERTY; 
+               Text "0&2. B/Forward Standard.",;
+               OnClick {;do frstat.wfm WITH FORM.BLUSER,FORM.BLEVEL}
+                
+                  
+                                DEFINE MENU SEPARARSYS301 OF THIS.ARSYS3;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+            
+               
+          DEFINE MENU bfstat1 OF THIS.ARSYS3;
+             PROPERTY; 
+               Text "0&3. B/Forward Modified for Matching. ",;
+               ENABLED .F.,;
+               OnClick {;do frstatm.wfm WITH FORM.BLUSER,FORM.BLEVEL}
+            
+         DEFINE MENU ARSYS3m OF THIS;
+             PROPERTY; 
+             ENABLED .F.,;
+             Text "MATCH TRANSACTIONS"
+             
+       IF blevel < 8 
+      
+                  DEFINE MENU openstat3 OF THIS.ARSYS3M;
+             PROPERTY; 
+               Text "&1. Mark Paid Valid Invoices.",;
+                OnClick {;do frstatmc.wfm WITH FORM.BLUSER,FORM.BLEVEL},;
+                 ENABLED .t.,;
+               StatusMessage "Mark Paid Valid Invoices."
+               
+             DEFINE MENU SEPARAopenstat003 OF THIS.ARSYS3M;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+               endif
+               
+                IF blevel < 7
+      
+                  DEFINE MENU openstatm3 OF THIS.ARSYS3M;
+             PROPERTY; 
+               Text "&2. Mark Received Valid Credits.",;
+                OnClick {;do frstatmr.wfm WITH FORM.BLUSER,FORM.BLEVEL},;
+                 ENABLED .t.,;
+               StatusMessage "Mark Received Valid Credits."
+               
+             DEFINE MENU SEPARAopenstat00m3 OF THIS.ARSYS3M;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+               
+                     DEFINE MENU openstat4 OF THIS.ARSYS3M;
+             PROPERTY; 
+               Text "&3. UnMark Marked Invoices/Debits.",;
+                OnClick {;do fredtcrn.wfm WITH FORM.BLUSER,FORM.BLEVEL},;
+                 ENABLED .T.,;
+               StatusMessage "Unmark marked Invoices/Debits."
+               
+               
+             DEFINE MENU SEPARAopenstat004 OF THIS.ARSYS3M;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+               
+                       
+            DEFINE MENU bfstatA9a OF THIS.ARSYS3M;
+             PROPERTY; 
+               Text "&4. UnMark Marked Receipts/Credits.",;
+               enabled .t.,;
+               OnClick {;do FRCRUMTC.WFM WITH FORM.BLUSER,FORM.BLEVEL}
+         
+                DEFINE MENU SEPAR1201 OF THIS.ARSYS3M;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+               
+                  endif
+                    
+            DEFINE MENU bfstatA9a1201 OF THIS.ARSYS3M;
+             PROPERTY; 
+               Text "&4. View Customer Unmatched Debits.",;
+               enabled .F.,;
+               OnClick {;do FRDRUMTC.WFM WITH FORM.BLUSER,FORM.BLEVEL}
+         
+           DEFINE MENU SEPARA1203 OF THIS.ARSYS3M;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+               
+                       
+            DEFINE MENU bf1203 OF THIS.ARSYS3M;
+             PROPERTY; 
+               Text "&5. View Customer Matched Credits.",;
+               enabled .F.,;
+               OnClick {;do FRCRUMT.WFM WITH FORM.BLUSER,FORM.BLEVEL}
+         
+                DEFINE MENU SEPAR1203 OF THIS.ARSYS3M;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+               
+                       
+            DEFINE MENU bfstatA9a1203 OF THIS.ARSYS3M;
+             PROPERTY; 
+               Text "&6. View Customer Matched Debits.",;
+               enabled .F.,;
+               OnClick {;do FRDRUMT.WFM WITH FORM.BLUSER,FORM.BLEVEL}
+                    
+  
+   procedure ViewEditOnClick
+   
+   * Toggle View/Edit modes.
+   ****************************************************************************
+   
+   form.ViewEdit()
+   
+   
+   ****************************************************************************
+   
+     
+   procedure OnExitALL
+   
+  
+   ****************************************************************************
+   *      form.close()  
+     form.Release()
+    *  QUIT
+   Procedure QUITALL
+            form.Release()
+            QUIT
+   
+   Procedure FILE_OnClick
+   
+ENDCLASS

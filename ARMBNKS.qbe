@@ -1,0 +1,87 @@
+* Visual dBASE .QBE file 9
+on error do fgcodsr.prg
+use  \kenservice\data\st15f.dbf
+? op_capital
+close databases
+ON ERROR DO QBEERR WITH ERROR(), MESSAGE(),;
+PROGRAM(), LINENO()
+use  \kenservice\data\st15f.dbf
+set order to mkey
+go top
+pcen = cen
+ptyp = typ
+pcla = cla
+pcod = cod
+psto = sto
+CLOSE DATABASES
+SET EXACT ON
+*set exclusive on
+SELECT 1
+IF .NOT. FILE("\kenservice\data\armbnks.dbf")
+ USE  \KENSERVE\IDSSYS\armbnks.DBF
+ COPY STRU TO \KENSERVICE\DATA\armbnks DBASE PROD
+ ENDIF
+USE \KENSERVICE\DATA\armbnks.DBF ORDER TAG ORDER_NO
+*zap
+delete all for empty(order_no)
+set filter to empty(post_date)
+SELECT 2
+IF .NOT. FILE("\kenservice\data\armbnkln.dbf")
+ USE  \KENSERVE\IDSSYS\armbnkln.DBF
+ COPY STRU TO \KENSERVICE\DATA\armbnkln DBASE PROD
+ ENDIF
+USE \KENSERVICE\DATA\armbnkln.DBF ORDER TAG ORDER_NO
+*zap
+delete all for empty(order_no)
+set filter to empty(post_date)
+SELECT 7
+USE \KENSERVICE\DATA\FGOFFS.DBF ORDER TAG NAME
+set filter to .not. empty(shift_date) .and. .not. empty(cashier_no) .and. empty(date_left)
+SELECT 96
+USE \KENSERVICE\DATA\FGCODS.DBF ORDER TAG NAME
+set filter to TYP="C0" .AND. CLA="00" .AND.  active = "Yes" .and.  LEFT(NAME,13) = 'M-MPESA FLOAT'
+SELECT 1
+SET RELATION TO ORDER_NO INTO armbnkln CONSTRAIN INTEGRITY
+SELECT 5
+use \kenservice\data\fgcods.dbf order tag name AGAIN ALIAS FGCOD
+set filter to (TYP="C0" .AND. CLA="00"  .and. active = "Yes" .AND. left(name,14)='M-MPESA LIQUID');
+.or. (typ='C0' .and. cla='00' .and. cod='01')
+SELECT 24
+IF .NOT. FILE("\kenservice\data\armbnksl.dbf")
+ USE  \KENSERVE\IDSSYS\armbnksl.DBF
+ COPY STRU TO \KENSERVICE\DATA\armbnksl DBASE PROD
+ ENDIF
+USE \KENSERVICE\DATA\armbnksL.DBF
+SELECT 25
+USE \KENSERVICE\DATA\armbnks.DBF AGAIN alias armbnks3
+SELECT 70
+set safety off
+use \kenserve\idssys\st15f.dbf
+copy stru to \kenservice\data\st15fmbk dbase prod
+use \kenservice\data\st15fmbk.dbf exclusive alias st15f
+appe from \kenservice\data\st15f.dbf for cen = pcen .and. typ = ptyp .and. cod = pcod .and. sto = psto
+SELECT 93
+USE \KENSERVICE\DATA\FGCOY.DBF
+select 94
+USE \KENSERVICE\DATA\armbnkln.DBF again alias armbnkln3
+select 126
+IF .NOT. FILE("\kenservice\data\armbnupd.dbf")
+ USE  \KENSERVE\IDSSYS\armbnupd.DBF
+ COPY STRU TO \KENSERVICE\DATA\armbnupd DBASE PROD
+ ENDIF
+use \kenservice\data\armbnupd.dbf
+delete all for empty(order_no)
+set filter to .not. empty(post_date)
+select 128
+IF .NOT. FILE("\kenservice\data\armbnksn.dbf")
+ USE  \kenserve\idssys\armbnksn.dbf
+ copy stru to \kenservice\data\armbnksn dbase prod
+ endif
+ use \kenservice\data\armbnksn.dbf
+ select 129
+  use \KENSERVICE\DATA\armbnks.DBF again  alias temp
+  select 130
+    use \KENSERVICE\DATA\armbnkln.DBF again alias armbnkln2 order tag order_no
+    
+SELECT 1
+GO TOP

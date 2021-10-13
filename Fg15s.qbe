@@ -1,0 +1,52 @@
+* Visual dBASE .QBE file 9
+ON ERROR DO QBEERR WITH ERROR(), MESSAGE(),;
+PROGRAM(), LINENO()
+CLOSE DATABASES
+SET EXACT ON
+SELECT 100
+USE \KENSERVICE\DATA\FGSPRD.DBF
+GO TOP
+SELECT 1
+USE \KENSERVICE\data\fgmast.DBf order tag mkey2
+*F .NOT. BLEVEL = 1
+set filter to typ >="00" .and. typ <= "9Z" .and. .not. left(typ,1) = "7" ;
+ .and. .not. (typ = "00" .and. div = "1")  .and. .not. (div="1" .and. cen = "D") ;
+ .and. .not. (div = "3" .and. (left(sto,1) = "G" .or. left(sto,1)="C"))
+*ENDIF
+SELECT 3
+USE \KENSERVICE\DATA\dshstmas.DBf ORDER TAG mkey2
+IF .NOT. BLEVEL = 1  .AND.  .NOT. BLEVEL = 2 .AND.;
+.NOT. BLEVEL = 3 .AND. .NOT. BLEVEL = 6  .AND. .NOT. BLEVEL = 4
+set filter to  MONTH(SHIFT_DATE) = VAL(FGSPRD->MM) .AND.   YEAR(SHIFT_DATE) = VAL(FGSPRD->YY) 
+  ENDIF
+SELECT 9
+USE \KENSERVICE\data\fgtyp.DBf order tag typ
+SELECT 8
+USE \KENSERVICE\data\STSTO.DBf order tag sto
+SELECT 7
+USE \KENSERVICE\data\fgcod.DBf order tag mkey
+SELECT 6
+USE \KENSERVICE\data\fgcla.DBf order tag mkey
+SELECT 5
+USE \KENSERVICE\data\fgcen.DBf order tag mkey
+SELECT 4
+USE \KENSERVICE\data\fgdiv.DBf order tag mkey
+SELECT 2
+USE \KENSERVICE\data\fgcoy.DBf  order tag coy
+SELECT 13
+USE \KENSERVICE\data\FG15S.DBf
+select 14
+use \kenservice\data\fgunits.dbf order tag unit
+select 15
+use \kenservice\data\wshstmas.dbf
+select 16
+use \kenservice\data\dshstmas.dbf again alias dshstmas2 order tag mkey
+select 7
+set relation to  unit into fgunits
+SELECT 1
+SET RELATION TO Coy+div+cen+sto+typ+cla+cod INTO dshstmas CONSTRAIN, Typ INTO ;
+fgtyp, Sto INTO STSTO, Typ+cla+cod INTO fgcod, Typ+cla INTO fgcla, Coy+div+cen ;
+INTO fgcen, Coy+div INTO fgdiv
+
+SELECT 1
+GO TOP

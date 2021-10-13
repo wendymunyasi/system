@@ -1,4 +1,4 @@
-Project File generated 10/02/2021 18:49:57
+Project File generated 10/12/2021 19:04:59
 
 [Project]
 Name=kenslog
@@ -74,7 +74,6 @@ venNAMES.MNU,1,0,1,0
 VNISTR.PRG,1,0,1,0
 MESSDLG.H,0,0,1,0
 vennames.qbe,1,0,1,0
-START.prg,1,0,1,0
 kenalloc.wfm,1,0,1,0
 KENAUDIT.wfm,1,0,1,0
 Kenautos.wfm,1,0,1,0
@@ -273,6 +272,418 @@ ARGRNSPT.QBE,1,0,1,0
 AR30GRN.QBE,1,0,1,0
 ARPGRNS.QBE,1,0,1,0
 ARGRNS.QBE,1,0,1,0
+APOGRNST.QBE,1,0,1,0
+apgras.WFM,1,0,1,0
+APOBGRNS.WFM,1,0,1,0
+apobrns.wfm,1,0,1,0
+ARCASHS.WFM,1,0,1,0
+ARCBNKF.WFM,1,0,1,0
+ARCBNKS.WFM,1,0,1,0
+ARCBTRS.WFM,1,0,1,0
+ARCDNTS.WFM,1,0,1,0
+ARCINVSQ.WFM,1,0,1,0
+ARCMPSA.WFM,1,0,1,0
+ARCRECS.WFM,1,0,1,0
+ARCRNTS.WFM,1,0,1,0
+ARDRECS.WFM,1,0,1,0
+ARDRNTS.WFM,1,0,1,0
+ARFCCSA.WFM,1,0,1,0
+ARLQCSA.WFM,1,0,1,0
+ARMBNKS.WFM,1,0,1,0
+arrinvs.wfm,1,0,1,0
+arrinvsn.wfm,1,0,1,0
+ARTRECS.WFM,1,0,1,0
+arvcnts.wfm,1,0,1,0
+arvcntsn.wfm,1,0,1,0
+DacoyPur.wfm,1,0,1,0
+dacoysal.wfm,1,0,1,0
+dshiftbk.wfm,1,0,1,0
+FG12.WFM,1,0,1,0
+FG12A.WFM,1,0,1,0
+FG13.WFM,1,0,1,0
+Fg15s.wfm,1,0,1,0
+FG15SM.wfm,1,0,1,0
+FG15SMP.wfm,1,0,1,0
+FGADJS.WFM,1,0,1,0
+FGASSY.WFM,1,0,1,0
+fgjcnts.wfm,1,0,1,0
+fgjcntsn.wfm,1,0,1,0
+fglcnts.wfm,1,0,1,0
+fgpupesa.wfm,1,0,1,0
+FGPURCOD.WFM,1,0,1,0
+FGRUPDAT.WFM,1,0,1,0
+FGSALCOD.WFM,1,0,1,0
+Fgsprd.wfm,1,0,1,0
+fgUcnts.wfm,1,0,1,0
+hiftid.Wfm,1,0,1,0
+KenAcPay.wfm,1,0,1,0
+KenAcRec.wfm,1,0,1,0
+KENGLJNL.WFM,1,0,1,0
+SHCASDRP.wfm,1,0,1,0
+shfclmr.wfm,1,0,1,0
+SHFCLPG.wfm,1,0,1,0
+ShfcLub.wfm,1,0,1,0
+shfcmr.wfm,1,0,1,0
+shiftid.wfm,1,0,1,0
+Shiftrps.wfm,1,0,1,0
+st15fcm.wfm,1,0,1,0
+sttsheet.WFM,1,0,1,0
+svdshift.wfm,1,0,1,0
+APGRAS.mnu,1,0,1,0
+apobGrns.mnu,1,0,1,0
+apobrns.mnu,1,0,1,0
+ARCASHS.mnu,1,0,1,0
+ARCBNKF.mnu,1,0,1,0
+ARCBNKS.mnu,1,0,1,0
+ARCBTRS.mnu,1,0,1,0
+ARCDNTS.MNU,1,0,1,0
+ARCINVSQ.MNU,1,0,1,0
+ARCMPSA.mnu,1,0,1,0
+ARCRECS.MNU,1,0,1,0
+ARCRNTS.MNU,1,0,1,0
+ARDRECS.MNU,1,0,1,0
+ARDRNTS.MNU,1,0,1,0
+ARFCCSA.mnu,1,0,1,0
+ARLQCSA.mnu,1,0,1,0
+ARMBNKS.mnu,1,0,1,0
+ARRINVS.mnu,1,0,1,0
+ARTRECS.MNU,1,0,1,0
+arvcnts.mnu,1,0,1,0
+DacoyPur.mnu,1,0,1,0
+dacoysal.mnu,1,0,1,0
+dshiftbk.mnu,1,0,1,0
+Fg12.mnu,1,0,1,0
+Fg12A.mnu,1,0,1,0
+Fg13.mnu,1,0,1,0
+Fg15s.mnu,1,0,1,0
+FG15SM.mnu,1,0,1,0
+FG15SMP.mnu,1,0,1,0
+fgadjs.mnu,1,0,1,0
+FGASSY.mnu,1,0,1,0
+Fgjcnts.mnu,1,0,1,0
+FGLCNTS.mnu,1,0,1,0
+FGPURCOD.mnu,1,0,1,0
+FGSALCOD.mnu,1,0,1,0
+Fgsprd.mnu,1,0,1,0
+FGUCNTS.mnu,1,0,1,0
+KenAcPay.mnu,1,0,1,0
+KenAcRec.mnu,1,0,1,0
+KENGLJNL.mnu,1,0,1,0
+SHFCLUB.MNU,1,0,1,0
+ShFcMr.mnu,1,0,1,0
+SHIFTID.MNU,1,0,1,0
+Shiftrps.mnu,1,0,1,0
+sttsheet.mnu,1,0,1,0
+SVDSHIFT.mnu,1,0,1,0
+ap30apog.prg,1,0,1,0
+ap30gras.PRG,1,0,1,0
+apgrast.PRG,1,0,1,0
+apobgrst.PRG,1,0,1,0
+appogra.PRG,1,0,1,0
+ar30acas.PRG,1,0,1,0
+ar30cbnk.prg,1,0,1,0
+ar30cbtr.prg,1,0,1,0
+AR30CINV.PRG,1,0,1,0
+AR30CMPS.PRG,1,0,1,0
+AR30CRNT.PRG,1,0,1,0
+ar30drec.prg,1,0,1,0
+AR30DRNT.PRG,1,0,1,0
+ar30fbnk.prg,1,0,1,0
+ar30jnl.prg,1,0,1,0
+AR30LQCS.PRG,1,0,1,0
+ar30mpft.prg,1,0,1,0
+AR30rinv.PRG,1,0,1,0
+ar30Trec.prg,1,0,1,0
+ar30vcnt.prg,1,0,1,0
+arcdntsP.PRG,1,0,1,0
+ARCDSPST.PRG,1,0,1,0
+arcmpss.prg,1,0,1,0
+ARCRCPST.PRG,1,0,1,0
+arcrecsP.PRG,1,0,1,0
+ARCRNTSP.PRG,1,0,1,0
+ARDRCPST.PRG,1,0,1,0
+ARDRECSP.PRG,1,0,1,0
+ARDRNTSP.PRG,1,0,1,0
+ARINVSTR.PRG,1,0,1,0
+arpcashS.prg,1,0,1,0
+arpcbnks.prg,1,0,1,0
+arpcdnts.prg,1,0,1,0
+ARPCINVS.PRG,1,0,1,0
+arpcmps.prg,1,0,1,0
+arpCRECS.prg,1,0,1,0
+arpCRNTS.prg,1,0,1,0
+arpDRECS.prg,1,0,1,0
+arpDRNTS.prg,1,0,1,0
+arpmbnks.prg,1,0,1,0
+arptRECS.prg,1,0,1,0
+ARQUTEPT.PRG,1,0,1,0
+ARRINVPT.PRG,1,0,1,0
+ARRPINVS.PRG,1,0,1,0
+ARTRCPST.PRG,1,0,1,0
+artrecSP.PRG,1,0,1,0
+arvcntsp.PRG,1,0,1,0
+dsshrep.prg,1,0,1,0
+dsshrepp.prg,1,0,1,0
+dsshreps.PRG,1,0,1,0
+Fg12AP.PRG,1,0,1,0
+FG12P.PRG,1,0,1,0
+FG12POS.PRG,1,0,1,0
+FG13P.PRG,1,0,1,0
+fg13pos.PRG,1,0,1,0
+FG15FRN.PRG,1,0,1,0
+FG30ADJS.PRG,1,0,1,0
+FG30Assy.PRG,1,0,1,0
+FG30JCnt.PRG,1,0,1,0
+fg30jnls.prg,1,0,1,0
+FG30LCNT.PRG,1,0,1,0
+FG30UCNT.PRG,1,0,1,0
+FG3012A.PRG,1,0,1,0
+fg301213.prg,1,0,1,0
+FGADJSP.PRG,1,0,1,0
+FGASSYP.PRG,1,0,1,0
+FGCOYSTR.PRG,1,0,1,0
+FGJCNTSP.PRG,1,0,1,0
+fgjcstr.PRG,1,0,1,0
+fgjcstrc.prg,1,0,1,0
+FGLCNTSP.PRG,1,0,1,0
+fgledger.prg,1,0,1,0
+FGNFPS.PRG,1,0,1,0
+Fgnshmas.prg,1,0,1,0
+fgp12.prg,1,0,1,0
+fgp12a.prg,1,0,1,0
+fgp13.prg,1,0,1,0
+FGPADJS.PRG,1,0,1,0
+FGPAssy.PRG,1,0,1,0
+fgpjcNTS.prg,1,0,1,0
+fgpLcNTS.prg,1,0,1,0
+fgpospub.prg,1,0,1,0
+fgposttb.PRG,1,0,1,0
+fgpUcNTS.prg,1,0,1,0
+fgpurch.prg,1,0,1,0
+FGSDAST.PRG,1,0,1,0
+fgshcat.prg,1,0,1,0
+Fgshmas.prg,1,0,1,0
+fgshpitn.prg,1,0,1,0
+fgshpits.prg,1,0,1,0
+FGUCNTSP.PRG,1,0,1,0
+FGUPLSTR.PRG,1,0,1,0
+FMS.prg,1,0,1,0
+fordersn.prg,1,0,1,0
+fr3052ag.prg,1,0,1,0
+frshtrn.prg,1,0,1,0
+gl30apog.prg,1,0,1,0
+jn30drec.prg,1,0,1,0
+kensback.prg,1,0,1,0
+ngfnlstr.prg,1,0,1,0
+ngladjs.prg,1,0,1,0
+nglapcdr.prg,1,0,1,0
+nglbdeps.prg,1,0,1,0
+nglcads.PRG,1,0,1,0
+nglcsals.PRG,1,0,1,0
+ngldebit.PRG,1,0,1,0
+ngldscdr.prg,1,0,1,0
+nglinvs.PRG,1,0,1,0
+NGLJNLS.PRG,1,0,1,0
+ngljobs.PRG,1,0,1,0
+nglmrs.prg,1,0,1,0
+nglpaym.PRG,1,0,1,0
+nglpgjob.PRG,1,0,1,0
+nglpurch.PRG,1,0,1,0
+NGLSTKS.PRG,1,0,1,0
+NGLSTVAL.prg,1,0,1,0
+ngltrans.prg,1,0,1,0
+PURRTN.PRG,1,0,1,0
+sh30pcad.prg,1,0,1,0
+sh30pinv.prg,1,0,1,0
+SH30PJCS.prg,1,0,1,0
+sh30PJIN.prg,1,0,1,0
+sh30plpg.prg,1,0,1,0
+sh30plub.prg,1,0,1,0
+SHIFTMNS.PRG,1,0,1,0
+sshhrep.prg,1,0,1,0
+sshhrepp.prg,1,0,1,0
+sshrep.prg,1,0,1,0
+St15fc00.prg,1,0,1,0
+ST15FCAL.prg,1,0,1,0
+tordersn.prg,1,0,1,0
+vnstruct.prg,1,0,1,0
+FGSETUPT.PRK,0,0,1,0
+PAYSETUP.PRK,0,0,1,0
+ap30apog.qbe,1,0,1,0
+ap30gras.qbe,1,0,1,0
+apgrast.qbe,1,0,1,0
+apobGrns.qbe,1,0,1,0
+appogra.qbe,1,0,1,0
+ar30acas.qbe,1,0,1,0
+ar30cbnk.qbe,1,0,1,0
+ar30cbtr.qbe,1,0,1,0
+AR30CINV.QBE,1,0,1,0
+AR30CMPS.qbe,1,0,1,0
+AR30CRNT.QBE,1,0,1,0
+ar30drec.qbe,1,0,1,0
+AR30DRNT.QBE,1,0,1,0
+ar30fbnk.qbe,1,0,1,0
+ar30jnl.qbe,1,0,1,0
+AR30LQCS.qbe,1,0,1,0
+ar30mpft.qbe,1,0,1,0
+AR30rinv.qbe,1,0,1,0
+ar30Trec.qbe,1,0,1,0
+ar30vcnt.qbe,1,0,1,0
+ARCASHS.qbe,1,0,1,0
+ARCBNKF.qbe,1,0,1,0
+ARCBNKS.qbe,1,0,1,0
+ARCBTRS.qbe,1,0,1, 
+ARCdnts.qbe,1,0,1,0
+arcdntsP.qbe,1,0,1,0
+ARCDSPST.qbe,1,0,1,0
+ARCINVPT.qbe,1,0,1,0
+ARCINVS.QBE,1,0,1,0
+ARCMPSA.qbe,1,0,1,0
+ARCRCPST.qbe,1,0,1,0
+ARCRECS.qbe,1,0,1,0
+arcrecsP.qbe,1,0,1,0
+ARCRNTS.QBE,1,0,1,0
+ARCRNTSP.QBE,1,0,1,0
+ARDRCPST.QBE,1,0,1,0
+ARDRECS.QBE,1,0,1,0
+ARDRECSP.QBE,1,0,1,0
+ARDRNTS.QBE,1,0,1,0
+ARDRNTSP.QBE,1,0,1,0
+ARFCCSA.qbe,1,0,1,0
+aricdsp.QBE,1,0,1,0
+arinvp.QBE,1,0,1,0
+ARLQCSA.qbe,1,0,1,0
+ARMBNKS.qbe,1,0,1,0
+arpcashS.qbe,1,0,1,0
+arpcbnks.qbe,1,0,1,0
+arpcdnts.qbe,1,0,1,0
+ARPCINVS.QBE,1,0,1,0
+arpcmps.qbe,1,0,1,0
+arpCRNTS.QBE,1,0,1,0
+arpDRECS.QBE,1,0,1,0
+arpDRNTS.QBE,1,0,1,0
+arpmbnks.qbe,1,0,1,0
+arptRECS.QBE,1,0,1,0
+ARRINVPT.qbe,1,0,1,0
+ARRINVS.qbe,1,0,1,0
+ARRINVSN.qbe,1,0,1,0
+ARRPINVS.qbe,1,0,1,0
+ARTRCPST.QBE,1,0,1,0
+artrecs.QBE,1,0,1,0
+artrecSP.QBE,1,0,1,0
+arvcnts.qbe,1,0,1,0
+arvcntsn.qbe,1,0,1,0
+arvcntsp.qbe,1,0,1,0
+DacoyPur.qbe,1,0,1,0
+dacoysal.qbe,1,0,1,0
+DSHIFTBK.qbe,1,0,1,0
+dsshrep.qbe,1,0,1,0
+dsshrepp.qbe,1,0,1,0
+Fg12.qbe,1,0,1,0
+FG12A.qbe,1,0,1,0
+Fg12AP.qbe,1,0,1,0
+FG12P.qbe,1,0,1,0
+FG12POS.qbe,1,0,1,0
+Fg13.qbe,1,0,1,0
+FG13P.qbe,1,0,1,0
+fg13pos.qbe,1,0,1,0
+Fg15s.qbe,1,0,1,0
+FG15SMP.qbe,1,0,1,0
+FG15SMvt.QBE,1,0,1,0
+FG30ADJS.qbe,1,0,1,0
+FG30Assy.qbe,1,0,1,0
+FG30JCnt.qbe,1,0,1,0
+fg30jnls.qbe,1,0,1,0
+FG30LCNT.qbe,1,0,1,0
+FG30UCNT.qbe,1,0,1,0
+FG3012A.qbe,1,0,1,0
+fg3052em.QBE,1,0,1,0
+fg301213.qbe,1,0,1,0
+fgadjs.qbe,1,0,1,0
+FGADJSP.qbe,1,0,1,0
+FGASSY.qbe,1,0,1,0
+FGASSYP.qbe,1,0,1,0
+fgclpgp.QBE,1,0,1,0
+fgjcadp.QBE,1,0,1,0
+Fgjcnts.qbe,1,0,1,0
+fgjcntsn.qbe,1,0,1,0
+FGJCNTSP.qbe,1,0,1,0
+FGLCNTS.qbe,1,0,1,0
+FGLCNTSP.qbe,1,0,1,0
+Fgnshmas.qbe,1,0,1,0
+fgp12.qbe,1,0,1,0
+fgp12a.qbe,1,0,1,0
+fgp13.qbe,1,0,1,0
+FGPADJS.qbe,1,0,1,0
+FGPAssy.qbe,1,0,1,0
+fgpjcNTS.qbe,1,0,1,0
+fgpLcNTS.qbe,1,0,1,0
+fgpUcNTS.qbe,1,0,1,0
+fgpupesa.qbe,1,0,1,0
+fgpurch.qbe,1,0,1,0
+FGPURCOD.qbe,1,0,1,0
+FGSALCOD.qbe,1,0,1,0
+fgshcat.qbe,1,0,1,0
+Fgshmas.qbe,1,0,1,0
+fgshpitn.qbe,1,0,1,0
+fgshpits.qbe,1,0,1,0
+fgshupdt.QBE,1,0,1,0
+Fgsprd.qbe,1,0,1,0
+FGUCNTS.qbe,1,0,1,0
+FGUCNTSP.qbe,1,0,1,0
+fr3052ag.qbe,1,0,1,0
+frshtrn.qbe,1,0,1,0
+fshiftid.QBE,1,0,1,0
+gl30apog.qbe,1,0,1,0
+jn30drec.qbe,1,0,1,0
+KENGLJNL.qbe,1,0,1,0
+KENSLOG1.QBE,1,0,1,0
+nglapcdr.qbe,1,0,1,0
+nglbdeps.qbe,1,0,1,0
+nglcads.qbe,1,0,1,0
+nglcsals.qbe,1,0,1,0
+ngldebit.qbe,1,0,1,0
+NGLDSCDR.qbe,1,0,1,0
+nglinvs.qbe,1,0,1,0
+NGLJNLS.qbe,1,0,1,0
+ngljobs.qbe,1,0,1,0
+nglmrs.qbe,1,0,1,0
+nglpaym.qbe,1,0,1,0
+nglpgjob.qbe,1,0,1,0
+nglpurch.qbe,1,0,1,0
+NGLSTKS.qbe,1,0,1,0
+NGLSTVAL.qbe,1,0,1,0
+NGLTRANS.qbe,1,0,1,0
+sh30pcad.qbe,1,0,1,0
+sh30pinv.qbe,1,0,1,0
+SH30PJCS.qbe,1,0,1,0
+sh30PJIN.qbe,1,0,1,0
+sh30plpg.QBE,1,0,1,0
+sh30plub.qbe,1,0,1,0
+SHCASDRP.qbe,1,0,1,0
+ShFcLmr.qbe,1,0,1,0
+SHFCLPG.QBE,1,0,1,0
+ShfcLub.qbe,1,0,1,0
+shfcmr.qbe,1,0,1,0
+Shiftrps.qbe,1,0,1,0
+sshhrep.qbe,1,0,1,0
+sshrep.qbe,1,0,1,0
+St15fc00.qbe,1,0,1,0
+St15fc01.QBE,1,0,1,0
+St15fc02.QBE,1,0,1,0
+St15fc04.QBE,1,0,1,0
+St15fc05.QBE,1,0,1,0
+st15fc07.QBE,1,0,1,0
+ST15FCAL.QBE,1,0,1,0
+st15fcm.qbe,1,0,1,0
+sttsheet.qbe,1,0,1,0
+SVDSHIFT.qbe,1,0,1,0
+FGCODAD.QBK,0,0,1,0
+VENNAMES.QBK,0,0,1,0
+kenslog.rsp,0,0,1,0
+FGCODAD.WFK,0,0,1,0
+VENNAMES.WFK,0,0,1,0
+kenslogz.dbf,0,0,1,0
 
 [DEO]
 DEO0=C:\kenslog\idssys\deploy
@@ -419,203 +830,616 @@ Files53=venNAMES.MNO >> DestDir: {app}
 Files54=VNISTR.PRO >> DestDir: {app}
 Files55=MESSDLG.H >> DestDir: {app}
 Files56=vennames.qbO >> DestDir: {app}
-Files57=START.prO >> DestDir: {app}
-Files58=kenalloc.wfO >> DestDir: {app}
-Files59=KENAUDIT.wfO >> DestDir: {app}
-Files60=Kenautos.wfO >> DestDir: {app}
-Files61=kencoy.wfO >> DestDir: {app}
-Files62=KENDDE.wfO >> DestDir: {app}
-Files63=kENFC.wfO >> DestDir: {app}
-Files64=KenMis.wfO >> DestDir: {app}
-Files65=kenpurch.wfO >> DestDir: {app}
-Files66=KenRecPy.wfO >> DestDir: {app}
-Files67=kensales.wfO >> DestDir: {app}
-Files68=KENSLOGR.wfO >> DestDir: {app}
-Files69=C:\kenslog\idssys\deploy\kenslog.exe >> DestDir: {app}
-Files70=fgcen.wfO >> DestDir: {app}
-Files71=FGCLA.wfO >> DestDir: {app}
-Files72=FGCOD.WFO >> DestDir: {app}
-Files73=FGCODad.wfO >> DestDir: {app}
-Files74=fgcoy.wfO >> DestDir: {app}
-Files75=FGDIV.WFO >> DestDir: {app}
-Files76=fgregcds.wfO >> DestDir: {app}
-Files77=fgtaxtyp.wfO >> DestDir: {app}
-Files78=fgtyp.wfO >> DestDir: {app}
-Files79=Fgunit.wfO >> DestDir: {app}
-Files80=frveregs.wfO >> DestDir: {app}
-Files81=ststo.wfO >> DestDir: {app}
-Files82=STSTO.MNO >> DestDir: {app}
-Files83=KenSales.mnO >> DestDir: {app}
-Files84=KENRECPY.MNO >> DestDir: {app}
-Files85=kenpurch.mnO >> DestDir: {app}
-Files86=KENMIS.MNO >> DestDir: {app}
-Files87=KENFC.MNO >> DestDir: {app}
-Files88=KENDDE.MNO >> DestDir: {app}
-Files89=KENCOY.MNO >> DestDir: {app}
-Files90=KENAUDIT.MNO >> DestDir: {app}
-Files91=KENALLOC.MNO >> DestDir: {app}
-Files92=FRVEREGS.MNO >> DestDir: {app}
-Files93=Fgunit.mnO >> DestDir: {app}
-Files94=Fgtyp.mnO >> DestDir: {app}
-Files95=Fgtaxtyp.mnO >> DestDir: {app}
-Files96=FGREGCDS.MNO >> DestDir: {app}
-Files97=FGDIV.MNO >> DestDir: {app}
-Files98=FGCOY.MNO >> DestDir: {app}
-Files99=FGCODad.mnO >> DestDir: {app}
-Files100=fgcod.mnO >> DestDir: {app}
-Files101=FGCLA.mnO >> DestDir: {app}
-Files102=Fgcen.mnO >> DestDir: {app}
-Files103=FGCODSR.PRO >> DestDir: {app}
-Files104=FGSETUPN.PRO >> DestDir: {app}
-Files105=FGSETUPT.PRO >> DestDir: {app}
-Files106=FGSHCATP.PRO >> DestDir: {app}
-Files107=fgshid.prO >> DestDir: {app}
-Files108=FGSHMTHS.PRO >> DestDir: {app}
-Files109=FRBUILD.PRO >> DestDir: {app}
-Files110=FREGST.PRO >> DestDir: {app}
-Files111=FRTRNS.PRO >> DestDir: {app}
-Files112=FRVEST.PRO >> DestDir: {app}
-Files113=KENAUTO.PRO >> DestDir: {app}
-Files114=NGLSETAL.PRO >> DestDir: {app}
-Files115=NGLSETUP.PRO >> DestDir: {app}
-Files116=NGLSTRUC.PRO >> DestDir: {app}
-Files117=PASSSECT.PRO >> DestDir: {app}
-Files118=PAYSETUP.PRO >> DestDir: {app}
-Files119=ststoh.prO >> DestDir: {app}
-Files120=VNBUILD.PRO >> DestDir: {app}
-Files121=fgcen.qbO >> DestDir: {app}
-Files122=FGCLA.qbO >> DestDir: {app}
-Files123=fgcod.qbO >> DestDir: {app}
-Files124=FGCODad.qbO >> DestDir: {app}
-Files125=FGDIV.QBO >> DestDir: {app}
-Files126=FGREGCDS.QBO >> DestDir: {app}
-Files127=FGSHCATP.QBO >> DestDir: {app}
-Files128=FGSHMTHS.QBO >> DestDir: {app}
-Files129=Fgtaxtyp.qbO >> DestDir: {app}
-Files130=Fgunit.qbO >> DestDir: {app}
-Files131=FRBUILD.QBO >> DestDir: {app}
-Files132=FRVEREGS.QBO >> DestDir: {app}
-Files133=KENAUDIT.QBO >> DestDir: {app}
-Files134=KENAUTOB.QBO >> DestDir: {app}
-Files135=kenslog.qbO >> DestDir: {app}
-Files136=KENSLOGL.QBO >> DestDir: {app}
-Files137=kenslogr.qbO >> DestDir: {app}
-Files138=st15fc06.qbO >> DestDir: {app}
-Files139=STSTo.qbO >> DestDir: {app}
-Files140=VNBUILD.QBO >> DestDir: {app}
-Files141=Fgtyp.qbO >> DestDir: {app}
-Files142=fgcoy.qbO >> DestDir: {app}
-Files143=FGTRNPRV.wfO >> DestDir: {app}
-Files144=Vendor.wfO >> DestDir: {app}
-Files145=Vendor.qbO >> DestDir: {app}
-Files146=Vendor.mnO >> DestDir: {app}
-Files147=fgtrnpvp.QBO >> DestDir: {app}
-Files148=fgtrnpvp.prO >> DestDir: {app}
-Files149=FGTRNPRV.QBO >> DestDir: {app}
-Files150=FGLPRD.wfO >> DestDir: {app}
-Files151=FGLPRD.qbO >> DestDir: {app}
-Files152=FGLPRD.mnO >> DestDir: {app}
-Files153=venncls.wfO >> DestDir: {app}
-Files154=venncls.qbO >> DestDir: {app}
-Files155=venncls.mnO >> DestDir: {app}
-Files156=Frigtcls.wfO >> DestDir: {app}
-Files157=Frigtcls.qbO >> DestDir: {app}
-Files158=Frigtcls.mnO >> DestDir: {app}
-Files159=FSt15f.wfO >> DestDir: {app}
-Files160=fst15fnc.prO >> DestDir: {app}
-Files161=FSt15f.qbO >> DestDir: {app}
-Files162=FSt15f.mnO >> DestDir: {app}
-Files163=Cashiers.qbO >> DestDir: {app}
-Files164=Cashiers.wfO >> DestDir: {app}
-Files165=Fgoff.mnO >> DestDir: {app}
-Files166=Fgoff.wfO >> DestDir: {app}
-Files167=OfTitle.qbO >> DestDir: {app}
-Files168=OfTitle.mnO >> DestDir: {app}
-Files169=OfTitle.wfO >> DestDir: {app}
-Files170=KENSLSTR.PRO >> DestDir: {app}
-Files171=Cashiers.mnO >> DestDir: {app}
-Files172=FGTRNPRV.MNO >> DestDir: {app}
-Files173=Fgoff.qbO >> DestDir: {app}
-Files174=Frighter.mnO >> DestDir: {app}
-Files175=Frighter.wfO >> DestDir: {app}
-Files176=Frighter.qbO >> DestDir: {app}
-Files177=APOFGRNS.WFO >> DestDir: {app}
-Files178=APOGRNS.WFO >> DestDir: {app}
-Files179=APOGRNSF.prO >> DestDir: {app}
-Files180=apogrnsn.prO >> DestDir: {app}
-Files181=APOGRNST.prO >> DestDir: {app}
-Files182=APPOGRNS.PRO >> DestDir: {app}
-Files183=fgcenupd.prO >> DestDir: {app}
-Files184=APOFGRNS.MNO >> DestDir: {app}
-Files185=apogrns.mnO >> DestDir: {app}
-Files186=APOFGRNS.QBO >> DestDir: {app}
-Files187=APOGRNS.QBO >> DestDir: {app}
-Files188=APPOGRNS.qbO >> DestDir: {app}
-Files189=Fgtrnsp.wfO >> DestDir: {app}
-Files190=Fgveh.wfO >> DestDir: {app}
-Files191=Fgtrnsp.MNO >> DestDir: {app}
-Files192=Fgveh.MNO >> DestDir: {app}
-Files193=Fgveh.QBO >> DestDir: {app}
-Files194=Fgtrnsp.QBO >> DestDir: {app}
-Files195=fgvehstr.prO >> DestDir: {app}
-Files196=fgtrnspr.prO >> DestDir: {app}
-Files197=fgpospur.prO >> DestDir: {app}
-Files198=fgpospuf.prO >> DestDir: {app}
-Files199=fgpospur.QBO >> DestDir: {app}
-Files200=transerr.prO >> DestDir: {app}
-Files201=stotank.prO >> DestDir: {app}
-Files202=scashoff.prO >> DestDir: {app}
-Files203=Fshcashr.wfO >> DestDir: {app}
-Files204=Fshpumpc.wfO >> DestDir: {app}
-Files205=NSHCASHR.wfO >> DestDir: {app}
-Files206=Fshcashr.MNO >> DestDir: {app}
-Files207=Fshpumpc.MNO >> DestDir: {app}
-Files208=NSHCASHR.mnO >> DestDir: {app}
-Files209=Fshpumpc.QBO >> DestDir: {app}
-Files210=NSHCASHR.qbO >> DestDir: {app}
-Files211=fshcashr.QBO >> DestDir: {app}
-Files212=PCREPLS.WFO >> DestDir: {app}
-Files213=apdrcrs.WFO >> DestDir: {app}
-Files214=APPYMTS.WFO >> DestDir: {app}
-Files215=APCRNTS.WFO >> DestDir: {app}
-Files216=ARGRNS.WFO >> DestDir: {app}
-Files217=PCREPLS.mnO >> DestDir: {app}
-Files218=apdrcrs.MNO >> DestDir: {app}
-Files219=APPYMTS.MNO >> DestDir: {app}
-Files220=APCRNTS.mnO >> DestDir: {app}
-Files221=ARGRNS.MNO >> DestDir: {app}
-Files222=AR30GRN.PRO >> DestDir: {app}
-Files223=pc30repl.prO >> DestDir: {app}
-Files224=PCREPLSp.prO >> DestDir: {app}
-Files225=PPCREPLS.prO >> DestDir: {app}
-Files226=ap30drcr.PRO >> DestDir: {app}
-Files227=apdrcrst.PRO >> DestDir: {app}
-Files228=appdrcrs.prO >> DestDir: {app}
-Files229=APPYMTSp.prO >> DestDir: {app}
-Files230=ap30pymt.prO >> DestDir: {app}
-Files231=apppymts.prO >> DestDir: {app}
-Files232=APCRNTSt.PRO >> DestDir: {app}
-Files233=AP30APCN.PRO >> DestDir: {app}
-Files234=APPOCRNT.PRO >> DestDir: {app}
-Files235=ARGRNSPT.prO >> DestDir: {app}
-Files236=ARPGRNS.PRO >> DestDir: {app}
-Files237=PCREPLSp.QBO >> DestDir: {app}
-Files238=pc30repl.QBO >> DestDir: {app}
-Files239=PPCREPLS.QBO >> DestDir: {app}
-Files240=PCREPLS.QBO >> DestDir: {app}
-Files241=ap30drcr.QBO >> DestDir: {app}
-Files242=apdrcrst.QBO >> DestDir: {app}
-Files243=appdrcrs.QBO >> DestDir: {app}
-Files244=apdrcrs.QBO >> DestDir: {app}
-Files245=APPYMTSp.qbO >> DestDir: {app}
-Files246=ap30pymt.qbO >> DestDir: {app}
-Files247=apppymts.qbO >> DestDir: {app}
-Files248=APPYMTS.qbO >> DestDir: {app}
-Files249=APCRNTSt.qbO >> DestDir: {app}
-Files250=AP30APCN.qbO >> DestDir: {app}
-Files251=APPOCRNT.qbO >> DestDir: {app}
-Files252=APCRNTS.qbO >> DestDir: {app}
-Files253=ARGRNSPT.QBO >> DestDir: {app}
-Files254=AR30GRN.QBO >> DestDir: {app}
-Files255=ARPGRNS.QBO >> DestDir: {app}
-Files256=ARGRNS.QBO >> DestDir: {app}
+Files57=kenalloc.wfO >> DestDir: {app}
+Files58=KENAUDIT.wfO >> DestDir: {app}
+Files59=Kenautos.wfO >> DestDir: {app}
+Files60=kencoy.wfO >> DestDir: {app}
+Files61=KENDDE.wfO >> DestDir: {app}
+Files62=kENFC.wfO >> DestDir: {app}
+Files63=KenMis.wfO >> DestDir: {app}
+Files64=kenpurch.wfO >> DestDir: {app}
+Files65=KenRecPy.wfO >> DestDir: {app}
+Files66=kensales.wfO >> DestDir: {app}
+Files67=KENSLOGR.wfO >> DestDir: {app}
+Files68=C:\kenslog\idssys\deploy\kenslog.exe >> DestDir: {app}
+Files69=fgcen.wfO >> DestDir: {app}
+Files70=FGCLA.wfO >> DestDir: {app}
+Files71=FGCOD.WFO >> DestDir: {app}
+Files72=FGCODad.wfO >> DestDir: {app}
+Files73=fgcoy.wfO >> DestDir: {app}
+Files74=FGDIV.WFO >> DestDir: {app}
+Files75=fgregcds.wfO >> DestDir: {app}
+Files76=fgtaxtyp.wfO >> DestDir: {app}
+Files77=fgtyp.wfO >> DestDir: {app}
+Files78=Fgunit.wfO >> DestDir: {app}
+Files79=frveregs.wfO >> DestDir: {app}
+Files80=ststo.wfO >> DestDir: {app}
+Files81=STSTO.MNO >> DestDir: {app}
+Files82=KenSales.mnO >> DestDir: {app}
+Files83=KENRECPY.MNO >> DestDir: {app}
+Files84=kenpurch.mnO >> DestDir: {app}
+Files85=KENMIS.MNO >> DestDir: {app}
+Files86=KENFC.MNO >> DestDir: {app}
+Files87=KENDDE.MNO >> DestDir: {app}
+Files88=KENCOY.MNO >> DestDir: {app}
+Files89=KENAUDIT.MNO >> DestDir: {app}
+Files90=KENALLOC.MNO >> DestDir: {app}
+Files91=FRVEREGS.MNO >> DestDir: {app}
+Files92=Fgunit.mnO >> DestDir: {app}
+Files93=Fgtyp.mnO >> DestDir: {app}
+Files94=Fgtaxtyp.mnO >> DestDir: {app}
+Files95=FGREGCDS.MNO >> DestDir: {app}
+Files96=FGDIV.MNO >> DestDir: {app}
+Files97=FGCOY.MNO >> DestDir: {app}
+Files98=FGCODad.mnO >> DestDir: {app}
+Files99=fgcod.mnO >> DestDir: {app}
+Files100=FGCLA.mnO >> DestDir: {app}
+Files101=Fgcen.mnO >> DestDir: {app}
+Files102=FGCODSR.PRO >> DestDir: {app}
+Files103=FGSETUPN.PRO >> DestDir: {app}
+Files104=FGSETUPT.PRO >> DestDir: {app}
+Files105=FGSHCATP.PRO >> DestDir: {app}
+Files106=fgshid.prO >> DestDir: {app}
+Files107=FGSHMTHS.PRO >> DestDir: {app}
+Files108=FRBUILD.PRO >> DestDir: {app}
+Files109=FREGST.PRO >> DestDir: {app}
+Files110=FRTRNS.PRO >> DestDir: {app}
+Files111=FRVEST.PRO >> DestDir: {app}
+Files112=KENAUTO.PRO >> DestDir: {app}
+Files113=NGLSETAL.PRO >> DestDir: {app}
+Files114=NGLSTRUC.PRO >> DestDir: {app}
+Files115=PASSSECT.PRO >> DestDir: {app}
+Files116=PAYSETUP.PRO >> DestDir: {app}
+Files117=ststoh.prO >> DestDir: {app}
+Files118=VNBUILD.PRO >> DestDir: {app}
+Files119=fgcen.qbO >> DestDir: {app}
+Files120=FGCLA.qbO >> DestDir: {app}
+Files121=fgcod.qbO >> DestDir: {app}
+Files122=FGCODad.qbO >> DestDir: {app}
+Files123=FGDIV.QBO >> DestDir: {app}
+Files124=FGREGCDS.QBO >> DestDir: {app}
+Files125=FGSHCATP.QBO >> DestDir: {app}
+Files126=FGSHMTHS.QBO >> DestDir: {app}
+Files127=Fgtaxtyp.qbO >> DestDir: {app}
+Files128=Fgunit.qbO >> DestDir: {app}
+Files129=FRBUILD.QBO >> DestDir: {app}
+Files130=FRVEREGS.QBO >> DestDir: {app}
+Files131=KENAUDIT.QBO >> DestDir: {app}
+Files132=KENAUTOB.QBO >> DestDir: {app}
+Files133=kenslog.qbO >> DestDir: {app}
+Files134=KENSLOGL.QBO >> DestDir: {app}
+Files135=kenslogr.qbO >> DestDir: {app}
+Files136=st15fc06.qbO >> DestDir: {app}
+Files137=STSTo.qbO >> DestDir: {app}
+Files138=VNBUILD.QBO >> DestDir: {app}
+Files139=Fgtyp.qbO >> DestDir: {app}
+Files140=fgcoy.qbO >> DestDir: {app}
+Files141=FGTRNPRV.wfO >> DestDir: {app}
+Files142=Vendor.wfO >> DestDir: {app}
+Files143=Vendor.qbO >> DestDir: {app}
+Files144=Vendor.mnO >> DestDir: {app}
+Files145=fgtrnpvp.QBO >> DestDir: {app}
+Files146=fgtrnpvp.prO >> DestDir: {app}
+Files147=FGTRNPRV.QBO >> DestDir: {app}
+Files148=FGLPRD.wfO >> DestDir: {app}
+Files149=FGLPRD.qbO >> DestDir: {app}
+Files150=FGLPRD.mnO >> DestDir: {app}
+Files151=venncls.wfO >> DestDir: {app}
+Files152=venncls.qbO >> DestDir: {app}
+Files153=venncls.mnO >> DestDir: {app}
+Files154=Frigtcls.wfO >> DestDir: {app}
+Files155=Frigtcls.qbO >> DestDir: {app}
+Files156=Frigtcls.mnO >> DestDir: {app}
+Files157=FSt15f.wfO >> DestDir: {app}
+Files158=fst15fnc.prO >> DestDir: {app}
+Files159=FSt15f.qbO >> DestDir: {app}
+Files160=FSt15f.mnO >> DestDir: {app}
+Files161=Cashiers.qbO >> DestDir: {app}
+Files162=Cashiers.wfO >> DestDir: {app}
+Files163=Fgoff.mnO >> DestDir: {app}
+Files164=Fgoff.wfO >> DestDir: {app}
+Files165=OfTitle.qbO >> DestDir: {app}
+Files166=OfTitle.mnO >> DestDir: {app}
+Files167=OfTitle.wfO >> DestDir: {app}
+Files168=KENSLSTR.PRO >> DestDir: {app}
+Files169=Cashiers.mnO >> DestDir: {app}
+Files170=FGTRNPRV.MNO >> DestDir: {app}
+Files171=Fgoff.qbO >> DestDir: {app}
+Files172=Frighter.mnO >> DestDir: {app}
+Files173=Frighter.wfO >> DestDir: {app}
+Files174=Frighter.qbO >> DestDir: {app}
+Files175=APOFGRNS.WFO >> DestDir: {app}
+Files176=APOGRNS.WFO >> DestDir: {app}
+Files177=APOGRNSF.prO >> DestDir: {app}
+Files178=apogrnsn.prO >> DestDir: {app}
+Files179=APOGRNST.prO >> DestDir: {app}
+Files180=APPOGRNS.PRO >> DestDir: {app}
+Files181=fgcenupd.prO >> DestDir: {app}
+Files182=APOFGRNS.MNO >> DestDir: {app}
+Files183=apogrns.mnO >> DestDir: {app}
+Files184=APOFGRNS.QBO >> DestDir: {app}
+Files185=APOGRNS.QBO >> DestDir: {app}
+Files186=APPOGRNS.qbO >> DestDir: {app}
+Files187=Fgtrnsp.wfO >> DestDir: {app}
+Files188=Fgveh.wfO >> DestDir: {app}
+Files189=Fgtrnsp.MNO >> DestDir: {app}
+Files190=Fgveh.MNO >> DestDir: {app}
+Files191=Fgveh.QBO >> DestDir: {app}
+Files192=Fgtrnsp.QBO >> DestDir: {app}
+Files193=fgvehstr.prO >> DestDir: {app}
+Files194=fgtrnspr.prO >> DestDir: {app}
+Files195=fgpospur.prO >> DestDir: {app}
+Files196=fgpospuf.prO >> DestDir: {app}
+Files197=fgpospur.QBO >> DestDir: {app}
+Files198=transerr.prO >> DestDir: {app}
+Files199=stotank.prO >> DestDir: {app}
+Files200=scashoff.prO >> DestDir: {app}
+Files201=Fshcashr.wfO >> DestDir: {app}
+Files202=Fshpumpc.wfO >> DestDir: {app}
+Files203=NSHCASHR.wfO >> DestDir: {app}
+Files204=Fshcashr.MNO >> DestDir: {app}
+Files205=Fshpumpc.MNO >> DestDir: {app}
+Files206=NSHCASHR.mnO >> DestDir: {app}
+Files207=Fshpumpc.QBO >> DestDir: {app}
+Files208=NSHCASHR.qbO >> DestDir: {app}
+Files209=fshcashr.QBO >> DestDir: {app}
+Files210=PCREPLS.WFO >> DestDir: {app}
+Files211=apdrcrs.WFO >> DestDir: {app}
+Files212=APPYMTS.WFO >> DestDir: {app}
+Files213=APCRNTS.WFO >> DestDir: {app}
+Files214=ARGRNS.WFO >> DestDir: {app}
+Files215=PCREPLS.mnO >> DestDir: {app}
+Files216=apdrcrs.MNO >> DestDir: {app}
+Files217=APPYMTS.MNO >> DestDir: {app}
+Files218=APCRNTS.mnO >> DestDir: {app}
+Files219=ARGRNS.MNO >> DestDir: {app}
+Files220=AR30GRN.PRO >> DestDir: {app}
+Files221=pc30repl.prO >> DestDir: {app}
+Files222=PCREPLSp.prO >> DestDir: {app}
+Files223=PPCREPLS.prO >> DestDir: {app}
+Files224=ap30drcr.PRO >> DestDir: {app}
+Files225=apdrcrst.PRO >> DestDir: {app}
+Files226=appdrcrs.prO >> DestDir: {app}
+Files227=APPYMTSp.prO >> DestDir: {app}
+Files228=ap30pymt.prO >> DestDir: {app}
+Files229=apppymts.prO >> DestDir: {app}
+Files230=APCRNTSt.PRO >> DestDir: {app}
+Files231=AP30APCN.PRO >> DestDir: {app}
+Files232=APPOCRNT.PRO >> DestDir: {app}
+Files233=ARGRNSPT.prO >> DestDir: {app}
+Files234=ARPGRNS.PRO >> DestDir: {app}
+Files235=PCREPLSp.QBO >> DestDir: {app}
+Files236=pc30repl.QBO >> DestDir: {app}
+Files237=PPCREPLS.QBO >> DestDir: {app}
+Files238=PCREPLS.QBO >> DestDir: {app}
+Files239=ap30drcr.QBO >> DestDir: {app}
+Files240=apdrcrst.QBO >> DestDir: {app}
+Files241=appdrcrs.QBO >> DestDir: {app}
+Files242=apdrcrs.QBO >> DestDir: {app}
+Files243=APPYMTSp.qbO >> DestDir: {app}
+Files244=ap30pymt.qbO >> DestDir: {app}
+Files245=apppymts.qbO >> DestDir: {app}
+Files246=APPYMTS.qbO >> DestDir: {app}
+Files247=APCRNTSt.qbO >> DestDir: {app}
+Files248=AP30APCN.qbO >> DestDir: {app}
+Files249=APPOCRNT.qbO >> DestDir: {app}
+Files250=APCRNTS.qbO >> DestDir: {app}
+Files251=ARGRNSPT.QBO >> DestDir: {app}
+Files252=AR30GRN.QBO >> DestDir: {app}
+Files253=ARPGRNS.QBO >> DestDir: {app}
+Files254=ARGRNS.QBO >> DestDir: {app}
+Files255=APOGRNST.QBO >> DestDir: {app}
+Files256=apgras.WFO >> DestDir: {app}
+Files257=APOBGRNS.WFO >> DestDir: {app}
+Files258=apobrns.wfO >> DestDir: {app}
+Files259=ARCASHS.WFO >> DestDir: {app}
+Files260=ARCBNKF.WFO >> DestDir: {app}
+Files261=ARCBNKS.WFO >> DestDir: {app}
+Files262=ARCBTRS.WFO >> DestDir: {app}
+Files263=ARCDNTS.WFO >> DestDir: {app}
+Files264=ARCINVSQ.WFO >> DestDir: {app}
+Files265=ARCMPSA.WFO >> DestDir: {app}
+Files266=ARCRECS.WFO >> DestDir: {app}
+Files267=ARCRNTS.WFO >> DestDir: {app}
+Files268=ARDRECS.WFO >> DestDir: {app}
+Files269=ARDRNTS.WFO >> DestDir: {app}
+Files270=ARFCCSA.WFO >> DestDir: {app}
+Files271=ARLQCSA.WFO >> DestDir: {app}
+Files272=ARMBNKS.WFO >> DestDir: {app}
+Files273=arrinvs.wfO >> DestDir: {app}
+Files274=arrinvsn.wfO >> DestDir: {app}
+Files275=ARTRECS.WFO >> DestDir: {app}
+Files276=arvcnts.wfO >> DestDir: {app}
+Files277=arvcntsn.wfO >> DestDir: {app}
+Files278=DacoyPur.wfO >> DestDir: {app}
+Files279=dacoysal.wfO >> DestDir: {app}
+Files280=dshiftbk.wfO >> DestDir: {app}
+Files281=FG12.WFO >> DestDir: {app}
+Files282=FG12A.WFO >> DestDir: {app}
+Files283=FG13.WFO >> DestDir: {app}
+Files284=Fg15s.wfO >> DestDir: {app}
+Files285=FG15SM.wfO >> DestDir: {app}
+Files286=FG15SMP.wfO >> DestDir: {app}
+Files287=FGADJS.WFO >> DestDir: {app}
+Files288=FGASSY.WFO >> DestDir: {app}
+Files289=fgjcnts.wfO >> DestDir: {app}
+Files290=fgjcntsn.wfO >> DestDir: {app}
+Files291=fglcnts.wfO >> DestDir: {app}
+Files292=fgpupesa.wfO >> DestDir: {app}
+Files293=FGPURCOD.WFO >> DestDir: {app}
+Files294=FGRUPDAT.WFO >> DestDir: {app}
+Files295=FGSALCOD.WFO >> DestDir: {app}
+Files296=Fgsprd.wfO >> DestDir: {app}
+Files297=fgUcnts.wfO >> DestDir: {app}
+Files298=hiftid.WfO >> DestDir: {app}
+Files299=KenAcPay.wfO >> DestDir: {app}
+Files300=KenAcRec.wfO >> DestDir: {app}
+Files301=KENGLJNL.WFO >> DestDir: {app}
+Files302=SHCASDRP.wfO >> DestDir: {app}
+Files303=shfclmr.wfO >> DestDir: {app}
+Files304=SHFCLPG.wfO >> DestDir: {app}
+Files305=ShfcLub.wfO >> DestDir: {app}
+Files306=shfcmr.wfO >> DestDir: {app}
+Files307=shiftid.wfO >> DestDir: {app}
+Files308=Shiftrps.wfO >> DestDir: {app}
+Files309=st15fcm.wfO >> DestDir: {app}
+Files310=sttsheet.WFO >> DestDir: {app}
+Files311=svdshift.wfO >> DestDir: {app}
+Files312=APGRAS.mnO >> DestDir: {app}
+Files313=apobGrns.mnO >> DestDir: {app}
+Files314=apobrns.mnO >> DestDir: {app}
+Files315=ARCASHS.mnO >> DestDir: {app}
+Files316=ARCBNKF.mnO >> DestDir: {app}
+Files317=ARCBNKS.mnO >> DestDir: {app}
+Files318=ARCBTRS.mnO >> DestDir: {app}
+Files319=ARCDNTS.MNO >> DestDir: {app}
+Files320=ARCINVSQ.MNO >> DestDir: {app}
+Files321=ARCMPSA.mnO >> DestDir: {app}
+Files322=ARCRECS.MNO >> DestDir: {app}
+Files323=ARCRNTS.MNO >> DestDir: {app}
+Files324=ARDRECS.MNO >> DestDir: {app}
+Files325=ARDRNTS.MNO >> DestDir: {app}
+Files326=ARFCCSA.mnO >> DestDir: {app}
+Files327=ARLQCSA.mnO >> DestDir: {app}
+Files328=ARMBNKS.mnO >> DestDir: {app}
+Files329=ARRINVS.mnO >> DestDir: {app}
+Files330=ARTRECS.MNO >> DestDir: {app}
+Files331=arvcnts.mnO >> DestDir: {app}
+Files332=DacoyPur.mnO >> DestDir: {app}
+Files333=dacoysal.mnO >> DestDir: {app}
+Files334=dshiftbk.mnO >> DestDir: {app}
+Files335=Fg12.mnO >> DestDir: {app}
+Files336=Fg12A.mnO >> DestDir: {app}
+Files337=Fg13.mnO >> DestDir: {app}
+Files338=Fg15s.mnO >> DestDir: {app}
+Files339=FG15SM.mnO >> DestDir: {app}
+Files340=FG15SMP.mnO >> DestDir: {app}
+Files341=fgadjs.mnO >> DestDir: {app}
+Files342=FGASSY.mnO >> DestDir: {app}
+Files343=Fgjcnts.mnO >> DestDir: {app}
+Files344=FGLCNTS.mnO >> DestDir: {app}
+Files345=FGPURCOD.mnO >> DestDir: {app}
+Files346=FGSALCOD.mnO >> DestDir: {app}
+Files347=Fgsprd.mnO >> DestDir: {app}
+Files348=FGUCNTS.mnO >> DestDir: {app}
+Files349=KenAcPay.mnO >> DestDir: {app}
+Files350=KenAcRec.mnO >> DestDir: {app}
+Files351=KENGLJNL.mnO >> DestDir: {app}
+Files352=SHFCLUB.MNO >> DestDir: {app}
+Files353=ShFcMr.mnO >> DestDir: {app}
+Files354=SHIFTID.MNO >> DestDir: {app}
+Files355=Shiftrps.mnO >> DestDir: {app}
+Files356=sttsheet.mnO >> DestDir: {app}
+Files357=SVDSHIFT.mnO >> DestDir: {app}
+Files358=ap30apog.prO >> DestDir: {app}
+Files359=ap30gras.PRO >> DestDir: {app}
+Files360=apgrast.PRO >> DestDir: {app}
+Files361=apobgrst.PRO >> DestDir: {app}
+Files362=appogra.PRO >> DestDir: {app}
+Files363=ar30acas.PRO >> DestDir: {app}
+Files364=ar30cbnk.prO >> DestDir: {app}
+Files365=ar30cbtr.prO >> DestDir: {app}
+Files366=AR30CINV.PRO >> DestDir: {app}
+Files367=AR30CMPS.PRO >> DestDir: {app}
+Files368=AR30CRNT.PRO >> DestDir: {app}
+Files369=ar30drec.prO >> DestDir: {app}
+Files370=AR30DRNT.PRO >> DestDir: {app}
+Files371=ar30fbnk.prO >> DestDir: {app}
+Files372=ar30jnl.prO >> DestDir: {app}
+Files373=AR30LQCS.PRO >> DestDir: {app}
+Files374=ar30mpft.prO >> DestDir: {app}
+Files375=AR30rinv.PRO >> DestDir: {app}
+Files376=ar30Trec.prO >> DestDir: {app}
+Files377=ar30vcnt.prO >> DestDir: {app}
+Files378=arcdntsP.PRO >> DestDir: {app}
+Files379=ARCDSPST.PRO >> DestDir: {app}
+Files380=arcmpss.prO >> DestDir: {app}
+Files381=ARCRCPST.PRO >> DestDir: {app}
+Files382=arcrecsP.PRO >> DestDir: {app}
+Files383=ARCRNTSP.PRO >> DestDir: {app}
+Files384=ARDRCPST.PRO >> DestDir: {app}
+Files385=ARDRECSP.PRO >> DestDir: {app}
+Files386=ARDRNTSP.PRO >> DestDir: {app}
+Files387=ARINVSTR.PRO >> DestDir: {app}
+Files388=arpcashS.prO >> DestDir: {app}
+Files389=arpcbnks.prO >> DestDir: {app}
+Files390=arpcdnts.prO >> DestDir: {app}
+Files391=ARPCINVS.PRO >> DestDir: {app}
+Files392=arpcmps.prO >> DestDir: {app}
+Files393=arpCRECS.prO >> DestDir: {app}
+Files394=arpCRNTS.prO >> DestDir: {app}
+Files395=arpDRECS.prO >> DestDir: {app}
+Files396=arpDRNTS.prO >> DestDir: {app}
+Files397=arpmbnks.prO >> DestDir: {app}
+Files398=arptRECS.prO >> DestDir: {app}
+Files399=ARQUTEPT.PRO >> DestDir: {app}
+Files400=ARRINVPT.PRO >> DestDir: {app}
+Files401=ARRPINVS.PRO >> DestDir: {app}
+Files402=ARTRCPST.PRO >> DestDir: {app}
+Files403=artrecSP.PRO >> DestDir: {app}
+Files404=arvcntsp.PRO >> DestDir: {app}
+Files405=dsshrep.prO >> DestDir: {app}
+Files406=dsshrepp.prO >> DestDir: {app}
+Files407=dsshreps.PRO >> DestDir: {app}
+Files408=Fg12AP.PRO >> DestDir: {app}
+Files409=FG12P.PRO >> DestDir: {app}
+Files410=FG12POS.PRO >> DestDir: {app}
+Files411=FG13P.PRO >> DestDir: {app}
+Files412=fg13pos.PRO >> DestDir: {app}
+Files413=FG15FRN.PRO >> DestDir: {app}
+Files414=FG30ADJS.PRO >> DestDir: {app}
+Files415=FG30Assy.PRO >> DestDir: {app}
+Files416=FG30JCnt.PRO >> DestDir: {app}
+Files417=fg30jnls.prO >> DestDir: {app}
+Files418=FG30LCNT.PRO >> DestDir: {app}
+Files419=FG30UCNT.PRO >> DestDir: {app}
+Files420=FG3012A.PRO >> DestDir: {app}
+Files421=fg301213.prO >> DestDir: {app}
+Files422=FGADJSP.PRO >> DestDir: {app}
+Files423=FGASSYP.PRO >> DestDir: {app}
+Files424=FGCOYSTR.PRO >> DestDir: {app}
+Files425=FGJCNTSP.PRO >> DestDir: {app}
+Files426=fgjcstr.PRO >> DestDir: {app}
+Files427=fgjcstrc.prO >> DestDir: {app}
+Files428=FGLCNTSP.PRO >> DestDir: {app}
+Files429=fgledger.prO >> DestDir: {app}
+Files430=FGNFPS.PRO >> DestDir: {app}
+Files431=Fgnshmas.prO >> DestDir: {app}
+Files432=fgp12.prO >> DestDir: {app}
+Files433=fgp12a.prO >> DestDir: {app}
+Files434=fgp13.prO >> DestDir: {app}
+Files435=FGPADJS.PRO >> DestDir: {app}
+Files436=FGPAssy.PRO >> DestDir: {app}
+Files437=fgpjcNTS.prO >> DestDir: {app}
+Files438=fgpLcNTS.prO >> DestDir: {app}
+Files439=fgpospub.prO >> DestDir: {app}
+Files440=fgposttb.PRO >> DestDir: {app}
+Files441=fgpUcNTS.prO >> DestDir: {app}
+Files442=fgpurch.prO >> DestDir: {app}
+Files443=FGSDAST.PRO >> DestDir: {app}
+Files444=fgshcat.prO >> DestDir: {app}
+Files445=Fgshmas.prO >> DestDir: {app}
+Files446=fgshpitn.prO >> DestDir: {app}
+Files447=fgshpits.prO >> DestDir: {app}
+Files448=FGUCNTSP.PRO >> DestDir: {app}
+Files449=FGUPLSTR.PRO >> DestDir: {app}
+Files450=FMS.prO >> DestDir: {app}
+Files451=fordersn.prO >> DestDir: {app}
+Files452=fr3052ag.prO >> DestDir: {app}
+Files453=frshtrn.prO >> DestDir: {app}
+Files454=gl30apog.prO >> DestDir: {app}
+Files455=jn30drec.prO >> DestDir: {app}
+Files456=kensback.prO >> DestDir: {app}
+Files457=ngfnlstr.prO >> DestDir: {app}
+Files458=ngladjs.prO >> DestDir: {app}
+Files459=nglapcdr.prO >> DestDir: {app}
+Files460=nglbdeps.prO >> DestDir: {app}
+Files461=nglcads.PRO >> DestDir: {app}
+Files462=nglcsals.PRO >> DestDir: {app}
+Files463=ngldebit.PRO >> DestDir: {app}
+Files464=ngldscdr.prO >> DestDir: {app}
+Files465=nglinvs.PRO >> DestDir: {app}
+Files466=NGLJNLS.PRO >> DestDir: {app}
+Files467=ngljobs.PRO >> DestDir: {app}
+Files468=nglmrs.prO >> DestDir: {app}
+Files469=nglpaym.PRO >> DestDir: {app}
+Files470=nglpgjob.PRO >> DestDir: {app}
+Files471=nglpurch.PRO >> DestDir: {app}
+Files472=NGLSTKS.PRO >> DestDir: {app}
+Files473=NGLSTVAL.prO >> DestDir: {app}
+Files474=ngltrans.prO >> DestDir: {app}
+Files475=PURRTN.PRO >> DestDir: {app}
+Files476=setup.prO >> DestDir: {app}
+Files477=sh30pcad.prO >> DestDir: {app}
+Files478=sh30pinv.prO >> DestDir: {app}
+Files479=SH30PJCS.prO >> DestDir: {app}
+Files480=sh30PJIN.prO >> DestDir: {app}
+Files481=sh30plpg.prO >> DestDir: {app}
+Files482=sh30plub.prO >> DestDir: {app}
+Files483=SHIFTMNS.PRO >> DestDir: {app}
+Files484=sshhrep.prO >> DestDir: {app}
+Files485=sshhrepp.prO >> DestDir: {app}
+Files486=sshrep.prO >> DestDir: {app}
+Files487=St15fc00.prO >> DestDir: {app}
+Files488=ST15FCAL.prO >> DestDir: {app}
+Files489=tordersn.prO >> DestDir: {app}
+Files490=vnstruct.prO >> DestDir: {app}
+Files491=FGSETUPT.PRK >> DestDir: {app}
+Files492=PAYSETUP.PRK >> DestDir: {app}
+Files493=ap30apog.qbO >> DestDir: {app}
+Files494=ap30gras.qbO >> DestDir: {app}
+Files495=apgrast.qbO >> DestDir: {app}
+Files496=apobGrns.qbO >> DestDir: {app}
+Files497=appogra.qbO >> DestDir: {app}
+Files498=ar30acas.qbO >> DestDir: {app}
+Files499=ar30cbnk.qbO >> DestDir: {app}
+Files500=ar30cbtr.qbO >> DestDir: {app}
+Files501=AR30CINV.QBO >> DestDir: {app}
+Files502=AR30CMPS.qbO >> DestDir: {app}
+Files503=AR30CRNT.QBO >> DestDir: {app}
+Files504=ar30drec.qbO >> DestDir: {app}
+Files505=AR30DRNT.QBO >> DestDir: {app}
+Files506=ar30fbnk.qbO >> DestDir: {app}
+Files507=ar30jnl.qbO >> DestDir: {app}
+Files508=AR30LQCS.qbO >> DestDir: {app}
+Files509=ar30mpft.qbO >> DestDir: {app}
+Files510=AR30rinv.qbO >> DestDir: {app}
+Files511=ar30Trec.qbO >> DestDir: {app}
+Files512=ar30vcnt.qbO >> DestDir: {app}
+Files513=ARCASHS.qbO >> DestDir: {app}
+Files514=ARCBNKF.qbO >> DestDir: {app}
+Files515=ARCBNKS.qbO >> DestDir: {app}
+Files516=ARCBTRS.qbO >> DestDir: {app}
+Files517=ARCdnts.qbO >> DestDir: {app}
+Files518=arcdntsP.qbO >> DestDir: {app}
+Files519=ARCDSPST.qbO >> DestDir: {app}
+Files520=ARCINVPT.qbO >> DestDir: {app}
+Files521=ARCINVS.QBO >> DestDir: {app}
+Files522=ARCMPSA.qbO >> DestDir: {app}
+Files523=ARCRCPST.qbO >> DestDir: {app}
+Files524=ARCRECS.qbO >> DestDir: {app}
+Files525=arcrecsP.qbO >> DestDir: {app}
+Files526=ARCRNTS.QBO >> DestDir: {app}
+Files527=ARCRNTSP.QBO >> DestDir: {app}
+Files528=ARDRCPST.QBO >> DestDir: {app}
+Files529=ARDRECS.QBO >> DestDir: {app}
+Files530=ARDRECSP.QBO >> DestDir: {app}
+Files531=ARDRNTS.QBO >> DestDir: {app}
+Files532=ARDRNTSP.QBO >> DestDir: {app}
+Files533=ARFCCSA.qbO >> DestDir: {app}
+Files534=aricdsp.QBO >> DestDir: {app}
+Files535=arinvp.QBO >> DestDir: {app}
+Files536=ARLQCSA.qbO >> DestDir: {app}
+Files537=ARMBNKS.qbO >> DestDir: {app}
+Files538=arpcashS.qbO >> DestDir: {app}
+Files539=arpcbnks.qbO >> DestDir: {app}
+Files540=arpcdnts.qbO >> DestDir: {app}
+Files541=ARPCINVS.QBO >> DestDir: {app}
+Files542=arpcmps.qbO >> DestDir: {app}
+Files543=arpCRNTS.QBO >> DestDir: {app}
+Files544=arpDRECS.QBO >> DestDir: {app}
+Files545=arpDRNTS.QBO >> DestDir: {app}
+Files546=arpmbnks.qbO >> DestDir: {app}
+Files547=arptRECS.QBO >> DestDir: {app}
+Files548=ARRINVPT.qbO >> DestDir: {app}
+Files549=ARRINVS.qbO >> DestDir: {app}
+Files550=ARRINVSN.qbO >> DestDir: {app}
+Files551=ARRPINVS.qbO >> DestDir: {app}
+Files552=ARTRCPST.QBO >> DestDir: {app}
+Files553=artrecs.QBO >> DestDir: {app}
+Files554=artrecSP.QBO >> DestDir: {app}
+Files555=arvcnts.qbO >> DestDir: {app}
+Files556=arvcntsn.qbO >> DestDir: {app}
+Files557=arvcntsp.qbO >> DestDir: {app}
+Files558=DacoyPur.qbO >> DestDir: {app}
+Files559=dacoysal.qbO >> DestDir: {app}
+Files560=DSHIFTBK.qbO >> DestDir: {app}
+Files561=dsshrep.qbO >> DestDir: {app}
+Files562=dsshrepp.qbO >> DestDir: {app}
+Files563=Fg12.qbO >> DestDir: {app}
+Files564=FG12A.qbO >> DestDir: {app}
+Files565=Fg12AP.qbO >> DestDir: {app}
+Files566=FG12P.qbO >> DestDir: {app}
+Files567=FG12POS.qbO >> DestDir: {app}
+Files568=Fg13.qbO >> DestDir: {app}
+Files569=FG13P.qbO >> DestDir: {app}
+Files570=fg13pos.qbO >> DestDir: {app}
+Files571=Fg15s.qbO >> DestDir: {app}
+Files572=FG15SMP.qbO >> DestDir: {app}
+Files573=FG15SMvt.QBO >> DestDir: {app}
+Files574=FG30ADJS.qbO >> DestDir: {app}
+Files575=FG30Assy.qbO >> DestDir: {app}
+Files576=FG30JCnt.qbO >> DestDir: {app}
+Files577=fg30jnls.qbO >> DestDir: {app}
+Files578=FG30LCNT.qbO >> DestDir: {app}
+Files579=FG30UCNT.qbO >> DestDir: {app}
+Files580=FG3012A.qbO >> DestDir: {app}
+Files581=fg3052em.QBO >> DestDir: {app}
+Files582=fg301213.qbO >> DestDir: {app}
+Files583=fgadjs.qbO >> DestDir: {app}
+Files584=FGADJSP.qbO >> DestDir: {app}
+Files585=FGASSY.qbO >> DestDir: {app}
+Files586=FGASSYP.qbO >> DestDir: {app}
+Files587=fgclpgp.QBO >> DestDir: {app}
+Files588=fgjcadp.QBO >> DestDir: {app}
+Files589=Fgjcnts.qbO >> DestDir: {app}
+Files590=fgjcntsn.qbO >> DestDir: {app}
+Files591=FGJCNTSP.qbO >> DestDir: {app}
+Files592=FGLCNTS.qbO >> DestDir: {app}
+Files593=FGLCNTSP.qbO >> DestDir: {app}
+Files594=Fgnshmas.qbO >> DestDir: {app}
+Files595=fgp12.qbO >> DestDir: {app}
+Files596=fgp12a.qbO >> DestDir: {app}
+Files597=fgp13.qbO >> DestDir: {app}
+Files598=FGPADJS.qbO >> DestDir: {app}
+Files599=FGPAssy.qbO >> DestDir: {app}
+Files600=fgpjcNTS.qbO >> DestDir: {app}
+Files601=fgpLcNTS.qbO >> DestDir: {app}
+Files602=fgpUcNTS.qbO >> DestDir: {app}
+Files603=fgpupesa.qbO >> DestDir: {app}
+Files604=fgpurch.qbO >> DestDir: {app}
+Files605=FGPURCOD.qbO >> DestDir: {app}
+Files606=FGSALCOD.qbO >> DestDir: {app}
+Files607=fgshcat.qbO >> DestDir: {app}
+Files608=Fgshmas.qbO >> DestDir: {app}
+Files609=fgshpitn.qbO >> DestDir: {app}
+Files610=fgshpits.qbO >> DestDir: {app}
+Files611=fgshupdt.QBO >> DestDir: {app}
+Files612=Fgsprd.qbO >> DestDir: {app}
+Files613=FGUCNTS.qbO >> DestDir: {app}
+Files614=FGUCNTSP.qbO >> DestDir: {app}
+Files615=fr3052ag.qbO >> DestDir: {app}
+Files616=frshtrn.qbO >> DestDir: {app}
+Files617=fshiftid.QBO >> DestDir: {app}
+Files618=gl30apog.qbO >> DestDir: {app}
+Files619=jn30drec.qbO >> DestDir: {app}
+Files620=KENGLJNL.qbO >> DestDir: {app}
+Files621=KENSLOG1.QBO >> DestDir: {app}
+Files622=nglapcdr.qbO >> DestDir: {app}
+Files623=nglbdeps.qbO >> DestDir: {app}
+Files624=nglcads.qbO >> DestDir: {app}
+Files625=nglcsals.qbO >> DestDir: {app}
+Files626=ngldebit.qbO >> DestDir: {app}
+Files627=NGLDSCDR.qbO >> DestDir: {app}
+Files628=nglinvs.qbO >> DestDir: {app}
+Files629=NGLJNLS.qbO >> DestDir: {app}
+Files630=ngljobs.qbO >> DestDir: {app}
+Files631=nglmrs.qbO >> DestDir: {app}
+Files632=nglpaym.qbO >> DestDir: {app}
+Files633=nglpgjob.qbO >> DestDir: {app}
+Files634=nglpurch.qbO >> DestDir: {app}
+Files635=NGLSTKS.qbO >> DestDir: {app}
+Files636=NGLSTVAL.qbO >> DestDir: {app}
+Files637=NGLTRANS.qbO >> DestDir: {app}
+Files638=sh30pcad.qbO >> DestDir: {app}
+Files639=sh30pinv.qbO >> DestDir: {app}
+Files640=SH30PJCS.qbO >> DestDir: {app}
+Files641=sh30PJIN.qbO >> DestDir: {app}
+Files642=sh30plpg.QBO >> DestDir: {app}
+Files643=sh30plub.qbO >> DestDir: {app}
+Files644=SHCASDRP.qbO >> DestDir: {app}
+Files645=ShFcLmr.qbO >> DestDir: {app}
+Files646=SHFCLPG.QBO >> DestDir: {app}
+Files647=ShfcLub.qbO >> DestDir: {app}
+Files648=shfcmr.qbO >> DestDir: {app}
+Files649=Shiftrps.qbO >> DestDir: {app}
+Files650=sshhrep.qbO >> DestDir: {app}
+Files651=sshrep.qbO >> DestDir: {app}
+Files652=St15fc00.qbO >> DestDir: {app}
+Files653=St15fc01.QBO >> DestDir: {app}
+Files654=St15fc02.QBO >> DestDir: {app}
+Files655=St15fc04.QBO >> DestDir: {app}
+Files656=St15fc05.QBO >> DestDir: {app}
+Files657=st15fc07.QBO >> DestDir: {app}
+Files658=ST15FCAL.QBO >> DestDir: {app}
+Files659=st15fcm.qbO >> DestDir: {app}
+Files660=sttsheet.qbO >> DestDir: {app}
+Files661=SVDSHIFT.qbO >> DestDir: {app}
+Files662=FGCODAD.QBK >> DestDir: {app}
+Files663=VENNAMES.QBK >> DestDir: {app}
+Files664=kenslog.rsp >> DestDir: {app}
+Files665=FGCODAD.WFK >> DestDir: {app}
+Files666=VENNAMES.WFK >> DestDir: {app}
+Files667=kenslogz.dbf >> DestDir: {app}
+Files668=kenslogz.mdx >> DestDir: {app}
+Files669=kenslogz.dbt >> DestDir: {app}

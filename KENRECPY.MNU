@@ -270,22 +270,7 @@ CLASS KenRecPyMENU(FormObj,Name) OF MENUBAR(FormObj,Name)
                Text ""
         ENDIF
         
-        **
-        if (BLEVEL = 1 .AND. bladmin) .OR. (BLEVEL = 2 .and. .not. bladmin) .or. (blevel = 3 .and. bladmin)
-               
-                 DEFINE MENU credicards OF THIS.ARSYS;
-             PROPERTY; 
-               Text "&6. Meter Variances - Staff Credit/Debit Note",;
-                enabled .f.,;
-               OnClick {;do fgcrecs.WFM WITH FORM.BLUSER,FORM.BLEVEL}
-               
-                DEFINE MENU SEPAARSYS06 OF THIS.ARSYS;
-             PROPERTY;
-               Separator .T.,;
-               Text ""
-             endif
         endif
-   
          
        
    procedure ViewEditOnClick

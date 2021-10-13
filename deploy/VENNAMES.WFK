@@ -1,0 +1,988 @@
+*******************************************************************************
+*  PROGRAM:      VenNAMES.wfm
+*
+*  WRITTEN BY:   W Nyongesa
+*
+*  DATE:         05/2000
+*
+*  UPDATED:     12/2012
+*
+*  REVISION:     $Revision:   1.0
+*
+*  VERSION:      Visual dBASE
+*
+*  DESCRIPTION:  This program maintains the Vendor Account master file
+*
+*  PARAMETERS:   None
+*
+*  CALLS:        Vennames.mnu         (Menu file)
+*                BUTTONS.CC          (Custom Controls file)
+*                Vendor Account.qbe         (View of tables)
+*
+*  USAGE:        DO VenNAMES.wfm      
+*
+*******************************************************************************
+#include <messdlg.h>
+shell(.F.)
+create session
+set talk off
+set DBTYPE to PARADOX
+set century on
+*if .not. FORM.BLEVEL = 1
+set design off
+*endif
+_app.FrameWin.Visible = .F.
+_app.FrameWin.Text = "Vennames"
+set ldCheck off && To avoid language driver conflicts
+#define Maxcoy 999
+** END HEADER -- do not remove this line*
+* Generated on 26/09/2021
+*
+parameter bModal
+local f
+f = new VendorFORM()
+if (bModal)
+   f.mdi = .F. && ensure not MDI
+   f.ReadModal()
+else
+   f.Open()
+endif
+CLASS VendorFORM OF FORM
+   Set Procedure To BUTTONS.CC additive
+   this.Minimize = .F.
+   this.EscExit = .F.
+   this.Top = 18.5879
+   this.OnClose = CLASS::ONCLOSE
+   this.MousePointer = 1
+   this.ColorNormal = "N+"
+   this.Text = "VENDOR INFORMATION"
+   this.Moveable = .F.
+   this.SysMenu = .F.
+   this.WindowState = 2
+   this.MDI = .F.
+   this.ScrollBar = 1
+   this.MenuFile = "VENNAMES.MNU"
+   this.Left = 0
+   this.View = "Vennames.QBE"
+   this.Height = 14.8232
+   this.Sizeable = .F.
+   this.Maximize = .F.
+   this.Width = 106
+
+   DEFINE RECTANGLE RECTANGLE1 OF THIS;
+       PROPERTY; 
+         Top 1,;
+         ColorNormal "R+/BtnFace",;
+         Text "VENDOR MASTER INFORMATION",;
+         FontSize 10,;
+         Left 2,;
+         Height 28,;
+         Width 138
+
+   DEFINE TEXT TEXT2 OF THIS;
+       PROPERTY; 
+         Top 3,;
+         ColorNormal "B/BtnFace",;
+         Text "Cat.:",;
+         FontSize 10,;
+         Alignment 5,;
+         Left 3,;
+         Height 1.0586,;
+         Width 6
+
+   DEFINE ENTRYFIELD DSRCE OF THIS;
+       PROPERTY; 
+         Top 3,;
+         ColorNormal "N/BtnFace",;
+         FontSize 10,;
+         Function "!",;
+         ColorHighLight "B+/W*",;
+         DataLink "Vendor->vsrce",;
+         Left 36,;
+         Enabled .F.,;
+         Height 1.2344,;
+         Width 4
+
+   DEFINE TEXT TEXT5 OF THIS;
+       PROPERTY; 
+         Top 3,;
+         ColorNormal "B/BtnFace",;
+         Text "Type:",;
+         FontSize 10,;
+         Alignment 5,;
+         Left 40.8311,;
+         Height 1.0586,;
+         Width 7
+
+   DEFINE ENTRYFIELD DTYP OF THIS;
+       PROPERTY; 
+         Top 3,;
+         ColorNormal "N/BtnFace",;
+         FontSize 10,;
+         Function "!",;
+         ColorHighLight "B+/W*",;
+         DataLink "Vendor->vtyp",;
+         Left 70,;
+         Enabled .F.,;
+         Height 1.2344,;
+         Width 4
+
+   DEFINE TEXT TEXT7 OF THIS;
+       PROPERTY; 
+         Top 3,;
+         ColorNormal "B/BtnFace",;
+         Text "Sub-Type:",;
+         FontSize 10,;
+         Left 74,;
+         Height 1.0586,;
+         Width 12
+
+   DEFINE ENTRYFIELD DVPMOD OF THIS;
+       PROPERTY; 
+         Top 3,;
+         ColorNormal "N/BtnFace",;
+         FontSize 10,;
+         Function "!",;
+         ColorHighLight "B+/W*",;
+         DataLink "Vendor->vpmod",;
+         Left 106,;
+         Enabled .F.,;
+         Height 1.2344,;
+         Width 4
+
+   DEFINE ENTRYFIELD DVENDOR OF THIS;
+       PROPERTY; 
+         Top 3,;
+         ColorNormal "N/BtnFace",;
+         FontSize 10,;
+         Function "!",;
+         ColorHighLight "B+/W*",;
+         DataLink "Vendor->Vendor_N",;
+         Left 110.1641,;
+         Enabled .F.,;
+         Height 1.4688,;
+         Width 6.334
+
+   DEFINE ENTRYFIELD SACC OF THIS;
+       PROPERTY; 
+         Top 3,;
+         Value "                                        ",;
+         ColorNormal "N/W",;
+         MaxLength 40,;
+         FontSize 10,;
+         Function "!",;
+         ColorHighLight "B+/W*",;
+         Left 117.3311,;
+         Enabled .F.,;
+         Height 1.2344,;
+         Width 12.667
+
+   DEFINE ENTRYFIELD SSNAME OF THIS;
+       PROPERTY; 
+         Top 5,;
+         ColorNormal "N/BtnFace",;
+         FontSize 10,;
+         OnChange CLASS::CHANGESMADE,;
+         Function "!",;
+         ColorHighLight "B+/W*",;
+         DataLink "apvsrce->NAME",;
+         Left 3,;
+         Enabled .F.,;
+         Height 1.2344,;
+         Width 21.5
+
+   DEFINE ENTRYFIELD FTNAME OF THIS;
+       PROPERTY; 
+         Top 5,;
+         ColorNormal "N/BtnFace",;
+         FontSize 10,;
+         Function "!",;
+         ColorHighLight "B+/W*",;
+         DataLink "apvtyp->NAME",;
+         Left 28.5,;
+         Enabled .F.,;
+         Height 1.2344,;
+         Width 23.5
+
+   DEFINE ENTRYFIELD FPNAME OF THIS;
+       PROPERTY; 
+         Top 5,;
+         ColorNormal "N/BtnFace",;
+         FontSize 10,;
+         Function "!",;
+         ColorHighLight "B+/W*",;
+         DataLink "apvpmod->NAME",;
+         Left 54,;
+         Enabled .F.,;
+         Height 1.2344,;
+         Width 28
+
+   DEFINE TEXT TEXT1 OF THIS;
+       PROPERTY; 
+         Top 9,;
+         ColorNormal "B/BtnFace",;
+         Text "Name:",;
+         FontSize 10,;
+         Left 3,;
+         Height 1.25,;
+         Width 18
+
+   DEFINE ENTRYFIELD CNAME OF THIS;
+       PROPERTY; 
+         Top 9,;
+         Valid CLASS::CNAME_VALID,;
+         ColorNormal "N/BtnFace",;
+         FontSize 10,;
+         OnChange CLASS::CNAME_ONCHANGE,;
+         Function "!",;
+         ColorHighLight "B+/W*",;
+         DataLink "Vendor->NAME",;
+         Left 28,;
+         ValidErrorMsg "Name Required",;
+         Enabled .F.,;
+         Height 1.25,;
+         Width 88
+
+   DEFINE TEXT TEXT23 OF THIS;
+       PROPERTY; 
+         Top 11.3516,;
+         ColorNormal "B/BtnFace",;
+         Text "Address:",;
+         FontSize 10,;
+         Left 3,;
+         Height 1.2354,;
+         Width 18
+
+   DEFINE ENTRYFIELD ADDRESS1 OF THIS;
+       PROPERTY; 
+         Top 11.3516,;
+         Valid CLASS::ADDRESS1_VALID,;
+         ColorNormal "N/BtnFace",;
+         FontSize 10,;
+         OnChange CLASS::CHANGESMADE,;
+         Function "!",;
+         ColorHighLight "B+/W*",;
+         DataLink "Vendor->Address1",;
+         Left 28,;
+         ValidErrorMsg "Address Required",;
+         Enabled .F.,;
+         Height 1.2354,;
+         Width 46
+
+   DEFINE ENTRYFIELD SOPENDATE OF THIS;
+       PROPERTY; 
+         Top 5.5293,;
+         ColorNormal "B+/BtnFace",;
+         FontSize 10,;
+         FontName "Arial Black",;
+         Function "!",;
+         ColorHighLight "B+/W",;
+         DataLink "Vendor->OPEN_DATE",;
+         Left 84.5,;
+         Enabled .F.,;
+         Height 1.2354,;
+         Width 15.5
+
+   DEFINE TEXT TEXT15 OF THIS;
+       PROPERTY; 
+         Top 14.2344,;
+         ColorNormal "B/BtnFace",;
+         Text "Phone:",;
+         FontSize 10,;
+         Left 3,;
+         Height 1.2354,;
+         Width 18
+
+   DEFINE ENTRYFIELD SPHONE OF THIS;
+       PROPERTY; 
+         Top 14.2344,;
+         ColorNormal "N/BtnFace",;
+         FontSize 10,;
+         OnChange CLASS::ENTRYFIELD4_ONCHANGE,;
+         Function "!",;
+         ColorHighLight "B+/W*",;
+         DataLink "Vendor->PHONE",;
+         Left 28,;
+         Enabled .F.,;
+         Height 1.2354,;
+         Width 23.5
+
+   DEFINE TEXT TEXT9 OF THIS;
+       PROPERTY; 
+         Top 17,;
+         ColorNormal "B/BtnFace",;
+         Text "PIN No.:",;
+         FontSize 10,;
+         Left 3,;
+         Height 1.2344,;
+         Width 18
+
+   DEFINE ENTRYFIELD SPIN OF THIS;
+       PROPERTY; 
+         Top 17,;
+         ColorNormal "N/BtnFace",;
+         FontSize 10,;
+         OnChange CLASS::SPIN_ONCHANGE,;
+         Function "!",;
+         ColorHighLight "B+/W*",;
+         DataLink "Vendor->PIN",;
+         Left 28,;
+         Enabled .F.,;
+         Height 1.2344,;
+         Width 24
+
+   DEFINE TEXT TEXT12 OF THIS;
+       PROPERTY; 
+         Top 19,;
+         ColorNormal "B/BtnFace",;
+         Text "V.A.T. No.:",;
+         FontSize 10,;
+         Left 3,;
+         Height 1.2344,;
+         Width 18
+
+   DEFINE ENTRYFIELD SVAT OF THIS;
+       PROPERTY; 
+         Top 19,;
+         ColorNormal "N/BtnFace",;
+         FontSize 10,;
+         OnChange CLASS::ENTRYFIELD8_ONCHANGE,;
+         Function "!",;
+         ColorHighLight "B+/W*",;
+         DataLink "Vendor->VAT",;
+         Left 28,;
+         Enabled .F.,;
+         Height 1.2344,;
+         Width 23.5
+
+   DEFINE PREVBUTTON PREVCOYBUTTON OF THIS;
+       PROPERTY; 
+         Top 26.2344,;
+         OnClick CLASS::PREVIOUS,;
+         Group .T.,;
+         Default .T.,;
+         Left 11.3311,;
+         Height 1.5303,;
+         Width 14.167
+
+   DEFINE NEXTBUTTON NEXTCOYBUTTON OF THIS;
+       PROPERTY; 
+         Top 26.2344,;
+         OnClick CLASS::NEXT,;
+         Group .F.,;
+         Left 26.3311,;
+         Height 1.5303,;
+         Width 14.167
+
+   DEFINE PUSHBUTTON FIRVENDORBUTTON OF THIS;
+       PROPERTY; 
+         Top 26.2344,;
+         Text "F&irst",;
+         StatusMessage "Go to the first record.",;
+         OnClick CLASS::FIRST_RTN,;
+         Group .F.,;
+         Left 43,;
+         Height 1.5303,;
+         Width 14.1641
+
+   DEFINE PUSHBUTTON LAVENDORBUTTON OF THIS;
+       PROPERTY; 
+         Top 26.2344,;
+         Text "&Last",;
+         StatusMessage "Go to the last Vendor.",;
+         OnClick CLASS::LAST_RTN,;
+         Group .F.,;
+         Left 58,;
+         Height 1.5303,;
+         Width 14.1641
+
+   DEFINE ENTRYFIELD SVTYP OF THIS;
+       PROPERTY; 
+         Top 3,;
+         ColorNormal "N/BtnFace",;
+         FontSize 10,;
+         Function "!",;
+         ColorHighLight "B+/W*",;
+         DataLink "apvtyp->NAME",;
+         Left 48.5,;
+         Enabled .F.,;
+         Height 1.2344,;
+         Width 19.5
+
+   DEFINE ENTRYFIELD SVPMOD OF THIS;
+       PROPERTY; 
+         Top 3,;
+         ColorNormal "N/BtnFace",;
+         FontSize 10,;
+         Function "!",;
+         ColorHighLight "B+/W*",;
+         DataLink "apvpmod->NAME",;
+         Left 86.5,;
+         Enabled .F.,;
+         Height 1.2344,;
+         Width 19.5
+
+   DEFINE TEXT TEXT13 OF THIS;
+       PROPERTY; 
+         Top 20.7637,;
+         ColorNormal "B/BtnFace",;
+         Text "Balance Due:",;
+         FontSize 10,;
+         Alignment 4,;
+         Left 3,;
+         Height 1,;
+         Width 18
+
+   DEFINE ENTRYFIELD SBAL OF THIS;
+       PROPERTY; 
+         Top 21,;
+         ColorNormal "N/BtnFace",;
+         FontSize 10,;
+         Function "J",;
+         ColorHighLight "B+/W*",;
+         DataLink "Vendor->bal_due",;
+         Left 28,;
+         Enabled .F.,;
+         Height 1.1758,;
+         Picture "9,999,999,999.99",;
+         Width 23.5
+
+   DEFINE TEXT TEXT4 OF THIS;
+       PROPERTY; 
+         Top 23.4102,;
+         ColorNormal "B/BtnFace",;
+         Text "GL Invoice:",;
+         FontSize 10,;
+         Left 3,;
+         Height 1.2354,;
+         Width 18
+
+   DEFINE COMBOBOX SGLCOD OF THIS;
+       PROPERTY; 
+         DataSource 'ARRAY {"","No","Yes"}',;
+         Top 23.4102,;
+         Style 1,;
+         ColorNormal "B/BtnFace",;
+         FontName "Arial Black",;
+         OnChange CLASS::SGLCOD_ONCHANGE,;
+         DataLink "vendor->GLCOD",;
+         Left 28,;
+         Height 1.3516,;
+         Width 13
+
+   procedure Open
+   ****************************************************************************
+   private TypeField,CodeField
+    ON ERROR DO ddeerr WITH ERROR(), MESSAGE(),;
+   PROGRAM(), LINENO()
+   FORM.BLUSER = BUSER
+   FORM.BLEVEL = BLEVEL
+   if blevel > 3
+   form.sglcod.enabled = .f.
+   endif
+   IF EMPTY(FORM.BLUSER) .OR. EMPTY(FORM.BLEVEL)
+   QUIT
+   ENDIF
+   form.firstime = .T.
+   if type("form.init") = "U"
+      form.init = .T.
+   
+      set skip to                     && Vennames.QBE contains set skip to gldtl
+      set exact off                   && the .qbe file contains SET EXACT ON
+   
+      set procedure to sampProc.prg additive
+    Form.duplicate = .F.
+      form.inEditMode = .F.           && indicator of view/edit state
+      form.changesMade = .F.          && indicator of changes made to field values
+      form.previousRecord = .F.       && Save record number when appending
+      form.updated = .f.
+      form.pnation = .f.
+      FORM.NALLOC = .F.
+      FORM.PDEPTYP = ""
+   FORM.PDEPCLA = ""
+   FORM.PDEPCOD = ""
+   FORM.PVTYP = ""
+   FORM.PVCLA = ""
+   FORM.PVCOD = ""
+   FORM.PDISCTYP = ""
+   FORM.PDISCCLA = ""
+   FORM.PDISCCOD = ""
+   FORM.PDTYP  = ""
+   FORM.PDCLA  = ""
+   FORM.PDCOD = ""
+          form.pvsrce= ""
+            FORM.Pvtyp = ""
+            FORM.Pvpmod = ""
+      form.cnt = 1
+       TypeField = field(1)         && company field
+      CodeField = field(2)
+   *   set order to &TypeField      && period -- tag name is same as field
+     select Vendor
+      set order to Vendor
+    GO TOP                                  && new Receipts
+   if empty(vtyp) .or. empty(Vendor_n) .or. empty(vpmod) .or. empty(vsrce)
+        delete
+   endif
+   select vennames
+      set order to Vendor
+                    
+        *** do calculations in another area so form doesn't get updated
+               
+    FORM.PDEPTYP = "L0"
+   FORM.PDEPCLA = "00"
+   FORM.PDEPCOD = "01"
+   FORM.Pvtyp = "L0"
+   FORM.PVCLA = "00"
+   FORM.PVCOD = "00"
+   FORM.PDISCTYP = "E0"
+   FORM.PDISCCLA = "00"
+   FORM.PDISCCOD = "00"
+    FORM.PDTYP = "C0"
+   FORM.PDCLA = "01"
+   FORM.PDCOD = "00"
+   FORM.DSRCE.ENABLED = .F.
+   FORM.dvpmod.ENABLED = .F.
+   FORM.DTYP.ENABLED = .F.
+   FORM.DVendor.ENABLED = .F.
+   
+    
+      *** Open table for calculating totals and balance due in another work area
+      *** so that datalinks are not affected by record movements
+   
+   
+      ***
+    *  if type("form.parentpayeeForm") <> "U" && Esc ok if have parent
+    *     form.escExit = .T.
+   *   endif
+   
+   endif
+    select Vendor
+   * form.CoyInfoButton.KenpName = "VenNAMES.wfm"
+   *form.root.Vendor.add.enabled = .T. 
+   go top
+   form::Open()                         && Now the form actually opens
+       form.BrowseOnNavigate()              && calculate totals
+   *       form.codingerrors()                        && check coding errors
+   
+   *      form.next.setfocus()
+   
+   ****************************************************************************
+   
+   procedure OnClose
+   
+   * Clean up.
+   ****************************************************************************
+   
+   if this.inEditMode
+      form.ViewEdit()                      && Finish transaction
+   endif
+      close procedure SAMPProc.prg
+      CLOSE PROCEDURE BUTTONS.CC
+   
+     if .not. validdrive("Z:") .and.  .not. validdrive("W:") .and.  .not. validdrive("Y:")  .and.  .not. validdrive("X:")
+     Do Vendor_rtn WITH FORM.BLUSER
+      endif
+   select Vendor
+   set filter to empty(name) .and. empty(l_inv_date) .and. empty(l_pay_date) ;
+   .and. bal_due = 0 .and. cdep_amt = 0
+   go top
+   delete all
+   
+   close databases
+   ****************************************************************************
+   
+   procedure BrowseOnNavigate
+   ****************************************************************************
+     
+   *   
+   *       if eof() 
+   *     form.root.Vendor.viewEdit.enabled = .F.
+   *   else
+   *     form.root.Vendor.viewEdit.enabled = .T.
+      
+   *   endif
+   form.sacc.value = Vendor->vsrce+Vendor->vtyp+Vendor->vpmod+Vendor->Vendor_n
+   
+   ****************************************************************************
+   
+   procedure ChangesMade
+   
+   * Indicate that changes have been made to the current record
+   ****************************************************************************
+   Form.ChangesMade = .T.
+   ****************************************************************************
+   
+    
+   procedure Last_rtn
+   
+   * Go to next record.
+   ****************************************************************************
+   
+     form.CheckCommit(form.inEditMode)
+   if .not. eof() .and. .not. empty(Vendor->name) 
+      go bottom
+    endif
+    form.BrowseOnNavigate()
+     
+   procedure first_rtn
+   
+   * Go to next record.
+   ****************************************************************************
+   
+     form.CheckCommit(form.inEditMode)
+   if .not. eof() .and. .not. empty(Vendor->name) 
+     go top
+    endif
+    form.BrowseOnNavigate()
+    
+   procedure Next
+   
+   * Go to next record.
+   ****************************************************************************
+   
+     form.CheckCommit(form.inEditMode)
+   if .not. eof() .and. .not. empty(Vendor->name) 
+      NEXTBUTTON::OnClick()
+    endif
+    form.BrowseOnNavigate()
+   ****************************************************************************
+   
+   procedure Previous
+   
+   * Go to previous record.
+   ****************************************************************************
+   
+      form.CheckCommit(form.inEditMode)
+   *form.slocbled = .F.
+   
+   *   form.Sclass.Enabled = .F.
+   if .not. empty(Vendor->name) 
+     PREVBUTTON::OnClick()
+    form.BrowseOnNavigate()
+    endif
+   
+   ****************************************************************************
+   
+   
+   procedure CheckCommit (newInEditMode)
+   
+        * Finish transaction, if it has been started.
+   ****************************************************************************
+   private CodeField, changesMade
+   changesMade = form.changesMade
+   if form.changesMade
+      CodeField = field(1)  && Field period
+      if     ConfirmationMessage("Commit changes?",;
+                FormatStr("Vendor %1",&CodeField)) = YES
+         commit()
+       form.updated = .t.
+      else
+         rollback()
+         if .not. bof()
+       *  if .not. empty(form.previousRecord)
+   *            go bookmark()
+           * form.previousRecord
+            form.previousRecord = .F.
+         endif
+      endif
+    
+    if form.inEditMode .and. newInEditMode
+         begintrans()
+      endif
+      form.changesMade = .F.
+   endif
+   if form.inEditMode <> newInEditMode
+      if newInEditMode                       && Going to Edit mode
+         begintrans()
+      else                                   && Going to View mode
+         if .not. changesMade .AND. .NOT. FORM.DUPLICATE
+            rollback()
+         endif
+      endif
+      form.inEditMode = newInEditMode
+   endif
+     
+   * form.root.Receipt.add.enabled = .T.
+   *form.codingerrors()
+   ****************************************************************************
+   
+   procedure ViewEdit
+   
+   * Toggle between View and Edit modes.
+   ****************************************************************************
+   local inEditMode, editMenu, control
+   
+   editMenu = form.root.Vendor.VIEWEdit
+   
+   *** If ending edit mode then close transaction, otherwise open it.
+   if form.inEditMode 
+      form.checkChanged(.F.)
+      editMenu.text = "&Edit"
+      editMenu.shortcut = "Ctrl-E"
+      editMenu.statusMessage = "Edit data."
+      form.CheckCommit(.F.)                        && Check transaction and
+      form.text = "EDIT VENDORS -- View Mode"          && change mode to View
+           *form.notesEditor3.colorNormal = "N/W"
+           *form.notesEditor2.colorNormal = "N/W"
+      *  form.childBrowse.modify = .F.
+        *form.notesEditor3.modify = .F.
+          *form.notesEditor2.modify = .F.
+            form.address1.enabled = .f.
+   form.sphone.enabled = .f.
+   form.spin.enabled = .f.
+   form.svat.enabled = .f.
+   
+      form.statusmessage = "In View Mode. " + ;
+                           "Select Vendor Account - Edit menu to " + ;
+                           "edit/delete data."
+      form.nextCOYBUTTON.SetFocus()
+   else                                            && Switch to edit mode
+      editMenu.text = "Vi&ew"
+      editMenu.shortcut = "Ctrl-E"
+      editMenu.statusMessage = "View data."
+        form.address1.enabled = .t.
+   form.sphone.enabled = .t.
+   form.spin.enabled = .t.
+   form.svat.enabled = .t.
+   
+      form.CheckCommit(.T.)                        && Check transaction and
+      form.text = "EDIT VENDORS -- Edit Mode"          && change mode to Edit
+   
+          *form.notesEditor3.modify = .T.
+         *form.notesEditor2.modify = .T.
+      form.statusmessage = "In Edit Mode.  " + ;
+                           "Select menu Vendor Account - View to switch " + ;
+                           "to View mode."
+        
+   endif
+   
+   inEditMode = form.inEditMode     && Faster if we don't reference a form
+   control = form.first             &&    variable each time through the loop
+   do
+      if .not. control.className $ "BROWSE,EDITOR,NEXTBUTTON,PREVBUTTON,PUSHBUTTON,IMAGE,TEXT"
+         control.enabled = inEditMode
+   
+      endif
+   
+      control = control.before
+   until control.name = form.first.name
+   * FORM.SVSRCE.ENABLED = .F.
+   form.sopendate.enabled = .f.
+     FORM.DSRCE.ENABLED = .F.
+   FORM.Dvpmod.ENABLED = .F.
+   FORM.DTYP.ENABLED = .F.
+   FORM.DVendor.ENABLED = .F.
+   form.sacc.enabled = .f.
+   IF  FORM.BLEVEL > 3
+    form.cname.enabled = .f.
+    form.SGLCOD.enabled = .f.
+    ENDIF
+   form.ftname.enabled = .f.
+   form.fpname.enabled = .f.
+   FORM.Svtyp.ENABLED = .F.
+   FORM.Svpmod.ENABLED = .F.
+   FORM.SSNAME.ENABLED = .F.
+    form.sbal.enabled = .f.
+         
+       select Vendor
+          form.cname.SetFocus()  
+     
+   
+   ****************************************************************************
+   
+   procedure CheckChanged(callCommit)
+   
+   * Check if changes have been made to the current entryfield.  This procedure
+   * is called from menu routines to make sure the form.changesMade gets
+   * updated when a menu is selected while the changed control has focus.
+   ****************************************************************************
+   private control, fieldValue, controlValue, typeText, typeValue
+   
+   if form.inEditMode
+      control = form.activeControl
+      if type("control.datalink") <> "U"
+         fieldValue = control.datalink          && name of table field
+   
+         typeText = type("control.text")
+         typeValue = type("control.value")
+         do case
+            case typeValue = "C"
+               controlValue = control.value
+            case typeValue $ "LU" .and. typeText = "C"
+               controlValue = control.text
+            otherwise
+               controlValue = Null
+         endcase
+         if controlValue <> &fieldValue
+            form.changesMade = .T.
+         endif
+      endif
+   endif
+   if form.changesMade .and. callCommit
+      CLASS::CheckCommit(form.inEditMode)     && Check transactions
+   endif
+   
+     
+        
+   Procedure SCONTACT_OnChange
+        form.changesmade = .t.
+   
+   Procedure ENTRYFIELD1_OnChange
+         form.changesmade = .t.
+   
+   Procedure SCITY_OnChange
+      form.changesmade = .t.
+   
+   Procedure SCOUNTRY_OnChange
+   form.changesmade = .t.
+   
+   Procedure ENTRYFIELD4_OnChange
+   form.changesmade = .t.
+   
+   Procedure SFAX_OnChange
+   form.changesmade = .t.
+   
+   Procedure SEMAIL_OnChange
+   form.changesmade = .t.
+   
+   Procedure SPIN_OnChange
+   form.changesmade = .t.
+   
+   Procedure ENTRYFIELD8_OnChange
+   form.changesmade = .t.
+   
+   Procedure SACCREF_OnChange
+      form.changesmade = .t.
+   
+   
+   
+   Procedure NOTESEDITOR3_OnChange
+      form.changesmade =.t.
+   
+   Procedure SOPEN_OnChange
+         form.changesmade = .t.
+   
+   Procedure SCDEP_OnChange
+         form.changesmade = .t.
+   
+   Procedure SCLIMIT_OnDesignOpen(bFromPalette)
+         form.changesmade = .t.
+   
+     Procedure SDAYS_OnChange
+         form.changesmade = .t.
+   
+     
+   Procedure CNAME_OnChange
+        form.CNAME.value = ltrim(form.CNAME.value)
+          if  .not. empty(this.value)
+             select vendor4
+   seek  form.CNAME.value
+         if found()  .AND. .NOT. (vsrce = vendor->vsrce .AND. vendor_N = vendor->vendor_N)
+   InformationMessage("Duplicate Vendor name not allowed", "Note!")
+   form.CNAME.value =""
+   else
+     form.changesmade = .t.
+   endif
+   endif
+   select vendor
+         
+   
+   Procedure ADDRESS1_Valid
+         if empty(this.value)
+         isvalid = .f.
+         else
+         isvalid = .t.
+         endif
+         return isvalid
+   
+   Procedure CNAME_Valid
+     if empty(this.value) .and. .not. empty(Vendor->vsrce)
+         isvalid = .f.
+         form.cnt = form.cnt + 1
+         else
+         isvalid = .t.
+         endif
+         if form.cnt > 2
+         isvalid = .t.
+         form.cnt = 0
+         endif
+         return isvalid
+   
+   Procedure SGROUP_OnChange
+         select frcategs
+         seek this.value
+         select Vendor
+         replace catname with this.value
+         replace category with frcategs->category
+         form.changesmade = .t.
+   
+   Procedure ENTRYFIELD1_OnChange1
+         form.changesmade = .t.
+   
+   Procedure ENTRYFIELD2_OnChange
+      form.changesmade = .t.
+   
+   
+   
+   Procedure SGLCOD_OnChange
+   form.changesmade = .t.
+   
+ENDCLASS
+
+Procedure Vendor_rtn
+   PARAMETER BLUSER
+   PLUSER = BLUSER
+   eofVendor = .f.
+   set safety off
+   select vennames
+ set order to Vendor
+     set safety on
+   select Vendor
+   SET FILTER TO .NOT. EMPTY(NAME) .AND. .NOT. EMPTY(VSRCE) .AND. .NOT. EMPTY(VTYP) ;
+    .AND. .NOT. EMPTY(VPMOD) .AND. .NOT. EMPTY(VENDOR_N)
+   go top
+   if .not. eof()
+      do
+         do rtn2 
+         until eofVendor
+     endif
+  
+   
+Procedure rtn2
+   local l1,l2,l3,l4
+   l1 = vsrce
+   l2 = vtyp
+   l3 = vpmod
+   l4 = Vendor_n
+   select vennames
+      seek l1+l2+l3+l4
+      if .not. found() .and. .not. empty(Vendor->name)  ;
+       .and. .not. empty(Vendor->vtyp) .and. .not. empty(Vendor->vpmod);
+        .and. .not. empty(Vendor->vsrce) .and. .not. empty(Vendor->Vendor_n)
+      append blank
+      replace name with ltrim(Vendor->name)
+      replace vtyp with Vendor->vtyp
+      replace Vendor_n with Vendor->Vendor_n
+      replace vsrce with l1
+      replace vpmod with l3
+          
+      endif
+      replace close_date with vendor->close_date
+       replace close_time with vendor->close_time
+        replace close_user with vendor->close_user
+        replace pin with vendor->pin
+        replace vat with vendor->vat
+        replace glcod with vendor->glcod
+      SELECT VENDOR
+      replace name with ltrim(name)
+      IF EMPTY(OPEN_DATE)
+         REPLACE OPEN_DATE WITH DATE()
+         REPLACE OPEN_USER WITH PLUSER
+         REPLACE OPEN_TIME WITH TIME()
+         ENDIF
+   skip
+   if eof()
+   eofVendor = .t.
+   endif
+     
+

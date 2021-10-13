@@ -1,0 +1,20 @@
+* Visual dBASE .QBE file 9
+CLOSE DATABASES
+*SET  ON
+SET EXACT ON
+SELECT 1
+USE \KENSERVICE\DATA\ArRINVS.DBF exclusive
+*ZAP
+SELECT 2
+USE \KENSERVICE\DATA\ARrINvln.DBF exclusive
+select 3
+use \kenservice\data\arrinvsp.dbf exclusive
+select 4
+use \kenservice\data\fgjcrs.dbf exclusive
+select 5
+use \kenservice\data\fgtrnref.dbf
+SELECT 6
+USE \KENSERVICE\DATA\FGSTKNOS.DBF EXCLUSIVE
+*ZAP
+SELECT 1
+GO TOP

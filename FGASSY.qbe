@@ -1,0 +1,59 @@
+* Visual dBASE .QBE file 9
+
+ON ERROR DO QBEERR WITH ERROR(), MESSAGE(),;
+PROGRAM(), LINENO()
+CLOSE DATABASES
+SET EXACT ON
+*set exclusive on
+SELECT 1
+USE \KENSERVICE\DATA\fgassy.DBF
+*zap
+set filter to empty(post_date)
+select 2
+use \KENSERVICE\DATA\fgassy.dbF again  alias temp
+SELECT 3
+USE \KENSERVICE\DATA\fgassy.DBF AGAIN ALIAS fgassy3
+select 35
+use \kenservice\data\fgadjrss.dbf order tag name
+set filter to reason = "5"
+select 5
+USE \KENSERVICE\DATA\FGMASTP.DBF ORDER TAG NAME
+SET FILTER TO ((TYP = "10" .AND. .NOT. EMPTY(USENAME)) .OR. (MANFACT > "099999".AND. MANFACT < "109999");
+.or. (typ='20' .and. cla='00' .and. volume > 13)) .AND.  SHS_AUTO = "No" .and. active = "Yes"
+ select 55
+USE \KENSERVICE\DATA\FGMASTP.DBF ORDER TAG NAME again alias fgmastp2
+set filter to (typ = "10" .and. (shs_auto = "Dcn" .or. shs_auto = "Grs"  .or. shs_auto = "Ccf";
+.or. shs_auto = "Ccc" .or. shs_auto = "Yes") ;
+ .and. (div = "2" .or. div = "1") .and. active = "Yes" .and. .not. cen  ="D") .or. ;
+ (typ = '20' .and. cla='10' .and. cod = '00' .and. active = 'Yes' .and. div = '2' .and. cen = '7' .and. sto = 'J1' ;
+  .and. shs_auto = 'Gas')
+SELECT 6
+use \kenservice\data\fgmast.dbf ORDER TAG MKEY
+SELECT 7
+USE \KENSERVICE\DATA\fgassy.DBF again alias fgassy2
+SELECT 8
+USE \KENSERVICE\DATA\FGCOD.DBF ORDER TAG MKEY
+SELECT 9
+USE \KENSERVICE\DATA\GLTYP.DBF ORDER TAG LNAME
+SET FILTER TO ACTYPE = "1" .OR. ACTYPE = "8"  && COST OF SALES OR INCOME
+select 10
+use \kenservice\data\fgassyl.dbf
+*zap
+select 12
+use \kenservice\data\fgmast.dbf again alias fgmast2 order tag mkey
+select 13
+use \kenservice\data\fgoffs.dbf order tag name
+set filter to empty(date_left)
+select 15
+use \kenservice\data\fgcoy.dbf
+go top
+SELECT 100
+USE \KENSERVICE\DATA\ST15F.DBF
+select 126
+use \kenservice\data\fgassyUP.dbf
+delete all for empty(order_no)
+set filter to .not. empty(post_date)
+select 128
+ use \kenservice\data\fgassyn.dbf
+SELECT 1
+GO TOP

@@ -1,0 +1,211 @@
+******************************************************************************
+*  PROGRAM:      fg15sm.mnu
+*
+*  WRITTEN BY:   W Nyongesa
+*
+*  DATE:         03/2001
+*
+*  UPDATED:      11/2014
+*
+*  REVISION:     $Revision:   1.58  $
+*
+*  VERSION:      Visual dBASE
+*
+*  DESCRIPTION:  This is a menu file used by fg15sm.WFM for
+*                performing simple tasks.  It allows adding and deleting
+*                records, searching for a value in the StokMaster field of the
+*                current table viewed, and exiting the form in view.
+*
+*  PARAMETERS:   FormObj -- the form to which this menu will belong.
+*
+*  CALLS:        None
+*
+*  USAGE:        form.menuFile = "fg15sm.mnu"
+*
+*******************************************************************************
+#include <messdlg.h>
+
+** END HEADER -- do not remove this line*
+* Generated on 07/03/2001
+*
+Parameter FormObj
+NEW StokMasterS(FormObj,"Root")
+CLASS StokMasterS(FormObj,Name) OF MENUBAR(FormObj,Name)
+   this.Text = ""
+   this.OnInit = {;set procedure to sampProc.prg}
+
+   DEFINE MENU FILE OF THIS;
+       PROPERTY;
+         Text "&File"
+  DEFINE MENU EXIT OF THIS.FILE;
+                PROPERTY; 
+          StatusMessage "Return to the Previous Menu.",;
+          Text "&RETURN TO PREVIOUS MENU",;
+          SHORTCUT "F4",;
+          OnClick CLASS::ONEXIT
+  
+      
+       DEFINE MENU SEPARATOR000 OF THIS.FILE;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+
+            
+   DEFINE MENU QUITALL OF THIS.FILE;
+       PROPERTY; 
+          StatusMessage "Leave Kenserve System.",;
+          Text "EXIT",;
+          SHORTCUT "F8",;
+          OnClick CLASS::ONQUITALL
+          
+
+   DEFINE MENU fg15sm OF THIS;
+       PROPERTY;
+         Text "&Code"
+
+         DEFINE MENU VIEWEDIT OF THIS.fg15sm;
+             PROPERTY;
+               OnClick CLASS::VIEWEDITONCLICK,;
+               Text "&Edit",;
+               Shortcut "Ctrl-E",;
+               StatusMessage "Edit data."
+
+         DEFINE MENU SEPARATOR1 OF THIS.fg15sm;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+
+         DEFINE MENU SEARCH OF THIS.fg15sm;
+             PROPERTY;
+               OnClick CLASS::SEARCHONCLICK,;
+               Text "&Search ...",;
+               Shortcut "Ctrl-S",;
+               StatusMessage "Search for a Stock Master code."
+         
+
+   DEFINE MENU REPORT OF THIS;
+       PROPERTY;
+         Text "&Reports"
+
+               
+             DEFINE MENU MONWHITE OF THIS.REPORT;
+             PROPERTY;
+               OnClick {;create session ;set lock off ;report form fg15sMWT},;
+               Text "&1. WHITE Products Stock Movements Report"
+                 DEFINE MENU SEPARREPO01 OF THIS.REPORT;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+               
+            
+               
+             DEFINE MENU MONSUMALLPRODS OF THIS.REPORT;
+             PROPERTY;
+               OnClick {;create session ;set lock off ;report form fg15sm},;
+               Text "&2. SUMMARY ALL Products Stock Movements Report"
+                    DEFINE MENU SEPARREPO02 OF THIS.REPORT;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+               
+               
+                DEFINE MENU MONDETALLPRODS OF THIS.REPORT;
+             PROPERTY;
+               OnClick {;create session ;set lock off ;report form fg15smd},;
+               Text "&3. DETAILED ALL Products Stock Movements Report"
+               
+                    DEFINE MENU SEPARREPO03 OF THIS.REPORT;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+               
+               
+                DEFINE MENU MONSUMALLPRODSVAR OF THIS.REPORT;
+             PROPERTY;
+               OnClick {;create session ;set TALK off ;report form fg15smV},;
+               Text "&4. Detailed ALL Products VARIANCE Report"
+               
+                        DEFINE MENU SEPARREPO03ann OF THIS.REPORT;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+               
+               if blevel < 5 
+  
+                DEFINE MENU MONSUMALLPROGP OF THIS.REPORT;
+             PROPERTY;
+               OnClick {;create session ;set TALK off ;report form fg15smgn},;
+               Text "&5 Monthly Products Margin Report"
+               
+                        DEFINE MENU SEPARREPGP OF THIS.REPORT;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+endif
+   ****************************************************************************
+   procedure SearchOnClick
+
+   * Bring up Search.WFM.
+   ****************************************************************************
+   private searchForm, searchItem, saveRec, saveFilt, searchcoy,;
+           searchdiv, searchcen,searchsto,searchtyp,searchcla,searchcod
+      local l1
+   if reccount() = 0                     && If table is empty, don't search
+      InformationMessage("This table is empty.", "Sorry!")
+   else
+      form.CheckChanged(.T.)
+      set procedure to Search.WFM additive
+      searchForm = new SearchForm()
+      searchForm.keyName = "TypClaCod"  && Indicator of key expression
+        searchForm.formatting = "@X"
+      searchForm.mdi = .F.
+      searchItem = searchForm.Readmodal()
+      if type("searchItem") = "O" .and. searchItem.id <> 0
+                                      && If search wasn't cancelled
+         saveRec = Bookmark()            && save current record in case seek is
+                                      && unsuccessful
+        l1 = left(searchform.value,6) && 999999
+       searchtyp = LEFT(l1,2)
+         searchcod = right(l1,2)
+        l1 = left(searchform.value,4)
+       searchcla = right(l1,2)
+       
+       form.enabled = .F.
+         seek searchtyp+searchcla+searchcod
+* locate for period = searchcoy .and. doctype = searchdiv
+         if .not. found()
+            InformationMessage(FormatStr("Item Id Code %1 \n Was not Found.",;
+                                         searchForm.value),;
+                               "Info")
+            if .not. eof()
+               go saverec()
+            else
+               go bottom
+            endif
+         endif
+         form.enabled = .T.
+      endif
+
+      searchForm.Release()
+      close procedure Search.WFM
+   endif
+form.BrowseOnNavigate()
+
+   ***************************************************************************
+   procedure ViewEditOnClick
+   ****************************************************************************
+
+   form.ViewEdit()
+
+    ****************************************************************************
+    procedure OnExit
+     form.Release()
+
+    procedure OnQuitAll
+   
+     form.Release()
+
+ quit
+
+ENDCLASS
+

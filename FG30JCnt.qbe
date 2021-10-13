@@ -1,0 +1,39 @@
+* Visual dBASE .QBE file 9
+ON ERROR DO QBEERR WITH ERROR(), MESSAGE(),;
+PROGRAM(), LINENO()
+CLOSE DATABASES
+on error do fgjcstrc.prg
+USE \KENSERVICE\DATA\fgjcsals.dbf
+? amt_alloc
+ON ERROR DO QBEERR WITH ERROR(), MESSAGE(),;
+PROGRAM(), LINENO()
+CLOSE DATABASES
+SET EXACT ON
+*set exclusive on
+SELECT 24
+USE \KENSERVICE\DATA\fgjcntsl.dbf
+GO TOP
+SELECT 1
+USE \KENSERVICE\DATA\fgjcnts.DBF
+*zap
+set filter to empty(post_date) .and.  fgjcntsl->ORDER_NO = ORDER_NO
+GO TOP
+SELECT 2
+USE \KENSERVICE\DATA\fgjcnlin.DBF
+select 11
+use \kenservice\data\fgjcsals.dbf
+select 100
+use \kenservice\data\fgcoy.dbf
+select 104
+use \kenservice\data\fgjcrup.dbf
+select 105
+use \kenservice\data\fgjcrup.dbf again alias fgjcrup2
+select 130
+use \kenservice\data\fgjcntsn.dbf
+SELECT 108
+USE \KENSERVICE\DATA\FGCOD.DBF
+SELECT 3
+use  \kenservice\data\fgmastlk.DBF ALIAS FGMAST
+select 4
+use \kenservice\data\fgmast.dbf alias fgmast2
+GO TOP

@@ -1,0 +1,3402 @@
+////////////////////////////////////////////////////////////////////////////////
+// Output Filename: C:\KENSERVICE\IDSSYS\SHIFTID_FCV.WFM                      //
+// Created By:      dBASE Form Converter Wizard                               //
+// Created On:      Sunday October 3, 2021 At 17:17:00                        //
+// Object Count:    100                                                       //
+////////////////////////////////////////////////////////////////////////////////
+******************************************************************************
+*  PROGRAM:      Shiftid.Wfm
+*
+*******************************************************************************
+create session
+set talk off
+set ldCheck off
+
+SET CUAENTER OFF
+SET CENTURY ON
+SET DATE TO BRITISH
+*if .not. user() = "WYCLIFFE"
+_app.FrameWin.Visible = .F.
+set design off
+*ENDIF
+*set procedure to ddeerr.prg additive
+
+_app.FrameWin.Text = "ShiftId"
+
+** END HEADER -- do not remove this line
+//
+// Generated on 08/10/2021
+//
+parameter bUser,bLevel,bLadmin,bModal
+local f
+f = new ShiftIdFORM()
+if (bModal)
+   f.mdi = false // ensure not MDI
+   f.readModal()
+else
+   f.open()
+endif
+
+class ShiftIdFORM of FORM
+   set procedure to BUTTONS.CC additive
+   with (this)
+      onOpen = class::ONOPEN
+      onClose = class::ONCLOSE
+      metric = 6	// Pixels
+      colorNormal = "N+"
+      height = 813.0
+      left = -27.0
+      top = 0.0
+      width = 1161.0
+      text = "SHIFTMASTER  VERIFICATION FORM"
+      windowState = 2	// Normal
+      mdi = false
+      sizeable = false
+      moveable = false
+      view = "fshiftid.QBE"
+      menuFile = "SHIFTID.MNU"
+      mousePointer = 1	// Arrow
+      scrollBar = 1	// On
+      maximize = false
+      minimize = false
+   endwith
+
+   this.ENTRYFIELD29 = new ENTRYFIELD(this)
+   with (this.ENTRYFIELD29)
+      dataLink = "ST15F->Shift_id"
+      enabled = false
+      height = 18.0
+      left = 124.0
+      top = 5.0
+      width = 24.0
+      colorNormal = "black/silver"
+      colorHighLight = "G+/W"
+      fontName = "MS Sans Serif"
+      fontSize = 12.0
+      fontBold = true
+   endwith
+
+   this.TEXT21 = new TEXTLABEL(this)
+   with (this.TEXT21)
+      height = 18.0
+      left = 148.0
+      top = 5.0
+      width = 48.0
+      text = "Officer:"
+      colorNormal = "N/GB+"
+      fontName = "MS Sans Serif"
+      fontSize = 9.0
+      fontBold = true
+   endwith
+
+   this.TEXT3 = new TEXTLABEL(this)
+   with (this.TEXT3)
+      height = 18.0
+      left = 340.0
+      top = 5.0
+      width = 60.0
+      text = "Cls Whole:"
+      colorNormal = "N/GB+"
+      fontName = "MS Sans Serif"
+      fontSize = 9.0
+      fontBold = true
+   endwith
+
+   this.WHOLEENTRY = new ENTRYFIELD(this)
+   with (this.WHOLEENTRY)
+      onChange = class::WHOLEENTRY_ONCHANGE1
+      dataLink = "ST15F->OKCLOSe"
+      enabled = false
+      height = 18.0
+      left = 400.0
+      top = 5.0
+      width = 84.0
+      colorNormal = "black/silver"
+      colorHighLight = "N/W"
+      tabStop = false
+      fontName = "MS Sans Serif"
+      fontBold = true
+   endwith
+
+   this.TEXT23 = new TEXTLABEL(this)
+   with (this.TEXT23)
+      height = 18.0
+      left = 484.0
+      top = 5.0
+      width = 60.0
+      text = "Cls Mini:"
+      colorNormal = "N/GB+"
+      fontName = "MS Sans Serif"
+      fontSize = 9.0
+      fontBold = true
+   endwith
+
+   this.MINIENTRY = new ENTRYFIELD(this)
+   with (this.MINIENTRY)
+      onChange = class::MINIENTRY_ONCHANGE1
+      dataLink = "ST15F->OKmini"
+      enabled = false
+      height = 18.0
+      left = 556.0
+      top = 5.0
+      width = 84.0
+      colorNormal = "black/silver"
+      colorHighLight = "G+/W"
+      tabStop = false
+      fontName = "MS Sans Serif"
+      fontBold = true
+   endwith
+
+   this.SHIFT = new ENTRYFIELD(this)
+   with (this.SHIFT)
+      dataLink = "ST15F->Shift_date"
+      enabled = false
+      height = 18.0
+      left = 14.0
+      top = 5.0
+      width = 86.0
+      colorNormal = "black/silver"
+      colorHighLight = "GB+/0x400040"
+      fontName = "MS Sans Serif"
+      fontBold = true
+   endwith
+
+   this.ENTRYFIELD1 = new ENTRYFIELD(this)
+   with (this.ENTRYFIELD1)
+      dataLink = "ST15F->SHIFT_NO"
+      enabled = false
+      height = 18.0
+      left = 100.0
+      top = 5.0
+      width = 24.0
+      colorNormal = "black/silver"
+      colorHighLight = "G+/W"
+      fontName = "MS Sans Serif"
+      fontSize = 12.0
+      fontBold = true
+   endwith
+
+   this.TEXT36 = new TEXTLABEL(this)
+   with (this.TEXT36)
+      height = 18.0
+      left = 640.0
+      top = 5.0
+      width = 36.0
+      text = "Err:"
+      colorNormal = "N/GB+"
+      fontName = "MS Sans Serif"
+      fontBold = true
+   endwith
+
+   this.ENTRYFIELD28 = new ENTRYFIELD(this)
+   with (this.ENTRYFIELD28)
+      dataLink = "ST15F->SHIFT_POST"
+      enabled = false
+      height = 18.0
+      left = 676.0
+      top = 5.0
+      width = 84.0
+      colorNormal = "R+/W+"
+      fontName = "MS Sans Serif"
+      fontBold = true
+   endwith
+
+   this.ERROR = new ENTRYFIELD(this)
+   with (this.ERROR)
+      dataLink = "SHIFTCOY->ERROR_MSG"
+      enabled = false
+      height = 16.0
+      left = 854.0
+      top = 5.0
+      width = 280.0
+      colorNormal = "R+/W+"
+      colorHighLight = "WindowText/R+"
+      fontName = "MS Sans Serif"
+      fontSize = 8.0
+      fontBold = true
+   endwith
+
+   this.OKSHIFTID = new OKBUTTON(this)
+   with (this.OKSHIFTID)
+      height = 27.0
+      left = 1281.0
+      top = 17.0
+      width = 86.0
+      text = "OK"
+      default = true
+      fontName = "MS Sans Serif"
+      fontSize = 8.0
+      fontBold = true
+      group = true
+   endwith
+
+   this.BROWSE1 = new BROWSE(this)
+   with (this.BROWSE1)
+      onLostFocus = class::CARDTYPE_ONLOSTFOCUS
+      onChange = {; form.Updated = .t.}
+      onLeftDblClick = class::ST15F_CAL_RTN
+      onRightMouseDown = class::ST15F_CAL_RTN
+      colorNormal = "R+/W+"
+      colorHighLight = "B+/w*"
+      fontName = "MS Sans Serif"
+      fontSize = 8.0
+      fontBold = true
+      height = 196.0
+      left = 7.0
+      top = 341.0
+      width = 1008.0
+      append = false
+      alias = "ST15F"
+      fields = 'ISLAND = ST15F->CEN\H="Id"\3\C="W+/0x808040",sto = ST15F->STO\H="STO"\4\C="W+/0x808040",Product = fgcod->name\H="Product Description"\25\C="W+/0x808040",ST15F->CL_M_A\H="Elect (Cash)"\15\P="9999999999.999"\C="N/W+",trans = st15f->Trans_in-st15f->trans_out\H="Trns"\8\P="99999.99"\C="W+/0x808040",ST15F->CL_M_Q\H="Elect (Ltrs)"\14\P="9999999999.999"\C="N/W+",ST15F->CL_MM_QTY\H="Man. (Ltrs)"\12\P="999999999.99"\C="N/W+",ST15F->TEST_QTY\H="Rtt(Ltrs)"\9\P="99999.99"\C="N/W+",dips = STSTOS->F1CASHR\H="Dp"\4\R\C="G+/N+",ST15F->PHY_QTY\H="Dip(Ltr)"\10\P="999999.99"\C="N/W+",TANK = ST15F->ST_STO\H="Tnk"\4\C="W+/0x808040",crsqty = st15f->cr_sal_qty\H="Crs(Ltrs)"\11\P="999,999.99"\C="W+/0x808040",nonc = ST15F->NON_CASH\H="Crs(Amt)"\16\P="999,999,999.99"\C="W+/0x808040"'
+      delete = false
+      showRecNo = false
+      text = "EDIT CLOSING VALUES HERE"
+      scrollBar = 1	// On
+   endwith
+
+   this.BROWSE2 = new BROWSE(this)
+   with (this.BROWSE2)
+      onLostFocus = class::CARDTYPE_ONLOSTFOCUS
+      colorNormal = "R/Btnface"
+      colorHighLight = "B+/w*"
+      fontName = "MS Sans Serif"
+      fontSize = 8.0
+      fontBold = true
+      height = 265.0
+      left = 8.0
+      top = 582.0
+      width = 1098.0
+      append = false
+      alias = "st15f"
+      fields = 'CEN = ST15F->CEN+st15f->typ+st15f->cla+st15f->cod+st15f->sto\H="Cen/Cod"\12\C="W+/0x808040",PUMP = ST15F->STO\H="STO"\5\C="W+/0x808040",ST15F->Meter_amt\H="Elect Amt"\14\P="9999,999,999.99"\R\C="W+/0x808040",TQTY = ST15F->TOTAL_QTY\H="Elec Ltrs"\12\P="999,999.99"\C="W+/0x808040",manltrs = st15f->mm_sold\H="Man Ltrs"\12\P="999,999.99"\C="W+/0x808040",varltrs = st15f->mm_qty_var\H="Var Ltrs"\12\P="999,999.99"\C="W+/0x80ff",soldltrs = st15f->sold_qty\H="Ltrs Sold"\12\P="99,999.99"\C="W+/0x808040",Price = st15f->sale_price\H="Price"\11\P="999,999.99"\C="W+/0x808040",ST15F->Sold_amt\H="Qty Amt"\12\P="999,999,999.99"\R\C="W+/0x808040",RTTAMT = ST15F->TEST_AMT\H="RTT Amt"\14\P="99,999,999.99"\C="W+/0x80ff",expsale = st15f->exp_sales\H="Exp Sales Amt"\14\P="999,999,999.99"\C="W+/0x808040",VAR = ST15F->Meter_var\H="Var (Amt)"\16\P="999,999,999.99"\C="W+/0x80ff"'
+      delete = false
+      modify = false
+      showRecNo = false
+      text = "VIEW THROUGHPUT AND SALES"
+   endwith
+
+   this.BROWSE4 = new BROWSE(this)
+   with (this.BROWSE4)
+      onLostFocus = class::CARDTYPE_ONLOSTFOCUS
+      colorNormal = "R/Btnface"
+      colorHighLight = "B+/w*"
+      fontName = "MS Sans Serif"
+      fontSize = 7.0
+      fontBold = true
+      height = 154.0
+      left = 14.0
+      top = 176.0
+      width = 735.0
+      append = false
+      alias = "SHIFTCLA"
+      fields = 'Name\H="Product"\12\R,SHIFTCLA->STO\H="Tnk"\4\R,SHIFTCLA->BBF\H="BBF"\12\P="999,999.99"\R,SHIFTCLA->Purchases\H="Purchases"\12\P="999,999.99"\R,SHIFTCLA->Sold_qty\H="Sales"\12\P="999,999.99"\R,SHIFTCLA->On_hand\H="BCF"\12\P="999,999.99"\R\C="N/W",SHIFTCLA->Phy\H="Dips"\12\P="999,999.99"\R\C="N/W",SHIFTCLA->SHIFT_VAR\H="S/Var"\10\P="999,999.99"\R\C="B+/W",SHIFTCLA->Qty_var\H="M/Var"\12\P="999,999.99"\R\C="B+/W"'
+      delete = false
+      modify = false
+      showRecNo = false
+      text = "Stock Calculations - Mtrd Fuels & Lubes"
+   endwith
+
+   this.BROWSE5 = new BROWSE(this)
+   with (this.BROWSE5)
+      onGotFocus = class::BROWSE5_ONGOTFOCUS
+      onLostFocus = class::CARDTYPE_ONLOSTFOCUS
+      colorNormal = "R/Btnface"
+      colorHighLight = "B+/w*"
+      fontName = "MS Sans Serif"
+      fontSize = 7.0
+      fontBold = true
+      height = 64.0
+      left = 21.0
+      top = 101.0
+      width = 728.0
+      append = false
+      alias = "SHIFTCAS"
+      fields = 'SHIFTCAS->OP_C_HAND\H="Opening"\15\P="999,999,999,999.99"\R,SHIFTCAS->A_CASH\H="Actual B/F"\15\P="999,999,999,999.99"\R,SHIFTCAS->A_C_INHAND\H="Actual Current"\15\P="99,999,999,999.99"\R,SHIFTCAS->CASH_BANK\H="Cash Banked"\15\P="99,999,999,999.99"\R,SHIFTCAS->CL_C_HAND\H="Closing"\15\P="999,999,999,999.99"\R,SHIFTCAS->RESERVED1\H="Diff"\15\P="999,999,999,999.99"\R\C="G/W"'
+      delete = false
+      modify = false
+      showRecNo = false
+      text = "Cash Position"
+   endwith
+
+   this.TEXT5 = new TEXTLABEL(this)
+   with (this.TEXT5)
+      height = 15.0
+      left = 959.0
+      top = 33.0
+      width = 68.0
+      text = "Cash B/F:"
+      colorNormal = "B+/W"
+      fontName = "MS Sans Serif"
+      fontBold = true
+   endwith
+
+   this.TEXT7 = new TEXTLABEL(this)
+   with (this.TEXT7)
+      height = 15.0
+      left = 910.0
+      top = 51.0
+      width = 109.0
+      text = "White Products:"
+      colorNormal = "B+/W"
+      fontName = "MS Sans Serif"
+      fontBold = true
+   endwith
+
+   this.TEXT8 = new TEXTLABEL(this)
+   with (this.TEXT8)
+      height = 15.0
+      left = 889.0
+      top = 72.0
+      width = 30.0
+      text = "Lubes:"
+      colorNormal = "B+/W"
+      fontName = "MS Sans Serif"
+      fontBold = true
+   endwith
+
+   this.TEXT9 = new TEXTLABEL(this)
+   with (this.TEXT9)
+      height = 15.0
+      left = 952.0
+      top = 88.0
+      width = 72.0
+      text = "FC Cards"
+      colorNormal = "B+/W"
+      fontName = "MS Sans Serif"
+      fontBold = true
+   endwith
+
+   this.TEXT12 = new TEXTLABEL(this)
+   with (this.TEXT12)
+      height = 15.0
+      left = 952.0
+      top = 291.0
+      width = 72.0
+      text = "Crt Dbts"
+      colorNormal = "B+/W"
+      fontName = "MS Sans Serif"
+      fontBold = true
+   endwith
+
+   this.TEXT13 = new TEXTLABEL(this)
+   with (this.TEXT13)
+      height = 15.0
+      left = 952.0
+      top = 308.0
+      width = 72.0
+      text = "TOTAL RCS:"
+      colorNormal = "B+/W"
+      fontName = "MS Sans Serif"
+      fontSize = 9.0
+      fontBold = true
+   endwith
+
+   this.TEXT15 = new TEXTLABEL(this)
+   with (this.TEXT15)
+      height = 15.0
+      left = 238.0
+      top = 539.0
+      width = 84.0
+      text = "Float Replish:"
+      colorNormal = "B+/W"
+      fontName = "MS Sans Serif"
+      fontSize = 9.0
+      fontBold = true
+   endwith
+
+   this.TEXT16 = new TEXTLABEL(this)
+   with (this.TEXT16)
+      height = 15.0
+      left = 930.0
+      top = 143.0
+      width = 96.0
+      text = "Pitstop:"
+      colorNormal = "B+/W"
+      fontName = "MS Sans Serif"
+      fontBold = true
+   endwith
+
+   this.TEXT17 = new TEXTLABEL(this)
+   with (this.TEXT17)
+      height = 15.0
+      left = 930.0
+      top = 126.0
+      width = 96.0
+      text = "Shop:"
+      colorNormal = "B+/W"
+      fontName = "MS Sans Serif"
+      fontBold = true
+   endwith
+
+   this.TEXT18 = new TEXTLABEL(this)
+   with (this.TEXT18)
+      height = 15.0
+      left = 952.0
+      top = 253.0
+      width = 72.0
+      text = "Staff Debts:"
+      colorNormal = "B+/W"
+      fontName = "MS Sans Serif"
+      fontBold = true
+   endwith
+
+   this.TEXT19 = new TEXTLABEL(this)
+   with (this.TEXT19)
+      height = 15.0
+      left = 1022.0
+      top = 363.0
+      width = 55.0
+      text = "Expenses:"
+      colorNormal = "B+/W"
+      fontName = "MS Sans Serif"
+      fontSize = 9.0
+      fontBold = true
+   endwith
+
+   this.TEXT20 = new TEXTLABEL(this)
+   with (this.TEXT20)
+      height = 15.0
+      left = 1029.0
+      top = 407.0
+      width = 42.0
+      text = "Pymts"
+      colorNormal = "B+/W"
+      fontName = "MS Sans Serif"
+      fontSize = 9.0
+      fontBold = true
+   endwith
+
+   this.TEXT30 = new TEXTLABEL(this)
+   with (this.TEXT30)
+      height = 15.0
+      left = 1022.0
+      top = 451.0
+      width = 56.0
+      text = "Total Pyts"
+      colorNormal = "B+/W"
+      fontName = "MS Sans Serif"
+      fontSize = 9.0
+      fontBold = true
+   endwith
+
+   this.TEXT31 = new TEXTLABEL(this)
+   with (this.TEXT31)
+      height = 15.0
+      left = 1022.0
+      top = 473.0
+      width = 55.0
+      text = "Exp Cash"
+      colorNormal = "B+/W"
+      fontName = "MS Sans Serif"
+      fontSize = 9.0
+      fontBold = true
+   endwith
+
+   this.TEXT32 = new TEXTLABEL(this)
+   with (this.TEXT32)
+      height = 15.0
+      left = 1022.0
+      top = 484.0
+      width = 55.0
+      text = "Act Cash"
+      colorNormal = "B+/W"
+      fontName = "MS Sans Serif"
+      fontSize = 9.0
+      fontBold = true
+   endwith
+
+   this.TEXT34 = new TEXTLABEL(this)
+   with (this.TEXT34)
+      height = 15.0
+      left = 987.0
+      top = 550.0
+      width = 90.0
+      text = "Excess(Short):"
+      colorNormal = "B+/W"
+      fontName = "MS Sans Serif"
+      fontSize = 9.0
+      fontBold = true
+   endwith
+
+   this.ENTRYFIELD5 = new ENTRYFIELD(this)
+   with (this.ENTRYFIELD5)
+      dataLink = "hshiftbk->op_c_hand"
+      enabled = false
+      height = 15.0
+      left = 1036.0
+      top = 33.0
+      width = 113.0
+      picture = "9999,999,999.99"
+      colorNormal = "b/btnface"
+      colorHighLight = "0x804000/GB+"
+      fontName = "MS Sans Serif"
+      fontSize = 8.0
+      fontBold = true
+   endwith
+
+   this.ENTRYFIELD6 = new ENTRYFIELD(this)
+   with (this.ENTRYFIELD6)
+      dataLink = "HSHIFTBK->c_sh_fuels"
+      enabled = false
+      height = 17.0
+      left = 1036.0
+      top = 51.0
+      width = 113.0
+      picture = "9999,999,999.99"
+      colorNormal = "b/btnface"
+      colorHighLight = "0x804000/GB+"
+      fontName = "MS Sans Serif"
+      fontSize = 8.0
+      fontBold = true
+   endwith
+
+   this.ENTRYFIELD7 = new ENTRYFIELD(this)
+   with (this.ENTRYFIELD7)
+      dataLink = "HSHIFTBK->c_sh_work"
+      enabled = false
+      height = 15.0
+      left = 927.0
+      top = 72.0
+      width = 90.0
+      picture = "99999,999.99"
+      colorNormal = "b/btnface"
+      colorHighLight = "0x804000/GB+"
+      fontName = "MS Sans Serif"
+      fontSize = 8.0
+      fontBold = true
+   endwith
+
+   this.ENTRYFIELD9 = new ENTRYFIELD(this)
+   with (this.ENTRYFIELD9)
+      dataLink = "HSHIFTBK->RESERVED4"
+      enabled = false
+      height = 15.0
+      left = 1050.0
+      top = 109.0
+      width = 98.0
+      picture = "9999,999.99"
+      colorNormal = "b/btnface"
+      colorHighLight = "0x804000/GB+"
+      fontName = "MS Sans Serif"
+      fontSize = 8.0
+      fontBold = true
+   endwith
+
+   this.ENTRYFIELD11 = new ENTRYFIELD(this)
+   with (this.ENTRYFIELD11)
+      dataLink = "HSHIFTBK->CASH_DEBT"
+      enabled = false
+      height = 15.0
+      left = 1036.0
+      top = 290.0
+      width = 113.0
+      picture = "999,999,999.99"
+      colorNormal = "b/btnface"
+      colorHighLight = "0x804000/GB+"
+      fontName = "MS Sans Serif"
+      fontSize = 8.0
+      fontBold = true
+   endwith
+
+   this.ENTRYFIELD12 = new ENTRYFIELD(this)
+   with (this.ENTRYFIELD12)
+      dataLink = "hshiftbk->Total_cash"
+      enabled = false
+      height = 15.0
+      left = 1036.0
+      top = 308.0
+      width = 113.0
+      picture = "999,999,999.99"
+      colorNormal = "b/btnface"
+      colorHighLight = "0x804000/GB+"
+      fontName = "MS Sans Serif"
+      fontSize = 8.0
+      fontBold = true
+   endwith
+
+   this.ENTRYFIELD13 = new ENTRYFIELD(this)
+   with (this.ENTRYFIELD13)
+      dataLink = "HSHIFTBK->BATCHAMT"
+      enabled = false
+      height = 15.0
+      left = 322.0
+      top = 539.0
+      width = 102.0
+      picture = "999,999,999.99"
+      colorNormal = "b/btnface"
+      colorHighLight = "0x804000/GB+"
+      fontName = "MS Sans Serif"
+      fontSize = 8.0
+      fontBold = true
+   endwith
+
+   this.ENTRYFIELD14 = new ENTRYFIELD(this)
+   with (this.ENTRYFIELD14)
+      dataLink = "HSHIFTBK->CASH_WORK"
+      enabled = false
+      height = 15.0
+      left = 1036.0
+      top = 143.0
+      width = 113.0
+      picture = "99,999,999.99"
+      colorNormal = "b/btnface"
+      colorHighLight = "0x804000/GB+"
+      fontName = "MS Sans Serif"
+      fontSize = 8.0
+      fontBold = true
+   endwith
+
+   this.ENTRYFIELD15 = new ENTRYFIELD(this)
+   with (this.ENTRYFIELD15)
+      dataLink = "HSHIFTBK->CASH_CANT"
+      enabled = false
+      height = 15.0
+      left = 1036.0
+      top = 126.0
+      width = 113.0
+      picture = "99,999,999.99"
+      colorNormal = "b/btnface"
+      colorHighLight = "0x804000/GB+"
+      fontName = "MS Sans Serif"
+      fontSize = 8.0
+      fontBold = true
+   endwith
+
+   this.ENTRYFIELD16 = new ENTRYFIELD(this)
+   with (this.ENTRYFIELD16)
+      dataLink = "HSHIFTBK->CASH_cards"
+      enabled = false
+      height = 15.0
+      left = 1036.0
+      top = 250.0
+      width = 113.0
+      picture = "9999,999,999.99"
+      colorNormal = "b/btnface"
+      colorHighLight = "0x804000/GB+"
+      fontName = "MS Sans Serif"
+      fontSize = 8.0
+      fontBold = true
+   endwith
+
+   this.ENTRYFIELD17 = new ENTRYFIELD(this)
+   with (this.ENTRYFIELD17)
+      dataLink = "HSHIFTBK->CASH_STAFF"
+      enabled = false
+      height = 15.0
+      left = 1078.0
+      top = 363.0
+      width = 113.0
+      picture = "99,999,999.99"
+      colorNormal = "b/btnface"
+      colorHighLight = "0x804000/GB+"
+      fontName = "MS Sans Serif"
+      fontSize = 8.0
+      fontBold = true
+   endwith
+
+   this.ENTRYFIELD18 = new ENTRYFIELD(this)
+   with (this.ENTRYFIELD18)
+      dataLink = "HSHIFTBK->CASH_GEN"
+      enabled = false
+      height = 15.0
+      left = 1078.0
+      top = 407.0
+      width = 113.0
+      picture = "99,999,999.99"
+      colorNormal = "b/btnface"
+      colorHighLight = "0x804000/GB+"
+      fontName = "MS Sans Serif"
+      fontSize = 8.0
+      fontBold = true
+   endwith
+
+   this.ENTRYFIELD19 = new ENTRYFIELD(this)
+   with (this.ENTRYFIELD19)
+      dataLink = "HSHIFTBK->CASH_WITHD"
+      enabled = false
+      height = 15.0
+      left = 1078.0
+      top = 429.0
+      width = 113.0
+      picture = "99,999,999.99"
+      colorNormal = "b/btnface"
+      colorHighLight = "0x804000/GB+"
+      fontName = "MS Sans Serif"
+      fontSize = 8.0
+      fontBold = true
+   endwith
+
+   this.ENTRYFIELD21 = new ENTRYFIELD(this)
+   with (this.ENTRYFIELD21)
+      dataLink = "HSHIFTBK->T_CASH_PAY"
+      enabled = false
+      height = 15.0
+      left = 1078.0
+      top = 440.0
+      width = 113.0
+      picture = "9999,999,999.99"
+      colorNormal = "b/btnface"
+      colorHighLight = "0x804000/GB+"
+      fontName = "MS Sans Serif"
+      fontSize = 8.0
+      fontBold = true
+   endwith
+
+   this.ENTRYFIELD22 = new ENTRYFIELD(this)
+   with (this.ENTRYFIELD22)
+      dataLink = "hshiftbk->Net_cash"
+      enabled = false
+      height = 15.0
+      left = 1078.0
+      top = 462.0
+      width = 113.0
+      picture = "999,999,999.99"
+      colorNormal = "b/btnface"
+      colorHighLight = "0x804000/GB+"
+      fontName = "MS Sans Serif"
+      fontSize = 8.0
+      fontBold = true
+   endwith
+
+   this.ENTRYFIELD23 = new ENTRYFIELD(this)
+   with (this.ENTRYFIELD23)
+      dataLink = "HSHIFTBK->CASH_HAND"
+      enabled = false
+      height = 15.0
+      left = 1078.0
+      top = 484.0
+      width = 113.0
+      picture = "9999,999,999.99"
+      colorNormal = "b/btnface"
+      colorHighLight = "0x804000/GB+"
+      fontName = "MS Sans Serif"
+      fontSize = 8.0
+      fontBold = true
+   endwith
+
+   this.ENTRYFIELD25 = new ENTRYFIELD(this)
+   with (this.ENTRYFIELD25)
+      dataLink = "HSHIFTBK->CASH_SHORT"
+      enabled = false
+      height = 15.0
+      left = 1078.0
+      top = 550.0
+      width = 113.0
+      picture = "99999,999,999.99"
+      colorNormal = "b/btnface"
+      colorHighLight = "0x804000/GB+"
+      fontName = "MS Sans Serif"
+      fontSize = 8.0
+      fontBold = true
+   endwith
+
+   this.ENTRYFIELD30 = new ENTRYFIELD(this)
+   with (this.ENTRYFIELD30)
+      dataLink = "HSHIFTBK->Chqs_sale"
+      enabled = false
+      height = 15.0
+      left = 1036.0
+      top = 160.0
+      width = 113.0
+      picture = "99,999,999.99"
+      colorNormal = "b/btnface"
+      colorHighLight = "0x804000/GB+"
+      fontName = "MS Sans Serif"
+      fontSize = 8.0
+      fontBold = true
+   endwith
+
+   this.TEXT40 = new TEXTLABEL(this)
+   with (this.TEXT40)
+      height = 15.0
+      left = 966.0
+      top = 176.0
+      width = 63.0
+      text = "Tyres:"
+      colorNormal = "B+/W"
+      fontName = "MS Sans Serif"
+      fontBold = true
+   endwith
+
+   this.ENTRYFIELD31 = new ENTRYFIELD(this)
+   with (this.ENTRYFIELD31)
+      dataLink = "HSHIFTBK->Vs_others"
+      enabled = false
+      height = 15.0
+      left = 1036.0
+      top = 176.0
+      width = 113.0
+      picture = "99,999,999.99"
+      colorNormal = "b/btnface"
+      colorHighLight = "0x804000/GB+"
+      fontName = "MS Sans Serif"
+      fontSize = 8.0
+      fontBold = true
+   endwith
+
+   this.TEXT41 = new TEXTLABEL(this)
+   with (this.TEXT41)
+      height = 15.0
+      left = 944.0
+      top = 160.0
+      width = 84.0
+      text = "Car Wash:"
+      colorNormal = "B+/W"
+      fontName = "MS Sans Serif"
+      fontBold = true
+   endwith
+
+   this.ENTRYFIELD8 = new ENTRYFIELD(this)
+   with (this.ENTRYFIELD8)
+      dataLink = "hshiftbk->c_sh_cards"
+      enabled = false
+      height = 15.0
+      left = 1036.0
+      top = 88.0
+      width = 113.0
+      picture = "99,999,999.99"
+      colorNormal = "b/btnface"
+      colorHighLight = "0x804000/GB+"
+      fontName = "MS Sans Serif"
+      fontSize = 8.0
+      fontBold = true
+   endwith
+
+   this.TEXT22 = new TEXTLABEL(this)
+   with (this.TEXT22)
+      height = 15.0
+      left = 1022.0
+      top = 429.0
+      width = 55.0
+      text = "Svc Whd"
+      colorNormal = "B+/W"
+      fontName = "MS Sans Serif"
+      fontSize = 9.0
+      fontBold = true
+   endwith
+
+   this.TEXT4 = new TEXTLABEL(this)
+   with (this.TEXT4)
+      height = 15.0
+      left = 959.0
+      top = 217.0
+      width = 72.0
+      text = "FC Shop:"
+      colorNormal = "B+/W"
+      fontName = "MS Sans Serif"
+      fontBold = true
+   endwith
+
+   this.ENTRYFIELD4 = new ENTRYFIELD(this)
+   with (this.ENTRYFIELD4)
+      dataLink = "HSHIFTBK->C_SH_SHOP"
+      enabled = false
+      height = 15.0
+      left = 1036.0
+      top = 215.0
+      width = 113.0
+      picture = "99,999,999.99"
+      colorNormal = "b/btnface"
+      colorHighLight = "0x804000/GB+"
+      fontName = "MS Sans Serif"
+      fontSize = 8.0
+      fontBold = true
+   endwith
+
+   this.TEXT10 = new TEXTLABEL(this)
+   with (this.TEXT10)
+      height = 15.0
+      left = 931.0
+      top = 109.0
+      width = 30.0
+      text = "LPG:"
+      colorNormal = "B+/W"
+      fontName = "MS Sans Serif"
+      fontSize = 9.0
+      fontBold = true
+   endwith
+
+   this.TEXT24 = new TEXTLABEL(this)
+   with (this.TEXT24)
+      height = 15.0
+      left = 959.0
+      top = 275.0
+      width = 72.0
+      text = "FC JCards:"
+      colorNormal = "B+/W"
+      fontName = "MS Sans Serif"
+      fontBold = true
+   endwith
+
+   this.ENTRYFIELD10 = new ENTRYFIELD(this)
+   with (this.ENTRYFIELD10)
+      dataLink = "HSHIFTBK->FC_C_SALES"
+      enabled = false
+      height = 15.0
+      left = 1036.0
+      top = 270.0
+      width = 113.0
+      picture = "99,999,999.99"
+      colorNormal = "b/btnface"
+      colorHighLight = "0x804000/GB+"
+      fontName = "MS Sans Serif"
+      fontSize = 8.0
+      fontBold = true
+   endwith
+
+   this.TEXT26 = new TEXTLABEL(this)
+   with (this.TEXT26)
+      height = 15.0
+      left = 1015.0
+      top = 330.0
+      width = 51.0
+      text = "Spares:"
+      colorNormal = "B+/W"
+      fontName = "MS Sans Serif"
+      fontBold = true
+   endwith
+
+   this.ENTRYFIELD32 = new ENTRYFIELD(this)
+   with (this.ENTRYFIELD32)
+      dataLink = "HSHIFTBK->CASH_MOTOR"
+      enabled = false
+      height = 15.0
+      left = 1071.0
+      top = 330.0
+      width = 113.0
+      picture = "99,999,999.99"
+      colorNormal = "b/btnface"
+      colorHighLight = "0x804000/GB+"
+      fontName = "MS Sans Serif"
+      fontSize = 8.0
+      fontBold = true
+   endwith
+
+   this.ENTRYFIELD33 = new ENTRYFIELD(this)
+   with (this.ENTRYFIELD33)
+      dataLink = "HSHIFTBK->CASH_food"
+      enabled = false
+      height = 15.0
+      left = 1078.0
+      top = 352.0
+      width = 113.0
+      picture = "9999,999,999.99"
+      colorNormal = "b/btnface"
+      colorHighLight = "0x804000/GB+"
+      fontName = "MS Sans Serif"
+      fontSize = 8.0
+      fontBold = true
+   endwith
+
+   this.TEXT6 = new TEXTLABEL(this)
+   with (this.TEXT6)
+      height = 15.0
+      left = 1015.0
+      top = 352.0
+      width = 55.0
+      text = "Oth Pyts"
+      colorNormal = "B+/W"
+      fontName = "MS Sans Serif"
+      fontSize = 8.0
+      fontBold = true
+   endwith
+
+   this.RECTANGLE1 = new RECTANGLE(this)
+   with (this.RECTANGLE1)
+      left = 21.0
+      top = 33.0
+      width = 840.0
+      height = 54.0
+      text = "Forecourt Expected Sales Summary"
+      colorNormal = "0x8000ff/W"
+      fontName = "MS Sans Serif"
+      fontBold = true
+   endwith
+
+   this.TEXT2 = new TEXTLABEL(this)
+   with (this.TEXT2)
+      height = 17.0
+      left = 35.0
+      top = 56.0
+      width = 119.0
+      text = "Expected Sales:"
+      colorNormal = "N/GB+"
+      fontName = "MS Sans Serif"
+      fontBold = true
+   endwith
+
+   this.TEXT11 = new TEXTLABEL(this)
+   with (this.TEXT11)
+      height = 17.0
+      left = 313.0
+      top = 56.0
+      width = 107.0
+      text = "Credit Sales:"
+      colorNormal = "N/GB+"
+      fontName = "MS Sans Serif"
+      fontBold = true
+   endwith
+
+   this.TEXT27 = new TEXTLABEL(this)
+   with (this.TEXT27)
+      height = 17.0
+      left = 581.0
+      top = 56.0
+      width = 98.0
+      text = "Cash Sales:"
+      colorNormal = "N/GB+"
+      fontName = "MS Sans Serif"
+      fontBold = true
+   endwith
+
+   this.ENTRYFIELD27 = new ENTRYFIELD(this)
+   with (this.ENTRYFIELD27)
+      dataLink = "SHIFTCOY->EXP_SALES"
+      enabled = false
+      height = 21.0
+      left = 160.0
+      top = 56.0
+      width = 147.0
+      picture = "99,999,999,999.99"
+      colorNormal = "R/W"
+      colorHighLight = "N/W+"
+      fontName = "MS Sans Serif"
+      fontBold = true
+   endwith
+
+   this.ENTRYFIELD34 = new ENTRYFIELD(this)
+   with (this.ENTRYFIELD34)
+      dataLink = "SHIFTCOY->NON_CASH"
+      enabled = false
+      height = 21.0
+      left = 429.0
+      top = 56.0
+      width = 147.0
+      picture = "99,999,999,999.99"
+      colorNormal = "R/W"
+      colorHighLight = "N/W+"
+      fontName = "MS Sans Serif"
+      fontBold = true
+   endwith
+
+   this.ENTRYFIELD35 = new ENTRYFIELD(this)
+   with (this.ENTRYFIELD35)
+      dataLink = "SHIFTCOY->EXP_CASH"
+      enabled = false
+      height = 21.0
+      left = 693.0
+      top = 56.0
+      width = 147.0
+      picture = "99,999,999,999.99"
+      colorNormal = "R/W"
+      colorHighLight = "N/W+"
+      fontName = "MS Sans Serif"
+      fontBold = true
+   endwith
+
+   this.ENTRYFIELD36 = new ENTRYFIELD(this)
+   with (this.ENTRYFIELD36)
+      dataLink = "SHIFTCOY->ERROR"
+      enabled = false
+      height = 18.0
+      left = 767.0
+      top = 5.0
+      width = 84.0
+      colorNormal = "R+/W+"
+      fontName = "MS Sans Serif"
+      fontBold = true
+   endwith
+
+   this.TEXT1 = new TEXTLABEL(this)
+   with (this.TEXT1)
+      height = 15.0
+      left = 973.0
+      top = 198.0
+      width = 56.0
+      text = "Cafe:"
+      colorNormal = "B+/W"
+      fontName = "MS Sans Serif"
+      fontBold = true
+   endwith
+
+   this.ENTRYFIELD24 = new ENTRYFIELD(this)
+   with (this.ENTRYFIELD24)
+      dataLink = "HSHIFTBK->cash_soda"
+      enabled = false
+      height = 15.0
+      left = 1036.0
+      top = 195.0
+      width = 113.0
+      picture = "99,999,999.99"
+      colorNormal = "b/btnface"
+      colorHighLight = "0x804000/GB+"
+      fontName = "MS Sans Serif"
+      fontSize = 8.0
+      fontBold = true
+   endwith
+
+   this.TEXT14 = new TEXTLABEL(this)
+   with (this.TEXT14)
+      height = 15.0
+      left = 959.0
+      top = 234.0
+      width = 72.0
+      text = "Tyre Centre:"
+      colorNormal = "B+/W"
+      fontName = "MS Sans Serif"
+      fontBold = true
+   endwith
+
+   this.ENTRYFIELD26 = new ENTRYFIELD(this)
+   with (this.ENTRYFIELD26)
+      dataLink = "HSHIFTBK->CaSH_SHOP"
+      enabled = false
+      height = 15.0
+      left = 1036.0
+      top = 234.0
+      width = 113.0
+      picture = "99,999,999.99"
+      colorNormal = "b/btnface"
+      colorHighLight = "0x804000/GB+"
+      fontName = "MS Sans Serif"
+      fontSize = 8.0
+      fontBold = true
+   endwith
+
+   this.ENTRYFIELD37 = new ENTRYFIELD(this)
+   with (this.ENTRYFIELD37)
+      dataLink = "HSHIFTBK->reserved5"
+      enabled = false
+      height = 15.0
+      left = 1029.0
+      top = 72.0
+      width = 113.0
+      picture = "99999,999.99"
+      colorNormal = "b/btnface"
+      colorHighLight = "0x804000/GB+"
+      fontName = "MS Sans Serif"
+      fontSize = 8.0
+      fontBold = true
+   endwith
+
+   this.ENTRYFIELD38 = new ENTRYFIELD(this)
+   with (this.ENTRYFIELD38)
+      dataLink = "HSHIFTBK->c_sh_cant"
+      enabled = false
+      height = 15.0
+      left = 966.0
+      top = 109.0
+      width = 79.0
+      picture = "99999,999.99"
+      colorNormal = "b/btnface"
+      colorHighLight = "0x804000/GB+"
+      fontName = "MS Sans Serif"
+      fontSize = 8.0
+      fontBold = true
+   endwith
+
+   this.BROWSE3 = new BROWSE(this)
+   with (this.BROWSE3)
+      onLostFocus = class::CARDTYPE_ONLOSTFOCUS
+      colorNormal = "W"
+      colorHighLight = "G+/0x408080"
+      fontName = "MS Sans Serif"
+      fontSize = 7.0
+      fontBold = true
+      height = 234.0
+      left = 749.0
+      top = 99.0
+      width = 182.0
+      append = false
+      alias = "shiftid"
+      fields = 'Island = SHIFTID->ID\H="Isd"\4\C="R+/W",total_sales = SHIFTID->TOTAL_SALE\H="AMOUNT"\15\P="9999,999,999.99"\C="W+/0x408080"'
+      toggle = false
+      delete = false
+      modify = false
+      showRecNo = false
+      text = "TOTAL SALES"
+   endwith
+
+   this.CBANK = new ENTRYFIELD(this)
+   with (this.CBANK)
+      dataLink = "HSHIFTBK->CASH_BANK"
+      enabled = false
+      height = 15.0
+      left = 1078.0
+      top = 506.0
+      width = 113.0
+      picture = "9999,999,999.99"
+      colorNormal = "b/btnface"
+      colorHighLight = "0x804000/GB+"
+      fontName = "MS Sans Serif"
+      fontSize = 8.0
+      fontBold = true
+   endwith
+
+   this.TEXT28 = new TEXTLABEL(this)
+   with (this.TEXT28)
+      height = 15.0
+      left = 1022.0
+      top = 506.0
+      width = 55.0
+      text = "Cas Bnk"
+      colorNormal = "B+/W"
+      fontName = "MS Sans Serif"
+      fontSize = 9.0
+      fontBold = true
+   endwith
+
+   this.TEXT29 = new TEXTLABEL(this)
+   with (this.TEXT29)
+      height = 15.0
+      left = 1029.0
+      top = 385.0
+      width = 42.0
+      text = "Purch:"
+      colorNormal = "B+/W"
+      fontName = "MS Sans Serif"
+      fontSize = 9.0
+      fontBold = true
+   endwith
+
+   this.SPURCH = new ENTRYFIELD(this)
+   with (this.SPURCH)
+      dataLink = "HSHIFTBK->CASH_lubes"
+      enabled = false
+      height = 15.0
+      left = 1078.0
+      top = 385.0
+      width = 113.0
+      picture = "99,999,999.99"
+      colorNormal = "b/btnface"
+      colorHighLight = "0x804000/GB+"
+      fontName = "MS Sans Serif"
+      fontSize = 8.0
+      fontBold = true
+   endwith
+
+   this.TEXT25 = new TEXTLABEL(this)
+   with (this.TEXT25)
+      height = 15.0
+      left = 1015.0
+      top = 528.0
+      width = 62.0
+      text = "Cash C/F:"
+      colorNormal = "B+/W"
+      fontName = "MS Sans Serif"
+      fontSize = 8.0
+      fontBold = true
+   endwith
+
+   this.SCCF = new ENTRYFIELD(this)
+   with (this.SCCF)
+      dataLink = "hshiftbk->cl_c_hand"
+      enabled = false
+      height = 15.0
+      left = 1078.0
+      top = 528.0
+      width = 113.0
+      picture = "99999,999,999.99"
+      colorNormal = "b/btnface"
+      colorHighLight = "0x804000/GB+"
+      fontName = "MS Sans Serif"
+      fontSize = 8.0
+      fontBold = true
+   endwith
+
+   this.TEXT33 = new TEXTLABEL(this)
+   with (this.TEXT33)
+      height = 15.0
+      left = 35.0
+      top = 539.0
+      width = 66.0
+      text = "F/Mtrs Crn"
+      colorNormal = "B+/W"
+      fontName = "MS Sans Serif"
+      fontSize = 9.0
+      fontBold = true
+   endwith
+
+   this.ENTRYFIELD2 = new ENTRYFIELD(this)
+   with (this.ENTRYFIELD2)
+      dataLink = "HSHIFTBK->CASH_P_EXP"
+      enabled = false
+      height = 15.0
+      left = 112.0
+      top = 539.0
+      width = 119.0
+      picture = "999,999,999.99"
+      colorNormal = "b/btnface"
+      colorHighLight = "0x804000/GB+"
+      fontName = "MS Sans Serif"
+      fontSize = 8.0
+      fontBold = true
+   endwith
+
+   this.SOFF = new ENTRYFIELD(this)
+   with (this.SOFF)
+      dataLink = "SHSUM->OFNAME"
+      enabled = false
+      height = 18.0
+      left = 196.0
+      top = 5.0
+      width = 140.0
+      colorNormal = "R+/W+"
+      fontName = "MS Sans Serif"
+      fontBold = true
+   endwith
+
+   this.TEXT39 = new TEXTLABEL(this)
+   with (this.TEXT39)
+      height = 15.0
+      left = 183.0
+      top = 565.0
+      width = 66.0
+      text = "Capital BBF:"
+      colorNormal = "B+/W"
+      fontName = "MS Sans Serif"
+      fontSize = 9.0
+      fontBold = true
+   endwith
+
+   this.ENTRYFIELD3 = new ENTRYFIELD(this)
+   with (this.ENTRYFIELD3)
+      dataLink = "HSHIFTBK->OP_CAPITAL"
+      enabled = false
+      height = 15.0
+      left = 255.0
+      top = 565.0
+      width = 132.0
+      picture = "99,999,999,999.99"
+      colorNormal = "b/btnface"
+      colorHighLight = "0x804000/GB+"
+      fontName = "MS Sans Serif"
+      fontSize = 8.0
+      fontBold = true
+   endwith
+
+   this.TEXT42 = new TEXTLABEL(this)
+   with (this.TEXT42)
+      height = 15.0
+      left = 399.0
+      top = 565.0
+      width = 84.0
+      text = "Capital Curr:"
+      colorNormal = "B+/W"
+      fontName = "MS Sans Serif"
+      fontSize = 9.0
+      fontBold = true
+   endwith
+
+   this.ENTRYFIELD20 = new ENTRYFIELD(this)
+   with (this.ENTRYFIELD20)
+      dataLink = "HSHIFTBK->MP_CAPITAL"
+      enabled = false
+      height = 15.0
+      left = 483.0
+      top = 565.0
+      width = 132.0
+      picture = "99,999,999,999.99"
+      colorNormal = "b/btnface"
+      colorHighLight = "0x804000/GB+"
+      fontName = "MS Sans Serif"
+      fontSize = 8.0
+      fontBold = true
+   endwith
+
+   this.TEXT43 = new TEXTLABEL(this)
+   with (this.TEXT43)
+      height = 15.0
+      left = 427.0
+      top = 539.0
+      width = 60.0
+      text = "Float BBF:"
+      colorNormal = "B+/W"
+      fontName = "MS Sans Serif"
+      fontSize = 9.0
+      fontBold = true
+   endwith
+
+   this.ENTRYFIELD39 = new ENTRYFIELD(this)
+   with (this.ENTRYFIELD39)
+      dataLink = "HSHIFTBK->OP_MPFLOAT"
+      enabled = false
+      height = 15.0
+      left = 490.0
+      top = 539.0
+      width = 132.0
+      picture = "99,999,999,999.99"
+      colorNormal = "b/btnface"
+      colorHighLight = "0x804000/GB+"
+      fontName = "MS Sans Serif"
+      fontSize = 8.0
+      fontBold = true
+   endwith
+
+   this.TEXT44 = new TEXTLABEL(this)
+   with (this.TEXT44)
+      height = 15.0
+      left = 630.0
+      top = 539.0
+      width = 66.0
+      text = "Float Curr:"
+      colorNormal = "B+/W"
+      fontName = "MS Sans Serif"
+      fontSize = 9.0
+      fontBold = true
+   endwith
+
+   this.ENTRYFIELD40 = new ENTRYFIELD(this)
+   with (this.ENTRYFIELD40)
+      dataLink = "HSHIFTBK->MP_FLOAT"
+      enabled = false
+      height = 15.0
+      left = 700.0
+      top = 539.0
+      width = 132.0
+      picture = "99,999,999,999.99"
+      colorNormal = "b/btnface"
+      colorHighLight = "0x804000/GB+"
+      fontName = "MS Sans Serif"
+      fontSize = 8.0
+      fontBold = true
+   endwith
+
+   this.TEXT45 = new TEXTLABEL(this)
+   with (this.TEXT45)
+      height = 15.0
+      left = 627.0
+      top = 565.0
+      width = 66.0
+      text = "Liquid BBF:"
+      colorNormal = "B+/W"
+      fontName = "MS Sans Serif"
+      fontSize = 9.0
+      fontBold = true
+   endwith
+
+   this.ENTRYFIELD41 = new ENTRYFIELD(this)
+   with (this.ENTRYFIELD41)
+      dataLink = "HSHIFTBK->OP_MLIQUID"
+      enabled = false
+      height = 15.0
+      left = 699.0
+      top = 565.0
+      width = 120.0
+      picture = "99,999,999,999.99"
+      colorNormal = "b/btnface"
+      colorHighLight = "0x804000/GB+"
+      fontName = "MS Sans Serif"
+      fontSize = 8.0
+      fontBold = true
+   endwith
+
+   this.TEXT46 = new TEXTLABEL(this)
+   with (this.TEXT46)
+      height = 15.0
+      left = 819.0
+      top = 565.0
+      width = 66.0
+      text = "Liquid Curr:"
+      colorNormal = "B+/W"
+      fontName = "MS Sans Serif"
+      fontSize = 9.0
+      fontBold = true
+   endwith
+
+   this.ENTRYFIELD42 = new ENTRYFIELD(this)
+   with (this.ENTRYFIELD42)
+      dataLink = "HSHIFTBK->MP_LIQUID"
+      enabled = false
+      height = 15.0
+      left = 891.0
+      top = 565.0
+      width = 132.0
+      picture = "99,999,999,999.99"
+      colorNormal = "b/btnface"
+      colorHighLight = "0x804000/GB+"
+      fontName = "MS Sans Serif"
+      fontSize = 8.0
+      fontBold = true
+   endwith
+
+
+    procedure OnOpen
+   *******************************************************************************
+     *ON ERROR DO ddeerr WITH ERROR(), MESSAGE(),;
+   PROGRAM(), LINENO()
+  form.bluser = bUser
+      form.blevel = bLevel
+      FORM.BLADMIN  = bLadmin
+      IF EMPTY(FORM.BLUSER) .OR. EMPTY(FORM.BLEVEL)
+      QUIT
+      ENDIF
+
+      form.updated = .f.
+    form.MousePointer = 11
+   set procedure to SampProc.prg additive
+   select fgcoy
+   go top
+   if eof()
+   quit
+   endif
+    select cashiers
+   set order to cashier
+   select scashrec2
+   set order to mkey
+   SELECT SCASHREC
+   SET ORDER TO MKEY
+   SELECT STPUM
+   SET ORDER TO PUM
+    SELECT STSTO
+    SET ORDER TO STO
+    select fgmast
+    set order to mkey
+    SELECT SHIFTBK
+    SET ORDER TO SHIFTID
+   *  SELECT SHIFTMN
+   *  SET ORDER TO SHIFTID
+
+    SELECT fgcods
+    SET ORDER TO MKEY
+    set safety off
+     select hshiftbk
+     zap
+     set safety off
+    set order to shiftid
+    SELECT SHIFTID
+    SET ORDER TO ID
+    go top
+      SELECT SHIFTCLS
+    SET ORDER TO COYCLA
+    SET SAFETY OFF
+    select shtypcla
+    zap
+    set order to  mkey
+    select shiftcla
+    ZAP
+    SET SAFETY ON
+    set order to skey
+    select shiftcoy
+    set order to coy
+    set safety off
+    select shifttop
+    zap
+    append blank
+    replace coy with st15f->coy
+    replace div with st15f->div
+    replace cen with st15f->cen
+    replace sto with st15f->sto
+    replace typ with st15f->typ
+    replace cla with st15f->cla
+    replace cod with st15f->cod
+         select st15f
+   go toP
+   IF .NOT. EOF()
+   SELECT fgsshift
+   GO TOP
+   IF EOF()
+   APPEND BLANK
+   ENDIF
+   REPLACE SHIFT_DATE WITH ST15F->SHIFT_DATE
+   REPLACE SHIFT_NO WITH ST15F->SHIFT_NO
+   REPLACE SHIFT_ID WITH ST15F->SHIFT_ID
+   REPLACE SHIFT WITH "01"
+   PCOY = "1"
+
+   set safety off
+    select hshiftbk
+   zap
+   * set safety on
+      select shiftcas
+     zap
+     append blank
+      replace cash_bank with ST15F->CASH_BANK
+      replace a_c_inhand with ST15F->A_C_INHAND
+      replace cl_c_hand with ST15F->CL_C_HAND
+      replace A_CASH with ST15F->A_CASH
+      replace chqs_bank with ST15F->CHQS_BANK
+      replace dbdebits with ST15F->DBDEBITS
+      replace dbcredits with ST15F->DBCREDITS
+      REPLACE RESERVED1 WITH ST15F->RESERVED1 && used
+      REPLACE OP_C_HAND WITH ST15F->OP_C_HAND
+      replace cash_hand with st15f->a_c_inhand + st15f->a_cash
+       replace cl_c_hand with cash_hand - cash_bank
+       REFRESH
+    select shsum
+    go top
+    if eof()
+    append blank
+    endif
+    replace shift_date with st15f->shift_date
+    replace shift_id with st15f->shift_id
+    replace shift_no with st15f->shift_no
+    replace coy with st15f->coy
+    REPLACE OFNAME WITH FORM.BLUSER
+    REFRESH
+
+
+     SET SAFETY OFF
+     select shiftcla
+   ZAP
+      select shtypcla
+   ZAP
+
+         SELECT ST15F
+    GO TOP
+    form.browse5.modify = .f.
+    form.browse4.modify = .f.
+    form.browse5.append = .f.
+    form.browse4.append = .f.
+    form.browse5.delete = .f.
+     form.browse4.delete = .f.
+
+     *
+      form.browse2.modify = .f.
+    form.browse2.append = .f.
+    form.browse1.append = .f.
+    form.browse2.delete = .f.
+     form.browse1.delete = .f.
+     *
+
+     form.ST15F_CAL_RTN()
+   refresh
+   ENDIF
+    form.MousePointer = 1
+   *******************************************************************************
+
+   procedure OnClose
+   *******************************************************************************
+   
+   CLOSE DATABASES
+   form.close()
+   *******************************************************************************
+
+    PROCEDURE ST15F_CAL_RTN
+    PRIVATE psPrice
+    SET SAFETY OFF
+    select shiftcla
+    ZAP
+     select shtypcla
+    ZAP
+    SET SAFETY ON
+     form.MousePointer = 11
+     form.updated = .f.
+      LOCAL LVAR
+      LVAR = 0
+      set safety off
+     select hshiftbk
+     zap
+     set safety on
+       set safety off
+        select shiftcoy
+       zap
+       append blank
+       replace coy with "1"
+           replace exp_cash with 0
+           replace exp_sales with 0
+           replace non_cash with 0
+           replace a_cash with 0
+           replace manual with 0
+          SELECT SHIFTID
+          REPLACE ALL TOTAL_SALE WITH 0
+              select fgmast  && TEST2
+    SCAN FOR  (typ = "00" .and. cen = "0") .or. (typ = "10" .and. div = "2" .and. cen = "2")
+    l1 = on_hand + cr_sales
+    l2 = cs_purch+cr_purch + adj_in - adj_out + trans_in - trans_out
+        replace  temp_qty with l1
+        replace  temp_purch with  l2
+         replace temp_phy with phy
+   ENDSCAN
+   SELECT FGMAST
+   SET FILTER TO
+   go top
+          SELECT ST15F2
+         SCAN
+          PCOY = COY
+      PDIV = DIV
+      PCEN = CEN
+      PSTO = STO
+      PTYP = TYP
+      PCLA = CLA
+      PCOD = COD
+      LVAR = 0
+         LOCAL LX1,lx1e
+        lx1e =.t.
+      replace shift_post with {}
+      replace errors with ""
+
+   select fgcod
+   seek ptyp+pcla+pcod
+    if .not. found()
+   lx1e = .f.
+   endif
+
+      IF .NOT. LX1e
+           SELECT ST15F2
+             REPLACE SHIFT_POST WITH DATE()
+           replace ST15F2->errors with "CHECK PRODUCT"
+        ENDIF
+        lx1e = .t.
+        select fgcens
+   seek st15f2->st_coy+st15f2->st_div+st15f2->st_cen
+   if .not.  found()
+   lx1e = .f.
+   endif
+   IF .NOT. LX1e
+           SELECT ST15F2
+             REPLACE SHIFT_POST WITH DATE()
+           replace ST15F2->errors with "CHECK CENTRE"
+        ENDIF
+
+         IF fgcod->sale_price <= 0 .and. .not.  fgcod->promotion = 'Yes'
+           SELECT ST15F2
+             REPLACE SHIFT_POST WITH DATE()
+           replace ST15F2->errors with "CHECK SALE PRICE"
+        ENDIF
+       if fgcoy->shipname = 'Hqs' .and. empty(fgcod->mat_code)
+          SELECT ST15F2
+             REPLACE SHIFT_POST WITH DATE()
+           replace ST15F2->errors with "CHECK MATERIAL CODE"
+        ENDIF
+     *     if fgcoy->shipname = 'Yes' .and. (empty(fgcens->cust_no) .OR. .NOT. FGCENS->PLANT_CODE = FGCOY->PLANT_CODE)
+     *     SELECT ST15F2
+     *        REPLACE SHIFT_POST WITH DATE()
+    *       replace ST15F2->errors with "CHECK CUSTOTER NO"
+     *   ENDIF
+        PSPRICE = FGCOD->SALE_PRICE
+
+            LX1 = .F.
+           SELECT cashiers
+           seek ST15F2->cen
+           if found()
+             replace  coy with ST15F2->coy
+           replace div with ST15F2->div
+           replace cen with ST15F2->cen
+           IF empty(off)
+           SELECT ST15F2
+             REPLACE SHIFT_POST WITH DATE()
+           replace ST15F2->errors with "Allocate Casshiers"
+        endif
+        else
+         SELECT ST15F2
+             REPLACE SHIFT_POST WITH DATE()
+           replace ST15F2->errors with "Check Cashiers Table"
+   endif
+           select shiftcoy
+           GO TOP
+           if eof()
+           append blank
+           replace coy with "1"
+           replace exp_cash with 0
+           replace exp_sales with 0
+           replace non_cash with 0
+           replace a_cash with 0
+           replace manual with 0
+           REPLACE ERROR WITH ""
+           endif
+
+           select ST15F2
+           PCOY1 = ST_COY
+           PDIV1 = ST_DIV
+           PCEN1 = ST_CEN
+           PSTO1 = ST_STO
+            if ptyp = "00" .OR. (PTYP= '10' .AND. (ST15F2->CEN = 'D' .OR. ST15F2->CEN = 'O'))
+           select ststo
+           seek psto
+           if .not. found() .or. (empty(off) .and. rate_on = "Yes")
+           select ST15F2
+           REPLACE SHIFT_POST WITH DATE()
+           replace ST15F2->errors with "CHECK PUM/OFFICER"
+           else
+          select stpum
+          seek ststo->pum
+          if .not. found() .AND. PTYP = '00'
+          select ST15F2
+          REPLACE SHIFT_POST WITH DATE()
+           replace ST15F2->errors with "Check store/pump"
+           else
+           if .not. shs_auto = "Yes"
+           replace shs_auto with "Yes"
+           endif
+
+               endif
+           endif
+           endif
+           pmacdisc = psprice * 0.25 && max disc on pump price
+          IF (ST15F2->STO = "K2" .OR. ST15F2->STO = "K3" ;
+          .OR. ST15F2->STO = "U6" .OR. ST15F2->STO = "U7" .OR. ST15F2->STO = "U8" .OR. ST15F2->STO = "U9".OR. ST15F2->STO = "UA";
+          .OR. ST15F2->STO = "L6" .OR. ST15F2->STO = "L7" .OR. ST15F2->STO = "L8" .OR. ST15F2->STO = "L9".OR. ST15F2->STO = "LA");
+          .AND. STSTO->MAXAMT < pmacdisc
+          PSPRICE = PSPRICE - STSTO->MAXAMT
+          ENDIF
+
+           SELECT fgmast
+           SEEK PCOY+PDIV+PCEN+PSTO+PTYP+PCLA+PCOD
+           IF .NOT. FOUND()
+           SELECT ST15F2
+           REPLACE SHIFT_POST WITH DATE()
+           replace ST15F2->errors with "CHECK STOCK CODE"
+            ENDIF
+           SELECT fgmast
+           SEEK PCOY1+PDIV1+PCEN1+PSTO1+PTYP+PCLA+PCOD
+           IF .NOT. FOUND()
+
+           SELECT ST15F2
+           REPLACE SHIFT_POST WITH DATE()
+           replace errors with "CHECK STOCK CODE 1"
+           ENDIF
+
+
+          if ptyp = "00" .and. .NOT. (ST15F2->STO = "K2" .OR. ST15F2->STO = "K3" ;
+            .OR. ST15F2->STO = "U6" .OR. ST15F2->STO = "U7" .OR. ST15F2->STO = "U8" .OR. ST15F2->STO = "U9".OR. ST15F2->STO = "UA";
+          .OR. ST15F2->STO = "L6" .OR. ST15F2->STO = "L7" .OR. ST15F2->STO = "L8" .OR. ST15F2->STO = "L9".OR. ST15F2->STO = "LA")
+           SELECT SHIFTCLS
+           SEEK PCOY+PTYP+PCLA
+           if .not. found()
+           append blank
+           replace coy with pcoy
+           replace typ with ptyp
+           replace cla with pcla
+           endif
+           replace sale_price with FGCOD->SALE_PRICE
+
+           ENDIF
+           L2M = 0
+           L3M = 0
+           if ptyp = "00"
+
+           SELECT SHIFTCLA
+           SEEK PCOY+PTYP+PCLA+PCOD+PSTO1
+           select ststo
+           seek psto1
+            SELECT SHIFTCLA
+            if .not. eof()
+             replace TANK_CAP with ststo->tank_cap
+           ENDIF
+           endif
+
+          select ST15F2
+            L1 = ST15F2->TYP
+            t1 = ST15F2->cla
+            t6 = ST15F2->cod
+            L2 = cl_m_q
+            L3 = op_m_q
+            L2M = CL_mM_QTY
+            L3M = OP_mM_QTY
+
+        ** past here
+            L5 = 0
+            IF TYP = "00" .or. (typ = "10" .and. fgcod->shs_auto = "Yes")
+            l5 = test_QTY
+            ENDIF
+            L55 = L5 * PSPRICE
+            REPLACE TEST_AMT WITH L55
+        replace sale_price with PSPRICE
+
+
+             if .NOT. TYP = "00"
+             replace cl_m_a with 0
+             endif
+            SHSRETURN = L55 && SHS RETURN TO TANK
+            t55 = 0
+            T5 = 0
+            SHSPLOSS = T55  && SHS PUMP LOSS
+            if  .not. TEST_AMT =  0  .and. fgcod->sale_price > 0
+            L5 =  TEST_AMT / PSPRICE
+            else
+            l5 = 0
+            endif
+            QTYRETURN = L5 && QTY RETURN
+            if  fgcod->sale_price > 0
+            t5 = t55 / PSPRICE && pumps loss qty
+            endif
+            QTYPLOSS = T5 && QUANTITY PUMP LOSS
+
+                IF TYP = "00"
+        if st15f2->f1cashr = "Yes"
+          replace on_hand with shiftcla->on_hand
+                IF  PHY_QTY < 0
+                REPLACE SHIFT_POST WITH DATE()
+                replace ST15F2->errors with "Check Dippings 1"
+                ENDIF
+                ENDIF
+                endif
+
+                IF ST15F2->typ = "00"
+        if  .not. st15f2->f1cashr = "Yes"
+               IF .NOT. st15f2->PHY_QTY = 0
+               REPLACE SHIFT_POST WITH DATE()
+                replace ST15F2->errors with "Check Dippings 2"
+          ENDIF
+          ENDIF
+          ENDIF
+
+            L7 = ST15F2->TRANS_IN
+            L8 = ST15F2->TRANS_OUT
+            L9 = ST15F2->ADJ_IN
+            L10 = ST15F2->ADJ_OUT
+            L11 = ST15F2->PURCHASES
+            L4m = 0
+           l4e = 0
+           plsal = 'E'
+             plvar1 = 0
+             replace m_qty with 0
+             replace e_qty with 0
+          IF ST15F2->TYP = "00"   .or. (ST15F2->TYP = "10" .and. fgcod->shs_auto = "Yes") && fuels/auto lubes
+               L4 = L2 - L3        && && VOLUME electronic
+               l4e = l4 && volume electric
+               if st15f2->typ = '00'
+               replace e_qty with l4
+               endif
+                  L4m = L2M-L3M  && volume manual
+               lvar = L4 - L4m  && variance
+               plvar1 = lvar * -1
+               plvar1 = round(plvar1,2)
+               IF L4M > L4  .and. plvar1 > 0.74  && VOLUME = MANUAL IF MANUAL > ELECTRONIC
+               L4 = L4M
+               replace e_qty with 0
+                 if st15f2->typ = '00'
+               replace m_qty with l4
+               endif
+               ENDIF
+               QTYTHRUPUT = L4 && QUANTITY THRUPUT
+               L6 = L4 - L5 - T5        && SOLD QTY  - VOLUME
+                 ELSE
+               L4 = L3 - L2 + L7 - L8 + L9 - L10 + L11  && non-fuels
+               QTYTHRUPUT = L4
+               L6 = L4 - L5 - t5  && SOLD QTY
+
+
+                   ENDIF
+                   REPLACE MM_SOLD WITH L4M
+                    replace mm_qty_var with lvar
+
+
+                 IF  (ST15F2->TYP = "00" .AND. .NOT. stPUM->SHS_AUTO = "Yes" ) ;
+                 .or.  (ST15F2->typ = "10" .and. fgcod->shs_auto = "Yes")
+                   if  (ST15F2->cl_m_q  - ST15F2->op_m_q) < 0 .or. (ST15F2->cl_mm_qty - ST15F2->op_mm_qty) < 0
+
+                   replace shift_post with date()
+                    replace ST15F2->errors with "Check qty meters"
+                     endif
+                     endif
+
+                       IF  ST15F2->TYP = "00" .or.  (ST15F2->typ = "10" .and. fgcod->shs_auto = "Yes")
+                   if  (ST15F2->cl_m_q  - ST15F2->op_m_q) < 0 .or. (ST15F2->cl_mm_qty - ST15F2->op_mm_qty) < 0
+
+                   replace shift_post with date()
+                    replace ST15F2->errors with "Check qty meters"
+                     endif
+                     endif
+
+
+                       IF  ST15F2->TYP = "00" .or.  (ST15F2->typ = "10" .and. fgcod->shs_auto = "Yes")
+          if  (ST15F2->cl_m_q  - ST15F2->op_m_q) > 99999 .or. (ST15F2->cl_m_q  - ST15F2->op_m_q) < -9999
+
+                   replace shift_post with date()
+                    replace ST15F2->errors with "Check qty meters"
+                     endif
+                     endif
+                     if  (ST15F2->cl_m_a  - ST15F2->op_m_a) > 0 .and. ((st15f2->cl_m_q - st15f2->op_m_q = 0 .and. ;
+                 st15f2->cl_mm_qty - st15f2->op_mm_qty = 0))
+               replace shift_post with date()
+               replace ST15F2->errors with "Cash Mtr No Sold Qty"
+                endif
+                    if  (ST15F2->cl_m_a  - ST15F2->op_m_a) < 0
+
+              replace shift_post with date()
+               replace ST15F2->errors with "Check shs meters"
+                endif
+                if  ST15F2->cl_m_q   < 0
+
+              replace shift_post with date()
+               replace ST15F2->errors with "Check Elec qty mtrs"
+                endif
+                     IF st15f2->TYP = "00" .OR. (TYP="10" .AND. FGCOD->SHS_AUTO = "Yes")
+                 if  (ST15F2->cl_m_q  - ST15F2->op_m_q) < 0
+              replace shift_post with date()
+               replace ST15F2->errors with "Check Elec qty mtrs"
+                endif
+                endif
+
+              if  ST15F2->cl_m_a   < 0
+
+              replace shift_post with date()
+               replace ST15F2->errors with "D2. Check shs meters"
+                endif
+
+           if  ST15F2->cl_mm_qty   < 0
+
+              replace shift_post with date()
+               replace ST15F2->errors with "Check Manl qty mtrs"
+                endif
+                 if  (ST15F2->cl_mm_qty  - ST15F2->op_mm_qty) < 0
+              replace shift_post with date()
+               replace ST15F2->errors with "Check Manl qty mtrs"
+                endif
+           ** past here
+
+                     LOCAL L12,L13,L14,L15,L16,L17,L18,L19,L20,l22,t17
+            L13 = PSPRICE
+            L12 = L4 * L13                && SOLD AMT
+              L22 = 0           && CASH DISCOUNTS
+          SHSDISCOUNT = L22
+           if .not. ST15F2->typ = "00"
+       l14 = 0
+       else
+       L14 = cl_m_A
+       endif
+   if .not. ST15F2->typ = "00"   .and. .not. cl_m_A = 0
+       replace shift_post with date()
+        replace ST15F2->errors with "(a) Check shs mtrs - 2"
+       endif
+       if .not. typ="00" .and.  .not. op_m_a = 0
+       replace op_m_a with 0
+       endif
+             L15 = ST15F2->op_m_a
+            L16 = L14 - L15                && METER AMOUNT
+            SHSTHRUPUT = L16
+            SHSSALE = SHSTHRUPUT - SHSPLOSS - SHSRETURN - SHSDISCOUNT && SHS METER SALE
+            QTYSALE = QTYTHRUPUT - QTYRETURN - QTYPLOSS
+              L17 = L55        && TEST AMOUNT
+              t17 = t55  && pump loss amount
+             L18 = L16 - L17 - t17         && NETT SOLD METER AMOUNT
+              L19 = ST15F2->cr_sal_qty        && CREDIT SALES QTY
+             L20 = L19 * L13        && CREDIT SALES AMOUNT
+             LOCAL L21,L23,L24,L25,L26,L27
+             L21 = ST15F2->NON_CASH        && ACTUAL NONCASH SALES
+             SHSNONCASH = L21  && SHS CREDIT SALES
+             QTYNONCASH = ST15F2->cr_sal_qty  && QTY CREDIT SALES
+             SHSQTYSALE = (QTYSALE * PSPRICE) - SHSDISCOUNT
+             expsalesprice = PSPRICE
+             QTYEXPSALE = QTYSALE
+             SHSEXPSALE = SHSSALE
+             if qtysale < 0 .and. (form.blevel > 4 .or. (form.blevel = 1 .and. .not. FORM.BLADMIN))
+       replace shift_post with date()
+       replace ST15F2->errors with "Negative Sale!"
+
+        endif
+              if   shsexpsale > 0
+       IF SHSSALE < SHSQTYSALE
+       SHSEXPSALE = round(SHSQTYSALE,2) && sale based on qty sold * price
+
+        ENDIF
+        else
+        shsexpsale = round(shsqtysale,2)
+        endif
+
+              if qtysale < 0 .and. (form.blevel > 4 .or. (form.blevel = 1 .and. .not. FORM.BLADMIN))
+       replace shift_post with date()
+       replace st15f2->errors with "Stk -Ve Sale!"
+
+        endif
+
+
+           if .not. st15f2->typ = "00" .and. form.blevel < 5 .and. .not. fgcod->shs_auto = "Yes"
+              shsexpsale = round(shsqtysale,2)
+             endif   && new 08/12/06
+
+
+    *    if .not. form.blevel = 1 .and. .not. form.blevel = 3
+   if  .not. st15f2->typ = "00" .and. fgcod->shs_auto = "Yes"  .and.  st15f2->non_cash > shsexpsale
+        SHSEXPSALE = round(st15f2->non_cash,2)
+         endif
+    if ((form.blevel = 1 .and. FORM.BLADMIN) .or. (form.blevel = 3 .and. FORM.BLADMIN)) .and. .not. typ='00'
+     if qtysale >= 0 .and. st15f2->non_cash <= (qtysale *  fgcods->sale_price)
+     SHSEXPSALE = st15f2->non_cash
+     endif
+     if qtysale+st15f2->cr_sal_qty > 0 .and. st15f2->non_cash < 0
+     SHSEXPSALE = st15f2->non_cash + (qtysale+st15f2->cr_sal_qty)*  fgcods->sale_price
+     endif
+    if qtysale + st15f2->cr_sal_qty > 0 .and. st15f2->non_cash <  shsqtysale
+     SHSEXPSALE = shsqtysale
+     endif
+     endif  && new 2012 1
+
+               L23 = L16 - L21 - L22 - L17 - t17        && CASH AMOUNT BASED ON METER SHS
+               L24 = L12 - L21 - L22        && CASH AMOUNT BASED ON VOLUMES
+               IF L23 > L24
+               L24 = L23
+               ENDIF
+             L25 = fgmast->ON_HAND
+             L26 = ST15F2->PHY_QTY
+            L27 = L25 - L26        && VARIANCE QTY
+             LOCAL L28,L29,L30,l31,l32,l33,L33A,L33B
+             l31 = fgmast->cr_purch + fgmast->cs_purch + fgmast->ADJ_IN - fgmast->ADJ_OUT && purchases
+             replace ST15F2->cost_price with fgcod->cost_price
+             replace ST15F2->vat with fgcod->vat
+             l33 = a_c_inhand  && actual cash
+             L33A = CASH_BANK
+             L33B  = CL_C_HAND
+              QTYEXPCASH = QTYSALE - QTYNONCASH
+             SHSEXPCASH = SHSEXPSALE - SHSNONCASH
+             L28 = L24 - L23        && VARIANCE CASH
+               IF L24 > L23
+               L29 = L24                && EXP CASH
+               ELSE
+               L29 = L23                && EXP CASH
+               ENDIF
+               L29 = SHSEXPCASH
+             IF L12 > L18
+             L30 = L12                && EXP SALES
+             ELSE
+             L30 = L18                && EXP SALES
+             ENDIF
+             L30 = SHSEXPSALE
+                 replace total_qty with round(l4e,2)
+                replace promotion with fgcod->promotion
+               LOCAL WK55
+               WK55 = SOLD_QTY
+             replace sold_qty with round(QTYSALE,2)
+             replace sold_amt with round(qtythruput * PSPRICE,2)  && new entry
+
+          IF .NOT. ST15F2->typ = "00" .and. .not. (ST15F2->typ = "10" .and. fgcod->shs_auto = "Yes")
+         IF cr_sal_qty > SOLD_QTY  .and. .not. cr_sal_qty = 0 .and. form.blevel > 3
+        REPLACE SHIFT_POST WITH DATE()
+        replace ST15F2->errors with "Check credit sales"
+        ENDIF
+       ENDIF
+         IF  st15f2->typ = "10" .and. FGCOD->shs_auto = "Yes"   .and. ;
+         ((st15f2->cr_sal_qty - st15f2->sold_qty) > 3) .AND. form.blevel > 4
+   replace ST15F2->errors with "Check AES Meter!"
+             REPLACE SHIFT_POST WITH DATE()
+          endif
+
+            if  FGCOY->CASHIER_NO = "Y"  .and. FGCOD->shs_auto = "No"  .and. form.blevel > 4
+                      IF TYP = "20"  .AND. .NOT.  cr_sal_qty = SOLD_QTY
+        replace ST15F2->errors with "Sales Doc Required"
+        REPLACE SHIFT_POST WITH DATE()
+        ENDIF
+                       IF TYP = "10" .and. .NOT.  cr_sal_qty = SOLD_QTY
+          replace ST15F2->errors with "Sales Doc Required"
+        REPLACE SHIFT_POST WITH DATE()
+        ENDIF
+        ENDIF
+       if typ > "00" .and. .not. fgcod->shs_auto = "Yes"
+         if .NOT. CR_SAL_QTY = 0 .AND. SOLD_QTY = 0
+           replace ST15F2->errors with "Sales Qty Required"
+        REPLACE SHIFT_POST WITH DATE()
+        ENDIF
+         if  .NOT. NON_CASH = 0 .AND. SOLD_AMT = 0 .and. .not. (form.blevel = 1 .and. FORM.BLADMIN)
+           replace ST15F2->errors with "Sales Value Required"
+        REPLACE SHIFT_POST WITH DATE()
+        ENDIF
+        endif
+               replace meter_amt with l16
+               REPLACE REMARKS WITH    plsal
+             replace nett_amt with l18
+               replace cr_sal_shs with l20
+               replace cash_amt with l23
+               replace cash_qty with l24
+               replace var_cash with l28
+               replace exp_cash with round(SHSEXPCASH,2)
+               replace exp_sales with round(SHSEXPSALE,2)
+               replace sh_c_SALES WITH round(SHSEXPCASH,2)
+               if ST15F2->typ = "30"
+       replace c_sh_cards with shsexpcash  && scratch cards
+       endif
+        if ST15F2->typ > "30"   && drinks and spares
+       replace c_sh_shop with shsexpcash
+       endif
+       if ST15F2->typ = "00"
+       replace c_sh_fuels with shsexpcash
+       endif
+       if ST15F2->typ = "10"
+       replace c_sh_work with shsexpcash
+       endif
+       if ST15F2->typ = "20"
+       replace c_sh_cant with shsexpcash
+       endif
+       select st15f2
+    IF  TYP = "00" .or.  (typ = "10" .and. fgcod->shs_auto = "Yes")
+       replace meter_var with meter_amt - sold_amt
+       endif
+          select scashrec
+          replace exp_sales with round(SHSEXPSALE,2)
+          replace off with cashiers->off
+         select st15f2
+         REPLACE OFF WITH SCASHREC->OFF
+    if empty(scashrec->off)
+    replace errors with "Allocate Cashiers"
+    replace  shift_post with date()
+    endif
+              local wk1,wk2,wk3,wk4,wk5,wk6,wk7
+    WK1 =  ST15F2->sh_c_sales+ST15F2->cash_debt;
+   + ST15F2->cash_work+ST15F2->cash_shop+ST15F2->cash_cards+ST15F2->CASH_CANT ;
+   + ST15F2->cash_soda   + ST15F2->reserved3 + ST15F2->op_c_hand;
+    + ST15F2->vs_others + ST15F2->chqs_sale + ST15F2->fc_c_sales && total cash
+   wk4 = ST15F2->cash_motor + ST15F2->cash_food;  && total payments
+      + ST15F2->cash_withd + ST15F2->cash_staff + ST15F2->cash_lubes;
+      + ST15F2->cash_gen + ST15F2->cash_coy + ST15F2->vs_company + ST15F2->vs_barclay
+   wk2 = wk1 - wk4 && net cash
+   wk6 = ST15F2->a_c_inhand + ST15F2->a_cash
+   wk5 = ST15F2->CL_C_HAND  && cash in hand carried forward
+   wk3 = wk6 - wk2  && cash shortage
+    wk3 = ST15F2->a_c_inhand + ST15F2->a_cash - ((ST15F2->Cash_cards + ST15F2->c_sh_fuels;
+   + ST15F2->c_sh_work +  ST15F2->cash_soda  + ST15F2->reserved3 + ST15F2->op_c_hand;
+   + ST15F2->c_sh_shop+ST15F2->c_sh_cards+ST15F2->c_sh_cant + ST15F2->fc_c_sales;
+   +ST15F2->cash_debt+ST15F2->CASH_CANT+ST15F2->Cash_shop + ST15F2->cash_work);
+   - (ST15F2->CASH_COY+ST15F2->cash_staff+ST15F2->cash_gen;
+   +ST15F2->cash_withd+ST15F2->CHQS_SALE+ST15F2->VS_COMPANY+ST15F2->VS_BARCLAY+ST15F2->VS_OTHERS;
+   +ST15F2->cash_lubes+ST15F2->cash_food+ST15F2->cash_motor))
+
+
+   wk7 = ST15F2->sh_c_sales+ST15F2->cash_debt;
+   + ST15F2->cash_work+ST15F2->cash_shop+ST15F2->cash_cards+ST15F2->CASH_CANT;
+   + ST15F2->cash_soda  + ST15F2->reserved3 ;
+    + ST15F2->vs_others + ST15F2->chqs_sale + ST15F2->fc_c_sales && total cash
+   replace total_cash with wk1
+   replace cash_short with round(wk3,2)
+   replace net_cash with wk2 - ST15F2->CASH_MERCH - ST15F2->DBCREDITS
+   replace ST15F2->t_cash_pay with wk4
+   replace t_cash_rec with wk7
+    if mm_sold < 0
+           replace ST15F2->errors with "Check Manual Litres"
+             REPLACE SHIFT_POST WITH DATE()
+           endif
+              if .not. typ = "00" .and. .not. cl_mm_qty = 0
+               replace ST15F2->errors with "Check Manual Litres"
+             REPLACE SHIFT_POST WITH DATE()
+         endif
+         LOCAL LNQTY
+         LNQTY = MM_SOLD
+         IF TOTAL_QTY > MM_SOLD
+         LNQTY = TOTAL_QTY
+         ENDIF
+          if TEST_QTY > LNQTY .and. form.blevel > 1
+           replace ST15F2->errors with "RTT with No Sale"
+             REPLACE SHIFT_POST WITH DATE()
+           endif
+
+        if (form.blevel > 4 .and. .not. test_qty = 0 );
+        .or. (form.blevel = 1 .and. .not. FORM.BLADMIN .and. .not. test_qty = 0)
+           replace ST15F2->errors with "RTT Not Permitted"
+          REPLACE SHIFT_POST WITH DATE()
+        endif
+      *  endif
+
+             pmanual = op_m_a - op_m_q - op_mm_qty  && checking opening values
+             pmanual = round(pmanual,0)
+              if .not. (form.blevel = 1 .and. form.bladmin);
+              .and. .not. (soma = op_m_a .or. some = op_m_q .or. somm = op_mm_qty) .and. ;
+              (empty(date_amend) .or. empty(user_amend) .or. empty(time_amend)) && system
+             replace ST15F2->errors with "OPEN VALUE CHANGED 0!"
+             REPLACE SHIFT_POST WITH DATE()
+           endif
+        if (empty(date_amend) .or. empty(user_amend) .or. empty(time_amend));
+        .and. (round(manual,0) - pmanual < -1 .OR. round(manual,0) - pmanual > 1) && not system
+             replace ST15F2->errors with "OPEN VALUE CHANGED 1!"
+             REPLACE SHIFT_POST WITH DATE()
+           endif
+
+             if form.blevel > 4 .or. (form.blevel = 1 .and. .not. FORM.BLADMIN)
+           if  .not. empty(date_amend) .or. .not. empty(user_amend) .or. .not. empty(time_amend)
+             replace ST15F2->errors with "OPEN VALUE CHANGED 2!"
+             REPLACE SHIFT_POST WITH DATE()
+           endif
+           endif
+           if typ = '00' .and. (op_m_q >  some .and. some > 0  .and. op_m_q-some < 3000)
+            replace ST15F2->errors with "OPEN VALUE CHANGED E!"
+             REPLACE SHIFT_POST WITH DATE()
+           endif
+           if typ = '00' .and. (op_mm_qty >  somm .and. somm > 0  .and. op_mm_qty-somm < 3000)
+            replace ST15F2->errors with "OPEN VALUE CHANGED M!"
+             REPLACE SHIFT_POST WITH DATE()
+           endif
+           if typ = '10' .and. cen= 'D' .and. (op_m_q >  some .and. some > 0  .and. op_m_q-some < 100)
+            replace ST15F2->errors with "OPEN VALUE CHANGED E!"
+             REPLACE SHIFT_POST WITH DATE()
+           endif
+           if meter_amt - test_amt > 0 .and. sold_amt < 0
+           replace ST15F2->errors with "Check Ltrs/Shs Mtrs"
+             REPLACE SHIFT_POST WITH DATE()
+           endif
+            if (typ = "00" .OR. (PTYP= '10' .AND. (ST15F2->CEN = 'D' .OR. ST15F2->CEN = 'O')))
+     SELECT STSTO
+     SEEK ST15F2->STO
+     IF FOUND()  .and. rate_on = "Yes"
+     replace qty_sold with ST15F2->sold_qty
+     replace shift_no with ST15F2->shift_no
+     replace shift_id with ST15F2->shift_id
+     replace shift_date with ST15F2->shift_date
+     endif
+     ENDIF
+      select st15f2
+
+         IF FGCOD->SALE_PRICE > 0
+       if .not. typ = "00" .and. .not. (typ="10" .and. fgcod->shs_auto = "Yes")
+       if .not. round((op_m_q+trans_in-Trans_out - sold_qty),0) = round(cl_m_q,0)
+        replace ST15F2->errors with "REKEY CLS STK"
+             REPLACE SHIFT_POST WITH DATE()
+           endif
+           endif
+           ENDIF
+
+             if .not. fgcoy->doc18 .or. form.blevel > 4
+           if  typ = "00" .and.  (op_mm_qty = cl_mm_qty .or. op_m_q = op_m_q)  ;
+            .and. .not.  (op_mm_qty = 0 .or. op_m_q = 0) .and.   ;
+          (mm_qty_var > 5.or. mm_qty_var < -5)
+           replace shift_post with date()
+           replace errors with "Lt1 Mtr Out of Range"
+           endif
+
+           if typ = "00" .and. op_m_a = cl_m_a  .and. .not. op_m_a = 0  .and.  ;
+            (meter_var > 500 .or. meter_var < -500)
+             replace shift_post with date()
+           replace errors with "Sh1 Mtr Out of Range"
+           endif
+            if  typ = "00"  .and. .not.  (op_mm_qty = 0 .or. op_m_q = 0) .and.;
+   (mm_qty_var > 10.or. mm_qty_var < -10)
+           replace errors with "Lt2 Mtr Out of Range"
+            replace shift_post with date()
+           endif
+   if typ = "00"   .and. .not. op_m_a = 0 .and. (meter_var > 500 .or. meter_var < -500)
+   replace errors with "Sh2 Mtr Out of Range"
+    replace shift_post with date()
+           endif
+           if typ = "00" .and.  .not. ((op_m_q = 0 .and. cl_m_q = 0) ;
+            .or. (op_mm_qty = 0  .and. cl_mm_qty = 0))  .and. ;
+   (mm_qty_var > 5.or. mm_qty_var < -5)
+          replace errors with "Lt3 Mtr Out of Range"
+           replace shift_post with date()
+          endif
+           if typ = "00" .and. .not.  (op_m_a = cl_m_a);
+           .and. (meter_var > 500 .or. meter_var < -500)
+           replace errors with "Sh3 Mtr Out of Range"
+            replace shift_post with date()
+           endif
+           endif
+
+        do st15f2_rtn   && test 3
+
+
+         SELECT SHIFTID  && Test 5
+        SEEK ST15F2->CEN
+        IF .NOT. FOUND()
+        APPEND BLANK
+        REPLACE ID WITH ST15F2->CEN
+        REPLACE TOTAL_SALE WITH 0
+        ENDIF
+        REPLACE TOTAL_SALE WITH TOTAL_SALE + ST15F2->EXP_SALES
+        if .not. empty(st15f2->errors)
+        select shiftcoy
+        replace error with st15f2->cen+st15f2->typ+st15f2->cla+st15f2->cod+st15f2->sto
+        replace error_msg with st15f2->errors
+        endif
+        SELECT ST15F2
+    ENDSCAN 
+    PQV00 = 0
+    PSV00 = 0
+    PQV10 = 0
+    PSV10 = 0
+    PQV20 = 0
+    PSV20 = 0
+    PQV30 = 0
+    PSV30 = 0
+    PQV40 = 0
+    PSV40 = 0
+    PQV50 = 0
+    PSV50 = 0
+     SELECT shiftcla
+   SCAN
+   replace  qty_Var with phy - on_hand
+   IF .NOT. SOLD_QTY = 0
+
+       replace p_qty_v_s with qty_var / sold_qty * 100
+   ENDIF
+   IF .NOT. PURCHASES = 0
+
+       replace p_qty_v_p with qty_var / purchases * 100
+    ENDIF
+
+       replace  shift_var with phy - bcf
+
+       if typ = '00'
+        IF CLA = '00'
+   PQV00 = PQV00 + QTY_VAR
+   PSV00 = PSV00 + SHIFT_VAR
+   ENDIF
+    IF CLA = '10'
+   PQV10 = PQV10 + QTY_VAR
+   PSV10 = PSV10 + SHIFT_VAR
+   ENDIF
+    IF CLA = '20'
+   PQV20 = PQV20 + QTY_VAR
+   PSV20 = PSV20 + SHIFT_VAR
+   ENDIF
+    IF CLA = '30'
+   PQV30 = PQV30 + QTY_VAR
+   PSV30 = PSV30 + SHIFT_VAR
+   ENDIF
+    IF CLA = '40'
+   PQV40 = PQV40 + QTY_VAR
+   PSV40 = PSV40 + SHIFT_VAR
+   ENDIF
+    IF CLA = '50'
+   PQV50 = PQV50 + QTY_VAR
+   PSV50 = PSV50 + SHIFT_VAR
+   ENDIF
+   endif
+   select shtypcla
+   seek shiftcla->typ+shiftcla->cla
+   if .not. found()
+   append blank
+   replace typ with shiftcla->typ
+   replace cla with shiftcla->cla
+   replace bbf with 0
+   replace purchases with 0
+   replace sold_qty with 0
+   replace on_hand with 0
+   replace phy with 0
+   replace shift_var with 0
+   replace qty_var with 0
+   endif
+   replace bbf with bbf + shiftcla->bbf
+   replace purchases with purchases + shiftcla->purchases
+   replace sold_qty with sold_qty + shiftcla->sold_qty
+   replace on_hand with on_hand + shiftcla->on_hand
+   replace phy with phy  + shiftcla->phy
+   replace shift_var with shift_var  + shiftcla->shift_var
+   replace qty_var with qty_var + shiftcla->qty_var
+   select shiftcla
+   ENDSCAN
+   PQVERR = .F.
+   PQVCOD = ''
+   IF PQV00 >  1000 .AND. PSV00 > 1000
+   PQVERR = .T.
+   PQVCOD ='PMS'
+   ENDIF
+   IF PQV10 >  1000 .AND. PSV10 > 1000
+   PQVERR = .T.
+   PQVCOD ='UPMS'
+   ENDIF
+   IF PQV20 >  1000 .AND. PSV20 > 1000
+   PQVERR = .T.
+   PQVCOD ='RMS'
+   ENDIF
+   IF PQV30 >  1000 .AND. PSV30 > 1000
+   PQVERR = .T.
+   PQVCOD ='AGO'
+   ENDIF
+   IF PQV40 >  1000 .AND. PSV40 > 1000
+   PQVERR = .T.
+   PQVCOD ='IK'
+   ENDIF
+   IF PQV50 >  1000 .AND. PSV50 > 1000
+   PQVERR = .T.
+   PQVCOD ='LSD'
+   ENDIF
+   select st15f2
+   refresh
+   select scashrec
+   refresh
+    SELECT ST15F
+    refresh
+    GO TOP
+   select shiftcoy
+   go top
+   select st15f2
+   go top
+   if empty(errors)
+   if .NOT.  round(hshiftbk->cash_short,2)  = 0
+     replace shift_post with date()
+              replace errors with "CHECK CASH POSITION"
+              endif
+              endif
+              select shiftcoy
+              if empty(error)
+              replace  error_msg with st15f->errors
+              endif
+
+    refresh
+
+
+     select st15f2
+   if empty(errors) .and. .not. fgcoy->doc17
+    IF PQVERR
+    select st15f2
+     replace shift_post with date()
+              replace errors with "CHECK DIPS-"+PQVCOD
+              ELSE
+              select shiftcla
+   set filt to typ='00' .and. on_hand > 999 .and. phy = 0 .and. qty_var > 999
+   go top
+   if .not. eof()
+    select st15f2
+     replace shift_post with date()
+              replace errors with "DIPS REQUIRED-"+shiftcla->sto
+                 endif
+
+              endif
+           endif
+              if .not. fgcoy->doc17
+              select shtypcla
+              set filter to shift_var > 1000 .or. shift_var < -1000
+              go top
+              if .not. eof() .and. shtypcla->qty_var > 1000 .or. shtypcla->qty_var < -1000
+              select st15f2
+              replace shift_post with date()
+              replace errors with 'Gain(Loss) Bad-'+shtypcla->cla
+          endif
+               ENDIF
+            *   endif
+              select shiftcoy
+              if empty(error)
+              replace  error_msg with st15f->errors
+              endif
+   select shiftid
+   go top
+   refresh
+   select shtypcla
+   set filter to
+   go top
+    select shiftcla
+    SET FILTER TO
+   go top
+   refresh
+   select st15f2
+   go top
+   refresh
+   select shiftcoy
+   go top 
+   if empty(error_msg)
+   select st15f2
+   set filter to .not. empty(shift_post) 
+   go top
+   if .not. eof()
+   select shiftcoy
+   replace error_msg with st15f2->errors
+   endif
+   select st15f2
+   set filter to
+   endif
+   refresh
+    form.MousePointer = 1
+    select st15f
+    go top
+    form.BROWSE2.setfocus()
+
+
+   Procedure CARDTYPE_OnLostFocus
+         if st15f->coy = shifttop->coy .and. st15f->div = shifttop->div;
+          .and. st15f->cen = shifttop->cen .and. st15f->sto = shifttop->sto;
+          .and. st15f->typ = shifttop->typ .and. st15f->cla = shifttop->cla;
+           .and. st15f->cod = shifttop->cod
+
+           form.wholeentry.enabled = .t.
+           form.minientry.enabled = .t.
+           form.browse5.enabled = .t.
+            *form.batchamt.enabled = .t.
+           else
+
+            form.wholeentry.enabled = .f.
+           form.minientry.enabled = .f.
+            form.browse5.enabled = .f.
+           *form.batchamt.enabled = .f.
+           endif
+
+   Procedure BROWSE1_OnLostFocus
+    if st15f->coy = shifttop->coy .and. st15f->div = shifttop->div;
+          .and. st15f->cen = shifttop->cen .and. st15f->sto = shifttop->sto;
+          .and. st15f->typ = shifttop->typ .and. st15f->cla = shifttop->cla;
+           .and. st15f->cod = shifttop->cod
+           form.wholeentry.enabled = .t.
+           form.minientry.enabled = .t.
+            form.browse5.enabled = .t.
+           *form.batchamt.enabled = .t.
+           else
+
+            form.wholeentry.enabled = .f.
+           form.minientry.enabled = .f.
+            form.browse5.enabled = .f.
+           *form.batchamt.enabled = .f.
+           endif
+
+   Procedure BROWSE5_OnGotFocus
+
+    select shiftcas
+      replace cl_c_hand with cash_hand - cash_bank
+    refresh
+
+   Procedure CARDTYPE_OnGotFocus
+    if st15f->coy = shifttop->coy .and. st15f->div = shifttop->div;
+          .and. st15f->cen = shifttop->cen .and. st15f->sto = shifttop->sto;
+          .and. st15f->typ = shifttop->typ .and. st15f->cla = shifttop->cla;
+           .and. st15f->cod = shifttop->cod
+
+           form.wholeentry.enabled = .t.
+           form.minientry.enabled = .t.
+            form.browse5.enabled = .t.
+
+           *form.batchamt.enabled = .t.
+           else
+
+            form.wholeentry.enabled = .f.
+           form.minientry.enabled = .f.
+            form.browse5.enabled = .f.
+           *form.batchamt.enabled = .f.
+           endif
+
+   Procedure BROWSE6_OnChange
+            LOCAL L1,ll1,ll2,ll3,l14,l15,l16,l17,l18
+            Pll1 = st15f->shift_date
+            Pll2 = st15f->shift_no
+            Pll3 = st15f->shift_id
+            PL1 = CASHIERS->CASHR_NO
+            PL14 = ST15F->CEN
+            PL15 = ST15F->STO
+            PL16 = ST15F->TYP
+            PL17 = ST15F->CLA
+            PL18 = ST15F->COD
+            SELECT SCASHREC2
+            SET FILTER TO SHIFT_DATE = ST15F->SHIFT_DATE .AND. SHIFT_NO = ST15F->SHIFT_NO ;
+             .AND. SHIFT_ID = ST15F->SHIFT_ID .AND. CASHR_NO = CASHIERS->CASHR_NO
+            replace all a_cash with 0
+          GO TOP
+             REPLACE A_CASH WITH CASHIERS->A_CASH
+       *    replace off with cashiers->off
+
+   Procedure WHOLEENTRY_OnChange
+   SELECT ST15F
+   REPLACE OKCLOSE WITH THIS.VALUE
+
+   Procedure MINIENTRY_OnChange
+         SELECT ST15F
+         REPLACE OKMINI WITH  THIS.VALUE
+
+   Procedure WHOLEENTRY_OnChange1
+   SELECT ST15F
+   REPLACE OKCLOSE WITH THIS.VALUE
+    if empty(errors)
+   if .NOT.  round(hshiftbk->cash_short,2)  = 0
+     replace shift_post with date()
+              replace errors with "CHECK CASH POSITION"
+              endif
+              endif
+
+   if .not. empty(this.value)
+   replace okmini with {}
+   endif
+
+   Procedure MINIENTRY_OnChange1
+   SELECT ST15F
+         REPLACE OKMINI WITH  THIS.VALUE
+       if empty(errors)
+   if .NOT.  round(hshiftbk->cash_short,2)  = 0
+     replace shift_post with date()
+              replace errors with "CHECK CASH POSITION"
+              endif
+              endif
+         if .not. empty(this.value)
+         replace okclose with {}
+         endif
+
+   Procedure BROWSE1_OnLostFocus1
+
+endclass
+
+  procedure shiftbk_rtn
+   local lcoy,ldate,lshno,lshid,lsdate
+   lshid = hshiftbk->shift_id
+   lcoy = hshiftbk->coy
+   ldate = hshiftbk->shift_date
+   lshno = hshiftbk->shift_no
+   lsdate = dtos(hshiftbk->shift_date)
+
+ select shiftbk
+ *delete all for empty(coy) .or. empty(shift_date) .or. empty(shift_no) .or. empty(shift_id)
+* select shiftbk
+   seek lcoy+DTOS(ldate)+lshno+lshid
+   if .not. found()
+   append blank
+   replace coy with lcoy
+   replace shift_date with ldate
+   replace shift_no with lshno
+   replace shift_id with lshid
+   endif
+    replace op_capital with HSHIFTBK->op_capital
+    replace op_mpfloat with HSHIFTBK->op_mpfloat
+    replace op_mliquid with HSHIFTBK->op_mliquid
+    replace mp_capital with HSHIFTBK->mp_capital
+    replace cl_capital with HSHIFTBK->cl_capital
+    replace cl_mpfloat with HSHIFTBK->cl_mpfloat
+    replace cl_mliquid with HSHIFTBK->cl_mliquid
+    replace mp_float with HSHIFTBK->mp_float
+    replace mp_liquid with HSHIFTBK->mp_liquid
+    REPLACE BATCHAMT WITH HSHIFTBK->BATCHAMT
+    REPLACE MBK_MONEY WITH HSHIFTBK->MBK_MONEY
+    REPLACE MBD_MONEY WITH HSHIFTBK->MBD_MONEY
+    REPLACE MBP_MONEY WITH HSHIFTBK->MBP_MONEY
+    REPLACE C_MSTORE WITH HSHIFTBK->C_MSTORE
+    REPLACE C_TSTORE WITH HSHIFTBK->C_TSTORE
+    REPLACE C_PSTORE WITH HSHIFTBK->C_PSTORE
+    REPLACE C_MMONEY WITH HSHIFTBK->C_MMONEY
+
+
+   REPLACE OFF WITH HSHIFTBK->OFF
+
+replace purc_sup_q with hshiftbk->purc_sup_q
+   replace purc_ker_q with hshiftbk->purc_ker_q
+    replace purc_unl_q with hshiftbk->purc_unl_q
+     replace purc_reg_q with hshiftbk->purc_reg_q
+      replace purc_dis_q with hshiftbk->purc_dis_q
+       replace purc_LSD_q with hshiftbk->purc_LSD_q
+
+     replace sup_price with hshiftbk->sup_price
+   replace ker_price with hshiftbk->ker_price
+    replace unl_price with hshiftbk->unl_price
+     replace reg_price with hshiftbk->reg_price
+      replace dis_price with hshiftbk->dis_price
+       replace LSD_price with hshiftbk->LSD_price
+
+  replace open_sup_q with hshiftbk->open_sup_q
+  replace open_ker_q with hshiftbk->open_ker_q
+  replace open_reg_q with hshiftbk->open_reg_q
+  replace open_unl_q with hshiftbk->open_unl_q
+  replace open_dis_q with hshiftbk->open_dis_q
+   replace open_LSD_q with hshiftbk->open_LSD_q
+
+  replace book_sup_q with hshiftbk->book_sup_q
+   replace book_ker_q with hshiftbk->book_ker_q
+    replace book_unl_q with hshiftbk->book_unl_q
+     replace book_reg_q with hshiftbk->book_reg_q
+      replace book_dis_q with hshiftbk->book_dis_q
+       replace book_LSD_q with hshiftbk->book_LSD_q
+
+
+       replace phy_sup_q with hshiftbk->phy_sup_q
+        replace phy_unl_q with hshiftbk->phy_unl_q
+         replace phy_ker_q with hshiftbk->phy_ker_q
+          replace phy_reg_q with hshiftbk->phy_reg_q
+           replace phy_dis_q with hshiftbk->phy_dis_q
+           replace phy_LSD_q with hshiftbk->phy_LSD_q
+
+replace sale_sup_q with hshiftbk->sale_sup_q
+   replace sale_ker_q with hshiftbk->sale_ker_q
+    replace sale_unl_q with hshiftbk->sale_unl_q
+     replace sale_reg_q with hshiftbk->sale_reg_q
+      replace sale_dis_q with hshiftbk->sale_dis_q
+      replace sale_LSD_q with hshiftbk->sale_LSD_q
+
+      replace sale_sup_a with hshiftbk->sale_sup_a
+   replace sale_ker_a with hshiftbk->sale_ker_a
+    replace sale_unl_a with hshiftbk->sale_unl_a
+     replace sale_reg_a with hshiftbk->sale_reg_a
+      replace sale_dis_a with hshiftbk->sale_dis_a
+       replace sale_LSD_a with hshiftbk->sale_LSD_a
+
+   REPLACE BATCHAMT WITH HSHIFTBK->BATCHAMT
+   REPLACE MBK_MONEY WITH HSHIFTBK->MBK_MONEY
+   REPLACE MBD_MONEY WITH HSHIFTBK->MBD_MONEY
+   REPLACE MBP_MONEY WITH HSHIFTBK->MBP_MONEY
+   replace mobilesals with HSHIFTBK->mobilesals
+    *
+
+ REPLACE OP_C_HAND WITH hshiftbk->OP_C_HAND
+   REPLACE CL_C_HAND WITH HSHIFTBK->CL_C_HAND
+   REPLACE A_C_INHAND WITH HSHIFTBK->A_C_INHAND
+   REPLACE Total_CASH WITH HSHIFTBK->TOTAL_CASH
+   REPLACE SH_C_SALES WITH HSHIFTBK->SH_C_SALES
+  REPLACE C_SH_SHOP WITH HSHIFTBK->C_SH_SHOP
+  REPLACE C_SH_WORK WITH HSHIFTBK->c_sh_work
+  REPLACE C_SH_CARDS WITH HSHIFTBK->c_sh_cards
+    REPLACE C_SH_FUELS WITH HSHIFTBK->c_sh_fuels
+  REPLACE C_SH_CANT WITH HSHIFTBK->c_sh_cant
+   REPLACE CASH_DEBT WITH HSHIFTBK->cash_debt
+    REPLACE CASH_WORK WITH HSHIFTBK->CASH_WORK
+     REPLACE CASH_SHOP WITH  HSHIFTBK->CASH_SHOP
+      REPLACE CASH_CARDS WITH HSHIFTBK->CASH_CARDS
+       REPLACE CASH_CANT WITH  HSHIFTBK->CASH_CANT
+        REPLACE CASH_P_EXP WITH HSHIFTBK->CASH_P_EXP
+         REPLACE CASH_P_PUR WITH HSHIFTBK->CASH_P_PUR
+          REPLACE CASH_BANK WITH HSHIFTBK->CASH_BANK
+           REPLACE CASH_SHORT WITH HSHIFTBK->CASH_SHORT
+    replace cash_coy with  HSHIFTBK->CASH_COY
+    replace cash_merch with HSHIFTBK->CASH_MERCH
+    replace batchamt with HSHIFTBK->batchamt
+    REPLACE MBK_MONEY WITH HSHIFTBK->MBK_MONEY
+    REPLACE MBD_MONEY WITH HSHIFTBK->MBD_MONEY
+    REPLACE MBP_MONEY WITH HSHIFTBK->MBP_MONEY
+    replace cash_food with HSHIFTBK->CASH_food
+    replace cash_motor with HSHIFTBK->CASH_MOTOR
+    replace cash_staff with HSHIFTBK->CASH_STAFF
+    replace cash_gen with HSHIFTBK->CASH_GEN
+    replace cash_withd with HSHIFTBK->CASH_WITHD
+    replace cash_lubes with HSHIFTBK->CASH_LUBES
+    replace t_cash_pay with HSHIFTBK->T_CASH_PAY
+    replace net_cash with  HSHIFTBK->net_cash
+    replace t_cash_rec with HSHIFTBK->T_CASH_REC
+
+   replace vs_barclay with hshiftbk->vs_barclay
+     replace vs_others  with hshiftbk->vs_others
+      replace vs_company with hshiftbk->vs_company
+       replace chqs_sale with hshiftbk->chqs_sale
+        replace cash_soda with HSHIFTBK->CASH_SODA
+    replace non_cash with hshiftbk->non_cash
+
+     replace fc_c_sales with hshiftbk->fc_c_sales
+    replace dbdebits with hshiftbk->dbdebits
+    replace dbcredits with hshiftbk->dbcredits
+    replace reserved1 with hshiftbk->reserved1 && used
+    replace reserved2 with hshiftbk->reserved2 && used
+    replace reserved3 with hshiftbk->reserved3
+    replace reserved4 with hshiftbk->reserved4
+    replace reserved5 with hshiftbk->reserved5
+    replace chqs_bank with hshiftbk->chqs_bank
+    replace A_CASH with hshiftbk->A_CASH
+    replace cash_hand with hshiftbk->cash_hand
+
+
+
+
+procedure shverify_rtn
+     private eofscashrec,pcash,pacash,eoffgtran,eofst15f,PSHORT
+      pcash = 0
+      pacash = 0
+      PSHORT = 0
+      pscredits = 0
+      pocredits = 0
+      eofscashrec = .f.
+      eofst15f = .f.
+      eoffgtran = .f.
+       select st15f
+      set filter to .not. a_c_inhand = 0
+      go top
+      if .not. eof()
+      do
+      do st15fv_rtn
+      until eofst15f
+      endif
+
+         select scashrec
+            set filter to .not. a_cash = 0
+            go top
+            if .not. eof()
+               do
+                  do verify_rtn2
+                  until eofscashrec
+               endif
+           if .not. round(pcash,1) = round(pacash,1)
+           select shiftcas
+           replace reserved1 with pcash - pacash
+      select st15f
+           go top
+           if .not. eof() .and. .not. round(shiftcas->reserved1,1)=0
+           replace shift_post with date()
+           replace errors with "CHCK DRP/ACTUAL CASH"
+            endif
+           endif
+procedure verify_rtn2
+   pacash = scashrec->a_cash + pacash
+   select scashrec
+   skip
+   if eof()
+   eofscashrec = .t.
+   endif
+
+
+  Procedure st15fv_rtn
+        pcash = pcash + a_c_inhand
+        PSHORT = CASH_SHORT + PSHORT
+        select st15f
+        skip
+        if eof()
+           eofst15f = .t.
+        endif
+
+
+  procedure st15f2_rtn
+   private ppump,pfuel
+   pfuel = .f.
+   do st15f2_rtn1
+PPUMP = "00"
+if st15f2->typ = "00"
+select ststo
+seek st15f2->sto
+   if found()
+   select stpum
+      seek ststo->pum
+      if found()
+      ppump = stpum->pum
+      pfuel = .t.
+
+endif
+endif
+endif
+
+select fgcoy
+go top
+
+do common_rtn
+
+
+
+Procedure Common_rtn
+local l1,l2,l3,l4,l5,l6
+   l1 = st15f2->coy
+   l2 = st15f2->shift_date
+   l3 = st15f2->shift_no
+   l6 = st15f2->shift_id
+
+   select hshiftbk
+   seek l1+dtos(l2)+l3+l6
+   if .not. found()
+   append blank
+   replace coy with l1
+   REPLACE BATCHAMT WITH 0
+   REPLACE MBK_MONEY WITH 0
+   REPLACE MBD_MONEY WITH 0
+   REPLACE MBP_MONEY WITH 0
+   replace shift_date with l2
+   replace shift_no with l3
+   replace shift_id with l6
+   replace mobilesals with 0
+  replace op_capital with 0
+    replace op_mpfloat with 0
+    replace op_mliquid with 0
+    replace mp_capital with 0
+    replace cl_capital with 0
+    replace cl_mpfloat with 0
+    replace cl_mliquid with 0
+    replace mp_float with 0
+    replace mp_liquid with 0
+
+   replace open_reg_q with 0
+   replace open_unl_q with 0
+   replace open_ker_q with 0
+   replace open_sup_q with 0
+   replace open_dis_q with 0
+   replace OPEN_LSD_Q with 0
+
+   replace phy_ker_q with 0
+   replace phy_sup_q with 0
+   replace phy_unl_q with 0
+   replace phy_reg_q with 0
+   replace phy_dis_q with 0
+   replace phy_LSD_q with 0
+
+   replace book_ker_q with 0
+   replace book_unl_q with 0
+   replace book_sup_q with 0
+   replace book_reg_q with 0
+   replace book_dis_q with 0
+    replace book_LSD_q with 0
+
+    replace sale_ker_q with 0
+   replace sale_unl_q with 0
+   replace sale_sup_q with 0
+   replace sale_reg_q with 0
+   replace sale_dis_q with 0
+    replace sale_LSD_q with 0
+   *
+   replace sale_ker_a with 0
+   replace sale_unl_a with 0
+   replace sale_sup_a with 0
+   replace sale_reg_a with 0
+   replace sale_dis_a with 0
+   replace sale_LSD_a with 0
+   *
+
+ replace purc_ker_q with 0
+   replace purc_unl_q with 0
+   replace purc_sup_q with 0
+   replace purc_reg_q with 0
+   replace purc_dis_q with 0
+    replace purc_LSD_q with 0
+
+     replace vs_company with 0
+     replace vs_barclay with 0
+     replace chqs_sale with 0
+     replace vs_others with 0
+     replace fc_c_sales with 0
+   REPLACE CASH_SODA with 0
+   replace non_cash with 0
+     replace CL_C_HAND with 0
+   REPLACE OP_C_HAND with 0
+   REPLACE SH_C_SALES with 0
+   REPLACE C_SH_SHOP with 0
+   REPLACE c_sh_work   with 0
+   REPLACE c_sh_cards with 0
+   REPLACE c_sh_cant   with 0
+   REPLACE c_sh_fuels with 0
+   REPLACE cash_debt with 0
+   REPLACE CASH_WORK with 0
+   REPLACE CASH_SHOP with 0
+   REPLACE CASH_CARDS with 0
+   REPLACE CASH_CANT with 0
+   REPLACE CASH_P_EXP with 0
+   REPLACE CASH_P_PUR with 0
+   REPLACE CASH_BANK with 0
+   REPLACE CASH_SHORT with 0
+   REPLACE A_C_INHAND with 0
+   replace total_cash with 0
+   replace T_CASH_REC with 0
+   REPLACE CASH_COY with 0
+   replace net_cash with 0
+   replace T_CASH_PAY with 0
+   REPLACE CASH_MERCH with 0
+   REPLACE CASH_FOOD with 0
+   REPLACE CASH_MOTOR with 0
+   REPLACE CASH_STAFF with 0
+   REPLACE CASH_GEN with 0
+   REPLACE CASH_WITHD with 0
+   REPLACE CASH_LUBES with 0
+   REPLACE CHQS_BANK WITH 0
+   REPLACE DBDEBITS WITH 0
+   REPLACE DBCREDITS WITH 0
+   REPLACE RESERVED1  WITH 0 && used
+   REPLACE RESERVED2  WITH 0 && used
+   REPLACE RESERVED3  WITH 0 && used
+   REPLACE RESERVED4  WITH 0  && used for FC Lpgs
+   REPLACE RESERVED5  WITH 0
+    REPLACE A_CASH WITH 0
+    replace cash_hand with 0
+  REPLACE C_MSTORE WITH 0
+  REPLACE C_TSTORE WITH 0
+  REPLACE C_PSTORE WITH 0
+  REPLACE C_MMONEY WITH 0
+
+   endif
+    replace op_capital with op_capital + ST15F2->op_capital
+    replace op_mpfloat with op_mpfloat + ST15F2->op_mpfloat
+    replace op_mliquid with op_mliquid + ST15F2->op_mliquid
+    replace mp_capital with mp_capital + ST15F2->mp_capital
+    replace cl_capital with cl_capital + ST15F2->cl_capital
+    replace cl_mpfloat with cl_mpfloat + ST15F2->cl_mpfloat
+    replace cl_mliquid with cl_mliquid + ST15F2->cl_mliquid
+    replace mp_float with mp_float + ST15F2->mp_float
+    replace mp_liquid with mp_liquid + ST15F2->mp_liquid
+
+   REPLACE MBK_MONEY WITH MBK_MONEY + ST15F2->MBK_MONEY
+ REPLACE MBD_MONEY WITH MBD_MONEY + ST15F2->MBD_MONEY
+ REPLACE MBP_MONEY WITH MBP_MONEY + ST15F2->MBP_MONEY
+   REPLACE OP_C_HAND WITH shiftcas->op_c_hand
+   replace CL_C_HAND WITH shiftcas->Cl_c_hand
+   REPLACE A_C_INHAND WITH shiftcas->A_c_inhand
+   replace a_cash with shiftcas->a_cash
+   REPLACE CASH_BANK WITH shiftcas->CASH_BANK
+   replace cash_hand with shiftcas->cash_hand
+   replace chqs_bank with shiftcas->chqs_bank
+   replace dbdebits with shiftcas->dbdebits
+   replace dbcredits with shiftcas->dbcredits
+   replace reserved1 with shiftcas->reserved1 && used
+
+   REPLACE TOTAL_CASH WITH Total_caSH + st15f2->TOTAL_CASH
+   REPLACE SH_C_SALES with SH_C_SALES+ st15f2->sh_c_sales
+REPLACE c_sh_work with c_sh_work + st15f2->c_sh_work
+REPLACE C_SH_SHOP with C_SH_SHOP+ st15f2->c_sh_shop
+REPLACE c_sh_cant with c_sh_cant+ st15f2->c_sh_cant
+REPLACE reserved4 with reserved4 + st15f2->reserved4
+REPLACE reserved5 with reserved5 + st15f2->reserved5
+REPLACE c_sh_cards with c_sh_cards + st15f2->c_sh_cards
+REPLACE c_sh_fuels with c_sh_fuels + st15f2->c_sh_fuels
+   REPLACE cash_debt with cash_debt+ st15f2->cash_debt
+    REPLACE CASH_WORK with CASH_WORK + st15f2->cash_work
+     REPLACE CASH_SHOP with CASH_SHOP    + st15f2->CASH_SHOP
+      REPLACE CASH_CARDS with CASH_CARDS   + st15f2->CASH_CARDS
+       REPLACE CASH_CANT with CASH_CANT + st15f2->CASH_CANT
+       REPLACE CASH_SODA with CASH_SODA + st15f2->cash_soda
+       replace non_cash with non_cash + st15f2->non_cash
+        REPLACE CASH_P_EXP with CASH_P_EXP + st15f2->cash_p_exp
+         REPLACE CASH_P_PUR with CASH_P_PUR + st15f2->cash_p_pur
+    REPLACE CASH_COY with CASH_COY + st15f2->cash_coy
+    REPLACE CASH_MERCH with CASH_MERCH +  st15f2->CASH_MERCH
+    replace vs_barclay with vs_barclay + st15f2->vs_barclay
+     replace vs_others  with vs_others + st15f2->vs_others
+     replace fc_c_sales with fc_c_sales + st15f2->fc_c_sales;
+     - st15f2->reserved4 - st15f2->reserved5
+      replace vs_company with vs_company + st15f2->vs_company
+       replace chqs_sale with chqs_sale  + st15f2->chqs_sale
+    REPLACE CASH_FOOD with CASH_FOOD + st15f2->cash_food
+    REPLACE CASH_MOTOR with CASH_MOTOR + st15f2->cash_motor
+    REPLACE batchamt   with batchamt   + st15f2->batchamt
+    REPLACE CASH_STAFF with CASH_STAFF + st15f2->cash_staff
+    REPLACE CASH_GEN with CASH_GEN + st15f2->cash_gen
+    REPLACE CASH_WITHD with CASH_WITHD + st15f2->cash_withd
+    REPLACE CASH_LUBES with CASH_LUBES + st15f2->cash_lubes
+    replace T_CASH_PAY with T_CASH_PAY + st15f2->t_cash_pay
+    replace net_cash with total_cash - T_CASH_PAY - CASH_MERCH - DBCREDITS
+    replace  CASH_SHORT with round(cash_hand - net_cash,2)
+    REPLACE C_MSTORE with C_MSTORE + st15f2->C_MSTORE
+    REPLACE C_TSTORE with C_TSTORE + st15f2->C_TSTORE
+    REPLACE C_PSTORE with C_PSTORE + st15f2->C_PSTORE
+    REPLACE C_MMONEY with C_MMONEY + st15f2->C_MMONEY
+    replace mobilesals with mobilesals + st15f2->mobilesals
+
+ replace T_CASH_REC with T_CASH_REC + st15f2->t_cash_rec
+if pfuel
+do fuel_rtn
+endif
+Procedure Fuel_rtn
+ local lsup,ldis,lker,lunl,lreg,lsupQ,ldisQ,lkerQ,lunlQ,lregQ,LLSDIS,LLSDISQ
+ select hshiftbk
+
+      LDIS = 0
+      LLSDis = 0
+        lUNL =  0
+      lSUP =  0
+      lKER = 0
+      lREG =  0
+      LDISQ = 0
+       LLSdisQ = 0
+           lREGQ =  0
+        lkerq =    0
+       lSUPQ = 0
+      lunlq = 0
+      if st15f2->typ='00' .and. (st15f2->cla = '10' .or. st15f2->cla = '20') && petrol
+      lunl = st15f2->exp_sales
+      lunlq = st15f2->sold_qty
+      endif
+       if st15f2->typ='00' .and. (st15f2->cla = '30' .or. st15f2->cla = '50') && diesel
+      llsdis = st15f2->exp_sales
+      llsdisq = st15f2->sold_qty
+      endif
+       if st15f2->typ='00' .and. st15f2->cla = '40' && ik
+      lker = st15f2->exp_sales
+      lkerq = st15f2->sold_qty
+      endif
+
+      replace sale_sup_a with lsup
+         replace sale_reg_a with lreg
+            replace sale_dis_a with ldis
+            replace sale_LSD_a with LLSDIS
+               replace sale_unl_a with lunl
+                  replace sale_ker_a with lker
+
+                   replace sale_sup_Q with lsupQ
+         replace sale_reg_Q with lregQ
+            replace sale_dis_Q with ldisQ
+            replace sale_LSD_Q with LLSDISQ
+               replace sale_unl_Q with lunlQ
+                  replace sale_ker_Q with lkerQ
+
+                  LOCAL L1,L2,L3,L4,L5,L6
+                  L1 = 0
+                  L2 = 0
+                  L3 = 0
+                  L4 = 0
+                  L5 = 0
+                  L6 = 0
+                  SELECT SHIFTCLS
+                  SEEK "1"+"00"+"00"
+                  IF FOUND()
+                  L1 = SALE_PRICE
+                  ENDIF
+
+                   SELECT SHIFTCLS
+                  SEEK "1"+"00"+"10"
+                  IF FOUND()
+                  L2 = SALE_PRICE
+                  ENDIF
+                   SELECT SHIFTCLS
+                  SEEK "1"+"00"+"20"
+                  IF FOUND()
+                  L3 = SALE_PRICE
+                  ENDIF
+                   SELECT SHIFTCLS
+                  SEEK "1"+"00"+"30"
+                  IF FOUND()
+                  L4 = SALE_PRICE
+                  ENDIF
+                   SELECT SHIFTCLS
+                  SEEK "1"+"00"+"40"
+                  IF FOUND()
+                  L5 = SALE_PRICE
+                  ENDIF
+                    SELECT SHIFTCLS
+                  SEEK "1"+"00"+"50"
+                  IF FOUND()
+                  L6 = SALE_PRICE
+                  ENDIF
+                  SELECT HSHIFTBK
+                  REPLACE SUP_PRICE WITH L1
+                  REPLACE UNL_PRICE WITH L2
+                  REPLACE REG_PRICE WITH L3
+                  REPLACE DIS_PRICE WITH L4
+                  REPLACE KER_PRICE WITH L5
+                  REPLACE LSD_PRICE WITH L6
+
+
+
+Procedure st15f2_rtn1
+local k1,k2,L1,L2,L3,LOP,LNP
+LOP = 0
+LNP = 0
+L1 = st15f2->TYP
+L2 = st15f2->CLA
+L3 = st15f2->COD
+SELECT fgcods
+SEEK L1+L2+L3
+IF FOUND()
+LOP = fgcods->SALE_PRICE
+LNP = fgcods->NEW_P
+ENDIF
+select st15f2
+k1 = st15f2->typ+st15f2->cla
+k2 = st15f2->cod+st15f2->sto
+
+select shiftcoy
+go top
+if eof()
+append blank
+replace coy with st15f2->coy
+replace exp_sales with 0
+replace exp_cash with 0
+replace a_cash with 0
+replace non_cash with 0
+replace manual with 0
+replace sal_var with 0
+endif
+if .not. empty(st15f2->shift_post)
+replace error with st15f2->cen+st15f2->TYP+st15f2->CLA+st15f2->COD
+replace error_msg with st15f2->errors
+endif
+replace exp_sales with exp_sales + st15f2->exp_sales
+replace manual with manual + st15f2->manual
+replace non_cash with non_cash + st15f2->non_cash
+replace a_cash with a_cash + st15f2->a_c_inhand + st15f2->A_CASH
+replace exp_cash with exp_sales-non_cash
+*select fgmast
+*eek st15f2->coy+st15f2->st_div+st15f2->st_cen+st15f2->st_sto+st15f2->typ+st15f2->cla+st15f2->cod
+select fgmast
+seek st15f2->st_coy+st15f2->st_div+st15f2->st_cen+st15f2->st_sto+st15f2->typ+st15f2->cla+st15f2->cod
+if found() .and. (st15f2->typ = "00" .or. (st15f2->typ = "10" .and. st15f2->st_cen = "2"))
+ select ststo
+seek st15f2->st_sto
+
+select shiftcla
+seek st15f2->coy+st15f2->typ+st15f2->cla+st15f2->cod+st15f2->ST_STO
+if .not. found()
+append blank
+replace coy with st15f2->coy
+replace cla with st15f2->cla
+replace typ with st15f2->typ
+replace cod with st15f2->cod
+REPLACE STO WITH st15f2->st_STO
+replace exp_sales with 0
+replace exp_cash with 0
+replace a_cash with 0
+REPLACE TANK_CAP WITH STSTO->TANK_CAP
+replace non_cash with 0
+replace on_hand with 0
+replace bbf_phy with 0
+replace bcf with 0
+replace shift_var with 0
+replace phy with 0
+replace qty2 with 0
+replace purchases with 0
+REPLACE BBF WITH 0
+replace c_sales_q with 0
+REPLACE ADJS WITH 0
+REPLACE TRANS WITH 0
+replace sold_qty with 0
+replace price_var with 0
+REPLACE NAME WITH FGCODS->NAME
+endif
+replace exp_sales with exp_sales + st15f2->exp_sales
+replace bbf with fgmast->bbf
+replace bbf_phy with fgmast->phy
+replace purchases with fgmast->cr_purch + fgmast->cs_purch + fgmast->adj_in - fgmast->adj_out
+replace non_cash with non_cash + st15f2->non_cash
+replace a_cash with a_cash + st15f2->a_c_inhand
+replace exp_cash with exp_cash + st15f2->exp_cash
+select shiftcoy
+replace sal_var with sal_var - st15f2->exp_sales - st15f2->TEST_AMT
+select fgmast
+replace temp_qty with temp_qty - st15f2->sold_qty
+replace temp_phy with temp_phy - st15f2->sold_qty
+select shiftcla
+replace on_hand with fgmast->temp_qty
+replace purchases with fgmast->temp_purch
+replace bcf with fgmast->temp_phy + fgmast->temp_purch
+if st15f2->phy_qty > 0
+replace phy with st15f2->phy_qty
+replace manual with st15f2->manual
+replace purchases with fgmast->cr_purch + fgmast->cs_purch + fgmast->ADJ_IN - fgmast->ADJ_OUT
+REPLACE BBF WITH fgmast->BBF
+replace bbf_phy with fgmast->phy
+*REPLACE ADJS WITH fgmast->ADJ_IN - fgmast->ADJ_OUT
+
+REPLACE TRANS WITH fgmast->TRANS_IN - fgmast->TRANS_OUT
+select shiftcoy
+replace sal_var with sal_var + st15f2->manual + st15f2->TEST_AMT
+endif
+select shiftcla
+replace sold_qty with st15f2->sold_qty + sold_qty
+replace c_sales_q with c_sales_q + st15f2->cr_sal_qty
+replace on_hand with bbf-sold_qty+purchases  && new 03/06/2014
+REPLACE NEW_P WITH 0
+REPLACE OLD_P WITH 0
+REPLACE QTY WITH BBF + PURCHASES
+replace qty2 with bbf_phy + purchases
+LOCAL L1,L2,L3,L4,L5,L6,l87
+L4 = st15f2->SHIFT_DATE
+l87 = dtos(st15f2->SHIFT_DATE)
+L5 = st15f2->SHIFT_NO
+L6 = st15f2->SHiFT_ID
+L1 = st15f2->TYP
+L2 = st15f2->CLA
+L3 = st15f2->COD
+select st15f2
+IF TYP = "00"
+ if f1cashr = "Yes"
+
+    replace on_hand with shiftcla->on_hand
+    replace t_PURCH with shiftcla->purchases
+
+endif
+ENDIF
+select hshiftbk
+if .not. eof()
+if st15f2->cla = "00" && super
+replace purc_sup_q with shiftcla->purchases
+replace sale_sup_q with shiftcla->sold_qty
+replace open_sup_q with shiftcla->bbf
+replace book_sup_q with shiftcla->on_hand
+replace phy_sup_q with shiftcla->phy
+endif
+
+if st15f2->cla = "10"  && unleaded
+replace purc_unl_q with shiftcla->purchases
+replace sale_unl_q with shiftcla->sold_qty
+replace open_unl_q with shiftcla->bbf
+replace book_unl_q with shiftcla->on_hand
+replace phy_unl_q with shiftcla->phy
+endif
+
+if st15f2->cla = "20"  && regular
+replace purc_reg_q with shiftcla->purchases
+replace sale_reg_q with shiftcla->sold_qty
+replace open_reg_q with shiftcla->bbf
+replace book_reg_q with shiftcla->on_hand
+replace phy_reg_q with shiftcla->phy
+endif
+
+if st15f2->cla = "30"  && diesel
+replace purc_dis_q with shiftcla->purchases
+replace sale_dis_q with shiftcla->sold_qty
+replace open_dis_q with shiftcla->bbf
+replace book_dis_q with shiftcla->on_hand
+replace phy_dis_q with shiftcla->phy
+endif
+
+
+if st15f2->cla = "40"  && kerosine
+replace purc_ker_q with shiftcla->purchases
+replace sale_ker_q with shiftcla->sold_qty
+replace open_ker_q with shiftcla->bbf
+replace book_ker_q with shiftcla->on_hand
+replace phy_ker_q with shiftcla->phy
+endif
+if st15f2->cla = "50"  && LSDIS
+replace purc_LSD_q with shiftcla->purchases
+replace sale_LSD_q with shiftcla->sold_qty
+replace open_LSD_q with shiftcla->bbf
+replace book_LSD_q with shiftcla->on_hand
+replace phy_LSD_q with shiftcla->phy
+endif
+endif
+endif
+
+*

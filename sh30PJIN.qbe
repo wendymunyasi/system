@@ -1,0 +1,62 @@
+* Visual dBASE .QBE file 9
+*set exclusive on
+close databases
+if .not. file("\kenservice\data\rdbms\fgorinvs.dbf")
+! XCOPY \kenserve\idssys\fgorinvs.dbf  \kenservice\data\rdbms\
+endif
+close databases
+ON ERROR DO QBEERR WITH ERROR(), MESSAGE(),;
+PROGRAM(), LINENO()
+CLOSE DATABASES
+SET EXACT ON
+select 1
+use \kenservice\data\frcustbl.dbf
+SELECT 2
+if .not. file("\kenservice\data\JNWINVCE.dbf")
+use \kenserve\idssys\JNWINVCE.dbf
+copy stru to \kenservice\data\JNWINVCE dbase PROD
+endif
+USE \KENSERVICE\DATA\JNWINVCE.DBF  EXCLUSIVE
+select 17
+use \kenservice\data\FRIGHTER.dbf    EXCLUSIVE 
+select 54
+use \kenservice\data\fgmast.dbf    EXCLUSIVE 
+select 55
+use \kenservice\data\FGINVTRN.dbf  EXCLUSIVE 
+select 60
+use \kenservice\data\shcatsum.dbf  EXCLUSIVE 
+select 62
+    USE \KENSERVICE\DATA\frcount.DBf
+      SELECT 63
+      USE \KENSERVICE\DATA\frshtrn.DBf  EXCLUSIVE 
+      select 64
+      use \kenservice\data\frdocref.dbf exclusive
+      select 65
+      use \kenservice\data\frddebtp.dbf
+       SELECT 69
+      USE \KENSERVICE\DATA\FRMODEBT.DBF 
+select 120
+use \kenservice\data\fgcoy.dbf
+GO TOP
+? acc_no
+select 135
+use \kenservice\data\vnstat.dbf exclusive
+
+select 136
+use \kenservice\data\vncount.dbf 
+
+select 137
+use \kenservice\data\vndocref.dbf exclusive
+
+select 138
+use \kenservice\data\vendor.dbf
+select 134
+use \kenservice\data\fgcod.dbf order tag mkey
+ select 147
+if .not. file("\kenservice\data\arinvflg.dbf")
+use \kenserve\idssys\arinvflg.dbf
+copy stru to \kenservice\data\arinvflg dbase
+endif
+use \kenservice\data\arinvflg.dbf 
+ select 148
+use \kenservice\data\rdbms\fgorinvs.dbf exclusive

@@ -1,0 +1,105 @@
+* Visual dBASE .QBE file 9
+*set exclusive on
+on error do  fgjcstr.PRG
+use \kenservice\data\FGJOBCAD.dbf 
+? SREP
+ON ERROR DO QBEERR WITH ERROR(), MESSAGE(),;
+PROGRAM(), LINENO()
+CLOSE DATABASES
+SET EXACT ON
+*set exclusive on
+SELECT 1
+USE \KENSERVICE\DATA\fgjcnts.DBF ORDER TAG ORDER_NO
+*zap
+delete all for empty(order_no)
+set filter to empty(post_date)
+SELECT 2
+USE \KENSERVICE\DATA\fgjcnlin.DBF ORDER TAG ORDER_NO
+delete all for empty(order_no)
+set filter to empty(post_date)
+select 4
+use \kenservice\data\fgtrnref.dbf order tag mkey
+set filter to doctype = "JC" .and. system = "CS" .and. empty(post_date) ;
+ .and. .not. (total = 0 .and. qty = 0)
+select 5
+use \kenservice\data\fgjobcad.dbf
+set filter to doctype = "JC" .and. system = "CS" .and. .not. (total = 0 .and. qty = 0)
+ select 6
+if .not. file("\kenservice\data\fccashrs.dbf")
+use \kenserve\idssys\cashiers.dbf
+copy stru to \kenservice\data\fccashrs dbase prod
+use  \kenservice\data\fccashrs.dbf
+appe from \kenservice\data\cashiers.dbf
+endif
+use  \kenservice\data\fccashrs.dbf
+select 7
+use \kenservice\data\FGOFFS.dbf order tag name
+set filter to  .not. empty(cashier_no) .and. empty(date_left)
+select 8
+set safety off
+use \kenserve\idssys\fgmast.dbf
+copy stru to \kenservice\data\fgmastlk dbase prod
+use \kenservice\data\fgmastlk.dbf alias fgmast order tag mkey
+appe from \kenservice\data\fgmast.dbf for typ <='9Z' 
+go top
+select 9
+use \kenservice\data\FGOFFS.dbf order tag name again alias fgoffs2
+set filter to empty(Date_left)
+select 10
+use \kenservice\data\FGOFFS.dbf order tag name again alias fgoffs3
+set filter to  .not. empty(cashier_no) .and. empty(date_left)
+SELECT 14
+use \kenservice\data\fgmastlk.dbf AGAIN ALIAS FGMAST2 ORDER TAG MKEY
+*zap
+select 49
+use \kenservice\data\FGCOD.dbf order tag MKEY
+SELECT 1
+SET RELATION TO ORDER_NO INTO fgjcnlin constrain INTEGRITY, mkeyref into fgtrnref
+select 100
+use \kenservice\data\fgcoy.dbf
+go top
+SELECT 20
+USE \KENSERVICE\DATA\FGMASTp.DBF order tag name
+if .not. fgcoy->gl = "Yes"
+set filter to typ > "00" .and. typ <= "99" ;
+.and. .not. (div = "2" .AND. CEN < "5") .and. .not. div = "5" ;
+ .and. .not. sto = "S1" .and. .not. sto = "A1" .and. .not.;
+ (div = "1" .and. (typ = "10" .and. (cen = "7" .or. cen = "5"))) ;
+  .and. .not. left(typ,1) = "2" 
+  else
+  set filter to typ > "00" .and. typ <= "9Z" ;
+.and. .not. (div = "2" .AND. (cen >  "1" .and. .not. cen = '9')) .and. .not. div = "5" ;
+ .and.  .not. sto = "A1" .and. .not.;
+ (div = "1" .and. (typ = "10" .and. (cen = "7" .or. cen = "5"))) 
+endif
+SELECT 2
+SET RELATION TO name INTO FGMASTp, st_coy+st_div+st_cen+st_sto+typ+cla+cod into FGMAST2,;
+typ+cla+cod into FGCOD
+SELECT 24
+USE \KENSERVICE\DATA\fgjcntsl.dbf
+SELECT 35
+set safety off
+use \kenserve\idssys\st15f.dbf
+copy stru to \kenservice\data\st15flkp dbase prod
+use \kenservice\data\st15flkp.dbf exclusive alias st15f
+appe from \kenservice\data\st15f.dbf
+**zap
+SELECT 25
+USE \KENSERVICE\DATA\fgjcnts.DBF AGAIN alias fgjcnts3
+**zap
+select 101
+use \kenservice\data\fgjcnlin.dbf again alias fgjcnlin3
+select 102
+use \kenservice\data\fgjcnlin.dbf again alias fgjcnlin4
+select 126
+use \kenservice\data\fgjcrup.dbf
+delete all for empty(order_no)
+set filter to .not. empty(post_date)
+SELECT 127
+ use \KENSERVICE\DATA\Fgjcnlin.DBF again  alias Fgjcnlin2 order tag order_no
+  select 128
+ use \kenservice\data\fgjcntsn.dbf
+ select 129
+ use \kenservice\data\fgstknos.dbf
+SELECT 1
+GO TOP

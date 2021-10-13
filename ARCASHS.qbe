@@ -1,0 +1,67 @@
+* Visual dBASE .QBE file 9
+
+ON ERROR DO QBEERR WITH ERROR(), MESSAGE(),;
+PROGRAM(), LINENO()
+use  \kenservice\data\st15f.dbf
+set order to mkey
+go top
+pcen = cen
+ptyp = typ
+pcla = cla
+pcod = cod
+psto = sto
+CLOSE DATABASES
+SET EXACT ON
+SELECT 1
+USE \KENSERVICE\DATA\arcashs.DBF ORDER TAG ORDER_NO
+*zap
+delete all for empty(order_no)
+set filter to empty(post_date)
+SELECT 2
+USE \KENSERVICE\DATA\aracasln.DBF ORDER TAG ORDER_NO
+*zap
+delete all for empty(order_no)
+set filter to empty(post_date)
+SELECT 7
+USE \KENSERVICE\DATA\FGOFFS.DBF ORDER TAG NAME
+set filter to .not. empty(shift_date) .and. .not. empty(cashier_no) .and. empty(date_left)
+SELECT 1
+SET RELATION TO ORDER_NO INTO aracasln CONSTRAIN INTEGRITY, ANAME INTO ;
+FGOFFS
+SET FILTER TO   EMPTY(arcashs->post_DATE) 
+
+SELECT 24
+USE \KENSERVICE\DATA\arcashsL.DBF
+
+SELECT 25
+USE \KENSERVICE\DATA\arcashs.DBF AGAIN alias arcashs3
+
+SELECT 70
+set safety off
+use \kenserve\idssys\st15f.dbf
+copy stru to \kenservice\data\st15facs dbase prod
+use \kenservice\data\st15facs.dbf exclusive alias st15f
+appe from \kenservice\data\st15f.dbf for cen = pcen .and. typ = ptyp .and. cod = pcod .and. sto = psto
+SELECT 93
+USE \KENSERVICE\DATA\FGCOY.DBF
+select 94
+USE \KENSERVICE\DATA\aracasln.DBF again alias aracasln3
+select 95
+use \kenservice\data\fgacash.dbf order tag name
+select 96
+use \kenservice\data\fgacash.dbf again alias fgacash2
+go top
+select 102
+USE \KENSERVICE\DATA\aracasln.DBF again alias aracasln2 order tag order_no
+
+select 2
+set relation to pay_method into fgacash
+select 126
+use \kenservice\data\arcasupd.dbf
+delete all for empty(order_no)
+set filter to .not. empty(post_date)
+select 128
+ use \kenservice\data\arcashsn.dbf
+
+SELECT 1
+GO TOP

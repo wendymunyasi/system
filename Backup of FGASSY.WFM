@@ -1,0 +1,1366 @@
+////////////////////////////////////////////////////////////////////////////////
+// Output Filename: C:\KENSERVICE\IDSSYS\FGASSY_FCV.WFM                       //
+// Created By:      dBASE Form Converter Wizard                               //
+// Created On:      Saturday October 2, 2021 At 17:10:25                      //
+// Object Count:    40                                                        //
+////////////////////////////////////////////////////////////////////////////////
+*******************************************************************************
+*  PROGRAM:      FGASSY.WFM
+*
+*  WRITTEN BY:   W Nyongesa
+*
+*  DATE:         1/94
+*
+*  UPDATED:      07/2013
+*
+*  REVISION:     $Revision:   1.97  $
+*
+*  VERSION:      Visual dBASE
+*
+*  DESCRIPTION:  This form displays information about an order from a company.
+*                It allows traversing through FGASSY and going to the top and
+*                bottom.  This form also has a corresponding menu, OrdCust.mnu,
+*                which allows adding,deleting and searching for an order.
+*                When an unknown customer number is entered, a dialog will come
+*                up asking you if you want to add a new customer.  If you
+*                selecte the Yes button, the Customer form (in Stcus.Wfm)
+*                will be opened, so a new customer can be added.
+*
+*  PARAMETERS:   None
+*
+*  CALLS:        FGASSY.mnu       (Menu file)
+*                Buttons.cc       (Custom controls file)
+*                Stcus.Wfm     (Form for displaying customer information)
+*                FGASSY.qbe       (View of tables)
+*
+*  USAGE:        DO FGASSY.WFM    && Note that you can also DO Stcus.Wfm
+*
+*******************************************************************************
+#include <Messdlg.h>
+shell(.F.)
+create session
+
+_app.FrameWin.Text = "FGASSY"
+set talk off
+set ldCheck off                        && To avoid language driver conflicts
+** END HEADER -- do not remove this line*
+* Generated on 27/07/2013
+*
+parameter bUser,bLevel,bModal
+local f
+f = new FGASSYFORM()
+if (bModal)
+   f.mdi = .F. && ensure not MDI
+   f.ReadModal()
+else
+   f.Open()
+endif
+CLASS FGASSYFORM OF FORM
+   Set Procedure To BUTTONS.CC additive
+   this.Metric = 6  // Pixels
+   this.MenuFile = "FGASSY.MNU"
+   this.EscExit = .F.
+   this.MousePointer = 1
+   this.OnClose = CLASS::ONCLOSE
+   this.Minimize = .F.
+   this.Sizeable = .F.
+   this.Text = "STOCK ASSEMBLY --  View Mode"
+   this.Left = 9
+   this.Moveable = .F.
+   this.WindowState = 2
+   this.Maximize = .F.
+   this.ColorNormal = "n+"
+   this.MDI = .F.
+   this.View = "FGASSY.qbe"
+   this.Height = 333
+   this.Width = 554
+   this.Top = 1
+
+   DEFINE RECTANGLE ORDERCUSTRECT OF THIS;
+       PROPERTY;
+         Text "STOCK  Reference Information",;
+         Left 12,;
+         ColorNormal "W",;
+         FontSize 10,;
+         Height 102,;
+         Width 708,;
+       FontName "MS Sans Serif",;
+       FontBold .T.
+
+   DEFINE TEXTLABEL TEXT10 OF THIS;
+       PROPERTY;
+         Text "No.:",;
+         Left 24,;
+         ColorNormal "B/BtnFace",;
+         FontSize 10,;
+       BorderStyle 7,;
+         Height 21,;
+         Width 48,;
+         Top 26,;
+       FontName "MS Sans Serif",;
+       FontBold .T.,;
+       AlignHorizontal 2,;
+       AlignVertical 1
+
+   DEFINE ENTRYFIELD ORDERNOENTRY OF THIS;
+       PROPERTY;
+         Left 72,;
+         ColorNormal "N/BtnFace",;
+         FontSize 10,;
+         OnChange CLASS::CHANGESMADE,;
+         Height 21,;
+         Enabled .F.,;
+         DataLink "FGASSY->ORDER_NO",;
+         Width 84,;
+         Top 26,;
+       FontName "MS Sans Serif",;
+       FontBold .T.
+
+   DEFINE SPINBOX ORDERDATESPIN OF THIS;
+       PROPERTY;
+         Rangemin {08/03/2012},;
+         Rangemax {16/06/2012},;
+         ColorHighLight "B+/W*",;
+         Left 223,;
+         ColorNormal "N/BtnFace",;
+         FontSize 10,;
+         OnChange CLASS::CHANGE_DATE,;
+         Height 21,;
+         Enabled .F.,;
+         DataLink "FGASSY->ORDER_DATE",;
+         Width 137,;
+         Top 26,;
+       FontName "MS Sans Serif",;
+       FontBold .T.
+
+   DEFINE TEXTLABEL TEXT9 OF THIS;
+       PROPERTY;
+         Text "Authorised by:",;
+         Left 372,;
+         ColorNormal "B/BtnFace",;
+         FontSize 10,;
+       BorderStyle 7,;
+         Height 21,;
+         Width 132,;
+         Top 26,;
+       FontName "MS Sans Serif",;
+       FontBold .T.,;
+       AlignHorizontal 2,;
+       AlignVertical 1
+
+   DEFINE COMBOBOX SOFF OF THIS;
+       PROPERTY;
+         Left 516,;
+         DataSource "FIELD FGOFFS->NAME",;
+         Style 1,;
+         ColorNormal "WindowText/W",;
+         FontSize 10,;
+         OnChange CLASS::SOFF_ONCHANGE,;
+         Height 24,;
+         Enabled .F.,;
+         DataLink "FGASSY->OFFNAME",;
+         Width 192,;
+         Top 26,;
+       FontName "MS Sans Serif",;
+       FontBold .T.
+
+   DEFINE TEXTLABEL TEXT1 OF THIS;
+       PROPERTY;
+         Text "Ref.:",;
+         Left 24,;
+         ColorNormal "B/BtnFace",;
+         FontSize 10,;
+       BorderStyle 7,;
+         Height 21,;
+         Width 48,;
+         Top 60,;
+       FontName "MS Sans Serif",;
+       FontBold .T.,;
+       AlignHorizontal 2,;
+       AlignVertical 1
+
+   DEFINE ENTRYFIELD SREF OF THIS;
+       PROPERTY;
+         Left 72,;
+         ColorNormal "N/BtnFace",;
+         FontSize 10,;
+         Function "!",;
+         OnChange CLASS::SREF_ONCHANGE,;
+         Height 21,;
+         Enabled .F.,;
+         DataLink "FGASSY->SERIALNO",;
+         Width 84,;
+         Top 60,;
+       FontName "MS Sans Serif",;
+       FontBold .T.
+
+   DEFINE TEXTLABEL TEXT2 OF THIS;
+       PROPERTY;
+         Text "REASONS:",;
+         Left 156,;
+         ColorNormal "B/BtnFace",;
+         FontSize 10,;
+       BorderStyle 7,;
+         Height 21,;
+         Width 108,;
+         Top 60,;
+       FontName "MS Sans Serif",;
+       FontBold .T.,;
+       AlignHorizontal 2,;
+       AlignVertical 1
+
+   DEFINE COMBOBOX SREASON OF THIS;
+       PROPERTY;
+         Left 264,;
+         DataSource "FIELD FGADJRSS->NAME",;
+         Style 1,;
+         ColorNormal "WindowText/W",;
+         FontSize 10,;
+         OnChange CLASS::SREASON_ONCHANGE1,;
+         Height 24,;
+         Enabled .F.,;
+         DataLink "FGASSY->RNAME",;
+         Width 444,;
+         Top 60,;
+       FontName "MS Sans Serif",;
+       FontBold .T.
+
+   DEFINE RECTANGLE RECTANGLE4 OF THIS;
+       PROPERTY;
+         Text "Standard Item/Centre",;
+         Left 14,;
+         ColorNormal "btnface",;
+         FontSize 10,;
+         Height 102,;
+         Width 706,;
+         Top 102,;
+       FontName "MS Sans Serif",;
+       FontBold .T.
+
+   DEFINE COMBOBOX SCOD OF THIS;
+       PROPERTY;
+         Left 24,;
+         DataSource "FIELD FGMASTP->NAME",;
+         Style 1,;
+         ColorNormal "WindowText/W",;
+         FontSize 10,;
+         OnChange CLASS::SCOD_ONCHANGE,;
+         Height 24,;
+         Enabled .F.,;
+         DataLink "FGASSY->SCODN",;
+         Width 684,;
+         Top 119,;
+       FontName "MS Sans Serif",;
+       FontBold .T.
+
+   DEFINE TEXTLABEL TEXT12 OF THIS;
+       PROPERTY;
+         Text "Package:",;
+         Left 24,;
+         ColorNormal "B/BtnFace",;
+         FontSize 10,;
+       BorderStyle 7,;
+         Height 21,;
+         Width 72,;
+         Top 145,;
+       FontName "MS Sans Serif",;
+       FontBold .T.,;
+       AlignHorizontal 2,;
+       AlignVertical 1
+
+   DEFINE ENTRYFIELD SPACK OF THIS;
+       PROPERTY;
+         Left 96,;
+         ColorNormal "N/BtnFace",;
+         FontSize 10,;
+         Height 21,;
+         Enabled .F.,;
+         DataLink "FGMASTP->UNIT_NAME",;
+         Width 192,;
+         Top 145,;
+       FontName "MS Sans Serif",;
+       FontBold .T.
+
+   DEFINE TEXTLABEL TEXT14 OF THIS;
+       PROPERTY;
+         Text "#Units/Package:",;
+         Left 288,;
+         ColorNormal "B/BtnFace",;
+         FontSize 10,;
+       BorderStyle 7,;
+         Height 21,;
+         Width 132,;
+         Top 145,;
+       FontName "MS Sans Serif",;
+       FontBold .T.,;
+       AlignHorizontal 2,;
+       AlignVertical 1
+
+   DEFINE ENTRYFIELD SUVOL OF THIS;
+       PROPERTY;
+         Picture "9999",;
+         Left 432,;
+         ColorNormal "N/BtnFace",;
+         FontSize 10,;
+         Function "J",;
+         Height 21,;
+         Enabled .F.,;
+         DataLink "FGMASTP->ITEMS_UNIT",;
+         Width 84,;
+         Top 145,;
+       FontName "MS Sans Serif",;
+       FontBold .T.
+
+   DEFINE TEXTLABEL TEXT11 OF THIS;
+       PROPERTY;
+         Text "B/F Qty:",;
+         Left 24,;
+         ColorNormal "B/BtnFace",;
+         FontSize 10,;
+       BorderStyle 7,;
+         Height 21,;
+         Width 72,;
+         Top 179,;
+       FontName "MS Sans Serif",;
+       FontBold .T.,;
+       AlignHorizontal 2,;
+       AlignVertical 1
+
+   DEFINE ENTRYFIELD SQTY OF THIS;
+       PROPERTY;
+         Picture "99,999.99",;
+         Left 96,;
+         ColorNormal "N/BtnFace",;
+         FontSize 10,;
+         Function "J",;
+         Height 21,;
+         Enabled .F.,;
+         DataLink "FGMAST->ON_HAND",;
+         Width 84,;
+         Top 179,;
+       FontName "MS Sans Serif",;
+       FontBold .T.
+
+   DEFINE TEXTLABEL TEXT3 OF THIS;
+       PROPERTY;
+         Text "Assy Qty:",;
+         Left 180,;
+         ColorNormal "B/BtnFace",;
+         FontSize 10,;
+       BorderStyle 7,;
+         Height 21,;
+         Width 72,;
+         Top 179,;
+       FontName "MS Sans Serif",;
+       FontBold .T.,;
+       AlignHorizontal 2,;
+       AlignVertical 1
+
+   DEFINE ENTRYFIELD SAQTY OF THIS;
+       PROPERTY;
+         Picture "99,999.99",;
+         Left 252,;
+         ColorNormal "N/BtnFace",;
+         FontSize 10,;
+         Function "J",;
+         OnChange CLASS::SAQTY_ONCHANGE,;
+         Height 21,;
+         Enabled .F.,;
+         DataLink "FGASSY->SAQTY",;
+         Width 84,;
+         Top 179,;
+       FontName "MS Sans Serif",;
+       FontBold .T.
+
+   DEFINE TEXTLABEL TEXT4 OF THIS;
+       PROPERTY;
+         Text "C/F Qty:",;
+         Left 336,;
+         ColorNormal "B/BtnFace",;
+         FontSize 10,;
+       BorderStyle 7,;
+         Height 21,;
+         Width 72,;
+         Top 179,;
+       FontName "MS Sans Serif",;
+       FontBold .T.,;
+       AlignHorizontal 2,;
+       AlignVertical 1
+
+   DEFINE ENTRYFIELD SONQTY OF THIS;
+       PROPERTY;
+         Picture "99,999.99",;
+         Left 408,;
+         ColorNormal "N/BtnFace",;
+         FontSize 10,;
+         Function "J",;
+         Height 21,;
+         Enabled .F.,;
+         DataLink "FGASSY->SONQTY",;
+         Width 84,;
+         Top 179,;
+       FontName "MS Sans Serif",;
+       FontBold .T.
+
+   DEFINE RECTANGLE RECTANGLE2 OF THIS;
+       PROPERTY;
+         Text "Assembly Item/Centre",;
+         Left 14,;
+         ColorNormal "btnface",;
+         FontSize 10,;
+         Height 136,;
+         Width 706,;
+         Top 204,;
+       FontName "MS Sans Serif",;
+       FontBold .T.
+
+   DEFINE COMBOBOX ACOD OF THIS;
+       PROPERTY;
+         Left 24,;
+         DataSource "FIELD FGMASTP2->NAME",;
+         Style 1,;
+         ColorNormal "WindowText/W",;
+         FontSize 10,;
+         OnChange CLASS::ACOD_ONCHANGE,;
+         Height 24,;
+         Enabled .F.,;
+         DataLink "FGASSY->ACODN",;
+         Width 684,;
+         Top 221,;
+       FontName "MS Sans Serif",;
+       FontBold .T.
+
+   DEFINE TEXTLABEL TEXT7 OF THIS;
+       PROPERTY;
+         Text "Package:",;
+         Left 24,;
+         ColorNormal "B/BtnFace",;
+         FontSize 10,;
+       BorderStyle 7,;
+         Height 21,;
+         Width 84,;
+         Top 264,;
+       FontName "MS Sans Serif",;
+       FontBold .T.,;
+       AlignHorizontal 2,;
+       AlignVertical 1
+
+   DEFINE ENTRYFIELD APACK OF THIS;
+       PROPERTY;
+         Left 120,;
+         ColorNormal "N/BtnFace",;
+         FontSize 10,;
+         Height 21,;
+         Enabled .F.,;
+         DataLink "FGMASTP2->UNIT_NAME",;
+         Width 144,;
+         Top 264,;
+       FontName "MS Sans Serif",;
+       FontBold .T.
+
+   DEFINE TEXTLABEL TEXT8 OF THIS;
+       PROPERTY;
+         Text "#Units/Package:",;
+         Left 264,;
+         ColorNormal "B/BtnFace",;
+         FontSize 10,;
+       BorderStyle 7,;
+         Height 21,;
+         Width 132,;
+         Top 264,;
+       FontName "MS Sans Serif",;
+       FontBold .T.,;
+       AlignHorizontal 2,;
+       AlignVertical 1
+
+   DEFINE ENTRYFIELD AUVOL OF THIS;
+       PROPERTY;
+         Picture "9999",;
+         Left 408,;
+         ColorNormal "N/BtnFace",;
+         FontSize 12,;
+         Function "J",;
+         Height 21,;
+         Enabled .F.,;
+         DataLink "FGMASTP2->ITEMS_UNIT",;
+         Width 72,;
+         Top 264,;
+       FontName "MS Sans Serif",;
+       FontBold .T.
+
+   DEFINE TEXTLABEL TEXT5 OF THIS;
+       PROPERTY;
+         Text "B/F Qty:",;
+         Left 24,;
+         ColorNormal "B/BtnFace",;
+         FontSize 10,;
+       BorderStyle 7,;
+         Height 21,;
+         Width 96,;
+         Top 298,;
+       FontName "MS Sans Serif",;
+       FontBold .T.,;
+       AlignHorizontal 2,;
+       AlignVertical 1
+
+   DEFINE ENTRYFIELD AQTY OF THIS;
+       PROPERTY;
+         Picture "999,999.99",;
+         Left 132,;
+         ColorNormal "N/BtnFace",;
+         FontSize 10,;
+         Function "J",;
+         Height 21,;
+         Enabled .F.,;
+         DataLink "FGMAST2->ON_HAND",;
+         Width 84,;
+         Top 298,;
+       FontName "MS Sans Serif",;
+       FontBold .T.
+
+   DEFINE TEXTLABEL TEXT6 OF THIS;
+       PROPERTY;
+         Text "Assy Qty:",;
+         Left 228,;
+         ColorNormal "B/BtnFace",;
+         FontSize 10,;
+       BorderStyle 7,;
+         Height 21,;
+         Width 96,;
+         Top 298,;
+       FontName "MS Sans Serif",;
+       FontBold .T.,;
+       AlignHorizontal 2,;
+       AlignVertical 1
+
+   DEFINE ENTRYFIELD AAQTY OF THIS;
+       PROPERTY;
+         Picture "999,999.99",;
+         Left 336,;
+         ColorNormal "N/BtnFace",;
+         FontSize 10,;
+         Function "J",;
+         Height 21,;
+         Enabled .F.,;
+         DataLink "FGASSY->AAQTY",;
+         Width 108,;
+         Top 298,;
+       FontName "MS Sans Serif",;
+       FontBold .T.
+
+   DEFINE TEXTLABEL TEXT13 OF THIS;
+       PROPERTY;
+         Text "C/F Qty:",;
+         Left 444,;
+         ColorNormal "B/BtnFace",;
+         FontSize 10,;
+       BorderStyle 7,;
+         Height 21,;
+         Width 96,;
+         Top 298,;
+       FontName "MS Sans Serif",;
+       FontBold .T.,;
+       AlignHorizontal 2,;
+       AlignVertical 1
+
+   DEFINE ENTRYFIELD AONQTY OF THIS;
+       PROPERTY;
+         Picture "999,999.99",;
+         Left 552,;
+         ColorNormal "N/BtnFace",;
+         FontSize 10,;
+         Function "J",;
+         Height 21,;
+         Enabled .F.,;
+         DataLink "FGASSY->AONQTY",;
+         Width 84,;
+         Top 298,;
+       FontName "MS Sans Serif",;
+       FontBold .T.
+
+   DEFINE PREVBUTTON PUSHBUTTON1 OF THIS;
+       PROPERTY;
+         Text "Previous",;
+         Left 36,;
+         FontSize 10,;
+         Height 26,;
+         Group .T.,;
+         Width 120,;
+         Top 455,;
+       FontName "MS Sans Serif",;
+       FontBold .T.
+
+   DEFINE NEXTBUTTON PUSHBUTTON2 OF THIS;
+       PROPERTY;
+         Text "Next",;
+         Left 324,;
+         FontSize 10,;
+         Default .T.,;
+         Height 26,;
+         Group .F.,;
+         Width 120,;
+         Top 455,;
+       FontName "MS Sans Serif",;
+       FontBold .T.
+
+   DEFINE PUSHBUTTON PUSHBUTTON3 OF THIS;
+       PROPERTY;
+         Text "First",;
+         Left 180,;
+         ColorNormal "",;
+         OnClick CLASS::TOP_RTN,;
+         FontSize 10,;
+         Height 26,;
+         Group .F.,;
+         Width 120,;
+         Top 455,;
+       FontName "MS Sans Serif",;
+       FontBold .T.
+
+   DEFINE PUSHBUTTON PUSHBUTTON4 OF THIS;
+       PROPERTY;
+         Text "Last",;
+         Left 468,;
+         ColorNormal "",;
+         OnClick CLASS::BOTTOM_RTN,;
+         FontSize 10,;
+         Height 26,;
+         Group .F.,;
+         Width 120,;
+         Top 455,;
+       FontName "MS Sans Serif",;
+       FontBold .T.
+
+   DEFINE TEXTLABEL TEXT16 OF THIS;
+       PROPERTY;
+         Text "#Assy Units/Pack:",;
+         Left 492,;
+         ColorNormal "B/BtnFace",;
+         FontSize 10,;
+       BorderStyle 7,;
+         Height 21,;
+         Width 132,;
+         Top 179,;
+       FontName "MS Sans Serif",;
+       FontBold .T.,;
+       AlignHorizontal 2,;
+       AlignVertical 1
+
+   DEFINE ENTRYFIELD SAU OF THIS;
+       PROPERTY;
+         Picture "9,999.99",;
+         Left 624,;
+         ColorNormal "N/BtnFace",;
+         FontSize 10,;
+         Function "J",;
+         Height 21,;
+         Enabled .F.,;
+         DataLink "FGcod->volume",;
+         Width 84,;
+         Top 179,;
+       FontName "MS Sans Serif",;
+       FontBold .T.
+
+   procedure Open
+   ****************************************************************************
+   private orderNoField
+      on error DO ddeerr WITH ERROR(), MESSAGE(),;
+   PROGRAM(), LINENO()
+        FORM.BLUSER = BUSER
+   FORM.BLEVEL = BLEVEL
+
+   if empty(form.bluser) .or. empty(form.blevel)
+   quit
+   endif
+   if type("form.init") = "U"
+      form.init = .T.
+
+      set skip to                     && FGASSY.qbe contains set skip to AORDLINE
+      set exact on               && the .qbe file contains SET EXACT ON
+
+      set procedure to Sampproc.prg additive
+
+      form.inEditMode = .F.           && indicator of view/edit state
+      form.changesMade = .F.          && indicator of changes made to field values
+      form.previousRecord = .F.       && Save record number when appending
+   FORM.PRSHIFTDATE = {}
+   FORM.PRSHIFTNO = ""
+   FORM.PRDIV = ""
+   FORM.PRCEN = ""
+   FORM.PRSTO = ""
+   form.punit = ""
+   FORM.PTYP = ""
+   form.select = 0
+   form.prshiftid = ""
+   FORM.PCLA = ""
+   form.dcoy = "1"
+   form.ddiv = ""
+   form.dcen = ""
+   form.dsto = ""
+   form.ptyp = ""
+   form.pcla = ""
+   form.pcod = ""
+   form.rcoy = "1"
+   form.rdiv = ""
+   form.rcen = ""
+   form.rsto = ""
+   SET REPROCESS TO 10
+   select FGASSYn
+    go top
+    if eof()
+    append blank
+    replace order_no with "0"
+    endif
+    select FGASSYup
+    set order to orderdate
+    select st15f
+    set order to mkey
+     FORM.PSHDATE = fgcoy->start_date
+    if empty(form.pshdate)
+      InformationMessage("Starting Date Missing in The company Information File.", "Sorry")
+      quit
+    endif
+    select fgcod
+    set order to mkey
+
+   select fgcoy
+   go top
+   if pospost = "Yes"
+   form.PSHDATE = st15f->shift_date
+   select fgcoy
+   replace start_date with st15f->shift_date
+   replace end_date with st15f->shift_date
+   form.psno = st15f->shift_no
+   form.psid = st15f->shift_id
+   form.pfc = .t.
+   else
+   form.psno = "0"
+   form.psid = "0"
+   form.pfc = .f.
+   endif
+   if .not. form.pfc  && not forecourt
+      if .not. empty(FGASSY3->order_date)
+      form.PSHDATE = FGASSY3->order_date
+      select fgcoy
+      replace start_date with form.PSHDATE
+      else
+      form.PSHDATE = fgcoy->start_date
+       if empty(form.psdate)
+       InformationMessage("Missing Data Entry Dates Range in the company info file.", "Sorry")
+       quit
+       endif
+
+      endif
+   endif
+
+   FORM.DSHNO = ""
+   FORM.DSHID = ""
+   select FGASSYl
+
+   go top
+   if eof()
+   append blank
+   endif
+   select fgmast
+
+   set order to mkey
+     select fgmast2
+   set order to mkey
+   select fgoffs
+   set order to name
+    select FGMASTP
+   set order to name
+      *** do calculations in another area so form doesn't get updated
+       select FGASSY3
+       SET ORDER TO ORDER_NO
+          go bottom
+          IF EMPTY(ORDER_NO)
+          DELETE
+          ENDIF
+    form.maxOrder = order_no
+    if empty(order_no)
+    form.maxOrder = "0"
+    endif
+           select FGASSY
+
+    SET ORDER TO ORDER_NO
+    GO TOP
+    IF EMPTY(ORDER_NO)
+    DELETE
+    ENDIF
+
+      ***
+
+     endif
+     select  FGASSY
+   go bottom          && calculate totals
+   **form.BrowseOnNavigate()
+   form::Open()                         && Now the form actually opens
+
+
+
+   ****************************************************************************
+
+   procedure OnClose
+   ****************************************************************************
+      if form.inEditMode
+      form.ViewEdit()
+   endif
+                                             && Close Customer form if it exists
+
+                                             && leave shell(.F.)
+      shell(.f.)
+   CLOSE PROCEDURE SAMPPROC.PRG
+    if .not. empty(FGASSY->order_no)
+   select FGASSYup
+
+   seek FGASSY->order_no+dtos(FGASSY->order_date)
+   if found() .and. .not. empty(post_date)
+   select FGASSY
+   replace post_date with date()
+   endif
+   endif
+   commit()
+   CLOSE DATABASES
+      DO FGPAssy.PRG
+     form.close()
+
+
+   ****************************************************************************
+
+   procedure ChangesMade
+
+   * Indicate that changes have been made to current record.
+   ****************************************************************************
+
+   form.changesMade = .T.
+
+
+   Procedure bottoM_rtn
+   form.CheckCommit(form.inEditMode)
+   if .not. empty(FGASSY->order_no)
+   select FGASSYUP
+   seek FGASSY->order_no+dtos(FGASSY->order_date)
+   if found() .and. .not. empty(post_date)
+   select FGASSY
+   replace post_date with date()
+   flush
+   endif
+   endif
+   form.root.order.viewEdit.enabled = .t.
+   form.root.order.ADDorder.enabled = .t.
+   SELECT FGASSY
+   go bottom
+
+   Procedure top_rtn
+   form.CheckCommit(form.inEditMode)
+   if .not. empty(FGASSY->order_no)
+   select FGASSYUP
+   seek FGASSY->order_no+dtos(FGASSY->order_date)
+   if found() .and. .not. empty(post_date)
+   select FGASSY
+   replace post_date with date()
+   flush
+   endif
+   endif
+   form.root.order.viewEdit.enabled = .t.
+   form.root.order.ADDorder.enabled = .t.
+   SELECT FGASSY
+   go top
+
+   ****************************************************************************
+
+   procedure Next
+   ****************************************************************************
+
+   form.CheckCommit(form.inEditMode)
+   if .not. empty(FGASSY->order_no)
+   select FGASSYUP
+   seek FGASSY->order_no+dtos(FGASSY->order_date)
+   if found() .and. .not. empty(post_date)
+   select FGASSY
+   replace post_date with date()
+   flush
+   endif
+   endif
+   form.root.order.viewEdit.enabled = .t.
+   form.root.order.ADDorder.enabled = .t.
+   SELECT FGASSY
+   if .not. eof()
+      NEXTBUTTON::OnClick()
+   endif
+
+
+   ****************************************************************************
+
+   procedure Previous
+   ****************************************************************************
+
+   form.CheckCommit(form.inEditMode)
+   if .not. empty(FGASSY->order_no)
+   select FGASSYUP
+   seek FGASSY->order_no+dtos(FGASSY->order_date)
+   if found() .and. .not. empty(post_date)
+   select FGASSY
+   replace post_date with date()
+   flush
+   endif
+   endif
+   form.root.order.viewEdit.enabled = .t.
+   form.root.order.ADDorder.enabled = .t.
+   SELECT FGASSY
+   PREVBUTTON::OnClick()
+
+
+   ****************************************************************************
+
+   procedure CheckCommit (newInEditMode)
+
+   * Finish transaction, if it has been started.
+   ****************************************************************************
+   private orderField, changesMade
+   changesMade = form.changesMade
+   if form.changesMade
+      orderField = field(1)                  && Field Order_no
+          commit()
+          if form.inEditMode .and. newInEditMode
+         begintrans()
+                      on error DO transerr WITH ERROR(), MESSAGE(),;
+   PROGRAM(), LINENO()
+
+      endif
+      form.changesMade = .F.
+   endif
+   if form.inEditMode <> newInEditMode
+      if newInEditMode                       && Going to Edit mode
+         begintrans()
+                      on error DO transerr WITH ERROR(), MESSAGE(),;
+   PROGRAM(), LINENO()
+
+      else                                   && Going to View mode
+         if .not. changesMade
+            rollback()
+         endif
+      endif
+      form.inEditMode = newInEditMode
+   endif
+   select fgcoy
+   flush
+   select FGASSY
+
+   ****************************************************************************
+
+   procedure ViewEdit
+   ****************************************************************************
+   local inEditMode, control, editMenu
+
+   editMenu = form.root.order.viewEdit
+
+   *** If editing is completed, close transaction, otherwise open a transaction
+   if form.inEditMode                           && Change to View mode
+      form.checkChanged(.F.)
+      editMenu.text = "&Edit"
+      editMenu.shortcut = "Ctrl-E"
+      editMenu.statusMessage = "Edit data."
+      form.root.order.deleteorder.enabled = .F.      && disabled in view mode
+      form.CheckCommit(.F.)                     && Check transaction and
+      form.text = "STOCK ASSEMBLY -- View Mode"         && change mode to View
+      form.statusMessage = "Select STOCK  - Edit menu choice to " +;
+                           "edit/delete data."
+   else                                         && Change to Edit mode
+      editMenu.text = "&View"
+      editMenu.shortcut = "Ctrl-E"
+      editMenu.statusMessage = "View data."
+      form.root.order.deleteorder.enabled = .F.      && enabled in edit mode
+      form.CheckCommit(.T.)                     && Check transaction and
+      form.text = "STOCK ASSEMBLY -- Edit Mode"         && change mode to Edit
+       form.statusMessage = "In Edit Mode.  " +;
+                           "Select STOCK  - View menu choice to switch " +;
+                           "to View mode."
+   endif
+    control = form.first
+
+   inEditMode = form.inEditMode    && so don't have to reference many times
+   do
+      do case
+         case control.name $ "ORDERNOENTRY,CUSTOMERNOENTRY,TOTINVENTRY,BALDUEENTRY"
+            * these are never editable
+            control.enabled = .F.
+         case .not. control.className $ "BROWSE,NEXTBUTTON,PREVBUTTON,PUSHBUTTON,IMAGE,TEXT"
+            * doesn't make sense to make the above classes enabled/not
+            control.enabled = inEditMode
+         case control.className = "BROWSE"
+            control.Modify = inEditMode
+            control.Delete = inEditMode
+            control.Append = inEditMode
+      endcase
+      control = control.before
+   until control.name = form.first.name
+    form.OrderNoEntry.enabled = .F.          && Key field is always disabled
+
+    form.spack.enabled = .f.
+     form.suvol.enabled = .f.
+      form.sqty.enabled = .f.
+       form.sonqty.enabled = .f.
+        form.apack.enabled = .f.
+         form.auvol.enabled = .f.
+          form.aqty.enabled = .f.
+           form.aaqty.enabled = .f.
+            form.aonqty.enabled = .f.
+          *  form.sdesc.enabled = .f.
+            form.sau.enabled = .f.
+            FORM.SREF.ENABLED = .F.
+            FORM.ORDERDATESPIN.ENABLED = .F.
+    form.setFocus()
+   ****************************************************************************
+
+   procedure CheckChanged(callCommit)
+
+   * Check if changes have been made to the current entryfield.  This procedure
+   * is called from menu routines to make sure the form.changesMade gets
+   * updated when a menu is selected while the changed control has focus.
+   ****************************************************************************
+   private control, fieldValue, controlValue, typeText, typeValue
+
+   if form.inEditMode
+      control = form.activeControl
+      if type("control.datalink") <> "U"
+         fieldValue = control.datalink          && name of table field
+
+         typeText = type("control.text")
+         typeValue = type("control.value")
+         do case
+            case typeValue = "C"
+               controlValue = control.value
+            case typeValue $ "LU" .and. typeText = "C"
+               controlValue = control.text
+            otherwise
+               controlValue = Null
+         endcase
+       endif
+   endif
+   if form.changesMade .and. callCommit
+      CLASS::CheckCommit(form.inEditMode)     && Check transactions
+   endif
+
+
+   Procedure SCOD_ONCHANGE
+          local LE,LWK1,L1,LS1,LS2,LS3,LS4,LS5,LS6,LS7,LS8,LS9,LS10
+          SELECT ST15F
+          GO TOP
+          LS1 = SHIFT_DATE
+          LS2 = SHIFT_NO
+          LS3 = SHIFT_ID
+          LS4 = ""
+          LS5 = ""
+          LS6 = ""
+          LS7 = ""
+          LS8 = ""
+          LS9 = ""
+          LS10 = ""
+          LE = .F.
+          L1 = THIS.VALUE
+          SELECT FGMASTP
+          SEEK L1
+          IF FOUND()
+          ? "fgmastp"
+          SELECT FGASSY
+          REPLACE NAME WITH THIS.VAlUE
+          REPLACE TYP WITH FGMASTP->TYP
+          REPLACE CLA WITH FGMASTP->CLA
+          REPLACE COD WITH FGMASTP->COD
+          replace coy with fgmastp->coy
+          replace div with fgmastp->div
+          replace cen with fgmastp->cen
+          replace sto with fgmastp->sto
+          LS4 = CEN
+          LS5 = TYP
+          LS6 = CLA
+          LS7 = COD
+          LS8 = STO
+          LS9 = COY
+          LS10 = DIV
+          REPLACE QTY WITH 0
+          REPLACE saQTY WITH 0
+        REPLACE TOTAL WITH 0
+        REPLACE UNIT_COST WITH 0
+        REPLACE NEW_BAL WITH 0
+         REPLACE acodn WITH ""
+          REPLACE TYP1 WITH ""
+          REPLACE CLA1 WITH ""
+          REPLACE COD1 WITH ""
+          replace coy1 with ""
+          replace div1 with ""
+          replace sto1 with ""
+          replace cen1 with ""
+          REPLACE QTY WITH 0
+        REPLACE TOTAL WITH 0
+        REPLACE UNIT_COST WITH 0
+        REPLACE NEW_BAL WITH 0
+     *   replace volume with 0
+        replace aaqty with 0
+        replace aonqty with 0
+          ELSE
+            SELECT FGASSY
+            REPLACE NAME WITH ""
+          REPLACE TYP WITH ""
+          REPLACE CLA WITH ""
+          REPLACE COD WITH ""
+          replace coy with ""
+          replace div with ""
+          replace sto with ""
+          replace cen with ""
+          REPLACE QTY WITH 0
+          REPLACE saQTY WITH 0
+        REPLACE TOTAL WITH 0
+        REPLACE UNIT_COST WITH 0
+        REPLACE NEW_BAL WITH 0
+         REPLACE acodn WITH ""
+          REPLACE TYP1 WITH ""
+          REPLACE CLA1 WITH ""
+          REPLACE COD1 WITH ""
+          replace coy1 with ""
+          replace div1 with ""
+          replace sto1 with ""
+          replace cen1 with ""
+          REPLACE QTY WITH 0
+        REPLACE TOTAL WITH 0
+        REPLACE UNIT_COST WITH 0
+        REPLACE NEW_BAL WITH 0
+     *   replace volume with 0
+        replace aaqty with 0
+        replace aonqty with 0
+          ENDIF
+          FORM.SAQTY.ENABLED = .F.
+            SELECT FGCOD
+        SEEK FGASSY->TYP+FGASSY->Cla+FGASSY->COD
+        IF FOUND() .AND. (typ = "10" .and. shs_auto = "No" .and. volume > 0 .AND. .NOT. EMPTY(USENAME));
+        .or.(typ = "20" .and. cla = '00' .and.  shs_auto = "No"  .and. volume > 13)
+          SELECT FGMAST
+          SEEK FGASSY->COY+FGASSY->DIV+FGASSY->CEN+FGASSY->sto+FGASSY->TYP+FGASSY->CLA+FGASSY->COD
+          IF FOUND()  .and. empty(close_date)
+             FORM.SAQTY.ENABLED = .T.
+             IF DIV = "1" && FORECOURT
+                SELECT ST15F
+                SEEK DTOS(LS1)+LS2+LS3+LS4+LS5+LS6+LS7+LS8+LS9+LS10
+                IF .NOT. FOUND()
+                FORM.SAQTY.ENABLED = .F.
+            ENDIF
+          endif
+          endif
+          endif
+             FORM.CHANGESMADE = .T.
+    if FORM.SAQTY.ENABLED
+              select fgassy
+      replace aaqty with fgcod->volume *saqty
+      replace aonqty with fgmast2->on_hand + aaqty
+      else
+      select fgassy
+       replace aaqty with 0
+       replace aonqty with fgmast2->on_hand
+      endif
+
+          SELECT FGASSY
+
+   Procedure SREF_OnChange
+         FORM.CHANGESMADE = .T.
+         SELECT FGASSY
+         REPLACE SERIALNO WITH THIS.VALUE
+
+   Procedure SREASON_OnChange
+         FORM.CHANGESMADE = .T.
+         SELECT FGASSY
+         REPLACE REASON WITH THIS.VALUE
+
+    Procedure sqty_OnChange
+   local l1,l2
+   l1 = this.value
+    IF THIS.VALUE < 0 .and. .not. FORM.BLEVEL = 1
+         InformationMessage("Quantity Cannot Be Less Than Zero", "Sorry!")
+         form.sqtyS.value = 0
+         ENDIF
+   if l1 > 0
+   l2 = l1
+   else
+   l2 = fgmast2->on_hand + l1
+   endif
+
+   select FGASSY
+   if .not. l2 < 0
+
+      replace qty with this.value
+      replace new_bal with fgmast2->on_hand + this.value
+      else
+        replace qty with 0
+      replace new_bal with fgmast2->on_hand
+
+    endif
+    form.changesmade = .t.
+    form.CheckCommit(form.inEditMode)
+
+   Procedure SUCOST_OnChange
+         local l1,l2
+         select FGASSY
+            l1 = this.value
+            if .not. l1 < 0
+            l2 = l1 * FGASSY->qty
+            replace total with l2
+            else
+            replace total with 0
+            replace unit_cost with 0
+           endif
+           form.changesmade = .t.
+           form.CheckCommit(form.inEditMode)
+
+   Procedure SGL_ONCHANGE
+         SELECT GLTYP
+         SEEK THIS.VALUE
+         SELECT FGASSY
+         REPLACE GNAME WITH THIS.VALUE
+         REPLACE ACTYPE WITH GLTYP->ACTYPE
+         IF EMPTY(ACTYPE)
+         REPLACE ACTYPE WITH "8"   && DEFAULT IS COST OF SALES
+         ENDIF
+         FORM.CHANGESMADE = .T.
+
+   PROCEDURE CHANGE_DATE
+      FORM.CHANGESMADE = .T.
+      FORM.PSHDATE = THIS.VALUE
+        select FGASSYl
+      replace order_date with FGASSY->order_date
+      form.pshdate = this.value
+      select FGASSY
+   REPLACE ORDER_DATE WITH THIS.VALUE
+
+   Procedure SOFF_ONCHANGE
+         select fgoffs
+         seek this.value
+         select FGASSY
+         REPLACE OFFNAME WITH THIS.VALUE
+         replace off with fgoffs->off
+         form.changesmade = .t.
+
+    Procedure SREASON_OnChange1
+         select fgadjrss
+         seek this.value
+         if found()
+            select FGASSY
+            replace rname with this.value
+            replace reason with fgadjrss->reason
+            else
+            select FGASSY
+            replace rname with ""
+            replace reason with ""
+            endif
+            form.changesmade = .t.
+
+   Procedure ACOD_OnChange
+     local LE,LWK1,L1
+          LE = .F.
+          L1 = THIS.VALUE
+          SELECT FGMASTP2
+          SEEK L1
+          IF FOUND()
+          ? "FGMASTP2"
+          SELECT FGASSY
+          REPLACE acodn WITH THIS.VAlUE
+          REPLACE TYP1 WITH FGMASTP2->TYP
+          REPLACE CLA1 WITH FGMASTP2->CLA
+          REPLACE COD1 WITH FGMASTP2->COD
+          replace coy1 with FGMASTP2->coy
+          replace div1 with FGMASTP2->div
+          replace cen1 with FGMASTP2->cen
+          replace sto1 with FGMASTP2->sto
+          REPLACE QTY WITH 0
+        REPLACE TOTAL WITH 0
+        REPLACE UNIT_COST WITH 0
+        REPLACE NEW_BAL WITH 0
+          ELSE
+            SELECT FGASSY
+            REPLACE acodn WITH ""
+          REPLACE TYP1 WITH ""
+          REPLACE CLA1 WITH ""
+          REPLACE COD1 WITH ""
+          replace coy1 with ""
+          replace div1 with ""
+          replace sto1 with ""
+          replace cen1 with ""
+          REPLACE QTY WITH 0
+        REPLACE TOTAL WITH 0
+        REPLACE UNIT_COST WITH 0
+        REPLACE NEW_BAL WITH 0
+          ENDIF
+
+
+          SELECT FGMAST2
+          SEEK FGASSY->COY1+FGASSY->DIV1+FGASSY->CEN1+FGASSY->sto1+;
+          FGASSY->TYP1+FGASSY->CLA1+FGASSY->COD1
+          if found() .and. (typ = "10" .AND. upper(left(fgassy->acodn,2)) = upper(left(fgmastp->usename,2)));
+           .OR. (TYP = "10" .AND. (TYP+CLA+COD) = LEFT(FGCOD->MANFACT,6)) .or. ;
+           (typ = "20" .AND. CLA = "10" .and. Cod = "00")
+               select fgassy
+      replace aaqty with fgcod->volume*saqty
+      replace aonqty with fgmast2->on_hand + aaqty
+      else
+      select fgassy
+       replace aaqty with 0
+       replace aonqty with fgmast2->on_hand
+      endif
+
+
+             FORM.CHANGESMADE = .T.
+
+          SELECT FGASSY
+
+
+
+
+   Procedure SAQTY_OnChange
+   local l1,l2
+   l1 = this.value
+    select fgassy
+      if this.value > fgmast->on_hand
+         InformationMessage("Insufficient Stock To Assemble", "Sorry!")
+         form.SAQTY.value = 0
+          replace sonqty with fgmast->on_hand
+       else
+      replace sonqty with fgmast->on_hand - saqty
+        endif
+
+    IF THIS.VALUE < 0 .and.  FORM.BLEVEL > 3
+         InformationMessage("Quantity Cannot Be Less Than Zero", "Sorry!")
+         form.SAQTY.value = 0
+         ENDIF
+
+   select FGASSY
+    REPLACE acodn WITH ""
+          REPLACE TYP1 WITH ""
+          REPLACE CLA1 WITH ""
+          REPLACE COD1 WITH ""
+          replace coy1 with ""
+          replace div1 with ""
+          replace sto1 with ""
+          replace cen1 with ""
+          REPLACE QTY WITH 0
+        REPLACE TOTAL WITH 0
+        REPLACE UNIT_COST WITH 0
+        REPLACE NEW_BAL WITH 0
+     *   replace volume with 0
+        replace aaqty with 0
+        replace aonqty with 0
+
+    form.changesmade = .t.
+    form.CheckCommit(form.inEditMode)
+
+ENDCLASS
+
+
+
+
+
+
+
+
+
+
+

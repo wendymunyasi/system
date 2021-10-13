@@ -1,0 +1,496 @@
+////////////////////////////////////////////////////////////////////////////////
+// Output Filename: C:\KENSERVICE\IDSSYS\DSHIFTBK_FCV.WFM                     //
+// Created By:      dBASE Form Converter Wizard                               //
+// Created On:      Monday October 11, 2021 At 16:58:35                       //
+// Object Count:    9                                                         //
+////////////////////////////////////////////////////////////////////////////////
+*******************************************************************************
+*  PROGRAM:      dshiftbk.wfm
+*
+*  WRITTEN BY:   W Nyongesa
+*
+*  DATE:         05/2000
+*
+*  UPDATED:     12/2011
+
+*
+*  REVISION:     $Revision:   1.0
+*
+*  VERSION:      Visual dBASE
+*
+*  DESCRIPTION:  This program maintains the Divisions master file
+*
+*  PARAMETERS:   None
+*
+*  CALLS:        dshiftbk.mnu         (Menu file)
+*                KBUTTONS.CC          (Custom Controls file)
+*                DSSR INFORMATION.qbe         (View of tables)
+*
+*  USAGE:        DO dshiftbk.wfm
+*
+*******************************************************************************
+#include <messdlg.h>
+shell(.F.)
+create session
+set talk off
+set century on
+SET DATE TO BRITISH
+set design off
+set ldCheck off && To avoid language driver conflicts
+#define Maxcoy 999
+** END HEADER -- do not remove this line*
+* Generated on 09/10/2019
+*
+parameter bUser,bLevel,bModal
+local f
+f = new dshiftbkFORM()
+if (bModal)
+   f.mdi = .F. && ensure not MDI
+   f.ReadModal()
+else
+   f.Open()
+endif
+CLASS dshiftbkFORM OF FORM
+   Set Procedure To BUTTONS.CC additive
+   this.Metric = 6  // Pixels
+   this.Maximize = .F.
+   this.Moveable = .F.
+   this.Sizeable = .F.
+   this.OnClose = CLASS::ONCLOSE
+   this.ColorNormal = "n+"
+   this.MenuFile = "DSHIFTBK.MNU"
+   this.Text = "dshiftbk - DSSR Information Form"
+   this.WindowState = 2
+   this.MDI = .F.
+   this.View = "dshiftbk.QBE"
+   this.Minimize = .F.
+   this.Left = 0
+   this.EscExit = .F.
+   this.Top = 0
+   this.Height = 270
+   this.MousePointer = 1
+   this.Width = 352
+
+   DEFINE TEXTLABEL CODETEXT OF THIS;
+       PROPERTY;
+         ColorNormal "B/BtnFace",;
+         Text "Station:",;
+         Left 12,;
+         Height 18,;
+         Width 48,;
+       FontName "MS Sans Serif",;
+       FontSize 8,;
+       FontBold .T.,;
+       AlignHorizontal 2,;
+       AlignVertical 1
+
+   DEFINE COMBOBOX COYCOMBOBOX OF THIS;
+       PROPERTY;
+         ColorNormal "B/BtnFace",;
+         Enabled .F.,;
+         FontName "Arial Black",;
+         DataLink "dshiftbk->Coy",;
+         Style 2,;
+         DataSource "FIELD fgcoy->Coy",;
+         Left 60,;
+         Height 23,;
+         Width 48,;
+       FontSize 8,;
+       FontBold .T.
+
+   DEFINE ENTRYFIELD COYDISPLAY OF THIS;
+       PROPERTY;
+         ColorNormal "N/BtnFace",;
+         Function "!",;
+         Enabled .F.,;
+         ColorHighLight "B+/W*",;
+         DataLink "fgcoy->Name",;
+         Left 105,;
+         Height 18,;
+         Width 159,;
+       FontName "MS Sans Serif",;
+       FontSize 8,;
+       FontBold .T.
+
+   DEFINE PREVBUTTON PREVCOYBUTTON OF THIS;
+       PROPERTY;
+         Default .T.,;
+         Group .T.,;
+         OnClick CLASS::PREVIOUS,;
+         Left 284,;
+         Top 2,;
+         Height 26,;
+         Width 85,;
+       FontName "MS Sans Serif",;
+       FontSize 8,;
+       FontBold .T.
+
+   DEFINE NEXTBUTTON NEXTCOYBUTTON OF THIS;
+       PROPERTY;
+         Group .F.,;
+         OnClick CLASS::NEXT,;
+         Left 374,;
+         Top 1,;
+         Height 26,;
+         Width 85,;
+       FontName "MS Sans Serif",;
+       FontSize 8,;
+       FontBold .T.
+
+   DEFINE PUSHBUTTON FIRDSHIFTBKBUTTON OF THIS;
+       PROPERTY;
+         Text "F&irst",;
+         Group .F.,;
+         OnClick CLASS::GOFIRST,;
+         Left 462,;
+         StatusMessage "Go to the first record.",;
+         Top 1,;
+         Height 26,;
+         Width 85,;
+       FontName "MS Sans Serif",;
+       FontSize 8,;
+       FontBold .T.
+
+   DEFINE PUSHBUTTON LADSHIFTBKBUTTON OF THIS;
+       PROPERTY;
+         Text "&Last",;
+         Group .F.,;
+         OnClick CLASS::GOTOP,;
+         Left 552,;
+         StatusMessage "Go to the last campany.",;
+         Top 1,;
+         Height 26,;
+         Width 85,;
+       FontName "MS Sans Serif",;
+       FontSize 8,;
+       FontBold .T.
+
+   DEFINE TEXTLABEL TEXT1 OF THIS;
+       PROPERTY;
+         ColorNormal "B/BtnFace",;
+         Text "Date:",;
+         Left 123,;
+         Top 17,;
+         Height 17,;
+         Width 57,;
+       FontName "MS Sans Serif",;
+       FontSize 8,;
+       FontBold .T.,;
+       AlignHorizontal 2,;
+       AlignVertical 1
+
+   DEFINE ENTRYFIELD ENTRYFIELD1 OF THIS;
+       PROPERTY;
+         ColorNormal "N/BtnFace",;
+         Function "!",;
+         Enabled .F.,;
+         ColorHighLight "B+/W*",;
+         DataLink "dshiftbk->Shift_date",;
+         Left 192,;
+         Top 17,;
+         Height 18,;
+         Width 84,;
+       FontName "MS Sans Serif",;
+       FontSize 8,;
+       FontBold .T.
+
+   procedure Open
+   ****************************************************************************
+   private CodeField
+   form.firstime = .T.
+   FORM.BLUSER=BUSER
+   FORM.BLEVEL=BLEVEL
+   IF EMPTY(FORM.BLUSER) .OR. EMPTY(FORM.BLEVEL)
+      QUIT
+   ENDIF
+   if type("form.init") = "U"
+      form.init = .T.
+
+      set skip to                     && dshiftbk.qbe contains set skip to gldtl
+      set exact off                   && the .qbe file contains SET EXACT ON
+
+      set procedure to sampProc.prg additive
+    Form.duplicate = .F.
+      form.inEditMode = .F.           && indicator of view/edit state
+      form.changesMade = .F.          && indicator of changes made to field values
+      form.previousRecord = .F.       && Save record number when appending
+        *** do calculations in another area so form doesn't get updated
+   *   set order to &CodeField      && period -- tag name is same as field
+      select dshiftbk
+    GO BOTTOM
+       SELECT DASUM
+   GO TOP
+   IF EOF()
+   APPEND BLANK
+   ENDIF
+   local l1, l2, l3, l4, l5
+   L1 = DTOS(DSHIFTBK->SHIFT_DATE)  && YYYYMMDD
+   L2 = LEFT(L1,4) && YYYY
+   L3 = RIGHT(L1,2) && DD
+   L4 = LEFT(L1,6)
+   L5 = RIGHT(L4,2) && MM
+   SELECT DASUM
+   REPLACE DASUM->shift_date WITH dshiftbk->shift_date
+   REPLACE DASUM->COY WITH dshiftbk->COY
+   REPLACE YY WITH L2
+   REPLACE MM WITH L5
+   select dshiftbk
+                                  && new Receipts
+
+
+      *** Open table for calculating totals and balance due in another work area
+      *** so that datalinks are not affected by record movements
+
+
+      ***
+    *  if type("form.parentpayeeForm") <> "U" && Esc ok if have parent
+    *     form.escExit = .T.
+   *   endif
+
+   endif
+   * form.CoyInfoButton.KenpName = "dshiftbk.WFM"
+
+   form::Open()                         && Now the form actually opens
+                       && calculate totals
+   *       form.codingerrors()                        && check coding errors
+
+   *      form.next.setfocus()
+   ****************************************************************************
+
+   procedure OnClose
+
+   * Clean up.
+   ****************************************************************************
+
+   if this.inEditMode
+      form.ViewEdit()                      && Finish transaction
+   endif
+   close databases
+   form.close()
+   CLEAR PROGRAM
+
+
+
+   ****************************************************************************
+
+   procedure ChangesMade
+
+   * Indicate that changes have been made to the current record
+   ****************************************************************************
+   Form.ChangesMade = .T.
+   ****************************************************************************
+
+   procedure Next
+
+   * Go to next record.
+   ****************************************************************************
+
+   *form.CheckCommit(form.inEditMode)
+   if .not. eof()
+      NEXTBUTTON::OnClick()
+    endif
+   local l1, l2, l3, l4, l5
+   L1 = DTOS(DSHIFTBK->SHIFT_DATE)  && YYYYMMDD
+   L2 = LEFT(L1,4) && YYYY
+   L3 = RIGHT(L1,2) && DD
+   L4 = LEFT(L1,6)
+   L5 = RIGHT(L4,2) && MM
+   SELECT DASUM
+   REPLACE DASUM->shift_date WITH dshiftbk->shift_date
+   REPLACE DASUM->COY WITH dshiftbk->COY
+   REPLACE YY WITH L2
+   REPLACE MM WITH L5
+   select dshiftbk
+   ****************************************************************************
+
+   procedure Previous
+
+   * Go to previous record.
+   ****************************************************************************
+
+   * form.CheckCommit(form.inEditMode)
+     PREVBUTTON::OnClick()
+   local l1, l2, l3, l4, l5
+   L1 = DTOS(DSHIFTBK->SHIFT_DATE)  && YYYYMMDD
+   L2 = LEFT(L1,4) && YYYY
+   L3 = RIGHT(L1,2) && DD
+   L4 = LEFT(L1,6)
+   L5 = RIGHT(L4,2) && MM
+   SELECT DASUM
+   REPLACE DASUM->shift_date WITH dshiftbk->shift_date
+   REPLACE DASUM->COY WITH dshiftbk->COY
+   REPLACE YY WITH L2
+   REPLACE MM WITH L5
+   select dshiftbk
+   ****************************************************************************
+
+   PROCEDURE GOTOP
+   SELECT DSHIFTBK
+      GO BOTTOM
+       local l1, l2, l3, l4, l5
+   L1 = DTOS(DSHIFTBK->SHIFT_DATE)  && YYYYMMDD
+   L2 = LEFT(L1,4) && YYYY
+   L3 = RIGHT(L1,2) && DD
+   L4 = LEFT(L1,6)
+   L5 = RIGHT(L4,2) && MM
+   SELECT DASUM
+   REPLACE DASUM->shift_date WITH dshiftbk->shift_date
+   REPLACE DASUM->COY WITH dshiftbk->COY
+   REPLACE YY WITH L2
+   REPLACE MM WITH L5
+   select dshiftbk
+
+   PROCEDURE GOFIRST
+   SELECT DSHIFTBK
+      GO TOP
+     local l1, l2, l3, l4, l5
+   L1 = DTOS(DSHIFTBK->SHIFT_DATE)  && YYYYMMDD
+   L2 = LEFT(L1,4) && YYYY
+   L3 = RIGHT(L1,2) && DD
+   L4 = LEFT(L1,6)
+   L5 = RIGHT(L4,2) && MM
+   SELECT DASUM
+   REPLACE DASUM->shift_date WITH dshiftbk->shift_date
+   REPLACE DASUM->COY WITH dshiftbk->COY
+   REPLACE YY WITH L2
+   REPLACE MM WITH L5
+   select dshiftbk
+
+   procedure CheckCommit (newInEditMode)
+
+        * Finish transaction, if it has been started.
+   ****************************************************************************
+   private CodeField, changesMade
+    local lk1,lk2
+    select dshiftbk
+    lk1 = form.COYCOMBOBOX.value
+   *    lk2 = form.divcombobox.value
+   changesMade = form.changesMade
+   if form.changesMade
+      CodeField = field(2)  && Field division
+      if     ConfirmationMessage("Commit changes?",;
+                FormatStr("Division %1",&CodeField)) = YES
+         commit()
+
+      else
+         rollback()
+         if .not. bof()
+       *  if .not. empty(form.previousRecord)
+   *            go bookmark()
+           * form.previousRecord
+            form.previousRecord = .F.
+         endif
+      endif
+
+       form.COYCOMBOBOX.enabled = .F.
+       form.divCOMBOBOX.Enabled = .F.
+    if form.inEditMode .and. newInEditMode
+         begintrans()
+      endif
+      form.changesMade = .F.
+   endif
+   if form.inEditMode <> newInEditMode
+      if newInEditMode                       && Going to Edit mode
+         begintrans()
+      else                                   && Going to View mode
+         if .not. changesMade .AND. .NOT. FORM.DUPLICATE
+            rollback()
+         endif
+      endif
+      form.inEditMode = newInEditMode
+   endif
+
+   ****************************************************************************
+
+   procedure ViewEdit
+
+   * Toggle between View and Edit modes.
+   ****************************************************************************
+   local inEditMode, editMenu, control
+
+   editMenu = form.root.dshiftbk.VIEWEdit
+
+   *** If ending edit mode then close transaction, otherwise open it.
+   if form.inEditMode
+      form.checkChanged(.F.)
+      editMenu.text = "&Edit"
+      editMenu.shortcut = "Ctrl-E"
+      editMenu.statusMessage = "Edit data."
+      form.CheckCommit(.F.)                        && Check transaction and
+      form.text = "DSSR INFORMATION Form -- View Mode"          && change mode to View
+       form.statusmessage = "In View Mode. " + ;
+                           "Select DSSR INFORMATION - Edit menu to " + ;
+                           "edit/delete data."
+      form.nextCOYBUTTON.SetFocus()
+   else                                            && Switch to edit mode
+      editMenu.text = "Vi&ew"
+      editMenu.shortcut = "Ctrl-E"
+      editMenu.statusMessage = "View data."
+      form.CheckCommit(.T.)                        && Check transaction and
+      form.text = "DSSR INFORMATION Form -- Edit Mode"          && change mode to Edit
+
+   *     form.notesEditor.modify = .T.
+      form.statusmessage = "In Edit Mode.  " + ;
+                           "Select menu DSSR INFORMATION - View to switch " + ;
+                           "to View mode."
+        form.COYCOMBOBOX.Enabled = .F.
+         form.divCOMBOBOX.Enabled = .F.
+         form.coydisplay.enabled =.F.
+       form.LnameEntry.SetFocus()
+
+   endif
+
+   inEditMode = form.inEditMode     && Faster if we don't reference a form
+   control = form.first             &&    variable each time through the loop
+   do
+      if .not. control.className $ "BROWSE,EDITOR,NEXTBUTTON,PREVBUTTON,PUSHBUTTON,IMAGE,TEXT"
+         control.enabled = inEditMode
+      endif
+      control = control.before
+   until control.name = form.first.name
+          form.COYCOMBOBOX.Enabled = .F.
+     form.divCOMBOBOX.Enabled = .F.
+      form.coydisplay.enabled =.F.
+       form.LnameEntry.SetFocus()
+
+
+   ****************************************************************************
+
+   procedure CheckChanged(callCommit)
+
+   * Check if changes have been made to the current entryfield.  This procedure
+   * is called from menu routines to make sure the form.changesMade gets
+   * updated when a menu is selected while the changed control has focus.
+   ****************************************************************************
+   private control, fieldValue, controlValue, typeText, typeValue
+
+   if form.inEditMode
+      control = form.activeControl
+      if type("control.datalink") <> "U"
+         fieldValue = control.datalink          && name of table field
+
+         typeText = type("control.text")
+         typeValue = type("control.value")
+         do case
+            case typeValue = "C"
+               controlValue = control.value
+            case typeValue $ "LU" .and. typeText = "C"
+               controlValue = control.text
+            otherwise
+               controlValue = Null
+         endcase
+         if controlValue <> &fieldValue
+            form.changesMade = .T.
+         endif
+      endif
+   endif
+   if form.changesMade .and. callCommit
+      CLASS::CheckCommit(form.inEditMode)     && Check transactions
+   endif
+
+
+
+ENDCLASS
+
+
+

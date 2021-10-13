@@ -1,0 +1,46 @@
+* Visual dBASE .QBE file 9
+ON ERROR DO QBEERR WITH ERROR(), MESSAGE(),;
+  PROGRAM(), LINENO()
+CLOSE DATABASES
+SET EXACT ON
+set safety off
+use \kenserve\idssys\arinvflg.dbf
+copy stru to  \KENSERVICE\DATA\arinvflg dbase prod
+use \kenserve\idssys\arvisflg.dbf
+copy stru to  \KENSERVICE\DATA\arvisflg dbase prod
+use \kenserve\idssys\shcongt0.dbf
+copy stru to  \KENSERVICE\DATA\shcongt0 dbase prod
+use \kenserve\idssys\shcongt1.dbf
+copy stru to  \KENSERVICE\DATA\shcongt1 dbase prod
+use \kenserve\idssys\shcongt2.dbf
+copy stru to  \KENSERVICE\DATA\shcongt2 dbase prod
+use \kenserve\idssys\shcongt3.dbf
+copy stru to  \KENSERVICE\DATA\shcongt3 dbase prod
+use \kenserve\idssys\shcongt4.dbf
+copy stru to  \KENSERVICE\DATA\shcongt4 dbase prod
+use \kenserve\idssys\shcongt5.dbf
+copy stru to  \KENSERVICE\DATA\shcongt5 dbase prod
+use  \KENSERVICE\DATA\vndocref.dbf
+delete all
+use  \KENSERVICE\DATA\frdocref.dbf
+delete all
+USE \KENSERVICE\DATA\KENBEXTN.DBF
+GO  TOP
+IF EOF()
+append blank
+ENDIF
+REPLACE BACK_DATE WITH {}
+REPLACE AM_PM WITH ''
+REPLACE BACK_TIME WITH ''
+REPLACE BACK_USER WITH ''
+ CLOSE DATABASES
+ set safety off
+ use \kenserve\idssys\fccashrs.dbf
+ copy stru to \kenservice\data\fccashrs dbase prod
+use \kenservice\data\fccashrs.dbf
+      appe from \kenservice\data\cashiers.dbf
+      use  \kenservice\data\fgcoy.dbf
+      repla all doc12 with .f.
+       use  \kenservice\data\fgcoys.dbf
+      repla all doc12 with .f.
+close databases

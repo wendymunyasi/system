@@ -1,0 +1,35 @@
+* Visual dBASE .QBE file 9
+ON ERROR DO QBEERR WITH ERROR(), MESSAGE(),;
+PROGRAM(), LINENO()
+CLOSE DATABASES
+SET EXACT ON
+SELECT 3
+USE \KENSERVICE\DATA\XORDERSL.DBF
+
+SELECT 2
+USE \KENSERVICE\DATA\xodrline.DBF
+set filter to order_no = xordersl->order_no .and. .not. qty = 0
+ 
+SELECT 1
+USE \KENSERVICE\DATA\XORDERS.DBF ORDER TAG ORDER_NO
+
+set filter to order_no = xordersl->order_no 
+
+select 4
+use \kenservice\data\fgcoy.dbf
+select 5
+use \kenservice\data\fgoff.dbf order tag off
+select 6
+use \kenservice\data\fgcen.dbf order tag mkey
+select 7
+use \kenservice\data\fgcen.dbf again alias fgcen2 order tag mkey
+select 8
+use \kenservice\data\fgcods.dbf order tag mkey alias fgcod
+select 1
+set relation to off into fgoff, coy+div+cen into fgcen
+SELECT 2
+SET RELATION TO ORDER_NO INTO XORDERS, coy+div+cen into fgcen2, typ+cla+cod into fgcod
+select 60
+use \kenservice\data\xodupd.dbf
+select 61
+use \kenservice\data\FGPRINT.dbf

@@ -1,0 +1,1280 @@
+******************************************************************************
+*  PROGRAM:      dacoysal.mnu
+*
+*  WRITTEN BY:   W Nyongesa
+*
+*  DATE:         03/2001
+*
+*  UPDATED:      06/2015
+*
+*  REVISION:     $Revision:   1.58  $
+*
+*  VERSION:      Visual dBASE
+*
+*  DESCRIPTION:  This is a menu file used by dacoysal.WFM for
+*                performing simple tasks.  It allows adding and deleting
+*                records, searching for a value in the Division field of the
+*                current table viewed, and exiting the form in view.
+*
+*  PARAMETERS:   FormObj -- the form to which this menu will belong.
+*
+*  CALLS:        None
+*
+*  USAGE:        form.menuFile = "dacoysal.mnu"
+*
+*******************************************************************************
+#include <messdlg.h>
+
+** END HEADER -- do not remove this line*
+* Generated on 07/03/2001
+*
+Parameter FormObj
+NEW DivisionS(FormObj,"Root")
+CLASS DivisionS(FormObj,Name) OF MENUBAR(FormObj,Name)
+   this.Text = ""
+   this.OnInit = {;set procedure to KenpProc.prg}
+
+   DEFINE MENU FILE OF THIS;
+       PROPERTY;
+         Text "&File"
+
+          DEFINE MENU EXIT OF THIS.FILE;
+                PROPERTY; 
+          StatusMessage "Return to the Previous Menu.",;
+          Text "&RETURN TO PREVIOUS MENU",;
+          SHORTCUT "F4",;
+          OnClick CLASS::ONEXIT
+  
+      
+       DEFINE MENU SEPARATOR000 OF THIS.FILE;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+
+            
+   DEFINE MENU QUITALL OF THIS.FILE;
+       PROPERTY; 
+          StatusMessage "Leave Kenserve System.",;
+          Text "EXIT",;
+          SHORTCUT "F8",;
+          OnClick CLASS::ONQUITALL
+          
+
+   DEFINE MENU dacoysal OF THIS;
+       PROPERTY;
+         Text "&Date"
+
+        DEFINE MENU VIEWEDIT OF THIS.dacoysal;
+             PROPERTY;
+               OnClick CLASS::VIEWEDITONCLICK,;
+               Text "&Edit",;
+               Shortcut "Ctrl-E",;
+               StatusMessage "Edit data."
+
+         DEFINE MENU SEPARATOR1 OF THIS.dacoysal;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+
+        
+         DEFINE MENU SEARCH OF THIS.dacoysal;
+             PROPERTY;
+               OnClick CLASS::SEARCHONCLICK,;
+               Text "&Search ...",;
+               Shortcut "Ctrl-S",;
+               StatusMessage "Search for a Division."
+        
+       
+
+         DEFINE MENU SEPARATOR3 OF THIS.dacoysal;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+
+
+   DEFINE MENU REPORT OF THIS;
+       PROPERTY;
+         Text "&Reports"
+
+          DEFINE MENU HDQTSREPORT OF THIS.REPORT;
+         PROPERTY;
+            TEXT "1. HEAD OFFICE"
+
+ DEFINE MENU MONKYREPO5 OF THIS.REPORT.HDQTSREPORT;
+             PROPERTY;
+               OnClick {;create session ;set lock off ;report form svsshift},;
+               Text "&0. Cummulative Sales - Detailed FOR SELECTED PERIOD"
+               
+                 DEFINE MENU SEPARHDQTSREPORT01 OF THIS.REPORT.HDQTSREPORT;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+         *
+   *      DEFINE MENU MONKYREPO5b OF THIS.REPORT.HDQTSREPORT;
+             PROPERTY;
+               OnClick {;create session ;set lock off ;report form svsshds},;
+               Text "&0b. Cummulative Sales (New) - Detailed FOR SELECTED PERIOD"
+               
+    *             DEFINE MENU SEPARHDQTSREPORT01b OF THIS.REPORT.HDQTSREPORT;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+               *
+               DEFINE MENU MONKYREPO50 OF THIS.REPORT.HDQTSREPORT;
+             PROPERTY;
+               OnClick {;create session ;set lock off ;report form svsshifs},;
+               Text "&1. Cummulative Sales - Summary FOR SELECTED PERIOD"
+               
+                 DEFINE MENU SEPARHDQTSREPORT00 OF THIS.REPORT.HDQTSREPORT;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+            *
+     *         DEFINE MENU MONKYREPO50b OF THIS.REPORT.HDQTSREPORT;
+             PROPERTY;
+               OnClick {;create session ;set lock off ;report form svsshss},;
+               Text "&1b. Cummulative Sales (New) - Summary FOR SELECTED PERIOD"
+               
+      *           DEFINE MENU SEPARHDQTSREPORT00b OF THIS.REPORT.HDQTSREPORT;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+               *
+                DEFINE MENU dssrsalessm OF THIS.REPORT.HDQTSREPORT;
+             PROPERTY;
+               OnClick {;create session ;set lock off ;report form svdssr},;
+               Text "&2. DSSR Summary FOR SELECTED PERIOD"
+                   DEFINE MENU SEPARHDQTSREPORT02 OF THIS.REPORT.HDQTSREPORT;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+               
+    DEFINE MENU totalsales OF THIS.REPORT.HDQTSREPORT;
+             PROPERTY;
+               OnClick {;create session ;set lock off ;report form svTOTS},;
+               Text "&3. TOTAL SALES FOR SELECTED PERIOD (OLD)"
+               
+                   DEFINE MENU SEPARHDQTSREPORT03 OF THIS.REPORT.HDQTSREPORT;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+            
+              DEFINE MENU totalsalesb OF THIS.REPORT.HDQTSREPORT;
+             PROPERTY;
+               OnClick {;create session ;set lock off ;report form FCSHCSAL},;
+               Text "&3B. TOTAL FORECOURT CASH SALES REPORT FOR SELECTED PERIOD"
+               
+                   DEFINE MENU SEPARHDQTSREPORT03b OF THIS.REPORT.HDQTSREPORT;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+               *
+                DEFINE MENU totalsalesC OF THIS.REPORT.HDQTSREPORT;
+             PROPERTY;
+               OnClick {;create session ;set lock off ;report form FGINVSAL},;
+               Text "&3C. TOTAL TAXABLE INVOICES (CRT) SALES REPORT FOR SELECTED PERIOD"
+               
+                   DEFINE MENU SEPARHDQTSREPORT03C OF THIS.REPORT.HDQTSREPORT;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+               *
+                 DEFINE MENU totalsalesD OF THIS.REPORT.HDQTSREPORT;
+             PROPERTY;
+               OnClick {;create session ;set lock off ;report form FGVISSAL},;
+               Text "&3D. TOTAL VISA CARDS SALES REPORT FOR SELECTED PERIOD"
+               
+                   DEFINE MENU SEPARHDQTSREPORT03D OF THIS.REPORT.HDQTSREPORT;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+               *
+                  DEFINE MENU totalsalesE OF THIS.REPORT.HDQTSREPORT;
+             PROPERTY;
+               OnClick {;create session ;set lock off ;report form FGJCTSAL},;
+               Text "&3E. TOTAL JOB CARD CASH SALES REPORT FOR SELECTED PERIOD"
+               
+                   DEFINE MENU SEPARHDQTSREPORT03E OF THIS.REPORT.HDQTSREPORT;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+               *
+                  DEFINE MENU totalsalesF OF THIS.REPORT.HDQTSREPORT;
+             PROPERTY;
+               OnClick {;create session ;set lock off ;report form FGLPTSAL},;
+               Text "&3F. TOTAL LPGS LUBES CASH SALES REPORT FOR SELECTED PERIOD"
+               
+                   DEFINE MENU SEPARHDQTSREPORT03F OF THIS.REPORT.HDQTSREPORT;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+               **
+                  DEFINE MENU totalsalesG OF THIS.REPORT.HDQTSREPORT;
+             PROPERTY;
+               OnClick {;create session ;set lock off ;report form FCSHCSAN},;
+               Text "&3G. TOTAL FORECOURT NOT-VAT CASH SALES REPORT FOR SELECTED PERIOD"
+               
+                   DEFINE MENU SEPARHDQTSREPORT03G OF THIS.REPORT.HDQTSREPORT;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+               *
+                DEFINE MENU totalsalesH OF THIS.REPORT.HDQTSREPORT;
+             PROPERTY;
+               OnClick {;create session ;set lock off ;report form FGINVSAN},;
+               Text "&3H. TOTAL NON-TAXABLE INVOICES (CRT) NON-VAT SALES REPORT FOR SELECTED PERIOD"
+               
+                   DEFINE MENU SEPARHDQTSREPORT03H OF THIS.REPORT.HDQTSREPORT;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+               *
+                 DEFINE MENU totalsalesI OF THIS.REPORT.HDQTSREPORT;
+             PROPERTY;
+               OnClick {;create session ;set lock off ;report form FGVISSAN},;
+               Text "&3I. TOTAL VISA CARDS NON-VAT SALES REPORT FOR SELECTED PERIOD"
+               
+                   DEFINE MENU SEPARHDQTSREPORT03I OF THIS.REPORT.HDQTSREPORT;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+               *
+                  DEFINE MENU totalsalesJ OF THIS.REPORT.HDQTSREPORT;
+             PROPERTY;
+               OnClick {;create session ;set lock off ;report form FGJCTSAN},;
+               Text "&3J. TOTAL JOB CARD NON-VAT CASH SALES REPORT FOR SELECTED PERIOD"
+               
+                   DEFINE MENU SEPARHDQTSREPORT03J OF THIS.REPORT.HDQTSREPORT;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+               *
+               **
+                   DEFINE MENU totalsalesK OF THIS.REPORT.HDQTSREPORT;
+             PROPERTY;
+               OnClick {;create session ;set lock off ;report form FGLPTSAN},;
+               Text "&3K. TOTAL LUBES/LPG NON-VAT CASH SALES REPORT FOR SELECTED PERIOD"
+               
+                   DEFINE MENU SEPARHDQTSREPORT03K OF THIS.REPORT.HDQTSREPORT;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+               *
+                           
+    DEFINE MENU totalsales3L OF THIS.REPORT.HDQTSREPORT;
+             PROPERTY;
+               OnClick {;create session ;set lock off ;report form SVTOTSSM},;
+               Text "&3L. SALES SUMMARY FOR SELECTED PERIOD"
+               
+                   DEFINE MENU SEPARHDQTSREPORT033L OF THIS.REPORT.HDQTSREPORT;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+ 
+ 
+               DEFINE MENU MANUALMTRS OF THIS.REPORT.HDQTSREPORT;
+             PROPERTY;
+               OnClick {;create session ;set lock off ;report form FGMULFM},;
+               Text "&4. MONITORING OF ELECTONIC METERS"
+                   DEFINE MENU SEPARHDQTSREPORT04 OF THIS.REPORT.HDQTSREPORT;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+               
+                 DEFINE MENU MANUARTTLMTRS OF THIS.REPORT.HDQTSREPORT;
+             PROPERTY;
+               OnClick {;create session ;set lock off ;report form FGRTT},;
+               Text "&5. RETURN TO TANK (LTRS) FOR SELECTED PERIOD"
+                   DEFINE MENU SEPARHDQTSREPORT05 OF THIS.REPORT.HDQTSREPORT;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+           *    if BLEVEL < 5  && manager only
+               
+               DEFINE MENU REVERSEDJOBS OF THIS.REPORT.HDQTSREPORT;
+             PROPERTY;
+               OnClick {;create session ;set lock off ;report form FGJOBREV},;
+               Text "&6. JOB CARDS REVERSED FOR SELECTED PERIOD"
+                   DEFINE MENU SEPARHDQTSREPORT06 OF THIS.REPORT.HDQTSREPORT;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+               
+            DEFINE MENU JOBCARDSFORDATES OF THIS.REPORT.HDQTSREPORT;
+             PROPERTY;
+               OnClick {;create session ;set lock off ;report form FGJOBSEL},;
+               Text "&7. JOB CARDS FOR SELECTED PERIOD"
+                   DEFINE MENU SEPARHDQTSREPORT07 OF THIS.REPORT.HDQTSREPORT;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+               
+            DEFINE MENU SHIFTWHITESALES OF THIS.REPORT.HDQTSREPORT;
+             PROPERTY;
+               OnClick {;create session ;set lock off ;report form SHIFTSAL},;
+               Text "&8. SHIFT WHITE PRODUCTS SALES IN LITRES SELECTED PERIOD"
+       
+                    DEFINE MENU SEPARHDQTSREPORT08 OF THIS.REPORT.HDQTSREPORT;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+               
+            DEFINE MENU DAILYWHITESALES OF THIS.REPORT.HDQTSREPORT;
+             PROPERTY;
+               OnClick {;create session ;set lock off ;report form SHIFTSAD},;
+               Text "&9. DAILY WHITE PRODUCTS SALES IN LITRES SELECTED PERIOD"
+                   DEFINE MENU SEPARHDQTSREPORT09 OF THIS.REPORT.HDQTSREPORT;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+               *
+                DEFINE MENU DAILYWHITESALESB OF THIS.REPORT.HDQTSREPORT;
+             PROPERTY;
+               OnClick {;create session ;set lock off ;report form SHIFTSAM},;
+               Text "&9b. MONTHLY WHITE PRODUCTS SALES IN LITRES SELECTED PERIOD"
+                   DEFINE MENU SEPARHDQTSREPORT09B OF THIS.REPORT.HDQTSREPORT;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+               *
+                DEFINE MENU DAILYWHITESALESC OF THIS.REPORT.HDQTSREPORT;
+             PROPERTY;
+               OnClick {;create session ;set lock off ;report form SHIFTSAA},;
+               Text "&9C. ANNUAL WHITE PRODUCTS SALES IN LITRES SELECTED PERIOD"
+                   DEFINE MENU SEPARHDQTSREPORT09C OF THIS.REPORT.HDQTSREPORT;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+             
+               *
+            DEFINE MENU METERSUDIT OF THIS.REPORT.HDQTSREPORT;
+             PROPERTY;
+                         OnClick {;create session ;set lock off ;report form SALMTRS},;
+               Text "1&0. CHANGED OPENING FUELS & LUBES Meters Audit Report FOR SELECTED PERIOD"
+                   DEFINE MENU SEPARHDQTSREPORT10 OF THIS.REPORT.HDQTSREPORT;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+                 DEFINE MENU METERSUDITALL OF THIS.REPORT.HDQTSREPORT;
+             PROPERTY;
+                         OnClick {;create session ;set lock off ;report form SALMTRSA},;
+               Text "11. &ALL FUELS and LUBES Meters Audit Report FOR SELECTED PERIOD"
+         
+               DEFINE MENU SEPARHDQTSREPORT0112a OF THIS.REPORT.HDQTSREPORT;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+
+            
+             DEFINE MENU MONKYREPO512 OF THIS.REPORT.HDQTSREPORT;
+             PROPERTY;
+               OnClick {;create session ;set lock off ;report form scsshift},;
+               Text "12. &Current Shift Sales."
+               
+                 DEFINE MENU SEPARHDQTSREPORT0112 OF THIS.REPORT.HDQTSREPORT;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+
+
+       
+            DEFINE MENU INVSBCARDSFORDATES OF THIS.REPORT.HDQTSREPORT;
+             PROPERTY;
+               OnClick {;create session ;set lock off ;report form INVSELPD},;
+               Text "13 &INVOICE REGISTER FOR SELECTED PERIOD"
+                   DEFINE MENU SEPARHDQTSINVSRT07 OF THIS.REPORT.HDQTSREPORT;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+             
+             DEFINE MENU SUMCASREC OF THIS.REPORT.HDQTSREPORT;
+             PROPERTY;
+               OnClick {;create session ;set lock off ;report form smcasrec},;
+               Text "14 &Summary Cashiers' Reconciliation Report for Seleced Period By Shift Date, No, ID."
+                   DEFINE MENU SEPARHDQTSINVSRT01014 OF THIS.REPORT.HDQTSREPORT;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+            
+              DEFINE MENU SUMDCASREC OF THIS.REPORT.HDQTSREPORT;
+             PROPERTY;
+               OnClick {;create session ;set lock off ;report form sdcasrec},;
+               Text "15 Summary Cashiers' &Reconciliation Report for Seleced Period By Shift Date."
+               
+                   DEFINE MENU SEPARHDQTSINVSRT01015 OF THIS.REPORT.HDQTSREPORT;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+             
+   
+              DEFINE MENU REPRINTJOB OF THIS.REPORT.HDQTSREPORT;
+             PROPERTY;
+               OnClick {;create session ;set lock off ;do fgrjobcd.prg with form.bluser},;
+               Text "16 Reprint Selected &Job Card No and Date."
+               
+                   DEFINE MENU SEPARHDQTSJBRPRINT OF THIS.REPORT.HDQTSREPORT;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+         
+             
+             **
+             
+              DEFINE MENU SUMDCASREC17 OF THIS.REPORT.HDQTSREPORT;
+             PROPERTY;
+               OnClick {;create session ;set lock off ;report form prdrecpt},;
+               Text "17 Customer Receipts/Debits/Credits for Selected Period."
+               
+                   DEFINE MENU SEPARHDQTSINVSRT0101517 OF THIS.REPORT.HDQTSREPORT;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+               **
+                 DEFINE MENU MANUALMTRS18 OF THIS.REPORT.HDQTSREPORT;
+             PROPERTY;
+               OnClick {;create session ;set lock off ;report form FGPUMSAL},;
+               Text "&18. PUMP THROUGHPUT FOR SELECTED PERIOD"
+               
+          *         DEFINE MENU SEPARHDQTSREPORT18 OF THIS.REPORT.HDQTSREPORT;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+               
+                    DEFINE MENU SEPARHEADOFF OF THIS.REPORT;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+             
+  DEFINE MENU STNSREPORT OF THIS.REPORT;
+         PROPERTY;
+            TEXT "2. STATION"
+
+ 
+        DEFINE MENU MONREPO0 OF THIS.REPORT.STNSREPORT;
+             PROPERTY;
+               OnClick {;create session ;set lock off ;report form rshiftq1},;
+               Text "&1. DETAILED SALES REPORT FOR SELECTED PERIOD"
+               
+                    DEFINE MENU SEPARSTNSREPORT01 OF THIS.REPORT.STNSREPORT;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+                      
+               
+DEFINE MENU MONTNLPREPRT1 OF THIS.REPORT.STNSREPORT;
+             PROPERTY;
+               OnClick {;create session ;set lock off ;report form mshiftq1},;
+               Text "&2. IS YOUR BUSINESS IMPROVING - MONTHLY"
+                   
+                    DEFINE MENU SEPARSTNSREPORT02 OF THIS.REPORT.STNSREPORT;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+             
+
+DEFINE MENU MONTNLREPRT2 OF THIS.REPORT.STNSREPORT;
+             PROPERTY;
+               OnClick {;create session ;set lock off ;report form FGBLACK},;
+               Text "&3. SALES SUMMARY."
+    
+                    DEFINE MENU SEPARSTNSREPORT03 OF THIS.REPORT.STNSREPORT;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+             
+     
+DEFINE MENU MONTNLREPORT3 OF THIS.REPORT.STNSREPORT;
+             PROPERTY;
+               OnClick {;create session ;set lock off ;report form FGCARWAS},;
+               Text "&4. DETAILED CAR WASHERS BONUS AND WAGES."
+                   
+                    DEFINE MENU SEPARSTNSREPORT04 OF THIS.REPORT.STNSREPORT;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+             
+                    
+DEFINE MENU MONTNLREPOR OF THIS.REPORT.STNSREPORT;
+             PROPERTY;
+               OnClick {;create session ;set lock off ;report form rshiftqc},;
+               Text "&5. SALES SUMMARY BY CENTRE."
+    
+                    DEFINE MENU SEPARSTNSREPORT05 OF THIS.REPORT.STNSREPORT;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+             
+               DEFINE MENU MONTNLYREPORT6 OF THIS.REPORT.STNSREPORT;
+             PROPERTY;
+               OnClick {;create session ;set lock off ;report form FGpattyc},;
+               Text "&6. DETAILED PITSTOP SERVICES BONUS AND WAGES"
+                   
+                    DEFINE MENU SEPARSTNSREPORT06 OF THIS.REPORT.STNSREPORT;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+             
+               DEFINE MENU MONTNLREPORT7 OF THIS.REPORT.STNSREPORT;
+             PROPERTY;
+               OnClick {;create session ;set lock off ;report form FGCARWAM},;
+               Text "&7. SUMMARY CAR WASHERS BONUS AND WAGES."
+                   
+                    DEFINE MENU SEPARSTNSREPORT07 OF THIS.REPORT.STNSREPORT;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+             
+                  DEFINE MENU MONTNLYREPORT8 OF THIS.REPORT.STNSREPORT;
+             PROPERTY;
+               OnClick {;create session ;set lock off ;report form FGpattyM},;
+               enabled .T.,;
+               Text "&8. SUMMARY PITSTOP SERVICES BONUS AND WAGES"
+                   
+                    DEFINE MENU SEPARSTNSREPORT08 OF THIS.REPORT.STNSREPORT;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+             
+                    DEFINE MENU pricechange OF THIS.REPORT.STNSREPORT;
+             PROPERTY;
+               OnClick {;create session ;set lock off ;report form fgprccge},;
+               Text "&9. Price Change for Selected Period"
+                   
+                    DEFINE MENU SEPARSTNSREPORT09 OF THIS.REPORT.STNSREPORT;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+             
+                       DEFINE MENU dssrtype OF THIS.REPORT.STNSREPORT;
+             PROPERTY;
+               OnClick {;create session ;set lock off ;report form fgsaltyp},;
+               Text "1&0. Daily Sales BY Selected Product Type and Date Range"
+                   
+                    DEFINE MENU SEPARSTNSREPORT10 OF THIS.REPORT.STNSREPORT;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+             
+               DEFINE MENU DAILYREPRT1 OF THIS.REPORT.STNSREPORT;
+             PROPERTY;
+               OnClick {;create session ;set lock off ;report form DSHIFTQ2},;
+               Text "11. IS YOUR BUSINESS IMPROVING - DAILY"
+                   
+                    DEFINE MENU SEPARSTNSREPORT11 OF THIS.REPORT.STNSREPORT;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+             
+                   DEFINE MENU CYDAILYREPRT1 OF THIS.REPORT.STNSREPORT;
+             PROPERTY;
+               OnClick {;create session ;set lock off ;report form SHIFTCYL},;
+               Text "12. REGISTER OF GAS &CYLINDERS ISSUED - SELECTED DATE RANGE"
+
+           DEFINE MENU SEPARSTNBNKSSREPORT11 OF THIS.REPORT.STNSREPORT;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+            
+             
+                     DEFINE MENU BNKSA OF THIS.REPORT.STNSREPORT;
+             PROPERTY;
+               OnClick {;create session ;set lock off ;report form MOBNKS},;
+               Text "13. BANKINGS FOR SELECTED DATE RANGE"
+       
+        DEFINE MENU SEPARSTNBNKSSREPORT14 OF THIS.REPORT.STNSREPORT;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+         
+                     DEFINE MENU BNKSA14 OF THIS.REPORT.STNSREPORT;
+             PROPERTY;
+              OnClick {;create session ;set lock off ;report form mocaspdt},;
+               Text "14. Detailed (Daily) Cash Pos&ition - Selected  Date Range"
+               
+                
+        DEFINE MENU SEPARSTNBNKSSREPORT15 OF THIS.REPORT.STNSREPORT;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+    
+                  DEFINE MENU BNKSA15 OF THIS.REPORT.STNSREPORT;
+             PROPERTY;
+              OnClick {;create session ;set lock off ;report form mobnksd},;
+               Text "15. Summary Bankings - Selected  Date Range"
+               
+                DEFINE MENU BANKSNSREPORT15 OF THIS.REPORT.STNSREPORT;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+              
+                       DEFINE MENU ERRORDivisionSREPORT18 OF THIS.REPORT.STNSREPORT;
+             PROPERTY;
+               OnClick {;create session ;set lock off ;report form anmsales},;
+               Text "16. &ANNUAL VALUE OF SALES BY ITEM, MONTH FOR SELECTED YEAR"
+                     DEFINE MENU SEPARPUR0118 OF THIS.REPORT.STNSREPORT;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+               
+          DEFINE MENU ERRORDivisionSREPORT19 OF THIS.REPORT.STNSREPORT;
+             PROPERTY;
+               OnClick {;create session ;set lock off ;report form ANMSALQ},;
+               Text "17. ANNUAL &QUANTITY OF SALES BY ITEM, MONTH FOR SELECTED YEAR"
+                     DEFINE MENU SEPARPUR0119 OF THIS.REPORT.STNSREPORT;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+
+   DEFINE MENU BANKSNSREPORT17 OF THIS.REPORT;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+    DEFINE MENU ERRORDivisionSREPORT198 OF THIS.REPORT.STNSREPORT;
+             PROPERTY;
+               OnClick {;create session ;set lock off ;report form MSHIFTVC},;
+                Enabled .t.,;
+               Text "18. VAT OUTPUT SUMMARY FOR INVOICES FOR FOR SELECTED PERIOD"
+                     DEFINE MENU SEPARPUR01198 OF THIS.REPORT.STNSREPORT;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+
+ DEFINE MENU ERRORDivisionSREPORT199 OF THIS.REPORT.STNSREPORT;
+             PROPERTY;
+               OnClick {;create session ;set lock off ;report form MSHIFTLB},;
+                Enabled .t.,;
+              Text "19. VAT OUTPUT SUMMARY FOR LUBES JOB CARDS REPORT FOR SELECTED PERIOD"
+                     DEFINE MENU SEPARPUR01199 OF THIS.REPORT.STNSREPORT;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+
+
+ DEFINE MENU ERRORDivisionSREPORT20 OF THIS.REPORT.STNSREPORT;
+             PROPERTY;
+               OnClick {;create session ;set lock off ;report form MSHIFTLG},;
+               Enabled .t.,;
+               Text "20. VAT OUTPUT SUMMARY FOR LBG CASH SALES REPORT FOR SELECTED PERIOD"
+                     DEFINE MENU SEPARPUR0120 OF THIS.REPORT.STNSREPORT;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+
+ DEFINE MENU ERRORDivisionSREPORT21 OF THIS.REPORT.STNSREPORT;
+             PROPERTY;
+               OnClick {;create session ;set lock off ;report form MSHIFTFC},;
+                Enabled .t.,;
+               Text "21. VAT OUTPUT SUMMARY FOR FC CASH SALES REPORT FOR SELECTED PERIOD"
+                     DEFINE MENU SEPARPUR0121 OF THIS.REPORT.STNSREPORT;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+   
+                DEFINE MENU ERRORDivisionSREPORT22 OF THIS.REPORT.STNSREPORT;
+             PROPERTY;
+               OnClick {;create session ;set lock off ;report form MSHIFTSE},;
+                Enabled .t.,;
+               Text "22. ZERO/EXEMP VAT RATED SALES REPORT FOR SELECTED PERIOD"
+                     DEFINE MENU SEPARPUR0122 OF THIS.REPORT.STNSREPORT;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+
+ DEFINE MENU ERRORDivisionSREPORT23 OF THIS.REPORT.STNSREPORT;
+             PROPERTY;
+               OnClick {;create session ;set lock off ;report form MSHIFTSV},;
+                Enabled .t.,;
+               Text "23. VATABLE  SALES REPORT FOR SELECTED PERIOD"
+                     DEFINE MENU SEPARPUR0123 OF THIS.REPORT.STNSREPORT;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+          
+                DEFINE MENU ERRORDivisionSREPORT24 OF THIS.REPORT.STNSREPORT;
+             PROPERTY;
+               OnClick {;create session ;set lock off ;report form fgwpmtr},;
+               Text "24. DETAILED WHITE PRODUCTS SALES BY SHIFT DATE, NO, ID FOR SELECTED PERIOD"
+                     DEFINE MENU SEPARPUR0124 OF THIS.REPORT.STNSREPORT;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+               
+                   DEFINE MENU ERRORDivisionSREPORT25 OF THIS.REPORT.STNSREPORT;
+             PROPERTY;
+               OnClick {;create session ;set lock off ;report form fgwpmtrs},;
+               Text "25. SUMMARY WHITE PRODUCTS SALES BY SHIFT DATE, NO, ID FOR SELECTED PERIOD"
+                     DEFINE MENU SEPARPUR0125 OF THIS.REPORT.STNSREPORT;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+            
+                        DEFINE MENU ERRORDivisionSREPORT26 OF THIS.REPORT.STNSREPORT;
+             PROPERTY;
+               OnClick {;create session ;set lock off ;report form darrecpt},;
+               Text "26. TOP-UP RECEIPTS FOR SELECTED DATE RANGE"
+                     DEFINE MENU SEPARPUR0126 OF THIS.REPORT.STNSREPORT;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+               
+                          DEFINE MENU ERRORDivisionSREPORT27 OF THIS.REPORT.STNSREPORT;
+             PROPERTY;
+               OnClick {;create session ;set lock off ;report form fgvatot},;
+               Text "27. SUMMARY NON-VATABLE OUTPUT REPORT FOR SELECTED DATE RANGE"
+                     DEFINE MENU SEPARPUR0127 OF THIS.REPORT.STNSREPORT;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+             
+               
+              DEFINE MENU ERRORDivisionSREPORT28 OF THIS.REPORT.STNSREPORT;
+             PROPERTY;
+               OnClick {;create session ;set lock off ;report form fgvatoV},;
+               Text "28. SUMMARY VATABLE OUTPUT REPORT FOR SELECTED DATE RANGE"
+                     DEFINE MENU SEPARPUR0128 OF THIS.REPORT.STNSREPORT;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+             
+             **
+                       DEFINE MENU ERRORDivisionSREPORT29 OF THIS.REPORT.STNSREPORT;
+             PROPERTY;
+               OnClick {;create session ;set lock off ;report form monlub},;
+               Text "29. LPG/LUBES CASH SALES FOR SELECTED DATE RANGE"
+                     DEFINE MENU SEPARPUR0129 OF THIS.REPORT.STNSREPORT;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+               
+                         DEFINE MENU ERRORDivisionSREPORT29b OF THIS.REPORT.STNSREPORT;
+             PROPERTY;
+               OnClick {;create session ;set lock off ;report form monlPG},;
+               Text "29B. LPG DETAILED CASH SALES FOR SELECTED DATE RANGE"
+               
+                     DEFINE MENU SEPARPUR0129b OF THIS.REPORT.STNSREPORT;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+               *
+                          DEFINE MENU ERRORDivisionSREPORT29C OF THIS.REPORT.STNSREPORT;
+             PROPERTY;
+               OnClick {;create session ;set lock off ;report form   MONLGLB},;
+               Text "29C. DETAILED CASH SALES FOR SELECTED ITEM AND DATE RANGE"
+               
+                     DEFINE MENU SEPARPUR0129C OF THIS.REPORT.STNSREPORT;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+               *
+               
+              
+                          DEFINE MENU ERRORDivisionSREPORT30 OF THIS.REPORT.STNSREPORT;
+             PROPERTY;
+               OnClick {;create session ;set lock off ;report form monivlub},;
+               Text "30. LPG/LUBES INVOICE SALES FOR SELECTED DATE RANGE"
+                     DEFINE MENU SEPARPUR0130 OF THIS.REPORT.STNSREPORT;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+             
+               
+              DEFINE MENU ERRORDivisionSREPORT31 OF THIS.REPORT.STNSREPORT;
+             PROPERTY;
+               OnClick {;create session ;set lock off ;report form monvslub},;
+               Text "31. LPG/LUBES CRT CARD SALES FOR SELECTED DATE RANGE"
+                     DEFINE MENU SEPARPUR0131 OF THIS.REPORT.STNSREPORT;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+             
+              DEFINE MENU ERRORDivisionSREPORT32 OF THIS.REPORT.STNSREPORT;
+             PROPERTY;
+               OnClick {;create session ;set lock off ;report form fgdbvsal},;
+               Text "32. CREDIT &CARD SALES BY PRODUCT FOR SELECTED DATE RANGE"
+                     DEFINE MENU SEPARPUR0132 OF THIS.REPORT.STNSREPORT;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+             
+               DEFINE MENU ERRORDivisionSREPORT32b OF THIS.REPORT.STNSREPORT;
+             PROPERTY;
+               OnClick {;create session ;set lock off ;report form fgDINVSL},;
+               Text "32b. INVOICES SALES BY PRODUCT FOR SELECTED DATE RANGE"
+                     DEFINE MENU SEPARPUR0132b OF THIS.REPORT.STNSREPORT;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+               
+             
+             
+              DEFINE MENU ERRORDivisionSREPORT33 OF THIS.REPORT.STNSREPORT;
+             PROPERTY;
+               OnClick {;create session ;set lock off ;report form fgdswets},;
+               Text "33. Shift Wet Stock Report by Product FOR SELECTED DATE RANGE"
+                     DEFINE MENU SEPARPUR0133 OF THIS.REPORT.STNSREPORT;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+             
+               DEFINE MENU ERRORDivisionSREPORT33B OF THIS.REPORT.STNSREPORT;
+             PROPERTY;
+               OnClick {;create session ;set lock off ;report form fgdswetd},;
+               Text "33b. Shift Wet Stock Report by Tank FOR SELECTED DATE RANGE"
+               
+                     DEFINE MENU SEPARPUR0133b OF THIS.REPORT.STNSREPORT;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+                DEFINE MENU ERRORDivisionSREPORT34 OF THIS.REPORT.STNSREPORT;
+             PROPERTY;
+               OnClick {;create session ;set lock off ;report form fgmswets},;
+               Text "34. Daily Wet Stock Report By Product FOR SELECTED DATE RANGE"
+                     DEFINE MENU SEPARPUR0134 OF THIS.REPORT.STNSREPORT;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+               
+               DEFINE MENU ERRORDivisionSREPORT34B OF THIS.REPORT.STNSREPORT;
+             PROPERTY;
+               OnClick {;create session ;set lock off ;report form fgmswetd},;
+               Text "34b. Daily Wet Stock Report By Tank FOR SELECTED DATE RANGE"
+               
+                     DEFINE MENU SEPARPUR0134B OF THIS.REPORT.STNSREPORT;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+             DEFINE MENU MONTNLREPOR35 OF THIS.REPORT.STNSREPORT;
+             PROPERTY;
+               OnClick {;create session ;set lock off ;report form rshiftqo},;
+               Text "35. SALES FROM OTHER SERVICES FOR SELECTED DATE RANGE."
+    
+                    DEFINE MENU SEPARSTNSREPORT0535 OF THIS.REPORT.STNSREPORT;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+        
+              DEFINE MENU ERRORDivisionSREPORT36 OF THIS.REPORT.STNSREPORT;
+             PROPERTY;
+               OnClick {;create session ;set lock off ;report form MSHIFTVS},;
+               Text "36. VAT OUTPUT SUMMARY FOR CREDIT CARD SALES (POS) FOR FOR SELECTED PERIOD"
+                     DEFINE MENU SEPARPUR01136 OF THIS.REPORT.STNSREPORT;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+               
+        DEFINE MENU ERRORDivisionSREPORT37 OF THIS.REPORT.STNSREPORT;
+             PROPERTY;
+               OnClick {;create session ;set lock off ;report form fg15mvtp},;
+               Text "37 White Products Stock Loss(gain) for selected years by year,product"
+                     DEFINE MENU SEPARPUR01137 OF THIS.REPORT.STNSREPORT;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+            DEFINE MENU ERRORDivisionSREPORT38 OF THIS.REPORT.STNSREPORT;
+             PROPERTY;
+               OnClick {;create session ;set lock off ;report form fg15mvtM},;
+               Text "38 White Products Stock Loss(gain) for selected years by year,month,product"
+               *      DEFINE MENU SEPARPUR01138 OF THIS.REPORT.STNSREPORT;
+             PROPERTY;
+               Separator .T.,;
+               Text ""       
+ *  DEFINE MENU BANKSNSREPORT18 OF THIS.REPORT;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+               
+               
+ DEFINE MENU COMMREPORT OF THIS.REPORT;
+         PROPERTY;
+            TEXT "3. COMMISSIONS"
+            
+             DEFINE MENU COMMREP01 OF THIS.REPORT.COMMREPORT;
+             PROPERTY;
+               OnClick {;create session ;set lock off ;report form FGDFUEL},;
+               Text "&1. Daily Fuel Commission for SELECTED PERIOD"
+                   
+                    DEFINE MENU SEPARCOMMREP0101 OF THIS.REPORT.COMMREPORT;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+             
+
+  DEFINE MENU COMMREP02 OF THIS.REPORT.COMMREPORT;
+             PROPERTY;
+               OnClick {;create session ;set lock off ;report form FGSFUEL},;
+               Text "&2. Summary Fuel Commission for SELECTED PERIOD"
+
+                 DEFINE MENU SEPARCOMMREP0102 OF THIS.REPORT.COMMREPORT;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+
+      DEFINE MENU COMMREP03 OF THIS.REPORT.COMMREPORT;
+             PROPERTY;
+               OnClick {;create session ;set lock off ;report form fgdfclg},;
+               Text "&3. Daily FC Lubes/LPG Commission for SELECTED PERIOD"
+      DEFINE MENU SEPARCOMMREP0103 OF THIS.REPORT.COMMREPORT;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+  DEFINE MENU COMMREP04 OF THIS.REPORT.COMMREPORT;
+             PROPERTY;
+               OnClick {;create session ;set lock off ;report form fgsfclg},;
+               Text "&4. Summary FC Lubes/LPG Commission for SELECTED PERIOD"
+      DEFINE MENU SEPARCOMMREP0104 OF THIS.REPORT.COMMREPORT;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+    DEFINE MENU COMMREP05 OF THIS.REPORT.COMMREPORT;
+             PROPERTY;
+               OnClick {;create session ;set lock off ;report form fgdserve},;
+               Text "&5. Daily Services Commission for SELECTED PERIOD"
+      DEFINE MENU SEPARCOMMREP0105 OF THIS.REPORT.COMMREPORT;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+  DEFINE MENU COMMREP06 OF THIS.REPORT.COMMREPORT;
+             PROPERTY;
+               OnClick {;create session ;set lock off ;report form fgsserve},;
+               Text "&6. Summary Services Commission for SELECTED PERIOD"
+
+         
+      DEFINE MENU SEPARCOMMREP0107 OF THIS.REPORT.COMMREPORT;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+
+ DEFINE MENU COMMREP07 OF THIS.REPORT.COMMREPORT;
+             PROPERTY;
+               OnClick {;create session ;set lock off ;report form FGDSREP},;
+               Text "&7. Daily Sales Rep Report for SELECTED PERIOD"
+               
+      DEFINE MENU SEPARCOMMREP0108 OF THIS.REPORT.COMMREPORT;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+               
+ DEFINE MENU COMMREP09 OF THIS.REPORT.COMMREPORT;
+             PROPERTY;
+               OnClick {;create session ;set lock off ;report form FGOFSALS},;
+               Text "&8. Sales By Customer Attendant For SELECTED PERIOD"
+               
+      DEFINE MENU SEPARCOMMREP0109 OF THIS.REPORT.COMMREPORT;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+                              
+ DEFINE MENU COMMREP10 OF THIS.REPORT.COMMREPORT;
+             PROPERTY;
+               OnClick {;create session ;set lock off ;report form  fgoffcwd},;
+               Text "&9. Detailed Car Washers Earnings For Selected Period."
+               
+      DEFINE MENU SEPARCOMMREP0110 OF THIS.REPORT.COMMREPORT;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+               
+                DEFINE MENU COMMREP11 OF THIS.REPORT.COMMREPORT;
+             PROPERTY;
+               OnClick {;create session ;set lock off ;report form  fgoffcws},;
+               Text "1&0. Summary Car Washers Earnings For Selected Period."
+               
+      DEFINE MENU SEPARCOMMREP0111 OF THIS.REPORT.COMMREPORT;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+                   
+                DEFINE MENU COMMREP12 OF THIS.REPORT.COMMREPORT;
+             PROPERTY;
+               OnClick {;create session ;set lock off ;report form  fgoffcwp},;
+               Text "11. &INDIVIDUAL CAR WASHERS EARNINGS REPORT FOR SELECTED PERIOD."
+               
+    *  DEFINE MENU SEPARCOMMREP0112 OF THIS.REPORT.COMMREPORT;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+         
+                    DEFINE MENU SEPARHEADOFF4 OF THIS.REPORT;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+                              
+ DEFINE MENU TRANSREPORT OF THIS.REPORT;
+         PROPERTY;
+            TEXT "4. TRANSACTIONS"
+            
+             DEFINE MENU COMMREP01 OF THIS.REPORT.TRANSREPORT;
+             PROPERTY;
+               OnClick {;create session ;set lock off ;report form fgtjobc},;
+               Text "&1. Job Cards sorted by Item Type, Code, Date"
+                   
+                    DEFINE MENU SEPARTRANREP0101 OF THIS.REPORT.TRANSREPORT;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+               
+               DEFINE MENU COMMREP02 OF THIS.REPORT.TRANSREPORT;
+             PROPERTY;
+               OnClick {;create session ;set lock off ;report form fgtjobs},;
+               Text "&2. Job Cards sorted by Item Type, Date,Code"
+                   
+                    DEFINE MENU SEPARTRANREP0102 OF THIS.REPORT.TRANSREPORT;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+               *
+               DEFINE MENU COMMREP03 OF THIS.REPORT.TRANSREPORT;
+             PROPERTY;
+               OnClick {;create session ;set lock off ;report form fgtinvc},;
+               Text "&3. Invoices sorted by Item Type, Code, Date"
+                   
+                    DEFINE MENU SEPARTRANREP0103 OF THIS.REPORT.TRANSREPORT;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+               
+               DEFINE MENU COMMREP04 OF THIS.REPORT.TRANSREPORT;
+             PROPERTY;
+               OnClick {;create session ;set lock off ;report form fgtinvs},;
+               Text "&4. Detailed Invoices sorted by Customer"
+                   
+                    DEFINE MENU SEPARTRANREP0104 OF THIS.REPORT.TRANSREPORT;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+                *
+                 DEFINE MENU COMMREP04b OF THIS.REPORT.TRANSREPORT;
+             PROPERTY;
+               OnClick {;create session ;set lock off ;report form fgtinvss},;
+               Text "&4b. Summary Invoices sorted by Customer"
+                   
+                    DEFINE MENU SEPARTRANREP0104b OF THIS.REPORT.TRANSREPORT;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+               *
+               DEFINE MENU COMMREP05 OF THIS.REPORT.TRANSREPORT;
+             PROPERTY;
+               OnClick {;create session ;set lock off ;report form fgtcadc},;
+               Text "&5. Credit Cards sorted by Item Type, Code, Date"
+                   
+                    DEFINE MENU SEPARTRANREP0105 OF THIS.REPORT.TRANSREPORT;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+               
+               DEFINE MENU COMMREP06 OF THIS.REPORT.TRANSREPORT;
+             PROPERTY;
+               OnClick {;create session ;set lock off ;report form fgtcads},;
+               Text "&6. Credit Cards sorted by Item Type, Date,Code"
+                   
+                    DEFINE MENU SEPARTRANREP0106 OF THIS.REPORT.TRANSREPORT;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+               *
+                DEFINE MENU COMMREP07 OF THIS.REPORT.TRANSREPORT;
+             PROPERTY;
+               OnClick {;create session ;set lock off ;report form fgtfcc},;
+               Text "&7. Forecourt Sales Sorted by Item Type, Code, Date"
+                   
+                    DEFINE MENU SEPARTRANREP0107 OF THIS.REPORT.TRANSREPORT;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+               
+               DEFINE MENU COMMREP08 OF THIS.REPORT.TRANSREPORT;
+             PROPERTY;
+               OnClick {;create session ;set lock off ;report form fgtsbc},;
+               Text "&8. Shift Book Sales sorted by Item Type, Date,Code"
+                   
+                    DEFINE MENU SEPARTRANREP0108 OF THIS.REPORT.TRANSREPORT;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+               *
+                DEFINE MENU COMMREP09 OF THIS.REPORT.TRANSREPORT;
+             PROPERTY;
+               OnClick {;create session ;set lock off ;report form bankrcpt},;
+               Text "&9. BANK CREDITS FOR SELECTED PERIOD"
+                   
+                    DEFINE MENU SEPARTRANREP0109 OF THIS.REPORT.TRANSREPORT;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+               *
+                       DEFINE MENU SEPARHEADOFF5 OF THIS.REPORT;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+               
+               *
+               DEFINE MENU AUDITTEREPORTS OF THIS.REPORT;
+             PROPERTY;
+               Text "&3. AUDIT REPORTS"
+                     DEFINE MENU AUDIEPARPUR00 OF THIS.REPORT;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+               
+  DEFINE MENU AUDITTEREP1 OF THIS.REPORT.AUDITTEREPORTS;
+             PROPERTY;
+               OnClick {;create session ;set lock off ;report form CBDRCPTS},;
+               Text "&1. CASH AND BANK DETAILED RECEIPTS FOR SELECTED PERIOD"
+   
+        DEFINE MENU AUDITSEPARREP1 OF THIS.REPORT.AUDITTEREPORTS;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+                              
+  DEFINE MENU AUDITTEREP2 OF THIS.REPORT.AUDITTEREPORTS;
+             PROPERTY;
+               OnClick {;create session ;set lock off ;report form CBSRCPTS},;
+               Text "&2. CASH AND BANK SUMMARY RECEIPTS FOR SELECTED PERIOD"
+   
+        DEFINE MENU AUDITSEPARREP2 OF THIS.REPORT.AUDITTEREPORTS;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+               
+                                             
+  DEFINE MENU AUDITTEREP3 OF THIS.REPORT.AUDITTEREPORTS;
+             PROPERTY;
+               OnClick {;create session ;set lock off ;report form CBDTRNS},;
+               Text "&3. GENERAL LEDGER CASH & BANK STATEMENT FOR SELECTED PERIOD"
+   
+        DEFINE MENU AUDITSEPARREP3 OF THIS.REPORT.AUDITTEREPORTS;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+               
+               
+                                                           
+  DEFINE MENU AUDITTEREP4 OF THIS.REPORT.AUDITTEREPORTS;
+             PROPERTY;
+               OnClick {;create session ;set lock off ;report form fgaudinv},;
+               Text "&4. Listing of Customer Invoices FOR SELECTED PERIOD"
+   
+        DEFINE MENU AUDITSEPARREP4 OF THIS.REPORT.AUDITTEREPORTS;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+               
+               DEFINE MENU AUDITTEREP5 OF THIS.REPORT.AUDITTEREPORTS;
+             PROPERTY;
+               OnClick {;create session ;set lock off ;report form fgaudvis},;
+               Text "&5. Listing of Credit Cards (POS) FOR SELECTED PERIOD"
+   
+        DEFINE MENU AUDITSEPARREP5 OF THIS.REPORT.AUDITTEREPORTS;
+             PROPERTY;
+               Separator .t.,;
+               Text ""
+               
+                   DEFINE MENU AUDITTEREP6 OF THIS.REPORT.AUDITTEREPORTS;
+             PROPERTY;
+               OnClick {;create session ;set lock off ;report form cbbnkcrs},;
+               Text "&6. BANK ACCOUNT TRANSACTIONS (CHEQUES, CASH & DIRECT CREDITS) FOR SELECTED PERIOD"
+   
+        DEFINE MENU AUDITSEPARREP6 OF THIS.REPORT.AUDITTEREPORTS;
+             PROPERTY;
+               Separator             .T.,;
+               Text ""
+               
+               
+                      DEFINE MENU AUDITTEREP7 OF THIS.REPORT.AUDITTEREPORTS;
+             PROPERTY;
+               OnClick {;create session ;set lock off ;report form cbbnkOFF},;
+               Text "&7. AUDIT TRAIL OF CUSTOMER INVOICES SORTED BY USER, SHIFT DATE"
+   
+        DEFINE MENU AUDITSEPARREP7 OF THIS.REPORT.AUDITTEREPORTS;
+             PROPERTY;
+               Separator             .T.,;
+               Text ""
+               
+                    
+                      DEFINE MENU AUDITTEREP8 OF THIS.REPORT.AUDITTEREPORTS;
+             PROPERTY;
+               OnClick {;create session ;set lock off ;report form cbbnkvis},;
+               Text "&8. AUDIT TRAIL OF CREDIT CARDS SORTED BY USER, SHIFT DATE"
+   
+        DEFINE MENU AUDITSEPARREP8 OF THIS.REPORT.AUDITTEREPORTS;
+             PROPERTY;
+               Separator             .T.,;
+               Text ""
+               
+               *cbbnkvis
+               
+               *BANK ACCOUNT TRANSACTIONS (CHEQUES, CASH & DIRECT CREDITS) FROM
+   ****************************************************************************
+   procedure SearchOnClick
+
+   * Bring up Search.WFM.
+   ****************************************************************************
+   private searchForm, searchItem, saveRec, saveFilt, searchcoy,;
+           searchdiv, searchcen,searchdate
+      local l1,l2,l3,l4,l5,l0
+   if reccount() = 0                     && If table is empty, don't search
+      InformationMessage("This table is empty.", "Sorry!")
+   else
+      form.CheckChanged(.T.)
+      set procedure to Search.WFM additive
+      searchForm = new SearchForm()
+      searchForm.keyName = "ddmmyyyy"  && Indicator of key expression
+        searchForm.formatting = "@X"
+      searchForm.mdi = .F.
+      searchItem = searchForm.Readmodal()
+      if type("searchItem") = "O" .and. searchItem.id <> 0
+                                      && If search wasn't cancelled
+         saveRec = Bookmark()            && save current record in case seek is
+                                      && unsuccessful
+       l0 = "1"
+       l1 = left(searchform.value,8)  && ddmmyyyy
+       l2 = right(l1,4)  && yyyy
+       l1 = left(l1,4)  && ddmm
+       l3 = left(l1,2) && dd
+       l4 = right(l1,2) && mm
+       l5 = l3+"/"+l4+"/"+l2
+       searchdate =  ctod(l5)
+     *  searchcen = right(searchform.value,6)
+       form.enabled = .F.
+    *  go top
+        seek dtos(searchdate)
+* locate for period = searchcoy .and. doctype = searchdiv
+         if .not. found()
+            InformationMessage(FormatStr("Trans Date %1 \n Was not Found.",;
+                                         searchForm.value),;
+                               "Info")
+            if .not. eof()
+               go saverec()
+            else
+               go bottom
+            endif
+         endif
+         form.enabled = .T.
+      endif
+
+      searchForm.Release()
+      close procedure Search.WFM
+        form.BrowseOnNavigate()    
+   endif
+
+
+     ***************************************************************************
+   procedure ViewEditOnClick
+   ****************************************************************************
+
+   form.ViewEdit()
+  ****************************************************************************
+    procedure OnExit
+     form.Release()
+
+    procedure OnQuitAll
+   
+     form.Release()
+
+ quit
+
+ENDCLASS
+
+
+

@@ -1,0 +1,671 @@
+////////////////////////////////////////////////////////////////////////////////
+// Output Filename: C:\KENSERVICE\IDSSYS\FG15SMP_FCV.WFM                      //
+// Created By:      dBASE Form Converter Wizard                               //
+// Created On:      Saturday June 25, 2016 At 16:10:12                        //
+// Object Count:    20                                                        //
+////////////////////////////////////////////////////////////////////////////////
+*******************************************************************************
+*  PROGRAM:      FG15SMP.wfm
+*
+*  WRITTEN BY:   W Nyongesa
+*
+*  DATE:         05/2000
+*
+*  UPDATED:     12/2012
+*
+*  REVISION:     $Revision:   1.0
+*
+*  VERSION:      Visual dBASE
+*
+*  DESCRIPTION:  This program maintains the StockMaster master file
+*
+*  PARAMETERS:   None
+*
+*  CALLS:        FG15SMP.mnu         (Menu file)
+*                KBUTTONS.CC          (Custom Controls file)
+*                Monthly Stock Movement BY PERIOD.qbe         (View of tables)
+*
+*  USAGE:        DO FG15SMP.wfm
+*
+*******************************************************************************
+#include <messdlg.h>
+shell(.F.)
+create session
+set talk off
+set Design off
+set century on
+SET DATE TO BRITISH
+set ldCheck off && To avoid language driver conflicts
+#define Maxcoy 999
+** END HEADER -- do not remove this line
+//
+// Generated on 25/06/2016
+//
+parameter bUser,bLevel,bModal
+local f
+f = new FG15SMPFORM()
+if (bModal)
+   f.mdi = false // ensure not MDI
+   f.readModal()
+else
+   f.open()
+endif
+
+class FG15SMPFORM of FORM
+set procedure to buttons.cc additive
+   with (this)
+      onClose = class::ONCLOSE
+      open = class::OPEN
+      metric = 6	// Pixels
+      colorNormal = "n+"
+      height = 932.0
+      left = 20.0
+      top = 0.0
+      width = 1296.0
+      text = "Monthly Stock Movement BY PERIOD -- View Mode"
+      windowState = 2	// Maximized
+      mdi = false
+      sizeable = false
+      moveable = false
+      view = "FG15SMP.QBE"
+      menuFile = "FG15SMP.MNU"
+      escExit = false
+      mousePointer = 1	// Arrow
+      minimize = false
+   endwith
+
+   this.RECTANGLE1 = new RECTANGLE(this)
+   with (this.RECTANGLE1)
+      left = 66.0
+      top = 48.0
+      width = 696.0
+      height = 51.0
+      text = "Period Details"
+      colorNormal = "r/btnface"
+      fontName = "Arial Black"
+      fontBold = true
+   endwith
+
+   this.TEXT3 = new TEXTLABEL(this)
+   with (this.TEXT3)
+      height = 21.0
+      left = 84.0
+      top = 69.0
+      width = 54.0
+      text = "YEAR:"
+      colorNormal = "B/BtnFace"
+      fontName = "MS Sans Serif"
+      fontBold = true
+      alignVertical = 1	// Middle
+      alignHorizontal = 2	// Right
+   endwith
+
+   this.TEXT4 = new TEXTLABEL(this)
+   with (this.TEXT4)
+      height = 21.0
+      left = 222.0
+      top = 69.0
+      width = 60.0
+      text = "MONTH:"
+      colorNormal = "B/BtnFace"
+      fontName = "MS Sans Serif"
+      fontBold = true
+      alignVertical = 1	// Middle
+      alignHorizontal = 2	// Right
+   endwith
+
+   this.TEXT7 = new TEXTLABEL(this)
+   with (this.TEXT7)
+      height = 21.0
+      left = 522.0
+      top = 69.0
+      width = 96.0
+      text = "COMPANY:"
+      colorNormal = "B/BtnFace"
+      fontName = "MS Sans Serif"
+      fontBold = true
+      alignVertical = 1	// Middle
+   endwith
+
+   this.RECTANGLE3 = new RECTANGLE(this)
+   with (this.RECTANGLE3)
+      left = 63.0
+      top = 132.0
+      width = 567.0
+      height = 77.0
+      text = "Filter reports by start and end periods and  Item Type"
+      colorNormal = "r/btnface"
+      fontName = "Arial Black"
+      fontBold = true
+   endwith
+
+   this.TEXT1 = new TEXTLABEL(this)
+   with (this.TEXT1)
+      height = 21.0
+      left = 90.0
+      top = 158.0
+      width = 132.0
+      text = "Start Item Type:"
+      colorNormal = "B/BtnFace"
+      fontName = "MS Sans Serif"
+      fontSize = 12.0
+      fontBold = true
+      alignVertical = 1	// Middle
+      alignHorizontal = 2	// Right
+   endwith
+
+   this.SITEM = new ENTRYFIELD(this)
+   with (this.SITEM)
+      onChange = class::SITEM_ONCHANGE
+      dataLink = "FG15SM->start_typ"
+      enabled = false
+      height = 21.0
+      left = 234.0
+      top = 158.0
+      width = 48.0
+      function = "!"
+      colorNormal = "N/BtnFace"
+      colorHighLight = "B+/W*"
+      fontName = "MS Sans Serif"
+      fontSize = 12.0
+      fontBold = true
+      validErrorMsg = "Code Does Not Exist"
+   endwith
+
+   this.TEXT2 = new TEXTLABEL(this)
+   with (this.TEXT2)
+      height = 21.0
+      left = 90.0
+      top = 183.0
+      width = 132.0
+      text = "End Item Type:"
+      colorNormal = "B/BtnFace"
+      fontName = "MS Sans Serif"
+      fontSize = 12.0
+      fontBold = true
+      alignVertical = 1	// Middle
+      alignHorizontal = 2	// Right
+   endwith
+
+   this.EITEM = new ENTRYFIELD(this)
+   with (this.EITEM)
+      onChange = class::EITEM_ONCHANGE
+      dataLink = "FG15SM->end_typ"
+      enabled = false
+      height = 21.0
+      left = 234.0
+      top = 183.0
+      width = 48.0
+      function = "!"
+      colorNormal = "N/BtnFace"
+      colorHighLight = "B+/W*"
+      fontName = "MS Sans Serif"
+      fontSize = 12.0
+      fontBold = true
+      validErrorMsg = "Code Does Not Exist"
+   endwith
+
+   this.TEXT8 = new TEXTLABEL(this)
+   with (this.TEXT8)
+      height = 21.0
+      left = 294.0
+      top = 158.0
+      width = 168.0
+      text = "Month/Year(mmyyyy)"
+      colorNormal = "B/BtnFace"
+      fontName = "MS Sans Serif"
+      fontSize = 12.0
+      fontBold = true
+      alignVertical = 1	// Middle
+      alignHorizontal = 2	// Right
+   endwith
+
+   this.SDATE = new ENTRYFIELD(this)
+   with (this.SDATE)
+      onChange = class::SDATE_ONCHANGE
+      dataLink = "FG15SM->start_mmyy"
+      enabled = false
+      height = 21.0
+      left = 486.0
+      top = 158.0
+      width = 84.0
+      colorNormal = "n/btnface"
+      colorHighLight = "B+/W*"
+      fontName = "MS Sans Serif"
+      fontSize = 12.0
+      fontBold = true
+   endwith
+
+   this.CHILDBROWSE = new BROWSE(this)
+   with (this.CHILDBROWSE)
+      onChange = class::CHILDBROWSE_ONCHANGE
+      fontName = "MS Sans Serif"
+      fontSize = 6.0
+      height = 583.0
+      left = 60.0
+      top = 231.0
+      width = 996.0
+      append = false
+      alias = "mshstmas"
+      fields = 'FGCOD->NAME\H="Product"\28\R\C="N/W",LOCA = MSHSTMAS->DIV+MSHSTMAS->CEN+MSHSTMAS->STO\H="LCTN"\6\C="N/W",mshstmas->BBF\H="BBF"\10\P="999,999.99"\R\C="N/W",PURCH = mshstmas->CR_PURCH+mshstmas->CS_PURCH\H="PURCH"\10\P="999,999.99"\C="N/W",ADJS = mshstmas->ADJ_IN-mshstmas->ADJ_OUT\H="ADJS"\10\P="99,999.99"\C="N/W",TRANS = mshstmas->TRANS_IN-mshstmas->TRANS_OUT\H="TRNS"\10\P="99,999.99"\C="N/W",SALES = mshstmas->CR_SALES+mshstmas->CS_SALES\H="SALES"\10\P="999,999.99"\C="N/W",mshstmas->ON_HAND\H="BCF"\10\P="999,999.99"\R\C="N/W",mshstmas->PHY\H="PHY"\13\P="9,999,999.99",Var = MSHSTMAS->PHY-MSHSTMAS->ON_HAND\H="Var"\10\P="999,999.99"\C="N/W",MSHSTMAS->STD_COST\H="U/Cost"\12\P="9,999,999.99"'
+      delete = false
+      modify = false
+      showRecNo = false
+      text = "MONTHLY STOCK MOVEMENTS"
+   endwith
+
+   this.SYEAR = new ENTRYFIELD(this)
+   with (this.SYEAR)
+      dataLink = "MSHSTMAS->YY"
+      enabled = false
+      height = 21.0
+      left = 150.0
+      top = 69.0
+      width = 60.0
+      colorNormal = "n/btnface"
+      colorHighLight = "B+/W*"
+      fontName = "MS Sans Serif"
+      fontBold = true
+   endwith
+
+   this.SMTH = new ENTRYFIELD(this)
+   with (this.SMTH)
+      dataLink = "MSHSTMAS->MM"
+      enabled = false
+      height = 21.0
+      left = 294.0
+      top = 69.0
+      width = 36.0
+      colorNormal = "n/btnface"
+      colorHighLight = "B+/W*"
+      fontName = "MS Sans Serif"
+      fontBold = true
+   endwith
+
+   this.SCOY = new ENTRYFIELD(this)
+   with (this.SCOY)
+      dataLink = "MSHSTMAS->COY"
+      enabled = false
+      height = 21.0
+      left = 606.0
+      top = 69.0
+      width = 36.0
+      colorNormal = "n/btnface"
+      colorHighLight = "B+/W*"
+      fontName = "MS Sans Serif"
+      fontBold = true
+   endwith
+
+   this.SMTHN = new ENTRYFIELD(this)
+   with (this.SMTHN)
+      dataLink = "FGMONTHS->NAME"
+      enabled = false
+      height = 21.0
+      left = 342.0
+      top = 69.0
+      width = 168.0
+      colorNormal = "n/btnface"
+      colorHighLight = "B+/W*"
+      fontName = "MS Sans Serif"
+      fontBold = true
+   endwith
+
+   this.PREVBUTTON = new PUSHBUTTON(this)
+   with (this.PREVBUTTON)
+      onClick = class::PREVIOUS
+      height = 26.0
+      left = 175.0
+      top = 847.0
+      width = 85.0
+      text = "&PREVIOUS"
+      fontName = "MS Sans Serif"
+      fontSize = 8.0
+      fontBold = true
+   endwith
+
+   this.NEXTBUTTON = new PUSHBUTTON(this)
+   with (this.NEXTBUTTON)
+      onClick = class::NEXT
+      height = 26.0
+      left = 259.0
+      top = 847.0
+      width = 85.0
+      text = "&NEXT"
+      fontName = "MS Sans Serif"
+      fontSize = 8.0
+      fontBold = true
+   endwith
+
+   this.FIRSTBUTTON = new PUSHBUTTON(this)
+   with (this.FIRSTBUTTON)
+      onClick = {; form.CheckCommit(form.inEditMode);GO TOP; form.BrowseOnNavigate();}
+      height = 26.0
+      left = 350.0
+      top = 847.0
+      width = 85.0
+      text = "F&IRST"
+      fontName = "MS Sans Serif"
+      fontSize = 8.0
+      fontBold = true
+   endwith
+
+   this.LASTBUTTON = new PUSHBUTTON(this)
+   with (this.LASTBUTTON)
+      onClick = {; form.CheckCommit(form.inEditMode);GO BOTTOM; form.BrowseOnNavigate();}
+      height = 26.0
+      left = 441.0
+      top = 847.0
+      width = 85.0
+      text = "&LAST"
+      fontName = "MS Sans Serif"
+      fontSize = 8.0
+      fontBold = true
+   endwith
+
+
+   procedure Open
+   ****************************************************************************
+   private CodeField
+    set procedure to sampProc.prg additive
+   FORM.BLUSER=BUSER
+   FORM.BLEVEL=BLEVEL
+   IF EMPTY(FORM.BLUSER) .OR. EMPTY(FORM.BLEVEL)
+      QUIT
+   ENDIF
+   form.firstime = .T.
+   Form.Ldiv = ""
+   Form.Lcen = ""
+   Form.Lsto = ""
+   Form.Ltyp = ""
+   FORM.PCHANGE = .F.
+   Form.Lcla = ""
+   Form.Lcod = ""
+   if type("form.init") = "U"
+      form.init = .T.
+
+      set skip to                     && FG15SMP.qbe contains set skip to gldtl
+      set exact ON                && the .qbe file contains SET EXACT ON
+
+      Form.duplicate = .F.
+      form.inEditMode = .F.           && indicator of view/edit state
+      form.changesMade = .F.          && indicator of changes made to field values
+      form.previousRecord = .F.       && Save record number when appending
+        *** do calculations in another area so form doesn't get updated
+      select FG15SM
+      go top
+      if eof()
+      append blank
+
+      endif
+      replace start_typ with "00"
+      replace end_typ with "ZZ"
+      replace message with "Data Extract in Progress - Please wait"
+      *** Open table for calculating totals and balance due in another work area
+      *** so that datalinks are not affected by record movements
+
+
+      ***
+    *  if type("form.parentpayeeForm") <> "U" && Esc ok if have parent
+    *     form.escExit = .T.
+   *   endif
+
+   endif
+   * form.CoyInfoButton.KenpName = "FG15SMP.WFM"
+   select mshstmas
+   form::Open()                         && Now the form actually opens
+       form.BrowseOnNavigate()              && calculate totals
+   *       form.codingerrors()                        && check coding errors
+
+   *      form.next.setfocus()
+     shell(.F.)
+   ****************************************************************************
+
+   procedure OnClose
+
+   * Clean up.
+   ****************************************************************************
+
+   if this.inEditMode
+    form.ViewEdit()                      && Finish transaction
+   endif
+   close procedure sampProc.prg
+   form.close()
+   close databases
+
+   ****************************************************************************
+
+   procedure BrowseOnNavigate
+   ****************************************************************************
+
+     select FG15SM
+     go top
+     if eof()
+     append blank
+     endif
+     REPLACE COY WITH MSHSTMAS->COY
+     SELECT mshstmas
+
+
+   ****************************************************************************
+
+   procedure ChangesMade
+
+   * Indicate that changes have been made to the current record
+   ****************************************************************************
+   Form.ChangesMade = .T.
+   ****************************************************************************
+
+   procedure Next
+
+   * Go to next record.
+   ****************************************************************************
+
+   form.CheckCommit(form.inEditMode)
+   if .not. empty(dbf())  .and. .not. eof()      && if a table is open in the current workarea
+      skip
+       form.BrowseOnNavigate()
+      if eof()
+         go bottom
+         AlertMessage("At the last record","Alert")
+      endif
+   else
+      InformationMessage("There is no table open in the current workarea.",;
+         "Info")
+   endif
+    ****************************************************************************
+
+   procedure Previous
+
+   * Go to previous record.
+   ****************************************************************************
+
+   form.CheckCommit(form.inEditMode)
+ if .not. empty(dbf())  .and. .not. eof() && if a table is open in the current workarea
+      skip - 1
+      form.BrowseOnNavigate()
+      if bof()
+         go top
+         AlertMessage("At the first record","Alert")
+      endif
+   else
+      InformationMessage("There is no table open in the current workarea.",;
+         "Info")
+   endif
+
+   ****************************************************************************
+
+   procedure CheckCommit (newInEditMode)
+
+        * Finish transaction, if it has been started.
+   ****************************************************************************
+   private CodeField, changesMade
+   changesMade = form.changesMade
+   if form.changesMade
+      CodeField = field(3)  && Field Center
+   *    if     ConfirmationMessage("Commit changes?",;
+                FormatStr("Stckmaster %1",&CodeField)) = YES
+         commit()
+   *     FORM.PCHANGE = .T.
+   *    else
+   *      rollback()
+   *      if .not. bof()
+       *  if .not. empty(form.previousRecord)
+   *            go bookmark()
+           * form.previousRecord
+    *        form.previousRecord = .F.
+    *     endif
+   *   endif
+
+
+    if form.inEditMode .and. newInEditMode
+         begintrans()
+      endif
+      form.changesMade = .F.
+   endif
+   if form.inEditMode <> newInEditMode
+      if newInEditMode                       && Going to Edit mode
+         begintrans()
+      else                                   && Going to View mode
+            rollback()
+         endif
+     * endif
+      form.inEditMode = newInEditMode
+   endif
+
+   * form.root.Receipt.add.enabled = .T.
+   *form.codingerrors()
+   ****************************************************************************
+
+   procedure ViewEdit
+
+   * Toggle between View and Edit modes.
+   ****************************************************************************
+   local inEditMode, editMenu, control
+
+   editMenu = form.root.FG15SMP.VIEWEdit
+
+   *** If ending edit mode then close transaction, otherwise open it.
+   if form.inEditMode
+      form.checkChanged(.F.)
+      editMenu.text = "&Edit"
+      editMenu.shortcut = "Ctrl-E"
+      editMenu.statusMessage = "Edit data."
+      *form.root.FG15SMP.delete.enabled = .F.      && disabled in view mode
+      form.CheckCommit(.F.)                        && Check transaction and
+      form.text = "Monthly Stock Movement BY PERIOD -- View Mode"          && change mode to View
+   *      form.notesEditor.colorNormal = "N/W"
+         form.childBrowse.modify = .F.
+   *      form.notesEditor.modify = .F.
+      form.statusmessage = "In View Mode. " + ;
+                           "Select Monthly Stock Movement BY PERIOD - Edit menu to " + ;
+                           "edit/delete data."
+    else                                            && Switch to edit mode
+      editMenu.text = "Vi&ew"
+      editMenu.shortcut = "Ctrl-E"
+      editMenu.statusMessage = "View data."
+      *form.root.FG15SMP.delete.enabled = .f.      && enabled in edit mode
+      form.CheckCommit(.T.)                        && Check transaction and
+      form.text = "Monthly Stock Movement BY PERIOD -- Edit Mode"          && change mode to Edit
+
+   *     form.notesEditor.modify = .T.
+   form.childBrowse.modify = .T.
+      form.statusmessage = "In Edit Mode.  " + ;
+                           "Select menu Monthly Stock Movement BY PERIOD - View to switch " + ;
+                           "to View mode."
+
+
+   *      form.mphyentry.setfocus()
+
+   endif
+
+   inEditMode = form.inEditMode     && Faster if we don't reference a form
+   control = form.first             &&    variable each time through the loop
+   do
+      if .not. control.className $ "BROWSE,EDITOR,NEXTBUTTON,PREVBUTTON,PUSHBUTTON,IMAGE,TEXT"
+         control.enabled = inEditMode
+      endif
+      control = control.before
+   until control.name = form.first.name
+      form.scoy.Enabled = .F.
+
+                    form.syear.enabled = .f.
+                    form.smth.enabled = .f.
+     form.smthn.enabled = .f.
+     form.childBrowse.APPEND = .F.
+     form.childBrowse.DELETE= .F.
+
+
+   ****************************************************************************
+
+   procedure CheckChanged(callCommit)
+
+   * Check if changes have been made to the current entryfield.  This procedure
+   * is called from menu routines to make sure the form.changesMade gets
+   * updated when a menu is selected while the changed control has focus.
+   ****************************************************************************
+   private control, fieldValue, controlValue, typeText, typeValue
+
+   if form.inEditMode
+      control = form.activeControl
+      if type("control.datalink") <> "U"
+         fieldValue = control.datalink          && name of table field
+
+         typeText = type("control.text")
+         typeValue = type("control.value")
+         do case
+            case typeValue = "C"
+               controlValue = control.value
+            case typeValue $ "LU" .and. typeText = "C"
+               controlValue = control.text
+            otherwise
+               controlValue = Null
+         endcase
+    *    if controlValue <> &fieldValue
+     *      form.changesMade = .T.
+     *   endif
+      endif
+   endif
+   if form.changesMade .and. callCommit
+      CLASS::CheckCommit(form.inEditMode)     && Check transactions
+   endif
+
+
+
+   ****************************************************************************
+
+   Procedure SITEM_OnChange
+   form.changesmade = .t.
+   select fg15sm
+   replace start_typ with this.value
+form.CheckCommit(form.inEditMode)
+
+   Procedure EITEM_OnChange
+   form.changesmade = .t.
+    select fg15sm
+   replace end_typ with this.value
+   form.CheckCommit(form.inEditMode)
+
+   Procedure SDATE_OnChange
+   form.changesmade = .t.
+    select fg15sm
+   replace start_mmyy with this.value
+   form.CheckCommit(form.inEditMode)
+
+   Procedure EDATE_OnChange
+   form.changesmade = .t.
+   form.CheckCommit(form.inEditMode)
+
+   Procedure SCOYDIV_OnChange
+   form.changesmade = .t.
+   form.CheckCommit(form.inEditMode)
+
+   Procedure ECOYDIV_OnChange
+   form.changesmade = .t.
+   form.CheckCommit(form.inEditMode)
+
+   Procedure CHILDBROWSE_OnChange
+         form.changesmade = .t.
+    form.CheckCommit(form.inEditMode)
+
+endclass
+

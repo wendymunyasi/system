@@ -78,7 +78,7 @@ SET PROCEDURE TO BUTTONS.CC ADDITIVE
       top = 0.0
       width = 1284.0
       text = "GOODS RECEIVED - NON-FUELS ONLY -- View Mode"
-      windowState = 0	// Normal
+      windowState = 2	// Normal
       mdi = false
       sizeable = false
       moveable = false
@@ -1231,16 +1231,16 @@ SET PROCEDURE TO BUTTONS.CC ADDITIVE
             on error DO ddeerr WITH ERROR(), MESSAGE(),;
    PROGRAM(), LINENO()
         if form.inEditMode .and. newInEditMode
-          begintrans()
-               on error DO transerr WITH ERROR(), MESSAGE(),;
+      *    begintrans()
+      *         on error DO transerr WITH ERROR(), MESSAGE(),;
    PROGRAM(), LINENO()
        endif
        form.changesMade = .F.
     endif
     if form.inEditMode <> newInEditMode
        if newInEditMode                       && Going to Edit mode
-          begintrans()
-            on error DO transerr WITH ERROR(), MESSAGE(),;
+         * begintrans()
+         *   on error DO transerr WITH ERROR(), MESSAGE(),;
    PROGRAM(), LINENO()
        else                                   && Going to View mode
           if .not. changesMade

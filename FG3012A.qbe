@@ -1,0 +1,37 @@
+* Visual dBASE .QBE file 9
+close databases
+on error do SHIFTMNS.PRG
+use \kenservice\data\dayfgmas.DBF
+? purch
+ON ERROR DO QBEERR WITH ERROR(), MESSAGE(),;
+PROGRAM(), LINENO()
+CLOSE DATABASES
+SET EXACT ON
+select 17
+use \kenservice\data\FORDERSL.dbf
+SELECT 1
+USE \KENSERVICE\data\Forders.DBF 
+set filter to empty(post_date) .and.  FORDERSL->ORDER_NO = ORDER_NO
+GO TOP
+SELECT 2
+USE \KENSERVICE\data\Fodrline.DBF
+SELECT 15
+USE \KENSERVICE\DATA\fgmast.DBF
+SELECT 4
+USE \KENSERVICE\DATA\st15f.DBf
+select 25
+use \kenservice\data\fgadasto.dbf
+select 27
+use \kenservice\data\shstmast.dbf
+select 31
+use \kenservice\data\fgcoy.dbf
+select 104
+use \kenservice\data\Fodupd.dbf
+select 130
+use \kenservice\data\Fordersn.dbf
+select 135
+use \kenservice\data\fgmmstks.dbf
+   select 137
+   USE \KENSERVICE\DATA\DACOYSUM.DBF
+SELECT 1
+GO TOP

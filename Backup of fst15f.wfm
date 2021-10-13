@@ -1,0 +1,2002 @@
+////////////////////////////////////////////////////////////////////////////////
+// Output Filename: C:\KENSERVICE\IDSSYS\FST15F_FCV.WFM                       //
+// Created By:      dBASE Form Converter Wizard                               //
+// Created On:      Tuesday June 14, 2016 At 10:46:16                         //
+// Object Count:    84                                                        //
+////////////////////////////////////////////////////////////////////////////////
+*******************************************************************************
+*  PROGRAM:      FSt15f.wfm
+*
+*  WRITTEN BY:   W Nyongesa
+*
+*  DATE:         05/2000
+*
+*  UPDATED:     03/2014
+*
+*  REVISION:     $Revision:   1.0
+*
+*  VERSION:      Visual dBASE
+*
+*  DESCRIPTION:  This program maintains the ShiftMaster master file
+*
+*  PARAMETERS:   None
+*
+*  CALLS:        St15f.mnu         (Menu file)
+*                KBUTTONS.CC          (Custom Controls file)
+*                Shift Master File Maintenance.qbe         (View of tables)
+*
+*  USAGE:        DO FSt15f.wfm
+*
+*******************************************************************************
+#include <messdlg.h>
+shell(.F.)
+create session
+set talk off
+set Design off
+set century on
+set ldCheck off && To avoid language driver conflicts
+#define Maxcoy 999
+** END HEADER -- do not remove this line
+//
+// Generated on 08/07/2016
+//
+parameter bUser,bLevel,bLadmin,bModal
+local f
+f = new St15fFORM()
+if (bModal)
+   f.mdi = false // ensure not MDI
+   f.readModal()
+else
+   f.open()
+endif
+
+class St15fFORM of FORM
+   with (this)
+      onClose = class::ONCLOSE
+      open = class::OPEN
+      metric = 6	// Pixels
+      colorNormal = "N+"
+      height = 932.0
+      left = 0.0
+      top = 9.0
+      width = 1284.0
+      text = "Shift Master File Maintenance -- View Mode"
+      windowState = 2	// Normal
+      mdi = false
+      sizeable = false
+      moveable = false
+      view = "fST15F.QBE"
+      menuFile = "FST15F.MNU"
+      escExit = false
+      mousePointer = 1	// Arrow
+      maximize = false
+      minimize = false
+   endwith
+
+   this.RECTANGLE5 = new RECTANGLE(this)
+   with (this.RECTANGLE5)
+      left = 168.0
+      top = 221.0
+      width = 156.0
+      height = 119.0
+      text = "Closing Meters"
+      colorNormal = "R/Btnface"
+      fontName = "MS Sans Serif"
+      fontSize = 8.0
+   endwith
+
+   this.SHIFTREC = new RECTANGLE(this)
+   with (this.SHIFTREC)
+      left = 12.0
+      top = 0.0
+      width = 336.0
+      height = 68.0
+      text = "Shift Date and No. Reference Information"
+      colorNormal = "R/Btnface"
+      fontName = "MS Sans Serif"
+      fontSize = 8.0
+   endwith
+
+   this.CODETEXT = new TEXTLABEL(this)
+   with (this.CODETEXT)
+      height = 18.0
+      left = 24.0
+      top = 34.0
+      width = 36.0
+      text = "Date:"
+      colorNormal = "B/BtnFace"
+      fontName = "MS Sans Serif"
+      fontSize = 8.0
+      fontBold = true
+      alignVertical = 1	// Middle
+      alignHorizontal = 2	// Right
+   endwith
+
+   this.SHIFTDATEENTRY = new ENTRYFIELD(this)
+   with (this.SHIFTDATEENTRY)
+      dataLink = "St15f->shift_date"
+      enabled = false
+      height = 17.0
+      left = 72.0
+      top = 34.0
+      width = 84.0
+      colorNormal = "N/BtnFace"
+      colorHighLight = "B+/W*"
+      fontName = "MS Sans Serif"
+      fontSize = 8.0
+      fontBold = true
+   endwith
+
+   this.SNAMETEXT = new TEXTLABEL(this)
+   with (this.SNAMETEXT)
+      height = 17.0
+      left = 168.0
+      top = 34.0
+      width = 24.0
+      text = "No.:"
+      colorNormal = "B/BtnFace"
+      fontName = "MS Sans Serif"
+      fontSize = 8.0
+      fontBold = true
+      alignVertical = 1	// Middle
+      alignHorizontal = 2	// Right
+   endwith
+
+   this.SHIFTNOENTRY = new ENTRYFIELD(this)
+   with (this.SHIFTNOENTRY)
+      dataLink = "ST15F->Shift_no"
+      enabled = false
+      height = 17.0
+      left = 186.0
+      top = 51.0
+      width = 24.0
+      colorNormal = "N/BtnFace"
+      colorHighLight = "B+/W*"
+      fontName = "MS Sans Serif"
+      fontSize = 8.0
+      fontBold = true
+   endwith
+
+   this.SHIFTNODISPLAY = new ENTRYFIELD(this)
+   with (this.SHIFTNODISPLAY)
+      dataLink = "SHIFTS->Name"
+      enabled = false
+      height = 17.0
+      left = 24.0
+      top = 51.0
+      width = 120.0
+      colorNormal = "N/BtnFace"
+      colorHighLight = "B+/W*"
+      fontName = "MS Sans Serif"
+      fontSize = 8.0
+      fontBold = true
+   endwith
+
+   this.COYRECT = new RECTANGLE(this)
+   with (this.COYRECT)
+      left = 348.0
+      top = 17.0
+      width = 276.0
+      height = 51.0
+      text = "Shift Company and Division Reference Information"
+      colorNormal = "R/Btnface"
+      fontName = "MS Sans Serif"
+      fontSize = 8.0
+   endwith
+
+   this.TEXT4 = new TEXTLABEL(this)
+   with (this.TEXT4)
+      height = 17.0
+      left = 348.0
+      top = 34.0
+      width = 36.0
+      text = "Coy:"
+      colorNormal = "B/BtnFace"
+      fontName = "MS Sans Serif"
+      fontSize = 8.0
+      fontBold = true
+      alignVertical = 1	// Middle
+      alignHorizontal = 2	// Right
+   endwith
+
+   this.COYENTRY = new ENTRYFIELD(this)
+   with (this.COYENTRY)
+      dataLink = "ST15F->Coy"
+      enabled = false
+      height = 17.0
+      left = 396.0
+      top = 34.0
+      width = 24.0
+      colorNormal = "N/BtnFace"
+      colorHighLight = "B+/W*"
+      fontName = "MS Sans Serif"
+      fontSize = 8.0
+      fontBold = true
+   endwith
+
+   this.COYDISPLAY = new ENTRYFIELD(this)
+   with (this.COYDISPLAY)
+      dataLink = "FGCOY->Name"
+      enabled = false
+      height = 17.0
+      left = 360.0
+      top = 51.0
+      width = 168.0
+      colorNormal = "N/BtnFace"
+      colorHighLight = "B+/W*"
+      fontName = "MS Sans Serif"
+      fontSize = 8.0
+      fontBold = true
+   endwith
+
+   this.TEXT5 = new TEXTLABEL(this)
+   with (this.TEXT5)
+      height = 17.0
+      left = 432.0
+      top = 34.0
+      width = 24.0
+      text = "Div:"
+      colorNormal = "B/BtnFace"
+      fontName = "MS Sans Serif"
+      fontSize = 8.0
+      fontBold = true
+      alignVertical = 1	// Middle
+      alignHorizontal = 2	// Right
+   endwith
+
+   this.DIVENTRY = new ENTRYFIELD(this)
+   with (this.DIVENTRY)
+      dataLink = "ST15F->Div"
+      enabled = false
+      height = 17.0
+      left = 456.0
+      top = 34.0
+      width = 24.0
+      colorNormal = "N/BtnFace"
+      colorHighLight = "B+/W*"
+      fontName = "MS Sans Serif"
+      fontSize = 8.0
+      fontBold = true
+   endwith
+
+   this.DIVDISPLAY = new ENTRYFIELD(this)
+   with (this.DIVDISPLAY)
+      dataLink = "FGDIV->Name"
+      enabled = false
+      height = 17.0
+      left = 528.0
+      top = 51.0
+      width = 84.0
+      colorNormal = "N/BtnFace"
+      colorHighLight = "B+/W*"
+      fontName = "MS Sans Serif"
+      fontSize = 8.0
+      fontBold = true
+   endwith
+
+   this.RECTANGLE1 = new RECTANGLE(this)
+   with (this.RECTANGLE1)
+      left = 12.0
+      top = 68.0
+      width = 264.0
+      height = 85.0
+      text = "Shift Centre and Sales Store Reference Information"
+      colorNormal = "R/Btnface"
+      fontName = "MS Sans Serif"
+      fontSize = 8.0
+   endwith
+
+   this.TEXT1 = new TEXTLABEL(this)
+   with (this.TEXT1)
+      height = 17.0
+      left = 24.0
+      top = 85.0
+      width = 30.0
+      text = "Cen:"
+      colorNormal = "B/BtnFace"
+      fontName = "MS Sans Serif"
+      fontSize = 8.0
+      fontBold = true
+      alignVertical = 1	// Middle
+      alignHorizontal = 2	// Right
+   endwith
+
+   this.CENDISPLAY = new ENTRYFIELD(this)
+   with (this.CENDISPLAY)
+      dataLink = "FGCEN->Name"
+      enabled = false
+      height = 17.0
+      left = 24.0
+      top = 136.0
+      width = 108.0
+      colorNormal = "N/BtnFace"
+      colorHighLight = "B+/W*"
+      fontName = "MS Sans Serif"
+      fontSize = 8.0
+      fontBold = true
+   endwith
+
+   this.TEXT2 = new TEXTLABEL(this)
+   with (this.TEXT2)
+      height = 17.0
+      left = 168.0
+      top = 85.0
+      width = 36.0
+      text = "Store:"
+      colorNormal = "B/BtnFace"
+      fontName = "MS Sans Serif"
+      fontSize = 8.0
+      fontBold = true
+      alignVertical = 1	// Middle
+      alignHorizontal = 2	// Right
+   endwith
+
+   this.STOENTRY = new ENTRYFIELD(this)
+   with (this.STOENTRY)
+      dataLink = "ST15F->Sto"
+      enabled = false
+      height = 17.0
+      left = 216.0
+      top = 85.0
+      width = 36.0
+      function = "!"
+      colorNormal = "N/BtnFace"
+      colorHighLight = "B+/W*"
+      fontName = "MS Sans Serif"
+      fontSize = 8.0
+      fontBold = true
+      validErrorMsg = "Invalid Store Code"
+   endwith
+
+   this.STODISPLAY = new ENTRYFIELD(this)
+   with (this.STODISPLAY)
+      dataLink = "STSTO->Name"
+      enabled = false
+      height = 17.0
+      left = 144.0
+      top = 136.0
+      width = 120.0
+      colorNormal = "N/BtnFace"
+      colorHighLight = "B+/W*"
+      fontName = "MS Sans Serif"
+      fontSize = 8.0
+      fontBold = true
+   endwith
+
+   this.CODRECT = new RECTANGLE(this)
+   with (this.CODRECT)
+      left = 287.0
+      top = 99.0
+      width = 432.0
+      height = 107.0
+      text = "Shift Product Code Sales Information"
+      colorNormal = "R/Btnface"
+      fontName = "MS Sans Serif"
+      fontSize = 8.0
+   endwith
+
+   this.TEXT6 = new TEXTLABEL(this)
+   with (this.TEXT6)
+      height = 17.0
+      left = 300.0
+      top = 119.0
+      width = 36.0
+      text = "Type:"
+      colorNormal = "B/BtnFace"
+      fontName = "MS Sans Serif"
+      fontSize = 8.0
+      fontBold = true
+      alignVertical = 1	// Middle
+      alignHorizontal = 2	// Right
+   endwith
+
+   this.TYPENTRY = new ENTRYFIELD(this)
+   with (this.TYPENTRY)
+      dataLink = "ST15F->Typ"
+      enabled = false
+      height = 17.0
+      left = 360.0
+      top = 119.0
+      width = 24.0
+      function = "!"
+      colorNormal = "N/BtnFace"
+      colorHighLight = "B+/W*"
+      fontName = "MS Sans Serif"
+      fontSize = 8.0
+      fontBold = true
+      validErrorMsg = "Invalid product Type Code"
+   endwith
+
+   this.TYPDISPLAY = new ENTRYFIELD(this)
+   with (this.TYPDISPLAY)
+      dataLink = "FGTYP->Name"
+      enabled = false
+      height = 17.0
+      left = 294.0
+      top = 136.0
+      width = 413.0
+      colorNormal = "N/BtnFace"
+      colorHighLight = "B+/W*"
+      fontName = "MS Sans Serif"
+      fontSize = 8.0
+      fontBold = true
+   endwith
+
+   this.TEXT7 = new TEXTLABEL(this)
+   with (this.TEXT7)
+      height = 17.0
+      left = 384.0
+      top = 119.0
+      width = 36.0
+      text = "Class:"
+      colorNormal = "B/BtnFace"
+      fontName = "MS Sans Serif"
+      fontSize = 8.0
+      fontBold = true
+      alignVertical = 1	// Middle
+      alignHorizontal = 2	// Right
+   endwith
+
+   this.CLAENTRY = new ENTRYFIELD(this)
+   with (this.CLAENTRY)
+      dataLink = "ST15F->Cla"
+      enabled = false
+      height = 17.0
+      left = 420.0
+      top = 119.0
+      width = 24.0
+      function = "!"
+      colorNormal = "N/BtnFace"
+      colorHighLight = "B+/W*"
+      fontName = "MS Sans Serif"
+      fontSize = 8.0
+      fontBold = true
+      validErrorMsg = "Invalid product Class Code"
+   endwith
+
+   this.CLADISPLAY = new ENTRYFIELD(this)
+   with (this.CLADISPLAY)
+      dataLink = "FGCLA->Name"
+      enabled = false
+      height = 17.0
+      left = 294.0
+      top = 154.0
+      width = 413.0
+      colorNormal = "N/BtnFace"
+      colorHighLight = "B+/W*"
+      fontName = "MS Sans Serif"
+      fontSize = 8.0
+      fontBold = true
+   endwith
+
+   this.TEXT8 = new TEXTLABEL(this)
+   with (this.TEXT8)
+      height = 17.0
+      left = 444.0
+      top = 119.0
+      width = 48.0
+      text = "Code:"
+      colorNormal = "B/BtnFace"
+      fontName = "MS Sans Serif"
+      fontSize = 8.0
+      fontBold = true
+      alignVertical = 1	// Middle
+      alignHorizontal = 2	// Right
+   endwith
+
+   this.CODENTRY = new ENTRYFIELD(this)
+   with (this.CODENTRY)
+      dataLink = "ST15F->Cod"
+      enabled = false
+      height = 17.0
+      left = 492.0
+      top = 119.0
+      width = 24.0
+      function = "!"
+      colorNormal = "N/BtnFace"
+      colorHighLight = "B+/W*"
+      fontName = "MS Sans Serif"
+      fontSize = 8.0
+      fontBold = true
+      validErrorMsg = "Invalid product Id. Code"
+   endwith
+
+   this.CODDISPLAY = new ENTRYFIELD(this)
+   with (this.CODDISPLAY)
+      dataLink = "FGCOD->Name"
+      enabled = false
+      height = 17.0
+      left = 294.0
+      top = 176.0
+      width = 413.0
+      colorNormal = "N/BtnFace"
+      colorHighLight = "B+/W*"
+      fontName = "MS Sans Serif"
+      fontSize = 8.0
+      fontBold = true
+   endwith
+
+   this.STOREC = new RECTANGLE(this)
+   with (this.STOREC)
+      left = 12.0
+      top = 153.0
+      width = 192.0
+      height = 68.0
+      text = "Shift Store Stock Movement Ref. Infor"
+      colorNormal = "R/Btnface"
+      fontName = "MS Sans Serif"
+      fontSize = 8.0
+   endwith
+
+   this.TEXT32 = new TEXTLABEL(this)
+   with (this.TEXT32)
+      height = 17.0
+      left = 108.0
+      top = 187.0
+      width = 36.0
+      text = "Cen:"
+      colorNormal = "B/BtnFace"
+      fontName = "MS Sans Serif"
+      fontSize = 8.0
+      fontBold = true
+      alignVertical = 1	// Middle
+      alignHorizontal = 2	// Right
+   endwith
+
+   this.FGCENDISPLAY = new ENTRYFIELD(this)
+   with (this.FGCENDISPLAY)
+      dataLink = "ST15F->St_cen"
+      enabled = false
+      height = 17.0
+      left = 156.0
+      top = 187.0
+      width = 24.0
+      colorNormal = "N/BtnFace"
+      colorHighLight = "B+/W*"
+      fontName = "MS Sans Serif"
+      fontSize = 8.0
+      fontBold = true
+   endwith
+
+   this.FGCENNAMEDISPLAY = new ENTRYFIELD(this)
+   with (this.FGCENNAMEDISPLAY)
+      dataLink = "FGCEN->Name"
+      enabled = false
+      height = 17.0
+      left = 24.0
+      top = 187.0
+      width = 84.0
+      colorNormal = "N/BtnFace"
+      colorHighLight = "B+/W*"
+      fontName = "MS Sans Serif"
+      fontSize = 8.0
+      fontBold = true
+   endwith
+
+   this.TEXT10 = new TEXTLABEL(this)
+   with (this.TEXT10)
+      height = 17.0
+      left = 108.0
+      top = 204.0
+      width = 36.0
+      text = "Store:"
+      colorNormal = "B/BtnFace"
+      fontName = "MS Sans Serif"
+      fontSize = 8.0
+      fontBold = true
+      alignVertical = 1	// Middle
+      alignHorizontal = 2	// Right
+   endwith
+
+   this.STSTONAMEDISPLAY = new ENTRYFIELD(this)
+   with (this.STSTONAMEDISPLAY)
+      dataLink = "STSTO->Name1"
+      enabled = false
+      height = 17.0
+      left = 24.0
+      top = 204.0
+      width = 84.0
+      colorNormal = "N/BtnFace"
+      colorHighLight = "B+/W*"
+      fontName = "MS Sans Serif"
+      fontSize = 8.0
+      fontBold = true
+   endwith
+
+   this.TEXT11 = new TEXTLABEL(this)
+   with (this.TEXT11)
+      height = 17.0
+      left = 216.0
+      top = 272.0
+      width = 96.0
+      text = "Qty (Elec.)"
+      colorNormal = "B/BtnFace"
+      fontName = "MS Sans Serif"
+      fontSize = 8.0
+      fontBold = true
+      alignVertical = 1	// Middle
+      alignHorizontal = 1	// Center
+   endwith
+
+   this.CLOSEMQTYENTRY = new ENTRYFIELD(this)
+   with (this.CLOSEMQTYENTRY)
+      dataLink = "ST15F->CL_M_Q"
+      enabled = false
+      height = 17.0
+      left = 180.0
+      top = 289.0
+      width = 132.0
+      picture = "9999999999.999"
+      colorNormal = "N/BtnFace"
+      colorHighLight = "B+/W*"
+      fontName = "MS Sans Serif"
+      fontSize = 8.0
+      fontBold = true
+      validErrorMsg = "Closing Meter Reading/Qty Required."
+   endwith
+
+   this.TEXT12 = new TEXTLABEL(this)
+   with (this.TEXT12)
+      height = 17.0
+      left = 216.0
+      top = 306.0
+      width = 84.0
+      text = "Shs./Value"
+      colorNormal = "B/BtnFace"
+      fontName = "MS Sans Serif"
+      fontSize = 8.0
+      fontBold = true
+      alignVertical = 1	// Middle
+      alignHorizontal = 1	// Center
+   endwith
+
+   this.CLOSEMAMTENTRY = new ENTRYFIELD(this)
+   with (this.CLOSEMAMTENTRY)
+      dataLink = "ST15F->CL_M_A"
+      enabled = false
+      height = 17.0
+      left = 180.0
+      top = 323.0
+      width = 132.0
+      picture = "9999999999.999"
+      colorNormal = "N/BtnFace"
+      colorHighLight = "B+/W*"
+      fontName = "MS Sans Serif"
+      fontSize = 8.0
+      fontBold = true
+   endwith
+
+   this.RECTANGLE3 = new RECTANGLE(this)
+   with (this.RECTANGLE3)
+      left = 7.0
+      top = 231.0
+      width = 156.0
+      height = 440.0
+      text = "Opening Meters"
+      colorNormal = "R/Btnface"
+      fontName = "MS Sans Serif"
+      fontSize = 8.0
+   endwith
+
+   this.TEXT15 = new TEXTLABEL(this)
+   with (this.TEXT15)
+      height = 17.0
+      left = 14.0
+      top = 308.0
+      width = 126.0
+      text = "Qty (Elec.)"
+      colorNormal = "B/BtnFace"
+      fontName = "MS Sans Serif"
+      fontSize = 8.0
+      fontBold = true
+      alignVertical = 1	// Middle
+      alignHorizontal = 1	// Center
+   endwith
+
+   this.OPENELECQTY = new ENTRYFIELD(this)
+   with (this.OPENELECQTY)
+      onChange = class::CHANGE_OPENMMTR
+      dataLink = "ST15F->OP_M_Q"
+      enabled = false
+      height = 17.0
+      left = 14.0
+      top = 330.0
+      width = 133.0
+      picture = "9999999999.999"
+      colorNormal = "N/BtnFace"
+      colorHighLight = "B+/W*"
+      fontName = "MS Sans Serif"
+      fontSize = 8.0
+      fontBold = true
+   endwith
+
+   this.TEXT16 = new TEXTLABEL(this)
+   with (this.TEXT16)
+      height = 17.0
+      left = 35.0
+      top = 363.0
+      width = 84.0
+      text = "Shs./Value"
+      colorNormal = "B/BtnFace"
+      fontName = "MS Sans Serif"
+      fontSize = 8.0
+      fontBold = true
+      alignVertical = 1	// Middle
+      alignHorizontal = 1	// Center
+   endwith
+
+   this.OPENSHSMTR = new ENTRYFIELD(this)
+   with (this.OPENSHSMTR)
+      onChange = class::CHANGE_OPENMMTR
+      dataLink = "ST15F->OP_M_A"
+      enabled = false
+      height = 17.0
+      left = 14.0
+      top = 396.0
+      width = 133.0
+      picture = "9999999999.999"
+      colorNormal = "N/BtnFace"
+      colorHighLight = "B+/W*"
+      fontName = "MS Sans Serif"
+      fontSize = 8.0
+      fontBold = true
+   endwith
+
+   this.TEXT3 = new TEXTLABEL(this)
+   with (this.TEXT3)
+      height = 18.0
+      left = 168.0
+      top = 539.0
+      width = 78.0
+      text = "Remarks"
+      colorNormal = "B/BtnFace"
+      OnRightDblClick = CLASS::ACTIVATE_RTN
+      fontName = "MS Sans Serif"
+      fontSize = 8.0
+      fontBold = true
+      alignVertical = 1	// Middle
+      alignHorizontal = 2	// Right
+   endwith
+
+   this.NOTESEDITOR = new EDITOR(this)
+   with (this.NOTESEDITOR)
+      onGotFocus = {;if this.Modify;this.colorNormal = "B+/W*";endif}
+      onLostFocus = {;if this.Modify;this.colorNormal = "N/BtnFace";endif}
+      onLeftDblClick = class::ACTIVATE_RTN
+      height = 52.0
+      left = 252.0
+      top = 528.0
+      width = 250.0
+      colorNormal = "N/BtnFace"
+      modify = false
+      fontName = "MS Sans Serif"
+      fontSize = 8.0
+      dataLink = "St15f->REMARKS"
+   endwith
+
+   this.PREVBUTTON = new PUSHBUTTON(this)
+   with (this.PREVBUTTON)
+      onClick = class::PREVIOUS
+      height = 26.0
+      left = 133.0
+      top = 704.0
+      width = 85.0
+      text = "&PREVIOUS"
+      fontName = "MS Sans Serif"
+      fontSize = 8.0
+      fontBold = true
+   endwith
+
+   this.NEXTBUTTON = new PUSHBUTTON(this)
+   with (this.NEXTBUTTON)
+      onClick = class::NEXT
+      height = 26.0
+      left = 217.0
+      top = 704.0
+      width = 85.0
+      text = "&NEXT"
+      fontName = "MS Sans Serif"
+      fontSize = 8.0
+      fontBold = true
+   endwith
+
+   this.FIRSTBUTTON = new PUSHBUTTON(this)
+   with (this.FIRSTBUTTON)
+      onClick = class::TOP_RTN
+      height = 26.0
+      left = 308.0
+      top = 704.0
+      width = 85.0
+      text = "F&IRST"
+      fontName = "MS Sans Serif"
+      fontSize = 8.0
+      fontBold = true
+   endwith
+
+   this.LASTBUTTON = new PUSHBUTTON(this)
+   with (this.LASTBUTTON)
+      onClick = class::BOTTOM_RTN
+      height = 26.0
+      left = 399.0
+      top = 704.0
+      width = 85.0
+      text = "&LAST"
+      fontName = "MS Sans Serif"
+      fontSize = 8.0
+      fontBold = true
+   endwith
+
+   this.TEXT33 = new TEXTLABEL(this)
+   with (this.TEXT33)
+      height = 18.0
+      left = 252.0
+      top = 34.0
+      width = 84.0
+      text = "Date Closed:"
+      colorNormal = "B/BtnFace"
+      fontName = "MS Sans Serif"
+      fontSize = 8.0
+      fontBold = true
+      alignVertical = 1	// Middle
+      alignHorizontal = 2	// Right
+   endwith
+
+   this.DATECLOSEDDISPLAY = new ENTRYFIELD(this)
+   with (this.DATECLOSEDDISPLAY)
+      dataLink = "ST15F->DATE_CLOSE"
+      enabled = false
+      height = 17.0
+      left = 252.0
+      top = 51.0
+      width = 84.0
+      colorNormal = "R+/BtnFace"
+      colorHighLight = "0xffff80/W"
+      fontName = "MS Sans Serif"
+      fontSize = 8.0
+      fontBold = true
+      validErrorMsg = "Date out of Range"
+   endwith
+
+   this.TEXT34 = new TEXTLABEL(this)
+   with (this.TEXT34)
+      height = 17.0
+      left = 24.0
+      top = 170.0
+      width = 36.0
+      text = "Coy:"
+      colorNormal = "B/BtnFace"
+      fontName = "MS Sans Serif"
+      fontSize = 8.0
+      fontBold = true
+      alignVertical = 1	// Middle
+      alignHorizontal = 2	// Right
+   endwith
+
+   this.FGCOYDISPLAY = new ENTRYFIELD(this)
+   with (this.FGCOYDISPLAY)
+      dataLink = "ST15F->St_coy"
+      enabled = false
+      height = 17.0
+      left = 72.0
+      top = 170.0
+      width = 24.0
+      colorNormal = "N/BtnFace"
+      colorHighLight = "B+/W*"
+      fontName = "MS Sans Serif"
+      fontSize = 8.0
+      fontBold = true
+   endwith
+
+   this.TEXT37 = new TEXTLABEL(this)
+   with (this.TEXT37)
+      height = 18.0
+      left = 24.0
+      top = 17.0
+      width = 48.0
+      text = "Status:"
+      colorNormal = "B/BtnFace"
+      fontName = "MS Sans Serif"
+      fontSize = 8.0
+      fontBold = true
+      alignVertical = 1	// Middle
+      alignHorizontal = 2	// Right
+   endwith
+
+   this.ERRORSDISPLAY = new ENTRYFIELD(this)
+   with (this.ERRORSDISPLAY)
+      dataLink = "ST15F->ERRORS"
+      enabled = false
+      height = 17.0
+      left = 72.0
+      top = 17.0
+      width = 264.0
+      colorNormal = "r/btnface"
+      colorHighLight = "W+/R*"
+      fontName = "MS Sans Serif"
+      fontSize = 8.0
+      fontBold = true
+   endwith
+
+   this.TEXT38 = new TEXTLABEL(this)
+   with (this.TEXT38)
+      height = 17.0
+      left = 108.0
+      top = 170.0
+      width = 36.0
+      text = "Div:"
+      colorNormal = "B/BtnFace"
+      fontName = "MS Sans Serif"
+      fontSize = 8.0
+      fontBold = true
+      alignVertical = 1	// Middle
+      alignHorizontal = 2	// Right
+   endwith
+
+   this.FGDIVDISPLAY = new ENTRYFIELD(this)
+   with (this.FGDIVDISPLAY)
+      dataLink = "ST15F->St_div"
+      enabled = false
+      height = 17.0
+      left = 156.0
+      top = 170.0
+      width = 24.0
+      colorNormal = "N/BtnFace"
+      colorHighLight = "B+/W*"
+      fontName = "MS Sans Serif"
+      fontSize = 8.0
+      fontBold = true
+   endwith
+
+   this.TEXT39 = new TEXTLABEL(this)
+   with (this.TEXT39)
+      height = 17.0
+      left = 182.0
+      top = 352.0
+      width = 72.0
+      text = "Trans In:"
+      colorNormal = "B/BtnFace"
+      fontName = "MS Sans Serif"
+      fontSize = 8.0
+      fontBold = true
+      alignVertical = 1	// Middle
+      alignHorizontal = 1	// Center
+   endwith
+
+   this.TEXT40 = new TEXTLABEL(this)
+   with (this.TEXT40)
+      height = 17.0
+      left = 357.0
+      top = 352.0
+      width = 72.0
+      text = "Trans out:"
+      colorNormal = "B/BtnFace"
+      fontName = "MS Sans Serif"
+      fontSize = 8.0
+      fontBold = true
+      alignVertical = 1	// Middle
+      alignHorizontal = 1	// Center
+   endwith
+
+   this.TRANSINDISPLAY = new ENTRYFIELD(this)
+   with (this.TRANSINDISPLAY)
+      dataLink = "ST15F->Trans_in"
+      enabled = false
+      height = 17.0
+      left = 259.0
+      top = 352.0
+      width = 86.0
+      picture = "99,999.99"
+      colorNormal = "N/BtnFace"
+      colorHighLight = "B+/W*"
+      fontName = "MS Sans Serif"
+      fontSize = 8.0
+      fontBold = true
+   endwith
+
+   this.TRANSOUTDISPLAY = new ENTRYFIELD(this)
+   with (this.TRANSOUTDISPLAY)
+      dataLink = "ST15F->Trans_out"
+      enabled = false
+      height = 17.0
+      left = 434.0
+      top = 352.0
+      width = 91.0
+      picture = "99,999.99"
+      colorNormal = "N/BtnFace"
+      colorHighLight = "B+/W*"
+      fontName = "MS Sans Serif"
+      fontSize = 8.0
+      fontBold = true
+   endwith
+
+   this.DAYDISPLAY = new ENTRYFIELD(this)
+   with (this.DAYDISPLAY)
+      dataLink = "ST15F->DAY"
+      enabled = false
+      height = 17.0
+      left = 156.0
+      top = 51.0
+      width = 24.0
+      colorNormal = "N/BtnFace"
+      colorHighLight = "B+/W*"
+      fontName = "MS Sans Serif"
+      fontSize = 8.0
+      fontBold = true
+      validErrorMsg = "Invalid Company Code"
+   endwith
+
+   this.TEXT45 = new TEXTLABEL(this)
+   with (this.TEXT45)
+      height = 17.0
+      left = 216.0
+      top = 34.0
+      width = 24.0
+      text = "ID.:"
+      colorNormal = "B/BtnFace"
+      fontName = "MS Sans Serif"
+      fontSize = 8.0
+      fontBold = true
+      alignVertical = 1	// Middle
+      alignHorizontal = 2	// Right
+   endwith
+
+   this.SHIFTIDENTRY = new ENTRYFIELD(this)
+   with (this.SHIFTIDENTRY)
+      dataLink = "ST15F->SHIFT_ID"
+      enabled = false
+      height = 17.0
+      left = 222.0
+      top = 51.0
+      width = 24.0
+      colorNormal = "N/BtnFace"
+      colorHighLight = "B+/W*"
+      fontName = "MS Sans Serif"
+      fontSize = 8.0
+      fontBold = true
+      validErrorMsg = "Invalid Shift Reference Number"
+   endwith
+
+   this.SUN = new ENTRYFIELD(this)
+   with (this.SUN)
+      dataLink = "FGCOD->Unit"
+      enabled = false
+      height = 17.0
+      left = 528.0
+      top = 119.0
+      width = 84.0
+      colorNormal = "N/BtnFace"
+      colorHighLight = "B+/W*"
+      fontName = "MS Sans Serif"
+      fontSize = 8.0
+      fontBold = true
+   endwith
+
+   this.TEXT46 = new TEXTLABEL(this)
+   with (this.TEXT46)
+      height = 17.0
+      left = 24.0
+      top = 119.0
+      width = 48.0
+      text = "Cashier:"
+      colorNormal = "B/BtnFace"
+      fontName = "MS Sans Serif"
+      fontSize = 8.0
+      fontBold = true
+      alignVertical = 1	// Middle
+      alignHorizontal = 2	// Right
+   endwith
+
+   this.SCASHIER = new ENTRYFIELD(this)
+   with (this.SCASHIER)
+      dataLink = "ST15F->Cashier_no"
+      enabled = false
+      height = 17.0
+      left = 84.0
+      top = 119.0
+      width = 24.0
+      function = "!"
+      colorNormal = "N/BtnFace"
+      colorHighLight = "B+/W*"
+      fontName = "MS Sans Serif"
+      fontSize = 8.0
+      fontBold = true
+      validErrorMsg = "Invalid Store Code"
+   endwith
+
+   this.TEXT47 = new TEXTLABEL(this)
+   with (this.TEXT47)
+      height = 17.0
+      left = 216.0
+      top = 238.0
+      width = 96.0
+      text = "Qty (Man.)"
+      colorNormal = "B/BtnFace"
+      fontName = "MS Sans Serif"
+      fontSize = 8.0
+      fontBold = true
+      alignVertical = 1	// Middle
+      alignHorizontal = 1	// Center
+   endwith
+
+   this.CLMM = new ENTRYFIELD(this)
+   with (this.CLMM)
+      dataLink = "ST15F->Cl_mm_qty"
+      enabled = false
+      height = 17.0
+      left = 180.0
+      top = 255.0
+      width = 132.0
+      picture = "9999999999.99"
+      colorNormal = "N/BtnFace"
+      colorHighLight = "B+/W*"
+      fontName = "MS Sans Serif"
+      fontSize = 8.0
+      fontBold = true
+      validErrorMsg = "Closing Meter Reading/Qty Required."
+   endwith
+
+   this.TEXT48 = new TEXTLABEL(this)
+   with (this.TEXT48)
+      height = 17.0
+      left = 21.0
+      top = 253.0
+      width = 126.0
+      text = "Qty (Man.)"
+      colorNormal = "B/BtnFace"
+      fontName = "MS Sans Serif"
+      fontSize = 8.0
+      fontBold = true
+      alignVertical = 1	// Middle
+      alignHorizontal = 1	// Center
+   endwith
+
+   this.OPENMANQTY = new ENTRYFIELD(this)
+   with (this.OPENMANQTY)
+      onChange = class::CHANGE_OPENMMTR
+      dataLink = "ST15F->Op_mm_qty"
+      enabled = false
+      height = 17.0
+      left = 14.0
+      top = 286.0
+      width = 133.0
+      picture = "9999999999.99"
+      colorNormal = "N/BtnFace"
+      colorHighLight = "B+/W*"
+      fontName = "MS Sans Serif"
+      fontSize = 8.0
+      fontBold = true
+   endwith
+
+   this.CENTREDISPLAY = new COMBOBOX(this)
+   with (this.CENTREDISPLAY)
+      onChange = class::CENTREDISPLAY_ONCHANGE
+      dataLink = "ST15F->NCEN"
+      enabled = false
+      height = 21.0
+      left = 102.0
+      top = 85.0
+      width = 48.0
+      fontName = "MS Sans Serif"
+      fontSize = 8.0
+      tabStop = false
+      dataSource = "FIELD FGCEN->CEN"
+      style = 2	// DropDownList
+      dropDownHeight = 132.0
+   endwith
+
+   this.STSTO2DISPLAY = new ENTRYFIELD(this)
+   with (this.STSTO2DISPLAY)
+      dataLink = "ST15F->ST_STO"
+      enabled = false
+      height = 17.0
+      left = 144.0
+      top = 204.0
+      width = 36.0
+      colorHighLight = "N/W"
+      fontName = "MS Sans Serif"
+      fontSize = 8.0
+      fontBold = true
+   endwith
+
+   this.TEXT13 = new TEXTLABEL(this)
+   with (this.TEXT13)
+      height = 17.0
+      left = 35.0
+      top = 418.0
+      width = 96.0
+      text = "QH1"
+      colorNormal = "B/BtnFace"
+      fontName = "MS Sans Serif"
+      fontSize = 8.0
+      fontBold = true
+      alignVertical = 1	// Middle
+      alignHorizontal = 1	// Center
+   endwith
+
+   this.SQH1 = new ENTRYFIELD(this)
+   with (this.SQH1)
+      dataLink = "ST15F->OP_M_Q1"
+      enabled = false
+      height = 17.0
+      left = 14.0
+      top = 440.0
+      width = 140.0
+      picture = "9999999999.999"
+      colorNormal = "N/BtnFace"
+      colorHighLight = "B+/W*"
+      fontName = "MS Sans Serif"
+      fontSize = 8.0
+      fontBold = true
+   endwith
+
+   this.TEXT42 = new TEXTLABEL(this)
+   with (this.TEXT42)
+      height = 17.0
+      left = 42.0
+      top = 473.0
+      width = 84.0
+      text = "QH2"
+      colorNormal = "B/BtnFace"
+      fontName = "MS Sans Serif"
+      fontSize = 8.0
+      fontBold = true
+      alignVertical = 1	// Middle
+      alignHorizontal = 1	// Center
+   endwith
+
+   this.SQH2 = new ENTRYFIELD(this)
+   with (this.SQH2)
+      dataLink = "ST15F->OP_M_Q2"
+      enabled = false
+      height = 17.0
+      left = 14.0
+      top = 506.0
+      width = 134.0
+      picture = "9999999999.999"
+      colorNormal = "N/BtnFace"
+      colorHighLight = "B+/W*"
+      fontName = "MS Sans Serif"
+      fontSize = 8.0
+      fontBold = true
+   endwith
+
+   this.TEXT49 = new TEXTLABEL(this)
+   with (this.TEXT49)
+      height = 17.0
+      left = 42.0
+      top = 539.0
+      width = 96.0
+      text = "AH1"
+      colorNormal = "B/BtnFace"
+      fontName = "MS Sans Serif"
+      fontSize = 8.0
+      fontBold = true
+      alignVertical = 1	// Middle
+      alignHorizontal = 1	// Center
+   endwith
+
+   this.SAH1 = new ENTRYFIELD(this)
+   with (this.SAH1)
+      dataLink = "ST15F->OP_M_A1"
+      enabled = false
+      height = 17.0
+      left = 21.0
+      top = 572.0
+      width = 127.0
+      picture = "9999999999.999"
+      colorNormal = "N/BtnFace"
+      colorHighLight = "B+/W*"
+      fontName = "MS Sans Serif"
+      fontSize = 8.0
+      fontBold = true
+   endwith
+
+   this.TEXT50 = new TEXTLABEL(this)
+   with (this.TEXT50)
+      height = 17.0
+      left = 35.0
+      top = 605.0
+      width = 84.0
+      text = "AH2"
+      colorNormal = "B/BtnFace"
+      fontName = "MS Sans Serif"
+      fontSize = 8.0
+      fontBold = true
+      alignVertical = 1	// Middle
+      alignHorizontal = 1	// Center
+   endwith
+
+   this.SAH2 = new ENTRYFIELD(this)
+   with (this.SAH2)
+      dataLink = "ST15F->OP_M_A2"
+      enabled = false
+      height = 17.0
+      left = 14.0
+      top = 638.0
+      width = 127.0
+      picture = "9999999999.999"
+      colorNormal = "N/BtnFace"
+      colorHighLight = "B+/W*"
+      fontName = "MS Sans Serif"
+      fontSize = 8.0
+      fontBold = true
+   endwith
+
+   this.SCEND = new ENTRYFIELD(this)
+   with (this.SCEND)
+      dataLink = "ST15F->CEN"
+      enabled = false
+      height = 17.0
+      left = 60.0
+      top = 85.0
+      width = 30.0
+      function = "!"
+      colorNormal = "N/BtnFace"
+      colorHighLight = "B+/W*"
+      fontName = "MS Sans Serif"
+      fontSize = 8.0
+      fontBold = true
+      validErrorMsg = "Invalid Store Code"
+   endwith
+
+
+   procedure Open
+   ****************************************************************************
+   private CodeField
+           FORM.BLUSER=BUSER
+   FORM.BLEVEL=BLEVEL
+   form.BLADMIN = BLADMIN
+   IF EMPTY(FORM.BLUSER) .OR. EMPTY(FORM.BLEVEL)
+      QUIT
+      ENDIF
+   set reprocess to 10
+   select fgcens2
+   set order to mkey
+   select fgcen2
+   set order to mkey
+   select st15f2
+   set order to mkey
+   set safety off
+   SELECT CASHIERS
+    SET ORDER TO CASHIER
+   select scashrec
+   set order to mkey
+   SELECT FGMAST
+    SET ORDER TO MKEY
+    if .not. flock()
+    wait 'unable to lock fgmast'
+    quit
+    endif
+   SELECT FGCOD
+   SET ORDER TO MKEY
+   SELECT FGDIV
+   SET ORDER TO MKEY
+   SELECT STSTO
+   SET ORDER TO STO
+   SELECT STSTO2
+   SET ORDER TO STO
+         form.firstime = .T.
+   if type("form.init") = "U"
+      form.init = .T.
+      local l2
+        select st15f
+       delete all for empty(shift_date) .or. empty(shift_no) .or. empty(shift_id);
+       .or. empty(coy) .or. empty(div) .or. empty(cen) .or. empty(sto);
+        .or. empty(typ) .or. empty(cla) .or. empty(cod)
+        go top
+     if  eof()
+     quit
+     endif
+
+       form.shdate = st15f->shift_date
+      form.shid = st15f->shift_id
+      form.shno = st15f->shift_no
+      form.shday = str(dow(st15f->shift_date)-1,1)
+      FORM.PCOY = ST15F->COY
+      FORM.PDIV = ST15F->DIV
+      FORM.PCEN = ST15F->CEN
+      FORM.PSTO = ST15F->STO
+      FORM.PTYP = ST15F->TYP
+      FORM.PCLA = ST15F->CLA
+      FORM.PFGCOY = ST15F->ST_COY
+      FORM.PFGDIV = ST15F->ST_DIV
+      FORM.PFGCEN = ST15F->ST_CEN
+      FORM.PSTSTO = ST15F->ST_STO
+      FORM.PSHIFTDATE = FORM.SHDATE
+      FORM.PSHIFTNO = FORM.SHNO
+     form.pshiftid = FORM.SHID
+      set skip to                     && St15f.qbe contains set skip to gldtl
+      set exact off     && the .qbe file contains
+      SET EXACT ON
+      set procedure to sampProc.prg additive
+    Form.duplicate = .F.
+      form.inEditMode = .F.           && indicator of view/edit state
+      form.changesMade = .F.          && indicator of changes made to field values
+      form.previousRecord = .F.       && Save record number when appending
+        *** do calculations in another area so form doesn't get updated
+       select St15f
+     endif
+   GO TOP
+   form::Open()                         && Now the form actually opens
+       form.BrowseOnNavigate()              && calculate totals
+
+     procedure OnClose
+
+   * Clean up.
+   ****************************************************************************
+
+   if this.inEditMode
+      form.ViewEdit()                      && Finish transaction
+   endif
+   select St15f
+                                     && new Receipts
+   DELETE ALL FOR empty(shift_date) .or. empty(shift_no) .or. empty(coy) .or. empty(div);
+   .or. empty(typ) .or. empty(cla) .or. empty(cen) .or. empty(cod) .or. empty(sto) .OR. EMPTY(SHIFT_ID)
+   go top
+   if .not. eof()
+   do scashrec_rtn
+   endif
+   CLOSE DATABASES
+     close procedure SAMPProc.prg
+              form.close()
+
+   ****************************************************************************
+
+   procedure BrowseOnNavigate
+   ****************************************************************************
+       form.ShiftDateEntry.Enabled = .F.
+       form.ShiftNoEntry.Enabled = .F.
+       if eof()
+      form.root.St15f.viewEdit.enabled = .F.
+   else
+      form.root.St15f.viewEdit.enabled = .T.
+   endif
+   select st15f
+
+   ****************************************************************************
+
+   procedure ChangesMade
+
+   * Indicate that changes have been made to the current record
+   ****************************************************************************
+   Form.ChangesMade = .T.
+      FORM.PSHIFTDATE = form.SHIFTDATEentry.value
+      FORM.PSHIFTNO = form.SHIFTNOentry.value
+      FORM.PCOY = form.COYentry.value
+      FORM.PDIV = form.DIVentry.value
+   *      FORM.PCEN = *Form.cenentry.value
+      FORM.PSTO = form.STOentry.value
+      FORM.PTYP = form.TYPentry.value
+      FORM.PCLA = form.CLAentry.value
+   form.BrowseOnNavigate()
+
+   procedure top_rtn
+   * Go to next record.
+   ****************************************************************************
+
+   form.CheckCommit(form.inEditMode)
+    go top
+    form.OPENELECQTY.enabled = .f.
+   form.OPENSHSMTR.enabled = .f.
+form.OPENMANQTY.enabled = .f.
+       IF .not. (st15f->typ = "00" .or. st15f->cen = 'D' .or. st15f->cen = 'O')  .OR.  .NOT. FORM.BLEVEL = 1
+   Form.CENTREDISPLAY.Enabled = .F.
+    ENDIF
+
+   procedure bottom_rtn
+
+    * Go to next record.
+    ****************************************************************************
+
+    form.CheckCommit(form.inEditMode)
+     go bottom
+     form.OPENELECQTY.enabled = .f.
+   form.OPENSHSMTR.enabled = .f.
+
+   form.OPENMANQTY.enabled = .f.
+       Form.STSTO2DISPLAY.Enabled = .F.
+     IF .not. (st15f->typ = "00" .or. st15f->cen = 'D' .or. st15f->cen = 'O')  .OR.  .NOT. FORM.BLEVEL = 1
+   Form.CENTREDISPLAY.Enabled = .F.
+    ENDIF
+
+  * Go to next record.
+   ****************************************************************************
+
+Procedure Next
+   form.CheckCommit(form.inEditMode)
+   if .not. empty(dbf())  .and. .not. eof()      && if a table is open in the current workarea
+      skip
+       form.OPENELECQTY.enabled = .f.
+   form.OPENSHSMTR.enabled = .f.
+   form.OPENMANQTY.enabled = .f.
+      Form.STSTO2DISPLAY.Enabled = .F.
+     IF .not. (st15f->typ = "00" .or. st15f->cen = 'D' .or. st15f->cen = 'O')  .OR.  .NOT. FORM.BLEVEL = 1
+   Form.CENTREDISPLAY.Enabled = .F.
+    ENDIF
+      if eof()
+         go bottom
+         AlertMessage("At the last record","Alert")
+      endif
+   else
+      InformationMessage("There is no table open in the current workarea.",;
+         "Info")
+   endif
+    ****************************************************************************
+
+   * Go to next record.
+   ****************************************************************************
+
+procedure Previous
+
+   * Go to previous record.
+   ****************************************************************************
+
+   form.CheckCommit(form.inEditMode)
+ if .not. empty(dbf())  .and. .not. eof() && if a table is open in the current workarea
+      skip - 1
+      IF .not. (st15f->typ = "00" .or. st15f->cen = 'D' .or. st15f->cen = 'O')  .OR.  .NOT. FORM.BLEVEL = 1
+   Form.CENTREDISPLAY.Enabled = .F.
+    ENDIF
+      if bof()
+         go top
+         AlertMessage("At the first record","Alert")
+      endif
+   else
+      InformationMessage("There is no table open in the current workarea.",;
+         "Info")
+   endif
+    form.ShiftDateEntry.Enabled = .F.
+    form.ShiftNoEntry.Enabled = .F.
+    form.OPENELECQTY.enabled = .f.
+   form.OPENSHSMTR.enabled = .f.
+
+   form.OPENMANQTY.enabled = .f.
+
+      Form.STSTO2DISPLAY.Enabled = .F.
+     
+
+   ****************************************************************************
+
+   procedure CheckCommit (newInEditMode)
+
+        * Finish transaction, if it has been started.
+   ****************************************************************************
+   private CodeField, changesMade
+    local lk1,lk2
+    select St15f
+    lk1 = form.ShiftDateEntry.value
+    lk2 = form.ShiftNoEntry.value
+   changesMade = form.changesMade
+   if form.changesMade
+      CodeField = field(2)  && Field ShiftMaster
+      if     ConfirmationMessage("Commit changes?",;
+                FormatStr("ShiftMaster %1",&CodeField)) = YES
+         commit()
+
+      else
+         rollback()
+         if .not. bof()
+            form.previousRecord = .F.
+         endif
+      endif
+
+       form.ShiftDateEntry.enabled = .F.
+       form.ShiftNoEntry.Enabled = .F.
+    if form.inEditMode .and. newInEditMode
+         begintrans()
+      endif
+      form.changesMade = .F.
+   endif
+   if form.inEditMode <> newInEditMode
+      if newInEditMode                       && Going to Edit mode
+         begintrans()
+      else                                   && Going to View mode
+         if .not. changesMade .AND. .NOT. FORM.DUPLICATE
+            rollback()
+         endif
+      endif
+      form.inEditMode = newInEditMode
+   endif
+
+   * form.root.Receipt.add.enabled = .T.
+   *form.codingerrors()
+   ****************************************************************************
+
+   procedure ViewEdit
+
+   * Toggle between View and Edit modes.
+   ****************************************************************************
+   local inEditMode, editMenu, control
+
+   editMenu = form.root.St15f.VIEWEdit
+
+   *** If ending edit mode then close transaction, otherwise open it.
+   if form.inEditMode
+      form.checkChanged(.F.)
+      editMenu.text = "&Edit"
+      editMenu.shortcut = "Ctrl-E"
+      editMenu.statusMessage = "Edit data."
+      *form.root.St15f.delete.enabled = .F.      && disabled in view mode
+      form.CheckCommit(.F.)                        && Check transaction and
+      form.text = "Shift Master File Maintenance Form -- View Mode"          && change mode to View
+         form.notesEditor.colorNormal = "N/W"
+   *         form.childBrowse.modify = .F.
+         form.notesEditor.modify = .F.
+      form.statusmessage = "In View Mode. " + ;
+                           "Select Shift Master File Maintenance - Edit menu to " + ;
+                           "edit/delete data."
+      *form.nextCOYBUTTON.SetFocus()
+   else                                            && Switch to edit mode
+      editMenu.text = "Vi&ew"
+      editMenu.shortcut = "Ctrl-E"
+      editMenu.statusMessage = "View data."
+      *form.root.St15f.delete.enabled = .f.      && enabled in edit mode
+      form.CheckCommit(.T.)                        && Check transaction and
+      form.text = "Shift Master File Maintenance Form -- Edit Mode"          && change mode to Edit
+
+        form.notesEditor.modify = .f.
+      form.statusmessage = "In Edit Mode.  " + ;
+                           "Select menu Shift Master File Maintenance - View to switch " + ;
+                           "to View mode."
+        form.ShiftDateEntry.Enabled = .F.
+         form.ShiftNoEntry.Enabled = .F.
+            form.SHIFTNOdisplay.enabled =.F.
+            FORM.SHIFTNODISPLAY.ENABLED = .f.
+       form.closemqtyentry.SetFocus()
+
+   endif
+
+   inEditMode = form.inEditMode     && Faster if we don't reference a form
+   control = form.first             &&    variable each time through the loop
+   do
+      if .not. control.className $ "BROWSE,EDITOR,NEXTBUTTON,PREVBUTTON,PUSHBUTTON,IMAGE,TEXT"
+         control.enabled = inEditMode
+      endif
+      control = control.before
+   until control.name = form.first.name
+          form.ShiftDateEntry.Enabled = .F.
+     form.ShiftNoEntry.Enabled = .F.
+     form.ShiftNoDisplay.Enabled  = .F.
+       FORM.ErrorsDisplay.Enabled = .F.
+       form.scashier.enabled = .f.
+      form.coydisplay.enabled =.F.
+      form.scend.enabled = .f.
+      Form.SHIFTNODISPLAY.Enabled = .F.
+   Form.COYDISPLAY.Enabled = .F.
+   FORM.SUN.ENABLED = .F.
+   form.shiftidentry.enabled = .f.
+   Form.FGCOYdisplay.enabled = .F.
+   Form.DIVDISPLAY.Enabled = .F.
+   FORM.CLOSEMQTYENTRY.ENABLED = .F.
+   FORM.CLOSEMAMTENTRY.ENABLED = .F.
+   *FORM.TESTAMTENTRY.ENABLED = .F.
+   *   FORM.DAYDISPLAY.ENABLED = .F.
+   Form.FGDIVDISPLAY.Enabled = .F.
+   Form.FGCENDISPLAY.Enabled = .F.
+   *form.noncashdisplay.enabled = .F.
+   form.clmm.enabled = .f.
+   form.OPENMANQTY.enabled = .f.
+   form.OPENELECQTY.enabled = .f.
+   Form.CENDISPLAY.Enabled = .F.
+   Form.STODISPLAY.Enabled = .F.
+   FORM.SHIFTDATEENTRY.ENABLED = .F.
+   FORM.SHIFTNOENTRY.ENABLED = .F.
+   FORM.SHIFTIDENTRY.ENABLED = .F.
+   Form.CODDISPLAY.Enabled = .F.
+   Form.DateClosedDisplay.Enabled = .F.
+   Form.FGCENDISPLAY.Enabled = .F.
+   Form.FGCENNAMEDISPLAY.Enabled = .F.
+     IF .not. (st15f->typ = "00" .or. st15f->cen = 'D' .or. st15f->cen = 'O')  .OR.  .NOT. FORM.BLEVEL = 1
+   Form.CENTREDISPLAY.Enabled = .F.
+    ENDIF
+   Form.STSTONAMEDISPLAY.Enabled = .F.
+    Form.OPENELECQTY.Enabled = .F.
+     Form.OPENSHSMTR.Enabled = .F.
+      form.transindisplay.enabled = .F.
+   form.transoutdisplay.enabled = .F.
+   Form.coyentry.enabled = .F.
+   Form.diventry.enabled = .F.
+   form.daydisplay.enabled = .F.
+   Form.stoentry.enabled = .F.
+   Form.typentry.enabled = .F.
+   Form.claentry.enabled = .F.
+   Form.codentry.enabled = .F.
+   FORM.STSTO2DISPLAY.ENABLED = .F.
+   FORM.SQH1.ENABLED = .F.
+   FORM.SQH2.ENABLED = .F.
+   FORM.SAH1.ENABLED = .F.
+   FORM.SAH2.ENABLED = .F.
+   form.typdisplay.enabled = .f.
+   form.cladisplay.enabled = .f.
+   form.coddisplay.enabled = .f.
+
+       form.closemqtyentry.SetFocus()
+
+
+   ****************************************************************************
+
+   procedure CheckChanged(callCommit)
+   private control, fieldValue, controlValue, typeText, typeValue
+
+   if form.inEditMode
+      control = form.activeControl
+      if type("control.datalink") <> "U"
+         fieldValue = control.datalink          && name of table field
+
+         typeText = type("control.text")
+         typeValue = type("control.value")
+         do case
+            case typeValue = "C"
+               controlValue = control.value
+            case typeValue $ "LU" .and. typeText = "C"
+               controlValue = control.text
+            otherwise
+               controlValue = Null
+         endcase
+         if controlValue <> &fieldValue
+            form.changesMade = .T.
+         endif
+      endif
+   endif
+   if form.changesMade .and. callCommit
+      CLASS::CheckCommit(form.inEditMode)     && Check transactions
+   endif
+
+   Procedure CHANGE_OPENMMTR
+      form.changesmade = .t.
+      select st15f
+           REPLACE DATE_AMEND WITH DATE()
+                   REPLACE USER_AMEND WITH FORM.BLUSER
+                   REPLACE TIME_AMEND WITH TIME()
+                     local l1,l2,l3,l4,l5,l6,l7,l8,l9
+    l1 = st15f->shift_date
+    l2 = st15f->shift_no
+    l3 = st15f->shift_id
+   l4 = st15f->cen
+   l5 = st15f->cen
+   l6 = st15f->sto
+   l7 = st15f->typ
+   l8 = st15f->cla
+   l9 = st15f->cod
+   select scashrec
+   seek dtos(l1)+l2+l3+l4+l5+l6+l7+l8+l9
+   if  found()
+    REPLACE DATE_AMEND WITH DATE()
+                   REPLACE USER_AMEND WITH FORM.BLUSER
+                   REPLACE TIME_AMEND WITH TIME()
+                   endif
+                   select st15f
+
+   Procedure ACTIVATE_RTN
+   if  form.blevel = 1 .and. form.BLADMIN = 'Y'
+   form.OPENELECQTY.enabled = .T.
+   form.OPENSHSMTR.enabled = .T.
+   form.OPENMANQTY.enabled = .t.
+   endif
+   if (form.blevel = 2 .or.  form.blevel = 3)  .AND.  (ST15F->TYP = "00" .OR. ST15F->CEN = "D" .OR. ST15F->CEN = 'O')
+   form.OPENELECQTY.enabled = .T.
+   form.OPENSHSMTR.enabled = .T.
+   form.OPENMANQTY.enabled = .t.
+   endif
+
+   if form.OPENELECQTY.value = 0 .AND.  (ST15F->TYP = "00" .OR. ST15F->CEN = "D" .OR. ST15F->CEN = 'O')
+   form.OPENELECQTY.enabled = .T.
+   endif
+
+   if  form.OPENSHSMTR.value = 0 .AND.  (ST15F->TYP = "00" .OR. ST15F->CEN = "D" .OR. ST15F->CEN = 'O')
+   form.OPENSHSMTR.enabled = .T.
+   endif
+
+   if form.OPENMANQTY.value = 0 .AND.  (ST15F->TYP = "00" .OR. ST15F->CEN = "D" .OR. ST15F->CEN = 'O')
+   form.OPENMANQTY.enabled = .t.
+   endif
+
+   Procedure STSTO2DISPLAY_OnChange
+      FORM.CHANGESMADE = .T.
+
+   Procedure NOTESEDITOR_OnChange
+      form.changesmade = .t.
+
+   Procedure CENTREDISPLAY_OnChange
+    LOCAL LERR
+
+        PVAL1 = ST15F->COY
+        PVAL2 = ST15F->DIV
+        PVAL3 = THIS.VALUE && NEW CEN
+        PVAL4 = ST15F->STO  && FIXED E.G. U1
+        PVAL5 = ST15F->TYP
+        PVAL6 = ST15F->CLA
+        PVAL7 = ST15F->COD
+     *   IF PVAL5 = '00' &&FUELS
+        select fgcen2
+        seek pval1+pval2+pval3  && new
+        if found() .and. fuels = "Yes" .and. coy1 = '1' .and. div1 = '2' .and. cen1 = '0' .and. pval5 = '00'
+         go top
+         if .not. eof()
+        SELECT ST15F
+        REPLACE CASHIER_NO WITH PVAL3, CEN WITH PVAL3
+        LERR = .T.
+        SELECT FGMAST2
+        SET FILTER TO STO = PVAL4
+        GO TOP
+        IF .NOT. EOF()
+        REPLACE CEN WITH PVAL3  && new centre
+        ENDIF
+        SELECT SCASHREC
+         SET FILTER TO STO = PVAL4
+         GO TOP
+         IF .NOT. EOF()
+         REPLACE CASHR_NO WITH PVAL3, CEN WITH PVAL3
+         ENDIF
+         else
+         select st15f3
+         set filter to sto = pval4
+         select st15f
+         replace cen with st15f3->cen
+         endif
+         SELECT ST15F
+         REFRESH
+         FORM.CHANGESMADE = .T.
+         ELSE
+         select fgcen2
+     seek pval1+pval2+pval3  && new
+        if found()  .and. div1= '2' .and. cen1 = '2' .and. coy1 = '1' .and. (cen = 'O' .or. cen = 'D') ;
+         .and. pval5 = '10'
+         go top
+         if .not. eof()
+        SELECT ST15F
+        REPLACE CASHIER_NO WITH PVAL3, CEN WITH PVAL3
+        LERR = .T.
+        SELECT FGMAST2
+        SET FILTER TO STO = PVAL4
+        GO TOP
+        IF .NOT. EOF()
+        REPLACE CEN WITH PVAL3  && new centre
+        ENDIF
+        SELECT SCASHREC
+         SET FILTER TO STO = PVAL4
+         GO TOP
+         IF .NOT. EOF()
+         REPLACE CASHR_NO WITH PVAL3, CEN WITH PVAL3
+         ENDIF
+         else
+         select st15f3
+         set filter to sto = pval4
+         select st15f
+         replace cen with st15f3->cen
+         endif
+         SELECT ST15F
+         REFRESH
+         FORM.CHANGESMADE = .T.
+         ENDIF
+         ENDIF
+
+endclass
+
+PROCEDURE scashrec_rtn
+commit()
+      set safety off
+      select shiftid
+      go top
+      if .not. eof() .and. .not. bof()
+      ZAP
+      endif
+      set order to id
+      eofst15f = .f.
+      select st15f
+      go top
+      if .not. eof()  
+         do
+            do det_rtn1
+            until eofst15f
+            endif
+
+Procedure det_rtn1
+   pcoy = st15f->coy
+   pdiv = st15f->div
+   pcen = st15f->cen
+   psto = st15f->sto
+   ptyp = st15f->typ
+   pcla = st15f->cla
+   pcod = st15f->cod
+   pid = st15f->cen
+   SELECT FGCOD
+   SEEK PTYP+PCLA+PCOD
+   select ststo
+   seek psto
+   SELECT ST15F
+   replace cashier_no with PCEN
+   replace f1cashr with ststo->f1cashr
+  IF .NOT. TYP = "00"
+  REPLACE OFF WITH FGCOD->SHS_AUTO
+  ENDIF
+     do cashier_rtn
+
+
+ procedure cashier_rtn
+    local l1,l2,l3
+    l1 = st15f->shift_date
+    l2 = st15f->shift_no
+    l3 = st15f->shift_id
+
+   pcashier = st15f->cashier_no
+   select scashrec
+   seek dtos(l1)+l2+l3+pcashier+pcen+psto+ptyp+pcla+pcod
+   if .not. found()
+   append blank
+   replace cashr_no with pcashier
+   replace shift_date with l1
+   replace shift_no with l2
+   replace shift_id with l3
+   replace cen with pcen
+    replace sto with psto
+   replace typ with ptyp
+   replace cla with pcla
+   replace cod with pcod
+ replace non_cash with 0
+   replace exp_cash with 0
+    replace exp_sales with 0
+  REPLACE COYVISA WITH 0
+   REPLACE BBKVISA WITH 0
+   REPLACE GENVISA WITH 0
+   REPLACE CHQS WITH 0
+   REPLACE PAYMNTS WITH 0
+   REPLACE RECEPTS WITH 0
+   REPLACE PURCH WITH 0
+   replace A_CASH with 0
+   replace shortage with 0
+   replace cr_notes with 0
+   replace dr_notes with 0
+   replace pdebits with 0
+   replace pcredits with 0
+   replace ppurch with 0
+   replace fc_sales with 0
+replace  cash_bank with 0
+replace  dbcredits with 0
+replace  dbdebits  with 0
+replace  chqs_bank with 0
+replace  reserved1 with 0
+replace  reserved2 with 0
+replace  reserved3 with 0
+replace  reserved4 with 0
+replace  reserved5 with 0
+replace a_c_inhand with 0
+
+   endif
+   SELECT CASHIERS
+   SEEK PCASHIER
+   IF .NOT. FOUND()
+   APPEND BLANK
+   REPLACE CASHR_NO WITH PCASHIER
+   REPLACE RESPNSE WITH "ISLAND"+" "+PCASHIER
+   REPLACE A_CASH WITH 0
+   ENDIF
+ select FGTYP
+   seek ptyp
+    if found()
+   select fgcens2
+   seek pcoy+pdiv+pcen
+    if found()
+   select shiftid
+      seek pid
+      if .not. found()
+      append blank
+      replace id with pid
+      replace total_sale with 0
+            replace ckey with "1"
+            replace coy  with '1'
+            endif
+      replace cenname with fgcens2->name
+      replace typname with FGTYP->name
+      REPLACE NAME WITH fgcens2->FUELS
+      endif
+      endif
+
+
+      select st15f
+      IF .NOT. EOF()
+      skip
+      ENDIF
+      if eof()
+      eofst15f = .t.
+      endif

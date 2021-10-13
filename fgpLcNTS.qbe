@@ -1,0 +1,16 @@
+* Visual dBASE .QBE file 9
+CLOSE DATABASES
+*SET  ON
+SET EXACT ON
+SELECT 1
+USE \KENSERVICE\DATA\FGLCNTs.DBF exclusive
+*ZAP
+SELECT 2
+USE \KENSERVICE\DATA\FGLCNLIN.DBF exclusive
+select 3
+use \kenservice\data\FGLCrup.dbf exclusive
+select 4
+use \kenservice\data\fgtrnref.dbf
+*ZAP
+SELECT 1
+GO TOP

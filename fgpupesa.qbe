@@ -1,0 +1,61 @@
+* Visual dBASE .QBE file 9
+ON ERROR DO QBEERR WITH ERROR(), MESSAGE(),;
+PROGRAM(), LINENO()
+CLOSE DATABASES
+SET EXACT ON
+*set exclusive on
+SELECT 1
+USE \KENSERVICE\DATA\fgadjs.DBF
+*zap
+set filter to empty(post_date)
+select 2
+use \KENSERVICE\DATA\fgadjs.dbF again  alias temp
+SELECT 3
+USE \KENSERVICE\DATA\fgadjs.DBF AGAIN ALIAS fgadjs3
+select 35
+use \kenservice\data\fgadjrss.dbf order tag name
+set filter to reason < '3'
+select 5
+USE \KENSERVICE\DATA\FGMASTP.DBF ORDER TAG NAME
+ set filter to typ = '30' .and. div = '1' .and. cen = 'A' .and. active = "Yes" .and. fcpurch='Yes'
+SELECT 6
+set safety off
+use \kenserve\idssys\fgmast.dbf
+copy stru to \kenservice\data\fgmastpp dbase prod
+use \kenservice\data\fgmastpp.dbf exclusive alias fgmast order tag mkey
+appe from \kenservice\data\fgmast.dbf for typ = '30' .and. div = '1' .and. cen = 'A'
+SELECT 7
+USE \KENSERVICE\DATA\fgadjs.DBF again alias fgadjs2
+SELECT 8
+USE \KENSERVICE\DATA\FGCOD.DBF ORDER TAG MKEY
+SELECT 9
+USE \KENSERVICE\DATA\GLTYP.DBF ORDER TAG LNAME
+SET FILTER TO ACTYPE = "1" .OR. ACTYPE = "8"  && COST OF SALES OR INCOME
+select 10
+use \kenservice\data\fgadjsl.dbf
+select 12
+use \kenservice\data\fgmastpp.dbf again alias fgmast2 order tag mkey
+select 13
+use \kenservice\data\fgoffs.dbf order tag name
+set filter to empty(date_left)
+select 15
+use \kenservice\data\fgcoy.dbf
+go top
+SELECT 100
+set safety off
+use \kenserve\idssys\st15f.dbf
+copy stru to \kenservice\data\st15fpp dbase prod
+use \kenservice\data\st15fpp.dbf exclusive alias st15f ORDER TAG MKEY
+appe from \kenservice\data\st15f.dbf  for typ = '30' 
+go top
+select 126
+use \kenservice\data\FGADJSUP.dbf
+delete all for empty(order_no)
+set filter to .not. empty(post_date)
+select 128
+ use \kenservice\data\fgadjsn.dbf
+SELECT 1
+SET RELATION TO NAME INTO FGMASTP,  COY+DIV+CEN+sto+tyP+CLA+COD INTO FGMAST2, ;
+TYP+CLA+COD INTO FGCOD, GNAME INTO GLTYP, offname into fgoffs, rname into fgadjrss
+SELECT 1
+GO TOP

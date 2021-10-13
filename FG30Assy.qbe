@@ -1,0 +1,43 @@
+* Visual dBASE .QBE file 9
+close databases
+on error do SHIFTMNS.PRG
+use \kenservice\data\dayfgmas.DBF
+? purch
+if .not. file("\kenservice\data\dayfgmas.dbf")
+use \kenserve\idssys\dayfgmas.dbf
+copy stru to \kenservice\data\dayfgmas dbase prod
+endif
+ON ERROR DO QBEERR WITH ERROR(), MESSAGE(),;
+PROGRAM(), LINENO()
+CLOSE DATABASES
+SET EXACT ON
+*set exclusive on
+select 10
+use \kenservice\data\fgassyl.dbf
+SELECT 1
+USE \KENSERVICE\DATA\fgassy.DBF
+set filter to empty(post_date) .and.  fgassyL->ORDER_NO = ORDER_NO
+GO TOP
+*zap
+set filter to empty(post_date)
+SELECT 6
+use \kenservice\data\fgmast.dbf
+*zap
+select 3
+use \kenservice\data\dayfgmas.dbf
+select 11
+use \kenservice\data\fgadasto.dbf
+select 14
+use \kenservice\data\shstmast.dbf
+select 15
+use \kenservice\data\fgcoy.dbf
+go top
+SELECT 100
+USE \KENSERVICE\DATA\ST15F.DBF
+select 104
+use \kenservice\data\fgassyUP.dbf
+select 128
+ use \kenservice\data\fgassyn.dbf
+ select 137
+   USE \KENSERVICE\DATA\DACOYSUM.DBF
+   

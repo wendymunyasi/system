@@ -1,0 +1,1399 @@
+////////////////////////////////////////////////////////////////////////////////
+// Output Filename: C:\KENSERVICE\IDSSYS\ARCRNTS_FCV.WFM                      //
+// Created By:      dBASE Form Converter Wizard                               //
+// Created On:      Sunday October 3, 2021 At 10:11:30                        //
+// Object Count:    39                                                        //
+////////////////////////////////////////////////////////////////////////////////
+                                                                                                                  *******************************************************************************
+*  PROGRAM:      ARCRNTS.WFM
+*
+*  WRITTEN BY:   W Nyongesa
+*  DATE:         10/2003
+*
+*  UPDATED:      03/2015
+*
+*  REVISION:     $Revision:   1.97  $
+*
+*  VERSION:      Visual dBASE
+*
+*  DESCRIPTION:  This form displays information about an order from a company.
+*                It allows traversing through ARCRNTS and going to the top and
+*                bottom.  This form also has a corresponding menu, OrdCust.mnu,
+*                which allows adding,deleting and searching for an order.
+*                When an unknown customer number is entered, a dialog will come
+*                up asking you if you want to add a new customer.  If you
+*                selecte the Yes button, the customer form (in stcusj.Wfm)
+*                will be opened, so a new customer can be added.
+*
+*  PARAMETERS:   None
+*
+*  CALLS:        ARCRNTS.mnu       (Menu file)
+*                Buttons.cc       (Custom controls file)
+*                stcusj.Wfm     (Form for displaying customer information)
+*                ARCRNTS.qbe       (View of tables)
+*
+*  USAGE:        DO ARCRNTS.WFM    && Note that you can also DO stcusj.Wfm
+*
+*******************************************************************************
+#include <Messdlg.h>
+shell(.F.)
+create session
+set talk off
+*ET DESIGN OFF
+*if .not. user() = "WYCLIFFE"
+_app.FrameWin.Visible = .F.
+set design off
+*ENDIF
+_app.FrameWin.Text = "ARCRNTS"
+set ldCheck off                        && To avoid language driver conflicts
+*SET DBTYPE TO PARADOX
+SET CUAENTER OFF
+SET CENTURY ON
+** END HEADER -- do not remove this line*
+* Generated on 27/03/2018
+*
+parameter bUser,bLevel,bModal
+local f
+f = new ARCRNTSFORM()
+if (bModal)
+   f.mdi = .F. && ensure not MDI
+   f.ReadModal()
+else
+   f.Open()
+endif
+CLASS ARCRNTSFORM OF FORM
+   Set Procedure To BUTTONS.CC additive
+   this.Metric = 6  // Pixels
+   this.Sizeable = .F.
+   this.EscExit = .F.
+   this.View = "ARCRNTS.QBE"
+   this.OnClose = CLASS::ONCLOSE
+   this.Text = "CREDIT NOTES -- View Mode"
+   this.MDI = .F.
+   this.CanClose = CLASS::FORM_CANCLOSE
+   this.WindowState = 2
+   this.MenuFile = "ARCRNTS.MNU"
+   this.Left = 84
+   this.MousePointer = 1
+   this.Minimize = .F.
+   this.Maximize = .F.
+   this.Top = 0
+   this.Height = 339
+   this.Moveable = .F.
+   this.ColorNormal = "N+"
+   this.Width = 406
+
+   DEFINE TEXTLABEL TEXT9 OF THIS;
+       PROPERTY;
+         FontSize 12,;
+         Text "No.:",;
+         FontName "Verdana",;
+       BorderStyle 7,;
+         Left 12,;
+         Top 4,;
+         Height 21,;
+         ColorNormal "R+/W",;
+         Width 42,;
+       FontBold .T.,;
+       AlignHorizontal 1,;
+       AlignVertical 1
+
+   DEFINE ENTRYFIELD ORDERNOENTRY OF THIS;
+       PROPERTY;
+         FontSize 12,;
+         FontName "MS Sans Serig",;
+         DataLink "ARCRNTS->ORDER_NO",;
+         Left 60,;
+         Enabled .F.,;
+         OnChange CLASS::CHANGESMADE,;
+         ColorHighLight "GB+/W",;
+         Top 4,;
+         Height 21,;
+         ColorNormal "R+/W",;
+         Width 63,;
+       FontBold .T.
+
+   DEFINE TEXTLABEL TEXT2 OF THIS;
+       PROPERTY;
+         FontSize 12,;
+         Text "Date:",;
+         FontName "Verdana",;
+       BorderStyle 7,;
+         Left 128,;
+         Height 25,;
+         ColorNormal "R+/W",;
+         Width 52,;
+       FontBold .T.,;
+       AlignHorizontal 1,;
+       AlignVertical 1
+
+   DEFINE SPINBOX SDATE OF THIS;
+       PROPERTY;
+         ValidErrorMsg "Date out of Range",;
+         FontSize 12,;
+         DataLink "ARCRNTS->order_date",;
+         Left 180,;
+         Enabled .F.,;
+         ColorHighLight "W+/N",;
+         Top 3,;
+         Rangemin {06/12/2009},;
+         Height 21,;
+         Rangemax {16/03/2010},;
+         ColorNormal "R+/W",;
+         Width 120,;
+       FontName "MS Sans Serif",;
+       FontBold .T.
+
+   DEFINE TEXTLABEL TEXT3 OF THIS;
+       PROPERTY;
+         FontSize 12,;
+         Text "Ref.:",;
+         FontName "Verdana",;
+       BorderStyle 7,;
+         Left 305,;
+         Top 2,;
+         Height 24,;
+         ColorNormal "0x400000/W",;
+         Width 55,;
+       FontBold .T.,;
+       AlignHorizontal 1,;
+       AlignVertical 1
+
+   DEFINE ENTRYFIELD SSERIAL OF THIS;
+       PROPERTY;
+         Function "!",;
+         FontSize 12,;
+         FontName "MS Sans Serig",;
+         DataLink "ARCRNTS->LPO",;
+         Left 360,;
+         Enabled .F.,;
+         OnChange CLASS::SSERIAL_ONCHANGE,;
+         ColorHighLight "G+/N",;
+         Top 3,;
+         Height 21,;
+         ColorNormal "0x400000/W",;
+         Width 330,;
+       FontBold .T.
+
+   DEFINE TEXTLABEL TEXT6 OF THIS;
+       PROPERTY;
+         FontSize 12,;
+         Text "Account Date:",;
+         FontName "Verdana",;
+       BorderStyle 7,;
+         Left 11,;
+         Top 34,;
+         Height 24,;
+         ColorNormal "0x400000/W",;
+         Width 169,;
+       FontBold .T.,;
+       AlignHorizontal 1,;
+       AlignVertical 1
+
+   DEFINE ENTRYFIELD SACDATE OF THIS;
+       PROPERTY;
+         Function "!",;
+         FontSize 12,;
+         FontName "MS Sans Serig",;
+         DataLink "ARCRNTS->RECDATE",;
+         Left 192,;
+         Enabled .F.,;
+         OnChange CLASS::SACDATE_ONCHANGE,;
+         ColorHighLight "G+/N",;
+         Top 35,;
+         Height 21,;
+         ColorNormal "0x400000/W",;
+         Width 126,;
+       FontBold .T.
+
+   DEFINE TEXTLABEL TEXT10 OF THIS;
+       PROPERTY;
+         FontSize 12,;
+         Text "Officer:",;
+         FontName "Verdana",;
+       BorderStyle 7,;
+         Left 12,;
+         Top 64,;
+         Height 21,;
+         ColorNormal "0x400000/W",;
+         Width 168,;
+       FontBold .T.,;
+       AlignHorizontal 1,;
+       AlignVertical 1
+
+   DEFINE COMBOBOX SOFF OF THIS;
+       PROPERTY;
+         FontSize 10,;
+         DataLink "ARCRNTS->ANAME",;
+         Left 192,;
+         Style 1,;
+         Enabled .F.,;
+         OnChange CLASS::SEMP1_ONCHANGE,;
+         MousePointer 1,;
+         DataSource "FIELD fgoffs->NAME",;
+         Top 66,;
+         Height 24,;
+         ColorNormal "0xc08000/W",;
+         Width 336,;
+       FontName "MS Sans Serif",;
+       FontBold .T.
+
+   DEFINE TEXTLABEL TEXT4 OF THIS;
+       PROPERTY;
+         FontSize 11,;
+         Text "Select Customer:",;
+         FontName "Verdana",;
+       BorderStyle 7,;
+         Left 12,;
+         Top 98,;
+         Height 21,;
+         ColorNormal "0x400000/W",;
+         Width 168,;
+       FontBold .T.,;
+       AlignHorizontal 1,;
+       AlignVertical 1
+
+   DEFINE COMBOBOX SCUST OF THIS;
+       PROPERTY;
+         FontSize 10,;
+         DataLink "ARCRNTS->CUSTOMER",;
+         Left 192,;
+         Style 1,;
+         Enabled .F.,;
+         OnChange CLASS::SCUST_ONCHANGE,;
+         MousePointer 1,;
+         DataSource "FIELD FRIGTMES->NAME",;
+         Top 98,;
+         Height 24,;
+         ColorNormal "0x400040/W+",;
+         FontBold .F.,;
+         Width 528,;
+       FontName "MS Sans Serif"
+
+   DEFINE RECTANGLE SPRICING OF THIS;
+       PROPERTY;
+         FontSize 12,;
+         Text "Credit for",;
+         Top 120,;
+         Height 84,;
+         ColorNormal "N/0xc8d0d8",;
+         Width 180,;
+       FontName "MS Sans Serif",;
+       FontBold .T.
+
+   DEFINE RADIOBUTTON SINCL OF THIS;
+       PROPERTY;
+         Group .T.,;
+         FontSize 11,;
+         Text "Invoice",;
+         DataLink "ARCRNTS->PAYTYPE",;
+         Left 12,;
+         Enabled .F.,;
+         OnChange CLASS::SINCL_ONCHANGE1,;
+         Top 142,;
+         Height 19,;
+         Width 72,;
+       FontName "MS Sans Serif",;
+       FontBold .T.
+
+   DEFINE RADIOBUTTON SDEPOSIT OF THIS;
+       PROPERTY;
+         OnGotFocus CLASS::SDEPOSIT_ONGOTFOCUS,;
+         Group .F.,;
+         FontSize 11,;
+         Text "Deposit",;
+         DataLink "ARCRNTS->PAYTYPE",;
+         Left 96,;
+         Enabled .F.,;
+         Top 142,;
+         Height 19,;
+         Width 72,;
+       FontName "MS Sans Serif",;
+       FontBold .T.
+
+   DEFINE RADIOBUTTON SINCOME OF THIS;
+       PROPERTY;
+         OnGotFocus CLASS::SINCOME_ONGOTFOCUS,;
+         Group .F.,;
+         FontSize 11,;
+         Text "Income",;
+         DataLink "ARCRNTS->PAYTYPE",;
+         Left 12,;
+         Enabled .F.,;
+         Top 174,;
+         Height 19,;
+         Width 72,;
+       FontName "MS Sans Serif",;
+       FontBold .T.
+
+   DEFINE RECTANGLE RECTANGLE1 OF THIS;
+       PROPERTY;
+         FontSize 12,;
+         Text "Payment Method",;
+         Left 180,;
+         Top 153,;
+         Height 51,;
+         ColorNormal "N/0xc8d0d8",;
+         Width 156,;
+       FontName "MS Sans Serif",;
+       FontBold .T.
+
+   DEFINE RADIOBUTTON SCASH OF THIS;
+       PROPERTY;
+         TabStop .F.,;
+         Group .T.,;
+         FontSize 11,;
+         Text "Creditnote",;
+         DataLink "ARCRNTS->PAY_METHOD",;
+         Left 216,;
+         Enabled .F.,;
+         OnChange CLASS::SCASH_ONCHANGE1,;
+         Top 174,;
+         Height 19,;
+         Width 108,;
+       FontName "MS Sans Serif",;
+       FontBold .T.
+
+   DEFINE TEXTLABEL TEXT5 OF THIS;
+       PROPERTY;
+         FontSize 12,;
+         Text "Credit Note Net Total:",;
+         FontName "Verdana",;
+       BorderStyle 7,;
+         Left 336,;
+         Top 145,;
+         Height 26,;
+         ColorNormal "N/W",;
+         Width 216,;
+       FontBold .T.,;
+       AlignHorizontal 1,;
+       AlignVertical 1
+
+   DEFINE ENTRYFIELD SNETTOTAL OF THIS;
+       PROPERTY;
+         FontSize 12,;
+         DataLink "ARCRNTS->NETT_TOTAL",;
+         Left 552,;
+         Enabled .F.,;
+         OnChange CLASS::SNETTOTAL_ONCHANGE,;
+         ColorHighLight "0x40/W",;
+         Picture "99,999,999,999.99",;
+         Top 145,;
+         Height 26,;
+         ColorNormal "N/W",;
+         Width 180,;
+       FontName "MS Sans Serif",;
+       FontBold .T.
+
+   DEFINE TEXTLABEL TEXT7 OF THIS;
+       PROPERTY;
+         FontSize 12,;
+         Text "DOC TOTAL:",;
+         FontName "Verdana",;
+       BorderStyle 7,;
+         Left 360,;
+         Top 183,;
+         Height 25,;
+         ColorNormal "0x400000/0xffff80",;
+         Width 168,;
+       FontBold .T.,;
+       AlignHorizontal 1,;
+       AlignVertical 1
+
+   DEFINE ENTRYFIELD STOTAL OF THIS;
+       PROPERTY;
+         FontSize 12,;
+         FontName "arial",;
+         DataLink "ARCRNTS->TOTAL",;
+         Left 540,;
+         Enabled .F.,;
+         ColorHighLight "G+/0xc08000",;
+         Picture "99,999,999,999.99",;
+         Top 183,;
+         Height 25,;
+         ColorNormal "0x400000/0xffff80",;
+         Width 192,;
+       FontBold .T.
+
+   DEFINE TEXTLABEL TEXT1 OF THIS;
+       PROPERTY;
+         FontSize 11,;
+         Text "Select Vendor:",;
+         FontName "Verdana",;
+       BorderStyle 7,;
+         Left 12,;
+         Top 217,;
+         Height 26,;
+         ColorNormal "0x400000/W",;
+         Width 168,;
+       FontBold .T.,;
+       AlignHorizontal 1,;
+       AlignVertical 1
+
+   DEFINE COMBOBOX SVENDOR OF THIS;
+       PROPERTY;
+         FontSize 10,;
+         DataLink "ARCRNTS->vname",;
+         Left 192,;
+         Style 1,;
+         Enabled .F.,;
+         OnChange CLASS::SVENDOR_ONCHANGE,;
+         MousePointer 1,;
+         DataSource "FIELD vennames->NAME",;
+         Top 217,;
+         Height 24,;
+         ColorNormal "0x400040/W+",;
+         FontBold .F.,;
+         Width 528,;
+       FontName "MS Sans Serif"
+
+   DEFINE RECTANGLE RECTANGLE2 OF THIS;
+       PROPERTY;
+         FontSize 12,;
+         Text "Select Charge/Capital A/C",;
+         Left 12,;
+         Top 247,;
+         Height 43,;
+         ColorNormal "N/0xc8d0d8",;
+         Width 708,;
+       FontName "MS Sans Serif",;
+       FontBold .T.
+
+   DEFINE COMBOBOX SBANKA OF THIS;
+       PROPERTY;
+         FontSize 10,;
+         DataLink "ARCRNLNE->BNAME",;
+         Left 24,;
+         Style 1,;
+         Enabled .F.,;
+         OnChange CLASS::SBANKA_ONCHANGE,;
+         MousePointer 1,;
+         DataSource "FIELD fgmastp->NAME",;
+         Top 264,;
+         Height 24,;
+         ColorNormal "0xc08000/W",;
+         Width 684,;
+       FontName "MS Sans Serif",;
+       FontBold .T.
+
+   DEFINE TEXTLABEL TEXT14 OF THIS;
+       PROPERTY;
+         FontSize 12,;
+         Text "Total Receipts/Invoices:",;
+         FontName "Verdana",;
+       BorderStyle 7,;
+         Left 12,;
+         Top 298,;
+         Height 26,;
+         ColorNormal "N/W",;
+         Width 240,;
+       FontBold .T.,;
+       AlignHorizontal 1,;
+       AlignVertical 1
+
+   DEFINE ENTRYFIELD SRECT OF THIS;
+       PROPERTY;
+         FontSize 12,;
+         DataLink "ARCRNLNE->REC_TOTAL",;
+         Left 252,;
+         Enabled .F.,;
+         OnChange CLASS::SDTOTAL_ONCHANGE,;
+         ColorHighLight "0x40/W",;
+         Picture "99,999,999,999.99",;
+         Top 298,;
+         Height 26,;
+         ColorNormal "N/W",;
+         Width 180,;
+       FontName "MS Sans Serif",;
+       FontBold .T.
+
+   DEFINE TEXTLABEL TEXT12 OF THIS;
+       PROPERTY;
+         FontSize 12,;
+         Text "VAT Rate (Charge):",;
+         FontName "Verdana",;
+       BorderStyle 7,;
+         Left 432,;
+         Top 298,;
+         Height 26,;
+         ColorNormal "N/W",;
+         Width 240,;
+       FontBold .T.,;
+       AlignHorizontal 1,;
+       AlignVertical 1
+
+   DEFINE ENTRYFIELD SVATRATE OF THIS;
+       PROPERTY;
+         FontSize 12,;
+         DataLink "ARCRNLNE->VAT_RATE",;
+         Left 672,;
+         Enabled .F.,;
+         OnChange CLASS::SVATRATE_ONCHANGE,;
+         ColorHighLight "0x40/W",;
+         Picture "99",;
+         Top 298,;
+         Height 26,;
+         ColorNormal "N/W",;
+         Width 48,;
+       FontName "MS Sans Serif",;
+       FontBold .T.
+
+   DEFINE TEXTLABEL TEXT11 OF THIS;
+       PROPERTY;
+         FontSize 12,;
+         Text "Gross Charge:",;
+         FontName "Verdana",;
+       BorderStyle 7,;
+         Left 12,;
+         Top 332,;
+         Height 26,;
+         ColorNormal "N/W",;
+         Width 168,;
+       FontBold .T.,;
+       AlignHorizontal 1,;
+       AlignVertical 1
+
+   DEFINE ENTRYFIELD SSVC OF THIS;
+       PROPERTY;
+         FontSize 12,;
+         DataLink "ARCRNLNE->SVC_TOTAL",;
+         Left 180,;
+         Enabled .F.,;
+         OnChange CLASS::SSVC_ONCHANGE,;
+         ColorHighLight "0x40/W",;
+         Picture "99,999,999,999.99",;
+         Top 332,;
+         Height 26,;
+         ColorNormal "N/W",;
+         Width 180,;
+       FontName "MS Sans Serif",;
+       FontBold .T.
+
+   DEFINE TEXTLABEL TEXT13 OF THIS;
+       PROPERTY;
+         FontSize 12,;
+         Text "V.A.T. TOTAL AMT:",;
+         FontName "Verdana",;
+       BorderStyle 7,;
+         Left 360,;
+         Top 332,;
+         Height 26,;
+         ColorNormal "N/W",;
+         Width 192,;
+       FontBold .T.,;
+       AlignHorizontal 1,;
+       AlignVertical 1
+
+   DEFINE ENTRYFIELD SVATTOTAL OF THIS;
+       PROPERTY;
+         FontSize 12,;
+         DataLink "ARCRNLNE->VAT_TOTAL",;
+         Left 552,;
+         Enabled .F.,;
+         OnChange CLASS::SVATTOTAL_ONCHANGE,;
+         ColorHighLight "0x40/W",;
+         Picture "999,999,999.99",;
+         Top 332,;
+         Height 26,;
+         ColorNormal "N/W",;
+         Width 168,;
+       FontName "MS Sans Serif",;
+       FontBold .T.
+
+   DEFINE PUSHBUTTON FIRSTORDERBUTTON OF THIS;
+       PROPERTY;
+         Group .F.,;
+         FontSize 12,;
+         Text "First",;
+         Left 42,;
+         OnClick CLASS::GO_TOP,;
+         Top 511,;
+         Height 26,;
+         ColorNormal "0x40/W",;
+         Width 120,;
+       FontName "MS Sans Serif",;
+       FontBold .T.
+
+   DEFINE PUSHBUTTON LASTORDERBUTTON OF THIS;
+       PROPERTY;
+         Group .F.,;
+         FontSize 12,;
+         Text "Last",;
+         Left 192,;
+         OnClick CLASS::GO_LAST,;
+         Top 511,;
+         Height 26,;
+         ColorNormal "0x40/W",;
+         Width 120,;
+       FontName "MS Sans Serif",;
+       FontBold .T.
+
+   DEFINE PREVBUTTON PREVORDERBUTTON OF THIS;
+       PROPERTY;
+         Group .T.,;
+         FontSize 12,;
+         Text "Previous",;
+         Left 342,;
+         OnClick CLASS::PREVIOUS,;
+         Top 511,;
+         Height 26,;
+         ColorNormal "0x40/W",;
+         Width 120,;
+       FontName "MS Sans Serif",;
+       FontBold .T.
+
+   DEFINE NEXTBUTTON NEXTORDERBUTTON OF THIS;
+       PROPERTY;
+         Group .F.,;
+         FontSize 12,;
+         Text "Next",;
+         Default .T.,;
+         Left 492,;
+         OnClick CLASS::NEXT,;
+         Top 511,;
+         Height 26,;
+         ColorNormal "0x40/W",;
+         Width 120,;
+       FontName "MS Sans Serif",;
+       FontBold .T.
+
+   DEFINE BROWSE CHILDBROWSE OF THIS;
+       PROPERTY;
+         Modify .F.,;
+         CUATab .T.,;
+         Alias "ARCRNLNE",;
+         Text "LISTING OF BREAK-DOWN OF  DOCUMENT TOTAL",;
+         FontSize 10,;
+         Left 36,;
+         ShowRecNo .F.,;
+         ColorHighLight "R/BTNFACE",;
+         Append .F.,;
+         ShowDeleted .F.,;
+         Delete .F.,;
+         Top 384,;
+         Fields 'ARCRNLNE->STOCK_NO\H="NO."\6\P="99"\R\C="N/0xffff80",ARCRNLNE->REF\H="REF NO."\30\R\C="N/0xffff80",ARCRNLNE->OTHER_DATE\H="REF DATE"\12\R\C="N/0xffff80",ARCRNLNE->TOTAL\H="AMOUNT"\25\P="99,999,999,999.99"\R\C="N/0xffff80"',;
+         Height 108,;
+         ScrollBar 1,;
+         Width 684,;
+         ColorNormal "R/W",;
+       FontName "MS Sans Serif"
+
+   procedure Open
+   ****************************************************************************
+   private orderNoField
+      on error DO ddeerr WITH ERROR(), MESSAGE(),;
+   PROGRAM(), LINENO()
+              FORM.BLUSER = BUSER
+   FORM.BLEVEL = BLEVEL
+   IF EMPTY(FORM.BLUSER) .OR. EMPTY(FORM.BLEVEL)
+   QUIT
+   ENDIF
+
+                    set safety off
+                     SET REPROCESS TO 10
+                     select fgmastp2
+                     set order to  mkey
+                     select ARCRNTSN
+    go top
+    if eof()
+    append blank
+    replace order_no with "0"
+    endif
+    form.ltyp = ""
+   form.lcla = ""
+   form.lcod = ""
+   form.lvat = 0
+   form.lname = ""
+   select frighter
+   set order to frighter
+                         select ARCRNUPD
+    set order to orderdate
+
+                  select ARCRNLNE3
+                  set order to order_no
+                  select fgmastp
+                  set order to name
+                  go top
+                     SELECT ARCRNTS3
+                     SET ORDER TO ORDER_NO
+                     GO BOTTOM
+   SET SAFETY ON
+   select st15f
+   set order to mkey
+   GO TOP
+     select frigtmes
+   set order to name
+
+   select ARCRNLNE
+   go top
+   if .not. eof()
+   if empty(order_no)
+   delete
+   endif
+   endif
+   select ARCRNTS
+   go top
+   if .not. eof()
+   if empty(order_no)
+   delete
+   endif
+   endif
+      select fgoffs
+   set order to name
+    select ARCRNTS3
+    SET ORDER TO ORDER_NO
+   go bottom
+    form.maxOrder = order_no
+   if type("form.init") = "U"
+      form.init = .T.
+    ENDIF
+   SELECT FGCOY
+   GO TOP
+   FORM.PSHIFTDATE = DATE()
+   FORM.PSHIFTNO = "0"
+   FORM.PSHIFTID = "0"
+   form.pfc = .f.
+   IF POSPOST = "Yes"
+    FORM.PSHIFTDATE = st15f->shift_date
+   FORM.PSHIFTNO = st15f->shift_no
+   SELECT FGCOY
+   REPLACE START_DATE WITH ST15F->SHIFT_DATE
+   REPLACE END_DATE WITH START_DATE
+   FORM.PSHIFTID = st15f->shift_id
+   form.pfc = .t.
+
+   endif
+   if .not. form.pfc  && not forecourt
+      if .not. empty(ARCRNTS3->order_date)
+      form.PSHIFTDATE = ARCRNTS3->order_date
+      select fgcoy
+      replace start_date with FORM.PSHIFTDATE
+      else
+      form.PSHIFTDATE = fgcoy->start_date
+      if empty(form.PSHIFTDATE)
+       InformationMessage("Missing Data Entry Dates Range in the company info file.", "Sorry")
+       quit
+       endif
+
+      endif
+   endif
+
+   FORM.PDIV = ""
+   FORM.PCOY = ""
+   FORM.OKEXIT = .F.
+   FORM.PVATPRICE = "Inclusive"
+   FORM.PCEN = ""
+    form.pcashierno = ""
+    form.pemp1 = ""
+    form.pf1name = ""
+    FORM.PSERVED = ""
+   FORM.PSTO = ""
+   form.pclass = ""
+   FORM.PTYP = ""
+   form.pcard = "B/V"
+   form.ptypname = ""
+   form.pclaname = ""
+   form.pcodname = ""
+   form.pcod = ""
+   form.pf1dr = "No"
+
+
+   *
+
+
+   FORM.PCLA = ""
+      set skip to                     && ARCRNTS.qbe contains set skip to ARCRNLNE
+      set exact off                   && the .qbe file contains SET EXACT ON
+
+      set procedure to Sampproc.prg additive
+
+      form.inEditMode = .F.           && indicator of view/edit state
+      form.changesMade = .F.          && indicator of changes made to field values
+      form.previousRecord = .F.       && Save record number when appending
+      form.pspdiv = "1"
+      form.pspdivname = "Depot"
+      *** do calculations in another area so form doesn't get updated
+         select ARCRNTS
+      set order to order_no
+
+
+        && max value for key field -- for creating
+
+          local lmax
+
+       ***
+       select ARCRNTSL
+       go top
+       if eof()
+       append blank
+       endif
+
+   form.Psdate = FORM.PSHIFTDATE
+   form.pserialno = ""
+          select ARCRNTS
+       go top
+
+      *** Open table for calculating totals and balance due in another work area
+      *** so that datalinks are not affected by record movements
+
+       select ARCRNTS
+      set relation to order_no into ARCRNLNE2 constrain integrity additive
+
+      ***
+
+
+   go top
+   refresh
+    form::Open()
+   * ? form.pshiftno
+    shell(.F.)
+
+
+   ****************************************************************************
+
+   procedure OnClose
+   ****************************************************************************
+   *  form.CheckCommit(form.inEditMode)
+      if form.inEditMode
+      form.ViewEdit()
+   endif
+          && Close customer form if it exists
+    *  if type("form.parentcustomerForm") = "U"  && If called from customer,
+                                             && leave shell(.F.)
+        shell(.f.)
+   *  endif
+   close procedure SampProc.prg
+    if .not. empty(ARCRNTS->order_no)
+   select ARCRNUPD
+   seek ARCRNTS->order_no+dtos(ARCRNTS->order_date)
+   if found() .and. .not. empty(post_date)
+   select ARCRNTS
+   replace post_date with date()
+   endif
+   endif
+     COMMIT()
+   close databases
+   clear program
+     do arpCRNTS.prg
+   form.close()
+    close databases
+     ****************************************************************************
+
+
+   procedure ChangesMade
+
+   * Indicate that changes have been made to current record.
+   ****************************************************************************
+
+   form.changesMade = .T.
+
+   ****************************************************************************
+
+    ****************************************************************************
+
+
+   procedure BrowseChangesMade
+   ****************************************************************************
+   local t,t2,t3,t4,T5,t6,t7,t8
+     if form.changesmade = .t.
+   select ARCRNLNE
+   IF .NOT. EOF()
+   *  form.changesMade = .T.
+     go recno("ARCRNLNE") in ARCRNLNE    && Make sure change is posted
+
+   select ARCRNLNE2  && recalculate totals in other workarea
+   calculate sum(ARCRNLNE2->total), sum(ARCRNLNE2->invtotal), sum(ARCRNLNE2->paytotal),;
+   sum(ARCRNLNE2->deptotal) to t, t2,t3,t4
+   FORM.STOTAL.VALUE = t
+       ENDIF
+     SELECT ARCRNTS
+   endif
+
+
+    procedure Next
+   ****************************************************************************
+
+   form.CheckCommit(form.inEditMode)
+   if .not. empty(ARCRNTS->order_no)
+   select ARCRNUPD
+   seek ARCRNTS->order_no+dtos(ARCRNTS->order_date)
+   if found() .and. .not. empty(post_date)
+   select ARCRNTS
+   replace post_date with date()
+   flush
+   endif
+   endif
+   form.root.order.viewEdit.enabled = .t.
+     form.root.order.ADDorder.enabled = .T.
+    form.root.order.ADDline.enabled = .T.
+
+   select ARCRNTS
+   if .not. eof()
+      NEXTBUTTON::OnClick()
+   endif
+    form.root.file.exit.enabled =   .t.
+
+   ****************************************************************************
+
+   procedure Previous
+   ****************************************************************************
+
+   form.CheckCommit(form.inEditMode)
+   if .not. empty(ARCRNTS->order_no)
+   select ARCRNUPD
+   seek ARCRNTS->order_no+dtos(ARCRNTS->order_date)
+   if found() .and. .not. empty(post_date)
+   select ARCRNTS
+   replace post_date with date()
+   flush
+   endif
+   endif
+   form.root.order.viewEdit.enabled = .t.
+     form.root.order.ADDorder.enabled = .T.
+    form.root.order.ADDline.enabled = .T.
+
+   select ARCRNTS
+   if .not. bof()
+   PREVBUTTON::OnClick()
+   endif
+     form.root.file.exit.enabled =   .t.
+    ****************************************************************************
+
+   procedure CheckCommit (newInEditMode)
+
+    * Finish transaction, if it has been started.
+    ****************************************************************************
+    private orderField, changesMade,prcoy,prdiv,prcen,prsto,prtyp,prcla,prcod,prqty,;
+    pcoy,pdiv,pcen,psto,ptyp,pcla,pcod
+
+
+    changesMade = form.changesMade
+     if form.changesMade
+       orderField = field(1)                  && Field Order_no
+          commit()
+            on error DO ddeerr WITH ERROR(), MESSAGE(),;
+   PROGRAM(), LINENO()
+       if form.inEditMode .and. newInEditMode
+          begintrans()
+               on error DO transerr WITH ERROR(), MESSAGE(),;
+   PROGRAM(), LINENO()
+       endif
+       form.changesMade = .F.
+    endif
+
+
+    if form.inEditMode <> newInEditMode
+       if newInEditMode                       && Going to Edit mode
+          begintrans()
+            on error DO transerr WITH ERROR(), MESSAGE(),;
+   PROGRAM(), LINENO()
+       else                                   && Going to View mode
+          if .not. changesMade
+             rollback()
+            on error   DO ddeerr WITH ERROR(), MESSAGE(),;
+   PROGRAM(), LINENO()
+          endif
+       endif
+       form.inEditMode = newInEditMode
+    endif
+    select ARCRNTS
+    ****************************************************************************
+
+   procedure ViewEdit
+   ****************************************************************************
+   local inEditMode, control, editMenu
+
+   editMenu = form.root.ORDER.viewEdit
+   *** If editing is completed, close transaction, otherwise open a transaction
+   if form.inEditMode                           && Change to View mode
+      form.checkChanged(.F.)
+      editMenu.text = "&Edit"
+      editMenu.shortcut = "Ctrl-E"
+      editMenu.statusMessage = "Edit data."
+     * form.root.order.deleteorder.enabled = .F.      && disabled in view mode
+      form.root.order.deleteline.enabled = .F.
+   *     form.root.order.REPLACECUST.enabled = .f.
+      form.CheckCommit(.F.)                     && Check transaction and
+      form.text = "CREDIT NOTES -- View Mode"         && change mode to View
+      form.childBrowse.modify = .F.
+      form.statusMessage = "Select CREDIT NOTE - Edit menu choice to " +;
+                           "edit/delete data."
+   else                                         && Change to Edit mode
+      editMenu.text = "&View"
+      editMenu.shortcut = "Ctrl-E"
+      editMenu.statusMessage = "View data."
+    *     form.root.order.deleteorder.enabled = .F.      && enabled in edit mode
+        form.root.order.deleteline.enabled = .t.
+   *        form.root.order.REPLACECUST.enabled = .t.
+      form.CheckCommit(.T.)                     && Check transaction and
+      form.text = "CREDIT NOTES -- Edit Mode"         && change mode to Edit
+      form.childBrowse.modify = .F.
+      form.statusMessage = "In Edit Mode.  " +;
+                           "Select CREDIT NOTE - View menu choice to switch " +;
+                           "to View mode."
+    endif
+
+   control = form.first
+
+   inEditMode = form.inEditMode    && so don't have to reference many times
+   do
+      do case
+         case control.name $ "ORDERNOENTRY,cno,TOTINVENTRY,BALDUEENTRY"
+            * these are never editable
+            control.enabled = .F.
+         case .not. control.className $ "BROWSE,NEXTBUTTON,PREVBUTTON,PUSHBUTTON,IMAGE,TEXT"
+            * doesn't make sense to make the above classes enabled/not
+            control.enabled = inEditMode
+         case control.className = "BROWSE"
+            control.Modify = inEditMode
+            control.Delete = inEditMode
+            control.Append = inEditMode
+      endcase
+      control = control.before
+   until control.name = form.first.name
+   form.OrderNoEntry.enabled = .F.          && Key field is always disabled
+   form.childBrowse.append = .F.
+   form.childBrowse.delete = .F.
+    FORM.CHILDBROWSE.MODIFY = .F.
+     form.stotal.enabled = .f.
+    FORM.STOTAL.ENABLED = .F.
+   form.SACDATE.enabled = .f.
+   FORM.SDATE.ENABLED = .F.
+   * endif
+
+   procedure CheckChanged(callCommit)
+
+   * Check if changes have been made to the current entryfield.  This procedure
+   * is called from menu routines to make sure the form.changesMade gets
+   * updated when a menu is selected while the changed control has focus.
+   ****************************************************************************
+   private control, fieldValue, controlValue, typeText, typeValue
+
+   if form.inEditMode
+      control = form.activeControl
+      if type("control.datalink") <> "U"
+         fieldValue = control.datalink          && name of table field
+
+         typeText = type("control.text")
+         typeValue = type("control.value")
+         do case
+            case typeValue = "C0"
+               controlValue = control.value
+            case typeValue $ "LU" .and. typeText = "C0"
+               controlValue = control.text
+            otherwise
+               controlValue = Null
+         endcase
+         if controlValue <> &fieldValue
+            form.changesMade = .T.
+         endif
+      endif
+   endif
+   if form.changesMade .and. callCommit
+      CLASS::CheckCommit(form.inEditMode)     && Check transactions
+   endif
+
+   Procedure Go_last
+      form.CheckCommit(form.inEditMode)
+      if .not. empty(ARCRNTS->order_no)
+   select ARCRNUPD
+   seek ARCRNTS->order_no+dtos(ARCRNTS->order_date)
+   if found() .and. .not. empty(post_date)
+   select ARCRNTS
+   replace post_date with date()
+   flush
+   endif
+   endif
+   form.root.order.viewEdit.enabled = .t.
+     form.root.order.ADDorder.enabled = .T.
+    form.root.order.ADDline.enabled = .T.
+
+   select ARCRNTS
+      go bottom
+   form.root.file.exit.enabled =   .t.
+
+     Procedure Go_Top
+     form.CheckCommit(form.inEditMode)
+     if .not. empty(ARCRNTS->order_no)
+   select ARCRNUPD
+   seek ARCRNTS->order_no+dtos(ARCRNTS->order_date)
+   if found() .and. .not. empty(post_date)
+   select ARCRNTS
+   replace post_date with date()
+   flush
+   endif
+   endif
+   form.root.order.viewEdit.enabled = .t.
+     form.root.order.ADDorder.enabled = .T.
+    form.root.order.ADDline.enabled = .T.
+
+   select ARCRNTS
+     go top
+    form.root.file.exit.enabled =   .t.
+
+   Procedure Form_CanClose
+      RETURN IIF(form.changesmade = .F., .F., .T.)
+
+
+
+
+   Procedure SEMP1_ONCHANGE
+         local l1,l2
+
+         l1 = this.value
+         select fgoffs
+         seek l1
+
+           select ARCRNTS
+           replace aname with fgoffs->name
+         replace off with fgoffs->off
+         replace cashier_no with fgoffs->cashier_no
+          form.changesmade = .t.
+
+      Procedure SCUST_ONCHANGE
+         select frigtmes
+         seek this.value
+         IF FOUND()
+            select ARCRNTS
+            replace customer with this.value
+            replace source with frigtmes->source
+             replace ftyp   with frigtmes->ftyp
+              replace pmod   with frigtmes->pmod
+               replace frighter_n with frigtmes->frighter_n
+                replace err_cust with .t.
+                replace bl_amt with 0
+                replace nett_total  with 0
+                ELSE
+                  select ARCRNTS
+            replace customer with ""
+            replace source with ""
+             replace ftyp   with ""
+              replace pmod   with ""
+               replace frighter_n with ""
+               replace bl_amt with 0
+               replace nett_total  with 0
+               ENDIF
+                if frigtmes->source = '9'
+                select frighter
+                seek frigtmes->source+frigtmes->ftyp+frigtmes->pmod+frigtmes->frighter_n
+                if found()
+                select ARCRNTS
+                replace bl_amt with frighter->bal_due
+                endif
+                endif
+          form.changesmade = .t.
+
+
+    Procedure SREF_OnChange
+        form.changesmade = .t.
+        select ARCRNLNE
+        replace ref with this.value
+        select ARCRNTS
+
+   Procedure SCHQD_OnChange
+       form.changesmade = .t.
+       select ARCRNLNE
+       replace other_date with this.value
+       select ARCRNTS
+
+   Procedure SDTOTAL_OnChange
+   SELECT ARCRNLNE
+          REPLACE rec_total with  this.value
+          IF THIS.VALUE < 0
+          REPLACE REC_TOTAL WITH 0
+          ENDIF
+          replace total with rec_total - svc_total - vat_total
+
+         form.changesmade = .t.
+        form.browsechangesmade()
+        select ARCRNTS
+
+
+
+   Procedure SSERIAL_OnChange
+         form.changesmade = .t.
+         select ARCRNTS
+         replace serialno with this.value
+
+   Procedure SBANKA_ONCHANGE
+    select fgmastp
+      seek this.value
+      if found()
+          select arcrnlne
+       replace coy with fgmastp->coy
+      replace div with fgmastp->div
+      replace cen with fgmastp->cen
+      replace sto with fgmastp->sto
+      replace typ with fgmastp->typ
+      replace cla with fgmastp->cla
+      replace cod with fgmastp->cod
+      REPLACE BNAME WITH THIS.VALUE
+       replace vat_rate with 0
+       select fgtaxtyp
+      seek fgmastp->tax_type
+      if found()
+      select arcrnlne
+      replace vat_rate with fgtaxtyp->rate
+      endif
+      if arcrnts->paytype = 'Income' .and. .not. left(arcrnlne->typ,1)= '7'
+       select arcrnlne
+        replace coy with ""
+      replace div with ""
+      replace cen with ""
+      replace sto with ""
+      replace typ with ""
+      replace cla with ""
+      replace cod with ""
+      replace vat_rate with 0
+      REPLACE BNAME WITH ""
+      endif
+       else
+      select arcrnlne
+        replace coy with ""
+      replace div with ""
+      replace cen with ""
+      replace sto with ""
+      replace typ with ""
+      replace cla with ""
+      replace cod with ""
+      replace vat_rate with 0
+      REPLACE BNAME WITH ""
+     endif
+      select arcrnlne
+     form.lname =  bname
+     form.ltyp = typ
+     form.lcla = cla
+     form.lcod = cod
+     form.lvat = vat_rate
+     select arcrnts
+
+      form.changesmade = .t.
+
+     Procedure SINCL_OnChange1
+         form.changesmade = .t.
+
+   Procedure SCASH_OnChange1
+      form.changesmade = .t.
+
+
+   Procedure SVENDOR_OnChange
+       select vennames
+         seek this.value
+         if found()
+         select arcrnts
+         replace vname with this.value
+         replace vsrce with vennames->vsrce
+         replace vtyp  with vennames->vtyp
+         replace vendor_n with vennames->vendor_n
+         replace vpmod with vennames->vpmod
+         REPLACE BCOY WITH "1"
+         REPLACE BDIV WITH "5"
+         REPLACE BCEN WITH "1"
+         REPLACE BTYP WITH "L0"
+         REPLACE BCLA WITH "00"
+         REPLACE BCOD WITH "00"
+         replace bsto with "A1"
+            else
+         select arcrnts
+           replace vname with ""
+         replace vsrce with ""
+         replace vtyp  with ""
+         replace vendor_n with ""
+         replace vpmod with ""
+         REPLACE BCOY WITH ""
+         REPLACE BDIV WITH ""
+         REPLACE BCEN WITH ""
+         REPLACE BTYP WITH ""
+         REPLACE BCLA WITH ""
+         REPLACE BCOD WITH ""
+         replace bsto with ""
+
+              ENDIF
+     form.changesmade = .t.
+
+   Procedure SNETTOTAL_OnChange
+   select ARCRNTS
+   if this.value < 0
+   replace nett_total with 0
+   endif
+   if source ='9' .and. bl_amt  < nett_total .AND. .NOT. FORM.BLEVEL = 1
+   replace nett_total with 0
+   endif
+      form.changesmade = .t.
+
+
+   Procedure SVATRATE_OnChange
+          select arcrnlne
+      replace vat_rate with this.value
+      IF THIS.VALUE < 0
+      REPLACE VAT_RATE WITH 0
+      ENDIF
+      replace vat_total with round(vat_rate /100* svc_total,2)
+       replace total with rec_total - svc_total - vat_total
+
+         form.changesmade = .t.
+        form.browsechangesmade()
+        select ARCRNTS
+
+   Procedure SSVC_OnChange
+      select arcrnlne
+      replace svc_total with this.value
+       replace vat_total with round(vat_rate /100* svc_total,2)
+       replace total with rec_total - svc_total - vat_total
+
+         form.changesmade = .t.
+        form.browsechangesmade()
+        select ARCRNTS
+
+   Procedure SVATTOTAL_OnChange
+     select arcrnlne
+      replace vat_total with this.value
+       replace total with rec_total - svc_total - vat_total
+
+         form.changesmade = .t.
+        form.browsechangesmade()
+        select ARCRNTS
+
+   Procedure STDATE_OnChange
+         form.changesmade = .t.
+
+   Procedure ENDATE_OnChange
+         form.changesmade = .t.
+
+   Procedure SDEPOSIT_OnGotFocus
+         form.changesmade = .t.
+
+   Procedure SACDATE_OnChange
+   select arcrnts
+   if this.value > order_date .or. year(this.value) < 2012
+   replace recdate with order_date
+   else
+   replace recdate with this.value
+   endif
+   form.changesmade = .t.
+
+   Procedure SINCOME_OnGotFocus
+   form.changesmade = .t.
+            select arcrnts
+            replace coy with "1"
+            replace div  with "5"
+            replace cen  with "1"
+            replace sto with "A1"
+            replace typ with "C0"
+            REPLACE CLA WITH "10"
+            REPLACE COD WITH "00"
+            select arcrnlne
+        replace coy with ""
+      replace div with ""
+      replace cen with ""
+      replace sto with ""
+      replace typ with ""
+      replace cla with ""
+      replace cod with ""
+      replace vat_rate with 0
+      REPLACE BNAME WITH ""
+      select arcrnts
+
+
+
+ENDCLASS

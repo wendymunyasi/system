@@ -1,0 +1,77 @@
+* Visual dBASE .QBE file 9
+close databases
+on error do vnstruct.prg
+use \kenservice\data\vnstat.dbf
+? dis_qty
+on error do FGNFPS.PRG
+use \kenservice\data\FGnfpur.dbf 
+? transp
+if .not. file("\kenservice\data\dayfgmas.dbf")
+use \kenserve\idssys\dayfgmas.dbf
+copy stru to \kenservice\data\dayfgmas dbase prod
+endif
+close databases
+ON ERROR DO QBEERR WITH ERROR(), MESSAGE(),;
+PROGRAM(), LINENO()
+CLOSE DATABASES
+seT EXACT ON
+
+*SET  ON
+SELECT 40
+USE \KENSERVICE\DATA\apgrasl.DBF
+SELECT 1
+USE \KENSERVICE\DATA\apgras.DBF
+set filter to empty(post_date) .and. GRN_no = apgrasl->GRN_no
+*ZAP
+SELECT 2
+USE \KENSERVICE\DATA\apgralin.DBF
+select 3
+use \kenservice\data\dayfgmas.dbf
+SELECT 80
+USE \KENSERVICE\DATA\ST15F.DBF 
+
+select 70
+use \kenservice\data\scashrec.dbf 
+
+select 72
+use \kenservice\data\shcatsum.dbf  
+
+select 74
+use \kenservice\data\shstmast.dbf  
+
+select 30
+use \kenservice\data\fgnfpur.dbf 
+
+
+select 31
+use \kenservice\data\fgmast.dbf 
+
+
+select 91
+use \kenservice\data\vnstat.dbf 
+
+select 92
+use \kenservice\data\vncount.dbf 
+
+select 93
+use \kenservice\data\vndocref.dbf exclusive
+
+select 94
+use \kenservice\data\vendor.dbf 
+
+select 98
+use \kenservice\data\cashiers.dbf
+SELECT 99
+USE \KENSERVICE\DATA\FGCOY.DBF 
+select 106
+use \kenservice\data\apgraup.dbf
+select 105
+use \kenservice\data\apgraup.dbf again alias apgraup2
+select 107
+use \kenservice\data\fgcod.dbf
+
+select 130
+use \kenservice\data\apgrasN.dbf
+
+SELECT 1
+GO TOP

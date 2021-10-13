@@ -1841,13 +1841,13 @@ class FGCODFORM of FORM
        *FORM.STYP.ENABLED = .F.
        *FORM.SCLA.ENABLED = .F.
     if form.inEditMode .and. newInEditMode
-         begintrans()
+      *   begintrans()
       endif
       form.changesMade = .F.
    endif
    if form.inEditMode <> newInEditMode
       if newInEditMode                       && Going to Edit mode
-         begintrans()
+      *   begintrans()
       else                                   && Going to View mode
          if .not. changesMade .AND. .NOT. FORM.DUPLICATE
             rollback()

@@ -1,0 +1,42 @@
+* Visual dBASE .QBE file 9
+close databases
+on error do SHIFTMNS.PRG
+use \kenservice\data\st15f.DBF
+ON ERROR DO QBEERR WITH ERROR(), MESSAGE(),;
+PROGRAM(), LINENO()
+CLOSE DATABASES
+SET EXACT ON
+*set exclusive on
+SELECT 24
+USE \KENSERVICE\DATA\arcmpsL.DBF
+SELECT 1
+USE \KENSERVICE\DATA\arcmps.DBF 
+set filter to empty(post_date) .and. order_no = arcmpsL->order_no
+SELECT 2
+USE \KENSERVICE\DATA\arcmpln.DBF
+
+SELECT 55
+USE \KENSERVICE\DATA\FGTRAN.DBF 
+
+SELECT 60
+USE \KENSERVICE\DATA\SCASHREC.DBF 
+
+
+SELECT 70
+USE \KENSERVICE\DATA\ST15F.DBF
+
+SELECT 90
+USE \KENSERVICE\DATA\CASHIERS.DBF
+
+SELECT 92
+USE \KENSERVICE\DATA\FRIGHTER.DBF
+
+SELECT 93
+USE \KENSERVICE\DATA\FGCOY.DBF
+
+select 101
+use \kenservice\data\arcmpdup.dbf
+select 105
+use \kenservice\data\arcmpdup.dbf again alias arcmpdup2
+select 106
+use \kenservice\data\arcmpsn.dbf

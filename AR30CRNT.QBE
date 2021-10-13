@@ -1,0 +1,85 @@
+* Visual dBASE .QBE file 9
+close databases
+ON ERROR DO QBEERR WITH ERROR(), MESSAGE(),;
+PROGRAM(), LINENO()
+CLOSE DATABASES
+SET EXACT ON
+if .not. file("\kenservice\data\vendors.dbf")
+use \kenserve\idssys\vendor.dbf
+copy stru to \kenservice\data\vendors dbase prod
+endif
+close databases
+*set exclusive on
+SELECT 24
+USE \KENSERVICE\DATA\ARCRNTSL.DBF
+SELECT 1
+USE \KENSERVICE\DATA\ARCRNTS.DBF 
+set filter to empty(post_date) .and. order_no = ARCRNTSL->order_no
+SELECT 2
+USE \KENSERVICE\DATA\ARCRNLNE.DBF
+SELECT 5
+USE \KENSERVICE\DATA\frshtrn.DBF 
+
+SELECT 55
+USE \KENSERVICE\DATA\FGTRAN.DBF 
+
+
+SELECT 60
+USE \KENSERVICE\DATA\SCASHREC.DBF  
+
+SELECT 62
+USE \KENSERVICE\DATA\FRCOUNT.DBF
+
+SELECT 64
+USE \KENSERVICE\DATA\FRDOCREF.DBF
+
+SELECT 65
+USE \KENSERVICE\DATA\FRDDEBTP.DBF
+
+SELECT 69
+USE \KENSERVICE\DATA\FRMODEBT.DBF
+
+SELECT 70
+USE \KENSERVICE\DATA\ST15F.DBF 
+
+SELECT 90
+USE \KENSERVICE\DATA\CASHIERS.DBF
+
+SELECT 92
+USE \KENSERVICE\DATA\FRIGHTER.DBF
+
+SELECT 93
+USE \KENSERVICE\DATA\FGCOY.DBF
+select 109
+use \kenservice\data\vendors.dbf excl
+select 101
+use \kenservice\data\ARCRNUPD.dbf
+select 130
+use \kenservice\data\ARCRNTSN.dbf
+
+SELECT 133
+USE \KENSERVICE\DATA\VNSTAT.DBF
+*zap
+*
+SELECT 134
+USE \KENSERVICE\DATA\fgnfpur.DBF 
+*zap
+SELECT 135
+USE \KENSERVICE\DATA\VNCOUNT.DBF
+*zap
+SELECT 136
+USE \KENSERVICE\DATA\VNDOCREF.DBF
+*zap
+SELECT 137
+USE \KENSERVICE\DATA\VENDOR.DBF
+select 138
+use \kenservice\data\shcatsum.dbf exclusive order tag mkey
+select 141
+if .not. file("\kenservice\data\frcustbl.dbf")
+use \kenserve\idssys\frcustbl.dbf
+copy stru to \kenservice\data\frcustbl dbase prod
+endif
+use \kenservice\data\frcustbl.dbf
+
+SELECT 1
+GO TOP

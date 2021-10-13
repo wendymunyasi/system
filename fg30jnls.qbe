@@ -1,0 +1,19 @@
+* Visual dBASE .QBE file 9
+ON ERROR DO QBEERR WITH ERROR(), MESSAGE(),;
+PROGRAM(), LINENO()
+CLOSE DATABASES
+set safety off
+if .not. file('\kenservice\data\ngljnls.dbf')
+use  \kenserve\idssys\ngljnls.dbf
+copy stru to \kenservice\data\ngljnls dbase prod
+endif
+close databases
+ON ERROR DO QBEERR WITH ERROR(), MESSAGE(),;
+PROGRAM(), LINENO()
+SET EXACT ON
+*set  on
+SELECT 1
+USE \KENSERVICE\data\nglnlif.DBF exclusive
+*zap
+SELECT 2
+USE \KENSERVICE\DATA\ngljnls.DBF exclusive

@@ -1,0 +1,7 @@
+
+FILES
+   C:\kenslog\idssys\kenslog.wfO
+TO C:\kenslog\idssys\deploy\kenslog.exe
+ICON C:\kenslog\idssys\Mugs.ico
+WEBAPPLICATION False
+UAC ON

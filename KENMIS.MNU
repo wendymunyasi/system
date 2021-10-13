@@ -191,12 +191,12 @@ CLASS KenMisMENU(FormObj,Name) OF MENUBAR(FormObj,Name)
                Separator .T.,;
                Text ""
                
-                 DEFINE MENU ANUNPhy OF THIS.MIS4;
+           *      DEFINE MENU ANUNPhy OF THIS.MIS4;
              PROPERTY; 
                Text "&7. MOVED BY YEAR.",;
                 Enabled .T.,;
                OnClick {;do FG15SMA.wfm WITH FORM.BLUSER,FORM.BLEVEL}
-                       DEFINE MENU SEPARMS2005ANnew OF THIS.MIS4;
+            *           DEFINE MENU SEPARMS2005ANnew OF THIS.MIS4;
              PROPERTY;
                Separator .T.,;
                Text ""

@@ -1,0 +1,1187 @@
+////////////////////////////////////////////////////////////////////////////////
+// Output Filename: C:\KENSERVICE\IDSSYS\ARCDNTS_FCV.WFM                      //
+// Created By:      dBASE Form Converter Wizard                               //
+// Created On:      Sunday June 19, 2016 At 20:44:47                          //
+// Object Count:    33                                                        //
+////////////////////////////////////////////////////////////////////////////////
+                                                                                                                  *******************************************************************************
+*  PROGRAM:      ARCdnts.wfm
+*
+*  WRITTEN BY:   W Nyongesa
+*  DATE:         10/2003
+*
+*  UPDATED:      03/2011
+*
+*  REVISION:     $Revision:   1.97  $
+*
+*  VERSION:      Visual dBASE
+*
+*  DESCRIPTION:  This form displays information about an order from a company.
+*                It allows traversing through arcdnts and going to the top and
+*                bottom.  This form also has a corresponding menu, OrdCust.mnu,
+*                which allows adding,deleting and searching for an order.
+*                When an unknown customer number is entered, a dialog will come
+*                up asking you if you want to add a new customer.  If you
+*                selecte the Yes button, the customer form (in stcusj.Wfm)
+*                will be opened, so a new customer can be added.
+*
+*  PARAMETERS:   None
+*
+*  CALLS:        arcdnts.mnu       (Menu file)
+*                Buttons.cc       (Custom controls file)
+*                stcusj.Wfm     (Form for displaying customer information)
+*                arcdnts.qbe       (View of tables)
+*
+*  USAGE:        DO ARCRECS    && Note that you can also DO stcusj.Wfm
+*
+*******************************************************************************
+#include <Messdlg.h>
+shell(.F.)
+create session
+set talk off
+*ET DESIGN OFF
+*if .not. user() = "WYCLIFFE"
+_app.FrameWin.Visible = .F.
+set design off
+*ENDIF
+_app.FrameWin.Text = "arcdnts"
+set ldCheck off                        && To avoid language driver conflicts
+*SET DBTYPE TO PARADOX
+SET CUAENTER OFF
+SET CENTURY ON
+** END HEADER -- do not remove this line
+//
+// Generated on 20/06/2016
+//
+parameter bUser,bLevel,bModal
+local f
+f = new arcdntsFORM()
+if (bModal)
+   f.mdi = false // ensure not MDI
+   f.readModal()
+else
+   f.open()
+endif
+
+class arcdntsFORM of FORM
+   with (this)
+      onClose = class::ONCLOSE
+      open = class::OPEN
+      metric = 6	// Pixels
+      colorNormal = "N+"
+      height = 932.0
+      left = 0.0
+      top = 3.0
+      width = 1284.0
+      text = "STAFF DEBIT NOTES -- View Mode"
+      windowState = 0	// Normal
+      mdi = false
+      sizeable = false
+      moveable = false
+      view = "ARCDNTS.QBE"
+      menuFile = "ARCDNTS.MNU"
+      escExit = false
+      mousePointer = 1	// Arrow
+      maximize = false
+      minimize = false
+   endwith
+
+   this.TEXT9 = new TEXTLABEL(this)
+   with (this.TEXT9)
+      height = 21.0
+      left = 0.0
+      top = 7.0
+      width = 54.0
+      text = "No.:"
+      colorNormal = "R+/W"
+      fontName = "Verdana"
+      fontSize = 12.0
+      fontBold = true
+      borderStyle = 7	// Client
+      alignVertical = 1	// Middle
+      alignHorizontal = 1	// Center
+   endwith
+
+   this.ORDERNOENTRY = new ENTRYFIELD(this)
+   with (this.ORDERNOENTRY)
+      onChange = class::CHANGESMADE
+      dataLink = "arcdnts->ORDER_NO"
+      enabled = false
+      height = 21.0
+      left = 60.0
+      top = 4.0
+      width = 63.0
+      colorNormal = "R+/W"
+      colorHighLight = "GB+/W"
+      fontName = "MS Sans Serig"
+      fontSize = 12.0
+      fontBold = true
+   endwith
+
+   this.TEXT2 = new TEXTLABEL(this)
+   with (this.TEXT2)
+      height = 25.0
+      left = 128.0
+      top = 7.0
+      width = 64.0
+      text = "Date:"
+      colorNormal = "R+/W"
+      fontName = "Verdana"
+      fontSize = 12.0
+      fontBold = true
+      borderStyle = 7	// Client
+      alignVertical = 1	// Middle
+      alignHorizontal = 1	// Center
+   endwith
+
+   this.SDATE = new SPINBOX(this)
+   with (this.SDATE)
+          dataLink = "arcdnts->order_date"
+      enabled = false
+      height = 21.0
+      left = 192.0
+      top = 7.0
+      width = 120.0
+      colorNormal = "R+/W"
+      colorHighLight = "W+/N"
+      rangeMax = {28/09/2016}
+      rangeMin = {20/06/2016}
+      fontName = "MS Sans Serif"
+      fontSize = 12.0
+      fontBold = true
+      validErrorMsg = "Date out of Range"
+   endwith
+
+   this.TEXT3 = new TEXTLABEL(this)
+   with (this.TEXT3)
+      height = 24.0
+      left = 317.0
+      top = 7.0
+      width = 63.0
+      text = "Serial:"
+      colorNormal = "0x400000/W"
+      fontName = "Verdana"
+      fontSize = 12.0
+      fontBold = true
+      borderStyle = 7	// Client
+      alignVertical = 1	// Middle
+      alignHorizontal = 1	// Center
+   endwith
+
+   this.SSERIAL = new ENTRYFIELD(this)
+   with (this.SSERIAL)
+      onChange = class::SSERIAL_ONCHANGE
+      dataLink = "arcdnts->SERIALNO"
+      enabled = false
+      height = 21.0
+      left = 382.0
+      top = 7.0
+      width = 77.0
+      colorNormal = "R+/W"
+      colorHighLight = "GB+/W"
+      tabStop = false
+      fontName = "MS Sans Serig"
+      fontSize = 12.0
+      fontBold = true
+   endwith
+
+   this.TEXT10 = new TEXTLABEL(this)
+   with (this.TEXT10)
+      height = 28.0
+      left = 464.0
+      top = 7.0
+      width = 76.0
+      text = "Cashier:"
+      colorNormal = "0x400000/W"
+      fontName = "Verdana"
+      fontSize = 12.0
+      fontBold = true
+      borderStyle = 7	// Client
+      alignVertical = 1	// Middle
+      alignHorizontal = 1	// Center
+   endwith
+
+   this.SOFF = new COMBOBOX(this)
+   with (this.SOFF)
+      onChange = class::SEMP1_ONCHANGE
+      dataLink = "arcdnts->ANAME"
+      enabled = false
+      height = 24.0
+      left = 540.0
+      top = 7.0
+      width = 192.0
+      fontName = "MS Sans Serif"
+      fontBold = true
+      colorNormal = "0xc08000/W"
+      dataSource = "FIELD fgoffs->NAME"
+      mousePointer = 1	// Arrow
+      style = 1	// DropDown
+      dropDownHeight = 132.0
+   endwith
+
+   this.TEXT4 = new TEXTLABEL(this)
+   with (this.TEXT4)
+      height = 21.0
+      left = 12.0
+      top = 35.0
+      width = 108.0
+      text = "Employee:"
+      colorNormal = "0x400000/W"
+      fontName = "Verdana"
+      fontSize = 11.0
+      fontBold = true
+      borderStyle = 7	// Client
+      alignVertical = 1	// Middle
+      alignHorizontal = 1	// Center
+   endwith
+
+   this.SCUST = new COMBOBOX(this)
+   with (this.SCUST)
+      onChange = class::SCUST_ONCHANGE
+      dataLink = "arcdnts->CUSTOMER"
+      enabled = false
+      height = 24.0
+      left = 132.0
+      top = 35.0
+      width = 324.0
+      fontName = "MS Sans Serif"
+      colorNormal = "0x400040/W+"
+      dataSource = "FIELD FRIGTMES->NAME"
+      mousePointer = 1	// Arrow
+      style = 1	// DropDown
+      dropDownHeight = 132.0
+   endwith
+
+   this.SPRICING = new RECTANGLE(this)
+   with (this.SPRICING)
+      left = 12.0
+      top = 62.0
+      width = 204.0
+      height = 51.0
+      text = "Debit For"
+      colorNormal = "N/0xc8d0d8"
+      fontName = "MS Sans Serif"
+      fontSize = 12.0
+      fontBold = true
+   endwith
+
+   this.SINCL = new RADIOBUTTON(this)
+   with (this.SINCL)
+      onChange = class::SINCL_ONCHANGE1
+      dataLink = "arcdnts->PAYTYPE"
+      enabled = false
+      height = 19.0
+      left = 24.0
+      top = 85.0
+      width = 84.0
+      text = "Invoice"
+      fontName = "MS Sans Serif"
+      fontSize = 11.0
+      fontBold = true
+      tabStop = false
+      group = true
+   endwith
+
+   this.RECTANGLE1 = new RECTANGLE(this)
+   with (this.RECTANGLE1)
+      left = 240.0
+      top = 62.0
+      width = 198.0
+      height = 51.0
+      text = "Transaction Type"
+      colorNormal = "N/0xc8d0d8"
+      fontName = "MS Sans Serif"
+      fontSize = 12.0
+      fontBold = true
+   endwith
+
+   this.SCASH = new RADIOBUTTON(this)
+   with (this.SCASH)
+      onChange = class::SCASH_ONCHANGE1
+      dataLink = "arcdnts->PAY_METHOD"
+      enabled = false
+      height = 19.0
+      left = 258.0
+      top = 85.0
+      width = 156.0
+      text = "Debitnote"
+      fontName = "MS Sans Serif"
+      fontSize = 11.0
+      fontBold = true
+      tabStop = false
+      group = true
+   endwith
+
+   this.RECTANGLE2 = new RECTANGLE(this)
+   with (this.RECTANGLE2)
+      left = 7.0
+      top = 121.0
+      width = 720.0
+      height = 54.0
+      text = "Select Cash  A/C No."
+      colorNormal = "N/0xc8d0d8"
+      fontName = "MS Sans Serif"
+      fontSize = 12.0
+      fontBold = true
+   endwith
+
+   this.SBANKA = new COMBOBOX(this)
+   with (this.SBANKA)
+      onChange = class::SBANKA_ONCHANGE
+      dataLink = "arcdnts->BNAME"
+      enabled = false
+      height = 24.0
+      left = 21.0
+      top = 143.0
+      width = 679.0
+      fontName = "MS Sans Serif"
+      fontBold = true
+      tabStop = false
+      colorNormal = "0xc08000/W"
+      dataSource = "FIELD FGCODS->NAME"
+      mousePointer = 1	// Arrow
+      style = 2	// DropDownList
+      dropDownHeight = 132.0
+   endwith
+
+   this.TEXT6 = new TEXTLABEL(this)
+   with (this.TEXT6)
+      height = 26.0
+      left = 14.0
+      top = 176.0
+      width = 120.0
+      text = "Ref."
+      colorNormal = "N/W"
+      fontName = "Verdana"
+      fontSize = 12.0
+      fontBold = true
+      borderStyle = 7	// Client
+      alignVertical = 1	// Middle
+      alignHorizontal = 1	// Center
+   endwith
+
+   this.SREF = new ENTRYFIELD(this)
+   with (this.SREF)
+      onChange = class::SREF_ONCHANGE
+      dataLink = "arcsdlin->REF"
+      enabled = false
+      height = 26.0
+      left = 147.0
+      top = 176.0
+      width = 154.0
+      colorNormal = "0x400000/W"
+      colorHighLight = "G+/N"
+      tabStop = false
+      fontName = "arial"
+      fontSize = 12.0
+      fontBold = true
+   endwith
+
+   this.TEXT14 = new TEXTLABEL(this)
+   with (this.TEXT14)
+      height = 26.0
+      left = 35.0
+      top = 231.0
+      width = 144.0
+      text = "Enter Amount"
+      colorNormal = "N/W"
+      fontName = "Verdana"
+      fontSize = 12.0
+      fontBold = true
+      borderStyle = 7	// Client
+      alignVertical = 1	// Middle
+      alignHorizontal = 1	// Center
+   endwith
+
+   this.SDTOTAL = new ENTRYFIELD(this)
+   with (this.SDTOTAL)
+      onChange = class::SDTOTAL_ONCHANGE
+      dataLink = "arcsdlin->TOTAL"
+      enabled = false
+      height = 26.0
+      left = 217.0
+      top = 231.0
+      width = 192.0
+      picture = "99999,999,999.99"
+      colorNormal = "N/W"
+      colorHighLight = "0x40/W"
+      fontName = "MS Sans Serif"
+      fontSize = 12.0
+      fontBold = true
+   endwith
+
+   this.TEXT7 = new TEXTLABEL(this)
+   with (this.TEXT7)
+      height = 25.0
+      left = 406.0
+      top = 231.0
+      width = 144.0
+      text = "TOTAL:"
+      colorNormal = "0x400000/0xffff80"
+      fontName = "Verdana"
+      fontSize = 12.0
+      fontBold = true
+      borderStyle = 7	// Client
+      alignVertical = 1	// Middle
+      alignHorizontal = 1	// Center
+   endwith
+
+   this.STOTAL = new ENTRYFIELD(this)
+   with (this.STOTAL)
+      dataLink = "arcdnts->TOTAL"
+      enabled = false
+      height = 25.0
+      left = 567.0
+      top = 231.0
+      width = 168.0
+      picture = "999,999,999,999.99"
+      colorNormal = "0x400000/0xffff80"
+      colorHighLight = "G+/0xc08000"
+      fontName = "arial"
+      fontSize = 12.0
+      fontBold = true
+   endwith
+
+   this.CHILDBROWSE = new BROWSE(this)
+   with (this.CHILDBROWSE)
+      colorNormal = "R/W"
+      colorHighLight = "R/BTNFACE"
+      fontName = "MS Sans Serif"
+      height = 170.0
+      left = 7.0
+      top = 264.0
+      width = 713.0
+      append = false
+      alias = "arcsdlin"
+      fields = 'arcsdlin->STOCK_NO\H="NO."\6\P="99"\R\C="N/0xffff80",arcsdlin->REF\H="REF NO."\30\R\C="N/0xffff80",arcsdlin->OTHER_DATE\H="REF DATE"\12\R\C="N/0xffff80",arcsdlin->TOTAL\H="AMOUNT"\25\P="9,999,999,999.99"\R\C="N/0xffff80"'
+      delete = false
+      modify = false
+      showDeleted = false
+      showRecNo = false
+      text = "LISTING OF BREAK-DOWN OF PAYMENT RECEIVED"
+      scrollBar = 1	// On
+   endwith
+
+   this.TEXT1 = new TEXTLABEL(this)
+   with (this.TEXT1)
+      height = 26.0
+      left = 456.0
+      top = 41.0
+      width = 108.0
+      text = "Balance Due:"
+      colorNormal = "N/W"
+      fontName = "Verdana"
+      fontBold = true
+      borderStyle = 7	// Client
+      alignVertical = 1	// Middle
+      alignHorizontal = 1	// Center
+   endwith
+
+   this.SDUE = new ENTRYFIELD(this)
+   with (this.SDUE)
+      dataLink = "ARCDNTS->BL_AMT"
+      enabled = false
+      height = 26.0
+      left = 576.0
+      top = 41.0
+      width = 156.0
+      picture = "9999,999,999.99"
+      colorNormal = "N/W"
+      colorHighLight = "0x40/W"
+      fontName = "MS Sans Serif"
+      fontBold = true
+   endwith
+
+   this.TEXT5 = new TEXTLABEL(this)
+   with (this.TEXT5)
+      height = 26.0
+      left = 456.0
+      top = 73.0
+      width = 108.0
+      text = "Credit Limit:"
+      colorNormal = "N/W"
+      fontName = "Verdana"
+      fontBold = true
+      borderStyle = 7	// Client
+      alignVertical = 1	// Middle
+      alignHorizontal = 1	// Center
+   endwith
+
+   this.SLMT = new ENTRYFIELD(this)
+   with (this.SLMT)
+      dataLink = "ARCDNTS->AL_AMT"
+      enabled = false
+      height = 26.0
+      left = 576.0
+      top = 73.0
+      width = 156.0
+      picture = "9999,999,999.99"
+      colorNormal = "N/W"
+      colorHighLight = "0x40/W"
+      fontName = "MS Sans Serif"
+      fontBold = true
+   endwith
+
+   this.PREVBUTTON = new PUSHBUTTON(this)
+   with (this.PREVBUTTON)
+      onClick = class::PREVIOUS
+      height = 26.0
+      left = 112.0
+      top = 473.0
+      width = 85.0
+      text = "&PREVIOUS"
+      fontName = "MS Sans Serif"
+      fontSize = 8.0
+      fontBold = true
+   endwith
+
+   this.NEXTBUTTON = new PUSHBUTTON(this)
+   with (this.NEXTBUTTON)
+      onClick = class::NEXT
+      height = 26.0
+      left = 196.0
+      top = 473.0
+      width = 85.0
+      text = "&NEXT"
+      fontName = "MS Sans Serif"
+      fontSize = 8.0
+      fontBold = true
+   endwith
+
+
+   procedure Open
+   ****************************************************************************
+   private orderNoField
+      on error DO ddeerr WITH ERROR(), MESSAGE(),;
+   PROGRAM(), LINENO()
+   FORM.BLUSER = BUSER
+   FORM.BLEVEL = BLEVEL
+   if empty(buser) .or. empty(blevel)
+   quit
+   endif
+
+                    set safety off
+                     SET REPROCESS TO 10
+                     select arcdntsn
+                      go top
+    if eof()
+    append blank
+    replace order_no with "0"
+    endif
+                         select arcsdupd
+    set order to order_no
+
+                  select arcsdlin3
+                  set order to order_no
+                  select FGCODS
+                  set order to name
+                     SELECT arcdnts3
+                     SET ORDER TO ORDER_NO
+                     GO BOTTOM
+   SET SAFETY ON
+   select st15f
+   set order to mkey
+   GO TOP
+     select frigtmes
+   set order to name
+
+   select arcsdlin
+   go top
+   if .not. eof()
+   if empty(order_no)
+   delete
+   endif
+   endif
+   select arcdnts
+   go top
+   if .not. eof()
+   if empty(order_no)
+   delete
+   endif
+   endif
+      select fgoffs
+   set order to name
+    select arcdnts3
+    SET ORDER TO ORDER_NO
+   go bottom
+    form.maxOrder = order_no
+   if type("form.init") = "U"
+      form.init = .T.
+    ENDIF
+     FORM.PSHIFTDATE = st15f->shift_date
+   FORM.PSHIFTNO = st15f->shift_no
+     FORM.PSHIFTID = st15f->shift_id
+   form.pfc = .t.
+        if empty(form.PSHIFTDATE)
+       InformationMessage("Missing Data Entry Dates Range in the company info file.", "Sorry")
+       quit
+       endif
+
+   FORM.PDIV = ""
+   FORM.PCOY = ""
+   FORM.OKEXIT = .F.
+   FORM.PVATPRICE = "Inclusive"
+   FORM.PCEN = ""
+    form.pcashierno = ""
+    form.pemp1 = ""
+    form.pf1name = ""
+    FORM.PSERVED = ""
+   FORM.PSTO = ""
+   form.pclass = ""
+   FORM.PTYP = ""
+   form.pcard = "B/V"
+   form.ptypname = ""
+   form.pclaname = ""
+   form.pcodname = ""
+   form.pcod = ""
+   form.pf1dr = "No"
+
+
+   *
+
+
+   FORM.PCLA = ""
+      set skip to                     && arcdnts.qbe contains set skip to arcsdlin
+      set exact off                   && the .qbe file contains SET EXACT ON
+
+      set procedure to Sampproc.prg additive
+
+      form.inEditMode = .F.           && indicator of view/edit state
+      form.changesMade = .F.          && indicator of changes made to field values
+      form.previousRecord = .F.       && Save record number when appending
+      form.pspdiv = "1"
+      form.pspdivname = "Depot"
+      *** do calculations in another area so form doesn't get updated
+         select arcdnts
+      set order to order_no
+
+
+        && max value for key field -- for creating
+
+          local lmax
+
+       ***
+       select arcdntsL
+       go top
+       if eof()
+       append blank
+       endif
+
+   form.Psdate = FORM.PSHIFTDATE
+   form.pserialno = ""
+          select arcdnts
+       go top
+
+      *** Open table for calculating totals and balance due in another work area
+      *** so that datalinks are not affected by record movements
+
+       select arcdnts
+      set relation to order_no into arcsdlin2 constrain integrity additive
+
+      ***
+
+
+   go top
+   refresh
+    form::Open()
+   * ? form.pshiftno
+   * ? form.pshiftid
+   * ? form.pshiftdate
+   *     *form.BrowseOnNavigate()              && calculate totals&& Now the form actually opens
+   shell(.F.)
+
+
+   ****************************************************************************
+
+   procedure OnClose
+   ****************************************************************************
+         shell(.f.)
+   *  endif
+   close procedure SampProc.prg
+      commit()
+   close databases
+   clear program
+     do arpcdnts.prg
+   form.close()
+    close databases
+     ****************************************************************************
+
+   procedure BrowseOnNavigate
+    select arcdntsL
+    replace order_no with arcdnts->order_no
+    REPLACE ORDER_DATE WITH arcdnts->ORDER_DATE
+        replace title with "RECEIPT"
+         select arcdnts
+   *  form.changesmade = .t.
+
+    ****************************************************************************
+
+   procedure ChangesMade
+
+   * Indicate that changes have been made to current record.
+   ****************************************************************************
+
+   form.changesMade = .T.
+
+   ****************************************************************************
+
+    ****************************************************************************
+
+   procedure BrowseChangesMade
+   ****************************************************************************
+   local t,t2,t3,t4,T5,t6,t7,t8
+     if form.changesmade = .t.
+   select arcsdlin
+   IF .NOT. EOF()
+   *  form.changesMade = .T.
+     go recno("arcsdlin") in arcsdlin    && Make sure change is posted
+
+   select arcsdlin2  && recalculate totals in other workarea
+   calculate sum(arcsdlin2->total), sum(arcsdlin2->invtotal), sum(arcsdlin2->paytotal),;
+   sum(arcsdlin2->deptotal) to t, t2,t3,t4
+   FORM.STOTAL.VALUE = t
+   *  replace invtotal with t2
+   *  replace paytotal with t3
+   *  replace deptotal with t4
+   select arcdnts
+   replace total with t
+         ENDIF
+     SELECT arcdnts
+   endif
+
+
+   ****************************************************************************
+
+   procedure AmtPaidOnChange
+   ****************************************************************************
+
+   form.changesMade = .T.
+   *form.BrowseOnNavigate()                    && calculate totals
+
+
+   ****************************************************************************
+
+   procedure Next
+   ****************************************************************************
+
+   form.CheckCommit(form.inEditMode)
+   if .not. empty(dbf()) .and. .not. eof()
+   select arcsdupd
+   seek arcdnts->order_no
+   if found() 
+   select arcdnts
+   replace post_date with date()
+   go bottom
+   flush
+   endif
+   endif
+   form.root.order.viewEdit.enabled = .t.
+      form.root.order.ADDorder.enabled = .T.
+    form.root.order.ADDline.enabled = .T.
+    *form.BrowseOnNavigate()
+   form.root.file.exit.enabled =   .t.
+
+   ****************************************************************************
+
+   procedure Previous
+   ****************************************************************************
+
+   form.CheckCommit(form.inEditMode)
+   if .not. empty(dbf()) .and. .not. eof()
+   select arcsdupd
+   seek arcdnts->order_no
+   if found() 
+   select arcdnts
+   replace post_date with date()
+   go top
+   flush
+   endif
+   endif
+   form.root.order.viewEdit.enabled = .t.
+     form.root.file.exit.enabled =   .t.
+        form.root.order.ADDorder.enabled = .T.
+    form.root.order.ADDline.enabled = .T.
+   *form.BrowseOnNavigate()
+
+   ****************************************************************************
+
+   procedure CheckCommit (newInEditMode)
+
+    * Finish transaction, if it has been started.
+    ****************************************************************************
+    private orderField, changesMade,prcoy,prdiv,prcen,prsto,prtyp,prcla,prcod,prqty,;
+    pcoy,pdiv,pcen,psto,ptyp,pcla,pcod
+
+                      if .not. empty(dbf())
+    changesMade = form.changesMade
+     if form.changesMade
+       orderField = field(1)                  && Field Order_no
+    *   if     ConfirmationMessage("Commit changes?",;
+                FormatStr("Order %1",&OrderField)) = YES 
+          commit()
+            on error DO ddeerr WITH ERROR(), MESSAGE(),;
+   PROGRAM(), LINENO()
+     *     ELSE
+      *    ROLLBACK()
+       *   ENDIF
+
+       if form.inEditMode .and. newInEditMode
+        *  begintrans()
+        *       on error DO transerr WITH ERROR(), MESSAGE(),;
+   PROGRAM(), LINENO()
+       endif
+       form.changesMade = .F.
+    endif
+
+
+    if form.inEditMode <> newInEditMode
+       if newInEditMode                       && Going to Edit mode
+       *   begintrans()
+       *     on error DO transerr WITH ERROR(), MESSAGE(),;
+   PROGRAM(), LINENO()
+       else                                   && Going to View mode
+          if .not. changesMade
+             rollback()
+            on error   DO ddeerr WITH ERROR(), MESSAGE(),;
+   PROGRAM(), LINENO()
+          endif
+       endif
+       form.inEditMode = newInEditMode
+    endif
+
+      *form.BrowseOnNavigate()
+
+    endif
+    ****************************************************************************
+
+   procedure ViewEdit
+   ****************************************************************************
+   local inEditMode, control, editMenu
+
+   editMenu = form.root.ORDER.viewEdit
+   *** If editing is completed, close transaction, otherwise open a transaction
+   if form.inEditMode                           && Change to View mode
+      form.checkChanged(.F.)
+      editMenu.text = "&Edit"
+      editMenu.shortcut = "Ctrl-E"
+      editMenu.statusMessage = "Edit data."
+      *form.root.order.deleteorder.enabled = .F.      && disabled in view mode
+      form.root.order.deleteline.enabled = .F.
+   *     form.root.order.REPLACECUST.enabled = .f.
+      form.CheckCommit(.F.)                     && Check transaction and
+      form.text = "STAFF DEBIT NOTES -- View Mode"         && change mode to View
+      form.childBrowse.modify = .F.
+      form.statusMessage = "Select RECEIPT - Edit menu choice to " +;
+                           "edit/delete data."
+   else                                         && Change to Edit mode
+      editMenu.text = "&View"
+      editMenu.shortcut = "Ctrl-E"
+      editMenu.statusMessage = "View data."
+         *form.root.order.deleteorder.enabled = .F.      && enabled in edit mode
+        form.root.order.deleteline.enabled = .t.
+   *        form.root.order.REPLACECUST.enabled = .t.
+      form.CheckCommit(.T.)                     && Check transaction and
+      form.text = "STAFF DEBIT NOTES -- Edit Mode"         && change mode to Edit
+      form.childBrowse.modify = .F.
+      form.statusMessage = "In Edit Mode.  " +;
+                           "Select RECEIPT - View menu choice to switch " +;
+                           "to View mode."
+
+
+   endif
+
+   control = form.first
+
+   inEditMode = form.inEditMode    && so don't have to reference many times
+   do
+      do case
+         case control.name $ "ORDERNOENTRY,cno,TOTINVENTRY,BALDUEENTRY"
+            * these are never editable
+            control.enabled = .F.
+         case .not. control.className $ "BROWSE,NEXTBUTTON,PREVBUTTON,PUSHBUTTON,IMAGE,TEXT"
+            * doesn't make sense to make the above classes enabled/not
+            control.enabled = inEditMode
+         case control.className = "BROWSE"
+            control.Modify = inEditMode
+            control.Delete = inEditMode
+            control.Append = inEditMode
+      endcase
+      control = control.before
+   until control.name = form.first.name
+
+   *   form.cno.enabled = .F.       && Key field is always disabled
+   form.OrderNoEntry.enabled = .F.          && Key field is always disabled
+   form.childBrowse.append = .F.
+   form.childBrowse.delete = .F.
+    FORM.CHILDBROWSE.MODIFY = .F.
+   * form.childBrowse1.append = .F.
+   *  form.childBrowse1.delete = .F.
+   *   FORM.CHILDBROWSE.MODIFY = .F.
+   form.sdue.enabled = .f.
+
+   form.stotal.enabled = .f.
+    FORM.STOTAL.ENABLED = .F.
+   * IF EMPTY(arcsdlin->STOCK_NO)
+   *FORM.SDATE.ENABLED = .T.
+   * ELSE
+   if fgcoy->pospost = "Yes"
+   FORM.SDATE.ENABLED = .F.
+   endif
+   *   FORM.STCHANGE.ENABLED = .F.
+   *  FORM.SVAT.ENABLED = .F.
+   *   FORM.ITEMUNIT.ENABLED = .F.
+   *   FORM.ITEMDESC.ENABLED = .F.
+   *         form.sprice.enabled = .f.
+   *           form.staxrate.enabled = .f.
+
+     form.slmt.enabled = .f.
+
+   procedure CheckChanged(callCommit)
+
+   * Check if changes have been made to the current entryfield.  This procedure
+   * is called from menu routines to make sure the form.changesMade gets
+   * updated when a menu is selected while the changed control has focus.
+   ****************************************************************************
+   private control, fieldValue, controlValue, typeText, typeValue
+
+   if form.inEditMode
+      control = form.activeControl
+      if type("control.datalink") <> "U"
+         fieldValue = control.datalink          && name of table field
+
+         typeText = type("control.text")
+         typeValue = type("control.value")
+         do case
+            case typeValue = "C0"
+               controlValue = control.value
+            case typeValue $ "LU" .and. typeText = "C0"
+               controlValue = control.text
+            otherwise
+               controlValue = Null
+         endcase
+         if controlValue <> &fieldValue
+            form.changesMade = .T.
+         endif
+      endif
+   endif
+   if form.changesMade .and. callCommit
+      CLASS::CheckCommit(form.inEditMode)     && Check transactions
+   endif
+
+
+
+
+   ****************************************************************************
+
+
+   ****************************************************************************
+
+    procedure change_saledate
+
+     form.Psdate = this.value
+     SELECT arcsdlin
+     REPLACE ORDER_DATE WITH THIS.VALUE
+     SELECT arcdntsL
+      REPLACE ORDER_DATE WITH THIS.VALUE
+      SELECT arcdnts
+      REPLACE ORDER_DATE WITH THIS.VALUE
+      form.changesmade = .T.
+
+   Procedure Go_last
+      form.CheckCommit(form.inEditMode)
+      if .not. empty(dbf()) .and. .not. eof()
+   select arcsdupd
+   seek arcdnts->order_no
+   if found() 
+   select arcdnts
+   replace post_date with date()
+   go bottom
+   flush
+   endif
+   endif
+   form.root.order.viewEdit.enabled = .t.
+      form.root.order.ADDorder.enabled = .T.
+    form.root.order.ADDline.enabled = .T.
+
+     form.root.file.exit.enabled =   .t.
+   *form.BrowseOnNavigate()
+
+     Procedure Go_Top
+     form.CheckCommit(form.inEditMode)
+     if .not. empty(dbf()) .and. .not. eof()
+   select arcsdupd
+   seek arcdnts->order_no
+   if found() 
+   select arcdnts
+   replace post_date with date()
+   go top
+   flush
+   endif
+   endif
+   form.root.order.viewEdit.enabled = .t.
+      form.root.order.ADDorder.enabled = .T.
+    form.root.order.ADDline.enabled = .T.
+    form.root.file.exit.enabled =   .t.
+    *form.BrowseOnNavigate()
+
+   Procedure Form_CanClose
+      RETURN IIF(form.changesmade = .F., .F., .T.)
+
+   Procedure SEMP1_ONCHANGE
+         local l1,l2
+               if .not. empty(dbf())
+               	if .not. empty(arcsdlin->order_no)
+         l1 = this.value
+         select fgoffs
+         seek l1
+
+           select arcdnts
+           replace aname with fgoffs->name
+         replace off with fgoffs->off
+         replace cashier_no with fgoffs->cashier_no
+          form.changesmade = .t.
+
+                 endif
+                 endif
+      Procedure SCUST_ONCHANGE
+         if .not. empty(dbf())
+               	if .not. empty(arcsdlin->order_no)
+         select frigtmes
+
+         seek this.value
+         if found()
+            select arcdnts
+            replace customer with this.value
+            replace source with frigtmes->source
+             replace ftyp   with frigtmes->ftyp
+              replace pmod   with frigtmes->pmod
+               replace frighter_n with frigtmes->frighter_n
+                replace err_cust with .t.
+                else
+                select arcdnts
+                replace source with ""
+                endif
+                local l1,l2,l3,l4,ltot,llmt
+                l1 = source
+                l2 = ftyp
+                l3 = pmod
+                l4 = frighter_n
+
+                  select frighter
+                seek l1+l2+l3+l4
+                if found()
+                ltot = bal_due
+                llmt = credit_lmt
+                else
+                ltot = 0
+                endif
+
+                select arcdnts
+                replace bl_amt with ltot
+               replace al_amt with llmt
+          form.changesmade = .t.
+                                        endif
+                                        endif
+    Procedure SREF_OnChange
+        if .not. empty(dbf())
+               	if .not. empty(arcsdlin->order_no)
+    
+        form.changesmade = .t.
+        select arcsdlin
+        replace ref with this.value
+        select arcdnts
+               
+  endif
+  endif
+   Procedure SCHQD_OnChange
+       if .not. empty(dbf())
+               	if .not. empty(arcsdlin->order_no)
+    
+       form.changesmade = .t.
+       select arcsdlin
+       replace other_date with this.value
+       select arcdnts
+                       
+  endif
+  endif
+   Procedure SDTOTAL_OnChange
+       if .not. empty(dbf())
+               	if .not. empty(arcsdlin->order_no)
+    
+   SELECT arcsdlin
+                  if this.value > 0
+      InformationMessage("Amount Must Be Less Than Zero", "Sorry!")
+    replace total with 0
+    else
+          if arcdnts->al_amt > 0
+               if this.value*-1 > arcdnts->al_amt .and. form.blevel > 3
+      InformationMessage("Shortage Greater Than Allowed Maximum", "Sorry!")
+    replace total with 0
+    else
+    SELECT arcsdlin
+        REPLACE total with  this.value
+
+   endif
+   endif
+   endif
+        form.changesmade = .t.
+        form.browsechangesmade()
+        select arcdnts
+               
+  endif
+  endif
+   Procedure SSERIAL_OnChange
+       if .not. empty(dbf())
+               	if .not. empty(arcsdlin->order_no)
+    
+         form.changesmade = .t.
+         select arcdnts
+         replace serialno with this.value
+                       
+  endif
+  endif
+   Procedure SBANKA_ONCHANGE
+       if .not. empty(dbf())
+               	if .not. empty(arcsdlin->order_no)
+    
+      select FGCODS
+      seek this.value
+      IF FOUND()
+          select arcdnts
+        replace btyp with FGCODS->typ
+      replace bcla with FGCODS->cla
+      replace bcod with FGCODS->cod
+      REPLACE BNAME WITH THIS.VALUE
+      replace pay_method with "Debitnote"
+      ELSE
+            select arcdnts
+        replace btyp with ""
+      replace bcla with ""
+      replace bcod with ""
+      REPLACE BNAME WITH ""
+      replace pay_method with "Debitnote"
+
+      ENDIF
+
+      form.changesmade = .t.
+
+  endif
+  endif
+ procedure SINCL_ONCHANGE1
+     if .not. empty(dbf())
+               	if .not. empty(arcsdlin->order_no)
+    select arcdnts
+    replace paytype with 'Invoice'
+    form.changesmade = .t.
+    endif
+    endif
+ procedure SCASH_ONCHANGE1
+                 if .not. empty(dbf())
+               	if .not. empty(arcsdlin->order_no)
+    select arcdnts
+    replace pay_method with 'Debitnote'
+    form.changesmade = .t.
+    endif
+    endif
+endclass
+

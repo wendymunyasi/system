@@ -1,0 +1,42 @@
+* Visual dBASE .QBE file 9
+ON ERROR DO QBEERR WITH ERROR(), MESSAGE(),;
+  PROGRAM(), LINENO()
+CLOSE DATABASES
+SET SAFETY OFF
+SET EXACT ON
+SELECT 1
+USE \KENSERVICE\DATA\ST15F.DBf exclusive
+select 4
+use \kenserve\idssys\shiftcoy.dbf
+copy stru to \kenservice\data\shiftcoy dbase prod
+use \kenservice\data\shiftcoy.dbf EXCLUSIVE
+select 5
+use \kenservice\data\shiftcla.dbF EXCLUSIVE
+select 6
+use \kenserve\idssys\shiftcas.dbf
+copy stru to \kenservice\data\shiftcas dbase prod
+use \kenservice\DATA\shiftCAS.dbF EXCLUSIVE
+SELECT 7
+use \kenserve\idssys\shiftbkh.dbf
+copy stru to \kenservice\data\shiftbkh dbase prod
+USE \KENSERVICE\DATA\SHIFTBKH.DBF EXCLUSIVE
+SELECT 8
+use \kenserve\idssys\hshiftbk.dbf
+copy stru to \kenservice\data\hshiftbk dbase prod
+USE \KENSERVICE\DATA\HSHIFTBK.DBF EXCLUSIVE
+select 9
+use \kenservice\data\fgstkcal.dbf exclusive
+select 10
+use \kenservice\data\shcongt1.dbf  exclusive
+ SELECT 19
+ USE \KENSERVICE\DATA\shiftWET.DBf exclusive
+select 99
+ use \kenservice\data\MONTHWET.dbf exclusive
+ SELECT 20
+ USE \KENSERVICE\DATA\shiftWST.DBf exclusive
+select 100
+ use \kenservice\data\MONTHWST.dbf exclusive
+
+SELECT 1
+GO TOP
+SET SAFETY ON
