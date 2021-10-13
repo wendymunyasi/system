@@ -1,0 +1,607 @@
+
+******************************************************************************
+*  PROGRAM:      ARCMPSA.MNU
+*
+*  WRITTEN BY:   W M Nyongesa
+*
+*  DATE:         12/93
+*
+*  UPDATED:     09/2012
+*
+*  REVISION:     $Revision:   1.58  $
+*
+*  VERSION:      Visual dBASE
+*
+*  DESCRIPTION:  This is a menu file used by ARCMPSA.WFM for
+*                performing simple tasks.  It allows adding and deleting
+*                records, searching for a value in the order field of the
+*                current table viewed, and exiting the form in view.
+*
+*  PARAMETERS:   FormObj -- the form to which this menu will belong.
+*
+*  CALLS:        None
+*
+*  USAGE:        form.menuFile = "ARCMPSA.MNU"
+*
+*******************************************************************************
+#include <Messdlg.h>
+
+** END HEADER -- do not remove this line*
+* Generated on 05/06/94
+*
+Parameter FormObj
+NEW arcmps(FormObj,"Root")
+CLASS arcmps(FormObj,Name) OF MENUBAR(FormObj,Name)
+   this.Text = ""
+   this.OnInit = {;set procedure to Sampproc.prg}
+
+   DEFINE MENU FILE OF THIS;
+       PROPERTY;
+         Text "&FILE"
+
+         
+         DEFINE MENU EXIT OF THIS.FILE;
+                PROPERTY; 
+          StatusMessage "Return to the Previous Menu.",;
+          Text "&RETURN TO PREVIOUS MENU",;
+          SHORTCUT "F4",;
+          OnClick CLASS::ONEXIT
+  
+      
+       DEFINE MENU SEPARATOR000 OF THIS.FILE;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+
+            
+   DEFINE MENU QUITALL OF THIS.FILE;
+       PROPERTY; 
+          StatusMessage "Leave Kenserve System.",;
+          Text "EXIT",;
+          SHORTCUT "F8",;
+          OnClick CLASS::ONQUITALL
+          
+
+   DEFINE MENU ORDER OF THIS;
+       PROPERTY;
+         Text "Deposit"
+
+         DEFINE MENU VIEWEDIT OF THIS.ORDER;
+             PROPERTY;
+               OnClick CLASS::VIEWEDITONCLICK,;
+               Text "&EDIT",;
+               Shortcut "Ctrl-E",;
+               StatusMessage "Edit data."
+
+         DEFINE MENU SEPARATOR1 OF THIS.ORDER;
+             PROPERTY;
+               Separator .T.,;
+                  Text ""
+
+         DEFINE MENU ADDORDER OF THIS.ORDER;
+             PROPERTY;
+               OnClick CLASS::ADDORDERONCLICK,;
+               Text "ADD- New Deposit",;
+               Enabled .T.,;
+               Shortcut "F3",;
+               StatusMessage "Add Deposit."
+
+       DEFINE MENU ADDLINE OF THIS.ORDER;
+             PROPERTY;
+               OnClick CLASS::ADDLINEONCLICK,;
+               Text "ADD-ITEM",;
+               Enabled .T.,;
+               Shortcut "F7",;
+               StatusMessage "Add a new product, item or service to the Deposit."
+               
+         DEFINE MENU DELETELINE OF THIS.ORDER;
+             PROPERTY;
+               OnClick CLASS::DELETELINEONCLICK,;
+               Text "Delete IteM",;
+               Enabled .F.,;
+               Shortcut "Ctrl-M",;
+               StatusMessage "Delete the current product."
+          
+         DEFINE MENU SEPARATOR2 OF THIS.ORDER;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+
+                  
+DEFINE MENU REPORT OF THIS;
+       PROPERTY; 
+         Text "Tasks"
+
+   DEFINE MENU REPORT OF THIS.report;
+       PROPERTY;
+         Text "Save",;
+         enabled .t.,;
+        OnClick CLASS::F5_RTN,;
+               Shortcut "F5"
+           DEFINE MENU REPORT2 OF THIS.report;
+       PROPERTY;
+         Text "Save and Print",;
+         enabled .t.,;
+        OnClick class::f9_rtn,;
+               Shortcut "F9"
+               
+                  DEFINE MENU REPORT3 OF THIS.report;
+       PROPERTY;
+       Text "Print Duplicate",;
+         enabled .t.,;
+        OnClick class::F1_rtn,;
+               Shortcut "F1"
+
+      
+   
+     
+*******************************************************
+
+  procedure DeleteLineOnClick
+   PRIVATE Ppcoy,Ppdiv,Ppcen,Ppsto,Pptyp,Ppcla,Ppcod,PPRQTY,pamt
+   * Delete current record.
+   ****************************************************************************
+      select arcmpln
+   if ConfirmationMessage("Are you sure you want to delete this Item?",;
+                          "Confirm") = YES .AND. EMPTY(arcmps->post_date) ;
+                           .and. .not. eof()
+            
+     select arcmpln
+            
+             pamt = total
+      delete  && DELETED is ON, so deleted records are still there until
+              && a PACK is executed
+              select arcmps
+              replace arcmps->items with arcmps->items - 1
+              replace total with total - pamt
+              IF arcmps->ITEMS = 0
+              REPLACE arcmps->TOTAL WITH 0
+    
+              ENDIF
+           SELECT arcmps
+              
+      commit()
+      form.changesMade = .F.
+      *begintrans()
+           *on error DO transerr WITH ERROR(), MESSAGE(),;
+  PROGRAM(), LINENO()
+   endif
+   SELECT arcmpln
+   IF .NOT. EOF() .and. .not. bof()
+     FORM.BROWSECHANGESMADE()
+     ELSE
+     SELECT arcmps
+      replace arcmps->total with 0
+   replace arcmps->items with 0
+ ENDIF
+   SELECT arcmps
+   ****************************************************************************
+   procedure ADDORDERONCLICK
+
+   * Add new record.
+   ****************************************************************************
+   private addForm, newOrder, saleDateField, orderNoField, custNoField, custNo,;
+           inEditMode, integrityInEffect,CustTyp,pdate1,pvatp
+   form.CheckChanged(.T.)
+  * if ConfirmationMessage("Are you sure you want to add an FreighRegistration/order?",;
+                          "Confirmation") = YES
+                          pvatp = FORM.PVATPRICE
+                          pdate1 = FORM.PSHIFTDATE
+  
+      orderNoField = field(1)                 && order_no field
+          OrderDateField = field(7)                && Order_date field
+*      custyp = form.pctyp
+ *     custno = form.pcno
+ select arcmpln2
+ go bottom
+      select arcmps3
+      go bottom
+       IF empty(order_no) .or. (.not. empty(order_no) .and. .not. empty(post_date))
+      * If running from Custord.wfm, use form.curPage.inEditMode,
+      * otherwise, if from customer.wfm/ARCMPSA.WFM, use form.inEditMode
+      if type("form.curPage") <> "U"
+         inEditMode = form.curPage.inEditMode
+         integrityInEffect = .T.              && Table integrity rules are used
+      else
+         inEditMode = form.inEditMode
+         integrityInEffect = .F.
+      endif
+
+      if .not. inEditMode
+         form.ViewEdit()                      && Make sure record is editable
+      else if type("form.childBrowse") <> "U" && If calling from Customer/arcmps
+         form.childBrowse.setFocus()
+      endif
+      form.changesMade = .T.
+        form.previousRecord = recno()
+         select arcmps3
+      go bottom
+    
+      
+    form.maxOrder = order_no
+     local ls1,ls2,ls3,ls4,ls5,LSH,LID
+      SELECT arcmps
+     
+
+  * neworder = order_no  && new order no.
+         if empty(form.maxOrder)
+      form.maxOrder = arcmpsn->order_no  && start of first operator
+      endif
+   
+      append blank
+      orderNoField = field(1)
+      newOrder = val(form.maxOrder) + 1
+      local wk1,wk2
+       wk1 = neworder
+      if wk1 > 0 .and. wk1 < 10
+      wk2 = "00000"+str(wk1,1)
+      else
+      if wk1 > 9 .and. wk1 < 100
+      wk2 = "0000"+str(wk1,2)
+      else
+       if wk1 > 99 .and. wk1 < 1000
+      wk2 = "000"+str(wk1,3)
+      else
+       if wk1 > 999 .and. wk1 < 10000
+      wk2 = "00"+str(wk1,4)
+      else
+       if wk1 > 9999 .and. wk1 < 100000
+      wk2 = "0"+str(wk1,5)
+      else
+      wk2 = str(wk1,6)
+      endif
+      endif
+      endif
+      endif
+      endif
+     replace order_no with wk2     && Assign new order number
+      replace items with 0
+       replace  total with 0
+       replace order_date with  pdate1
+       replace paytype with arcmps3->paytype
+         
+       
+         replace bl_amt with 0
+        replace al_amt with 0
+        replace l_amt with 0
+        replace pay_method with arcmps3->pay_method
+          replace pay_method with 'M-Depcash'
+          replace paytype  with "M-MONEY" && DEFAULT
+     * REPLACE BTYP WITH "C0"
+     * REPLACE BCLA WITH "00"
+     * REPLACE BCOD WITH "01"
+     * REPLACE BCOY WITH "1"
+     * REPLACE BDIV WITH "5"
+     * REPLACE BCEN WITH "1"
+     * REPLACE BSTO WITH "A1"
+        replace invtotal with 0
+        replace paytotal with 0
+        replace deptotal with 0
+        LSH = FORM.PSHIFTNO
+        LID = FORM.PSHIFTID
+           REPLACE SHIFTNO WITH  LSH
+        REPLACE SHIFTID WITH LID
+   if order_date = arcmps3->order_date .and. shiftno = arcmps3->shiftno ;
+    .and. shiftid = arcmps3->shiftid
+        REPLACE OFF WITH arcmps3->OFF
+        REPLACE CASHIER_NO WITH arcmps3->CASHIER_NO
+        REPLACE ANAME WITH arcmps3->ANAME
+        endif
+        REPLACE DDE_DATE WITH DATE()
+        REPLACE DDE_TIME WITH TIME()
+        REPLACE DDE_USER WITH FORM.BLUSER
+          
+        replace recdate with arcmps3->recdate
+        if empty(recdate)
+        replace recdate with order_date
+        endif
+          select arcmpsL
+    replace order_no with arcmps->order_no
+    replace order_date with arcmps->order_date
+  
+          
+      select arcmpln3
+     append blank
+     replace order_no with arcmps->order_no
+     replace stock_no with "01"
+      replace order_date with arcmps->order_date
+       replace other_date with order_date
+        replace total with 0
+           replace invtotal with 0
+        replace paytotal with 0
+        replace deptotal with 0
+ REPLACE DDE_DATE WITH DATE()
+        REPLACE DDE_TIME WITH TIME()
+        REPLACE DDE_USER WITH FORM.BLUSER
+      selec arcmpln
+refresh
+go bottom
+     
+            
+     
+         select arcmps
+        replace arcmps->items with arcmps->items + 1
+    
+    
+       
+        form.soff.enabled = .t.
+        if fgcoy->pospost = "Yes"
+        form.CheckCommit(form.inEditMode)
+        select arcmps
+        seek arcmpsl->order_no
+          REPLACE SHIFTNO WITH FORM.PSHIFTNO
+        REPLACE SHIFTID WITH FORM.PSHIFTID
+         replace pay_method with 'M-Depcash'
+          replace paytype  with "M-MONEY"
+      
+       refresh
+         form.soff.setfocus()
+         else
+         form.sdate.enabled = .t.
+         form.CheckCommit(form.inEditMode)
+         select arcmps
+        seek arcmpsl->order_no
+         REPLACE SHIFTNO WITH FORM.PSHIFTNO
+        REPLACE SHIFTID WITH FORM.PSHIFTID
+        replace pay_method with 'M-Depcash'
+          replace paytype  with "M-MONEY"
+      
+         refresh
+         form.sdate.setfocus()
+         endif
+   
+   endif
+   
+ * endif
+   ****************************************************************************
+   procedure ADDLINEONCLICK
+      LOCAL L1,wk1,wk2,l2,l3,l4,ls3,ls4,ls5,LNAME
+ 
+   form.CheckChanged(.T.)
+ *  if ConfirmationMessage("Are you sure you want to add a new product/service?",;
+                          "Confirmation") = YES .and. arcmpln->stock_no > "00"
+      form.changesMade = .T.
+      select arcmps3
+      go bottom
+         select arcmpln
+        go bottom
+        if (.not. empty(stock_no)  .and. .not. empty(order_no) ;
+         .and. .not. empty(arcmps->order_no) .and. .not. arcmpln->total = 0) ;
+          .or. (empty(stock_no) .and. .not. empty(arcmps->ORDER_NO))
+         L1 = val(STOCK_NO) + 1
+         wk1 = l1
+         if wk1 > 99
+         quit
+         endif
+          if wk1 > 0 .and. wk1 < 10
+      wk2 = "0"+str(wk1,1)
+      else
+      wk2 = str(wk1,2)
+      endif
+      select arcmpln3
+         append blank
+         replace order_no with arcmps->order_no
+      replace stock_no with wk2
+            replace order_date with arcmps->order_date
+       replace total with 0
+        replace other_date with arcmpln2->other_date
+        if empty(other_date)
+        replace other_date with arcmps->order_date
+        endif
+     
+       
+          replace invtotal with 0
+        replace paytotal with 0
+        replace deptotal with 0
+       replace  coy with "1"
+ REPLACE DDE_DATE WITH DATE()
+        REPLACE DDE_TIME WITH TIME()
+        REPLACE DDE_USER WITH FORM.BLUSER
+        
+select arcmpln
+refresh
+go bottom
+     
+           
+            
+          select arcmps
+          if .not. eof()
+  
+        replace arcmps->items with arcmps->items + 1
+         REPLACE SHIFTNO WITH FORM.PSHIFTNO
+        REPLACE SHIFTID WITH FORM.PSHIFTID
+     REPLACE ORDER_DATE WITH FORM.PSHIFTDATE
+        if order_date = arcmps3->order_date .and. shiftno = arcmps3->shiftno ;
+    .and. shiftid = arcmps3->shiftid
+        REPLACE OFF WITH arcmps3->OFF
+        REPLACE CASHIER_NO WITH arcmps3->CASHIER_NO
+        REPLACE ANAME WITH arcmps3->ANAME
+        else
+        replace off with ""
+        replace cashier_no with ""
+        replace aname with ""
+        endif
+       
+           FORM.sref.setfocus()
+  
+   endif
+   endif
+  
+
+   ***************************************************************************
+   procedure ViewEditOnClick
+   ****************************************************************************
+if .not. empty(arcmps->order_no)
+   form.ViewEdit()
+   endif
+
+   ****************************************************************************
+   procedure Exit_OnClick
+   ****************************************************************************
+FORM.OKEXIT = .T.
+      form.Release()
+  
+   
+Procedure F1_rtn
+      do arcmpsP.PRG  WITH FORM.BLUSER
+      
+Procedure F9_rtn
+form.CheckCommit(form.inEditMode)
+form.BrowseOnNavigate()
+if    form.inEditMode
+      form.ViewEdit()
+      form.root.order.viewEdit.enabled = .F.
+   endif
+   
+   form.SDTOTAL.enabled = .f.
+   form.root.order.ADDorder.enabled = .f.      
+    form.root.order.ADDline.enabled = .f.
+   select arcmps
+   
+local lerr
+lerr = .f.
+
+if  total = 0  .or. .not. EMPTY(post_DATE) 
+lerr = .t.
+? "err 0"
+endif
+
+if .not.  PAY_METHOD = 'M-Depcash' 
+ lerr = .t.
+ ? "err 1"
+ endif
+ 
+  
+  if EMPTY(BCOY)  .or.    EMPTY(BTYP);
+      .or. EMPTY(BCLA) .or. EMPTY(BCOD) .or. EMPTY(SOURCE) .or. EMPTY(FTYP);
+       .or. EMPTY(PMOD) .or.  EMPTY(FRIGHTER_N) .or. EMPTY(OFF)  .or. empty(cashier_no) ;
+       .or.  EMPTY(SHIFTNO) .or.  EMPTY(SHIFTID)  .OR. .NOT. SOURCE = "9"
+       lerr = .t.
+       ? "err 2"
+       endif
+       if EMPTY(arcmpln->COY)  .or.    EMPTY(arcmpln->TYP);
+      .or. EMPTY(arcmpln->CLA) .or. EMPTY(arcmpln->COD) .or. EMPTY(arcmpln->CEN) .or. EMPTY(arcmpln->DIV);
+       .or. EMPTY(arcmpln->COY) .or.  EMPTY(arcmpln->STO) .or. EMPTY(BCEN) .or. empty(BCOY) ;
+       .or.  EMPTY(BDIV) .or.  EMPTY(BSTO) 
+       lerr = .t.
+       ? "err 3"
+       endif
+       
+       if .not. (btyp = "C0" .and. bcla = "00" )
+       lerr = .t.
+       ? "err4"
+       endif
+       
+           if .not. (typ = "C0" .and. cla = "00" )
+       lerr = .t.
+       ? "err5"
+       endif
+   
+            if  COD = "01" .OR. cOD = "11" 
+       lerr = .t.
+       ? "err6"
+       endif
+    
+   
+      IF .NOT. DEPTOTAL = TOTAL
+      lerr = .t.
+      ? "Error 7"
+      endif
+  if .not. lerr
+
+DO AR30CMPS.PRG WITH FORM.BLUSER,FORM.BLEVEL
+do arcmpsP.PRG  WITH FORM.BLUSER
+ form.Go_Top()
+ else
+ 
+  ENDIF
+
+     
+ 
+
+Procedure F5_rtn
+form.CheckCommit(form.inEditMode)
+form.BrowseOnNavigate()
+if    form.inEditMode
+      form.ViewEdit()
+      form.root.order.viewEdit.enabled = .F.
+   endif
+local lerr
+
+form.SDTOTAL.enabled = .f.
+  form.root.order.ADDorder.enabled = .f.      
+    form.root.order.ADDline.enabled = .f.
+   
+SELECT arcmps
+    
+
+lerr = .f.
+
+
+if  total = 0  .or. .not. EMPTY(post_DATE) 
+lerr = .t.
+? "err 0"
+endif
+
+if .not.  PAY_METHOD = 'M-Depcash' 
+ lerr = .t.
+ ? "err 1"
+ endif
+ 
+  
+  if EMPTY(BCOY)  .or.    EMPTY(BTYP);
+      .or. EMPTY(BCLA) .or. EMPTY(BCOD) .or. EMPTY(SOURCE) .or. EMPTY(FTYP);
+       .or. EMPTY(PMOD) .or.  EMPTY(FRIGHTER_N) .or. EMPTY(OFF)  .or. empty(cashier_no) ;
+       .or.  EMPTY(SHIFTNO) .or.  EMPTY(SHIFTID) .OR. .NOT. SOURCE = "9"
+       lerr = .t.
+       ? "err 2"
+       endif
+       if EMPTY(arcmpln->COY)  .or.    EMPTY(arcmpln->TYP);
+      .or. EMPTY(arcmpln->CLA) .or. EMPTY(arcmpln->COD) .or. EMPTY(arcmpln->CEN) .or. EMPTY(arcmpln->DIV);
+       .or. EMPTY(arcmpln->COY) .or.  EMPTY(arcmpln->STO) .or. EMPTY(BCEN) .or. empty(BCOY) ;
+       .or.  EMPTY(BDIV) .or.  EMPTY(BSTO) 
+       lerr = .t.
+       ? "err 3"
+       endif
+       
+       if .not. (btyp = "C0" .and. bcla = "00")
+       lerr = .t.
+       ? "err4"
+       endif
+       
+           if .not. (arcmpln->typ = "C0" .and. arcmpln->cla = "00" )
+       lerr = .t.
+       ? "err5"
+       endif
+   
+            if  arcmpln->COD = "01" .OR. arcmpln->cOD = "11" 
+       lerr = .t.
+       ? "err6"
+       endif
+    
+      IF .NOT. DEPTOTAL = TOTAL
+      lerr = .t.
+      ? "Error 7"
+      endif
+          
+  if .not. lerr
+
+DO AR30CMPS.PRG WITH FORM.BLUSER,FORM.BLEVEL
+ form.Go_Top()
+ else
+ ? "errors"
+ 
+  ENDIF
+
+  ****************************************************************************
+    procedure OnExit
+     form.Release()
+
+    procedure OnQuitAll
+   
+     form.Release()
+
+ quit
+
+ENDCLASS
+       

@@ -1,0 +1,545 @@
+
+******************************************************************************
+*  PROGRAM:      arcdnts.mnu
+*
+*  WRITTEN BY:   W M Nyongesa
+*
+*  DATE:         12/93
+*
+*  UPDATED:     07/2011
+*
+*  REVISION:     $Revision:   1.58  $
+*
+*  VERSION:      Visual dBASE
+*
+*  DESCRIPTION:  This is a menu file used by arcdnts.wfm for
+*                performing simple tasks.  It allows adding and deleting
+*                records, searching for a value in the order field of the
+*                current table viewed, and exiting the form in view.
+*
+*  PARAMETERS:   FormObj -- the form to which this menu will belong.
+*
+*  CALLS:        None
+*
+*  USAGE:        form.menuFile = "arcdnts.mnu"
+*
+*******************************************************************************
+#include <Messdlg.h>
+
+** END HEADER -- do not remove this line*
+* Generated on 05/06/94
+*
+Parameter FormObj
+NEW arcdnts(FormObj,"Root")
+CLASS arcdnts(FormObj,Name) OF MENUBAR(FormObj,Name)
+   this.Text = ""
+   this.OnInit = {;set procedure to Sampproc.prg}
+
+   DEFINE MENU FILE OF THIS;
+       PROPERTY;
+         Text "&FILE"
+
+                  
+   DEFINE MENU EXIT OF THIS.FILE;
+       PROPERTY; 
+          StatusMessage "Return to the Previous Menu.",;
+          Text "&RETURN TO PREVIOUS MENU",;
+          SHORTCUT "F4",;
+          OnClick CLASS::ONEXIT
+  
+      
+       DEFINE MENU SEPARATOR000 OF THIS.FILE;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+
+            
+   DEFINE MENU QUITALL OF THIS.FILE;
+       PROPERTY; 
+          StatusMessage "Leave Kenserve System.",;
+          Text "Exit",;
+          SHORTCUT "F8",;
+          OnClick CLASS::ONQUITALL
+ 
+
+   DEFINE MENU ORDER OF THIS;
+       PROPERTY;
+         Text "Shortage"
+
+         DEFINE MENU VIEWEDIT OF THIS.ORDER;
+             PROPERTY;
+               OnClick CLASS::VIEWEDITONCLICK,;
+               Text "&EDIT",;
+               Shortcut "Ctrl-E",;
+               StatusMessage "Edit data."
+
+         DEFINE MENU SEPARATOR1 OF THIS.ORDER;
+             PROPERTY;
+               Separator .T.,;
+                  Text ""
+
+         DEFINE MENU ADDORDER OF THIS.ORDER;
+             PROPERTY;
+               OnClick CLASS::ADDORDERONCLICK,;
+               Text "ADD- New Shortage",;
+               Enabled .T.,;
+               Shortcut "F3",;
+               StatusMessage "Add shortage."
+
+       DEFINE MENU ADDLINE OF THIS.ORDER;
+             PROPERTY;
+               OnClick CLASS::ADDLINEONCLICK,;
+               Text "ADD-ITEM",;
+               Enabled .T.,;
+               Shortcut "F7",;
+               StatusMessage "Add a new product, item or service to the Debit Note."
+        
+               DEFINE MENU DELETELINE OF THIS.ORDER;
+             PROPERTY;
+               OnClick CLASS::DELETELINEONCLICK,;
+               Text "Delete IteM",;
+               Enabled .F.,;
+               Shortcut "Ctrl-M",;
+               StatusMessage "Delete the current product."
+          
+         DEFINE MENU SEPARATOR2 OF THIS.ORDER;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+               
+DEFINE MENU REPORT OF THIS;
+       PROPERTY; 
+         Text "TASKS"
+
+   DEFINE MENU REPORT OF THIS.report;
+       PROPERTY;
+         Text "1. Save",;
+         enabled .t.,;
+        OnClick CLASS::F5_RTN,;
+               Shortcut "F5"
+           DEFINE MENU REPORT2 OF THIS.report;
+       PROPERTY;
+         Text "2. Save and Print",;
+         enabled .t.,;
+        OnClick class::f9_rtn,;
+               Shortcut "F9"
+               
+                  DEFINE MENU REPORT3 OF THIS.report;
+       PROPERTY;
+         Text "3. Print Duplicate",;
+         enabled .t.,;
+        OnClick class::F1_rtn,;
+               Shortcut "F1"
+
+      
+  
+     
+*******************************************************
+
+  procedure DeleteLineOnClick
+   PRIVATE Ppcoy,Ppdiv,Ppcen,Ppsto,Pptyp,Ppcla,Ppcod,PPRQTY,pamt
+   * Delete current record.
+   ****************************************************************************
+      select arcsdlin
+   if ConfirmationMessage("Are you sure you want to delete this Item?",;
+                          "Confirm") = YES .AND. EMPTY(arcdnts->post_date) ;
+                           .and. .not. eof()
+            
+     select arcsdlin
+            
+             pamt = total
+      delete  && DELETED is ON, so deleted records are still there until
+              && a PACK is executed
+              select arcdnts
+              replace arcdnts->items with arcdnts->items - 1
+              replace total with total - pamt
+              IF arcdnts->ITEMS = 0
+              REPLACE arcdnts->TOTAL WITH 0
+    
+              ENDIF
+           SELECT arcdnts
+              
+      commit()
+      form.changesMade = .F.
+      *begintrans()
+           *on error DO transerr WITH ERROR(), MESSAGE(),;
+  PROGRAM(), LINENO()
+   endif
+   SELECT arcsdlin
+   IF .NOT. EOF() .and. .not. bof()
+     FORM.BROWSECHANGESMADE()
+     ELSE
+     SELECT arcdnts
+      replace arcdnts->total with 0
+   replace arcdnts->items with 0
+ ENDIF
+   SELECT arcdnts
+   ****************************************************************************
+   procedure ADDORDERONCLICK
+
+   * Add new record.
+   ****************************************************************************
+   private addForm, newOrder, saleDateField, orderNoField, custNoField, custNo,;
+           inEditMode, integrityInEffect,CustTyp,pdate1,pvatp
+   form.CheckChanged(.T.)
+  * if ConfirmationMessage("Are you sure you want to add an FreighRegistration/order?",;
+                          "Confirmation") = YES
+                          pvatp = FORM.PVATPRICE
+                          pdate1 = FORM.PSHIFTDATE
+  
+      orderNoField = field(1)                 && order_no field
+          OrderDateField = field(7)                && Order_date field
+*      custyp = form.pctyp
+ *     custno = form.pcno
+ select arcsdlin2
+ go bottom
+      select arcdnts3
+      go bottom
+       IF empty(order_no) .or. (.not. empty(order_no) .and. .not. empty(post_date))
+      * If running from Custord.wfm, use form.curPage.inEditMode,
+      * otherwise, if from customer.wfm/arcdnts.wfm, use form.inEditMode
+      if type("form.curPage") <> "U"
+         inEditMode = form.curPage.inEditMode
+         integrityInEffect = .T.              && Table integrity rules are used
+      else
+         inEditMode = form.inEditMode
+         integrityInEffect = .F.
+      endif
+
+      if .not. inEditMode
+         form.ViewEdit()                      && Make sure record is editable
+      else if type("form.childBrowse") <> "U" && If calling from Customer/arcdnts
+         form.childBrowse.setFocus()
+      endif
+      form.changesMade = .T.
+        form.previousRecord = recno()
+        SELECT FGCODS
+        GO TOP
+         select arcdnts3
+      go bottom
+    
+      
+    form.maxOrder = order_no
+     local ls1,ls2,ls3,ls4,ls5,LSH,LID
+      SELECT arcdnts
+     
+
+  * neworder = order_no  && new order no.
+       if empty(form.maxOrder)
+      form.maxOrder = arcdntsn->order_no  && start of first operator
+      endif
+      append blank
+      orderNoField = field(1)
+      newOrder = val(form.maxOrder) + 1
+      local wk1,wk2
+       wk1 = neworder
+      if wk1 > 0 .and. wk1 < 10
+      wk2 = "00000"+str(wk1,1)
+      else
+      if wk1 > 9 .and. wk1 < 100
+      wk2 = "0000"+str(wk1,2)
+      else
+       if wk1 > 99 .and. wk1 < 1000
+      wk2 = "000"+str(wk1,3)
+      else
+       if wk1 > 999 .and. wk1 < 10000
+      wk2 = "00"+str(wk1,4)
+      else
+       if wk1 > 9999 .and. wk1 < 100000
+      wk2 = "0"+str(wk1,5)
+      else
+      wk2 = str(wk1,6)
+      endif
+      endif
+      endif
+      endif
+      endif
+     replace order_no with wk2     && Assign new order number
+      replace items with 0
+       replace  total with 0
+       replace order_date with  pdate1
+       replace paytype with arcdnts3->paytype
+     *  if empty(paytype)
+      *   endif
+         replace bl_amt with 0
+        replace al_amt with 0
+        replace l_amt with 0
+        replace pay_method with arcdnts3->pay_method
+      *  if empty(pay_method)
+         replace pay_method with 'Cash'
+              replace paytype  with "Invoice"
+    
+       *  endif
+     
+        replace invtotal with 0
+        replace paytotal with 0
+        replace deptotal with 0
+        LSH = FORM.PSHIFTNO
+        LID = FORM.PSHIFTID
+           REPLACE SHIFTNO WITH  LSH
+        REPLACE SHIFTID WITH LID
+      REPLACE DDE_DATE WITH DATE()
+        REPLACE DDE_TIME WITH TIME()
+        REPLACE DDE_USER WITH FORM.BLUSER
+          
+        replace bcoy with "1"
+        replace bcla  with '00'
+        replace btyp with 'C0'
+        replace bcod with '01'
+        replace recdate with order_date
+        replace bcoy with "1"
+        replace bCEN with "1"
+        replace bDIV with "5"
+        replace bSTO with "A1"
+        
+            
+          
+      select arcsdlin3
+     append blank
+     replace order_no with arcdnts->order_no
+     replace stock_no with "01"
+      replace order_date with arcdnts->order_date
+       replace other_date with order_date
+        replace total with 0
+           replace invtotal with 0
+        replace paytotal with 0
+        replace deptotal with 0
+        replace  coy with "1"
+replace  div with "5"
+replace  cen with "1"
+replace  sto with "A1"
+replace  typ with "C0"
+replace cla with "10"
+replace cod with "00"
+ REPLACE DDE_DATE WITH DATE()
+        REPLACE DDE_TIME WITH TIME()
+        REPLACE DDE_USER WITH FORM.BLUSER
+      selec arcsdlin
+refresh
+go bottom
+     
+            
+    select arcdntsL
+    replace order_no with arcdnts->order_no
+    replace order_date with arcdnts->order_date
+     
+         select arcdnts
+        replace arcdnts->items with arcdnts->items + 1
+    
+    
+       
+        form.soff.enabled = .t.
+        if fgcoy->pospost = "Yes"
+        form.CheckCommit(form.inEditMode)
+        select arcdnts
+        seek arcdntsl->order_no
+          REPLACE SHIFTNO WITH FORM.PSHIFTNO
+        REPLACE SHIFTID WITH FORM.PSHIFTID
+        replace pay_method with 'Cash'
+              replace paytype  with "Invoice"
+      
+       refresh
+         form.soff.setfocus()
+         else
+         form.sdate.enabled = .t.
+         form.CheckCommit(form.inEditMode)
+         select arcdnts
+        seek arcdntsl->order_no
+         REPLACE SHIFTNO WITH FORM.PSHIFTNO
+        REPLACE SHIFTID WITH FORM.PSHIFTID
+         replace pay_method with 'Cash'
+              replace paytype  with "Invoice"
+      
+         refresh
+         form.sdate.setfocus()
+         endif
+   
+   endif
+   
+ * endif
+   ****************************************************************************
+   procedure ADDLINEONCLICK
+      LOCAL L1,wk1,wk2,l2,l3,l4,ls3,ls4,ls5,LNAME
+ 
+   form.CheckChanged(.T.)
+ *  if ConfirmationMessage("Are you sure you want to add a new product/service?",;
+                          "Confirmation") = YES .and. arcsdlin->stock_no > "00"
+      form.changesMade = .T.
+      select arcdnts3
+      go bottom
+         select arcsdlin
+        go bottom
+        if (.not. empty(stock_no)  .and. .not. empty(order_no) ;
+         .and. .not. empty(arcdnts->order_no) .and. .not. arcsdlin->total = 0) ;
+          .or. (empty(stock_no) .and. .not. empty(arcdnts->ORDER_NO))
+         L1 = val(STOCK_NO) + 1
+         wk1 = l1
+         if wk1 > 99
+         quit
+         endif
+          if wk1 > 0 .and. wk1 < 10
+      wk2 = "0"+str(wk1,1)
+      else
+      wk2 = str(wk1,2)
+      endif
+      if val(wk2) < 2
+      
+      
+      select arcsdlin3
+         append blank
+         replace order_no with arcdnts->order_no
+      replace stock_no with wk2
+            replace order_date with arcdnts->order_date
+       replace total with 0
+        replace other_date with arcsdlin2->other_date
+        if empty(other_date)
+        replace other_date with arcdnts->order_date
+        endif
+     
+       
+          replace invtotal with 0
+        replace paytotal with 0
+        replace deptotal with 0
+       replace  coy with "1"
+replace  div with "5"
+replace  cen with "1"
+replace  sto with "A1"
+replace  typ with "C0"
+replace cla with "10"
+replace cod with "00"
+ REPLACE DDE_DATE WITH DATE()
+        REPLACE DDE_TIME WITH TIME()
+        REPLACE DDE_USER WITH FORM.BLUSER
+select arcsdlin
+refresh
+go bottom
+     
+           
+            
+          select arcdnts
+          if .not. eof()
+  
+        replace arcdnts->items with arcdnts->items + 1
+         REPLACE SHIFTNO WITH FORM.PSHIFTNO
+        REPLACE SHIFTID WITH FORM.PSHIFTID
+     REPLACE ORDER_DATE WITH FORM.PSHIFTDATE
+        if order_date = arcdnts3->order_date .and. shiftno = arcdnts3->shiftno ;
+    .and. shiftid = arcdnts3->shiftid
+        REPLACE OFF WITH arcdnts3->OFF
+        REPLACE CASHIER_NO WITH arcdnts3->CASHIER_NO
+        REPLACE ANAME WITH arcdnts3->ANAME
+        else
+        replace off with ""
+        replace cashier_no with ""
+        replace aname with ""
+        endif
+       
+           FORM.sref.setfocus()
+  
+   endif
+   endif
+   endif
+   
+  
+   ***************************************************************************
+   procedure ViewEditOnClick
+   ****************************************************************************
+if .not. empty(arcdnts->order_no)
+   form.ViewEdit()
+   endif
+
+   ****************************************************************************
+   procedure Exit_OnClick
+   ****************************************************************************
+FORM.OKEXIT = .T.
+        form.Release()
+   
+Procedure F1_rtn
+      do arcdntsP.PRG  WITH FORM.BLUSER
+      
+Procedure F9_rtn
+ form.CheckCommit(form.inEditMode)
+form.BrowseOnNavigate()
+if    form.inEditMode
+      form.ViewEdit()
+      form.root.order.viewEdit.enabled = .F.
+   endif
+    form.root.order.ADDorder.enabled = .f.      
+    form.root.order.ADDline.enabled = .f.
+   
+   form.SDTOTAL.enabled = .f.
+   
+local lerr
+lerr = .t.
+SELECT arcdnts
+ if .not. arcdnts->total = 0  .AND. EMPTY(post_DATE) ;
+ .AND. arcdnts->PAY_METHOD = 'Cash' ;
+      .AND. .NOT. EMPTY(arcdnts->BCOY)  .AND.   .NOT. EMPTY(arcdnts->BTYP);
+      .AND. .NOT. EMPTY(arcdnts->BCLA);
+       .AND. .NOT. EMPTY(arcdnts->BCOD)  .AND. .NOT. EMPTY(SOURCE) ;
+        .AND. .NOT. EMPTY(FTYP) .AND. .NOT. EMPTY(PMOD) .AND. .NOT. EMPTY(FRIGHTER_N) ;
+         .AND. .NOT. EMPTY(OFF)  .and. .not. empty(cashier_no); 
+          .AND. .NOT. EMPTY(SHIFTNO) .AND. .NOT. EMPTY(SHIFTID) 
+        lerr = .f.
+        endif
+        
+      
+      if frigtmes->vage = "C" .and. total*-1 > bl_amt * -1
+    lerr = .t.
+    endif
+     
+  if .not. lerr
+DO ARCDSPST.PRG WITH FORM.BLUSER,FORM.BLEVEL
+ DO arcdntsP.PRG  WITH FORM.BLUSER
+  form.Go_Top()
+  ENDIF
+
+
+Procedure F5_rtn
+ form.CheckCommit(form.inEditMode)
+form.BrowseOnNavigate()
+if    form.inEditMode
+      form.ViewEdit()
+      form.root.order.viewEdit.enabled = .F.
+   endif
+    form.root.order.ADDorder.enabled = .f.      
+    form.root.order.ADDline.enabled = .f.
+    form.SDTOTAL.enabled = .f.
+local lerr
+lerr = .t.
+SELECT arcdnts
+  if .not. arcdnts->total >= 0  .AND. EMPTY(post_DATE) ;
+ .AND. arcdnts->PAY_METHOD = 'Cash' ;
+      .AND. .NOT. EMPTY(arcdnts->BCOY)  .AND.   .NOT. EMPTY(arcdnts->BTYP);
+      .AND. .NOT. EMPTY(arcdnts->BCLA);
+       .AND. .NOT. EMPTY(arcdnts->BCOD)  .AND. .NOT. EMPTY(SOURCE) ;
+        .AND. .NOT. EMPTY(FTYP) .AND. .NOT. EMPTY(PMOD) .AND. .NOT. EMPTY(FRIGHTER_N) ;
+         .AND. .NOT. EMPTY(OFF)  .and. .not. empty(cashier_no); 
+          .AND. .NOT. EMPTY(SHIFTNO) .AND. .NOT. EMPTY(SHIFTID)
+        lerr = .f.
+        endif
+     
+    if frigtmes->vage = "C" .and. total*-1 > bl_amt * -1 .AND. .NOT. FORM.BLEVEL = 1
+    lerr = .t.
+    endif
+  if .not. lerr
+
+DO ARCDSPST.PRG WITH FORM.BLUSER,FORM.BLEVEL
+
+ form.Go_Top() 
+  ENDIF
+
+procedure OnExit
+   
+  
+   ****************************************************************************
+   
+     form.Release()
+
+    procedure OnQuitAll
+   
+     form.Release()
+
+ quit
+ENDCLASS
+       

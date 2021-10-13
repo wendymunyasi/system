@@ -1,0 +1,38 @@
+* Visual dBASE .QBE file 9
+*set exclusive on
+close databases
+on error do fgjcstrc.prg
+use \kenservice\data\ARWINVCE.dbf 
+? dsc
+ON ERROR DO QBEERR WITH ERROR(), MESSAGE(),;
+PROGRAM(), LINENO()
+CLOSE DATABASES
+SET EXACT ON
+SELECT 24
+USE \KENSERVICE\DATA\arrinvl.dbf
+go top
+SELECT 1
+USE \KENSERVICE\DATA\arrinvs.DBF
+set filter to empty(post_date) .and. order_no = arrinvl->order_no
+go top
+SELECT 2
+USE \KENSERVICE\DATA\arrinvln.dbf
+select 55
+use \kenservice\data\ARWINVCE.dbf 
+select 54
+use \kenservice\data\fgmast.dbf
+SELECT 70
+USE \KENSERVICE\DATA\st15f.dbf
+select 120
+use \kenservice\data\fgcoy.dbf
+select 106
+use \kenservice\data\arrinvsp.dbf
+select 105
+use \kenservice\data\arrinvsp.dbf again alias arrinvsp2
+select 130
+use \kenservice\data\arrinvsn.dbf
+select 131
+use  \kenservice\data\frigrinv.dbf alias frighter
+SELECT 4
+USE \KENSERVICE\DATA\FGMAST.DBF ALIAS FGMAST2
+set safety on

@@ -1,0 +1,68 @@
+* Visual dBASE .QBE file 9
+close databases
+on error do  xordersn.prg
+use  \kenservice\data\xordersn.dbf
+close databases
+ON ERROR DO FGMSTR.PRG
+USE \KENSERVICE\DATA\FGCENS.DBF
+? FUELS
+ON ERROR DO QBEERR WITH ERROR(), MESSAGE(),;
+PROGRAM(), LINENO()
+CLOSE DATABASES
+SET EXACT ON
+SELECT 1
+USE \KENSERVICE\DATA\xorders.DBF ORDER TAG ORDER_NO
+delete all for empty(order_no)
+set filter to empty(post_date)
+SELECT 2
+USE \KENSERVICE\DATA\XODRLINE.DBF ORDER TAG ORDER_NO
+delete all for empty(order_no)
+set filter to empty(post_date)
+SELECT 15
+USE \KENSERVICE\DATA\fgmast.DBF ORDER TAG MKEY  && receiving
+select 16
+use \kenservice\data\fgoffs.dbf order tag name
+set filter to .not. empty(cashier_no) .and. empty(date_left)
+select 17
+use \kenservice\data\xordersl.dbf
+select 19
+USE \KENSERVICE\DATA\XODRLINE.DBF  again alias xorder3
+SELECT 5
+USE \KENSERVICE\DATA\fgcenS.DBF order tag name  && despatch
+set filter to (div = "1" .and.  .not. div1="2")  .and. used = 'Yes'
+SELECT 6
+USE \KENSERVICE\DATA\fgcenS.DBF AGAIN alias fgcens2 order tag name  && receiving
+set filter to ((div = "2" .and. (cen = "1" .or. cen = "6"));
+.or. (div = "3" .and. (cen = "2" .or. cen = "0")) .or.;
+(div = "1" .and. .not. fuels = 'Yes'))  .and. used = 'Yes'
+SELECT 7
+USE \KENSERVICE\DATA\fgcods.DBF order tag name  && product selection
+SET filter to (typ > "00" .and. typ < "9Z" .and. .not. left(typ,1) = "7") ; 
+ .and. shs_auto = "No"  .and. qty = "Yes"
+SELECT 21
+USE \KENSERVICE\DATA\fgmast.DBF AGAIN alias fgmast2 ORDER TAG MKEY  && despatch
+SELECT 9
+USE \KENSERVICE\DATA\fgcen.DBf AGAIN  alias fgcen2 order tag mkey
+SELECT 1
+SET RELATION TO ORDER_NO INTO XODRLINE CONSTRAIN INTEGRITY
+SELECT 4
+USE \KENSERVICE\DATA\st15f.DBf
+
+select 23
+use \kenservice\data\xorders.dbf again alias xorders3
+select 30
+USE \KENSERVICE\DATA\XODRLINE.DBF again alias XODRLINE3
+select 31
+use \kenservice\data\fgcoy.dbf
+SELECT 127
+ use \kenservice\data\XODRLINE.DBF again alias XODRLINE2 order tag order_no
+ select 126
+use \kenservice\data\XODUPD.dbf
+delete all for empty(order_no)
+set filter to .not. empty(post_date)
+ select 128
+ use \kenservice\data\XORDERSN.dbf
+ 
+     
+SELECT 1
+GO TOP

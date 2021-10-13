@@ -1,0 +1,1229 @@
+////////////////////////////////////////////////////////////////////////////////
+// Output Filename: C:\KENSERVICE\IDSSYS\APDRCRS_FCV.WFM                      //
+// Created By:      dBASE Form Converter Wizard                               //
+// Created On:      Saturday October 2, 2021 At 16:02:45                      //
+// Object Count:    34                                                        //
+////////////////////////////////////////////////////////////////////////////////
+                                                                                                                  *******************************************************************************
+*  PROGRAM:      apdrcrs.WFM
+*
+*  WRITTEN BY:   W Nyongesa
+*  DATE:         10/2003
+*
+*  UPDATED:     06/2015
+*
+*  REVISION:     $Revision:   1.97  $
+*
+*  VERSION:      Visual dBASE
+*
+*  DESCRIPTION:  This form displays information about an order from a company.
+*                It allows traversing through apdrcrs and going to the top and
+*                bottom.  This form also has a corresponding menu, OrdCust.mnu,
+*                which allows adding,deleting and searching for an order.
+*                When an unknown customer number is entered, a dialog will come
+*                up asking you if you want to add a new customer.  If you
+*                selecte the Yes button, the customer form (in stcusj.Wfm)
+*                will be opened, so a new customer can be added.
+*
+*  PARAMETERS:   None
+*
+*  CALLS:        apdrcrs.mnu       (Menu file)
+*                Buttons.cc       (Custom controls file)
+*                stcusj.Wfm     (Form for displaying customer information)
+*                apdrcrs.qbe       (View of tables)
+*
+*  USAGE:        DO apdrcrs.WFM    && Note that you can also DO stcusj.Wfm
+*
+*******************************************************************************
+#include <Messdlg.h>
+shell(.F.)
+create session
+set talk off
+SET DESIGN OFF
+*f .not. user() = "WYCLIFFE"
+_app.FrameWin.Visible = .F.
+set design off
+*LSE
+*ET DESIGN ON
+*NDIF
+_app.FrameWin.Text = "apdrcrs"
+set ldCheck off                        && To avoid language driver conflicts
+*SET DBTYPE TO PARADOX
+SET CUAENTER OFF
+** END HEADER -- do not remove this line*
+* Generated on 18/11/2019
+*
+parameter bUser,bLevel,bModal
+local f
+f = new apdrcrsFORM()
+if (bModal)
+   f.mdi = .F. && ensure not MDI
+   f.ReadModal()
+else
+   f.Open()
+endif
+CLASS apdrcrsFORM OF FORM
+   Set Procedure To BUTTONS.CC additive
+   this.Metric = 6  // Pixels
+   this.MenuFile = "APDRCRS.MNU"
+   this.EscExit = .F.
+   this.MousePointer = 1
+   this.OnClose = CLASS::ONCLOSE
+   this.Text = "VENDOR DEBIT/CREDIT NOTE -- View Mode"
+ *  this.CanClose = CLASS::FORM_CANCLOSE
+   this.WindowState = 2
+   this.MDI = .F.
+   this.Minimize = .F.
+   this.Sizeable = .F.
+   this.Moveable = .F.
+   this.Left = 0
+   this.Top = 14
+   this.ColorNormal = "N+"
+   this.Height = 355
+   this.View = "apdrcrs.QBE"
+   this.Width = 725
+
+   DEFINE RECTANGLE RECTANGLE1 OF THIS;
+       PROPERTY;
+         FontSize 10,;
+         Text "Transaction Type",;
+         Left 12,;
+         Top 136,;
+         Height 48,;
+         Width 204,;
+       FontName "MS Sans Serif",;
+       FontBold .T.
+
+   DEFINE TEXTLABEL TEXT9 OF THIS;
+       PROPERTY;
+         Text "Order No.:",;
+         FontName "Verdana",;
+       BorderStyle 7,;
+         Left 6,;
+         Top 17,;
+         ColorNormal "B+/W",;
+         Height 21,;
+         Width 90,;
+       FontSize 8,;
+       FontBold .T.,;
+       AlignHorizontal 1,;
+       AlignVertical 1
+
+   DEFINE ENTRYFIELD ORDERNOENTRY OF THIS;
+       PROPERTY;
+         FontName "MS Sans Serig",;
+         DataLink "apdrcrs->grn_no",;
+         ColorHighLight "GB+/W",;
+         Enabled .F.,;
+         Left 96,;
+         Top 17,;
+         ColorNormal "B+/W",;
+         Height 21,;
+         Width 102,;
+       FontSize 8,;
+       FontBold .T.
+
+   DEFINE ENTRYFIELD SACCDATE OF THIS;
+       PROPERTY;
+         FontSize 10,;
+         DataLink "apdrcrs->INV_DATE",;
+         ColorHighLight "W+/B",;
+         Enabled .F.,;
+         Left 324,;
+         Function "!",;
+         Top 17,;
+         ValidErrorMsg "Date Out of Range",;
+         ColorNormal "B/BTNFACE",;
+         Height 21,;
+         Width 96,;
+       FontName "MS Sans Serif",;
+       FontBold .T.
+
+   DEFINE TEXTLABEL TEXT1 OF THIS;
+       PROPERTY;
+         FontSize 10,;
+         Text "Vendor:",;
+         FontName "Verdana",;
+       BorderStyle 7,;
+         Left 6,;
+         Top 58,;
+         ColorNormal "0x400000/W",;
+         Height 21,;
+         Width 84,;
+       FontBold .T.
+
+   DEFINE COMBOBOX SVENDOR OF THIS;
+       PROPERTY;
+         Style 1,;
+         MousePointer 1,;
+         DataSource "FIELD VENNAMES->NAME",;
+         FontSize 10,;
+         DataLink "apdrcrs->vNAME",;
+         OnChange CLASS::SVENDOR_ONCHANGE,;
+         Enabled .F.,;
+         Left 96,;
+         Top 58,;
+         ColorNormal "0xc08000/W",;
+         Height 24,;
+         Width 324,;
+       FontName "MS Sans Serif",;
+       FontBold .T.
+
+   DEFINE TEXTLABEL TEXT8 OF THIS;
+       PROPERTY;
+         Text "OFFICER:",;
+         FontName "Verdana",;
+       BorderStyle 7,;
+         Left 6,;
+         Top 83,;
+         ColorNormal "0x400000/W",;
+         Height 21,;
+         Width 84,;
+       FontSize 8,;
+       FontBold .T.,;
+       AlignHorizontal 1,;
+       AlignVertical 1
+
+   DEFINE COMBOBOX SOFF OF THIS;
+       PROPERTY;
+         Style 1,;
+         MousePointer 1,;
+         DataSource "FIELD fgoffs->NAME",;
+         DataLink "apdrcrs->OffNAME",;
+         OnChange CLASS::SOFF_ONCHANGE,;
+         Enabled .F.,;
+         Left 96,;
+         Top 83,;
+         ColorNormal "0xc08000/W",;
+         Height 21,;
+         Width 258,;
+       FontName "MS Sans Serif",;
+       FontSize 8,;
+       FontBold .T.
+
+   DEFINE TEXTLABEL TEXT25 OF THIS;
+       PROPERTY;
+         FontSize 10,;
+         Text "Ref Info:",;
+         FontName "Verdana",;
+       BorderStyle 7,;
+         Left 6,;
+         Top 107,;
+         ColorNormal "0x400000/W",;
+         Height 21,;
+         Width 84,;
+       FontBold .T.,;
+       AlignHorizontal 1,;
+       AlignVertical 1
+
+   DEFINE ENTRYFIELD SINVNO OF THIS;
+       PROPERTY;
+         DataLink "apdrcrs->INV_NO",;
+         OnChange CLASS::CHANGE_INV_NO,;
+         ColorHighLight "W+/B",;
+         Enabled .F.,;
+         Left 96,;
+         Function "!",;
+         Top 107,;
+         ColorNormal "B/BTNFACE",;
+         Height 21,;
+         Width 156,;
+       FontName "MS Sans Serif",;
+       FontSize 8,;
+       FontBold .T.
+
+   DEFINE TEXTLABEL TEXT46 OF THIS;
+       PROPERTY;
+         Text "DR/CR TOTAL:",;
+         FontName "Verdana",;
+       BorderStyle 7,;
+         Left 468,;
+         Top 75,;
+         ColorNormal "B+/W",;
+         Height 21,;
+         Width 96,;
+       FontSize 8,;
+       FontBold .T.,;
+       AlignHorizontal 1,;
+       AlignVertical 1
+
+   DEFINE ENTRYFIELD INVTOT OF THIS;
+       PROPERTY;
+         FontName "MS Sans Serig",;
+         Picture "99999,999,999.99",;
+         DataLink "apdrcrs->SUPPLY_AMT",;
+         OnChange CLASS::INVTOT_ONCHANGE,;
+         ColorHighLight "B+/W+",;
+         Enabled .F.,;
+         Left 588,;
+         Function "J",;
+         Top 75,;
+         ColorNormal "B+/W+",;
+         Height 21,;
+         Width 132,;
+       FontSize 8,;
+       FontBold .T.
+
+   DEFINE TEXTLABEL TEXT7 OF THIS;
+       PROPERTY;
+         Text "DOC TOTAL:",;
+         FontName "Verdana",;
+       BorderStyle 7,;
+         Left 468,;
+         Top 96,;
+         ColorNormal "B+/W",;
+         Height 21,;
+         Width 96,;
+       FontSize 8,;
+       FontBold .T.,;
+       AlignHorizontal 1,;
+       AlignVertical 1
+
+   DEFINE ENTRYFIELD SOAMT OF THIS;
+       PROPERTY;
+         FontName "MS Sans Serig",;
+         Picture "99999,999,999.99",;
+         DataLink "apdrcrs->TOTAL",;
+         ColorHighLight "B+/W+",;
+         Enabled .F.,;
+         Left 588,;
+         Function "J",;
+         Top 96,;
+         ColorNormal "B+/W+",;
+         Height 21,;
+         Width 132,;
+       FontSize 8,;
+       FontBold .T.
+
+   DEFINE RADIOBUTTON SDEBIT OF THIS;
+       PROPERTY;
+         FontSize 9,;
+         Text "Debitnote",;
+         DataLink "apdrcrs->PAY_METHOD",;
+         Enabled .F.,;
+         Group .T.,;
+         Left 12,;
+         Top 158,;
+         ColorNormal "BtnText/W+",;
+         Height 19,;
+         Width 90,;
+       FontName "MS Sans Serif",;
+       FontBold .T.
+
+   DEFINE RADIOBUTTON SCREDIT OF THIS;
+       PROPERTY;
+         FontSize 9,;
+         Text "Creditnote",;
+         DataLink "apdrcrs->PAY_METHOD",;
+         Enabled .F.,;
+         Group .F.,;
+         Left 108,;
+         Top 158,;
+         ColorNormal "BtnText/W+",;
+         Height 19,;
+         Width 96,;
+       FontName "MS Sans Serif",;
+       FontBold .T.
+
+   DEFINE TEXTLABEL TEXT11 OF THIS;
+       PROPERTY;
+         FontSize 9,;
+         Text "Reason:",;
+         FontName "Verdana",;
+       BorderStyle 7,;
+         Left 438,;
+         Top 17,;
+         ColorNormal "0x400000/W",;
+         Height 21,;
+         Width 66,;
+       FontBold .T.,;
+       AlignHorizontal 1,;
+       AlignVertical 1
+
+   DEFINE RADIOBUTTON SINV OF THIS;
+       PROPERTY;
+         OnGotFocus CLASS::SPAY_ONGOTFOCUS,;
+         FontSize 9,;
+         Text "Invoice",;
+         DataLink "apdrcrs->SERIALNO",;
+         Enabled .F.,;
+         Group .T.,;
+         Left 512,;
+         Top 17,;
+         ColorNormal "BtnText/W+",;
+         Height 19,;
+         Width 72,;
+       FontName "MS Sans Serif",;
+       FontBold .T.
+
+   DEFINE TEXTLABEL TEXT3 OF THIS;
+       PROPERTY;
+         Text "Item/Centre:",;
+         FontName "Verdana",;
+       BorderStyle 7,;
+         Left 6,;
+         Top 211,;
+         ColorNormal "0x400000/W",;
+         Height 21,;
+         Width 126,;
+       FontSize 8,;
+       FontBold .T.,;
+       AlignHorizontal 1,;
+       AlignVertical 1
+
+   DEFINE COMBOBOX SPROD OF THIS;
+       PROPERTY;
+         Style 1,;
+         FontBold .F.,;
+         MousePointer 1,;
+         DataSource "FIELD fgmastp->name",;
+         DataLink "apdrcrln->name",;
+         OnChange CLASS::SPROD_ONCHANGE,;
+         Enabled .F.,;
+         Left 138,;
+         Top 211,;
+         ColorNormal "0x400040/W",;
+         Height 21,;
+         Width 582,;
+       FontName "MS Sans Serif",;
+       FontSize 8
+
+   DEFINE TEXTLABEL TEXT19 OF THIS;
+       PROPERTY;
+         Text "VAT Rate:",;
+         FontName "Verdana",;
+       BorderStyle 7,;
+         Left 6,;
+         Top 252,;
+         ColorNormal "B+/W",;
+         Height 21,;
+         Width 72,;
+       FontSize 8,;
+       FontBold .T.,;
+       AlignHorizontal 1,;
+       AlignVertical 1
+
+   DEFINE ENTRYFIELD STAXRATE OF THIS;
+       PROPERTY;
+         Picture "99.99",;
+         DataLink "apdrcrln->TAX_RATE",;
+         OnChange CLASS::STAXRATE_ONCHANGE,;
+         ColorHighLight "W+/N+",;
+         Enabled .F.,;
+         Left 99,;
+         Top 252,;
+         ColorNormal "N/BtnFace",;
+         Height 21,;
+         Width 45,;
+       FontName "MS Sans Serif",;
+       FontSize 8,;
+       FontBold .T.
+
+   DEFINE TEXTLABEL TEXT22 OF THIS;
+       PROPERTY;
+         Text "Net Amount:",;
+         FontName "Verdana",;
+       BorderStyle 7,;
+         Left 156,;
+         Top 252,;
+         ColorNormal "B+/W",;
+         Height 21,;
+         Width 96,;
+       FontSize 8,;
+       FontBold .T.,;
+       AlignHorizontal 1,;
+       AlignVertical 1
+
+   DEFINE ENTRYFIELD STOTAL OF THIS;
+       PROPERTY;
+         Picture "999,999,999.99",;
+         DataLink "apdrcrln->TOTAL",;
+         OnChange CLASS::CHANGE_STOTAL,;
+         ColorHighLight "B+/W",;
+         Enabled .F.,;
+         Left 252,;
+         Top 252,;
+         ColorNormal "B+/W",;
+         Height 21,;
+         Width 120,;
+       FontName "MS Sans Serif",;
+       FontSize 8,;
+       FontBold .T.
+
+   DEFINE TEXTLABEL TEXT15 OF THIS;
+       PROPERTY;
+         Text "VAT Amt:",;
+         FontName "Verdana",;
+       BorderStyle 7,;
+         Left 408,;
+         Top 252,;
+         ColorNormal "B+/W",;
+         Height 21,;
+         Width 72,;
+       FontSize 8,;
+       FontBold .T.,;
+       AlignHorizontal 1,;
+       AlignVertical 1
+
+   DEFINE ENTRYFIELD STAXAMT OF THIS;
+       PROPERTY;
+         Picture "9999,999.99",;
+         DataLink "apdrcrln->TAX_AMT",;
+         ColorHighLight "B+/W",;
+         Enabled .F.,;
+         Left 492,;
+         Top 252,;
+         ColorNormal "B+/W",;
+         Height 21,;
+         Width 108,;
+       FontName "MS Sans Serif",;
+       FontSize 8,;
+       FontBold .T.
+
+   DEFINE TEXTLABEL TEXT21 OF THIS;
+       PROPERTY;
+         Text "Line Value (Excl. VAT)",;
+         FontName "Verdana",;
+       BorderStyle 7,;
+         Left 6,;
+         Top 273,;
+         ColorNormal "B+/W",;
+         Height 21,;
+         Width 156,;
+       FontSize 8,;
+       FontBold .T.,;
+       AlignHorizontal 1,;
+       AlignVertical 1
+
+   DEFINE ENTRYFIELD SGROSSAMT OF THIS;
+       PROPERTY;
+         Picture "9999,999,999.99",;
+         DataLink "apdrcrln->GROSS_AMT",;
+         ColorHighLight "GB+/W",;
+         Enabled .F.,;
+         Left 180,;
+         Top 273,;
+         ColorNormal "B+/W",;
+         Height 21,;
+         Width 108,;
+       FontName "MS Sans Serif",;
+       FontSize 8,;
+       FontBold .T.
+
+   DEFINE BROWSE CHILDBROWSE OF THIS;
+       PROPERTY;
+         ShowRecNo .F.,;
+         FontSize 7.5,;
+         Text "LISTING OF  DETAIL LINE ITEMS",;
+         ScrollBar 1,;
+         Append .F.,;
+         Alias "apdrcrln",;
+         ColorHighLight "R/BTNFACE",;
+         CUATab .T.,;
+         Delete .F.,;
+         Left 6,;
+         Modify .F.,;
+         Top 296,;
+         ShowDeleted .F.,;
+         Height 214,;
+         ColorNormal "0x8000ff/W",;
+         Fields 'apdrcrln->GRN_STK_NO\H="NO"\5\P="99"\R,apdrcrln->NAME\H="ITEM"\35\R,apdrcrln->QTY\H="QTY"\7\P="99,999.99"\R,apdrcrln->LIST_PRICE\H="Price"\10\P="99999.9999"\R,apdrcrln->VATPRICE\H="VAT"\10\R,apdrcrln->GROSS_AMT\H="Gross"\12\P="999,999,999.99"\R,apdrcrln->TAX_AMT\H="VAT"\10\P="9999,999.99"\R,apdrcrln->TOTAL\H="TOTAL"\12\P="9999,999,999.99"\R',;
+         Width 726,;
+       FontName "MS Sans Serif"
+
+   DEFINE PUSHBUTTON FIRSTORDERBUTTON OF THIS;
+       PROPERTY;
+         FontSize 10,;
+         Text "First",;
+         OnClick CLASS::GO_TOP,;
+         Group .F.,;
+         Left 18,;
+         Top 527,;
+         ColorNormal "0x40/W",;
+         Height 26,;
+         Width 108,;
+       FontName "MS Sans Serif",;
+       FontBold .T.
+
+   DEFINE PUSHBUTTON LASTORDERBUTTON OF THIS;
+       PROPERTY;
+         FontSize 10,;
+         Text "Last",;
+         OnClick CLASS::GO_LAST,;
+         Group .F.,;
+         Left 144,;
+         Top 527,;
+         ColorNormal "0x40/W",;
+         Height 26,;
+         Width 108,;
+       FontName "MS Sans Serif",;
+       FontBold .T.
+
+   DEFINE PREVBUTTON PREVORDERBUTTON OF THIS;
+       PROPERTY;
+         FontSize 10,;
+         Text "Previous",;
+         OnClick CLASS::PREVIOUS,;
+         Group .T.,;
+         Left 270,;
+         Top 527,;
+         ColorNormal "0x40/W",;
+         Height 26,;
+         Width 108,;
+       FontName "MS Sans Serif",;
+       FontBold .T.
+
+   DEFINE NEXTBUTTON NEXTORDERBUTTON OF THIS;
+       PROPERTY;
+         FontSize 10,;
+         Default .T.,;
+         Text "Next",;
+         OnClick CLASS::NEXT,;
+         Group .F.,;
+         Left 396,;
+         Top 527,;
+         ColorNormal "0x40/W",;
+         Height 26,;
+         Width 108,;
+       FontName "MS Sans Serif",;
+       FontBold .T.
+
+   DEFINE SPINBOX SALEDATESPIN OF THIS;
+       PROPERTY;
+         FontBold .F.,;
+         FontSize 10,;
+         Rangemin {17/04/2015},;
+         Rangemax {26/07/2015},;
+         DataLink "APDRCRS->GRN_DATE",;
+         ColorHighLight "W+/N",;
+         Enabled .F.,;
+         Left 204,;
+         Top 17,;
+         ColorNormal "0xc08000/W",;
+         Height 21,;
+         Width 108,;
+       FontName "MS Sans Serif"
+
+   procedure Open
+   ****************************************************************************
+   private orderNoField
+      on error DO ddeerr WITH ERROR(), MESSAGE(),;
+   PROGRAM(), LINENO()
+       FORM.BLUSER=BUSER
+   FORM.BLEVEL=BLEVEL
+   IF EMPTY(FORM.BLUSER) .OR. EMPTY(FORM.BLEVEL)
+      QUIT
+   ENDIF
+   set reprocess to 10
+   select fglprds
+   set order to period
+                 select apdrcrsn
+    go top
+    if eof()
+    append blank
+    replace grn_no with "0"
+    endif
+                                select apdrcrup
+    set order to orderdate
+   select fgtyp
+   set order to typ
+   SELECT VENNAMES
+   SET ORDER TO NAME
+     select fgoffs
+   set order to name
+    select apdrcrs3
+    set order to grn_no
+   go bottom
+    form.maxOrder = grn_no
+   * form.PSALEDATESPIN = {}
+   if type("form.init") = "U"
+      form.init = .T.
+   FORM.PSHIFTDATE = DATE()
+   FORM.PSHIFTNO = "0"
+   FORM.PSHIFTID = "0"
+   form.pfc = .f.
+   select st15f
+   go top
+   SELECT FGCOY
+   GO TOP
+    FORM.PSHIFTDATE = st15f->shift_date
+   FORM.PSHIFTNO = st15f->shift_no
+   select fgcoy
+   replace start_date with st15f->shift_date
+   replace end_date with start_date
+   FORM.PSHIFTID = st15f->shift_id
+   form.pfc = .t.
+
+   FORM.PDIV = ""
+   FORM.PCOY = ""
+   FORM.OKEXIT = .F.
+   FORM.PCEN = ""
+    form.pcashierno = ""
+    form.pemp1 = ""
+    form.pf1name = ""
+    FORM.PSERVED = ""
+   FORM.PSTO = ""
+   form.pclass = ""
+   FORM.PTYP = ""
+   form.pcard = "B/V"
+   form.ptypname = ""
+   form.pclaname = ""
+   form.pcodname = ""
+   form.pcod = ""
+   form.pf1dr = "No"
+    form.poff = ""
+    form.poffname = ""
+   FORM.PCLA = ""
+      set skip to                     &&
+      set exact off                   && the .qbe file contains SET EXACT ON
+
+      set procedure to Sampproc.prg additive
+
+      form.inEditMode = .F.           && indicator of view/edit state
+      form.changesMade = .F.          && indicator of changes made to field values
+      form.previousRecord = .F.       && Save record number when appending
+      form.pspdiv = "1"
+      form.pspdivname = "Depot"
+      *** do calculations in another area so form doesn't get updated
+           select apdrcrs
+      set order to grn_no
+
+
+          local lmax
+
+      ***
+           select fgmast
+      set order to mkey
+      select fgcod
+      set order to mkey
+       select apdrcrsL
+       go top
+       if eof()
+       append blank
+       endif
+         select apdrcrln3
+       set order to grn_no
+   form.pserialno = ""
+   SELECT fgmastp
+   SET ORDER TO NAME
+          select apdrcrs
+          go top
+       select apdrcrs
+      set relation to grn_no into apdrcrln2 constrain integrity additive
+
+      ***
+
+
+   endif
+   form::Open()
+   shell(.F.)
+
+
+
+   ****************************************************************************
+
+   procedure OnClose
+   ****************************************************************************
+   *  form.CheckCommit(form.inEditMode)
+      if form.inEditMode
+      form.ViewEdit()
+   endif
+          && Close customer form if it exists
+                                              && leave shell(.F.)
+        shell(.f.)
+   *  endif
+   close procedure SampProc.prg
+    if .not. empty(apdrcrs->GRN_no)
+   select apdrcrup
+   seek apdrcrs->GRN_no+dtos(apdrcrs->GRN_date)
+   if found() .and. .not. empty(post_date)
+   select apdrcrs
+   replace post_date with date()
+   endif
+   endif
+   COMMIT()
+   close databases
+      do appdrcrs.prg
+      form.close()
+   close databases
+     ****************************************************************************
+
+
+   procedure ChangesMade
+
+   * Indicate that changes have been made to current record.
+   ****************************************************************************
+
+   form.changesMade = .T.
+
+   ****************************************************************************
+
+   procedure BrowseChangesMade
+   ****************************************************************************
+   local t,t2,t3,t4,T5,T6,t7,t8,t9,t10
+     if form.changesmade = .t.
+   select apdrcrln
+   IF .NOT. EOF()
+   *  form.changesMade = .T.
+     go recno("apdrcrln") in apdrcrln    && Make sure change is posted
+
+   select apdrcrln2  && recalculate totals in other workarea
+   calculate sum(apdrcrln2->total),SUM(apdrcrln2->TAX_AMT),;
+   SUM(apdrcrln2->GROSS_AMT), SUM(apdrcrln2->qty) to t,T2,T3,t4
+   calculate sum(apdrcrln2->qty) to t7 for left(typ,1) = "1" && beers
+   calculate sum(apdrcrln2->qty) to t8 for left(typ,1) = "2" && UDVs
+   calculate sum(apdrcrln2->qty) to t9 for typ = "90" .and. cla = "20" && cases
+   calculate sum(apdrcrln2->qty) to t10 for typ = "90" .and. cla = "10" && shells
+   select apdrcrs
+   replace apdrcrs->total with t
+   REPLACE grn_tax WITH T2
+   REPLACE GROSS_AMT WITH T3
+   replace grn_qty with t4
+   replace total_beer with t7
+   replace total_udv with t8
+   replace total_case with t9
+   replace total_shel with t10
+     ENDIF
+      select apdrcrsl
+    replace grn_no with apdrcrs->grn_no
+    replace grn_date with apdrcrs->grn_date
+     SELECT apdrcrs
+   endif
+
+   procedure Next
+   ****************************************************************************
+
+   form.CheckCommit(form.inEditMode)
+    if .not. empty(apdrcrs->GRN_NO)
+   select apdrcrup
+   seek apdrcrs->GRN_NO+dtos(apdrcrs->GRN_DATE)
+   if found() .and. .not. empty(post_date)
+   select apdrcrs
+   replace post_date with date()
+   flush
+   endif
+   endif
+   form.root.order.viewEdit.enabled = .t.
+    form.root.order.ADDorder.enabled = .t.
+    form.root.order.ADDline.enabled = .t.
+
+   select apdrcrs
+
+   if .not. eof()
+      NEXTBUTTON::OnClick()
+   endif
+   form.root.file.exit.enabled =   .t.
+
+   ****************************************************************************
+
+   procedure Previous
+   ****************************************************************************
+
+   form.CheckCommit(form.inEditMode)
+    if .not. empty(apdrcrs->GRN_NO)
+   select apdrcrup
+   seek apdrcrs->GRN_NO+dtos(apdrcrs->GRN_DATE)
+   if found() .and. .not. empty(post_date)
+   select apdrcrs
+   replace post_date with date()
+   flush
+   endif
+   endif
+   form.root.order.viewEdit.enabled = .t.
+    form.root.order.ADDorder.enabled = .t.
+    form.root.order.ADDline.enabled = .t.
+
+   select apdrcrs
+   if .not. bof()
+   PREVBUTTON::OnClick()
+   endif
+     form.root.file.exit.enabled =   .t.
+    ****************************************************************************
+
+   procedure CheckCommit (newInEditMode)
+
+    * Finish transaction, if it has been started.
+    ****************************************************************************
+    private orderField, changesMade,prcoy,prdiv,prcen,prsto,prtyp,prcla,prcod,prqty,;
+    pcoy,pdiv,pcen,psto,ptyp,pcla,pcod
+
+
+    changesMade = form.changesMade
+     if form.changesMade
+       orderField = field(1)                  && Field GRN_NO
+            commit()
+            on error DO ddeerr WITH ERROR(), MESSAGE(),;
+   PROGRAM(), LINENO()
+
+       if form.inEditMode .and. newInEditMode
+          begintrans()
+               on error DO transerr WITH ERROR(), MESSAGE(),;
+   PROGRAM(), LINENO()
+       endif
+       form.changesMade = .F.
+    endif
+
+
+    if form.inEditMode <> newInEditMode
+       if newInEditMode                       && Going to Edit mode
+          begintrans()
+            on error DO transerr WITH ERROR(), MESSAGE(),;
+   PROGRAM(), LINENO()
+       else                                   && Going to View mode
+          if .not. changesMade
+             rollback()
+            on error   DO ddeerr WITH ERROR(), MESSAGE(),;
+   PROGRAM(), LINENO()
+          endif
+       endif
+       form.inEditMode = newInEditMode
+    endif
+
+
+
+    select apdrcrs
+    ****************************************************************************
+
+   procedure ViewEdit
+   ****************************************************************************
+   local inEditMode, control, editMenu
+
+   editMenu = form.root.ORDER.viewEdit
+   *** If editing is completed, close transaction, otherwise open a transaction
+   if form.inEditMode                           && Change to View mode
+      form.checkChanged(.F.)
+      editMenu.text = "&Edit"
+      editMenu.shortcut = "Ctrl-E"
+      editMenu.statusMessage = "Edit data."
+      *form.root.order.deleteorder.enabled = .F.      && disabled in view mode
+      form.root.order.deleteline.enabled = .F.
+      form.CheckCommit(.F.)                     && Check transaction and
+      form.text = "VENDOR DEBIT/CREDIT NOTE -- View Mode"         && change mode to View
+      form.childBrowse.modify = .F.
+      form.statusMessage = "Select Purchase/Receive - Edit menu choice to " +;
+                           "edit/delete data."
+   else                                         && Change to Edit mode
+      editMenu.text = "&View"
+      editMenu.shortcut = "Ctrl-E"
+      editMenu.statusMessage = "View data."
+         *form.root.order.deleteorder.enabled = .F.      && enabled in edit mode
+        form.root.order.deleteline.enabled = .t.
+      form.CheckCommit(.T.)                     && Check transaction and
+      form.text = "VENDOR DEBIT/CREDIT NOTE -- Edit Mode"         && change mode to Edit
+      form.childBrowse.modify = .F.
+      form.statusMessage = "In Edit Mode.  " +;
+                           "Select Purchase/Receive - View menu choice to switch " +;
+                           "to View mode."
+   endif
+   control = form.first
+   inEditMode = form.inEditMode    && so don't have to reference many times
+   do
+      do case
+         case control.name $ "ORDERNOENTRY,cno,TOTINVENTRY,BALDUEENTRY"
+            control.enabled = .F.
+         case .not. control.className $ "BROWSE,NEXTBUTTON,PREVBUTTON,PUSHBUTTON,IMAGE,TEXT"
+            control.enabled = inEditMode
+         case control.className = "BROWSE"
+            control.Modify = inEditMode
+            control.Delete = inEditMode
+            control.Append = inEditMode
+      endcase
+      control = control.before
+   until control.name = form.first.name
+   form.OrderNoEntry.enabled = .F.          && Key field is always disabled
+   form.childBrowse.modify = .F.
+   form.childBrowse.append = .F.
+   form.soamt.enabled = .f.
+   form.childBrowse.delete = .F.
+   form.SGROSSAMT.enabled = .f.
+   form.staxamt.enabled = .f.
+   FORM.CHILDBROWSE.MODIFY = .F.
+    **form.sitem.enabled = .f.
+     * form.stdate.enabled =.f.
+      * form.endate.enabled =.f.
+       form.SALEDATESPIN.ENABLED = .F.
+      form.saccdate.enabled = .f.
+
+   procedure CheckChanged(callCommit)
+
+   * Check if changes have been made to the current entryfield.  This procedure
+   * is called from menu routines to make sure the form.changesMade gets
+   * updated when a menu is selected while the changed control has focus.
+   ****************************************************************************
+   private control, fieldValue, controlValue, typeText, typeValue
+
+   if form.inEditMode
+      control = form.activeControl
+      if type("control.datalink") <> "U"
+         fieldValue = control.datalink          && name of table field
+
+         typeText = type("control.text")
+         typeValue = type("control.value")
+         do case
+            case typeValue = "C"
+               controlValue = control.value
+            case typeValue $ "LU" .and. typeText = "C"
+               controlValue = control.text
+            otherwise
+               controlValue = Null
+         endcase
+         if controlValue <> &fieldValue
+            form.changesMade = .T.
+         endif
+      endif
+   endif
+   if form.changesMade .and. callCommit
+      CLASS::CheckCommit(form.inEditMode)     && Check transactions
+   endif
+
+
+
+      Procedure Go_last
+      form.CheckCommit(form.inEditMode)
+       if .not. empty(apdrcrs->GRN_NO)
+   select apdrcrup
+   seek apdrcrs->GRN_NO+dtos(apdrcrs->GRN_DATE)
+   if found() .and. .not. empty(post_date)
+   select apdrcrs
+   replace post_date with date()
+   flush
+   endif
+   endif
+   form.root.order.viewEdit.enabled = .t.
+    form.root.order.ADDorder.enabled = .t.
+    form.root.order.ADDline.enabled = .t.
+
+   select apdrcrs
+      go bottom
+   form.root.file.exit.enabled =   .t.
+
+     Procedure Go_Top
+     form.CheckCommit(form.inEditMode)
+      if .not. empty(apdrcrs->GRN_NO)
+   select apdrcrup
+   seek apdrcrs->GRN_NO+dtos(apdrcrs->GRN_DATE)
+   if found() .and. .not. empty(post_date)
+   select apdrcrs
+   replace post_date with date()
+   flush
+   endif
+   endif
+   form.root.order.viewEdit.enabled = .t.
+      form.root.order.ADDorder.enabled = .t.
+    form.root.order.ADDline.enabled = .t.
+
+   select apdrcrs
+     go top
+    form.root.file.exit.enabled =   .t.
+
+   Procedure Form_CanClose
+      RETURN IIF(form.changesmade = .F., .F., .T.)
+
+   Procedure SPROD_ONCHANGE
+         local l1,l2,l3,l4,l5,l6,l7,e1,L8,L9,L10,L11,L12,L13,L14,lprice,lcost,l31
+              e1 = .f.
+      IF .NOT. EMPTY(apdrcrln->grn_stk_no)
+    select fgmastp
+   seek this.value
+      form.changesmade = .t.
+            select apdrcrln
+            replace name with this.value
+
+                l1 = fgmastp->COY
+               l2 = fgmastp->DIV
+               l3 = fgmastp->CEN
+
+              l31 = fgmastp->sto
+               l5 = fgmastp->TYP
+               l6 = fgmastp->CLA
+               l7 = fgmastp->COD
+       replace qty with 0
+        replace LIST_PRICE with 0
+        replace total with 0
+         replace disc_amt with 0
+        REPLACE GROSS_AMT WITH 0
+        replace levy_amt with 0
+         replace tax_amt with 0
+        replace basic_amt with 0
+        replace items_unit with 0
+       replace  net_price with 0
+       replace  pdisc_rate with 0
+       replace  cdisc_rate with 0
+               select fgcod
+               seek l5+l6+l7
+               select fgtaxtyp
+               seek fgcod->tax_type
+
+           lcost = fgcod->cost_price
+               select apdrcrln
+               replace apdrcrln->cod with L7
+                replace LIST_PRICE with lcost
+                replace net_price with list_price
+           REPLACE COY WITH fgmastp->COY
+           REPLACE DIV WITH fgmastp->DIV
+           REPLACE CEN WITH fgmastp->CEN
+            REPLACE sto WITH fgmastp->sto
+           REPLACE TYP WITH fgmastp->TYP
+           REPLACE CLA WITH fgmastp->CLA
+           REPLACE COD WITH fgmastp->COD
+           REPLACE TAX_RATE WITH fgcod->vat
+           replace items_unit with fgcod->volume
+           select fgmast
+           seek apdrcrln->coy+apdrcrln->div+apdrcrln->cen+apdrcrln->sto+;
+           apdrcrln->typ+apdrcrln->cla+apdrcrln->cod
+
+   ENDIF
+     select apdrcrs
+
+
+
+   Procedure SOFF_ONCHANGE
+         local l1,l2
+         l1 = this.value
+         select fgoffs
+         seek l1
+         if found()
+          select apdrcrs
+          replace offname with this.value
+         replace grn_off with fgoffs->off
+         REPLACE CASHIER_NO WITH FGOFFS->CASHIER_NO
+         form.poff = grn_off
+         form.poffname = this.value
+         else
+         form.poff = ""
+         form.poffname = ""
+
+          endif
+            form.changesmade = .t.
+          select apdrcrs
+
+   Procedure SVENDOR_ONCHANGE
+         local l1,l2,l3,l4,l5,l6,l7,l8,l9,l10,l11,l12,l22
+         l1 = this.value
+            select Vennames
+            seek l1
+               if found()
+               l22 = .t.
+               else
+               l22 = .f.
+             endif
+             l1 = vsrce
+             l2 = vtyp
+             l3 = vpmod
+             l4 = vendor_n
+             if  empty(l1) .or. empty(l2) .or.  empty(l3) .or. empty(l4)
+             l22 = .f.
+             endif
+             select apdrcrs
+             replace vname with this.value
+             replace vsrce with l1
+             replace vtyp with l2
+             replace vpmod with l3
+             replace vendor_n with l4
+
+            form.changesmade = .t.
+
+
+    Procedure STAXRATE_OnChange
+          FORM.CHANGESMADE = .T.
+         select apdrcrln
+         replace tax_rate with this.value  && basic price
+         if  tax_rate < 0
+         replace tax_rate with 0
+         endif
+   replace tax_amt with net_PRICE * qty * tax_rate/100
+          replace total with net_PRICE * qty + tax_amt
+         replace gross_amt with total - tax_amt
+
+           select apdrcrs
+      FORM.BrowseChangesMade()
+
+    PROCEDURE CHANGE_INV_NO
+   SELECT apdrcrs
+   REPLACE INV_NO WITH THIS.VALUE
+   FORM.CHANGESMADE = .T.
+
+     procedure change_stotal
+        local l1,l2,l3,l4
+           select apdrcrln
+           if apdrcrs->pay_method = "Debitnote" .and.  THIS.VALUE < 0
+      InformationMessage("Amount Out Of Range", "Sorry!")
+      form.stotal.value = 0
+      ENDIF
+
+           if apdrcrs->pay_method = "Creditnote" .and.  THIS.VALUE > 0
+      InformationMessage("Amount Out Of Range", "Sorry!")
+      form.stotal.value = 0
+      ENDIF
+
+           l1 = qty
+           l2 = tax_rate
+           replace total with this.value
+           replace tax_amt with total/(tax_rate+100)*tax_rate
+           replace gross_amt with total - tax_amt
+           if .not. qty = 0
+           replace list_price with gross_amt/qty
+           else
+           replace list_price with 0
+           endif
+           form.changesmade = .t.
+       FORM.BrowseChangesMade()
+
+           select apdrcrs
+
+              Procedure INVTOT_OnChange
+      FORM.CHANGESMADE = .T.
+       select apdrcrln
+       replace all total with 0
+       replace all gross_amt with 0
+       replace all tax_amt with 0
+      select apdrcrs
+      replace total with 0
+      replace supply_amt with this.value
+      if this.value < 0
+      replace pay_method with "Creditnote"
+      else
+      replace pay_method with "Debitnote"
+      endif
+
+   Procedure SPERIOD_OnChange
+      select FGLPRDS
+      seek this.value
+      if found()
+         select apdrcrs
+         replace period with this.value
+         replace start_date with fglprds->start_date
+         replace end_date with fglprds->end_date
+         else
+           select apdrcrs
+         replace period with ""
+         replace start_date with {}
+         replace end_date with {}
+
+    endif
+    form.changesmade =.t.
+
+
+    Procedure SPAY_OnGotFocus
+         form.changesmade = .t.
+
+   Procedure SINV_OnGotFocus
+    form.changesmade = .t.
+
+   Procedure SCRT_OnGotFocus
+    form.changesmade = .t.
+
+   Procedure SVOLD_OnGotFocus
+    form.changesmade = .t.
+
+   Procedure SPC_OnGotFocus
+    form.changesmade = .t.
+
+   Procedure SOC_OnGotFocus
+    form.changesmade = .t.
+
+   Procedure SADJ_OnGotFocus
+    form.changesmade = .t.
+
+
+ENDCLASS

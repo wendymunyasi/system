@@ -1,0 +1,84 @@
+* Visual dBASE .QBE file 9
+close databases
+use  \kenservice\data\st15f.dbf
+set order to mkey
+go top
+pcen = cen
+ptyp = typ
+pcla = cla
+pcod = cod
+psto = sto
+close databases
+on error do fghqs.prg
+USE \KENSERVICE\DATA\fgvisnos.dbf
+? system
+ON ERROR DO QBEERR WITH ERROR(), MESSAGE(),;
+PROGRAM(), LINENO()
+CLOSE DATABASES
+SET EXACT ON
+*set exclusive on
+SELECT 1
+USE \KENSERVICE\DATA\artrecs.DBF ORDER TAG ORDER_NO
+delete all for empty(order_no)
+set filter to empty(post_date)
+SELECT 2
+USE \KENSERVICE\DATA\artrecln.DBF ORDER TAG ORDER_NO
+delete all for empty(order_no)
+set filter to empty(post_date)
+SELECT 7
+USE \KENSERVICE\DATA\FGOFFS.DBF ORDER TAG NAME
+set filter to .not. empty(shift_date) .and. .not. empty(Cashier_no) .and. empty(date_left)
+select 8
+if .not. file('\kenservice\data\fgregcds.dbf')
+use \kenserve\idssys\fgregcds.dbf
+copy stru to  \kenservice\data\fgregcds dbase prod
+endif
+use  \kenservice\data\fgregcds.dbf order tag mkey
+set filter to empty(close_date)
+SELECT 3
+USE \KENSERVICE\DATA\FRIGTMES.DBF ORDER TAG NAME
+set filter to source = "5" .and. empty(close_Date)
+SELECT 1
+SET RELATION TO ORDER_NO INTO artrecln CONSTRAIN INTEGRITY
+SET SKIP TO artrecln
+SELECT 24
+USE \KENSERVICE\DATA\artrecsL.DBF
+**zap
+SET SKIP TO artrecln
+SELECT 25
+USE \KENSERVICE\DATA\artrecs.DBF AGAIN alias artrecs3
+SET SKIP TO artrecln
+SELECT 70
+set safety off
+use \kenserve\idssys\st15f.dbf
+copy stru to \kenservice\data\st15frec dbase prod
+use \kenservice\data\st15frec.dbf exclusive alias st15f
+appe from \kenservice\data\st15f.dbf for cen = pcen .and. typ = ptyp .and. cod = pcod .and. sto = psto
+SET SKIP TO artrecln
+SELECT 93
+USE \KENSERVICE\DATA\FGCOY.DBF
+SET SKIP TO artrecln
+select 101
+USE \KENSERVICE\DATA\artrecln.DBF again alias artrecln3
+select 102
+USE \KENSERVICE\DATA\artrecln.DBF again alias artrecln2 order tag order_no
+select 126
+use \kenservice\data\artrecup.dbf
+delete all for empty(order_no)
+set filter to .not. empty(post_date)
+ select 128
+ if .not. file('\kenservice\data\artrecsn.dbf')
+ use \kenserve\idssys\artrecsn.dbf
+ copy stru to \kenservice\data\artrecsn dbase prod
+ endif
+ use \kenservice\data\artrecsn.dbf
+  SELECT 134
+ if .not. file("\kenservice\data\FGVISNOS.dbf")
+use  \kenserve\idssys\FGVISNOS.dbf
+copy stru to \kenservice\data\FGVISNOS dbase prod
+endif
+use \kenservice\data\FGVISNOS.dbf
+SELECT 135
+USE \KENSERVICE\DATA\FRIGTMES.DBF AGAIN ALIAS FRIGTMES2
+SELECT 1
+GO TOP

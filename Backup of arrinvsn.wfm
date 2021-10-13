@@ -1,0 +1,2357 @@
+////////////////////////////////////////////////////////////////////////////////
+// Output Filename: C:\KENSERVICE\IDSSYS\ARRINVSN_FCV.WFM                     //
+// Created By:      dBASE Form Converter Wizard                               //
+// Created On:      Saturday June 18, 2016 At 19:30:08                        //
+// Object Count:    72                                                        //
+////////////////////////////////////////////////////////////////////////////////
+*  PROGRAM:      ARRINVSN.WFM
+*  WRITTEN BY:   W Nyongesa
+*  DATE:         10/2003
+*
+*  UPDATED:      04/2015
+*
+*  REVISION:     $Revision:   1.97  $
+*
+*  VERSION:      Visual dBASE
+*
+*  DESCRIPTION:  This form displays information about an order from a company.
+*                It allows traversing through ARRINVS and going to the top and
+*                bottom.  This form also has a corresponding menu, OrdCust.mnu,
+*                which allows adding,deleting and searching for an order.
+*                When an unknown customer number is entered, a dialog will come
+*                up asking you if you want to add a new customer.  If you
+*                selecte the Yes button, the customer form (in stcusj.Wfm)
+*                will be opened, so a new customer can be added.
+*
+*  PARAMETERS:   None
+*
+*  CALLS:        ARRINVS.mnu       (Menu file)
+*                Buttons.cc       (Custom controls file)
+*                stcusj.Wfm     (Form for displaying customer information)
+*                ARRINVS.qbe       (View of tables)
+*
+*  USAGE:        DO ARRINVSN.WFM    && Note that you can also DO stcusj.Wfm
+*
+*******************************************************************************
+#include <Messdlg.h>
+shell(.F.)
+create session
+set talk off
+*ET DESIGN OFF
+*if .not. FORM.BLUSER = "WYCLIFFE"
+_app.FrameWin.Visible = .F.
+set design off
+*ENDIF
+_app.FrameWin.Text = "ARRINVSN"
+set ldCheck off                        && To avoid language driver conflicts
+*SET DBTYPE TO PARADOX
+SET CUAENTER OFF
+** END HEADER -- do not remove this line
+//
+// Generated on 19/06/2016
+//
+parameter bUser,bLevel,bModal
+local f
+f = new ARRINVSFORM()
+if (bModal)
+   f.mdi = false // ensure not MDI
+   f.readModal()
+else
+   f.open()
+endif
+
+class ARRINVSFORM of FORM
+set procedure to buttons.cc additive
+   with (this)
+      canClose = class::FORM_CANCLOSE
+      onClose = class::ONCLOSE
+      open = class::OPEN
+      metric = 6	// Pixels
+      colorNormal = "n+"
+      height = 932.0
+      left = 0.0
+      top = 3.0
+      width = 1296.0
+      text = "REVERSE INVOICES (NEXT SHIFT) -- View Mode"
+      windowState = 2	// Maximized
+      mdi = false
+      sizeable = false
+      moveable = false
+      view = "ARRINVSN.QBE"
+      menuFile = "ARRINVS.MNU"
+      escExit = false
+      mousePointer = 1	// Arrow
+      maximize = false
+      minimize = false
+   endwith
+
+   this.TEXT9 = new TEXTLABEL(this)
+   with (this.TEXT9)
+      height = 21.0
+      left = 0.0
+      top = 8.0
+      width = 48.0
+      text = "SNO:"
+      colorNormal = "0x400000/GB+"
+      fontName = "Verdana"
+      fontBold = true
+      borderStyle = 7	// Client
+      alignVertical = 1	// Middle
+      alignHorizontal = 1	// Center
+   endwith
+
+   this.ORDERNOENTRY = new ENTRYFIELD(this)
+   with (this.ORDERNOENTRY)
+      dataLink = "ARRINVS->ORDER_NO"
+      enabled = false
+      height = 21.0
+      left = 48.0
+      top = 8.0
+      width = 60.0
+      colorNormal = "0x400000/GB+"
+      colorHighLight = "GB+/W"
+      fontName = "MS Sans Serig"
+      fontBold = true
+   endwith
+
+   this.SDATE = new SPINBOX(this)
+   with (this.SDATE)
+      dataLink = "ARRINVS->order_date"
+      enabled = false
+      height = 21.0
+      left = 120.0
+      top = 8.0
+      width = 120.0
+      colorNormal = "N/0xffff80"
+      colorHighLight = "W+/N"
+      rangeMax = {20/09/2009}
+      rangeMin = {12/06/2009}
+      fontName = "MS Sans Serif"
+      fontBold = true
+      validErrorMsg = "Date out of Range"
+   endwith
+
+   this.TEXT20 = new TEXTLABEL(this)
+   with (this.TEXT20)
+      height = 21.0
+      left = 252.0
+      top = 8.0
+      width = 108.0
+      text = "Inv Ref Info:"
+      colorNormal = "0x400000/W"
+      fontName = "Verdana"
+      fontBold = true
+      borderStyle = 7	// Client
+      alignVertical = 1	// Middle
+      alignHorizontal = 1	// Center
+   endwith
+
+   this.SMKEYREF = new COMBOBOX(this)
+   with (this.SMKEYREF)
+      onChange = class::SMKEYREF_ONCHANGE
+      dataLink = "ARRINVS->MKEYREF"
+      enabled = false
+      height = 24.0
+      left = 360.0
+      top = 8.0
+      width = 204.0
+      fontName = "MS Sans Serif"
+      fontBold = true
+      colorNormal = "0xffff80/0x808040"
+      dataSource = "FIELD FGTRNREF->MKEY"
+      mousePointer = 1	// Arrow
+      style = 1	// DropDown
+      dropDownHeight = 132.0
+   endwith
+
+   this.SREF = new ENTRYFIELD(this)
+   with (this.SREF)
+      dataLink = "ARRINVS->MKEYREF"
+      enabled = false
+      height = 21.0
+      left = 564.0
+      top = 8.0
+      width = 192.0
+      function = "!"
+      colorNormal = "G+/B"
+      colorHighLight = "GB+/W"
+      fontName = "MS Sans Serig"
+      fontBold = true
+   endwith
+
+   this.TEXT8 = new TEXTLABEL(this)
+   with (this.TEXT8)
+      height = 21.0
+      left = 0.0
+      top = 34.0
+      width = 90.0
+      text = "Officer:"
+      colorNormal = "0x400000/W"
+      fontName = "Verdana"
+      fontBold = true
+      borderStyle = 7	// Client
+      alignVertical = 1	// Middle
+      alignHorizontal = 1	// Center
+   endwith
+
+   this.SAUTH = new COMBOBOX(this)
+   with (this.SAUTH)
+      onChange = class::SAUTH_ONCHANGE
+      dataLink = "ARRINVS->offname"
+      enabled = false
+      height = 24.0
+      left = 96.0
+      top = 34.0
+      width = 204.0
+      fontName = "MS Sans Serif"
+      fontBold = true
+      colorNormal = "0xc08000/W"
+      dataSource = "FIELD fgoffs->NAME"
+      mousePointer = 1	// Arrow
+      style = 2	// DropDownList
+      dropDownHeight = 132.0
+   endwith
+
+   this.TEXT18 = new TEXTLABEL(this)
+   with (this.TEXT18)
+      height = 17.0
+      left = 300.0
+      top = 34.0
+      width = 48.0
+      text = "VAT:"
+      colorNormal = "0x404080/W"
+      fontName = "Verdana"
+      fontBold = true
+      borderStyle = 7	// Client
+      alignVertical = 1	// Middle
+      alignHorizontal = 1	// Center
+   endwith
+
+   this.SINCL = new RADIOBUTTON(this)
+   with (this.SINCL)
+      dataLink = "ARRINVS->VATPRICE"
+      enabled = false
+      height = 19.0
+      left = 348.0
+      top = 34.0
+      width = 84.0
+      text = "Inclusive"
+      fontName = "MS Sans Serif"
+      fontBold = true
+      group = true
+   endwith
+
+   this.SEXCL = new RADIOBUTTON(this)
+   with (this.SEXCL)
+      dataLink = "ARRINVS->VATPRICE"
+      enabled = false
+      height = 19.0
+      left = 432.0
+      top = 34.0
+      width = 84.0
+      text = "Exclusive"
+      fontName = "MS Sans Serif"
+      fontBold = true
+   endwith
+
+   this.TEXT22 = new TEXTLABEL(this)
+   with (this.TEXT22)
+      height = 21.0
+      left = 516.0
+      top = 34.0
+      width = 84.0
+      text = "Inv Total:"
+      colorNormal = "G+/0x400040"
+      fontName = "Verdana"
+      fontBold = true
+      borderStyle = 7	// Client
+      alignVertical = 1	// Middle
+      alignHorizontal = 1	// Center
+   endwith
+
+   this.SINVT = new ENTRYFIELD(this)
+   with (this.SINVT)
+      dataLink = "FGTRNREF->TOTAL"
+      enabled = false
+      height = 21.0
+      left = 612.0
+      top = 34.0
+      width = 144.0
+      picture = "99,999,999,999.99"
+      colorNormal = "G+/B"
+      colorHighLight = "GB+/W"
+      fontName = "MS Sans Serig"
+      fontBold = true
+   endwith
+
+   this.TEXT1 = new TEXTLABEL(this)
+   with (this.TEXT1)
+      height = 21.0
+      left = 0.0
+      top = 66.0
+      width = 90.0
+      text = "Customer:"
+      colorNormal = "0x400000/W"
+      fontName = "Verdana"
+      fontBold = true
+      borderStyle = 7	// Client
+      alignVertical = 1	// Middle
+      alignHorizontal = 1	// Center
+   endwith
+
+   this.SFRIGHTER = new ENTRYFIELD(this)
+   with (this.SFRIGHTER)
+      dataLink = "ARRINVS->CNAME"
+      enabled = false
+      height = 21.0
+      left = 96.0
+      top = 66.0
+      width = 300.0
+      function = "!"
+      colorNormal = "0xff80/0x408080"
+      colorHighLight = "W+/B"
+      fontName = "MS Sans Serif"
+      fontBold = true
+      validErrorMsg = "Invoice No. Required"
+   endwith
+
+   this.TEXT28 = new TEXTLABEL(this)
+   with (this.TEXT28)
+      height = 21.0
+      left = 408.0
+      top = 66.0
+      width = 60.0
+      text = "Veh.:"
+      colorNormal = "0x400000/W"
+      fontName = "Verdana"
+      fontBold = true
+      borderStyle = 7	// Client
+      alignVertical = 1	// Middle
+      alignHorizontal = 1	// Center
+   endwith
+
+   this.SVEH = new ENTRYFIELD(this)
+   with (this.SVEH)
+      dataLink = "ARRINVS->REG"
+      enabled = false
+      height = 21.0
+      left = 468.0
+      top = 66.0
+      width = 108.0
+      function = "!"
+      colorNormal = "B/BTNFACE"
+      colorHighLight = "W+/B"
+      fontName = "MS Sans Serif"
+      fontBold = true
+   endwith
+
+   this.TEXT6 = new TEXTLABEL(this)
+   with (this.TEXT6)
+      height = 21.0
+      left = 576.0
+      top = 66.0
+      width = 48.0
+      text = "Kms:"
+      colorNormal = "0x400000/W"
+      fontName = "Verdana"
+      fontBold = true
+      borderStyle = 7	// Client
+      alignVertical = 1	// Middle
+      alignHorizontal = 1	// Center
+   endwith
+
+   this.SMILE = new ENTRYFIELD(this)
+   with (this.SMILE)
+      dataLink = "ARRINVS->MILEAGE"
+      enabled = false
+      height = 21.0
+      left = 624.0
+      top = 66.0
+      width = 132.0
+      picture = "99999999.99"
+      colorNormal = "B/BTNFACE"
+      colorHighLight = "W+/B"
+      fontName = "MS Sans Serif"
+      fontBold = true
+   endwith
+
+   this.TEXT14 = new TEXTLABEL(this)
+   with (this.TEXT14)
+      height = 21.0
+      left = 0.0
+      top = 100.0
+      width = 60.0
+      text = "Order:"
+      colorNormal = "0x400000/W"
+      fontName = "Verdana"
+      fontBold = true
+      borderStyle = 7	// Client
+      alignVertical = 1	// Middle
+      alignHorizontal = 1	// Center
+   endwith
+
+   this.SLPO = new ENTRYFIELD(this)
+   with (this.SLPO)
+      dataLink = "ARRINVS->LPO"
+      enabled = false
+      height = 21.0
+      left = 60.0
+      top = 100.0
+      width = 96.0
+      function = "!"
+      colorNormal = "B/BTNFACE"
+      colorHighLight = "W+/B"
+      fontName = "MS Sans Serif"
+      fontBold = true
+   endwith
+
+   this.TEXT4 = new TEXTLABEL(this)
+   with (this.TEXT4)
+      height = 21.0
+      left = 168.0
+      top = 100.0
+      width = 72.0
+      text = "Inv No:"
+      colorNormal = "0x400000/W"
+      fontName = "Verdana"
+      fontBold = true
+      borderStyle = 7	// Client
+      alignVertical = 1	// Middle
+      alignHorizontal = 1	// Center
+   endwith
+
+   this.SERIALNOENTRY = new ENTRYFIELD(this)
+   with (this.SERIALNOENTRY)
+      dataLink = "ARRINVS->SERIALNO"
+      enabled = false
+      height = 21.0
+      left = 240.0
+      top = 100.0
+      width = 96.0
+      function = "!"
+      colorNormal = "B/BTNFACE"
+      colorHighLight = "W+/B"
+      fontName = "MS Sans Serif"
+      fontBold = true
+      validErrorMsg = "Invoice No. Required"
+   endwith
+
+   this.TEXT2 = new TEXTLABEL(this)
+   with (this.TEXT2)
+      height = 21.0
+      left = 396.0
+      top = 100.0
+      width = 72.0
+      text = "Dept:"
+      colorNormal = "0x400000/W"
+      fontName = "Verdana"
+      fontBold = true
+      borderStyle = 7	// Client
+      alignVertical = 1	// Middle
+      alignHorizontal = 1	// Center
+   endwith
+
+   this.SSHIPED = new ENTRYFIELD(this)
+   with (this.SSHIPED)
+      dataLink = "ARRINVS->PROFORMA"
+      enabled = false
+      height = 21.0
+      left = 468.0
+      top = 100.0
+      width = 60.0
+      function = "!"
+      colorNormal = "0xff80/0x408080"
+      colorHighLight = "W+/B"
+      fontName = "MS Sans Serif"
+      fontBold = true
+      validErrorMsg = "Invoice No. Required"
+   endwith
+
+   this.SRECINV = new RECTANGLE(this)
+   with (this.SRECINV)
+      left = 0.0
+      top = 128.0
+      width = 132.0
+      height = 44.0
+      text = "Trns Type"
+      colorNormal = "B+/W"
+      fontName = "MS Sans Serif"
+      fontSize = 8.0
+      fontBold = true
+   endwith
+
+   this.SITEM = new ENTRYFIELD(this)
+   with (this.SITEM)
+      dataLink = "arrinvln->STOCK_NO"
+      enabled = false
+      height = 21.0
+      left = 6.0
+      top = 145.0
+      width = 30.0
+      function = "99"
+      colorNormal = "B/BTNFACE"
+      colorHighLight = "W+/B"
+      fontName = "MS Sans Serif"
+      fontSize = 8.0
+      fontBold = true
+   endwith
+
+   this.SRINV = new RADIOBUTTON(this)
+   with (this.SRINV)
+      dataLink = "arrinvln->TRANTYPE"
+      enabled = false
+      height = 19.0
+      left = 48.0
+      top = 144.0
+      width = 72.0
+      text = "Invoice"
+      fontName = "MS Sans Serif"
+      fontBold = true
+      tabStop = false
+      group = true
+   endwith
+
+   this.TEXT13 = new TEXTLABEL(this)
+   with (this.TEXT13)
+      height = 21.0
+      left = 144.0
+      top = 128.0
+      width = 84.0
+      text = "Cashier:"
+      colorNormal = "0x400000/W"
+      fontName = "Verdana"
+      fontBold = true
+      borderStyle = 7	// Client
+      alignVertical = 1	// Middle
+      alignHorizontal = 1	// Center
+   endwith
+
+   this.SCASHIER = new COMBOBOX(this)
+   with (this.SCASHIER)
+      onChange = class::SCASHIER_ONCHANGE
+      dataLink = "arrinvln->OFFNAME"
+      enabled = false
+      height = 24.0
+      left = 240.0
+      top = 128.0
+      width = 192.0
+      fontName = "MS Sans Serif"
+      fontBold = true
+      colorNormal = "0xc08000/W"
+      dataSource = "FIELD FGOFFS3->NAME"
+      mousePointer = 1	// Arrow
+      style = 1	// DropDown
+      dropDownHeight = 132.0
+   endwith
+
+   this.STINV = new TEXTLABEL(this)
+   with (this.STINV)
+      height = 21.0
+      left = 0.0
+      top = 179.0
+      width = 120.0
+      text = "Item/Centre:"
+      colorNormal = "N/W"
+      fontName = "Verdana"
+      fontBold = true
+      borderStyle = 7	// Client
+      alignVertical = 1	// Middle
+      alignHorizontal = 1	// Center
+   endwith
+
+   this.SPINV = new COMBOBOX(this)
+   with (this.SPINV)
+      onChange = class::SPROD_ONCHANGE
+      dataLink = "arrinvln->name"
+      enabled = false
+      height = 24.0
+      left = 120.0
+      top = 179.0
+      width = 600.0
+      fontName = "MS Sans Serif"
+      fontSize = 11.0
+      colorNormal = "0x400040/W+"
+      dataSource = "FIELD fgmastp->name"
+      mousePointer = 1	// Arrow
+      style = 1	// DropDown
+      dropDownHeight = 132.0
+   endwith
+
+   this.TEXT24 = new TEXTLABEL(this)
+   with (this.TEXT24)
+      height = 21.0
+      left = 0.0
+      top = 213.0
+      width = 120.0
+      text = "Detail Line Qty:"
+      colorNormal = "G+/0x400040"
+      fontName = "Verdana"
+      fontBold = true
+      borderStyle = 7	// Client
+      alignVertical = 1	// Middle
+      alignHorizontal = 1	// Center
+   endwith
+
+   this.SDLQ = new ENTRYFIELD(this)
+   with (this.SDLQ)
+      dataLink = "ARRINVLN->BASIC_QTY"
+      enabled = false
+      height = 21.0
+      left = 120.0
+      top = 213.0
+      width = 96.0
+      picture = "99,999,999.99"
+      colorNormal = "G+/B"
+      colorHighLight = "GB+/W"
+      fontName = "MS Sans Serig"
+      fontBold = true
+   endwith
+
+   this.TEXT23 = new TEXTLABEL(this)
+   with (this.TEXT23)
+      height = 21.0
+      left = 588.0
+      top = 213.0
+      width = 84.0
+      text = "Net Total:"
+      colorNormal = "G+/0x400040"
+      fontName = "Verdana"
+      fontBold = true
+      borderStyle = 7	// Client
+      alignVertical = 1	// Middle
+      alignHorizontal = 1	// Center
+   endwith
+
+   this.SDLT = new ENTRYFIELD(this)
+   with (this.SDLT)
+      dataLink = "ARRINVLN->supply_AMT"
+      enabled = false
+      height = 21.0
+      left = 672.0
+      top = 213.0
+      width = 132.0
+      picture = "99,999,999,999.99"
+      colorNormal = "G+/B"
+      colorHighLight = "GB+/W"
+      fontName = "MS Sans Serig"
+      fontBold = true
+   endwith
+
+   this.TEXT16 = new TEXTLABEL(this)
+   with (this.TEXT16)
+      height = 21.0
+      left = 0.0
+      top = 247.0
+      width = 48.0
+      text = "Qty:"
+      colorNormal = "0x400000/W"
+      fontName = "Verdana"
+      fontBold = true
+      borderStyle = 7	// Client
+      alignVertical = 1	// Middle
+      alignHorizontal = 2	// Right
+   endwith
+
+   this.QTYENTRY = new ENTRYFIELD(this)
+   with (this.QTYENTRY)
+      onChange = class::QTYENTRY_ONCHANGE
+      dataLink = "arrinvln->QTY"
+      enabled = false
+      height = 21.0
+      left = 48.0
+      top = 247.0
+      width = 108.0
+      picture = "99,999,999.99"
+      colorNormal = "N/BtnFace"
+      colorHighLight = "W+/N+"
+      fontName = "MS Sans Serif"
+      fontBold = true
+      validErrorMsg = "Quantity Must Be Less than Zero"
+   endwith
+
+   this.TEXT17 = new TEXTLABEL(this)
+   with (this.TEXT17)
+      height = 21.0
+      left = 156.0
+      top = 247.0
+      width = 84.0
+      text = "List Price:"
+      colorNormal = "0x400000/W"
+      fontName = "Verdana"
+      fontBold = true
+      borderStyle = 7	// Client
+      alignVertical = 1	// Middle
+      alignHorizontal = 1	// Center
+   endwith
+
+   this.SPRICE = new ENTRYFIELD(this)
+   with (this.SPRICE)
+      dataLink = "arrinvln->LIST_PRICE"
+      enabled = false
+      height = 21.0
+      left = 246.0
+      top = 247.0
+      width = 90.0
+      picture = "9999,999.99"
+      colorNormal = "N/BtnFace"
+      colorHighLight = "W+/N+"
+      fontName = "MS Sans Serif"
+      fontBold = true
+   endwith
+
+   this.TEXT32 = new TEXTLABEL(this)
+   with (this.TEXT32)
+      height = 21.0
+      left = 336.0
+      top = 247.0
+      width = 96.0
+      text = "Basic Amt:"
+      colorNormal = "0x400000/W"
+      fontName = "Verdana"
+      fontBold = true
+      borderStyle = 7	// Client
+      alignVertical = 1	// Middle
+      alignHorizontal = 1	// Center
+   endwith
+
+   this.SBASIC = new ENTRYFIELD(this)
+   with (this.SBASIC)
+      onChange = class::SBASIC_ONCHANGE
+      dataLink = "arrinvln->BASIC_AMT"
+      enabled = false
+      height = 21.0
+      left = 432.0
+      top = 247.0
+      width = 132.0
+      picture = "9999,999,999.99"
+      colorNormal = "0x400000/W"
+      colorHighLight = "0xff0080/W"
+      fontName = "MS Sans Serif"
+      fontBold = true
+      validErrorMsg = "Amout Must Be Less than Zero"
+   endwith
+
+   this.TEXT25 = new TEXTLABEL(this)
+   with (this.TEXT25)
+      height = 21.0
+      left = 565.0
+      top = 247.0
+      width = 47.0
+      text = "Disc."
+      colorNormal = "0x400000/W"
+      fontName = "Verdana"
+      fontBold = true
+      borderStyle = 7	// Client
+      alignVertical = 1	// Middle
+      alignHorizontal = 2	// Right
+   endwith
+
+   this.STAMT = new ENTRYFIELD(this)
+   with (this.STAMT)
+      dataLink = "arrinvln->disc_amt"
+      enabled = false
+      height = 21.0
+      left = 612.0
+      top = 247.0
+      width = 132.0
+      picture = "999,999,999.99"
+      colorNormal = "0x400000/W"
+      colorHighLight = "0xff0080/W"
+      fontName = "MS Sans Serif"
+      fontBold = true
+      validErrorMsg = "Amout Must Be Less than Zero"
+   endwith
+
+   this.TEXT12 = new TEXTLABEL(this)
+   with (this.TEXT12)
+      height = 21.0
+      left = 0.0
+      top = 272.0
+      width = 48.0
+      text = "Disc.:"
+      colorNormal = "0x400000/W"
+      fontName = "Verdana"
+      fontBold = true
+      borderStyle = 7	// Client
+      alignVertical = 1	// Middle
+      alignHorizontal = 1	// Center
+   endwith
+
+   this.SDISCRATE = new ENTRYFIELD(this)
+   with (this.SDISCRATE)
+      dataLink = "arrinvln->DISC_RATE"
+      visible = false
+      enabled = false
+      height = 21.0
+      left = 48.0
+      top = 272.0
+      width = 42.0
+      picture = "99.99"
+      function = "999.99"
+      colorNormal = "N/BtnFace"
+      colorHighLight = "W+/N+"
+      fontName = "MS Sans Serif"
+      fontBold = true
+   endwith
+
+   this.SDISCAMT = new ENTRYFIELD(this)
+   with (this.SDISCAMT)
+      dataLink = "arrinvln->DISC_AMT"
+      enabled = false
+      height = 21.0
+      left = 90.0
+      top = 272.0
+      width = 138.0
+      picture = "99999,999,999.99"
+      colorNormal = "0x400000/W"
+      colorHighLight = "GB+/W"
+      fontName = "MS Sans Serif"
+      fontBold = true
+   endwith
+
+   this.TEXT31 = new TEXTLABEL(this)
+   with (this.TEXT31)
+      height = 21.0
+      left = 228.0
+      top = 272.0
+      width = 60.0
+      text = "Gross:"
+      colorNormal = "0x400000/GB+"
+      fontName = "Verdana"
+      fontBold = true
+      borderStyle = 7	// Client
+      alignVertical = 1	// Middle
+      alignHorizontal = 1	// Center
+   endwith
+
+   this.SGROSS = new ENTRYFIELD(this)
+   with (this.SGROSS)
+      dataLink = "arrinvln->gross_AMT"
+      enabled = false
+      height = 21.0
+      left = 288.0
+      top = 272.0
+      width = 144.0
+      picture = "99,999,999,999.99"
+      colorNormal = "0x400000/GB+"
+      colorHighLight = "GB+/W"
+      fontName = "MS Sans Serif"
+      fontBold = true
+   endwith
+
+   this.TEXT19 = new TEXTLABEL(this)
+   with (this.TEXT19)
+      height = 21.0
+      left = 432.0
+      top = 272.0
+      width = 48.0
+      text = "VAT:"
+      colorNormal = "0x400000/W"
+      fontName = "Verdana"
+      fontBold = true
+      borderStyle = 7	// Client
+      alignVertical = 1	// Middle
+      alignHorizontal = 2	// Right
+   endwith
+
+   this.STAXRATE = new ENTRYFIELD(this)
+   with (this.STAXRATE)
+      dataLink = "arrinvln->TAX_RATE"
+      enabled = false
+      height = 21.0
+      left = 480.0
+      top = 272.0
+      width = 24.0
+      picture = "99"
+      colorNormal = "N/BtnFace"
+      colorHighLight = "W+/N+"
+      fontName = "MS Sans Serif"
+      fontBold = true
+   endwith
+
+   this.STAXAMT = new ENTRYFIELD(this)
+   with (this.STAXAMT)
+      dataLink = "arrinvln->TAX_AMT"
+      enabled = false
+      height = 21.0
+      left = 504.0
+      top = 272.0
+      width = 108.0
+      picture = "99,999,999.99"
+      colorNormal = "0x400000/W"
+      colorHighLight = "GB+/W"
+      fontName = "MS Sans Serif"
+      fontBold = true
+   endwith
+
+   this.TEXT11 = new TEXTLABEL(this)
+   with (this.TEXT11)
+      height = 21.0
+      left = 612.0
+      top = 272.0
+      width = 48.0
+      text = "Total:"
+      colorNormal = "0x400000/GB+"
+      fontName = "Verdana"
+      fontBold = true
+      borderStyle = 7	// Client
+      alignVertical = 1	// Middle
+      alignHorizontal = 1	// Center
+   endwith
+
+   this.STOTAL = new ENTRYFIELD(this)
+   with (this.STOTAL)
+      dataLink = "arrinvln->TOTAL"
+      enabled = false
+      height = 21.0
+      left = 660.0
+      top = 272.0
+      width = 144.0
+      picture = "99,999,999,999.99"
+      colorNormal = "0x400000/GB+"
+      colorHighLight = "GB+/W"
+      fontName = "MS Sans Serif"
+      fontBold = true
+   endwith
+
+   this.TEXT10 = new TEXTLABEL(this)
+   with (this.TEXT10)
+      height = 21.0
+      left = 0.0
+      top = 498.0
+      width = 48.0
+      text = "DT:"
+      colorNormal = "0x400000/GB+"
+      fontName = "Verdana"
+      fontBold = true
+      borderStyle = 7	// Client
+      alignVertical = 1	// Middle
+      alignHorizontal = 1	// Center
+   endwith
+
+   this.TEXT3 = new TEXTLABEL(this)
+   with (this.TEXT3)
+      height = 21.0
+      left = 48.0
+      top = 498.0
+      width = 72.0
+      text = "DSC:"
+      colorNormal = "0x400000/GB+"
+      fontName = "Verdana"
+      fontBold = true
+      borderStyle = 7	// Client
+      alignVertical = 1	// Middle
+      alignHorizontal = 1	// Center
+   endwith
+
+   this.SOQTY = new ENTRYFIELD(this)
+   with (this.SOQTY)
+      dataLink = "ARRINVS->DSC"
+      enabled = false
+      height = 21.0
+      left = 120.0
+      top = 498.0
+      width = 144.0
+      picture = "99,999,999,999.99"
+      colorNormal = "0x400000/GB+"
+      colorHighLight = "GB+/W"
+      fontName = "MS Sans Serig"
+      fontBold = true
+   endwith
+
+   this.TEXT7 = new TEXTLABEL(this)
+   with (this.TEXT7)
+      height = 21.0
+      left = 278.0
+      top = 498.0
+      width = 90.0
+      text = "Invoice:"
+      colorNormal = "0x400000/GB+"
+      fontName = "Verdana"
+      fontBold = true
+      borderStyle = 7	// Client
+      alignVertical = 1	// Middle
+      alignHorizontal = 1	// Center
+   endwith
+
+   this.SOAMT = new ENTRYFIELD(this)
+   with (this.SOAMT)
+      dataLink = "ARRINVS->INVTOTAL"
+      enabled = false
+      height = 21.0
+      left = 378.0
+      top = 498.0
+      width = 138.0
+      picture = "99,999,999,999.99"
+      colorNormal = "0x400000/GB+"
+      colorHighLight = "GB+/W"
+      fontName = "MS Sans Serig"
+      fontBold = true
+   endwith
+
+   this.TEXT15 = new TEXTLABEL(this)
+   with (this.TEXT15)
+      height = 21.0
+      left = 532.0
+      top = 498.0
+      width = 126.0
+      text = "Running Total:"
+      colorNormal = "0x400000/GB+"
+      fontName = "Verdana"
+      fontBold = true
+      borderStyle = 7	// Client
+      alignVertical = 1	// Middle
+      alignHorizontal = 1	// Center
+   endwith
+
+   this.SHASH = new ENTRYFIELD(this)
+   with (this.SHASH)
+      dataLink = "ARRINVS->TOTAL"
+      enabled = false
+      height = 21.0
+      left = 660.0
+      top = 498.0
+      width = 156.0
+      picture = "99,999,999,999.99"
+      colorNormal = "0x400000/GB+"
+      colorHighLight = "GB+/W"
+      fontName = "MS Sans Serig"
+      fontBold = true
+   endwith
+
+   this.CHILDBROWSE = new BROWSE(this)
+   with (this.CHILDBROWSE)
+      colorNormal = "0x8000ff/0xffff80"
+      colorHighLight = "R/BTNFACE"
+      fontName = "MS Sans Serif"
+      fontSize = 9.0
+      height = 170.0
+      left = 0.0
+      top = 306.0
+      width = 987.0
+      append = false
+      alias = "arrinvln"
+      fields = 'arrinvln->STOCK_NO\H="No"\4\P="99"\R\C="n/w",fgcods->NAME\H="Description"\23\R\C="n/w",Centre = arrinvln->COY+arrinvln->div+arrinvln->cen\H="Centre"\8,arrinvln->QTY\H="Qty"\10\P="9,999,999.99"\R\C="n/w",arrinvln->SALE_PRICE\H="Price"\10\P="999,999.99"\R\C="n/w",ARRINVLN->BASIC_AMT\H="Basic"\12\P="99,999,999,999.99"\R,ARRINVLN->DISC_AMT\H="Disc."\12\P="999,999,999.99"\R,arrinvln->GROSS_AMT\H="Gross"\12\P="99,999,999,999.99"\R\C="n/w",arrinvln->TAX_AMT\H="VAT"\12\P="999,999,999.99"\R\C="n/w",arrinvln->TOTAL\H="Nett"\13\P="99,999,999,999.99"\R\C="0x404080/W",shift = dtos(arrinvln->shift_date)+" "+arrinvln->shift_no+" "+arrinvln->shift_id\H="FC Shift "\10\C="n/w"'
+      delete = false
+      modify = false
+      showDeleted = false
+      showRecNo = false
+      text = "DETAIL LINES"
+      scrollBar = 1	// On
+   endwith
+
+   this.TEXT26 = new TEXTLABEL(this)
+   with (this.TEXT26)
+      height = 21.0
+      left = 144.0
+      top = 153.0
+      width = 144.0
+      text = "Item DL No.:"
+      colorNormal = "G+/0x400040"
+      fontName = "Verdana"
+      fontBold = true
+      borderStyle = 7	// Client
+      alignVertical = 1	// Middle
+      alignHorizontal = 1	// Center
+   endwith
+
+   this.SDL = new ENTRYFIELD(this)
+   with (this.SDL)
+      onChange = class::SDL_ONCHANGE
+      dataLink = "fgstknos->stock_no"
+      enabled = false
+      height = 21.0
+      left = 300.0
+      top = 153.0
+      width = 48.0
+      picture = "99"
+      colorNormal = "G+/B"
+      colorHighLight = "GB+/W"
+      tabStop = false
+      fontName = "MS Sans Serig"
+      fontBold = true
+   endwith
+
+   this.TEXT27 = new TEXTLABEL(this)
+   with (this.TEXT27)
+      height = 21.0
+      left = 216.0
+      top = 213.0
+      width = 60.0
+      text = "Basic:"
+      colorNormal = "G+/0x400040"
+      fontName = "Verdana"
+      fontBold = true
+      borderStyle = 7	// Client
+      alignVertical = 1	// Middle
+      alignHorizontal = 1	// Center
+   endwith
+
+   this.SDBAS = new ENTRYFIELD(this)
+   with (this.SDBAS)
+      dataLink = "ARRINVLN->BAS_AMT"
+      enabled = false
+      height = 21.0
+      left = 276.0
+      top = 213.0
+      width = 132.0
+      picture = "999,999,999,999.99"
+      colorNormal = "G+/B"
+      colorHighLight = "GB+/W"
+      fontName = "MS Sans Serig"
+      fontBold = true
+   endwith
+
+   this.TEXT29 = new TEXTLABEL(this)
+   with (this.TEXT29)
+      height = 21.0
+      left = 408.0
+      top = 213.0
+      width = 48.0
+      text = "Disc.:"
+      colorNormal = "G+/0x400040"
+      fontName = "Verdana"
+      fontBold = true
+      borderStyle = 7	// Client
+      alignVertical = 1	// Middle
+      alignHorizontal = 1	// Center
+   endwith
+
+   this.SDDISC = new ENTRYFIELD(this)
+   with (this.SDDISC)
+      dataLink = "ARRINVLN->supply_qty"
+      enabled = false
+      height = 21.0
+      left = 456.0
+      top = 213.0
+      width = 132.0
+      picture = "99999,999,999.99"
+      colorNormal = "G+/B"
+      colorHighLight = "GB+/W"
+      fontName = "MS Sans Serig"
+      fontBold = true
+   endwith
+
+   this.PREVBUTTON = new PUSHBUTTON(this)
+   with (this.PREVBUTTON)
+      onClick = class::PREVIOUS
+      height = 26.0
+      left = 336.0
+      top = 550.0
+      width = 85.0
+      text = "&PREVIOUS"
+      fontName = "MS Sans Serif"
+      fontSize = 8.0
+      fontBold = true
+   endwith
+
+   this.NEXTBUTTON = new PUSHBUTTON(this)
+   with (this.NEXTBUTTON)
+      onClick = class::NEXT
+      height = 26.0
+      left = 427.0
+      top = 550.0
+      width = 85.0
+      text = "&NEXT"
+      fontName = "MS Sans Serif"
+      fontSize = 8.0
+      fontBold = true
+   endwith
+
+
+ procedure Open
+   ****************************************************************************
+   private orderNoField
+      on error DO ddeerr WITH ERROR(), MESSAGE(),;
+   PROGRAM(), LINENO()
+   FORM.BLUSER=BUSER
+   FORM.BLEVEL=BLEVEL
+   IF EMPTY(FORM.BLUSER) .OR. EMPTY(FORM.BLEVEL)
+      QUIT
+   ENDIF
+   FORM.PVATPRICE = "Inclusive"
+    FORM.Ppricemode = "Retail"
+    
+      select fgcoy
+   go top
+   if doc13  .and. .not. (form.blevel=3 .or. form.blevel = 2)
+   wait 'You Are Not Permitted to Reverse or Cancel an Invoice'
+   quit
+   endif
+      select ARRINVS
+      set relation to order_no into arrinvln2 constrain integrity additive
+     
+                  SET REPROCESS TO 10
+                    select fginvtrn
+    set order to mkey
+   select fgtrnref
+   set order to mkey
+   SELECT FGSTKNOS
+   GO TOP
+   IF EOF()
+   APPEND BLANK
+   ENDIF
+   REPLACE STOCK_NO WITH ""
+                                select arrinvsn
+    go top
+    if eof()
+    append blank
+    replace order_no with "0"
+    endif
+                                                select arrinvsp
+    set order to orderdate
+   
+                  select fgmastp
+                  if flock()
+                 
+                       set safety off
+             LOCAL LJCRS
+             LJCRS = .F.
+                  select arrinvln3
+                  set order to order_no
+                  GO TOP
+                  IF EOF()
+                  LJCRS = .T.
+                  ENDIF
+                  set order to order_no
+                  select ARRINVS3
+                  set order to order_no
+                  go bottom
+                  IF .NOT. EOF() .AND. LJCRS
+                  REPLACE SHID WITH ""
+                  REPLACE SHNO WITH ""
+                  REPLACE SHDATE WITH {}
+                  ENDIF
+                         SELECT FCCASHRS
+         set order to cashier
+        
+   select st15f
+   set order to mkey
+   select fgmast
+   set order to mkey
+       select fgcod
+       set order to mkey
+       
+   select arrinvln
+   go top
+   if .not. eof()
+   if empty(order_no) 
+   delete
+   endif
+   endif
+   select ARRINVS
+   go top
+   if .not. eof()
+   if empty(order_no) 
+   delete
+   endif
+   endif
+      select fgoffs
+   set order to name
+      select fgoffs2
+   set order to name
+      select fgoffs3
+   set order to name
+   
+   if type("form.init") = "U"
+      form.init = .T.
+   FORM.PSHIFTDATE = {}
+   FORM.PSHIFTNO = ""
+   FORM.PDIV = ""
+   FORM.PCOY = ""
+   FORM.OKEXIT = .F.
+   FORM.PCEN = ""
+    form.pcashierno = ""
+    form.pemp1 = ""
+    form.pf1name = ""
+    FORM.PSERVED = ""
+   FORM.PSTO = ""
+   form.pclass = ""
+   FORM.PTYP = ""
+   form.pcard = "B/V"
+   form.ptypname = ""
+   form.pclaname = ""
+   form.pcodname = ""
+   form.pcod = ""
+   form.pf1dr = "No"
+    FORM.PCLA = ""
+      set skip to                     && ARRINVS.qbe contains set skip to arrinvln
+      set exact off                   && the .qbe file contains SET EXACT ON
+   
+      set procedure to Sampproc.prg additive
+   
+      form.inEditMode = .F.           && indicator of view/edit state
+      form.changesMade = .F.          && indicator of changes made to field values
+      form.previousRecord = .F.       && Save record number when appending
+      form.pspdiv = "1"
+      form.pspdivname = "Depot"
+      *** do calculations in another area so form doesn't get updated
+         select ARRINVS
+      set order to order_no
+     
+     
+        && max value for key field -- for creating
+        
+          local lmax
+               
+      ***
+      select Frigtmes
+      set order to frighter
+          select arrinvl
+       go top
+       if eof()
+       append blank
+       endif
+       
+          form.Psdate = date()
+   
+   select fgcoy
+   go top
+   form.psdate = st15f->shift_date
+   select fgcoy
+   replace start_date with st15f->shift_date
+   replace end_date with st15f->shift_date
+   form.psno = st15f->shift_no
+   form.psid = st15f->shift_id
+   form.pfc = .t.
+   
+    if .not. form.pfc  && not forecourt
+      if .not. empty(ARRINVS3->order_date)
+      form.psdate = ARRINVS3->order_date
+      select fgcoy
+      replace start_date with form.psdate
+      else
+      form.psdate = fgcoy->start_date
+      if empty(form.psdate)
+       InformationMessage("Missing Data Entry Dates Range in the company info file.", "Sorry")
+       quit
+       endif
+   
+      endif
+   endif   
+   
+   form.pserialno = ""
+   SELECT fgmastp
+   SET ORDER TO NAME
+     select ARRINVS
+      *** Open table for calculating totals and balance due in another work area
+      *** so that datalinks are not affected by record movements
+   
+   
+      ***
+   
+      if type("form.parentcustomerForm") <> "U" && Esc ok if have parent
+         form.escExit = .T.
+      endif
+   
+   endif
+   go top
+   form::Open() 
+   
+   shell(.F.)
+   else
+   InformationMessage("Cannot Lock Tables, in use by another - Try again later.", "Sorry")
+   close databases
+   quit
+   
+   endif
+   ****************************************************************************
+   
+   procedure OnClose
+   ****************************************************************************
+      if form.inEditMode
+      form.ViewEdit()
+   endif
+          && Close customer form if it exists
+         shell(.f.)
+   close procedure SampProc.prg
+    if .not. empty(arrinvs->order_no)
+   select arrinvsp
+   seek arrinvs->order_no+dtos(arrinvs->order_date)
+   if found() .and. .not. empty(post_date)
+   select arrinvs
+   replace post_date with date()
+   select fgtrnref
+   replace post_date with date()
+   endif
+   endif
+   commit()
+   close databases
+    do ARRPINVS.PRG
+     form.close()
+   close databases
+      ****************************************************************************
+    
+   procedure ChangesMade
+   
+   * Indicate that changes have been made to current record.
+   ****************************************************************************
+   
+   form.changesMade = .T.
+   
+   ****************************************************************************
+   
+   procedure BrowseChangesMade
+   ****************************************************************************
+   local t,t2,t3,t4,T5,t6,t7,t8
+     if form.changesmade = .t.
+   select arrinvln
+   IF .NOT. EOF()
+      go recno("arrinvln") in arrinvln    && Make sure change is posted
+   
+   select arrinvln2  && recalculate totals in other workarea
+   calculate sum(arrinvln2->total),SUM(arrinvln2->QTY),SUM(arrinvln2->DISC_AMT),;
+    SUM(arrinvln2->LEVY_AMT),SUM(arrinvln2->TAX_AMT),SUM(arrinvln2->gross_AMT);
+    ,SUM(arrinvln2->dsc),SUM(arrinvln2->invtotal) to t,T2,T3,T4,T5,t6,t7,t8
+   select ARRINVS
+   replace ARRINVS->total with t
+   replace ARRINVS->ORDER_QTY with t2
+   REPLACE ORDER_DISC WITH T3
+   REPLACE ORDER_TAX WITH T5
+   REPLACE ORDER_LEVY WITH T4
+   replace gross_amt with t6
+     ENDIF
+     SELECT ARRINVS
+   endif
+   
+   ****************************************************************************
+   
+    
+   procedure Next
+   ****************************************************************************
+   
+   form.CheckCommit(form.inEditMode)
+   if .not. empty(arrinvs->order_no)
+   select arrinvsp
+   seek arrinvs->order_no+dtos(arrinvs->order_date)
+   if found() .and. .not. empty(post_date)
+   select arrinvs
+   replace post_date with date()
+   select fgtrnref
+   replace post_date with date()
+   flush
+   endif
+   endif
+   form.root.order.viewEdit.enabled = .t.
+    form.root.order.ADDorder.enabled = .t.      
+    form.root.order.ADDline.enabled = .t.
+   
+   select arrinvs
+   if .not. eof()
+      NEXTBUTTON::OnClick()
+   endif
+   form.root.file.exit.enabled =   .t.
+   
+   ****************************************************************************
+   
+   procedure Previous
+   ****************************************************************************
+   
+   form.CheckCommit(form.inEditMode)
+   if .not. empty(arrinvs->order_no)
+   select arrinvsp
+   seek arrinvs->order_no+dtos(arrinvs->order_date)
+   if found() .and. .not. empty(post_date)
+   select arrinvs
+   replace post_date with date()
+   select fgtrnref
+   replace post_date with date()
+   flush
+   endif
+   endif
+   form.root.order.viewEdit.enabled = .t.
+   form.root.order.ADDorder.enabled = .t.      
+    form.root.order.ADDline.enabled = .t.
+   
+   select arrinvs
+   if .not. bof()
+   PREVBUTTON::OnClick()
+   endif
+     form.root.file.exit.enabled =   .t.
+   *form.BrowseOnNavigate()
+   
+   ****************************************************************************
+   
+   procedure CheckCommit (newInEditMode)
+    
+    * Finish transaction, if it has been started.
+    ****************************************************************************
+    private orderField, changesMade,prcoy,prdiv,prcen,prsto,prtyp,prcla,prcod,prqty,;
+    pcoy,pdiv,pcen,psto,ptyp,pcla,pcod
+   
+    
+    changesMade = form.changesMade
+     if form.changesMade
+       orderField = field(1)                  && Field Order_no   
+           commit()
+     
+            on error DO ddeerr WITH ERROR(), MESSAGE(),;
+   PROGRAM(), LINENO()
+           
+       if form.inEditMode .and. newInEditMode
+          begintrans()
+               on error DO transerr WITH ERROR(), MESSAGE(),;
+   PROGRAM(), LINENO()
+       endif
+       form.changesMade = .F.
+    endif
+    
+      
+    if form.inEditMode <> newInEditMode
+       if newInEditMode                       && Going to Edit mode
+          begintrans()
+            on error DO transerr WITH ERROR(), MESSAGE(),;
+   PROGRAM(), LINENO()
+       else                                   && Going to View mode
+          if .not. changesMade
+             rollback()
+            on error   DO ddeerr WITH ERROR(), MESSAGE(),;
+   PROGRAM(), LINENO()
+          endif
+       endif
+       form.inEditMode = newInEditMode
+    endif
+     
+               select arrinvl
+    FLUSH
+            select ARRINVS 
+     ****************************************************************************
+    
+   procedure ViewEdit
+   ****************************************************************************
+   local inEditMode, control, editMenu
+   
+   editMenu = form.root.order.viewEdit
+   *** If editing is completed, close transaction, otherwise open a transaction
+   if form.inEditMode                           && Change to View mode
+      form.checkChanged(.F.)
+      editMenu.text = "&Edit"
+      editMenu.shortcut = "Ctrl-E"
+      editMenu.statusMessage = "Edit data."
+      form.root.order.deleteline.enabled = .F.
+      form.CheckCommit(.F.)                     && Check transaction and
+      form.text = "REVERSE INVOICES (NEXT SHIFT) -- View Mode"         && change mode to View
+      form.childBrowse.modify = .F.
+      form.statusMessage = "Select CREDIT NOTE - Edit menu choice to " +;
+                           "edit/delete data."
+   else                                         && Change to Edit mode
+      editMenu.text = "&View"
+      editMenu.shortcut = "Ctrl-E"
+      editMenu.statusMessage = "View data."
+        form.root.order.deleteline.enabled = .t.
+      form.CheckCommit(.T.)                     && Check transaction and
+      form.text = "REVERSE INVOICES (NEXT SHIFT) -- Edit Mode"         && change mode to Edit
+      form.childBrowse.modify = .F.
+      form.statusMessage = "In Edit Mode.  " +;
+                           "Select CREDIT NOTE - View menu choice to switch " +;
+                           "to View mode."
+    endif
+        
+   control = form.first
+   
+   inEditMode = form.inEditMode    && so don't have to reference many times
+   do
+      do case
+         case control.name $ "ORDERNOENTRY,cno,TOTINVENTRY,BALDUEENTRY"
+            * these are never editable
+            control.enabled = .F.
+         case .not. control.className $ "BROWSE,NEXTBUTTON,PREVBUTTON,PUSHBUTTON,IMAGE,TEXT"
+            * doesn't make sense to make the above classes enabled/not
+            control.enabled = inEditMode
+         case control.className = "BROWSE"
+            control.Modify = inEditMode
+            control.Delete = inEditMode
+            control.Append = inEditMode
+      endcase
+      control = control.before
+   until control.name = form.first.name
+   form.OrderNoEntry.enabled = .F.          && Key field is always disabled
+   form.childBrowse.modify = .F.
+   form.childBrowse.append = .F.
+   form.soqty.enabled = .f.
+   form.soamt.enabled = .f.
+   * form.sstock.enabled = .f.
+   form.childBrowse.delete = .F.
+   form.sdiscrate.enabled = .f.
+    form.staxamt.enabled = .f.
+   FORM.CHILDBROWSE.MODIFY = .F.
+   FORM.STOTAL.ENABLED = .F.
+   form.sgross.enabled = .f.
+   form.sitem.enabled = .f.
+    form.sdiscrate.enabled = .f.
+            form.staxrate.enabled = .f.
+                 form.staxamt.enabled = .f.
+                   form.sdiscrate.enabled = .f.
+         form.sprice.enabled = .f.
+      if fgcod->QTY = "Yes" .and. .not. fgcod->shs_auto = "Yes" .and. .not. fgcod->typ = "00"
+              form.qtyentry.enabled = .t.
+              form.sbasic.enabled = .f.
+               else
+             form.qtyentry.enabled = .f.
+             form.sbasic.enabled = .t.
+              endif
+              if fgcoy->stream = "Yes"
+                form.sprice.enabled = .f.
+                 FORM.SDISCAMT.ENABLED = .f.
+                 else
+                 if fgcod->qty = "Yes"
+                 form.sprice.enabled = .t.
+                 endif
+                 FORM.SDISCAMT.ENABLED = .t.
+                 
+                 endif 
+                 
+   form.shash.enabled = .f.
+    form.staxamt.enaBLED = .F.
+   form.staxrate.enabled = .f.
+   * f
+   *  
+   if fgcoy->pospost = "Yes"
+   form.sdate.enabled = .f.
+   endif
+       form.sincl.enabled = .f.
+      FORM.SEXCL.ENABLED = .F.
+    FORM.Sdlt.ENABLED = .F.
+   FORM.SFRIGHTER.ENABLED = .F.
+   FORM.SVEH.ENABLED = .F.
+   FORM.Sdlq.ENABLED = .F.
+   form.srinv.enabled = .f.
+   FORM.Serialnoentry.ENABLED = .F.
+   if (empty(arrinvln->order_no) .and. .not. empty(arrinvs->order_no)) .or. empty(arrinvs->mkeyref)
+   form.smkeyref.enabled = .t.
+   else
+    form.smkeyref.enabled = .f.
+   endif
+   form.smile.enabled = .f.
+     form.slpo.enabled = .f.
+      form.sshiped.enabled = .f.
+     form.sinvt.enabled = .f.
+     form.stamt.enabled = .f.
+     form.sref.enabled = .f.
+     form.sdbas.enabled = .f.
+     form.sddisc.enabled = .f.
+   
+   procedure CheckChanged(callCommit)
+   
+    private control, fieldValue, controlValue, typeText, typeValue
+   
+   if form.inEditMode
+      control = form.activeControl
+      if type("control.datalink") <> "U"
+         fieldValue = control.datalink          && name of table field
+   
+         typeText = type("control.text")
+         typeValue = type("control.value")
+         do case
+            case typeValue = "C"
+               controlValue = control.value
+            case typeValue $ "LU" .and. typeText = "C"
+               controlValue = control.text
+            otherwise
+               controlValue = Null
+         endcase
+         if controlValue <> &fieldValue
+            form.changesMade = .T.
+         endif
+      endif
+   endif
+   if form.changesMade .and. callCommit
+      CLASS::CheckCommit(form.inEditMode)     && Check transactions
+   endif
+   
+    Procedure Go_last
+      form.CheckCommit(form.inEditMode)
+      if .not. empty(arrinvs->order_no)
+   select arrinvsp
+   seek arrinvs->order_no+dtos(arrinvs->order_date)
+   if found() .and. .not. empty(post_date)
+   select arrinvs
+   replace post_date with date()
+   select fgtrnref
+   replace post_date with date()
+   flush
+   endif
+   endif
+   form.root.order.viewEdit.enabled = .t.
+   form.root.order.ADDorder.enabled = .t.      
+    form.root.order.ADDline.enabled = .t.
+   
+   select arrinvs
+      go bottom
+   form.root.file.exit.enabled =   .t.
+   
+     Procedure Go_Top
+     form.CheckCommit(form.inEditMode)
+     if .not. empty(arrinvs->order_no)
+   select arrinvsp
+   seek arrinvs->order_no+dtos(arrinvs->order_date)
+   if found() .and. .not. empty(post_date)
+   select arrinvs
+   replace post_date with date()
+   select fgtrnref
+   replace post_date with date()
+   flush
+   endif
+   endif
+   form.root.order.viewEdit.enabled = .t.
+   form.root.order.ADDorder.enabled = .t.      
+    form.root.order.ADDline.enabled = .t.
+   
+    select arrinvs
+     go top
+    form.root.file.exit.enabled =   .t.
+   
+     Procedure Form_CanClose
+      RETURN IIF(form.changesmade = .F., .F., .T.)
+   
+   
+   PROCEDURE CAL_RTN
+      SELECT arrinvln
+     if trantype = "Invoice"
+     replace invtotal with total
+     replace dsc with 0
+     else
+     replace dsc with total
+     replace invtotal with 0
+     endif
+     
+      IF .NOT. QTY = 0
+         REPLACE COST_PRICE WITH TOTAL/QTY
+         ENDIF
+          local ltyp,lcla
+           ltyp = typ
+           lcla = cla
+               if LTYP = "00" .or. ltyp = "05"
+      if Lcla = "00" .or. lcla = "10" .or. lcla = "20" .or. lcla = "40"
+      replace sup_qty with qty  && super, unleaded and regular
+    else
+      replace dis_qty with qty
+   endif
+   endif
+   
+   if LTYP = "10" && lubes
+   replace lub_amt with total
+   endif
+   if .not. ltyp = "00" .and. .not. ltyp = "05" .and. .not. ltyp = "10"
+   replace ser_amt with total
+   endif
+      SELECT ARRINVS
+      FORM.CHANGESMADE = .T.
+   
+   Procedure SPROD_ONCHANGE
+        local l1,l2,l3,l4,l5,l6,l7,e1,L8,L9,L10,L11,L12,L13,L14,lprice,lcost,lst15,;
+        l111,l112,l113,l114
+              e1 = .f.
+                
+     select fgmastp
+   seek this.value
+   IF FOUND()
+   E1 = .F.
+   ELSE
+   E1 = .T.
+   ENDIF
+   
+      form.changesmade = .t.
+    lst15 = .t.
+            select arrinvln
+              replace name with this.value
+                replace mkey with ""
+       replace qty with 0
+        replace LIST_PRICE with 0
+        replace total with 0
+        replace disc_rate with 0
+        replace disc_amt with 0
+        replace levy_rate with 0
+        replace levy_amt with 0
+        replace tax_rate with 0
+        replace tax_amt with 0
+        replace gross_amt with 0
+        replace cost_price with 0
+        replace basic_amt with 0
+        replace dsc with 0
+        replace invtotal with 0
+          form.changesmade = .t.
+          replace sale_price with 0
+          replace dis_qty with 0
+   replace lub_qty with 0
+   replace unl_qty with 0
+   replace ker_qty with 0
+   replace reg_qty with 0
+   replace sup_qty with 0
+   replace lpg_qty with 0
+   replace mis_qty with 0
+   replace ser_qty with 0
+   replace spa_qty with 0
+   replace scr_qty with 0
+   
+   replace dis_amt with 0
+   replace lub_amt with 0
+   replace unl_amt with 0
+   replace ker_amt with 0
+   replace reg_amt with 0
+   replace sup_amt with 0
+   replace lpg_amt with 0
+   replace mis_amt with 0
+   replace ser_amt with 0
+   replace spa_amt with 0
+   replace scr_amt with 0
+   replace supply_amt with 0
+             
+                l1 = fgmastp->COY
+               l2 = fgmastp->DIV
+               l3 = fgmastp->CEN
+               l4 = fgmastp->sto
+                l5 = fgmastp->TYP
+               l6 = fgmastp->CLA
+               l7 = fgmastp->COD
+                  l111 = FGMASTp->st_COY
+               l112 = FGMASTp->st_dIV
+               l113 = FGMASTp->st_CEN
+               l114 = FGMASTp->st_STO
+               L8 = form.psdate
+               L9 = form.psno
+               L10 = form.psid
+                REPLACE SHIFT_DATE WITH {}
+           REPLACE SHIFT_NO WITH ""
+           REPLACE SHIFT_ID WITH ""
+           REPLACE COY WITH ""
+           REPLACE DIV WITH ""
+           REPLACE CEN WITH ""
+           REPLACE STO WITH ""
+           REPLACE TYP WITH ""
+           REPLACE CLA WITH ""
+           REPLACE COD WITH ""
+             select fgmast
+               seek l111+l112+l113+l114+l5+l6+l7
+               if .not. found()
+               e1 = .t.
+               endif
+               
+           select fgcod
+           seek l5+l6+l7
+         LCOST = FGCOD->SALE_PRICE
+           if e1 = .f.
+         
+             select arrinvln
+                replace arrinvln->cod with L7
+                REPLACE COY WITH FGMASTp->COY
+           REPLACE DIV WITH FGMASTp->DIV
+           REPLACE CEN WITH FGMASTp->CEN
+           REPLACE STO WITH FGMASTp->STO
+           REPLACE TYP WITH FGMASTp->TYP
+           REPLACE CLA WITH FGMASTp->CLA
+           REPLACE COD WITH FGMASTp->COD
+           replace st_coy with fgmastp->st_coy
+           replace st_div with fgmastp->st_div
+           replace st_cen with fgmastp->st_cen
+           replace st_sto with fgmastp->st_sto
+            replace volume with fgcod->volume 
+            replace fcdiv with fgcod->fcdiv
+           replace fcpurch with fgcod->fcpurch
+           IF DIV = "1" .and. typ >= "00" .and. typ <= "9Z" .and. form.pfc
+           REPLACE SHIFT_DATE WITH L8
+           REPLACE SHIFT_NO WITH L9
+           REPLACE SHIFT_ID WITH L10
+           
+            SELECT ST15F
+             SEEK DTOS(L8)+L9+L10+L3+L5+L6+L7+L4+L1+l2
+             if .not. found()
+             lst15 = .f.
+             go top
+             endif
+              SELECT FCCASHRS
+             SEEK arrinvln->cen  && Island
+             if found() .and. OFF = arrinvln->OFF
+             else
+                LST15 = .F.
+                       InformationMessage("The Cashier is not Allocated to This  Island", "Sorry!")
+           ENDIF
+           ENDIF
+              if .not. lst15
+               SELECT arrinvln
+               replace coy with ""
+               replace cen with ""
+               replace sto with ""
+                REPLACE DIV WITH ''
+              endif
+              ELSE
+              select arrinvln
+         replace qty with 0
+        replace LIST_PRICE with 0
+        replace total with 0
+        replace disc_rate with 0
+        replace disc_amt with 0
+        replace levy_rate with 0
+        replace levy_amt with 0
+        replace tax_rate with 0
+        replace tax_amt with 0
+        replace gross_amt with 0
+        replace cost_price with 0
+        replace basic_amt with 0
+        replace dsc with 0
+        replace invtotal with 0
+          form.changesmade = .t.
+          replace sale_price with 0
+          replace dis_qty with 0
+   replace lub_qty with 0
+   replace unl_qty with 0
+   replace ker_qty with 0
+   replace reg_qty with 0
+   replace sup_qty with 0
+   replace lpg_qty with 0
+   replace mis_qty with 0
+   replace ser_qty with 0
+   replace spa_qty with 0
+   replace scr_qty with 0
+       replace bas_amt with 0
+                  replace basic_qty with 0
+   replace dis_amt with 0
+   replace lub_amt with 0
+   replace unl_amt with 0
+   replace ker_amt with 0
+   replace reg_amt with 0
+   replace sup_amt with 0
+   replace lpg_amt with 0
+   replace mis_amt with 0
+   replace ser_amt with 0
+   replace spa_amt with 0
+   replace scr_amt with 0
+   replace supply_amt with 0
+              endif
+             IF EMPTY(FGSTKNOS->STOCK_NO)
+                select fginvtrn
+              go top
+              IF st_coy =  arrinvln->coy .and. st_div =  arrinvln->div ;
+               .and. st_cen =  arrinvln->cen .and. st_sto =  arrinvln->sto ;
+                .and. typ =  arrinvln->typ .and. cla =  arrinvln->cla ;
+                 .and. cod =  arrinvln->cod .and. order_no =  arrinvs->o_order ;
+                  .and. order_date =  arrinvs->o_date
+                  select arrinvln
+                  replace bas_amt with (fginvtrn->total+fginvtrn->new_bal)*-1
+                   replace nonvat with fginvtrn->total_amt
+                  replace driver with fginvtrn->driver
+                    replace supply_amt with fginvtrn->total*-1
+                  replace supply_qty with fginvtrn->new_bal*-1
+                  replace basic_qty with fginvtrn->qty
+                  replace unit_cost with fginvtrn->unit_cost
+                  replace list_price with fginvtrn->list_price
+                   replace SALE_PRICE WITH LIST_PRICE
+                   replace tax_rate with fginvtrn->tax_rate
+                   replace qty with basic_qty
+                   replace nonvat_amt with nonvat * qty
+                      replace total with fginvtrn->total * -1
+               replace tax_amt with fginvtrn->tax_amt*-1
+               replace gross_amt with fginvtrn->gross_amt *-1
+                  form.smkeyref.enabled = .f.
+                  REPLACE STOCK_NO WITH fginvtrn->STOCK_NO
+                   replace disc_amt with fginvtrn->new_bal * -1
+                  ELSE
+                  
+              locate REST FOR st_coy =  arrinvln->coy .and. st_div =  arrinvln->div ;
+               .and. st_cen =  arrinvln->cen .and. st_sto =  arrinvln->sto ;
+                .and. typ =  arrinvln->typ .and. cla =  arrinvln->cla ;
+                 .and. cod =  arrinvln->cod .and. order_no =  arrinvs->o_order ;
+                  .and. order_date =  arrinvs->o_date
+                  if found()
+                  select arrinvln
+                  replace bas_amt with (fginvtrn->total+fginvtrn->new_bal)*-1
+                   replace nonvat with fginvtrn->total_amt
+                  replace driver with fginvtrn->driver
+                    replace supply_amt with fginvtrn->total*-1
+                  replace supply_qty with fginvtrn->new_bal*-1
+                   replace unit_cost with fginvtrn->unit_cost
+                  replace list_price with fginvtrn->list_price 
+                  replace SALE_PRICE WITH LIST_PRICE
+                  replace basic_qty with fginvtrn->qty
+                   replace tax_rate with fginvtrn->tax_rate
+                   replace qty with basic_qty
+                   replace nonvat_amt with nonvat * qty
+                      replace total with fginvtrn->total * -1
+               replace tax_amt with fginvtrn->tax_amt*-1
+               replace gross_amt with fginvtrn->gross_amt *-1
+                  form.smkeyref.enabled = .f.
+                  REPLACE STOCK_NO WITH fginvtrn->STOCK_NO
+                  replace disc_amt with fginvtrn->new_bal * -1
+                  ELSE
+                           select arrinvln
+         replace qty with 0
+        replace LIST_PRICE with 0
+        replace total with 0
+        replace disc_rate with 0
+        replace disc_amt with 0
+        replace levy_rate with 0
+        replace levy_amt with 0
+        replace tax_rate with 0
+        replace tax_amt with 0
+        replace gross_amt with 0
+        replace cost_price with 0
+        replace basic_amt with 0
+        replace dsc with 0
+        replace invtotal with 0
+          form.changesmade = .t.
+          replace sale_price with 0
+          replace dis_qty with 0
+   replace lub_qty with 0
+   replace unl_qty with 0
+   replace ker_qty with 0
+   replace reg_qty with 0
+   replace sup_qty with 0
+   replace lpg_qty with 0
+   replace mis_qty with 0
+   replace ser_qty with 0
+   replace spa_qty with 0
+   replace scr_qty with 0
+       replace bas_amt with 0
+                  replace basic_qty with 0
+             
+   
+   replace dis_amt with 0
+   replace lub_amt with 0
+   replace unl_amt with 0
+   replace ker_amt with 0
+   replace reg_amt with 0
+   replace sup_amt with 0
+   replace lpg_amt with 0
+   replace mis_amt with 0
+   replace ser_amt with 0
+   replace spa_amt with 0
+   replace scr_amt with 0
+   replace supply_amt with 0
+                  ENDIF
+                  ENDIF
+                  ELSE
+                       select fginvtrn
+              go top
+              IF st_coy =  arrinvln->coy .and. st_div =  arrinvln->div ;
+               .and. st_cen =  arrinvln->cen .and. st_sto =  arrinvln->sto ;
+                .and. typ =  arrinvln->typ .and. cla =  arrinvln->cla ;
+                 .and. cod =  arrinvln->cod .and. order_no =  arrinvs->o_order ;
+                  .and. order_date =  arrinvs->o_date .AND. STOCK_NO = FGSTKNOS->STOCK_NO
+                  select arrinvln
+                  replace bas_amt with (fginvtrn->total+fginvtrn->new_bal)*-1
+                   replace nonvat with fginvtrn->total_amt
+                  replace driver with fginvtrn->driver
+                    replace supply_amt with fginvtrn->total*-1
+                  replace supply_qty with fginvtrn->new_bal*-1
+              replace unit_cost with fginvtrn->unit_cost
+                  replace list_price with fginvtrn->list_price
+                  replace SALE_PRICE WITH LIST_PRICE
+                replace tax_rate with fginvtrn->tax_rate
+                  replace basic_qty with fginvtrn->qty
+                    replace qty with basic_qty
+                    replace nonvat_amt with nonvat * qty
+                      replace total with fginvtrn->total * -1
+               replace tax_amt with fginvtrn->tax_amt*-1
+               replace gross_amt with fginvtrn->gross_amt *-1
+                  form.smkeyref.enabled = .f.
+                  REPLACE STOCK_NO WITH fginvtrn->STOCK_NO
+                  replace disc_amt with fginvtrn->new_bal * -1
+                  ELSE
+                  
+              locate REST FOR st_coy =  arrinvln->coy .and. st_div =  arrinvln->div ;
+               .and. st_cen =  arrinvln->cen .and. st_sto =  arrinvln->sto ;
+                .and. typ =  arrinvln->typ .and. cla =  arrinvln->cla ;
+                 .and. cod =  arrinvln->cod .and. order_no =  arrinvs->o_order ;
+                  .and. order_date =  arrinvs->o_date  .AND. STOCK_NO = FGSTKNOS->STOCK_NO
+                  if found()
+                  select arrinvln
+                  replace bas_amt with (fginvtrn->total+fginvtrn->new_bal)*-1
+                   replace nonvat with fginvtrn->total_amt
+                  replace driver with fginvtrn->driver
+                  replace supply_amt with fginvtrn->total*-1
+                  replace supply_qty with fginvtrn->new_bal*-1
+                   replace unit_cost with fginvtrn->unit_cost
+                  replace list_price with fginvtrn->list_price
+                  replace SALE_PRICE WITH LIST_PRICE
+                replace tax_rate with fginvtrn->tax_rate
+                  replace basic_qty with fginvtrn->qty
+                    replace qty with basic_qty
+                    replace nonvat_amt with nonvat * qty
+                      replace total with fginvtrn->total * -1
+               replace tax_amt with fginvtrn->tax_amt*-1
+               replace gross_amt with fginvtrn->gross_amt *-1
+                  form.smkeyref.enabled = .f.
+                  REPLACE STOCK_NO WITH fginvtrn->STOCK_NO
+                  replace disc_amt with fginvtrn->new_bal * -1
+                  ELSE
+                           select arrinvln
+         replace qty with 0
+        replace LIST_PRICE with 0
+        replace total with 0
+        replace disc_rate with 0
+        replace disc_amt with 0
+        replace levy_rate with 0
+        replace levy_amt with 0
+        replace tax_rate with 0
+        replace tax_amt with 0
+        replace gross_amt with 0
+        replace cost_price with 0
+        replace basic_amt with 0
+        replace dsc with 0
+        replace invtotal with 0
+          form.changesmade = .t.
+          replace sale_price with 0
+          replace dis_qty with 0
+   replace lub_qty with 0
+   replace unl_qty with 0
+   replace ker_qty with 0
+   replace reg_qty with 0
+   replace sup_qty with 0
+   replace lpg_qty with 0
+   replace mis_qty with 0
+   replace ser_qty with 0
+   replace spa_qty with 0
+   replace scr_qty with 0
+       replace bas_amt with 0
+                  replace basic_qty with 0
+             
+   
+   replace dis_amt with 0
+   replace lub_amt with 0
+   replace unl_amt with 0
+   replace ker_amt with 0
+   replace reg_amt with 0
+   replace sup_amt with 0
+   replace lpg_amt with 0
+   replace mis_amt with 0
+   replace ser_amt with 0
+   replace spa_amt with 0
+   replace scr_amt with 0
+   replace supply_amt with 0
+                  ENDIF
+                  ENDIF
+   ENDIF
+             refresh
+                 select ARRINVS
+                 form.sbasic.enabled = .f.
+                 form.qtyentry.enabled = .f.
+                 form.sdiscrate.enabled = .f.
+                 form.staxrate.enabled = .f.
+                 form.staxamt.enabled = .f.
+                 if fgcod->QTY = "Yes" .and. .not. fgcod->shs_auto = "Yes" .and. ;
+                  .not. fgcod->typ = "00"
+                 if fgcoy->stream = "Yes"
+                 form.qtyentry.enabled = .t.
+                form.sprice.enabled = .f.
+                 form.sdiscrate.enabled = .f.
+                 FORM.SDISCAMT.ENABLED = .F.
+                   form.staxrate.enabled = .f.
+                 form.staxamt.enabled = .f.
+                  else
+                  form.qtyentry.enabled = .t.
+                 form.sprice.enabled = .t.
+                 form.sdiscrate.enabled = .f.
+                  form.staxrate.enabled = .f.
+                 form.staxamt.enabled = .f.
+                 endif
+                 else
+                form.qtyentry.enabled = .f.
+               form.sprice.enabled = .f.
+                 form.sdiscrate.enabled = .f.
+                 form.staxrate.enabled = .f.
+                 form.staxamt.enabled = .f.
+                 form.sbasic.enabled = .t.
+                 endif
+    select ARRINVS
+   
+  
+   Procedure QTYENTRY_OnChange
+         select arrinvln
+     LOCAL WK1,WK2,WK3,WK4,lvat
+   
+   WK3 = form.qtyentry.value
+     wk1 = 0
+     if typ > "00" .and. typ <= "9Z" .and. .not. left(typ,1) = "7"  ;
+      .and. .not. fgcod->shs_auto = "Yes"
+       wk1 = fgmast->on_hand - wk3
+      endif
+       if .not. tHIS.VALUE  = fginvtrn->qty
+      InformationMessage("Quantity Out Of Range", "Sorry!")
+      replace qty with 0
+   form.qtyentry.value = 0
+   endif
+      if empty(off) .or. empty(cashier_no) .or. empty(driver)
+      InformationMessage("Check Served By and Cashier", "Sorry!")
+      replace qty with 0
+   form.qtyentry.value = 0
+   endif
+         replace qty with this.value
+         *  REPLACE TOTAL WITH LIST_PRICE * QTY - DISC_AMT  && TOTAL AMT WITH VAT
+         * REPLACE TAX_AMT WITH ROUND(TOTAL/(100+TAX_RATE)*TAX_RATE,2) && VAT PORTION
+         *REPLACE GROSS_AMT WITH TOTAL - TAX_AMT && GROSS AMT
+         *REPLACE TOTAL_AMT WITH ROUND( LIST_PRICE * QTY/(100+TAX_RATE)*100,2)
+         * replace ndiscount with disc_amt/(100+tax_rate)*100
+        *r*eplace basic_amt with total+disc_amt
+        form.changesmade = .t.
+        FORM.CAL_RTN()
+         FORM.BrowseChangesMade()
+         select ARRINVS
+      
+   
+   
+    Procedure SBASIC_OnChange
+        
+   select arrinvln
+   if .not. eof()
+      replace basic_amt with this.value
+      REPLACE QTY WITH BASIC_QTY
+            if empty(off) .or. empty(cashier_no) .or. empty(driver)
+      InformationMessage("Check Served By and Cashier", "Sorry!")
+    replace basic_amt with 0
+   endif
+            if .not.  this.value = (fginvtrn->total+fginvtrn->new_bal)*-1
+      InformationMessage("Amount Out Of Range", "Sorry!")
+    replace basic_amt with 0
+     REPLACE TOTAL WITH 0
+  *  REPLACE QTY WITH 0
+   endif
+   if typ >= "00" .and. typ <= "9Z" .and. .not. left(typ,1) = "7" ;
+    .and. .not. list_price > 0
+      InformationMessage("Sales Price Required", "Sorry!")
+    replace basic_amt with 0
+    REPLACE TOTAL WITH 0
+   * REPLACE QTY WITH 0
+    endif
+      *     REPLACE TOTAL WITH BASIC_AMT - disc_amt  && TOTAL AMT WITH VAT
+      *       REPLACE TAX_AMT WITH ROUND(TOTAL/(100+TAX_RATE)*TAX_RATE,2) && VAT PORTION
+      *      REPLACE GROSS_AMT WITH TOTAL - TAX_AMT && GROSS AMT
+          
+      *     REPLACE TOTAL_AMT WITH ROUND( LIST_PRICE * QTY/(100+TAX_RATE)*100,2)
+      *     replace ndiscount with disc_amt/(100+tax_rate)*100
+         
+      *    if .not. qty = 0
+      *    replace sale_price with round((gross_amt+ndiscount)/qty,2)
+       *   else
+       *   replace sale_price with list_price
+       *   endif
+   
+           
+   form.changesmade = .t.
+   FORM.CAL_RTN()
+   
+   form.browsechangesmade()
+   endif
+    select ARRINVS
+   
+   Procedure SAUTH_OnChange
+   local l1,l2
+        
+         l1 = this.value
+         select fgoffs
+         seek l1
+         
+           select ARRINVS
+           if .not. eof()
+         replace off with fgoffs->off
+         REPLACE CASHIER_NO WITH FGOFFS->CASHIER_NO
+          replace order_date with  form.Psdate
+          replace shiftno with form.psno
+          replace shiftid with form.psid
+         endif
+          form.changesmade = .t.
+    
+  
+   Procedure SCASHIER_OnChange
+            select fgoffs3
+            seek this.value
+            if found()
+            select arrinvln
+            replace offname with this.value
+            replace off with fgoffs3->off
+             REPLACE CASHIER_NO WITH FGOFFS3->CASHIER_NO
+             else
+             select arrinvln
+            replace offname with ""
+            replace off with ""
+             REPLACE CASHIER_NO WITH ""
+               endif
+              replace name with ''
+            replace coy with ""
+               replace cen with ""
+               replace sto with ""
+         replace qty with 0
+             replace total with 0
+             replace basic_amt with 0
+           
+            form.changesmade = .t.
+            select ARRINVS
+   
+   Procedure SMKEYREF_OnChange
+   local ler
+      ler = .t.
+      select fgtrnref
+      seek this.value
+      if found()
+         select arrinvs
+         replace mkeyref with fgtrnref->mkey
+         replace o_order with fgtrnref->order_no
+         replace o_date  with fgtrnref->order_date
+         replace o_doc with fgtrnref->doctype
+         replace o_sys with fgtrnref->system
+         replace o_qty with fgtrnref->qty
+         replace o_total with fgtrnref->total
+         local l1,l2,l3,l4,l5,l6
+         l1 = o_order
+         l2 = dtos(o_date)
+         l3 = o_doc
+         l4 = o_sys
+         select fginvtrn
+         set filter to doctype = "19" .and. system = "OP" .and. .not. (total = 0 .and. qty = 0) ;
+          .AND. ORDER_DATE = ARRINVS->O_DATE .AND. ORDER_NO = ARRINVS->O_ORDER
+          GO TOP
+         seek l1+l2+l3+l4
+         if found()
+         select arrinvs
+         replace pay_method with "Credit"
+         replace source with fginvtrn->source
+         replace ftyp with  fginvtrn->ftyp
+         replace pmod with  fginvtrn->pmod
+         replace frighter_n with  fginvtrn->frighter_n
+         replace aship with  fginvtrn->vsrce
+         replace vpurt with  fginvtrn->vtyp 
+         replace vship with  fginvtrn->vpmod 
+         replace proforma with  fginvtrn->vendor_n
+         if .not. empty(source) .and. .not. empty(ftyp) .and. .not. empty(pmod) ;
+          .and. .not. empty(frighter_n)
+         select frigtmes
+         seek fginvtrn->source+fginvtrn->ftyp+fginvtrn->pmod+fginvtrn->frighter_n
+         endif
+             if .not. empty(fginvtrn->vsrce) .and. .not. empty(fginvtrn->vtyp);
+             .and. .not. empty(fginvtrn->vpmod)      .and. .not. empty(fginvtrn->vendor_n)
+      
+             endif
+         select arrinvs
+           replace cname with frigtmes->name
+          replace reg with fginvtrn->reg
+          replace serialno with fginvtrn->serialno
+          replace lpo with fginvtrn->lpo
+         replace mileage with fginvtrn->mileage
+          ler = .f. 
+         endif
+         endif
+         
+   if  ler
+      select arrinvs
+      replace pay_method with ""
+        replace mkeyref with ""
+         replace o_order with ""
+         replace o_date  with {}
+         replace o_doc with ""
+         replace o_qty with 0
+         replace o_total with 0
+         replace o_sys with ""
+          replace source with ""
+         replace ftyp with ""
+         replace pmod with ""
+         replace frighter_n with ""
+          REPLACE SERIALNO WITH ""
+         endif
+         form.changesmade = .t.
+   
+     Procedure SDL_OnChange
+         select fgstknos
+         replace stock_no with this.value
+         select arrinvs
+         form.changesmade = .t.
+   
+ENDCLASS

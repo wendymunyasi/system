@@ -1,0 +1,443 @@
+////////////////////////////////////////////////////////////////////////////////
+// Output Filename: C:\KENSERVICE\IDSSYS\FGSPRD_FCV.WFM                       //
+// Created By:      dBASE Form Converter Wizard                               //
+// Created On:      Monday October 11, 2021 At 18:49:57                       //
+// Object Count:    8                                                         //
+////////////////////////////////////////////////////////////////////////////////
+*******************************************************************************
+*  PROGRAM:      Fgsprd.wfm
+*
+*  WRITTEN BY:   W Nyongesa
+*
+*  DATE:         05/2000
+*
+*  UPDATED:     12/2012
+*
+*  REVISION:     $Revision:   1.0
+*
+*  VERSION:      Visual dBASE
+*
+*  DESCRIPTION:  This program maintains the companies master file
+*
+*  PARAMETERS:   None
+*
+*  CALLS:        Fgsprd.mnu         (Menu file)
+*                KBUTTONS.CC          (Custom Controls file)
+*                PERIOD YEAR SELECTION.qbe         (View of tables)
+*
+*  USAGE:        DO Fgsprd.wfm
+*
+*******************************************************************************
+#include <messdlg.h>
+shell(.F.)
+create session
+set talk off
+set design off
+_app.FrameWin.Visible = .F.
+_app.FrameWin.Text = "Fgsprd"
+set century on
+set ldCheck off && To avoid language driver conflicts
+#define Maxcoy 999
+** END HEADER -- do not remove this line
+//
+// Generated on 11/10/2021
+//
+parameter bUser,bLevel,bModal
+local f
+f = new FgsprdFORM()
+if (bModal)
+   f.mdi = false // ensure not MDI
+   f.readModal()
+else
+   f.open()
+endif
+
+class FgsprdFORM of FORM
+   set procedure to BUTTONS.CC additive
+   with (this)
+      onClose = class::ONCLOSE
+      open = class::OPEN
+      metric = 6	// Pixels
+      colorNormal = "n+"
+      height = 333.0
+      left = -83.0
+      top = 10.0
+      width = 351.0
+      text = "PERIOD YEAR SELECTION"
+      windowState = 2	// Normal
+      mdi = false
+      sizeable = false
+      moveable = false
+      view = "Fgsprd.QBE"
+      menuFile = "FGSPRD.MNU"
+      escExit = false
+      mousePointer = 1	// Arrow
+      maximize = false
+      minimize = false
+   endwith
+
+   this.CODETEXT = new TEXTLABEL(this)
+   with (this.CODETEXT)
+      height = 21.0
+      left = 48.0
+      top = 86.0
+      width = 228.0
+      text = "PERIOD (MM):"
+      colorNormal = "B/BtnFace"
+      fontName = "MS Sans Serif"
+      fontBold = true
+      alignVertical = 1	// Middle
+      alignHorizontal = 2	// Right
+   endwith
+
+   this.PTYP = new ENTRYFIELD(this)
+   with (this.PTYP)
+      onChange = class::PTYP_ONCHANGE
+      dataLink = "FGSPRD->MM"
+      enabled = false
+      height = 26.0
+      left = 300.0
+      top = 86.0
+      width = 48.0
+      picture = "99"
+      colorNormal = "N/BtnFace"
+      colorHighLight = "B+/W*"
+      fontName = "MS Sans Serif"
+      fontBold = true
+   endwith
+
+   this.LNAMETEXT = new TEXTLABEL(this)
+   with (this.LNAMETEXT)
+      height = 21.0
+      left = 168.0
+      top = 137.0
+      width = 108.0
+      text = "YEAR (YYYY)"
+      colorNormal = "B/BtnFace"
+      fontName = "MS Sans Serif"
+      fontBold = true
+      alignVertical = 1	// Middle
+      alignHorizontal = 2	// Right
+   endwith
+
+   this.LNAMEENTRY = new ENTRYFIELD(this)
+   with (this.LNAMEENTRY)
+      onChange = class::LNAMEENTRY_ONCHANGE
+      dataLink = "FGSPRD->YY"
+      enabled = false
+      height = 20.0
+      left = 300.0
+      top = 137.0
+      width = 60.0
+      function = "!"
+      colorNormal = "N/BtnFace"
+      colorHighLight = "B+/W*"
+      fontName = "MS Sans Serif"
+      fontBold = true
+   endwith
+
+   this.PREVCOYBUTTON = new PREVBUTTON(this)
+   with (this.PREVCOYBUTTON)
+      onClick = class::PREVIOUS
+      height = 26.0
+      left = 8.0
+      top = 340.0
+      width = 85.0
+      default = true
+      fontName = "MS Sans Serif"
+      fontSize = 8.0
+      fontBold = true
+      group = true
+   endwith
+
+   this.NEXTCOYBUTTON = new NEXTBUTTON(this)
+   with (this.NEXTCOYBUTTON)
+      onClick = class::NEXT
+      height = 26.0
+      left = 98.0
+      top = 340.0
+      width = 85.0
+      fontName = "MS Sans Serif"
+      fontSize = 8.0
+      fontBold = true
+   endwith
+
+   this.FIRFGSPRDBUTTON = new PUSHBUTTON(this)
+   with (this.FIRFGSPRDBUTTON)
+      onClick = {;form.CheckCommit(form.inEditMode);go top}
+      height = 26.0
+      left = 186.0
+      top = 340.0
+      width = 85.0
+      text = "F&irst"
+      fontName = "MS Sans Serif"
+      fontSize = 8.0
+      fontBold = true
+      statusMessage = "Go to the first record."
+   endwith
+
+   this.LAFGSPRDBUTTON = new PUSHBUTTON(this)
+   with (this.LAFGSPRDBUTTON)
+      onClick = {;form.CheckCommit(form.inEditMode);go bottom}
+      height = 26.0
+      left = 276.0
+      top = 340.0
+      width = 85.0
+      text = "&Last"
+      fontName = "MS Sans Serif"
+      fontSize = 8.0
+      fontBold = true
+      statusMessage = "Go to the last Type."
+   endwith
+
+
+   procedure Open
+   ****************************************************************************
+   private CodeField
+   form.firstime = .T.
+   if type("form.init") = "U"
+      form.init = .T.
+
+      set skip to                     && Fgsprd.qbe contains set skip to gldtl
+      set exact off                   && the .qbe file contains SET EXACT ON
+
+      set procedure to sampProc.prg additive
+    Form.duplicate = .F.
+      form.inEditMode = .F.           && indicator of view/edit state
+      form.changesMade = .F.          && indicator of changes made to field values
+      form.previousRecord = .F.       && Save record number when appending
+        *** do calculations in another area so form doesn't get updated
+        form.updated = .f.
+        select Fgsprd
+    GO TOP                                  && new Receipts
+   if eof()
+   APPEND BLANK
+   endif
+
+
+      *** Open table for calculating totals and balance due in another work area
+      *** so that datalinks are not affected by record movements
+
+
+      ***
+    *  if type("form.parentpayeeForm") <> "U" && Esc ok if have parent
+    *     form.escExit = .T.
+   *   endif
+
+   endif
+   * form.CoyInfoButton.KenpName = "Fgsprd.WFM"
+
+   form::Open()                         && Now the form actually opens
+   *    form.BrowseOnNavigate()              && calculate totals
+   *       form.codingerrors()                        && check coding errors
+
+   *      form.next.setfocus()
+   ****************************************************************************
+
+   function PTYP_onChange
+      SELECT FGSPRD
+      REPLACE MM WITH THIS.VALUE
+      FORM.CHANGESMADE = .T.
+      return
+
+   procedure OnClose
+
+   * Clean up.
+   ****************************************************************************
+
+   if this.inEditMode
+      form.ViewEdit()                      && Finish transaction
+   endif
+      close databases
+     close procedure SAMPProc.prg
+     FORM.CLOSE()
+
+
+   ****************************************************************************
+
+   procedure BrowseOnNavigate
+   ****************************************************************************
+       form.ptyp.Enabled = .F.
+       if eof()
+      form.root.Fgsprd.viewEdit.enabled = .F.
+   else
+      form.root.Fgsprd.viewEdit.enabled = .T.
+   endif
+
+
+
+   ****************************************************************************
+
+   procedure ChangesMade
+
+   * Indicate that changes have been made to the current record
+   ****************************************************************************
+   Form.ChangesMade = .T.
+   ****************************************************************************
+
+   procedure Next
+
+   * Go to next record.
+   ****************************************************************************
+
+   form.CheckCommit(form.inEditMode)
+   if .not. eof()
+      NEXTBUTTON::OnClick()
+    endif
+
+   ****************************************************************************
+
+   procedure Previous
+
+   * Go to previous record.
+   ****************************************************************************
+
+   form.CheckCommit(form.inEditMode)
+    form.ptyp.Enabled = .F.
+     PREVBUTTON::OnClick()
+
+
+   ****************************************************************************
+
+   procedure CheckCommit (newInEditMode)
+
+        * Finish transaction, if it has been started.
+   ****************************************************************************
+   private CodeField, changesMade
+    local lk1
+    lk1 = form.ptyp.value
+   changesMade = form.changesMade
+   if form.changesMade
+      CodeField = field(1)  && Field period
+      if     ConfirmationMessage("Commit changes?",;
+                FormatStr("Period %1",&CodeField)) = YES
+         commit()
+
+      else
+         rollback()
+         if .not. bof()
+       *  if .not. empty(form.previousRecord)
+   *            go bookmark()
+           * form.previousRecord
+            form.previousRecord = .F.
+         endif
+      endif
+
+       form.ptyp.enabled = .F.
+    if form.inEditMode .and. newInEditMode
+         begintrans()
+      endif
+      form.changesMade = .F.
+   endif
+   if form.inEditMode <> newInEditMode
+      if newInEditMode                       && Going to Edit mode
+         begintrans()
+      else                                   && Going to View mode
+         if .not. changesMade .AND. .NOT. FORM.DUPLICATE
+            rollback()
+         endif
+      endif
+      form.inEditMode = newInEditMode
+   endif
+
+   * form.root.Receipt.add.enabled = .T.
+   *form.codingerrors()
+   ****************************************************************************
+
+   function LNAMEENTRY_onChange
+      SELECT FGSPRD
+      REPLACE YY WITH THIS.VALUE
+      FORM.CHANGESMADE = .T.
+      return
+
+   procedure ViewEdit
+
+   * Toggle between View and Edit modes.
+   ****************************************************************************
+   local inEditMode, editMenu, control
+
+   editMenu = form.root.Fgsprd.VIEWEdit
+
+   *** If ending edit mode then close transaction, otherwise open it.
+   if form.inEditMode
+      form.checkChanged(.F.)
+      editMenu.text = "&Edit"
+      editMenu.shortcut = "Ctrl-E"
+      editMenu.statusMessage = "Edit data."
+   *   form.root.Fgsprd.delete.enabled = .F.      && disabled in view mode
+      form.CheckCommit(.F.)                        && Check transaction and
+      form.text = "PERIOD YEAR SELECTION -- View Mode"          && change mode to View
+   *      form.notesEditor.colorNormal = "N/W"
+   *      form.childBrowse.modify = .F.
+   *      form.notesEditor.modify = .F.
+      form.statusmessage = "In View Mode. " + ;
+                           "Select PERIOD YEAR SELECTION - Edit menu to " + ;
+                           "edit/delete data."
+      form.nextCOYBUTTON.SetFocus()
+   else                                            && Switch to edit mode
+      editMenu.text = "Vi&ew"
+      editMenu.shortcut = "Ctrl-E"
+      editMenu.statusMessage = "View data."
+*      form.root.Fgsprd.delete.enabled = .f.      && enabled in edit mode
+      form.CheckCommit(.T.)                        && Check transaction and
+      form.text = "PERIOD YEAR SELECTION -- Edit Mode"          && change mode to Edit
+
+   *     form.notesEditor.modify = .T.
+      form.statusmessage = "In Edit Mode.  " + ;
+                           "Select menu PERIOD YEAR SELECTION - View to switch " + ;
+                           "to View mode."
+        form.ptyp.Enabled = .F.
+
+       form.LnameEntry.SetFocus()
+
+   endif
+
+   inEditMode = form.inEditMode     && Faster if we don't reference a form
+   control = form.first             &&    variable each time through the loop
+   do
+      if .not. control.className $ "BROWSE,EDITOR,NEXTBUTTON,PREVBUTTON,PUSHBUTTON,IMAGE,TEXT"
+         control.enabled = inEditMode
+      endif
+      control = control.before
+   until control.name = form.first.name
+   *           form.gltyp.enabled = .f.
+   *    form.glname.Enabled = .F.
+       form.LnameEntry.SetFocus()
+
+
+   ****************************************************************************
+
+   procedure CheckChanged(callCommit)
+
+   * Check if changes have been made to the current entryfield.  This procedure
+   * is called from menu routines to make sure the form.changesMade gets
+   * updated when a menu is selected while the changed control has focus.
+   ****************************************************************************
+   private control, fieldValue, controlValue, typeText, typeValue
+
+   if form.inEditMode
+      control = form.activeControl
+      if type("control.datalink") <> "U"
+         fieldValue = control.datalink          && name of table field
+
+         typeText = type("control.text")
+         typeValue = type("control.value")
+         do case
+            case typeValue = "C"
+               controlValue = control.value
+            case typeValue $ "LU" .and. typeText = "C"
+               controlValue = control.text
+            otherwise
+               controlValue = Null
+         endcase
+         if controlValue <> &fieldValue
+            form.changesMade = .T.
+         endif
+      endif
+   endif
+   if form.changesMade .and. callCommit
+      CLASS::CheckCommit(form.inEditMode)     && Check transactions
+   endif
+
+endclass
+

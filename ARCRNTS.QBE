@@ -1,0 +1,84 @@
+* Visual dBASE .QBE file 9
+close databases
+ON ERROR DO QBEERR WITH ERROR(), MESSAGE(),;
+PROGRAM(), LINENO()
+use  \kenservice\data\st15f.dbf
+set order to mkey
+go top
+pcen = cen
+ptyp = typ
+pcla = cla
+pcod = cod
+psto = sto
+CLOSE DATABASES
+SET EXACT ON
+*set exclusive on
+SELECT 1
+USE \KENSERVICE\DATA\arcrnts.DBF ORDER TAG ORDER_NO
+delete all for empty(order_no)
+set filter to empty(post_date)
+SELECT 2
+USE \KENSERVICE\DATA\arcrnlne.DBF ORDER TAG ORDER_NO
+delete all for empty(order_no)
+set filter to empty(post_date)
+SELECT 7
+USE \KENSERVICE\DATA\FGOFFS.DBF ORDER TAG NAME
+set filter to .not. empty(shift_date) .and. .not. empty(Cashier_no) .and. empty(date_left)
+select 8
+use  \kenservice\data\fghqoffs.dbf
+set filter to empty(date_left)
+SELECT 93
+USE \KENSERVICE\DATA\FGCOY.DBF
+go top
+SELECT 3
+USE \KENSERVICE\DATA\FRIGTMES.DBF ORDER TAG NAME
+IF  BLEVEL > 4 .or. (blevel = 4 .and. .not. fgcoy->doc20)
+set filter to source > "2"   .AND. .nOT. SOURCE = "9" .and. empty(close_date)
+ELSE
+if blevel = 1 .or. blevel = 3 .or. blevel = 2   .or. blevel = 4
+Set filter to source >  "2"   .and. empty(close_date) && everything
+else
+set filter to source > "2"   .AND. .nOT. SOURCE = "9" .and. empty(close_date)
+ENDIF
+endif
+select 4
+use \kenservice\data\vennames.dbf order tag name
+set filt to vsrce > "1" .AND. .NOT.  VSRCE = "B" .and. empty(close_date)
+select 5
+use \kenservice\data\fgtaxtyp.dbf order tag tax_type
+select 100
+use \kenservice\data\fgmastp.dbf order tag name
+set filter to (TYP = "E0" .or. typ ="W0" .OR. left(TYP,1) = "7" .or. (typ='00' .and. div = '2');
+.or. (typ = "L0" .and. cla > '00').or. typ = "P0" .or. (typ = "C0" .and. cla > "10"))  .and. active = "Yes"
+SELECT 1
+SET RELATION TO ORDER_NO INTO arcrnlne CONSTRAIN INTEGRITY
+SET SKIP TO arcrnlne
+SELECT 24
+USE \KENSERVICE\DATA\arcrntsL.DBF
+**zap
+SET SKIP TO arcrnlne
+SELECT 25
+USE \KENSERVICE\DATA\arcrnts.DBF AGAIN alias arcrnts3
+SET SKIP TO arcrnlne
+SELECT 70
+set safety off
+use \kenserve\idssys\st15f.dbf
+copy stru to \kenservice\data\st15fcnt dbase prod
+use \kenservice\data\st15fcnt.dbf exclusive alias st15f
+appe from \kenservice\data\st15f.dbf for cen = pcen .and. typ = ptyp .and. cod = pcod .and. sto = psto
+SET SKIP TO arcrnlne
+select 101
+USE \KENSERVICE\DATA\arcrnlne.DBF again alias arcrnlne3
+select 102
+USE \KENSERVICE\DATA\arcrnlne.DBF again alias arcrnlne2  order tag order_no
+select 126
+use \kenservice\data\arcrnupd.dbf
+delete all for empty(order_no)
+set filter to .not. empty(post_date)
+ select 128
+ use \kenservice\data\arcrntsn.dbf
+     
+SELECT 129
+use \kenservice\data\fgmastp.dbf AGAIN ALIAS FGMASTP2
+select 130
+use \kenservice\data\frighter.dbf 

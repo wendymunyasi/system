@@ -1,0 +1,31 @@
+* Visual dBASE .QBE file 9
+ON ERROR DO QBEERR WITH ERROR(), MESSAGE(),;
+PROGRAM(), LINENO()
+CLOSE DATABASES
+SET EXACT ON
+*set  on
+SELECT 1
+USE \KENSERVICE\data\ngltran.dbf 
+*zap
+SELECT 2
+use \kenservice\data\fgtran.dbf 
+*replace all gl_post with {}
+SELECT 3
+USE \KENSERVICE\data\NGLMAST.DBF 
+*zap
+select 4
+use \kenservice\data\ngperiod.dbf 
+*zap
+SELECT 6
+USE \KENSERVICE\DATA\NLBANK.DBF 
+*zap
+SELECT 7
+USE \KENSERVICE\DATA\NLCASH.DBF 
+*zap
+SELECT 8
+USE \KENSERVICE\DATA\NLBANKC.DBF 
+*zap
+SELECT 9
+USE \KENSERVICE\DATA\NLCASHC.DBF 
+SELECT 10
+USE \KENSERVICE\DATA\NGLYEARS.DBF

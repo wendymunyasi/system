@@ -210,14 +210,14 @@ procedure line_rtn
             *rlock()
             replace turnover with turnover + arwinvce->total
             endif
-            *unlock
+            *
              if ptyp <= "9Z" .and. .not. left(ptyp,1) = "7" .and. .not. ptyp="00"
              select fgmast
              seek pcoy+pdiv+pcen+psto+ptyp+pcla+pcod
              if found()
              *rlock()
              replace m_var with m_var - pqty
-             *unlock
+             *
              endif
              endif
   

@@ -1,0 +1,39 @@
+* Visual dBASE .QBE file 9
+ON ERROR DO dsshreps.PRG
+USE \KENSERVICE\DATA\DACASREC.DBF
+SET  ORDER TO OFF
+ON ERROR DO QBEERR WITH ERROR(), MESSAGE(),;
+PROGRAM(), LINENO()
+CLOSE DATABASES
+SET EXACT ON
+SELECT 1
+USE \KENSERVICE\DATA\st15fhis.DBF alias st15f order tag tag1
+GO TOP
+select 3
+use  \kenservice\data\fgcoy.dbf
+go top
+SELECT 5
+USE \KENSERVICE\DATA\dshstmas.DBF alias shiftcla
+select 6
+use \kenservice\data\fgcens.dbf order tag mkey
+select 7
+use \kenservice\data\fgcods.dbf order tag mkey
+select 8
+USE \KENSERVICE\DATA\dacasrec.DBF alias scashrec
+select 9
+use \kenservice\data\fgoffs.dbf order tag off
+select 10
+use  \kenservice\data\dshiftbk.dbf alias shiftbk
+select 11
+use  \kenservice\data\dasum.dbf alias shsum
+go top
+select 12
+use \kenservice\data\fgcods.dbf again alias fgcods2 order tag mkey
+SELECT 1
+SET RELATION TO TYP+CLA+COD INTO FGCODS, COY+DIV+CEN INTO FGCENS
+select 1
+set filter to  shift_date = shsum->shift_date .and. typ = '00'
+go top
+select 5
+set relation to typ+cla+cod into fgcods2
+set filter to  shift_date = shsum->shift_date .and.  typ = '00'

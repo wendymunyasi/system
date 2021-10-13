@@ -1,0 +1,91 @@
+* Visual dBASE .QBE file 9
+CLOSE DATABASES
+ON ERROR DO FG15FRN.PRG
+USE \KENSERVICE\DATA\ST15F.DBF
+replace all okclose with {},okmini with {}
+? OP_M_Q1
+ON ERROR DO STSTRR.PRG
+USE \KENSERVICE\DATA\STSTOS ORDER TAG STO
+CLOSE DATABASES
+ON ERROR DO FGCENERR.PRG
+USE \KENSERVICE\DATA\FGCENS ORDER TAG MKEY
+CLOSE DATABASES
+ON ERROR DO FGCLAERR.PRG
+USE \KENSERVICE\DATA\FGCLAS ORDER TAG MKEY
+CLOSE DATABASES
+ON ERROR DO QBEERR WITH ERROR(), MESSAGE(),;
+PROGRAM(), LINENO()
+CLOSE DATABASES
+SET EXACT ON
+SET SAFETY OFF
+ Use \kenserve\idssys\SHTYPCLA.dbf
+copy stru to \kenservice\data\SHTYPCLA dbase prod
+Use \kenserve\idssys\SHIFTTYP.dbf
+copy stru to \kenservice\data\SHIFTTYP dbase prod
+CLOSE DATABASES
+SET SAFETY ON
+SELECT 2
+USE \KENSERVICE\DATA\SHIFTID.DBF ORDER TAG ID
+*SET FILTER TO  NAME="Yes"
+SELECT 6
+set safety off
+use \kenservice\data\st15f.dbf ORDER TAG MKEY
+set filter to typ="00"
+go top
+SELECT 12
+USE \KENSERVICE\DATA\STSTOS.DBF ORDER TAG STO
+SELECT 27
+USE \KENSERVICE\DATA\CASHIERS.DBF order tag cashier
+SELECT 9
+USE \KENSERVICE\DATA\STSTO.DBF ORDER TAG STO
+SELECT 3
+USE \KENSERVICE\DATA\FGCODS.DBF ORDER TAG MKEY
+SELECT 6
+SET RELATION TO Sto INTO STSTO,ST_STO INTO STSTOS
+
+
+SELECT 5
+USE \KENSERVICE\DATA\FGTYP.DBF ORDER TAG TYP alias fgtyps
+
+SELECT 7
+set safety off
+use \kenserve\idssys\fgmast.dbf
+copy stru to \kenservice\data\fgmasshm dbase prod
+use \kenservice\data\fgmasshm.dbf exclusive alias fgmast order tag mkey
+appe from \kenservice\data\fgmast.dbf for typ="00" 
+go top
+
+SELECT 11
+USE \KENSERVICE\DATA\SHIFTCOY.DBF
+
+SELECT 13
+USE \KENSERVICE\DATA\FGCODS.DBF again ORDER TAG MKEY alias FGCODS2
+
+SELECT 15
+USE \KENSERVICE\DATA\STPUM.DBF ORDER TAG PUM
+
+SELECT 19
+USE \KENSERVICE\DATA\SHSUM.DBF
+SELECT 55
+USE \KENSERVICE\DATA\SHIFTCLS.DBF
+
+SELECT 56
+USE \KENSERVICE\DATA\SHIFTCLS.DBF AGAIN alias shiftcls2
+
+
+SET FILTER TO TYP="00"
+
+SELECT 100
+USE \KENSERVICE\DATA\FGCOY.DBF
+repl all doc17 with .f., doc18 with .f.
+go top
+select 107
+use \kenservice\data\fgclas.dbf order tag mkey
+select 110
+use \kenservice\data\shifttyp.dbf ORDER TAG TYP
+set relation to typ into fgtyps
+select  111
+use \kenservice\data\shtypcla.dbf   ORDER TAG MKEY
+set relation to typ+cla into fgclas
+SELECT 2
+GO TOP

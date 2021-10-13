@@ -1,0 +1,521 @@
+////////////////////////////////////////////////////////////////////////////////
+// Output Filename: C:\KENSERVICE\IDSSYS\FSHCASHR_FCV.WFM                     //
+// Created By:      dBASE Form Converter Wizard                               //
+// Created On:      Thursday June 16, 2016 At 07:10:09                        //
+// Object Count:    10                                                        //
+////////////////////////////////////////////////////////////////////////////////
+*******************************************************************************
+*  PROGRAM:      Fshcashr.wfm
+*
+*  WRITTEN BY:   W Nyongesa
+*
+*  DATE:         05/2000
+*
+*  UPDATED:     02/2013
+*
+*  REVISION:     $Revision:   1.0
+*
+*  VERSION:      Visual dBASE
+*
+*  DESCRIPTION:  This program maintains the companies master file
+*
+*  PARAMETERS:   None
+*
+*  CALLS:        Fshcashr.mnu         (Menu file)
+*                KBUTTONS.CC          (Custom Controls file)
+*                Shift Cashier.qbe         (View of tables)
+*
+*  USAGE:        DO Fshcashr.wfm
+*
+*******************************************************************************
+#include <messdlg.h>
+shell(.F.)
+create session
+set talk off
+*set DBTYPE to PARADOX
+_app.FrameWin.Visible = .F.
+_app.FrameWin.Text = "Fshcashr"
+set century on
+set ldCheck off && To avoid language driver conflicts
+#define Maxcoy 999
+** END HEADER -- do not remove this line
+//
+// Generated on 11/07/2016
+//
+parameter bUser,bLevel,bModal
+local f
+f = new FshcashrFORM()
+if (bModal)
+   f.mdi = false // ensure not MDI
+   f.readModal()
+else
+   f.open()
+endif
+
+class FshcashrFORM of FORM
+   with (this)
+      onClose = class::ONCLOSE
+      open = class::OPEN
+      metric = 6	// Pixels
+      colorNormal = "N+"
+      height = 932.0
+      left = 84.0
+      top = 12.0
+      width = 1284.0
+      text = "Current Shift Staff Allocation Form"
+      windowState = 2	// Normal
+      mdi = false
+      sizeable = false
+      moveable = false
+      view = "Fshcashr.QBE"
+      menuFile = "FSHCASHR.MNU"
+      escExit = false
+      mousePointer = 1	// Arrow
+      maximize = false
+      minimize = false
+   endwith
+
+   this.TEXT1 = new TEXTLABEL(this)
+   with (this.TEXT1)
+      height = 33.0
+      left = 35.0
+      top = 11.0
+      width = 217.0
+      text = "Cash Collection Point"
+      colorNormal = "B+/W"
+      fontName = "MS Sans Serif"
+      fontSize = 12.0
+      fontBold = true
+   endwith
+
+   this.SCASHR = new COMBOBOX(this)
+   with (this.SCASHR)
+      onChange = class::SCASHR_ONCHANGE
+      dataLink = "FGCOY->CNAME"
+      enabled = false
+      height = 44.0
+      left = 14.0
+      top = 55.0
+      width = 154.0
+      dataSource = "FIELD CASHIERS->CASHR_NO"
+      style = 2	// DropDownList
+      dropDownHeight = 132.0
+   endwith
+
+   this.RESP1 = new ENTRYFIELD(this)
+   with (this.RESP1)
+      onChange = class::RESP1_ONCHANGE
+      dataLink = "CASHIERS->RESPNSE"
+      enabled = false
+      height = 33.0
+      left = 203.0
+      top = 55.0
+      width = 343.0
+      function = "!"
+      colorNormal = "0x8000ff/W"
+      fontName = "MS Sans Serif"
+   endwith
+
+   this.TEXT3 = new TEXTLABEL(this)
+   with (this.TEXT3)
+      height = 28.0
+      left = 534.0
+      top = 0.0
+      width = 467.0
+      text = "CURRENT SHIFT - Allocate/Allocated Officer"
+      colorNormal = "B+/W"
+      fontName = "MS Sans Serif"
+      fontSize = 12.0
+      fontBold = true
+   endwith
+
+   this.CHILDBROWSE = new BROWSE(this)
+   with (this.CHILDBROWSE)
+      onLostFocus = class::CHILDBROWSE_ONLOSTFOCUS
+      enabled = false
+      colorNormal = "N/W"
+      colorHighLight = "R+/W"
+      fontName = "MS Sans Serif"
+      fontSize = 9.0
+      fontBold = true
+      height = 770.0
+      left = 553.0
+      top = 33.0
+      width = 518.0
+      append = false
+      alias = "FgoffS"
+      fields = 'SN = FgoffS->NAME\H="Emp Name"\35\R\C="0x40/0xff80ff",STITL = OFTITLES->NAME\H="Title"\35\R'
+      delete = false
+      modify = false
+      showRecNo = false
+   endwith
+
+   this.TEXT4 = new TEXTLABEL(this)
+   with (this.TEXT4)
+      height = 33.0
+      left = 203.0
+      top = 110.0
+      width = 343.0
+      text = "Current Allocated Officer:"
+      colorNormal = "B+/W"
+      fontName = "MS Sans Serif"
+      fontSize = 12.0
+      fontBold = true
+   endwith
+
+   this.CNAME = new ENTRYFIELD(this)
+   with (this.CNAME)
+      dataLink = "CASHIERS->Name"
+      enabled = false
+      height = 33.0
+      left = 203.0
+      top = 154.0
+      width = 343.0
+      colorNormal = "0x8000ff/W"
+      fontName = "MS Sans Serif"
+      fontSize = 12.0
+   endwith
+
+   this.ADATE = new ENTRYFIELD(this)
+   with (this.ADATE)
+      dataLink = "Fgoff2->SHIFT_DATE"
+      visible = false
+      enabled = false
+      height = 33.0
+      left = 280.0
+      top = 209.0
+      width = 154.0
+      colorNormal = "0x8000ff/W"
+      fontName = "MS Sans Serif"
+      fontSize = 12.0
+   endwith
+
+   this.TEXT5 = new TEXTLABEL(this)
+   with (this.TEXT5)
+      visible = false
+      height = 33.0
+      left = 161.0
+      top = 209.0
+      width = 111.0
+      text = "Date:"
+      colorNormal = "B+/W"
+      fontName = "MS Sans Serif"
+      fontSize = 12.0
+      fontBold = true
+   endwith
+
+
+   procedure Open
+   ****************************************************************************
+
+   private CodeField
+     FORM.blUSER = BUSER
+   FORM.blEVEL = BLEVEL
+   IF EMPTY(FORM.blUSER) .OR. EMPTY(FORM.bLEVEL)
+     wait "Variables not carried"
+   QUIT
+   ENDIF
+                on error DO ddeerr WITH ERROR(), MESSAGE(),;
+   PROGRAM(), LINENO()
+   form.firstime = .T.
+   if type("form.init") = "U"
+      form.init = .T.
+
+      set skip to                     && Fshcashr.qbe contains set skip to gldtl
+      set exact off                   && the .qbe file contains SET EXACT ON
+
+      set procedure to sampProc.prg additive
+    Form.duplicate = .F.
+      form.inEditMode = .F.           && indicator of view/edit state
+      form.changesMade = .F.          && indicator of changes made to field values
+      form.previousRecord = .F.       && Save record number when appending
+        *** do calculations in another area so form doesn't get updated
+        form.updated = .f.
+   
+     SELECT FGOFF
+   SET ORDER TO OFF
+      select Fgoffs
+      set order to name
+      select fgcenall
+      set order to mkey
+      select fgcens
+      set order to mkey
+   select cashiers
+   set order to cashier
+   go top
+   SELECT FGOFFS
+   SEEK CASHIERS->NAME
+   IF .NOT. FOUND()
+   GO TOP
+   ENDIF
+   select cashiers
+   go top
+   if fgcoy->pospost = "Yes"
+   form.pshdate = st15f->shift_date
+   form.pshno = st15f->shift_no
+   form.pshid = st15f->shift_id
+   else
+    form.pshdate = date()
+   form.pshno = "0"
+   form.pshid = "0"
+
+   endif
+
+   endif
+   GO TOP
+   form::Open()                         && Now the form actually opens
+
+   procedure OnClose
+
+   * Clean up.
+   ****************************************************************************
+   do Fshcashrs_rtn
+   if this.inEditMode
+      form.ViewEdit()                      && Finish transaction
+   endif
+      close databases
+     set safety off
+     use \kenserve\idssys\fccashrs.dbf
+    copy stru to \kenservice\data\fccashrs dbase prod
+    use \kenservice\data\fccashrs.dbf
+    appe from \kenservice\data\cashiers.dbf
+    close databases
+    set safety on
+     form.close()
+      close procedure sampproc.prg
+   ****************************************************************************
+
+   procedure BrowseOnNavigate
+   ****************************************************************************
+       form.ptyp.Enabled = .F.
+       if eof()
+      form.root.Fshcashr.viewEdit.enabled = .F.
+   else
+      form.root.Fshcashr.viewEdit.enabled = .T.
+   endif
+
+
+
+   ****************************************************************************
+
+   procedure ChangesMade
+
+   * Indicate that changes have been made to the current record
+   ****************************************************************************
+   Form.ChangesMade = .T.
+   ****************************************************************************
+
+  
+   ****************************************************************************
+
+   procedure CheckCommit (newInEditMode)
+
+        * Finish transaction, if it has been started.
+   ****************************************************************************
+   private CodeField, changesMade
+    local lk1
+   changesMade = form.changesMade
+   if form.changesMade
+      CodeField = field(1)  && Field period
+         commit()
+
+    if form.inEditMode .and. newInEditMode
+         begintrans()
+                      on error DO transerr WITH ERROR(), MESSAGE(),;
+   PROGRAM(), LINENO()
+
+      endif
+      form.changesMade = .F.
+   endif
+   if form.inEditMode <> newInEditMode
+      if newInEditMode                       && Going to Edit mode
+         begintrans()
+                      on error DO transerr WITH ERROR(), MESSAGE(),;
+   PROGRAM(), LINENO()
+
+      else                                   && Going to View mode
+         if .not. changesMade .AND. .NOT. FORM.DUPLICATE
+            rollback()
+         endif
+      endif
+      form.inEditMode = newInEditMode
+   endif
+
+    procedure ViewEdit
+
+   * Toggle between View and Edit modes.
+   ****************************************************************************
+   local inEditMode, editMenu, control
+
+   editMenu = form.root.Fshcashr.VIEWEdit
+
+   *** If ending edit mode then close transaction, otherwise open it.
+   if form.inEditMode
+      form.checkChanged(.F.)
+      editMenu.text = "&Edit"
+      editMenu.shortcut = "Ctrl-E"
+      editMenu.statusMessage = "Edit data."
+      form.CheckCommit(.F.)                        && Check transaction and
+      form.text = "Current Shift Staff Allocation Form -- View Mode"          && change mode to View
+         form.childBrowse.modify = .F.
+          form.childBrowse.enabled = .F.
+      form.statusmessage = "In View Mode. " + ;
+                           "Select Officer -  Edit menu to " + ;
+                           "edit/delete data."
+   else                                            && Switch to edit mode
+      editMenu.text = "Vi&ew"
+      editMenu.shortcut = "Ctrl-E"
+      editMenu.statusMessage = "View data."
+      form.CheckCommit(.T.)                        && Check transaction and
+      form.text = "Current Shift Staff Allocation Form -- Edit Mode"          && change mode to Edit
+
+    form.childBrowse.enabled = .t.
+   form.childBrowse.modify = .t.
+      form.statusmessage = "In Edit Mode.  " + ;
+                           "Select menu Officer -  View to switch " + ;
+                           "to View mode."
+    endif
+
+   inEditMode = form.inEditMode     && Faster if we don't reference a form
+   control = form.first             &&    variable each time through the loop
+   do
+      if .not. control.className $ "BROWSE,EDITOR,NEXTBUTTON,PREVBUTTON,PUSHBUTTON,IMAGE,TEXT"
+         control.enabled = inEditMode
+      endif
+      control = control.before
+   until control.name = form.first.name
+
+     form.cname.enabled = .f.
+     form.adate.enabled = .f.
+     form.resp1.enabled = .f.
+
+    procedure CheckChanged(callCommit)
+     private control, fieldValue, controlValue, typeText, typeValue
+
+   if form.inEditMode
+      control = form.activeControl
+      if type("control.datalink") <> "U"
+         fieldValue = control.datalink          && name of table field
+
+         typeText = type("control.text")
+         typeValue = type("control.value")
+         do case
+            case typeValue = "C"
+               controlValue = control.value
+            case typeValue $ "LU" .and. typeText = "C"
+               controlValue = control.text
+            otherwise
+               controlValue = Null
+         endcase
+         if controlValue <> &fieldValue
+            form.changesMade = .T.
+         endif
+      endif
+   endif
+   if form.changesMade .and. callCommit
+      CLASS::CheckCommit(form.inEditMode)     && Check transactions
+   endif
+
+   Procedure CHILDBROWSE_OnLostFocus
+         select cashiers
+         replace off with Fgoffs->off
+         replace name with Fgoffs->name
+          select Fgoffs
+         replace cashier_no with cashiers->cashr_no
+         replace shift_date with form.pshdate
+          replace shift_no with form.pshno
+         replace shift_id with form.pshid
+          select cashiers
+         form.changesmade = .t.
+
+   Procedure SCASHR_OnChange
+      select cashiers
+      seek this.value
+      if .not. empty(cashiers->name)
+      select Fgoffs
+      seek cashiers->name
+      endif
+      select cashiers
+
+   Procedure RESP1_OnChange
+         FORM.CHANGESMADE = .T.
+
+endclass
+
+Procedure Fshcashrs_rtn
+   private eofcashiers,p1,p2,pshdate,pshno,pshid
+   if fgcoy->pospost = "Yes"
+   pshdate = st15f->shift_date
+   pshno = st15f->shift_no
+   pshid = st15f->shift_id
+   else
+    pshdate = date()
+   pshno = "0"
+   pshid = "0"
+
+ endif
+   eofcashiers = .f.
+   set safety off
+   select fgoffs2
+   replace all cashier_no with ""
+     set order to off
+   select fgoff
+   replace all cashier_no with ""
+   set order to off
+      set safety on
+   select cashiers2
+   go top
+   if .not. eof()
+      do
+         do rtn1
+         until eofcashiers
+     endif
+
+procedure rtn1
+   local p1,p2
+        p1 = cashiers2->name
+        p2 = cashiers2->OFF
+        if .not. empty(p1)
+     select Fgoffs2
+      seek p2
+      if found()
+      replace shift_date with pshdate
+      replace shift_id with pshid
+      replace shift_no with pshno
+      replace cashier_no with cashiers2->cashr_no
+         endif
+         select Fgoff
+         seek p2
+         if found()
+         replace shift_date with pshdate
+      replace shift_id with pshid
+      replace shift_no with pshno
+
+          replace cashier_no with cashiers2->cashr_no
+         endif
+         pcoy = "1"
+         pdiv = "1"
+         pcen = cashier_no
+         select fgcens
+         seek pcoy+pdiv+pcen
+         if found() .and. used = "Yes"
+         select fgcenall
+         seek pcoy+pdiv+pcen
+         if .not. found()
+         append blank
+         replace coy with pcoy
+         replace cen with pcen
+         replace div with pdiv
+         endif
+         replace c_off with p2
+         replace cs_date with pshdate
+         replace cs_no with pshno
+         replace cs_id with pshid
+       endif
+         endif
+
+   select cashiers2
+   skip
+   if eof()
+   eofcashiers = .t.
+   endif

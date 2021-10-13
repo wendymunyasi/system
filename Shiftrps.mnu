@@ -1,0 +1,462 @@
+******************************************************************************
+*  PROGRAM:      Shiftrps.mnu
+*
+*  WRITTEN BY:   W Nyongesa
+*
+*  DATE:         03/2001
+*
+*  UPDATED:      07/2013
+*
+*  REVISION:     $Revision:   1.58  $
+*
+*  VERSION:      Visual dBASE
+*
+*  DESCRIPTION:  This is a menu file used by Shiftrps.wfm for
+*                performing simple tasks.  It allows adding and deleting
+*                records, searching for a value in the Division field of the
+*                current table viewed, and exiting the form in view.
+*
+*  PARAMETERS:   FormObj -- the form to which this menu will belong.
+*
+*  CALLS:        None
+*
+*  USAGE:        form.menuFile = "Shiftrps.mnu"
+*
+*******************************************************************************
+#include <messdlg.h>
+
+** END HEADER -- do not remove this line*
+* Generated on 07/03/2001
+*
+Parameter FormObj
+NEW DivisionS(FormObj,"Root")
+CLASS DivisionS(FormObj,Name) OF MENUBAR(FormObj,Name)
+   this.Text = ""
+   this.OnInit = {;set procedure to SampProc.prg}
+
+   DEFINE MENU FILE OF THIS;
+       PROPERTY;
+         Text "&File"
+
+           DEFINE MENU EXIT OF THIS.FILE;
+                PROPERTY; 
+          StatusMessage "Return to the Previous Menu.",;
+          Text "&RETURN TO PREVIOUS MENU",;
+          SHORTCUT "F4",;
+          OnClick CLASS::ONEXIT
+  
+      
+       DEFINE MENU SEPARATOR000 OF THIS.FILE;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+
+            
+   DEFINE MENU QUITALL OF THIS.FILE;
+       PROPERTY; 
+          StatusMessage "Leave Kenserve System.",;
+          Text "EXIT",;
+          SHORTCUT "F8",;
+          OnClick CLASS::ONQUITALL
+          
+   DEFINE MENU shiftRps OF THIS;
+       PROPERTY;
+         Text "&Shift Date"
+
+     DEFINE MENU VIEWEDIT OF THIS.shiftrps;
+             PROPERTY;
+               OnClick CLASS::VIEWEDITONCLICK,;
+               Text "&Edit",;
+               Shortcut "Ctrl-E",;
+               StatusMessage "Edit data."
+
+         DEFINE MENU SEPARATOR1 OF THIS.shiftrps;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+   DEFINE MENU CREATEINR OF THIS;
+      PROPERTY;
+      TEXT "SHIFT REPORTS"
+      
+      
+         DEFINE MENU ERRORDmmof OF THIS.CREATEINR;
+             PROPERTY;
+               OnClick {;create session ;set lock off ;report form shiftMRo},;
+               Text "&0. Meter Movements by Officer."
+     DEFINE MENU CREATEINR00 OF THIS.CREATEINR;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+      
+         DEFINE MENU ERRORDivisionSREPORT OF THIS.CREATEINR;
+             PROPERTY;
+               OnClick {;create session ;set lock off ;report form shiftMRS},;
+               Text "&1. Meter Movements by Product."
+               
+     DEFINE MENU CREATEINR01 OF THIS.CREATEINR;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+
+
+      DEFINE MENU STOCPOERRORDcalaivisionSREPORT OF THIS.CREATEINR;
+             PROPERTY;
+               OnClick {;create session ;set lock off ;report form fgstknou},;
+               Text "&2. Stock Calcutations -WITH NO ULLAGE"
+               
+                DEFINE MENU CREATEINR02 OF THIS.CREATEINR;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+
+               
+         DEFINE MENU STOCPOERRORDivisionSREPORT OF THIS.CREATEINR;
+             PROPERTY;
+               OnClick {;create session ;set lock off ;report form st15f2h},;
+               Text "&3. Sales and Stock of Lubricants, LPGS and Other Items"
+                DEFINE MENU CREATEINR03 OF THIS.CREATEINR;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+
+               
+    DEFINE MENU ScashsTOCPOERRORDivisionSREPORT OF THIS.CREATEINR;
+             PROPERTY;
+               OnClick {;create session ;set lock off ;report form shCSm},;
+               Text "&4. Cash Summary"
+                DEFINE MENU CREATEINR04 OF THIS.CREATEINR;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+
+               
+ DEFINE MENU ScviavaashsTOCPOERRORDivisionSREPORT OF THIS.CREATEINR;
+             PROPERTY;
+               OnClick {;create session ;set lock off ;report form shiftvc},;
+               Text "&5. Invoice Register - ordered by officer/cashier"
+                DEFINE MENU CREATEINR05 OF THIS.CREATEINR;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+
+               
+                DEFINE MENU invoreg2 OF THIS.CREATEINR;
+             PROPERTY;
+               OnClick {;create session ;set lock off ;report form shiftvcc},;
+               Text "&6. Invoice Register - ordered by customer"
+                DEFINE MENU CREATEINR06 OF THIS.CREATEINR;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+
+
+               DEFINE MENU serScviavaashsTOCPOERRORDivisionSREPORT OF THIS.CREATEINR;
+             PROPERTY;
+               OnClick {;create session ;set lock off ;report form shiftpos},;
+               Text "&7. Job Card Sales Journal - ordered by PAY METHOD, CASHIER"
+                DEFINE MENU CREATEINR07 OF THIS.CREATEINR;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+
+               
+              DEFINE MENU cashsales2 OF THIS.CREATEINR;
+             PROPERTY;
+               OnClick {;create session ;set lock off ;report form shiftpo2},;
+               Text "&8. Job Card Sales Journal - ordered by JOB CARD SERIAL NUMBER"
+                DEFINE MENU CREATEINR08 OF THIS.CREATEINR;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+
+               
+                DEFINE MENU chqreg OF THIS.CREATEINR;
+             PROPERTY;
+               OnClick {;create session ;set lock off ;report form shiftcq},;
+               Text "&9. Cheque Sales Register"
+                DEFINE MENU CREATEINR09 OF THIS.CREATEINR;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+
+               
+           
+             DEFINE MENU Shiftbrs2 OF THIS.CREATEINR;
+             PROPERTY;
+               Text "10. Meter Movements - &Shared Meters",;
+                 OnClick {;create session ;set lock off ;report form shiftSMR}
+             
+                DEFINE MENU CREATEINR10 OF THIS.CREATEINR;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+
+           
+     DEFINE MENU shiftrbankec1 OF THIS.CREATEINR;
+             PROPERTY;
+               OnClick {;create session ;set lock off ;report form shiftreb},;
+               Text "11. Shift &Bankings - ORDERED BY PAY METHOD, CASHIER"
+               DEFINE MENU CREATEINR16bank OF THIS.CREATEINR;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+               
+DEFINE MENU ScviavaasummshsPORT OF THIS.CREATEINR;
+             PROPERTY;
+               OnClick {;create session ;set lock off ;report form HSHcashr},;
+               Text "12. Cashiers Summary Cash &Reconciliation Sheet"
+               DEFINE MENU CREATEINR12 OF THIS.CREATEINR;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+
+DEFINE MENU ScviavaasummshsTOCPOERRORD2b OF THIS.CREATEINR;
+             PROPERTY;
+               OnClick {;create session ;set lock off ;report form Hcashr12},;
+               Text "12b. Cashiers Summary Cash &Reconciliation Sheet"
+               
+               DEFINE MENU CREATEINR12b OF THIS.CREATEINR;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+
+
+ DEFINE MENU ERXPSAcashsTOCPOERRORDivisionSREPORT OF THIS.CREATEINR;
+             PROPERTY;
+               OnClick {;create session ;set lock off ;report form shiftcas},;
+               Text "13. Cash Sa&les Summary"
+               DEFINE MENU CREATEINR13 OF THIS.CREATEINR;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+               
+ DEFINE MENU SLOSTOCPOERRORDivisionSREPORT OF THIS.CREATEINR;
+             PROPERTY;
+               OnClick {;create session ;set lock off ;report form shiftpay},;
+               Text "14. Payments/Purchases Journal - ORDERED BY PAY METHOD, &CASHIER"
+               DEFINE MENU CREATEINR14 OF THIS.CREATEINR;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+               
+ DEFINE MENU SHIFTPAY2 OF THIS.CREATEINR;
+             PROPERTY;
+               OnClick {;create session ;set lock off ;report form shiftpa2},;
+               Text "15. Pa&Yments/Purchases Journal - ORDERED BY SYSTEM, SERIAL NO."
+               DEFINE MENU CREATEINR15 OF THIS.CREATEINR;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+ 
+  DEFINE MENU shiftrrec1 OF THIS.CREATEINR;
+             PROPERTY;
+               OnClick {;create session ;set lock off ;report form shiftrec},;
+               Text "16. Rec&eipts &Journal - ORDERED BY PAY METHOD, CASHIER"
+               DEFINE MENU CREATEINR16 OF THIS.CREATEINR;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+               
+ DEFINE MENU shiftrec2 OF THIS.CREATEINR;
+             PROPERTY;
+               OnClick {;create session ;set lock off ;report form shiftre2},;
+               Text "17. Receip&ts Journal - ORDERED BY SYSTEM, SERIAL NO."
+               DEFINE MENU CREATEINR17 OF THIS.CREATEINR;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+
+                DEFINE MENU SLf1OSTOCPOERRmeterORDivisionSREPORT OF THIS.CREATEINR;
+             PROPERTY;
+                       OnClick {;create session ;set lock off ;report form shfmtrs},;
+               Text "18. FUELS & LUBES Meters &Audit Report"
+               DEFINE MENU CREATEINR18 OF THIS.CREATEINR;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+               
+                  DEFINE MENU ShiftLMR2 OF THIS.CREATEINR;
+             PROPERTY;
+               OnClick {;create session ;set lock off ;report form shiftLMh},;
+               Text "19. &METERED SERVICE BAY LUBES SALES"
+               DEFINE MENU CREATEINR19 OF THIS.CREATEINR;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+               
+                 DEFINE MENU Shifttrn2 OF THIS.CREATEINR;
+             PROPERTY;
+               OnClick {;create session ;set lock off ;report form shiftTRN},;
+               Text "20. INTER-STORE TRA&NSFERS"
+               DEFINE MENU CREATEINR20 OF THIS.CREATEINR;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+               
+                    DEFINE MENU FLOATEXP OF THIS.CREATEINR;
+             PROPERTY;
+               OnClick {;create session ;set lock off ;report form FLOATPY},;
+               Text "21. &FLOAT EXPENSES SORTED BY CASHIER"
+               DEFINE MENU CREATEINR21 OF THIS.CREATEINR;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+               
+       DEFINE MENU FcylLOATEXP OF THIS.CREATEINR;
+             PROPERTY;
+               OnClick {;create session ;set lock off ;report form shiftcyl},;
+               Text "22. LUBES AND LP&GS CASH SALES ORDERED BY CASHIER"
+               DEFINE MENU CREATEINR22 OF THIS.CREATEINR;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+               
+                 DEFINE MENU DSHIFTADJS OF THIS.CREATEINR;
+             PROPERTY;
+               OnClick {;create session ;set lock off ;report form shiftADJ},;
+               Text "23. Stock Ad&justments/Assembly"
+               DEFINE MENU CREATEINR23 OF THIS.CREATEINR;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+     
+  DEFINE MENU visoreg2 OF THIS.CREATEINR;
+               PROPERTY;
+               OnClick {;create session ;set lock off ;report form shiftvs},;
+               Text "24. Credit Car&ds Register - ordered by cashier"
+               DEFINE MENU CREATEINR24 OF THIS.CREATEINR;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+               
+                DEFINE MENU visoreg3 OF THIS.CREATEINR;
+             PROPERTY;
+               OnClick {;create session ;set lock off ;report form shiftvss},;
+               Text "25. Credi&t Cards  Register - ordered by customer"
+               DEFINE MENU CREATEINR25 OF THIS.CREATEINR;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+               
+                 DEFINE MENU vischqg3 OF THIS.CREATEINR;
+             PROPERTY;
+                OnClick {;create session ;set lock off ;report form shiftaro},;
+                Text "26. Shift &Job Orders - ordered by customer"
+                
+                 DEFINE MENU CREATEINR26 OF THIS.CREATEINR;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+             
+                    DEFINE MENU ShifttrnAX2 OF THIS.CREATEINR;
+             PROPERTY;
+               OnClick {;create session ;set lock off ;report form shiftTRN},;
+               Text "27. STOCK TRANSFER&S"
+         
+                DEFINE MENU CREATEINR27 OF THIS.CREATEINR;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+         
+          DEFINE MENU SmterauditREPORTxt OF THIS.CREATEINR;
+             PROPERTY;
+               OnClick {;create session ;set lock off ;report form hscascod},;
+               Text "28. Daily Shift Transactions Summary By &Item Type."
+    
+          DEFINE MENU CREATEINR28 OF THIS.CREATEINR;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+      
+                  
+        DEFINE MENU SmterauditREPORTof OF THIS.CREATEINR;
+             PROPERTY;
+               OnClick {;create session ;set lock off ;report form hscasoff},;
+               Text "29. Daily Shift Transactions Summary By &Officer."
+      
+           DEFINE MENU CREATEINR29 OF THIS.CREATEINR;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+               
+                DEFINE MENU Smterauditssumf OF THIS.CREATEINR;
+             PROPERTY;
+               OnClick {;create session ;set lock off ;do sshhrep.prg with form.bluser},;
+               Text "30. Shift Reports - &Combined - MUST CHOOSE A4 PAPER SIZE."
+      
+           DEFINE MENU CREATEINR2summ OF THIS.CREATEINR;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+   
+                 
+        DEFINE MENU SmterauditREPORTNFCS OF THIS.CREATEINR;
+             PROPERTY;
+               OnClick {;create session ;set lock off ;report form dayfgmas},;
+               Text "31. Non-Forecourt Stock Position."
+      
+           DEFINE MENU CREATEINR2931 OF THIS.CREATEINR;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+                DEFINE MENU SmterauditMOBMON OF THIS.CREATEINR;
+             PROPERTY;
+               OnClick {;create session ;set lock off ;report form shmobmon},;
+               Text "32. M-Money Transactions."
+      
+           DEFINE MENU CREATEINR293mob1 OF THIS.CREATEINR;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+                 DEFINE MENU SmterauditMOBMON33 OF THIS.CREATEINR;
+             PROPERTY;
+                 OnClick {;create session ;set lock off ;report form shcaspos},;
+               Text "33. Monthly Shift Cash Position (detailed)"
+           
+      
+           DEFINE MENU CREATEINR293mob133 OF THIS.CREATEINR;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+                 DEFINE MENU FcylLOATEXP34 OF THIS.CREATEINR;
+             PROPERTY;
+               OnClick {;create session ;set lock off ;report form shiftlub},;
+               Text "34. &LUBES AND LPGS CASH SALES ORDERED BY ITEM TYPE"
+               
+               DEFINE MENU CREATEINR2235 OF THIS.CREATEINR;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+           
+   
+      DEFINE MENU STOCPOERRORDcalaivisionSREPORT35 OF THIS.CREATEINR;
+             PROPERTY;
+               OnClick {;create session ;set lock off ;report form fgstkcal},;
+               Text "35. Stock Calcutations -WITH &ULLAGE"
+               
+                DEFINE MENU CREATEINR0235 OF THIS.CREATEINR;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+
+    ***************************************************************************
+   procedure ViewEditOnClick
+   ****************************************************************************
+
+   form.ViewEdit()
+
+    ****************************************************************************
+    procedure OnExit
+     form.Release()
+
+    procedure OnQuitAll
+   
+     form.Release()
+
+ quit
+
+
+ENDCLASS
+
+
+

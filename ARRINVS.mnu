@@ -1,0 +1,668 @@
+ 
+******************************************************************************
+*  PROGRAM:      ARRINVS.mnu
+*
+*  WRITTEN BY:   W M Nyongesa
+*
+*  DATE:         12/93
+*
+*  UPDATED:      11/2013
+*
+*  REVISION:     $Revision:   1.58  $
+*
+*  VERSION:      Visual dBASE
+*
+*  DESCRIPTION:  This is a menu file used by ARRINVS.wfm for
+*                performing simple tasks.  It allows adding and deleting
+*                records, searching for a value in the InvCredit field of the
+*                current table viewed, and exiting the form in view.
+*
+*  PARAMETERS:   FormObj -- the form to which this menu will belong.
+*
+*  CALLS:        None
+*
+*  USAGE:        form.menuFile = "ARRINVS.mnu"
+*
+*******************************************************************************
+#include <Messdlg.h>
+
+** END HEADER -- do not remove this line*
+* Generated on 05/06/94
+*
+Parameter FormObj
+NEW ARRINVS(FormObj,"Root")
+CLASS ARRINVS(FormObj,Name) OF MENUBAR(FormObj,Name)
+   this.Text = ""
+   this.OnInit = {;set procedure to Sampproc.prg}
+
+   DEFINE MENU FILE OF THIS;
+       PROPERTY;
+         Text "&FILE"
+
+          DEFINE MENU EXIT OF THIS.FILE;
+                PROPERTY; 
+          StatusMessage "Return to the Previous Menu.",;
+          Text "&RETURN TO PREVIOUS MENU",;
+          SHORTCUT "F4",;
+          OnClick CLASS::ONEXIT
+  
+      
+       DEFINE MENU SEPARATOR000 OF THIS.FILE;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+
+            
+   DEFINE MENU QUITALL OF THIS.FILE;
+       PROPERTY; 
+          StatusMessage "Leave Kenserve System.",;
+          Text "EXIT",;
+          SHORTCUT "F8",;
+          OnClick CLASS::ONQUITALL
+
+   DEFINE MENU ORDER OF THIS;
+       PROPERTY;
+         Text "InvCredit"
+
+         DEFINE MENU VIEWEDIT OF THIS.order;
+             PROPERTY;
+               OnClick CLASS::VIEWEDITONCLICK,;
+               Text "&EDIT",;
+               Shortcut "Ctrl-E",;
+               StatusMessage "Edit data."
+
+         DEFINE MENU SEPARATOR1 OF THIS.ORDER;
+             PROPERTY;
+               Separator .T.,;
+                  Text ""
+
+         DEFINE MENU ADDORDER OF THIS.order;
+             PROPERTY;
+               OnClick CLASS::ADDORDERONCLICK,;
+               Text "ADD - New InvCredit",;
+               Enabled .T.,;
+               Shortcut "F3",;
+               StatusMessage "Add an Invoice."
+ DEFINE MENU SEPARATOR2 OF THIS.ORDER;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+       DEFINE MENU ADDLINE OF THIS.order;
+             PROPERTY;
+               OnClick CLASS::ADDLINEONCLICK,;
+               Text "ADD-ITEM",;
+               Enabled .T.,;
+               Shortcut "F7",;
+               StatusMessage "Add a new product, item or service to the InvCredit."
+           DEFINE MENU SEPARATOR3 OF THIS.ORDER;
+             PROPERTY;
+               Separator .T.,;
+               Text ""     
+            DEFINE MENU DELETELINE OF THIS.ORDER;
+             PROPERTY;
+               OnClick CLASS::DELETELINEONCLICK,;
+               Text "Delete IteM",;
+               Enabled .F.,;
+               Shortcut "Ctrl-M",;
+               StatusMessage "Delete the current product."
+      
+         DEFINE MENU SEPARATOR4 OF THIS.ORDER;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+
+DEFINE MENU REPORT OF THIS;
+       PROPERTY; 
+         Text "TASKS"
+
+   DEFINE MENU REPORT OF THIS.report;
+       PROPERTY;
+         Text "Save",;
+         enabled .t.,;
+        OnClick CLASS::F5_RTN,;
+               Shortcut "F5"
+           DEFINE MENU REPORT2 OF THIS.report;
+       PROPERTY;
+         Text "Print",;
+         enabled .t.,;
+        OnClick class::f9_rtn,;
+               Shortcut "F9"
+               
+                  DEFINE MENU REPORT3 OF THIS.report;
+       PROPERTY;
+         Text "Duplicate",;
+         enabled .t.,;
+        OnClick class::F1_rtn,;
+               Shortcut "F1"
+
+  procedure DeleteLineOnClick
+   PRIVATE Ppcoy,Ppdiv,Ppcen,Ppsto,Pptyp,Ppcla,Ppcod,PPRQTY,pamt
+   * Delete current record.
+   ****************************************************************************
+      select arrinvln
+   if ConfirmationMessage("Are you sure you want to delete this Item?",;
+                          "Confirm") = YES .AND. EMPTY(ARRINVS->post_DATE) ;
+                           .and. .not. eof()
+            
+    
+            
+             pamt = total
+      delete  && DELETED is ON, so deleted records are still there until
+              && a PACK is executed
+              select ARRINVS
+              replace ARRINVS->items with ARRINVS->items - 1
+              replace total with total - pamt
+              IF ARRINVS->ITEMS = 0
+              REPLACE ARRINVS->TOTAL WITH 0
+    
+              ENDIF
+           SELECT ARRINVS
+              
+      commit()
+      form.changesMade = .F.
+      begintrans()
+           on error DO transerr WITH ERROR(), MESSAGE(),;
+  PROGRAM(), LINENO()
+   endif
+   SELECT arrinvln
+   IF .NOT. EOF() .and. .not. bof()
+     FORM.BROWSECHANGESMADE()
+     ELSE
+     SELECT ARRINVS
+      replace ARRINVS->total with 0
+   replace ARRINVS->items with 0
+ ENDIF
+   SELECT ARRINVS
+   refresh
+   ****************************************************************************
+   procedure ADDORDERONCLICK
+
+   * Add new record.
+   ****************************************************************************
+   private addForm, newOrder, saleDateField, orderNoField, custNoField, custNo,;
+           inEditMode, integrityInEffect,CustTyp
+   form.CheckChanged(.T.)
+      orderNoField = field(1)                 && order_no field
+          OrderDateField = field(7)                && Order_date field
+          
+            select arrinvln4
+        go bottom
+        select fgoffs
+        go top
+                    select ARRINVS3
+    go bottom
+
+  IF (empty(order_no) .or.  .not. empty(post_date)) ; 
+            .and. empty(shdate) .and. empty(shid) .and. empty(shno) .and. .not. empty(fgoffs->cashier_no)
+
+      if type("form.curPage") <> "U"
+         inEditMode = form.curPage.inEditMode
+         integrityInEffect = .T.              && Table integrity rules are used
+      else
+         inEditMode = form.inEditMode
+         integrityInEffect = .F.
+      endif
+
+      if .not. inEditMode
+         form.ViewEdit()                      && Make sure record is editable
+      else if type("form.childBrowse") <> "U" && If calling from Customer/ARRINVS
+         form.childBrowse.setFocus()
+      endif
+      form.changesMade = .T.
+        form.previousRecord = recno()
+  select ARRINVS3
+  go bottom
+    form.maxOrder = order_no
+     local ls1,ls2,ls3,ls4,ls5
+      SELECT ARRINVS
+      if empty(form.maxOrder)
+      form.maxOrder = arrinvsn->order_no  && start of first operator
+      endif
+      append blank
+      orderNoField = field(1)
+      newOrder = val(form.maxOrder) + 1
+      local wk1,wk2
+       wk1 = neworder
+      if wk1 > 0 .and. wk1 < 10
+      wk2 = "00000"+str(wk1,1)
+      else
+      if wk1 > 9 .and. wk1 < 100
+      wk2 = "0000"+str(wk1,2)
+      else
+       if wk1 > 99 .and. wk1 < 1000
+      wk2 = "000"+str(wk1,3)
+      else
+       if wk1 > 999 .and. wk1 < 10000
+      wk2 = "00"+str(wk1,4)
+      else
+       if wk1 > 9999 .and. wk1 < 100000
+      wk2 = "0"+str(wk1,5)
+      else
+      wk2 = str(wk1,6)
+      endif
+      endif
+      endif
+      endif
+      endif
+     replace order_no with wk2     && Assign new order number
+      replace items with 1
+       replace  total with 0
+      replace order_qty with 0
+      replace valid_prd with 30
+      replace order_tax with 0
+      replace order_disc with 0
+      replace pricemode with "Retail"
+      replace order_levy with 0
+      replace curr with "1"
+      replace due_days with 0
+       replace order_date with  form.Psdate
+       replace shiftno with form.psno
+       replace shiftid with form.psid
+        replace curr_rate with 1
+         replace dsc with 0
+          replace invtotal with 0
+           REPLACE CURRNAME WITH "KSHS."
+          REPLACE DDE_DATE WITH DATE()
+          REPLACE DDE_TIME WITH TIME()
+          REPLACE DDE_USER WITH FORM.BLUSER
+          REPLACE YY WITH 0
+          if order_date = ARRINVS3->order_date .and. ;
+           shiftno = ARRINVS3->shiftno .and. shiftid = ARRINVS3->shiftid
+          replace offname with ARRINVS3->offname
+          replace off with ARRINVS3->off
+          replace  cashier_no with ARRINVS3->cashier_no
+          replace cname  with ARRINVS3->cname
+          replace source with ARRINVS3->source
+          replace ftyp with ARRINVS3->ftyp
+          replace pmod  with ARRINVS3->pmod
+          replace frighter_n with ARRINVS3->frighter_n
+           replace vatprice with ARRINVS3->vatprice
+          replace pricemode with ARRINVS3->pricemode
+          replace pay_method with ARRINVS3->pay_method
+          replace ndriver with ARRINVS3->ndriver
+          replace driver with ARRINVS3->driver
+          endif
+          if empty(source)
+            replace cname  with ""
+          replace source with ""
+          replace ftyp with ""
+          replace pmod  with ""
+          replace frighter_n with ""
+          endif
+          replace pay_method with "Credit"
+          
+               replace pricemode with "Retail"
+             replace vatprice with "Inclusive"
+           
+      select arrinvln3
+     append blank
+     REPLACE ORDER_NO WITH ARRINVS->ORDER_NO
+     replace stock_no with "01"
+     replace nonvat with 0
+     replace nonvat_amt with 0
+       replace qty with 0
+      replace cost_price with 0
+      replace order_date with ARRINVS->order_date
+        replace total with 0
+           replace levy_rate with 0
+          replace basic_amt with 0
+          replace levy_amt with 0
+          replace tax_rate with 0
+          replace tax_amt with 0
+          replace disc_rate with 0
+          replace disc_amt with 0
+          replace volume with 0
+          REPLACE LIST_PRICE WITH 0
+           replace items_unit with 1
+           replace unit with "1"
+            REPLACE DDE_DATE WITH DATE()
+          REPLACE DDE_TIME WITH TIME()
+          REPLACE DDE_USER WITH FORM.BLUSER
+                 replace basic_qty with 0
+   replace bas_amt with 0
+
+           replace trantype with "Invoice"
+             replace dsc with 0
+          replace invtotal with 0
+          REPLACE VATPRICE WITH ARRINVS->VATPRICE
+          replace dis_qty with 0
+   replace lub_qty with 0
+   replace unl_qty with 0
+   replace ker_qty with 0
+   replace reg_qty with 0
+   replace sup_qty with 0
+   replace lpg_qty with 0
+   replace mis_qty with 0
+   replace ser_qty with 0
+   replace spa_qty with 0
+   replace scr_qty with 0
+   
+   replace dis_amt with 0
+   replace lub_amt with 0
+   replace unl_amt with 0
+   replace ker_amt with 0
+   replace reg_amt with 0
+   replace sup_amt with 0
+   replace lpg_amt with 0
+   replace mis_amt with 0
+   replace ser_amt with 0
+   replace spa_amt with 0
+   replace scr_amt with 0
+   replace  discount with 0
+replace  svat     with 0
+replace  stotal   with 0
+replace  sprice   with 0
+replace  ndiscount with 0
+replace  total_amt with 0
+replace  vat       with 0
+
+     
+if .not. empty(arrinvln4->name)
+replace name with arrinvln4->name
+replace list_price with arrinvln4->list_price
+replace cost_price with arrinvln4->cost_price
+replace shift_date with arrinvln4->shift_date
+replace shift_no with arrinvln4->shift_no
+replace shift_id with arrinvln4->shift_id
+replace fcdiv  with arrinvln4->fcdiv
+replace volume with arrinvln4->volume
+replace tax_rate  with arrinvln4->tax_rate
+replace cod with arrinvln4->cod
+replace typ with arrinvln4->typ
+replace cla with arrinvln4->cla
+replace coy with arrinvln4->coy
+replace div with arrinvln4->div
+replace cen  with arrinvln4->cen
+replace sto with arrinvln4->sto
+replace fcpurch with arrinvln4->fcpurch
+replace st_coy with arrinvln4->st_coy
+replace st_div with arrinvln4->st_div
+replace st_cen  with arrinvln4->st_cen
+replace st_sto with arrinvln4->st_sto
+replace offname with arrinvln4->offname
+replace off with arrinvln4->off
+replace ndriver with arrinvln4->ndriver
+replace driver with arrinvln4->driver
+replace cashier_no  with arrinvln4->cashier_no
+endif
+  select fgstknos
+          replace stock_no with ""
+     select arrinvln
+refresh
+go bottom
+   select arrinvl
+    replace order_no with ARRINVS->order_no
+    replace order_date with ARRINVS->order_date
+         if .not. fgcoy->pospost = "Yes"
+        FORM.SDATE.ENABLED = .T.
+         select ARRINVS
+         seek arrinvl->order_no
+         form.sdate.setfocus()
+         else
+          select ARRINVS
+         seek arrinvl->order_no
+        FORM.smkeyref.SETFOCUS()
+      
+   
+   endif
+   endif
+   ****************************************************************************
+   procedure ADDLINEONCLICK
+      LOCAL L1,wk1,wk2,l2,l3,l4,ls3,ls4,ls5,LNAME
+ 
+   form.CheckChanged(.T.)
+                            select fgoffs
+                          go top
+                        select ARRINVS3
+                        go bottom
+                          select arrinvln
+                          go bottom
+       if ((val(stock_no) > 0 .and. .not. (total = 0 .and. qty = 0);
+       .AND. ROUND(arrinvln->BASIC_QTY,1) = ROUND(arrinvln->QTY,1);
+       .AND. ROUND(ARRINVLN->TOTAL,1) = ROUND(ARRINVLN->SUPPLY_AMT,1)  ;
+ .AND. .NOT. EMPTY(ARRINVS->ORDER_NO) .AND. .NOT. EMPTY(div));
+.or. (EMPTY(ORDER_NO)) .AND. EMPTY(ARRINVS->post_date) .and. .not. empty(ARRINVS->order_no)) ;
+ .and. .not. empty(fgoffs->cashier_no)
+      form.changesMade = .T.
+        go bottom
+        LNAME = NAME
+         L1 = val(STOCK_NO) + 1
+         wk1 = l1
+         if wk1 > 99
+         quit
+         endif
+          if wk1 > 0 .and. wk1 < 10
+      wk2 = "0"+str(wk1,1)
+      else
+      wk2 = str(wk1,2)
+      endif
+      select arrinvln3
+         append blank
+         REPLACE ORDER_NO WITH ARRINVS->ORDER_NO
+      replace stock_no with wk2
+  replace qty with 0
+      replace cost_price with 0
+        replace total with 0
+           replace levy_rate with 0
+          replace levy_amt with 0
+          replace tax_rate with 0
+          replace tax_amt with 0
+            replace order_date with form.Psdate
+     replace nonvat with 0
+     replace nonvat_amt with 0
+    
+          replace disc_rate with 0
+          replace disc_amt with 0
+             replace basic_amt with 0
+           REPLACE LIST_PRICE WITH 0
+           replace items_unit with 1
+           replace unit with "1"
+            replace dsc with 0
+             replace trantype with "Invoice"
+           replace invtotal with 0
+          replace volume with 0
+          replace dis_qty with 0
+           REPLACE DDE_DATE WITH DATE()
+          REPLACE DDE_TIME WITH TIME()
+          REPLACE DDE_USER WITH FORM.BLUSER
+   replace lub_qty with 0
+   replace unl_qty with 0
+   replace ker_qty with 0
+   replace reg_qty with 0
+   replace sup_qty with 0
+   replace lpg_qty with 0
+   replace mis_qty with 0
+   replace ser_qty with 0
+   replace spa_qty with 0
+   replace scr_qty with 0
+   
+   replace dis_amt with 0
+   replace lub_amt with 0
+   replace unl_amt with 0
+   replace ker_amt with 0
+   replace reg_amt with 0
+   replace sup_amt with 0
+   replace lpg_amt with 0
+   replace mis_amt with 0
+   replace ser_amt with 0
+   replace spa_amt with 0
+   replace scr_amt with 0
+   replace  discount with 0
+          replace basic_qty with 0
+   replace bas_amt with 0
+
+replace  svat     with 0
+replace  stotal   with 0
+replace  sprice   with 0
+replace  ndiscount with 0
+replace  total_amt with 0
+replace  vat       with 0
+replace name with arrinvln->name
+replace list_price with arrinvln->list_price
+replace cost_price with arrinvln->cost_price
+replace shift_date with arrinvln->shift_date
+replace shift_no with arrinvln->shift_no
+replace shift_id with arrinvln->shift_id
+replace fcdiv  with arrinvln->fcdiv
+replace volume with arrinvln->volume
+replace tax_rate  with arrinvln->tax_rate
+replace cod with arrinvln->cod
+replace typ with arrinvln->typ
+replace cla with arrinvln->cla
+replace coy with arrinvln->coy
+replace div with arrinvln->div
+replace cen  with arrinvln->cen
+replace sto with arrinvln->sto
+replace fcpurch with arrinvln->fcpurch
+replace st_coy with arrinvln->st_coy
+replace st_div with arrinvln->st_div
+replace st_cen  with arrinvln->st_cen
+replace st_sto with arrinvln->st_sto
+replace offname  with arrinvln->offname
+replace off with arrinvln->off
+replace ndriver with arrinvln->ndriver
+replace driver with arrinvln->driver
+replace cashier_no with arrinvln->cashier_no
+        REPLACE VATPRICE WITH ARRINVS->VATPRICE
+           select arrinvln
+            go bottom
+           refresh
+          select fgstknos
+          replace stock_no with ""
+          select ARRINVS
+        replace ARRINVS->items with ARRINVS->items + 1
+        replace order_date with  form.Psdate
+       replace shiftno with form.psno
+       replace shiftid with form.psid
+         if .not. (order_date = ARRINVS3->order_date .and. ;
+           shiftno = ARRINVS3->shiftno .and. shiftid = ARRINVS3->shiftid)
+          replace offname with ""
+          replace off with ""
+          replace  cashier_no with ""
+          select arrinvln
+      replace off with ""
+      replace offname with ""
+      replace cashier_no with ""
+          endif
+        select ARRINVS
+         FORM.SDATE.ENABLED = .F.
+      if empty(arrinvln->cashier_no) .or. empty(arrinvln->off)
+          FORM.sauth.setfocus()
+          else
+          FORM.scashier.setfocus()
+          endif
+   endif
+   ***************************************************************************
+   procedure ViewEditOnClick
+   ****************************************************************************
+IF .NOT. EMPTY(ARRINVS->ORDER_NO)
+   form.ViewEdit()
+   ENDIF
+   ****************************************************************************
+   procedure Exit_OnClick
+   ****************************************************************************
+FORM.OKEXIT = .T.
+       form.Release()
+Procedure F1_rtn
+      do ARRINVPT.PRG WITH FORM.BLUSER
+Procedure F9_rtn
+ LOCAL LERR1
+   LERR1 = .F.
+ form.CheckCommit(form.inEditMode) 
+if    form.inEditMode
+      form.ViewEdit()
+      form.root.order.viewEdit.enabled = .F.
+   endif
+   form.root.order.ADDorder.enabled = .f.      
+    form.root.order.ADDline.enabled = .f.
+ form.qtyentry.enabled = .f.
+   form.sbasic.enabled = .f.
+   
+select ARRINVS
+ if   empty(order_no) .OR. empty(order_date)
+ LERR1 = .T.
+ ? 'Error 1'
+ endif
+ if .not. ARRINVS->total*-1 = fgtrnref->total
+  LERR1 = .T.
+ ? 'Error 2'
+ endif
+ 
+ IF .NOT.  ROUND(ARRINVLN->BASIC_QTY,1) = ROUND(ARRINVLN->QTY,1)
+  LERR1 = .T.
+ ? 'Error 3'
+ endif
+ 
+   IF empty(FTYP) .OR. empty(FRIGHTER_N)  .OR. empty(off) .OR. empty(source) .OR. empty(pmod)
+    LERR1 = .T.
+ ? 'Error 4'
+ endif
+  IF .NOT. EMpty(post_date) .OR.  empty(cashier_no) .OR. empty(pay_method) .OR. empty(serialno)
+       LERR1 = .T.
+ ? 'Error 5'
+ endif
+ IF .NOT. ROUND(ARRINVLN->TOTAL,1) = ROUND(ARRINVLN->SUPPLY_AMt,1)
+ ? 'Error 6'
+   LERR1 = .T.
+ endif
+ IF .NOT. LERR1
+ DO AR30rinv.PRG WITH FORM.BLUSER,FORM.BLEVEL
+ do ARRINVPT.PRG WITH FORM.BLUSER
+  form.Go_Top()
+   ENDIF
+
+Procedure F5_rtn
+   LOCAL LERR1
+   LERR1 = .F.
+ form.CheckCommit(form.inEditMode) 
+if    form.inEditMode
+      form.ViewEdit()
+      form.root.order.viewEdit.enabled = .F.
+   endif
+   form.root.order.ADDorder.enabled = .f.      
+    form.root.order.ADDline.enabled = .f.
+ form.qtyentry.enabled = .f.
+   form.sbasic.enabled = .f.
+   
+select ARRINVS
+ if   empty(order_no) .OR. empty(order_date)
+ LERR1 = .T.
+ ? 'Error 1'
+ endif
+ if .not. ARRINVS->total*-1 = fgtrnref->total
+  LERR1 = .T.
+ ? 'Error 2'
+ endif
+ 
+ IF .NOT.  ROUND(ARRINVLN->BASIC_QTY,1) = ROUND(ARRINVLN->QTY,1)
+  LERR1 = .T.
+ ? 'Error 3'
+ endif
+ 
+   IF empty(FTYP) .OR. empty(FRIGHTER_N)  .OR. empty(off) .OR. empty(source) .OR. empty(pmod)
+    LERR1 = .T.
+ ? 'Error 4'
+ endif
+  IF .NOT. EMpty(post_date) .OR.  empty(cashier_no) .OR. empty(pay_method) .OR. empty(serialno)
+       LERR1 = .T.
+ ? 'Error 5'
+ endif
+ IF .NOT. ROUND(ARRINVLN->TOTAL,1) = ROUND(ARRINVLN->SUPPLY_AMT,1)
+ ? 'Error 6'
+   LERR1 = .T.
+ endif
+ IF .NOT. LERR1
+ DO AR30rinv.PRG WITH FORM.BLUSER,FORM.BLEVEL
+ form.Go_Top()
+ ENDIF
+
+    procedure OnExit
+     form.Release()
+
+    procedure OnQuitAll
+   
+     form.Release()
+
+ quit   
+ENDCLASS
+ 

@@ -1,0 +1,58 @@
+* Visual dBASE .QBE file 9
+ON ERROR DO QBEERR WITH ERROR(), MESSAGE(),;
+PROGRAM(), LINENO()
+CLOSE DATABASES
+SET EXACT ON
+SELECT 2
+USE \KENSERVICE\DATA\SHIFTID.DBF ORDER TAG ID
+set filter to  id = "D" .OR. id = "O" 
+SELECT 6
+set safety off
+use \kenservice\data\st15f.dbf ORDER TAG MKEY
+set filter to TYP="10" .AND. (cen = "D".OR. cen = "O")
+go top
+SELECT 9
+USE \KENSERVICE\DATA\STSTO.DBF ORDER TAG STO
+SELECT 3
+USE \KENSERVICE\DATA\FGCODS.DBF ORDER TAG MKEY
+SELECT 81
+use \kenservice\data\st15f.dbf AGAIN alias st15f2 ORDER TAG MKEY
+set filter to TYP="10" .AND. (cen = "D".OR. cen = "O")
+go top
+SELECT 6
+SET RELATION TO  Sto INTO STSTO, Typ+CLA+COD INTO FGCODS
+
+
+SELECT 7
+set safety off
+use \kenserve\idssys\fgmast.dbf
+copy stru to \kenservice\data\fgmasshm dbase prod
+use \kenservice\data\fgmasshm.dbf exclusive alias fgmast order tag mkey
+appe from \kenservice\data\fgmast.dbf for typ="10" .AND. ((cen = "D".OR. cen = "O") .or. (cen ='2' .and. div = '2'))
+go top
+SELECT 11
+USE \KENSERVICE\DATA\SHIFTCOY.DBF
+
+SELECT 13
+USE \KENSERVICE\DATA\FGCODS.DBF ORDER TAG MKEY AGAIN alias FGCODS2
+
+
+
+SELECT 19
+USE \KENSERVICE\DATA\SHSUM.DBF
+
+SELECT 27
+USE \KENSERVICE\DATA\CASHIERS.DBF
+
+SELECT 55
+USE \KENSERVICE\DATA\SHIFTCLS.DBF
+
+SELECT 56
+USE \KENSERVICE\DATA\SHIFTCLS.DBF AGAIN alias shiftcls2
+
+SELECT 100
+USE \KENSERVICE\DATA\FGCOY.DBF
+
+
+SELECT 2
+GO TOP

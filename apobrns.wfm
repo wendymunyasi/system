@@ -1,0 +1,1696 @@
+////////////////////////////////////////////////////////////////////////////////
+// Output Filename: C:\KENSERVICE\IDSSYS\APOBRNS_FCV.WFM                      //
+// Created By:      dBASE Form Converter Wizard                               //
+// Created On:      Saturday June 18, 2016 At 19:59:06                        //
+// Object Count:    56                                                        //
+////////////////////////////////////////////////////////////////////////////////
+*******************************************************************************
+*  PROGRAM:      apobrns.WFM
+*
+*  WRITTEN BY:   W Nyongesa
+*  DATE:         10/2003
+*
+*  UPDATED:      09/2012
+*
+*  REVISION:     $Revision:   1.97  $
+*
+*  VERSION:      Visual dBASE
+*
+*  DESCRIPTION:  This form displays information about an order from a company.
+*                It allows traversing through apogrns and going to the top and
+*                bottom.  This form also has a corresponding menu, OrdCust.mnu,
+*                which allows adding,deleting and searching for an order.
+*                When an unknown customer number is entered, a dialog will come
+*                up asking you if you want to add a new customer.  If you
+*                selecte the Yes button, the customer form (in stcusj.Wfm)
+*                will be opened, so a new customer can be added.
+*
+*  PARAMETERS:   None
+*
+*  CALLS:        APOBRNS.MNU       (Menu file)
+*                Buttons.cc       (Custom controls file)
+*                stcusj.Wfm     (Form for displaying customer information)
+*                apobrns.qbe       (View of tables)
+*
+*  USAGE:        DO apobrns.WFM    && Note that you can also DO stcusj.Wfm
+*
+*******************************************************************************
+#include <Messdlg.h>
+shell(.F.)
+create session
+set talk off
+SET DESIGN OFF
+*f .not. user() = "WYCLIFFE"
+_app.FrameWin.Visible = .F.
+set design off
+*LSE
+*ET DESIGN ON
+*NDIF
+_app.FrameWin.Text = "apobrns"
+set ldCheck off                        && To avoid language driver conflicts
+*SET DBTYPE TO PARADOX
+SET CUAENTER OFF
+SET CENTURY ON
+SET DATE TO BRITISH
+** END HEADER -- do not remove this line
+//
+// Generated on 10/07/2016
+//
+parameter bUser,bLevel,BLNOREVPRV,blsalepit,blsaletyc,bModal
+local f
+f = new apogrnsFORM()
+if (bModal)
+   f.mdi = false // ensure not MDI
+   f.readModal()
+else
+   f.open()
+endif
+
+class apogrnsFORM of FORM
+set procedure to buttons.cc additive
+   with (this)
+      canClose = class::FORM_CANCLOSE
+      onClose = class::ONCLOSE
+      open = class::OPEN
+      metric = 6	// Pixels
+      colorNormal = "N+"
+      height = 932.0
+      left = 0.0
+      top = 14.0
+      width = 1284.0
+      text = "GOODS RECEIVED FROM BRANCH -- View Mode"
+      windowState = 2	// Normal
+      mdi = false
+      sizeable = false
+      moveable = false
+      view = "apobGrns.qbe"
+      menuFile = "APOBRNS.MNU"
+      escExit = false
+      mousePointer = 1	// Arrow
+      maximize = false
+      minimize = false
+   endwith
+
+   this.TEXT9 = new TEXTLABEL(this)
+   with (this.TEXT9)
+      height = 26.0
+      left = 6.0
+      top = 10.0
+      width = 78.0
+      text = "Seq. No.:"
+      colorNormal = "B+/W"
+      fontName = "Verdana"
+      fontBold = true
+      borderStyle = 7	// Client
+      alignVertical = 1	// Middle
+      alignHorizontal = 1	// Center
+   endwith
+
+   this.ORDERNOENTRY = new ENTRYFIELD(this)
+   with (this.ORDERNOENTRY)
+      dataLink = "apogrns->grn_no"
+      enabled = false
+      height = 26.0
+      left = 84.0
+      top = 10.0
+      width = 84.0
+      colorNormal = "B+/W"
+      colorHighLight = "GB+/W"
+      fontName = "MS Sans Serig"
+      fontBold = true
+   endwith
+
+   this.TEXT2 = new TEXTLABEL(this)
+   with (this.TEXT2)
+      height = 26.0
+      left = 168.0
+      top = 10.0
+      width = 72.0
+      text = "Date:"
+      colorNormal = "0x400000/W"
+      fontName = "Verdana"
+      fontBold = true
+      borderStyle = 7	// Client
+      alignVertical = 1	// Middle
+      alignHorizontal = 1	// Center
+   endwith
+
+   this.SALEDATESPIN = new SPINBOX(this)
+   with (this.SALEDATESPIN)
+      dataLink = "apogrns->grn_date"
+      enabled = false
+      height = 26.0
+      left = 240.0
+      top = 10.0
+      width = 108.0
+      colorNormal = "0x400000/W"
+      colorHighLight = "W+/N"
+      rangeMax = {18/10/2016}
+      rangeMin = {10/07/2016}
+      fontName = "MS Sans Serif"
+      fontBold = true
+      validErrorMsg = "Date out of Range"
+   endwith
+
+   this.TEXT1 = new TEXTLABEL(this)
+   with (this.TEXT1)
+      height = 21.0
+      left = 348.0
+      top = 10.0
+      width = 108.0
+      text = "Desp. Branch:"
+      colorNormal = "0x400000/W"
+      fontName = "Verdana"
+      fontBold = true
+      borderStyle = 7	// Client
+   endwith
+
+   this.SVENDOR = new COMBOBOX(this)
+   with (this.SVENDOR)
+      onChange = class::SVENDOR_ONCHANGE
+      dataLink = "apogrns->vNAME"
+      enabled = false
+      height = 24.0
+      left = 456.0
+      top = 10.0
+      width = 264.0
+      fontName = "MS Sans Serif"
+      fontBold = true
+      colorNormal = "0xc08000/W"
+      dataSource = "FIELD VENNAMES->NAME"
+      mousePointer = 1	// Arrow
+      style = 1	// DropDown
+      dropDownHeight = 132.0
+   endwith
+
+   this.TEXT8 = new TEXTLABEL(this)
+   with (this.TEXT8)
+      height = 21.0
+      left = 6.0
+      top = 41.0
+      width = 138.0
+      text = "Receiving Officer:"
+      colorNormal = "0x400000/W"
+      fontName = "Verdana"
+      fontBold = true
+      borderStyle = 7	// Client
+      alignVertical = 1	// Middle
+      alignHorizontal = 1	// Center
+   endwith
+
+   this.SOFF = new COMBOBOX(this)
+   with (this.SOFF)
+      onChange = class::SOFF_ONCHANGE
+      dataLink = "apogrns->OffNAME"
+      enabled = false
+      height = 24.0
+      left = 144.0
+      top = 41.0
+      width = 311.0
+      fontName = "MS Sans Serif"
+      fontBold = true
+      colorNormal = "0xc08000/W"
+      dataSource = "FIELD fgoffs->NAME"
+      mousePointer = 1	// Arrow
+      style = 1	// DropDown
+      dropDownHeight = 132.0
+   endwith
+
+   this.TEXT4 = new TEXTLABEL(this)
+   with (this.TEXT4)
+      height = 21.0
+      left = 6.0
+      top = 66.0
+      width = 77.0
+      text = "D/Note:"
+      colorNormal = "0x400000/W"
+      fontName = "Verdana"
+      fontBold = true
+      borderStyle = 7	// Client
+      alignVertical = 1	// Middle
+      alignHorizontal = 1	// Center
+   endwith
+
+   this.SERIALNOENTRY = new ENTRYFIELD(this)
+   with (this.SERIALNOENTRY)
+      onChange = class::CHANGE_SERIALNO
+      dataLink = "apogrns->serialno"
+      enabled = false
+      height = 21.0
+      left = 98.0
+      top = 66.0
+      width = 140.0
+      function = "!"
+      colorNormal = "B/BTNFACE"
+      colorHighLight = "W+/B"
+      fontName = "MS Sans Serif"
+      fontBold = true
+   endwith
+
+   this.TEXT24 = new TEXTLABEL(this)
+   with (this.TEXT24)
+      height = 21.0
+      left = 245.0
+      top = 66.0
+      width = 61.0
+      text = "Veh:"
+      colorNormal = "0x400000/W"
+      fontName = "Verdana"
+      fontBold = true
+      borderStyle = 7	// Client
+      alignVertical = 1	// Middle
+      alignHorizontal = 1	// Center
+   endwith
+
+   this.SVEH = new ENTRYFIELD(this)
+   with (this.SVEH)
+      onChange = class::CHANGE_REG
+      dataLink = "apogrns->REG"
+      enabled = false
+      height = 21.0
+      left = 308.0
+      top = 66.0
+      width = 161.0
+      function = "!"
+      colorNormal = "B/BTNFACE"
+      colorHighLight = "W+/B"
+      fontName = "MS Sans Serif"
+      fontBold = true
+   endwith
+
+   this.TEXT25 = new TEXTLABEL(this)
+   with (this.TEXT25)
+      height = 21.0
+      left = 6.0
+      top = 99.0
+      width = 72.0
+      text = "Inv. No.:"
+      colorNormal = "0x400000/W"
+      fontName = "Verdana"
+      fontBold = true
+      borderStyle = 7	// Client
+      alignVertical = 1	// Middle
+      alignHorizontal = 1	// Center
+   endwith
+
+   this.SINVNO = new ENTRYFIELD(this)
+   with (this.SINVNO)
+      onChange = class::CHANGE_INV_NO
+      dataLink = "apogrns->INV_NO"
+      enabled = false
+      height = 21.0
+      left = 98.0
+      top = 99.0
+      width = 140.0
+      function = "!"
+      colorNormal = "B/BTNFACE"
+      colorHighLight = "W+/B"
+      fontName = "MS Sans Serif"
+      fontBold = true
+   endwith
+
+   this.TEXT27 = new TEXTLABEL(this)
+   with (this.TEXT27)
+      height = 21.0
+      left = 259.0
+      top = 99.0
+      width = 96.0
+      text = "Desp.Date:"
+      colorNormal = "0x400000/W"
+      fontName = "Verdana"
+      fontBold = true
+      borderStyle = 7	// Client
+      alignVertical = 1	// Middle
+      alignHorizontal = 1	// Center
+   endwith
+
+   this.SINVDATE = new SPINBOX(this)
+   with (this.SINVDATE)
+      onChange = class::CHANGE_INV_DATE
+      dataLink = "apogrns->INV_DATE"
+      enabled = false
+      height = 21.0
+      left = 357.0
+      top = 99.0
+      width = 120.0
+      colorNormal = "N/W"
+      colorHighLight = "W+/N"
+      rangeMax = {18/10/2016}
+      rangeMin = {10/07/2016}
+      tabStop = false
+      fontName = "MS Sans Serif"
+      fontBold = true
+      validErrorMsg = "Date out of Range"
+   endwith
+
+   this.RECTANGLE1 = new RECTANGLE(this)
+   with (this.RECTANGLE1)
+      left = 480.0
+      top = 51.0
+      width = 255.0
+      height = 51.0
+      text = "EDIT PURCHASE TOTAL VALUE"
+      colorNormal = "0x400040/0xc8d0d8"
+      fontName = "MS Sans Serif"
+      fontBold = true
+   endwith
+
+   this.SINVT = new ENTRYFIELD(this)
+   with (this.SINVT)
+      onChange = class::SINVT_ONCHANGE
+      dataLink = "APOGRNS->SUPPLY_AMT"
+      enabled = false
+      height = 26.0
+      left = 528.0
+      top = 68.0
+      width = 200.0
+      picture = "999,999,999.99"
+      function = "J"
+      colorNormal = "R/W"
+      colorHighLight = "N/W"
+      fontName = "MS Sans Serig"
+      fontBold = true
+   endwith
+
+   this.TEXT13 = new TEXTLABEL(this)
+   with (this.TEXT13)
+      height = 26.0
+      left = 6.0
+      top = 132.0
+      width = 127.0
+      text = "Purchase Type:"
+      colorNormal = "0x400000/W"
+      fontName = "Verdana"
+      fontBold = true
+      borderStyle = 7	// Client
+      alignVertical = 1	// Middle
+      alignHorizontal = 1	// Center
+   endwith
+
+   this.COMBOBOX1 = new COMBOBOX(this)
+   with (this.COMBOBOX1)
+      onChange = class::SJOB_ONCHANGE
+      dataLink = "APOGRNS->JOB_NAME"
+      enabled = false
+      height = 24.0
+      left = 140.0
+      top = 132.0
+      width = 331.0
+      fontName = "MS Sans Serif"
+      fontBold = true
+      colorNormal = "0xc08000/W"
+      dataSource = "FIELD FGTYPS->NAME"
+      mousePointer = 1	// Arrow
+      style = 1	// DropDown
+      dropDownHeight = 132.0
+   endwith
+
+   this.RECTANGLE2 = new RECTANGLE(this)
+   with (this.RECTANGLE2)
+      left = 476.0
+      top = 132.0
+      width = 259.0
+      height = 46.0
+      text = "Pay Method"
+      colorNormal = "0x400040/0xc8d0d8"
+      fontName = "MS Sans Serif"
+      fontBold = true
+   endwith
+
+   this.SCASHP = new RADIOBUTTON(this)
+   with (this.SCASHP)
+      dataLink = "APOGRNS->PAY_METHOD"
+      enabled = false
+      height = 19.0
+      left = 483.0
+      top = 154.0
+      width = 72.0
+      text = "Credit"
+      colorNormal = "BtnText/W+"
+      fontName = "MS Sans Serif"
+      fontBold = true
+      group = true
+   endwith
+
+   this.SCASHP1 = new RADIOBUTTON(this)
+   with (this.SCASHP1)
+      dataLink = "APOGRNS->PAY_METHOD"
+      enabled = false
+      height = 19.0
+      left = 567.0
+      top = 154.0
+      width = 75.0
+      text = "Cheque"
+      colorNormal = "BtnText/W+"
+      fontName = "MS Sans Serif"
+      fontBold = true
+   endwith
+
+   this.SCASHP2 = new RADIOBUTTON(this)
+   with (this.SCASHP2)
+      dataLink = "APOGRNS->PAY_METHOD"
+      enabled = false
+      height = 19.0
+      left = 651.0
+      top = 154.0
+      width = 60.0
+      text = "Cash"
+      colorNormal = "BtnText/W+"
+      fontName = "MS Sans Serif"
+      fontBold = true
+   endwith
+
+   this.TEXT11 = new TEXTLABEL(this)
+   with (this.TEXT11)
+      height = 26.0
+      left = 154.0
+      top = 176.0
+      width = 49.0
+      text = "Ref.:"
+      colorNormal = "0x400000/W"
+      fontName = "Verdana"
+      fontBold = true
+      borderStyle = 7	// Client
+      alignVertical = 1	// Middle
+      alignHorizontal = 1	// Center
+   endwith
+
+   this.SLPO = new ENTRYFIELD(this)
+   with (this.SLPO)
+      onChange = class::CHANGE_LPO
+      dataLink = "apogrns->LPO"
+      enabled = false
+      height = 26.0
+      left = 210.0
+      top = 176.0
+      width = 138.0
+      function = "!"
+      colorNormal = "B/BTNFACE"
+      colorHighLight = "W+/B"
+      fontName = "MS Sans Serif"
+      fontSize = 12.0
+      fontBold = true
+   endwith
+
+   this.TEXT12 = new TEXTLABEL(this)
+   with (this.TEXT12)
+      height = 26.0
+      left = 357.0
+      top = 176.0
+      width = 72.0
+      text = "Cr A/c:"
+      colorNormal = "0x400000/W"
+      fontName = "Verdana"
+      fontBold = true
+      borderStyle = 7	// Client
+      alignVertical = 1	// Middle
+      alignHorizontal = 1	// Center
+   endwith
+
+   this.SACCT = new COMBOBOX(this)
+   with (this.SACCT)
+      onChange = class::SACCT_ONCHANGE
+      dataLink = "apogrns->PNAME"
+      enabled = false
+      height = 24.0
+      left = 441.0
+      top = 181.0
+      width = 292.0
+      fontName = "MS Sans Serif"
+      fontBold = true
+      colorNormal = "0xc08000/W"
+      dataSource = "FIELD fgcods->NAME"
+      mousePointer = 1	// Arrow
+      style = 1	// DropDown
+      dropDownHeight = 132.0
+   endwith
+
+   this.TEXT5 = new TEXTLABEL(this)
+   with (this.TEXT5)
+      height = 26.0
+      left = 6.0
+      top = 178.0
+      width = 78.0
+      text = "Item No.:"
+      colorNormal = "0x400000/W"
+      fontName = "Verdana"
+      fontBold = true
+      borderStyle = 7	// Client
+      alignVertical = 1	// Middle
+      alignHorizontal = 1	// Center
+   endwith
+
+   this.SITEM = new ENTRYFIELD(this)
+   with (this.SITEM)
+      dataLink = "APOGRLIN->GRN_STK_NO"
+      enabled = false
+      height = 26.0
+      left = 91.0
+      top = 176.0
+      width = 57.0
+      picture = "99"
+      colorNormal = "R/W"
+      colorHighLight = "W+/B"
+      fontName = "MS Sans Serif"
+      fontSize = 12.0
+      fontBold = true
+   endwith
+
+   this.TEXT3 = new TEXTLABEL(this)
+   with (this.TEXT3)
+      height = 26.0
+      left = 6.0
+      top = 213.0
+      width = 107.0
+      text = "Item/Centre:"
+      colorNormal = "0x400000/W"
+      fontName = "Verdana"
+      fontBold = true
+      borderStyle = 7	// Client
+      alignVertical = 1	// Middle
+      alignHorizontal = 1	// Center
+   endwith
+
+   this.SPROD = new COMBOBOX(this)
+   with (this.SPROD)
+      onChange = class::SPROD_ONCHANGE
+      dataLink = "APOGRLIN->name"
+      enabled = false
+      height = 24.0
+      left = 120.0
+      top = 213.0
+      width = 615.0
+      fontName = "MS Sans Serif"
+      colorNormal = "0x400040/W+"
+      dataSource = "FIELD fgmastp->name"
+      mousePointer = 1	// Arrow
+      style = 1	// DropDown
+      dropDownHeight = 132.0
+   endwith
+
+   this.TEXT18 = new TEXTLABEL(this)
+   with (this.TEXT18)
+      height = 21.0
+      left = 6.0
+      top = 253.0
+      width = 48.0
+      text = "Pkgs:"
+      colorNormal = "0x400000/W"
+      fontName = "Verdana"
+      fontBold = true
+      borderStyle = 7	// Client
+      alignVertical = 1	// Middle
+      alignHorizontal = 1	// Center
+   endwith
+
+   this.SPACK = new ENTRYFIELD(this)
+   with (this.SPACK)
+      onChange = class::SPACK_ONCHANGE
+      dataLink = "APOGRLIN->ITEMS_UNIT"
+      enabled = false
+      height = 21.0
+      left = 70.0
+      top = 253.0
+      width = 48.0
+      picture = "9999"
+      colorNormal = "N/BtnFace"
+      colorHighLight = "W+/N+"
+      tabStop = false
+      fontName = "MS Sans Serif"
+      fontBold = true
+   endwith
+
+   this.TEXT16 = new TEXTLABEL(this)
+   with (this.TEXT16)
+      height = 21.0
+      left = 133.0
+      top = 253.0
+      width = 45.0
+      text = "Qty:"
+      colorNormal = "0x400000/W"
+      fontName = "Verdana"
+      fontBold = true
+      borderStyle = 7	// Client
+      alignVertical = 1	// Middle
+      alignHorizontal = 1	// Center
+   endwith
+
+   this.QTYENTRY = new ENTRYFIELD(this)
+   with (this.QTYENTRY)
+      onChange = class::QTYENTRY_ONCHANGE
+      dataLink = "APOGRLIN->QTY"
+      enabled = false
+      height = 21.0
+      left = 182.0
+      top = 253.0
+      width = 81.0
+      picture = "99,999"
+      colorNormal = "N/BtnFace"
+      colorHighLight = "W+/N+"
+      fontName = "MS Sans Serif"
+      fontBold = true
+   endwith
+
+   this.TEXT17 = new TEXTLABEL(this)
+   with (this.TEXT17)
+      height = 21.0
+      left = 259.0
+      top = 253.0
+      width = 54.0
+      text = "Price:"
+      colorNormal = "0x400000/W"
+      fontName = "Verdana"
+      fontBold = true
+      borderStyle = 7	// Client
+      alignVertical = 1	// Middle
+      alignHorizontal = 1	// Center
+   endwith
+
+   this.SPRICE = new ENTRYFIELD(this)
+   with (this.SPRICE)
+      onChange = class::SPRICE_ONCHANGE
+      dataLink = "APOGRLIN->LIST_PRICE"
+      enabled = false
+      height = 21.0
+      left = 315.0
+      top = 253.0
+      width = 90.0
+      picture = "9999999.99"
+      colorNormal = "N/BtnFace"
+      colorHighLight = "W+/N+"
+      tabStop = false
+      fontName = "MS Sans Serif"
+      fontBold = true
+   endwith
+
+   this.TEXT19 = new TEXTLABEL(this)
+   with (this.TEXT19)
+      height = 21.0
+      left = 406.0
+      top = 253.0
+      width = 84.0
+      text = "VAT Rate:"
+      colorNormal = "B+/W"
+      fontName = "Verdana"
+      fontBold = true
+      borderStyle = 7	// Client
+      alignVertical = 1	// Middle
+      alignHorizontal = 1	// Center
+   endwith
+
+   this.STAXRATE = new ENTRYFIELD(this)
+   with (this.STAXRATE)
+      onChange = class::STAXRATE_ONCHANGE
+      dataLink = "APOGRLIN->TAX_RATE"
+      enabled = false
+      height = 21.0
+      left = 490.0
+      top = 253.0
+      width = 57.0
+      picture = "999.99"
+      colorNormal = "N/BtnFace"
+      colorHighLight = "W+/N+"
+      tabStop = false
+      fontName = "MS Sans Serif"
+      fontBold = true
+   endwith
+
+   this.TEXT15 = new TEXTLABEL(this)
+   with (this.TEXT15)
+      height = 21.0
+      left = 553.0
+      top = 253.0
+      width = 84.0
+      text = "VAT Amt:"
+      colorNormal = "B+/W"
+      fontName = "Verdana"
+      fontBold = true
+      borderStyle = 7	// Client
+      alignVertical = 1	// Middle
+      alignHorizontal = 1	// Center
+   endwith
+
+   this.STAXAMT = new ENTRYFIELD(this)
+   with (this.STAXAMT)
+      dataLink = "APOGRLIN->TAX_AMT"
+      enabled = false
+      height = 21.0
+      left = 637.0
+      top = 253.0
+      width = 96.0
+      picture = "9,999,999.99"
+      colorNormal = "B+/W"
+      colorHighLight = "B+/W"
+      fontName = "MS Sans Serif"
+      fontBold = true
+   endwith
+
+   this.TEXT21 = new TEXTLABEL(this)
+   with (this.TEXT21)
+      height = 21.0
+      left = 154.0
+      top = 275.0
+      width = 60.0
+      text = "Gross:"
+      colorNormal = "B+/W"
+      fontName = "Verdana"
+      fontBold = true
+      borderStyle = 7	// Client
+      alignVertical = 1	// Middle
+      alignHorizontal = 1	// Center
+   endwith
+
+   this.SGROSSAMT = new ENTRYFIELD(this)
+   with (this.SGROSSAMT)
+      dataLink = "APOGRLIN->GROSS_AMT"
+      enabled = false
+      height = 21.0
+      left = 210.0
+      top = 275.0
+      width = 108.0
+      picture = "9,999,999.99"
+      colorNormal = "B+/W"
+      colorHighLight = "GB+/W"
+      fontName = "MS Sans Serif"
+      fontBold = true
+   endwith
+
+   this.TEXT22 = new TEXTLABEL(this)
+   with (this.TEXT22)
+      height = 21.0
+      left = 336.0
+      top = 275.0
+      width = 60.0
+      text = "Amt:"
+      colorNormal = "B+/W"
+      fontName = "Verdana"
+      fontBold = true
+      borderStyle = 7	// Client
+      alignVertical = 1	// Middle
+      alignHorizontal = 1	// Center
+   endwith
+
+   this.STOTAL = new ENTRYFIELD(this)
+   with (this.STOTAL)
+      onChange = class::CHANGE_STOTAL
+      dataLink = "APOGRLIN->TOTAL"
+      enabled = false
+      height = 21.0
+      left = 392.0
+      top = 275.0
+      width = 108.0
+      picture = "99,999,999.99"
+      colorNormal = "B+/W"
+      colorHighLight = "B+/W"
+      fontName = "MS Sans Serif"
+      fontBold = true
+   endwith
+
+   this.TEXT7 = new TEXTLABEL(this)
+   with (this.TEXT7)
+      height = 26.0
+      left = 480.0
+      top = 102.0
+      width = 108.0
+      text = "DOC TOTAL:"
+      colorNormal = "B+/W"
+      fontName = "Verdana"
+      fontBold = true
+      borderStyle = 7	// Client
+      alignVertical = 1	// Middle
+      alignHorizontal = 1	// Center
+   endwith
+
+   this.SOAMT = new ENTRYFIELD(this)
+   with (this.SOAMT)
+      dataLink = "APOGRNS->TOTAL"
+      enabled = false
+      height = 26.0
+      left = 588.0
+      top = 102.0
+      width = 147.0
+      picture = "99,999,999.99"
+      function = "J"
+      colorNormal = "B+/W+"
+      colorHighLight = "B+/W+"
+      fontName = "MS Sans Serig"
+      fontBold = true
+   endwith
+
+   this.CHILDBROWSE = new BROWSE(this)
+   with (this.CHILDBROWSE)
+      colorNormal = "0x8000ff/W"
+      colorHighLight = "R/BTNFACE"
+      fontName = "MS Sans Serif"
+      fontSize = 9.0
+      height = 341.0
+      left = 4.0
+      top = 308.0
+      width = 740.0
+      append = false
+      alias = "APOGRLIN"
+      fields = 'APOGRLIN->GRN_STK_NO\H="NO"\5\P="99"\R,APOGRLIN->NAME\H="ITEM"\47\R,APOGRLIN->QTY\H="QTY"\7\P="99,999.9"\R,APOGRLIN->LIST_PRICE\H="Price"\8\P="99999.9999"\R,APOGRLIN->VATPRICE\H="VAT"\10\R,APOGRLIN->GROSS_AMT\H="Gross"\8\P="9999,999.99"\R,APOGRLIN->TAX_AMT\H="VAT"\7\P="999,999.99"\R,APOGRLIN->TOTAL\H="TOTAL"\12\P="999,999,999.99"\R'
+      delete = false
+      modify = false
+      showDeleted = false
+      showRecNo = false
+      text = "LISTING OF ITEMS PURCHASED"
+      scrollBar = 1	// On
+   endwith
+
+   this.PREVBUTTON = new PUSHBUTTON(this)
+   with (this.PREVBUTTON)
+      onClick = class::PREVIOUS
+      height = 26.0
+      left = 182.0
+      top = 671.0
+      width = 85.0
+      text = "&PREVIOUS"
+      fontName = "MS Sans Serif"
+      fontSize = 8.0
+      fontBold = true
+   endwith
+
+   this.NEXTBUTTON = new PUSHBUTTON(this)
+   with (this.NEXTBUTTON)
+      onClick = class::NEXT
+      height = 26.0
+      left = 294.0
+      top = 671.0
+      width = 85.0
+      text = "&NEXT"
+      fontName = "MS Sans Serif"
+      fontSize = 8.0
+      fontBold = true
+   endwith
+
+   this.ONHAND = new ENTRYFIELD(this)
+   with (this.ONHAND)
+      dataLink = "APOGRLIN->SUPPLY_TOT"
+      enabled = false
+      height = 21.0
+      left = 56.0
+      top = 275.0
+      width = 96.0
+      picture = "999,999.99"
+      colorNormal = "black/silver"
+      colorHighLight = "W+/N+"
+      tabStop = false
+      fontName = "MS Sans Serif"
+      fontBold = true
+   endwith
+
+   this.TEXT20 = new TEXTLABEL(this)
+   with (this.TEXT20)
+      height = 21.0
+      left = 0.0
+      top = 275.0
+      width = 48.0
+      text = "Stk:"
+      colorNormal = "RG+/GB"
+      fontName = "Verdana"
+      fontBold = true
+      borderStyle = 7	// Client
+      alignVertical = 1	// Middle
+      alignHorizontal = 1	// Center
+   endwith
+
+
+    procedure Open
+   ****************************************************************************
+   private orderNoField
+      on error DO ddeerr WITH ERROR(), MESSAGE(),;
+   PROGRAM(), LINENO()
+    FORM.BLUSER=BUSER
+   FORM.BLEVEL=BLEVEL
+    FORM.BLNOREVPRV = BLNOREVPRV
+   IF EMPTY(FORM.BLUSER) .OR. EMPTY(FORM.BLEVEL)
+      QUIT
+   ENDIF
+   form.blsalepit = blsalepit
+   form.blsaletyc = blsaletyc
+   SELECT APOGERR
+   GO TOP
+   if eof()
+   append blank
+   endif
+   IF .NOT. empty(prog)
+    InformationMessage("Error Occured During Posting of Last Purchase.", "Sorry")
+      QUIT
+      ENDIF
+   set reprocess to 10
+                 select apogrnsn
+    go top
+    if eof()
+    append blank
+    replace grn_no with "0"
+    endif
+                                select apogrnup
+    set order to orderdate
+   select fgtyp
+   set order to typ
+   SELECT VENNAMES
+   SET ORDER TO NAME
+     select fgoffs
+   set order to name
+    select apogrns3
+    set order to grn_no
+   go bottom
+    form.maxOrder = grn_no 
+   if type("form.init") = "U"
+      form.init = .T.
+   FORM.PSHIFTDATE = DATE()
+   FORM.PSHIFTNO = "0"
+   FORM.PSHIFTID = "0"
+   form.pfc = .f.
+   SELECT FGCOY
+   GO TOP
+   IF POSPOST = "Yes"
+    FORM.PSHIFTDATE = st15f->shift_date
+   FORM.PSHIFTNO = st15f->shift_no
+   select fgcoy
+   replace start_date with st15f->shift_date
+   replace end_date with start_date
+   FORM.PSHIFTID = st15f->shift_id
+   form.pfc = .t.
+   endif
+   
+    if .not. form.pfc  && not forecourt
+      if .not. empty(apogrns3->grn_date)
+      form.PSHIFTDATE  = apogrns3->grn_date
+      select fgcoy
+      replace start_date with form.PSHIFTDATE 
+      else
+      form.PSHIFTDATE  = fgcoy->start_date
+      if empty(form.PSHIFTDATE)
+       InformationMessage("Missing Data Entry Dates Range in the company info file.", "Sorry")
+       quit
+       endif
+   
+      endif
+   endif   
+   
+   FORM.PDIV = ""
+   FORM.PCOY = ""
+   FORM.OKEXIT = .F.
+   FORM.PCEN = ""
+    form.pcashierno = ""
+    form.pemp1 = ""
+    form.pf1name = ""
+    FORM.PSERVED = ""
+   FORM.PSTO = ""
+   form.pclass = ""
+   FORM.PTYP = ""
+   form.pcard = "B/V"
+   form.ptypname = ""
+   form.pclaname = ""
+   form.pcodname = ""
+   form.pcod = ""
+   form.pf1dr = "No"
+    form.poff = ""
+    form.poffname = ""
+   
+   *    
+   
+   
+   FORM.PCLA = ""
+      set skip to                     && 
+      set exact off                   && the .qbe file contains SET EXACT ON
+   
+      set procedure to Sampproc.prg additive
+   
+      form.inEditMode = .F.           && indicator of view/edit state
+      form.changesMade = .F.          && indicator of changes made to field values
+      form.previousRecord = .F.       && Save record number when appending
+      form.pspdiv = "1"
+      form.pspdivname = "Depot"
+      *** do calculations in another area so form doesn't get updated
+           select apogrns
+      set order to grn_no
+     
+     
+        && max value for key field -- for creating
+        
+          local lmax
+               
+      ***
+           select fgmast
+      set order to mkey
+      select fgcod 
+      set order to mkey
+       select APOGRNSL
+       go top
+       if eof()
+       append blank
+       endif
+         select APOGRLIN3
+       set order to grn_no
+       
+   
+   form.PSALEDATESPIN = form.pshiftdate
+   form.pserialno = ""
+   SELECT fgmastp
+   SET ORDER TO NAME
+          select apogrns
+          go top
+   
+       select apogrns
+      set relation to grn_no into APOGRLIN2 constrain integrity additive
+   
+        endif
+   form::Open() 
+   
+   shell(.F.)
+   
+   
+    
+   ****************************************************************************
+   
+   procedure OnClose
+   ****************************************************************************
+   *  form.CheckCommit(form.inEditMode) 
+      if form.inEditMode
+      form.ViewEdit()
+   endif
+                                                && leave shell(.F.)
+        shell(.f.)
+   *  endif
+   close procedure SampProc.prg
+    if .not. empty(APOGRNS->GRN_no)
+   select apogrnup
+   seek APOGRNS->GRN_no+dtos(APOGRNS->GRN_date)
+   if found() .and. .not. empty(post_date)
+   select APOGRNS
+   replace post_date with date()
+   endif
+   endif
+   commit()
+   close databases
+    do APPOGRNS.PRG
+    form.close()
+   close databases
+     ****************************************************************************
+   
+   procedure BrowseOnNavigate
+    select APOGRNSL
+    replace GRN_NO with APOGRNS->GRN_NO
+    replace GRN_DATE with APOGRNS->GRN_DATE
+     REPLACE VSRCE WITH APOGRNS->vsrce
+     REPLACE VTYP WITH APOGRNS->vTYP
+     REPLACE Vendor_N WITH APOGRNS->Vendor_N
+     REPLACE VPMOD WITH APOGRNS->vPMOD
+     if APOGRNS->serialno = "Goods"
+     replace title with "Transfer/Receive"
+     else
+     replace title with "Service Order"
+     endif
+           select APOGRNS
+    form.changesmade = .t.
+         
+    ****************************************************************************
+    
+   procedure ChangesMade
+   
+   * Indicate that changes have been made to current record.
+   ****************************************************************************
+   
+   form.changesMade = .T.
+   
+   ****************************************************************************
+   
+   procedure BrowseChangesMade
+   ****************************************************************************
+   local t,t2,t3,t4,T5,T6
+     if form.changesmade = .t.
+   select APOGRLIN
+   IF .NOT. EOF()
+   *  form.changesMade = .T.
+     go recno("APOGRLIN") in APOGRLIN    && Make sure change is posted
+   
+   select APOGRLIN2  && recalculate totals in other workarea
+   calculate sum(APOGRLIN2->total),SUM(APOGRLIN2->TAX_AMT),;
+   SUM(APOGRLIN2->GROSS_AMT), SUM(APOGRLIN2->qty) to t,T2,T3,t4
+   select APOGRNS
+   replace APOGRNS->total with t
+   REPLACE grn_tax WITH T2
+   REPLACE GROSS_AMT WITH T3
+   replace grn_qty with t4
+     ENDIF
+     SELECT APOGRNS
+   endif
+   
+    
+   procedure Next
+   ****************************************************************************
+   
+   form.CheckCommit(form.inEditMode)
+    if .not. empty(APOGRNS->GRN_NO)
+   select apogrnup
+   seek APOGRNS->GRN_NO+dtos(APOGRNS->GRN_DATE)
+   if found() .and. .not. empty(post_date)
+   select APOGRNS
+   replace post_date with date()
+   flush
+   endif
+   endif
+   form.root.order.viewEdit.enabled = .t.
+    form.root.order.ADDorder.enabled = .t.      
+    form.root.order.ADDline.enabled = .t.
+   
+   select APOGRNS
+   
+   if .not. eof()
+      NEXTBUTTON::OnClick()
+   endif
+   form.root.file.exit.enabled =   .t.
+   
+   ****************************************************************************
+   
+   procedure Previous
+   ****************************************************************************
+   
+   form.CheckCommit(form.inEditMode)
+    if .not. empty(APOGRNS->GRN_NO)
+   select apogrnup
+   seek APOGRNS->GRN_NO+dtos(APOGRNS->GRN_DATE)
+   if found() .and. .not. empty(post_date)
+   select APOGRNS
+   replace post_date with date()
+   flush
+   endif
+   endif
+   form.root.order.viewEdit.enabled = .t.
+    form.root.order.ADDorder.enabled = .t.      
+    form.root.order.ADDline.enabled = .t.
+   
+   select APOGRNS
+   if .not. bof()
+   PREVBUTTON::OnClick()
+   endif
+     form.root.file.exit.enabled =   .t.
+   
+   ****************************************************************************
+   
+   procedure CheckCommit (newInEditMode)
+    
+    * Finish transaction, if it has been started.
+    ****************************************************************************
+    private orderField, changesMade,prcoy,prdiv,prcen,prsto,prtyp,prcla,prcod,prqty,;
+    pcoy,pdiv,pcen,psto,ptyp,pcla,pcod
+   
+    
+    changesMade = form.changesMade
+     if form.changesMade
+       orderField = field(1)                  && Field GRN_NO   
+            commit()
+            on error DO ddeerr WITH ERROR(), MESSAGE(),;
+   PROGRAM(), LINENO()
+          if form.inEditMode .and. newInEditMode
+          begintrans()
+               on error DO transerr WITH ERROR(), MESSAGE(),;
+   PROGRAM(), LINENO()
+       endif
+       form.changesMade = .F.
+    endif
+    
+      
+    if form.inEditMode <> newInEditMode
+       if newInEditMode                       && Going to Edit mode
+          begintrans()
+            on error DO transerr WITH ERROR(), MESSAGE(),;
+   PROGRAM(), LINENO()
+       else                                   && Going to View mode
+          if .not. changesMade
+             rollback()
+            on error   DO ddeerr WITH ERROR(), MESSAGE(),;
+   PROGRAM(), LINENO()
+          endif
+       endif
+       form.inEditMode = newInEditMode
+    endif
+     
+      
+   
+    select APOGRNS
+    ****************************************************************************
+    
+   procedure ViewEdit
+   ****************************************************************************
+   local inEditMode, control, editMenu
+   
+   editMenu = form.root.ORDER.viewEdit
+   *** If editing is completed, close transaction, otherwise open a transaction
+   if form.inEditMode                           && Change to View mode
+      form.checkChanged(.F.)
+      editMenu.text = "&Edit"
+      editMenu.shortcut = "Ctrl-E"
+      editMenu.statusMessage = "Edit data."
+      form.root.order.deleteline.enabled = .F.
+   *     form.root.order.REPLACECUST.enabled = .f.
+      form.CheckCommit(.F.)                     && Check transaction and
+      form.text = "GOODS RECEIVED FROM BRANCH -- View Mode"         && change mode to View
+      form.childBrowse.modify = .F.
+      form.statusMessage = "Select Transfer/Receive - Edit menu choice to " +;
+                           "edit/delete data."
+   else                                         && Change to Edit mode
+      editMenu.text = "&View"
+      editMenu.shortcut = "Ctrl-E"
+      editMenu.statusMessage = "View data."
+        form.root.order.deleteline.enabled = .t.
+   *        form.root.order.REPLACECUST.enabled = .t.
+      form.CheckCommit(.T.)                     && Check transaction and
+      form.text = "GOODS RECEIVED FROM BRANCH -- Edit Mode"         && change mode to Edit
+      form.childBrowse.modify = .F.
+      form.statusMessage = "In Edit Mode.  " +;
+                           "Select Transfer/Receive - View menu choice to switch " +;
+                           "to View mode."
+    endif
+        
+   control = form.first
+   
+   inEditMode = form.inEditMode    && so don't have to reference many times
+   do
+      do case
+         case control.name $ "ORDERNOENTRY,cno,TOTINVENTRY,BALDUEENTRY"
+            * these are never editable
+            control.enabled = .F.
+         case .not. control.className $ "BROWSE,NEXTBUTTON,PREVBUTTON,PUSHBUTTON,IMAGE,TEXT"
+            * doesn't make sense to make the above classes enabled/not
+            control.enabled = inEditMode
+         case control.className = "BROWSE"
+            control.Modify = inEditMode
+            control.Delete = inEditMode
+            control.Append = inEditMode
+      endcase
+      control = control.before
+   until control.name = form.first.name
+   form.OrderNoEntry.enabled = .F.          && Key field is always disabled
+   form.childBrowse.modify = .F.
+   form.childBrowse.append = .F.
+    form.soamt.enabled = .f.
+   if fgcoy->pospost = "Yes"
+    form.saledatespin.enabled = .f.
+    endif
+   form.childBrowse.delete = .F.
+   
+   form.SGROSSAMT.enabled = .f.
+   form.staxamt.enabled = .f.
+   FORM.CHILDBROWSE.MODIFY = .F.
+
+   form.sitem.enabled = .f.
+   
+   form.onhand.enabled = .f.
+   FORM.SCASHP1.ENABLED = .F.
+   FORM.SCASHP2.ENABLED = .F.
+   
+   procedure CheckChanged(callCommit)
+   
+     private control, fieldValue, controlValue, typeText, typeValue
+   
+   if form.inEditMode
+      control = form.activeControl
+      if type("control.datalink") <> "U"
+         fieldValue = control.datalink          && name of table field
+   
+         typeText = type("control.text")
+         typeValue = type("control.value")
+         do case
+            case typeValue = "C"
+               controlValue = control.value
+            case typeValue $ "LU" .and. typeText = "C"
+               controlValue = control.text
+            otherwise
+               controlValue = Null
+         endcase
+         if controlValue <> &fieldValue
+            form.changesMade = .T.
+         endif
+      endif
+   endif
+   if form.changesMade .and. callCommit
+      CLASS::CheckCommit(form.inEditMode)     && Check transactions
+   endif
+  
+   Procedure Go_last
+      form.CheckCommit(form.inEditMode)
+       if .not. empty(APOGRNS->GRN_NO)
+   select apogrnup
+   seek APOGRNS->GRN_NO+dtos(APOGRNS->GRN_DATE)
+   if found() .and. .not. empty(post_date)
+   select APOGRNS
+   replace post_date with date()
+   flush
+   endif
+   endif
+   form.root.order.viewEdit.enabled = .t.
+    form.root.order.ADDorder.enabled = .t.      
+    form.root.order.ADDline.enabled = .t.
+   
+   select APOGRNS
+      go bottom
+   form.root.file.exit.enabled =   .t.
+    form.BrowseOnNavigate()     
+   
+     
+     Procedure Go_Top
+     form.CheckCommit(form.inEditMode)
+      if .not. empty(APOGRNS->GRN_NO)
+   select apogrnup
+   seek APOGRNS->GRN_NO+dtos(APOGRNS->GRN_DATE)
+   if found() .and. .not. empty(post_date)
+   select APOGRNS
+   replace post_date with date()
+   flush
+   endif
+   endif
+   form.root.order.viewEdit.enabled = .t.
+      form.root.order.ADDorder.enabled = .t.      
+    form.root.order.ADDline.enabled = .t.
+   
+   
+   select APOGRNS
+     go top
+    form.root.file.exit.enabled =   .t.
+    form.BrowseOnNavigate()     
+   
+    function SINVT_onChange
+      select   apogrns
+      replace supply_amt with this.value
+      form.changesmade = .t.
+      return
+   
+   Procedure Form_CanClose
+      RETURN IIF(form.changesmade = .F., .F., .T.)
+   
+   
+   Procedure SPROD_ONCHANGE
+         local l1,l2,l3,l4,l5,l6,l7,e1,L8,L9,L10,L11,L12,L13,L14,lprice,lcost,l31
+              e1 = .f.
+                
+      IF .NOT. EMPTY(APOGRLIN->grn_stk_no)
+    select fgmastp
+   seek this.value
+      form.changesmade = .t.
+   
+            select APOGRLIN
+            replace name with this.value
+            
+                l1 = fgmastp->COY
+               l2 = fgmastp->DIV
+               l3 = fgmastp->CEN
+               
+              l31 = fgmastp->sto
+               l5 = fgmastp->TYP
+               l6 = fgmastp->CLA
+               l7 = fgmastp->COD
+               if .not. (l5 = APOGRLIN->typ .and. l6 = APOGRLIN->cla .and. l7 = APOGRLIN->cod)
+                 
+       replace qty with 0
+        replace LIST_PRICE with 0
+        replace total with 0
+        *replace disc_rate with 0
+        replace disc_amt with 0
+        REPLACE GROSS_AMT WITH 0
+        *replace levy_rate with 0
+        replace levy_amt with 0
+       **replace tax_rate with 0
+        replace tax_amt with 0
+        replace basic_amt with 0
+        replace items_unit with 0
+               endif
+               select fgcod
+               seek l5+l6+l7
+               select fgtaxtyp
+               seek fgcod->tax_type
+               select fgunit
+               seek fgcod->unit
+             
+           lcost = fgcod->cost_price
+               select APOGRLIN
+               replace APOGRLIN->cod with L7
+                replace LIST_PRICE with lcost
+           REPLACE COY WITH fgmastp->COY
+           REPLACE DIV WITH fgmastp->DIV
+           REPLACE CEN WITH fgmastp->CEN
+             REPLACE sto WITH fgmastp->sto
+           REPLACE TYP WITH fgmastp->TYP
+           REPLACE CLA WITH fgmastp->CLA
+           REPLACE COD WITH fgmastp->COD
+           REPLACE TAX_RATE WITH 0
+            select fgmast
+           seek APOGRLIN->coy+APOGRLIN->div+APOGRLIN->cen+APOGRLIN->sto+;
+           APOGRLIN->typ+APOGRLIN->cla+apoGRLIN->cod
+             select APOGRLIN
+             REPLACE SUPPLY_TOT WITH FGMAST->ON_HAND
+    ENDIF
+     select apogrns
+     Procedure SACCT_ONCHANGE
+         select fgcods
+         seek this.value
+         if found()
+         select apogrns
+         REPLACE PNAME WITH THIS.VALUE
+         replace bcoy with "1"
+         replace bdiv with "5"
+         replace bcen with "1"
+         replace bsto with "A1"
+         replace btyp with fgcods->typ
+            replace bcla with fgcods->cla
+               replace bcod with fgcods->cod
+               else
+               select apogrns
+               REPLACE PNAME WITH THIS.VALUE
+          replace bcoy with "1"
+         replace bdiv with ""
+         replace bcen with ""
+         replace bsto with ""
+         replace btyp with ""
+            replace bcla with ""
+               replace bcod with ""
+     endif
+     select apogrns
+     form.changesmade = .t.
+                  
+            
+   
+   Procedure SOFF_ONCHANGE
+         local l1,l2
+        
+         l1 = this.value
+         select fgoffs
+         seek l1
+         if found()
+          select APOGRNS
+          replace offname with this.value
+         replace grn_off with fgoffs->off
+         REPLACE CASHIER_NO WITH FGOFFS->CASHIER_NO
+         form.poff = grn_off
+         form.poffname = this.value
+         else
+         form.poff = ""
+         form.poffname = ""
+        
+          endif
+            form.changesmade = .t.
+          select APOGRNS
+        
+   
+   
+   Procedure SPRICE_OnChange
+         FORM.CHANGESMADE = .T.
+         select APOGRLIN
+         replace LIST_PRICE with this.value
+              replace disc_amt with LIST_PRICE * qty * disc_rate/100
+   replace levy_amt with (LIST_PRICE * qty - DISC_AMT) * levy_rate/100
+   replace tax_amt with (LIST_PRICE * qty - DISC_AMT + levy_amt)* tax_rate/100
+   
+         replace total with LIST_PRICE * qty - disc_amt + tax_amt + levy_amt
+         replace gross_amt with total - tax_amt
+   
+           select APOGRNS
+     *    FORM.CAL_RTN()
+      FORM.BrowseChangesMade()
+   
+   
+         
+   Procedure SVENDOR_ONCHANGE
+         local l1,l2,l3,l4,l5,l6,l7,l8,l9,l10,l11,l12,l22
+         l1 = this.value
+            select Vennames
+            seek l1
+               if found()
+               l22 = .t.
+               else
+               l22 = .f.
+             endif
+             l1 = vsrce
+             l2 = vtyp
+             l3 = vpmod
+             l4 = vendor_n
+             if  empty(l1) .or. empty(l2) .or.  empty(l3) .or. empty(l4)
+             l22 = .f.
+             endif
+             select APOGRNS
+             replace vname with this.value
+             replace vsrce with l1
+             replace vtyp with l2
+             replace vpmod with l3
+             replace vendor_n with l4
+              
+            form.changesmade = .t.
+            
+     
+        
+   Procedure QTYENTRY_OnChange
+         select APOGRLIN
+          replace qty with this.value
+          if trantype = "Goods" .and. .not. fgcod->qty = "Yes" .AND. ;
+          .NOT. FGCOD->TYP ="00"
+          replace qty with 0
+          endif
+          if left(typ,1) <= "3" .and. .not. left(typ,1) = left(apogrns->job_order,1)
+            InformationMessage("Check Purchase Type", "Sorry!")
+      form.qtyentry.value = 0
+      ENDIF
+      IF THIS.VALUE < 0
+      InformationMessage("Quantity Cannot Be Less Than Zero", "Sorry!")
+      form.qtyentry.value = 0
+      ENDIF
+          replace disc_amt with LIST_PRICE * qty * disc_rate/100
+   replace levy_amt with (LIST_PRICE * qty - DISC_AMT) * levy_rate/100
+   replace tax_amt with (LIST_PRICE * qty - DISC_AMT + levy_amt)* tax_rate/100
+   
+         replace total with LIST_PRICE * qty - disc_amt + tax_amt + levy_amt
+         replace gross_amt with total - tax_amt
+   
+        form.changesmade = .t.
+      *  FORM.CAL_RTN()
+         FORM.BrowseChangesMade()
+         select APOGRNS
+        
+     
+    Procedure STAXRATE_OnChange
+          select APOGRLIN
+          replace tax_rate with this.value
+         replace disc_amt with LIST_PRICE * qty * disc_rate/100
+   replace levy_amt with (LIST_PRICE * qty - DISC_AMT) * levy_rate/100
+   replace tax_amt with (LIST_PRICE * qty - DISC_AMT + levy_amt)* tax_rate/100
+   
+         replace total with LIST_PRICE * qty - disc_amt + tax_amt + levy_amt
+         replace gross_amt with total - tax_amt
+         form.changesmade = .t.
+         select APOGRNS
+         FORM.BrowseChangesMade()
+   
+          
+   Procedure SJOB_ONCHANGE
+      private pjob
+      pjob = ""
+         select fgtyps
+         seek this.value
+         select APOGRNS
+         replace job_name with this.value
+         replace job_order with fgtyps->typ
+         form.pjtyp = job_order
+         form.pjname = this.value
+         select fgtyp
+         seek fgtyps->typ
+         select apogrlin3
+        REPLACE ALL QTY WITH 0 for typ <= "99" .and. GRN_NO = apogrns->GRN_NO ;
+          .and. .not. typ = apogrns->job_order
+             REPLACE ALL TOTAL WITH 0 for typ <= "99" .and. GRN_NO = apogrns->GRN_NO ;
+          .and. .not. typ = apogrns->job_order
+    
+         select apogrlin
+       GO TOP
+          select APOGRNS
+         form.changesmade = .t.
+    form.CheckCommit(form.inEditMode)
+              
+   PROCEDURE CHANGE_REG
+   SELECT APOGRNS
+   REPLACE REG WITH THIS.VALUE
+   FORM.CHANGESMADE = .T.
+   
+    PROCEDURE CHANGE_INV_NO
+   SELECT APOGRNS
+   REPLACE INV_NO WITH THIS.VALUE
+   FORM.CHANGESMADE = .T.
+   
+    PROCEDURE CHANGE_INV_DATE
+   SELECT APOGRNS
+   REPLACE INV_DATE WITH THIS.VALUE
+   
+   FORM.CHANGESMADE = .T.
+   
+   procedure change_stotal
+        local l1,l2,l3,l4
+           select APOGRLIN
+           
+      IF THIS.VALUE < 0
+      InformationMessage("Amount Cannot Be Less Than Zero", "Sorry!")
+      form.stotal.value = 0
+      ENDIF
+            if left(typ,1) <= "3" .and. .not. left(typ,1) = left(apogrns->job_order,1)
+            InformationMessage("Check Purchase Type", "Sorry!")
+      form.qtyentry.value = 0
+      ENDIF
+   
+    
+      
+           l1 = qty
+           l2 = tax_rate
+           replace total with this.value
+           replace tax_amt with total/(tax_rate+100)*tax_rate
+           replace gross_amt with total - tax_amt
+           if .not. qty = 0
+           replace list_price with gross_amt/qty
+           else
+           replace list_price with 0
+           endif
+           form.changesmade = .t.
+               * FORM.CAL_RTN()
+      FORM.BrowseChangesMade()
+   
+           select apogrns
+           
+    
+   PROCEDURE CHANGE_LPO
+   SELECT APOGRNS
+   REPLACE LPO WITH THIS.VALUE
+   FORM.CHANGESMADE = .T.
+   
+   PROCEDURE CHANGE_SERIALNO
+   SELECT APOGRNS
+   REPLACE SERIALNO WITH THIS.VALUE
+   FORM.CHANGESMADE = .T.
+   Procedure SPACK_OnChange
+    select APOGRLIN
+   replace items_unit with this.value
+          replace qty with fgcod->items_unit * items_unit
+          if trantype = "Goods" .and. .not. fgcod->qty = "Yes" .AND. ;
+          .NOT. FGCOD->TYP ="00"
+          replace qty with 0
+          endif
+              if left(typ,1) <= "3" .and. .not. left(typ,1) = left(apogrns->job_order,1)
+            InformationMessage("Check Purchase Type", "Sorry!")
+      form.qtyentry.value = 0
+      ENDIF
+   
+      IF qty < 0
+      InformationMessage("Quantity Cannot Be Less Than Zero", "Sorry!")
+      form.qtyentry.value = 0
+      ENDIF
+          replace disc_amt with LIST_PRICE * qty * disc_rate/100
+   replace levy_amt with (LIST_PRICE * qty - DISC_AMT) * levy_rate/100
+   replace tax_amt with (LIST_PRICE * qty - DISC_AMT + levy_amt)* tax_rate/100
+   
+         replace total with LIST_PRICE * qty - disc_amt + tax_amt + levy_amt
+         replace gross_amt with total - tax_amt
+   
+        form.changesmade = .t.
+      *  FORM.CAL_RTN()
+         FORM.BrowseChangesMade()
+         select APOGRNS
+   
+ENDCLASS

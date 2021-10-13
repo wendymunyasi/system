@@ -1,0 +1,628 @@
+////////////////////////////////////////////////////////////////////////////////
+// Output Filename: C:\KENSERVICE\IDSSYS\STTSHEET_FCV.WFM                     //
+// Created By:      dBASE Form Converter Wizard                               //
+// Created On:      Saturday June 25, 2016 At 14:37:51                        //
+// Object Count:    17                                                        //
+////////////////////////////////////////////////////////////////////////////////
+*******************************************************************************
+*  PROGRAM:      sttsheet.WFM
+*
+*  WRITTEN BY:   W Nyongesa
+*
+*  DATE:         05/2000
+*
+*  UPDATED:     11/2014
+*
+*  REVISION:     $Revision:   1.0
+*
+*  VERSION:      Visual dBASE
+*
+*  DESCRIPTION:  This program maintains the Divisions master file
+*
+*  PARAMETERS:   None
+*
+*  CALLS:        dacoysum.mnu         (Menu file)
+*                KBUTTONS.CC          (Custom Controls file)
+*                Physical stock-Take.qbe         (View of tables)
+*
+*  USAGE:        DO sttsheet.WFM
+*
+*******************************************************************************
+#include <messdlg.h>
+shell(.F.)
+create session
+set talk off
+set Design off
+set century on
+set ldCheck off && To avoid language driver conflicts
+#define Maxcoy 999
+** END HEADER -- do not remove this line
+//
+// Generated on 25/06/2016
+//
+parameter bUser,bLevel,bModal
+local f
+f = new dacoysumFORM()
+if (bModal)
+   f.mdi = false // ensure not MDI
+   f.readModal()
+else
+   f.open()
+endif
+
+class dacoysumFORM of FORM
+set procedure to buttons.cc additive
+   with (this)
+      onClose = class::ONCLOSE
+      open = class::OPEN
+      metric = 6	// Pixels
+      colorNormal = "n+"
+      height = 932.0
+      left = 0.0
+      top = 0.0
+      width = 1296.0
+      text = "Stock Valuation"
+      windowState = 2	// Maximized
+      mdi = false
+      sizeable = false
+      moveable = false
+      view = "sttsheet.QBE"
+      menuFile = "STTSHEET.MNU"
+      escExit = false
+      mousePointer = 1	// Arrow
+      minimize = false
+   endwith
+
+   this.CODETEXT = new TEXTLABEL(this)
+   with (this.CODETEXT)
+      height = 18.0
+      left = 63.0
+      top = 22.0
+      width = 48.0
+      text = "Coy:"
+      colorNormal = "B/BtnFace"
+      fontName = "MS Sans Serif"
+      fontSize = 8.0
+      fontBold = true
+      alignVertical = 1	// Middle
+      alignHorizontal = 2	// Right
+   endwith
+
+   this.COYCOMBOBOX = new COMBOBOX(this)
+   with (this.COYCOMBOBOX)
+      dataLink = "dacoysum->Coy"
+      enabled = false
+      height = 23.0
+      left = 119.0
+      top = 22.0
+      width = 48.0
+      fontName = "Arial Black"
+      fontSize = 8.0
+      fontBold = true
+      colorNormal = "B/BtnFace"
+      dataSource = "FIELD fgcoy->Coy"
+      style = 2	// DropDownList
+      dropDownHeight = 132.0
+   endwith
+
+   this.COYDISPLAY = new ENTRYFIELD(this)
+   with (this.COYDISPLAY)
+      dataLink = "FGCOY->STREET"
+      enabled = false
+      height = 18.0
+      left = 182.0
+      top = 22.0
+      width = 375.0
+      function = "!"
+      colorNormal = "N/BtnFace"
+      colorHighLight = "B+/W*"
+      fontName = "MS Sans Serif"
+      fontSize = 8.0
+      fontBold = true
+   endwith
+
+   this.BROWSE1 = new BROWSE(this)
+   with (this.BROWSE1)
+      onChange = class::BROWSE1_ONCHANGE
+      colorHighLight = "GB+/N+"
+      fontName = "MS Sans Serif"
+      fontSize = 9.0
+      height = 627.0
+      left = 42.0
+      top = 143.0
+      width = 1015.0
+      append = false
+      alias = "DSHSTMAS"
+      fields = 'fgcod->Name\H="Product"\30\R\C="N/W",FGCENS->NAME\H="Centre"\7\R\C="N/W",CODE = DSHSTMAS->TYP+DSHSTMAS->CLA+DSHSTMAS->COD\H="Code"\10\C="N/W",DSHSTMAS->STO\H="STO"\5\R\C="N/W",DSHSTMAS->phy\H="PHY"\12\P="99,999,999.99",DSHSTMAS->On_hand\H="On Hand"\10\P="999,999.99"\R\C="N/W",var = DSHSTMAS->Phy-DSHSTMAS->On_hand\H="Var."\10\P="999,999.99"\C="N/W",DSHSTMAS->Std_cost\H="Unit Cost"\11\P="999,999.99",DSHSTMAS->Std_vat\H="VAT"\8\P="99.99",DSHSTMAS->SALE_PRICE\H="Sale Price"\10\P="999,999.99"\R\C="N/W",gldate = DSHSTMAS->POST_DATE\H="Posted GL"\10\C="W+/B+"'
+      delete = false
+      showRecNo = false
+      text = "Poducts/Services Information"
+   endwith
+
+   this.TEXT1 = new TEXTLABEL(this)
+   with (this.TEXT1)
+      height = 17.0
+      left = 567.0
+      top = 22.0
+      width = 36.0
+      text = "Date:"
+      colorNormal = "B/BtnFace"
+      fontName = "MS Sans Serif"
+      fontSize = 8.0
+      fontBold = true
+      alignVertical = 1	// Middle
+      alignHorizontal = 2	// Right
+   endwith
+
+   this.TDATE = new SPINBOX(this)
+   with (this.TDATE)
+      dataLink = "dacoysum->shift_date"
+      enabled = false
+      height = 17.0
+      left = 616.0
+      top = 22.0
+      width = 108.0
+      fontName = "MS Sans Serif"
+      fontSize = 8.0
+   endwith
+
+   this.RECTANGLE2 = new RECTANGLE(this)
+   with (this.RECTANGLE2)
+      left = 42.0
+      top = 77.0
+      width = 210.0
+      height = 62.0
+      text = "EDIT DATE TO POST TO GL"
+      fontName = "MS Sans Serif"
+      fontBold = true
+   endwith
+
+   this.STARTENTRY = new ENTRYFIELD(this)
+   with (this.STARTENTRY)
+      onChange = class::STARTENTRY_ONCHANGE
+      valid = class::STARTENTRY_VALID
+      dataLink = "STTSHEET->GL_DATE"
+      enabled = false
+      height = 26.0
+      left = 63.0
+      top = 99.0
+      width = 132.0
+      fontName = "MS Sans Serif"
+      fontSize = 12.0
+      fontBold = true
+      validErrorMsg = "Date Out of Range - It Must be End Month Date"
+   endwith
+
+   this.RECTANGLE1 = new RECTANGLE(this)
+   with (this.RECTANGLE1)
+      left = 259.0
+      top = 66.0
+      width = 672.0
+      height = 62.0
+      text = "EDIT START DATE AND END DATE TO GENERATE PERIOD STOCK MOVEMENT REPORT"
+      fontName = "MS Sans Serif"
+      fontBold = true
+   endwith
+
+   this.STDATE = new ENTRYFIELD(this)
+   with (this.STDATE)
+      onChange = class::STDATE_ONCHANGE
+      dataLink = "STTSHEET->START_DATE"
+      enabled = false
+      height = 26.0
+      left = 448.0
+      top = 88.0
+      width = 132.0
+      fontName = "Verdana"
+      fontBold = true
+      validErrorMsg = "Date Out of Range - It Must be End Month Date"
+   endwith
+
+   this.ENDATE = new ENTRYFIELD(this)
+   with (this.ENDATE)
+      onChange = class::ENDATE_ONCHANGE
+      dataLink = "STTSHEET->END_DATE"
+      enabled = false
+      height = 26.0
+      left = 770.0
+      top = 88.0
+      width = 132.0
+      fontName = "Verdana"
+      fontBold = true
+      validErrorMsg = "Date Out of Range - It Must be End Month Date"
+   endwith
+
+   this.TEXT3 = new TEXTLABEL(this)
+   with (this.TEXT3)
+      height = 26.0
+      left = 602.0
+      top = 88.0
+      width = 138.0
+      text = "END DATE:"
+      colorNormal = "BtnText/W"
+      fontName = "Verdana"
+      fontBold = true
+   endwith
+
+   this.TEXT2 = new TEXTLABEL(this)
+   with (this.TEXT2)
+      height = 26.0
+      left = 273.0
+      top = 88.0
+      width = 138.0
+      text = "START DATE:"
+      colorNormal = "BtnText/W"
+      fontName = "Verdana"
+      fontBold = true
+   endwith
+
+   this.PREVBUTTON = new PUSHBUTTON(this)
+   with (this.PREVBUTTON)
+      onClick = class::PREVIOUS
+      height = 26.0
+      left = 175.0
+      top = 792.0
+      width = 85.0
+      text = "&PREVIOUS"
+      fontName = "MS Sans Serif"
+      fontSize = 8.0
+      fontBold = true
+   endwith
+
+   this.NEXTBUTTON = new PUSHBUTTON(this)
+   with (this.NEXTBUTTON)
+      onClick = class::NEXT
+      height = 26.0
+      left = 259.0
+      top = 792.0
+      width = 85.0
+      text = "&NEXT"
+      fontName = "MS Sans Serif"
+      fontSize = 8.0
+      fontBold = true
+   endwith
+
+   this.FIRSTBUTTON = new PUSHBUTTON(this)
+   with (this.FIRSTBUTTON)
+      onClick = {; form.CheckCommit(form.inEditMode);GO TOP; form.BrowseOnNavigate();}
+      height = 26.0
+      left = 350.0
+      top = 792.0
+      width = 85.0
+      text = "F&IRST"
+      fontName = "MS Sans Serif"
+      fontSize = 8.0
+      fontBold = true
+   endwith
+
+   this.LASTBUTTON = new PUSHBUTTON(this)
+   with (this.LASTBUTTON)
+      onClick = {; form.CheckCommit(form.inEditMode);GO BOTTOM; form.BrowseOnNavigate();}
+      height = 26.0
+      left = 441.0
+      top = 792.0
+      width = 85.0
+      text = "&LAST"
+      fontName = "MS Sans Serif"
+      fontSize = 8.0
+      fontBold = true
+   endwith
+
+
+   procedure Open
+   ****************************************************************************
+   private CodeField
+        on error DO ddeerr WITH ERROR(), MESSAGE(),;
+   PROGRAM(), LINENO()
+    FORM.BLUSER=BUSER
+   FORM.BLEVEL=BLEVEL
+   IF EMPTY(FORM.BLUSER) .OR. EMPTY(FORM.BLEVEL)
+      QUIT
+   ENDIF
+   form.firstime = .T.
+   if type("form.init") = "U"
+      form.init = .T.
+
+      set skip to                     && dacoysum.qbe contains set skip to gldtl
+      set exact off                   && the .qbe file contains SET EXACT ON
+
+      set procedure to sampProc.prg additive
+    Form.duplicate = .F.
+      form.inEditMode = .F.           && indicator of view/edit state
+      form.changesMade = .F.          && indicator of changes made to field values
+      form.previousRecord = .F.       && Save record number when appending
+        *** do calculations in another area so form doesn't get updated
+        CodeField = field(1)         && company field
+   *   set order to &CodeField      && period -- tag name is same as field
+
+      select dacoysum
+      set order to SHIFT_DATE
+    GO BOTTOM                                  && new Receipts
+
+
+      *** Open table for calculating totals and balance due in another work area
+      *** so that datalinks are not affected by record movements
+
+
+      ***
+    *  if type("form.parentpayeeForm") <> "U" && Esc ok if have parent
+    *     form.escExit = .T.
+   *   endif
+
+   endif
+   * form.CoyInfoButton.KenpName = "sttsheet.WFM"
+
+   form::Open()                         && Now the form actually opens
+       form.BrowseOnNavigate()              && calculate totals
+   *       form.codingerrors()                        && check coding errors
+
+   *      form.next.setfocus()
+   ****************************************************************************
+
+   procedure OnClose
+
+   * Clean up.
+   ****************************************************************************
+
+   if this.inEditMode
+      form.ViewEdit()                      && Finish transaction
+   endif
+   CLOSE DATABASES
+   *  if Empty(dacoysum->COY)
+   *  delete
+   *  endif
+     close procedure SAMPProc.prg
+     FORM.CLOSE()
+
+
+   ****************************************************************************
+
+   procedure BrowseOnNavigate
+   ****************************************************************************
+
+   SELECT sttsheet
+   go top
+   if eof()
+   append blank
+   endif
+   REPLACE sttsheet->shift_DATE WITH dacoysum->shift_DATE
+   REPLACE sttsheet->COY WITH dacoysum->COY
+   if .not. shift_date = gl_date
+   replace gl_date with {}
+   endif
+   replace post_date with {}
+   SELECT dacoysum
+
+   ****************************************************************************
+
+   procedure ChangesMade
+
+   * Indicate that changes have been made to the current record
+   ****************************************************************************
+   Form.ChangesMade = .T.
+   ****************************************************************************
+
+   procedure CheckCommit (newInEditMode)
+
+        * Finish transaction, if it has been started.
+   ****************************************************************************
+   private CodeField, changesMade
+    local lk1,lk2
+    select dacoysum
+    lk1 = form.COYCOMBOBOX.value
+     changesMade = form.changesMade
+   if form.changesMade
+      CodeField = field(2)  && Field division
+    *  if     ConfirmationMessage("Commit changes?",;
+                FormatStr("Division %1",&CodeField)) = YES
+         commit()
+              on error DO ddeerr WITH ERROR(), MESSAGE(),;
+   PROGRAM(), LINENO()
+      * do racodsal_rtn
+      * do lmcodsal_rtn
+   *   else
+    *     rollback()
+     *         on error DO ddeerr WITH ERROR(), MESSAGE(),;
+   PROGRAM(), LINENO()
+      *   if .not. bof()
+       *  if .not. empty(form.previousRecord)
+   *            go bookmark()
+           * form.previousRecord
+       *     form.previousRecord = .F.
+       *  endif
+    *  endif
+
+       form.COYCOMBOBOX.enabled = .F.
+     if form.inEditMode .and. newInEditMode
+         begintrans()
+              on error DO TRANSerr WITH ERROR(), MESSAGE(),;
+   PROGRAM(), LINENO()
+      endif
+      form.changesMade = .F.
+   endif
+   if form.inEditMode <> newInEditMode
+      if newInEditMode                       && Going to Edit mode
+         begintrans()
+                on error DO TRANSerr WITH ERROR(), MESSAGE(),;
+   PROGRAM(), LINENO()
+      else                                   && Going to View mode
+         if .not. changesMade .AND. .NOT. FORM.DUPLICATE
+            rollback()
+                 on error DO ddeerr WITH ERROR(), MESSAGE(),;
+   PROGRAM(), LINENO()
+         endif
+      endif
+      form.inEditMode = newInEditMode
+   endif
+
+   * form.root.Receipt.add.enabled = .T.
+   *form.codingerrors()
+   ****************************************************************************
+
+   procedure ViewEdit
+
+   * Toggle between View and Edit modes.
+   ****************************************************************************
+   local inEditMode, editMenu, control
+
+   editMenu = form.root.sttsheet.VIEWEdit
+
+   *** If ending edit mode then close transaction, otherwise open it.
+   if form.inEditMode
+      form.checkChanged(.F.)
+      editMenu.text = "&Edit"
+      editMenu.shortcut = "Ctrl-E"
+      editMenu.statusMessage = "Edit data."
+   *      form.root.sttsheet.delete.enabled = .F.      && disabled in view mode
+      form.CheckCommit(.F.)                        && Check transaction and
+      form.text = "Physical stock-Take Data Entry Form -- View Mode"          && change mode to View
+   *      form.notesEditor.colorNormal = "N/W"
+   *      form.childBrowse.modify = .F.
+   *      form.notesEditor.modify = .F.
+      form.statusmessage = "In View Mode. " + ;
+                           "Select Physical stock-Take - Edit menu to " + ;
+                           "edit/delete data."
+     else                                            && Switch to edit mode
+      editMenu.text = "Vi&ew"
+      editMenu.shortcut = "Ctrl-E"
+      editMenu.statusMessage = "View data."
+   *      form.root.sttsheet.delete.enabled = .F.      && enabled in edit mode
+      form.CheckCommit(.T.)                        && Check transaction and
+      form.text = "Physical stock-Take Data Entry Form -- Edit Mode"          && change mode to Edit
+
+   *     form.notesEditor.modify = .T.
+      form.statusmessage = "In Edit Mode.  " + ;
+                           "Select menu Physical stock-Take - View to switch " + ;
+                           "to View mode."
+          form.coydisplay.enabled =.F.
+       *form.LnameEntry.SetFocus()
+
+   endif
+
+   inEditMode = form.inEditMode     && Faster if we don't reference a form
+   control = form.first             &&    variable each time through the loop
+   do
+      if .not. control.className $ "BROWSE,EDITOR,NEXTBUTTON,PREVBUTTON,PUSHBUTTON,IMAGE,TEXT"
+         control.enabled = inEditMode
+      endif
+      control = control.before
+   until control.name = form.first.name
+          form.COYCOMBOBOX.Enabled = .F.
+       form.coydisplay.enabled =.F.
+          form.tdate.enabled = .f.
+   *      form.divname.enabled = .f.
+       *form.LnameEntry.SetFocus()
+
+
+   ****************************************************************************
+
+   procedure CheckChanged(callCommit)
+
+   * Check if changes have been made to the current entryfield.  This procedure
+   * is called from menu routines to make sure the form.changesMade gets
+   * updated when a menu is selected while the changed control has focus.
+   ****************************************************************************
+   private control, fieldValue, controlValue, typeText, typeValue
+
+   if form.inEditMode
+      control = form.activeControl
+      if type("control.datalink") <> "U"
+         fieldValue = control.datalink          && name of table field
+
+         typeText = type("control.text")
+         typeValue = type("control.value")
+         do case
+            case typeValue = "C"
+               controlValue = control.value
+            case typeValue $ "LU" .and. typeText = "C"
+               controlValue = control.text
+            otherwise
+               controlValue = Null
+         endcase
+         if controlValue <> &fieldValue
+            form.changesMade = .T.
+         endif
+      endif
+   endif
+   if form.changesMade .and. callCommit
+      CLASS::CheckCommit(form.inEditMode)     && Check transactions
+   endif
+
+       procedure Next
+
+   * Go to next record.
+   ****************************************************************************
+
+   form.CheckCommit(form.inEditMode)
+   if .not. empty(dbf())  .and. .not. eof()      && if a table is open in the current workarea
+      skip
+       form.BrowseOnNavigate()
+      if eof()
+         go bottom
+         AlertMessage("At the last record","Alert")
+      endif
+   else
+      InformationMessage("There is no table open in the current workarea.",;
+         "Info")
+   endif
+    ****************************************************************************
+
+   procedure Previous
+
+   * Go to previous record.
+   ****************************************************************************
+
+   form.CheckCommit(form.inEditMode)
+ if .not. empty(dbf())  .and. .not. eof() && if a table is open in the current workarea
+      skip - 1
+      form.BrowseOnNavigate()
+      if bof()
+         go top
+         AlertMessage("At the first record","Alert")
+      endif
+   else
+      InformationMessage("There is no table open in the current workarea.",;
+         "Info")
+   endif
+
+   Procedure BROWSE1_OnChange
+         form.changesmade = .t.
+         form.CheckCommit(form.inEditMode)
+
+   Procedure STARTENTRY_OnChange
+    local l1,l2
+               l1 = this.value
+               if (l1 = dacoysum->shift_date .and. day(l1+1) = 1) .or. empty(l1)
+                  form.changesmade = .t.
+                  select sttsheet
+                  replace gl_date with this.value
+                  else
+                  form.changesmade = .t.
+                    select sttsheet
+                    replace gl_date with {}
+              endif
+
+   Procedure STARTENTRY_Valid
+    local l1,l2
+               l1 = this.value
+               if (l1 = dacoysum->shift_date .and. day(l1+1) = 1) .or. empty(l1)
+                  Isvalid = .t.
+                  else
+                  Isvalid = .f.
+              endif
+              Return Isvalid
+
+   Procedure STDATE_OnChange
+   select sttsheet
+   replace start_date with this.value
+   FORM.CHANGESMADE =.T.
+form.CheckCommit(form.inEditMode)
+
+   Procedure ENDATE_OnChange
+   select sttsheet
+   replace end_date with this.value
+   FORM.CHANGESMADE = .T.
+form.CheckCommit(form.inEditMode)
+
+endclass
+

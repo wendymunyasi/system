@@ -1,0 +1,48 @@
+* Visual dBASE .QBE file 9
+close databases
+ON ERROR DO SHIFTCLS.PRG 
+USE \KENSERVICE\DATA\fgstkcal.DBF
+? TANK_CAP
+close databases
+ON ERROR DO MSHSTCST.PRG
+USE \KENSERVICE\DATA\MSHSTCST.DBF
+ON ERROR DO QBEERR WITH ERROR(), MESSAGE(),;
+PROGRAM(), LINENO()
+CLOSE DATABASES
+*SET EXCLUSIVE ON
+SET EXACT ON
+SELECT 1
+USE \KENSERVICE\DATA\ashstmas.DBf 
+? SALE_PRICE
+SELECT 2
+USE \KENSERVICE\DATA\SHSTMAST.DBf 
+SELECT 3
+ if .not. file("\kenservice\data\FGDATMAS.dbf")
+use \kenserve\idssys\FGDATMAS.dbf
+copy stru to \kenservice\data\FGDATMAS dbase prod
+endif
+use \kenservice\data\FGDATMAS.dbf  exclusive
+SELECT 5
+USE \KENSERVICE\DATA\DSHSTMAS.DBf exclusive
+? SALE_PRICE
+*ZAP
+SELECT 10
+USE \KENSERVICE\DATA\MSHSTMAS.DBf exclusive
+? SALE_PRICE
+*ZAP
+ SELECT 19
+ USE \KENSERVICE\DATA\fgCOD.DBf 
+ select 99
+ use \kenservice\data\fgshupiv.dbf exclusive
+ SELECT 25 
+USE \KENSERVICE\DATA\MSHSTCST.DBF exclusive
+select 26
+use \kenservice\data\ashstcst.dbf 
+SELECT 27
+USE \KENSERVICE\DATA\DACOYSUM.DBF exclusive
+select 28
+use \kenservice\data\ststo.dbf
+*ZAP
+
+ 
+ 

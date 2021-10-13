@@ -1,0 +1,866 @@
+////////////////////////////////////////////////////////////////////////////////
+// Output Filename: C:\KENSERVICE\IDSSYS\SHFCMR_FCV.WFM                       //
+// Created By:      dBASE Form Converter Wizard                               //
+// Created On:      Sunday October 3, 2021 At 16:58:24                        //
+// Object Count:    17                                                        //
+////////////////////////////////////////////////////////////////////////////////
+**************************************************************************
+*  PROGRAM:      ShFcMr.wfm
+*
+*******************************************************************************
+create session
+set talk off
+set ldCheck off
+set reprocess to 10
+SET DATE TO BRITISH
+set century on
+*f .not. user() = "WYCLIFFE"
+_app.FrameWin.Visible = .F.
+set design off
+*NDIF
+*set procedure to ddeerr.prg additive
+
+_app.FrameWin.Text = "ShFcMr"
+
+** END HEADER -- do not remove this line
+//
+// Generated on 09/10/2021
+//
+parameter bUser,bLevel,bModal
+local f
+f = new ShFcMrFORM()
+if (bModal)
+   f.mdi = false // ensure not MDI
+   f.readModal()
+else
+   f.open()
+endif
+
+class ShFcMrFORM of FORM
+   with (this)
+      onOpen = class::ONOPEN
+      onClose = class::ONCLOSE
+      metric = 6	// Pixels
+      colorNormal = "N+"
+      height = 830.0
+      left = 56.0
+      top = 1.0
+      width = 1178.0
+      text = "EDIT CLOSING FUEL PUMP METER READINGS"
+      windowState = 2	// Normal
+      mdi = false
+      sizeable = false
+      moveable = false
+      view = "ShFcMr.QBE"
+      menuFile = "SHFCMR.MNU"
+      mousePointer = 1	// Arrow
+      scrollBar = 0	// Off
+      maximize = false
+      minimize = false
+   endwith
+
+   this.CHILDBROWSE1 = new BROWSE(this)
+   with (this.CHILDBROWSE1)
+      onRightMouseDown = class::ST15F_CAL_RTN
+      colorNormal = "R+/W+"
+      colorHighLight = "B+/w*"
+      fontName = "MS Sans Serif"
+      fontBold = true
+      height = 220.0
+      left = 21.0
+      top = 44.0
+      width = 931.0
+      append = false
+      alias = "ST15F"
+      fields = 'ISLAND = ST15F->CEN\H="Is"\5\C="W+/0x808040",sto = ST15F->STO\H="Pum"\5\C="W+/0x808040",ST15F->CL_M_A\H="Elect (Cash)"\20\P="9999999999.999"\C="N/W+",ST15F->CL_M_Q\H="Elect (Ltrs)"\20\P="9999999999.999"\C="N/W+",ST15F->CL_MM_QTY\H="Man. (Ltrs)"\20\P="9999999999.99"\C="N/W+",ST15F->TEST_QTY\H="RTT(Lts)"\12\P="999,999.99"\C="N/W+",DIP = ST15F->F1CASHR\H="Dip"\5\R\C="W+/0x808040",ST15F->PHY_QTY\H="Dip(Ltrs)"\12\P="999,999.99"\C="N/W+",TANK = ST15F->ST_STO\H="Tnk"\6\C="W+/0x808040"'
+      delete = false
+      showRecNo = false
+      text = "EDIT CLOSING FUEL PUMP METER READINGS HERE"
+      scrollBar = 1	// On
+   endwith
+
+   this.TEXT2 = new TEXTLABEL(this)
+   with (this.TEXT2)
+      height = 14.0
+      left = -60.0
+      top = 884.0
+      width = 720.0
+      text = "Petrol Service System"
+      colorNormal = "BtnText/0x40ff00"
+      fontName = "MS Sans Serif"
+      fontSize = 8.0
+      fontBold = true
+      alignHorizontal = 1	// Center
+   endwith
+
+   this.CHILDBROWSE2 = new BROWSE(this)
+   with (this.CHILDBROWSE2)
+      colorNormal = "R/Btnface"
+      colorHighLight = "B+/w*"
+      fontName = "MS Sans Serif"
+      fontSize = 9.0
+      fontBold = true
+      height = 286.0
+      left = 21.0
+      top = 286.0
+      width = 1106.0
+      append = false
+      alias = "st15f"
+      fields = 'CEN = ST15F->CEN\H="ILSD"\C="W+/0x808040",PUMP = ST15F->STO\H="PUM"\5\C="W+/0x808040",ST15F->Meter_amt\H="Elect (Cash)"\15\P="999,999,999.99"\R\C="W+/0x808040",TQTY = ST15F->TOTAL_QTY\H="Elec(Ltrs)"\12\P="99,999.99"\C="W+/0x808040",manltrs = st15f->mm_sold\H="Man (Ltrs)"\13\P="99999.999.99"\C="W+/0x808040",varltrs = st15f->mm_qty_var\H="Var(Ltrs)"\11\P="999,999.99"\C="W+/0x80ff",soldltrs = st15f->sold_qty\H="Sold(Ltrs)"\10\P="99,999.99"\C="W+/0x808040",pprice = st15f->sale_price\H="Price"\11\P="999,999.99"\C="W+/0x808040",ST15F->Sold_amt\H="Qty(Amt)"\15\P="999,999,999.99"\R\C="W+/0x808040",RTTAMT = ST15F->TEST_AMT\H="RTT (Amt)"\13\P="99999,999.99"\C="W+/0x80ff",expsale = st15f->exp_sales\H="Sales(Amt)"\14\P="999,999,999.99"\C="W+/0x808040",VAR = ST15F->Meter_var\H="Var (Amt)"\12\P="99999999.99"\C="W+/0x80ff",CRAMT = ST15F->NON_CASH\H="Cr(amt)"\13\P="999999999.99"\C="W+/0x808040"'
+      delete = false
+      modify = false
+      showRecNo = false
+      text = "VIEW THROUGHPUT AND SALES FOR FUEL PUMPS"
+   endwith
+
+   this.SHIFT = new ENTRYFIELD(this)
+   with (this.SHIFT)
+      dataLink = "ST15F->Shift_date"
+      enabled = false
+      height = 21.0
+      left = 14.0
+      top = 11.0
+      width = 108.0
+      colorNormal = "N/W"
+      fontName = "MS Sans Serif"
+      fontSize = 12.0
+      fontBold = true
+   endwith
+
+   this.ENTRYFIELD1 = new ENTRYFIELD(this)
+   with (this.ENTRYFIELD1)
+      dataLink = "ST15F->Shift_no"
+      enabled = false
+      height = 21.0
+      left = 154.0
+      top = 11.0
+      width = 24.0
+      colorNormal = "N/W"
+      colorHighLight = "W+/B+"
+      fontName = "MS Sans Serif"
+      fontSize = 12.0
+      fontBold = true
+   endwith
+
+   this.SEDATE = new ENTRYFIELD(this)
+   with (this.SEDATE)
+      dataLink = "ST15F->SHIFT_POST"
+      enabled = false
+      height = 21.0
+      left = 357.0
+      top = 11.0
+      width = 108.0
+      colorNormal = "0x8000ff/W"
+      fontName = "MS Sans Serif"
+      fontSize = 12.0
+      fontBold = true
+   endwith
+
+   this.ENTRYFIELD29 = new ENTRYFIELD(this)
+   with (this.ENTRYFIELD29)
+      dataLink = "ST15F->Shift_id"
+      enabled = false
+      height = 21.0
+      left = 187.0
+      top = 11.0
+      width = 24.0
+      colorNormal = "N/W"
+      colorHighLight = "W+/B+"
+      fontName = "MS Sans Serif"
+      fontSize = 12.0
+      fontBold = true
+   endwith
+
+   this.TEXT36 = new TEXTLABEL(this)
+   with (this.TEXT36)
+      height = 21.0
+      left = 224.0
+      top = 11.0
+      width = 48.0
+      text = "Error:"
+      colorNormal = "N/W"
+      fontName = "MS Sans Serif"
+      fontSize = 12.0
+      fontBold = true
+   endwith
+
+   this.ERROR = new ENTRYFIELD(this)
+   with (this.ERROR)
+      dataLink = "SHIFTCOY->ERROR_MSG"
+      enabled = false
+      height = 21.0
+      left = 467.0
+      top = 11.0
+      width = 478.0
+      colorNormal = "N/W"
+      fontName = "MS Sans Serif"
+      fontSize = 12.0
+      fontBold = true
+   endwith
+
+   this.ENTRYFIELD4 = new ENTRYFIELD(this)
+   with (this.ENTRYFIELD4)
+      dataLink = "SHIFTCOY->ERROR"
+      enabled = false
+      height = 21.0
+      left = 280.0
+      top = 11.0
+      width = 72.0
+      colorNormal = "GB+/R+"
+      fontName = "MS Sans Serif"
+      fontSize = 11.0
+      fontBold = true
+   endwith
+
+   this.CHILDBROWSE3 = new BROWSE(this)
+   with (this.CHILDBROWSE3)
+      colorNormal = "W"
+      colorHighLight = "G+/0x408080"
+      fontName = "MS Sans Serif"
+      fontSize = 9.0
+      fontBold = true
+      height = 254.0
+      left = 14.0
+      top = 583.0
+      width = 343.0
+      append = false
+      alias = "SHIFTID"
+      fields = 'Island = SHIFTID->ID\H="ISLD"\6\C="R+/W",desc = SHIFTID->CENNAME\H="Description"\17\C="W+/0x408080",total_sales = SHIFTID->TOTAL_SALE\H="AMOUNT"\20\P="99,999,999,999.99"\C="R+/W"'
+      toggle = false
+      delete = false
+      modify = false
+      showRecNo = false
+      text = "TOTAL SALES BY ISLAND"
+   endwith
+
+   this.BROWSE4 = new BROWSE(this)
+   with (this.BROWSE4)
+      fontBold = true
+      height = 55.0
+      left = 371.0
+      top = 594.0
+      width = 595.0
+      append = false
+      alias = "SHIFTTYP"
+      fields = 'SHIFTTYP->TYP,SHIFTTYP->TOTAL_SALE\H="SALES VALUE"\20\P="99,999,999,999.99"\R,SHIFTTYP->TOTAL_QTY\H="QTY SOLD"\15\P="999,999.99"\R,SHIFTTYP->NAME\H="NAME"\25\R'
+      modify = false
+   endwith
+
+   this.BROWSE5 = new BROWSE(this)
+   with (this.BROWSE5)
+      fontBold = true
+      height = 176.0
+      left = 371.0
+      top = 660.0
+      width = 602.0
+      append = false
+      alias = "SHTYPCLA"
+      fields = 'SHTYPCLA->TYP\5\R,SHTYPCLA->CLA\5\R,SHTYPCLA->NAME\25\R,SHTYPCLA->TOTAL_QTY\H="SOLD QTY"\12\P="9,999,999.99"\R,SHTYPCLA->TOTAL_SALE\H="SALES VALUE"\20\P="999,999,999,999.99"\R'
+      modify = false
+      scrollBar = 1	// On
+   endwith
+
+
+    procedure OnOpen
+   *******************************************************************************
+      form.bluser = bUser
+      form.blevel = bLevel
+      IF EMPTY(FORM.BLUSER) .OR. EMPTY(FORM.BLEVEL)
+      QUIT
+      ENDIF
+
+   set procedure to SampProc.prg additive
+   
+    SELECT STSTO
+    SET ORDER TO STO
+
+     SELECT FGCODS
+   *   if flock()
+    SET ORDER TO MKEY
+    SELECT FGCODS2
+    SET ORDER TO MKEY
+       SELECT SHIFTID
+   *   if flock()
+    SET ORDER TO ID
+      SELECT SHIFTCLS
+   *     if flock()
+    SET ORDER TO COYCLA
+
+    select shiftcoy
+    set order to coy
+
+   *      SET ORDER TO SHIFTID
+         select st15f
+     *    if flock()
+         set order to mkey
+   go toP
+
+    select shsum
+   *  if flock()
+    go top
+    if eof()
+    append blank
+    endif
+    replace shift_date with st15f->shift_date
+    replace shift_id with st15f->shift_id
+    replace shift_no with st15f->shift_no
+    replace coy with st15f->coy
+
+     USE \KENSERVICE\DATA\SHIFTCOY.DBf AGAIN IN SELECT() ALIAS SHIFTCOY2
+           SELECT st15f
+      *   if flock()
+    GO TOP
+    if .not. eof()
+     DO ST15FCAL.PRG
+     SELECT ST15F
+    go top
+    refresh
+     form.childbrowse2.setfocus()
+     endif
+
+
+
+   *******************************************************************************
+
+   procedure OnClose
+   *******************************************************************************
+     *  form.release()
+    *  close procedure SampProc.prg
+ *  clear program
+   close databases
+  form.close()
+   *******************************************************************************
+
+ PROCEDURE ST15F_CAL_RTN
+     private psPrice
+     
+      local lvar
+      lvar = 0
+      select shifttyp
+      SET ORDER TO TYP
+      repl all total_sale with 0, total_qty with 0
+          SELECT SHIFTID
+          REPLACE ALL TOTAL_SALE WITH 0
+           select shTYPCLA
+           SET ORDER TO MKEY
+      repl all total_sale with 0, total_qty with 0
+          SELECT SHIFTID
+          SET ORDER TO ID
+          REPLACE ALL TOTAL_SALE WITH 0
+          SELECT ST15F
+         SCAN  
+          PCOY = COY
+      PDIV = DIV
+      PCEN = CEN
+      PSTO = STO
+      PTYP = TYP
+      PCLA = CLA
+      PCOD = COD
+         LOCAL LX1,lx1e
+        lx1e =.t.
+      replace shift_post with {}
+      replace errors with ""
+   select FGCODS
+   seek ptyp+pcla+pcod
+   if .not. found()
+   lx1e = .f.
+   endif
+    IF .not. FGCODS->sale_price > 0
+           SELECT ST15F
+             REPLACE SHIFT_POST WITH DATE()
+           replace ST15F->errors with "CHECK SALE PRICE"
+        ENDIF
+          IF .NOT. LX1e
+           SELECT ST15F
+             REPLACE SHIFT_POST WITH DATE()
+           replace ST15F->errors with "CHECK PRODUCT"
+        ENDIF
+        PSPRICE = FGCODS->SALE_PRICE
+     
+           LX1 = .F.
+           SELECT cashiers
+           SEEK PCEN
+           IF FOUND() .AND. .NOT. EMPTY(OFF)
+           LX1 = .T.
+           replace  coy with ST15F->coy
+           replace div with ST15F->div
+           replace cen with ST15F->cen
+           ENDIF
+           IF .NOT. LX1
+           SELECT ST15F
+             REPLACE SHIFT_POST WITH DATE()
+           replace ST15F->errors with "CHECK OFFICER"
+        ENDIF
+           select shiftcoy2
+           REPLACE ERROR WITH ""
+           replace error_msg with ""
+           select ST15F
+           PCOY1 = ST_COY
+           PDIV1 = ST_DIV
+           PCEN1 = ST_CEN
+           PSTO1 = ST_STO
+            if ptyp = "00"
+           select ststo
+           seek psto
+           if .not. found() .or. (empty(off) .and. rate_on = "Yes")
+           select ST15F
+           REPLACE SHIFT_POST WITH DATE()
+           replace ST15F->errors with "Check PUM OFFICER"
+           else
+          select stpum
+          seek ststo->pum
+          if .not. found()
+          select ST15F
+          REPLACE SHIFT_POST WITH DATE()
+           replace ST15F->errors with "Check store/pump"
+           else
+           if .not. shs_auto = "Yes"
+           replace shs_auto with "Yes"
+           endif
+          
+               endif
+           endif
+           endif
+           pmacdisc = psprice * 0.25  && max disc on pump price
+          IF (ST15F->STO = "K2" .OR. ST15F->STO = "K3" ;
+          .OR. ST15F->STO = "U6" .OR. ST15F->STO = "U7" .OR. ST15F->STO = "U8" .OR. ST15F->STO = "U9".OR. ST15F->STO = "UA";
+          .OR. ST15F->STO = "L6" .OR. ST15F->STO = "L7" .OR. ST15F->STO = "L8" .OR. ST15F->STO = "L9".OR. ST15F->STO = "LA");
+          .AND. STSTO->MAXAMT < pmacdisc 
+          PSPRICE = PSPRICE - STSTO->MAXAMT
+          ENDIF
+           SELECT fgmast
+           SEEK PCOY+PDIV+PCEN+PSTO+PTYP+PCLA+PCOD
+           IF .NOT. FOUND()
+           SELECT ST15F
+           REPLACE SHIFT_POST WITH DATE()
+           replace ST15F->errors with "Check stock masterfile code - fgmast"
+            ENDIF
+           SELECT fgmast
+           SEEK PCOY1+PDIV1+PCEN1+PSTO1+PTYP+PCLA+PCOD
+           IF .NOT. FOUND()
+           
+           SELECT ST15F
+           REPLACE SHIFT_POST WITH DATE()
+           replace ST15F->errors with "Check stock masterfile code - fgmAST1"
+           ENDIF
+           
+          
+           if ptyp = "00" .and. .NOT. (ST15F->STO = "K2" .OR. ST15F->STO = "K3" ;
+            .OR. ST15F->STO = "U6" .OR. ST15F->STO = "U7" .OR. ST15F->STO = "U8" .OR. ST15F->STO = "U9".OR. ST15F->STO = "UA";
+          .OR. ST15F->STO = "L6" .OR. ST15F->STO = "L7" .OR. ST15F->STO = "L8" .OR. ST15F->STO = "L9".OR. ST15F->STO = "LA")
+           SELECT SHIFTCLS
+           SEEK PCOY+PTYP+PCLA
+           if .not. found()
+           append blank
+           replace coy with pcoy
+           replace typ with ptyp
+           replace cla with pcla
+           endif
+           replace sale_price with FGCODS->SALE_PRICE
+           
+           ENDIF
+           L2M = 0
+           L3M = 0
+           
+          select ST15F
+            L1 = ST15F->TYP
+            t1 = ST15F->cla
+            t6 = ST15F->cod
+            L2 = cl_m_q
+            L3 = op_m_q
+            L2M = CL_mM_QTY
+            L3M = OP_mM_QTY
+          
+        ** past here 
+            L5 = 0
+            IF TYP = "00" .or. (typ = "10" .and. FGCODS->shs_auto = "Yes")
+            l5 = test_QTY
+            ENDIF
+            L55 = L5 * PSPRICE
+            REPLACE TEST_AMT WITH L55
+        replace sale_price with PSPRICE  
+           
+               if .NOT. TYP = "00"  
+             replace cl_m_a with 0
+             endif
+            SHSRETURN = L55 && SHS RETURN TO TANK
+            t55 = 0
+            SHSPLOSS = T55  && SHS PUMP LOSS
+            if  .not. TEST_AMT =  0 
+            L5 =  TEST_AMT / PSPRICE  
+            else
+            l5 = 0
+            endif
+            QTYRETURN = L5 && QTY RETURN
+            t5 = t55 / PSPRICE   && pumps loss qty
+            QTYPLOSS = T5 && QUANTITY PUMP LOSS
+           *   if .not. (ST15F->typ = "00" .and. stpum->shs_auto = "Yes") && new entry
+           * replace cl_m_A with cl_m_a - l55
+           *  ENDIF
+        
+       
+                
+                IF ST15F->typ = "00" 
+        if  .not. ST15F->f1cashr = "Yes"
+               IF .NOT. ST15F->PHY_QTY = 0
+               REPLACE SHIFT_POST WITH DATE()
+                replace ST15F->errors with "Check Dippings 2"
+          ENDIF
+          ENDIF
+          ENDIF
+          
+            L7 = ST15F->TRANS_IN
+            L8 = ST15F->TRANS_OUT
+            L9 = ST15F->ADJ_IN
+            L10 = ST15F->ADJ_OUT
+            L11 = ST15F->PURCHASES
+            L4m = 0
+            l4e = 0
+            plvar1 = 0
+            if m_q1 > 0 .or.  m_q2 > 0
+            replace cl_m_q with m_q1+m_q2
+            endif
+             if m_a1 > 0 .or.  m_a2 > 0
+            replace cl_m_a with m_a1+m_a2
+            endif
+            
+        
+          IF ST15F->TYP = "00"   .or. (ST15F->TYP = "10" .and. FGCODS->shs_auto = "Yes") && fuels/auto lubes
+               L4 = L2 - L3        && && VOLUME electronic
+               l4e = l4 && volume electric ony
+                  L4m = L2M-L3M  && volume manual
+               lvar = L4 - L4m  && variance  0 - 10
+               plvar1 = lvar * -1
+               plvar1 = round(plvar1,2)
+               
+               IF L4M > L4 .and. plvar1 > 0.74  && VOLUME = MANUAL IF MANUAL > ELECTRONIC
+               L4 = L4M
+               ENDIF
+               QTYTHRUPUT = L4 && QUANTITY THRUPUT
+               L6 = L4 - L5 - T5        && SOLD QTY  - VOLUME
+                 ELSE
+               L4 = L3 - L2 + L7 - L8 + L9 - L10 + L11  && non-fuels
+               QTYTHRUPUT = L4
+               L6 = L4 - L5 - t5  && SOLD QTY
+               
+               
+                   ENDIF
+                   REPLACE MM_SOLD WITH L4M
+                    replace mm_qty_var with lvar
+              
+                   
+                 IF  (ST15F->TYP = "00" .AND. .NOT. stPUM->SHS_AUTO = "Yes" ) ;
+                 .or.  (ST15F->typ = "10" .and. FGCODS->shs_auto = "Yes")  
+                   if  (ST15F->cl_m_q  - ST15F->op_m_q) < 0 .or. (ST15F->cl_mm_qty - ST15F->op_mm_qty) < 0
+          
+                   replace shift_post with date()
+                    replace ST15F->errors with "Err1. Check qty meters"
+                     endif
+                     endif
+                     
+                       IF  ST15F->TYP = "00" .or.  (ST15F->typ = "10" .and. FGCODS->shs_auto = "Yes")  
+                   if  (ST15F->cl_m_q  - ST15F->op_m_q) < 0 .or. (ST15F->cl_mm_qty - ST15F->op_mm_qty) < 0
+           
+                   replace shift_post with date()
+                    replace ST15F->errors with "Err1. Check qty meters"
+                     endif
+                     endif
+                     
+                 
+                       IF  ST15F->TYP = "00" .or.  (ST15F->typ = "10" .and. FGCODS->shs_auto = "Yes")  
+          if  (ST15F->cl_m_q  - ST15F->op_m_q) > 99999 .or. (ST15F->cl_m_q  - ST15F->op_m_q) < -9999
+            
+                   replace shift_post with date()
+                    replace ST15F->errors with "Err1. Check qty meters"
+                     endif
+                     endif
+                     
+                    if  (ST15F->cl_m_a  - ST15F->op_m_a) < 0
+            
+              replace shift_post with date()
+               replace ST15F->errors with "Err1. Check shs meters"
+                endif
+                 if  (ST15F->cl_m_a  - ST15F->op_m_a) > 0 .and. ((ST15F->cl_m_q - ST15F->op_m_q = 0 .and. ;
+                 ST15F->cl_mm_qty - ST15F->op_mm_qty = 0))
+               replace shift_post with date()
+               replace ST15F->errors with "Cash Mtr No Sold Qty"
+                endif
+                if  ST15F->cl_m_q   < 0
+             
+              replace shift_post with date()
+               replace ST15F->errors with "Err2. Check Electronic qty meters"
+                endif
+                 if  (ST15F->cl_m_q  - ST15F->op_m_q) < 0
+              replace shift_post with date()
+               replace ST15F->errors with "Err2. Check Electronic qty meters"
+                endif
+             
+              if  ST15F->cl_m_a   < 0
+              
+              replace shift_post with date()
+               replace ST15F->errors with "Err2. Check shs meters"
+                endif
+          
+           if  ST15F->cl_mm_qty   < 0
+             
+              replace shift_post with date()
+               replace ST15F->errors with "Err3. Check Manual qty meters"
+                endif
+                 if  (ST15F->cl_mm_qty  - ST15F->op_mm_qty) < 0
+              replace shift_post with date()
+               replace ST15F->errors with "Err3. Check Manual qty meters"
+                endif
+           ** past here
+                   
+                     LOCAL L12,L13,L14,L15,L16,L17,L18,L19,L20,l22,t17
+            L13 = PSPRICE  
+            L12 = L4 * L13                && SOLD AMT
+              L22 = 0           && CASH DISCOUNTS
+          SHSDISCOUNT = L22
+           if .not. ST15F->typ = "00" 
+       l14 = 0
+       else
+       L14 = cl_m_A
+       endif
+   if .not. ST15F->typ = "00"   .and. .not. cl_m_A = 0
+       replace shift_post with date()
+        replace ST15F->errors with "(a) Check shillings meters - 2"
+       endif
+       if .not. typ="00" .and.  .not. op_m_a = 0
+       replace op_m_a with 0
+       endif
+             L15 = ST15F->op_m_a
+            L16 = L14 - L15                && METER AMOUNT
+            SHSTHRUPUT = L16
+            SHSSALE = SHSTHRUPUT - SHSPLOSS - SHSRETURN - SHSDISCOUNT && SHS METER SALE
+            QTYSALE = QTYTHRUPUT - QTYRETURN - QTYPLOSS
+              L17 = L55        && TEST AMOUNT  
+              t17 = t55  && pump loss amount
+             L18 = L16 - L17 - t17         && NETT SOLD METER AMOUNT   
+              L19 = ST15F->cr_sal_qty        && CREDIT SALES QTY
+             L20 = L19 * L13        && CREDIT SALES AMOUNT
+             LOCAL L21,L23,L24,L25,L26,L27  
+            * l24 = 0
+             
+             L21 = ST15F->NON_CASH        && ACTUAL NONCASH SALES
+             SHSNONCASH = L21  && SHS CREDIT SALES
+             QTYNONCASH = ST15F->cr_sal_qty  && QTY CREDIT SALES
+             SHSQTYSALE = (QTYSALE * PSPRICE  ) - SHSDISCOUNT
+             expsalesprice = PSPRICE  
+             QTYEXPSALE = QTYSALE
+             SHSEXPSALE = SHSSALE
+             IF SHSSALE < SHSQTYSALE
+             SHSEXPSALE = SHSQTYSALE  && sale based on price * qty
+           
+             ENDIF
+               L23 = L16 - L21 - L22 - L17 - t17        && CASH AMOUNT BASED ON METER SHS
+               L24 = L12 - L21 - L22        && CASH AMOUNT BASED ON VOLUMES 
+               IF L23 > L24
+               L24 = L23
+               ENDIF
+             L25 = fgmast->ON_HAND
+             L26 = st15f->PHY_QTY
+            L27 = L25 - L26        && VARIANCE QTY
+             LOCAL L28,L29,L30,l31,l32,l33,L33A,L33B
+             l31 = fgmast->cr_purch + fgmast->cs_purch + fgmast->ADJ_IN - fgmast->ADJ_OUT && purchases
+             replace ST15F->cost_price with FGCODS->cost_price
+             replace ST15F->vat with FGCODS->vat
+             l33 = a_c_inhand  && actual cash
+             L33A = CASH_BANK
+             L33B  = CL_C_HAND
+             QTYEXPCASH = QTYSALE - QTYNONCASH
+             SHSEXPCASH = SHSEXPSALE - SHSNONCASH
+             L28 = L24 - L23        && VARIANCE CASH
+               IF L24 > L23
+               L29 = L24                && EXP CASH
+               ELSE
+               L29 = L23                && EXP CASH
+               ENDIF
+               L29 = SHSEXPCASH
+             IF L12 > L18
+             L30 = L12                && EXP SALES
+             ELSE
+             L30 = L18                && EXP SALES
+             ENDIF
+             L30 = SHSEXPSALE
+                 replace total_qty with l4e
+               LOCAL WK55
+               WK55 = SOLD_QTY
+             replace sold_qty with QTYSALE
+             replace sold_amt with (qtythruput * PSPRICE)   && new entry
+            IF .NOT. ST15F->typ = "00"
+             IF cr_sal_qty > SOLD_QTY  .and. .not. cr_sal_qty = 0
+             replace ST15F->errors with "Check credit sales"
+             REPLACE SHIFT_POST WITH DATE()
+             ENDIF
+             ENDIF
+               replace meter_amt with l16
+               
+              replace nett_amt with l18
+               replace cr_sal_shs with l20
+               replace cash_amt with l23
+               replace cash_qty with l24
+               replace var_cash with l28
+               replace exp_cash with SHSEXPCASH
+               replace exp_sales with SHSEXPSALE
+               replace sh_c_SALES WITH SHSEXPCASH
+              if ST15F->typ = "30" .or. ST15F->typ = "90"
+            replace c_sh_cards with shsexpcash  && s scratch cards
+            endif
+             if ST15F->typ > "30" .and. .not. ST15F->typ = "90"
+            replace c_sh_shop with shsexpcash  && sodas
+            endif
+            if ST15F->typ = "00"
+            replace c_sh_fuels with shsexpcash
+            endif
+            if ST15F->typ = "10" 
+            replace c_sh_work with shsexpcash
+            endif
+            if ST15F->typ = "20" 
+            replace c_sh_cant with shsexpcash
+            endif
+                
+    IF  ST15F->TYP = "00" .or.  (ST15F->typ = "10" .and. FGCODS->shs_auto = "Yes")  
+       replace ST15F->meter_var with ST15F->meter_amt - ST15F->sold_amt
+       endif
+    
+            local ll1,ll2,ll3,lL4,ll5,ll6,ll7,ll8,ll9
+            ll1 = ST15F->shift_date
+            ll2 = ST15F->shift_no
+            ll3 = ST15F->shift_id
+            lL4 = ST15F->cen
+            ll5 = ST15F->cashier_no
+            ll6 = ST15F->sto
+            ll7 = ST15F->typ
+            ll8 = ST15F->cla
+            ll9 = ST15F->cod
+            select ST15F
+           
+                LOCAL WK55
+               WK55 = ST15F->SOLD_QTY
+               local wk1,wk2,wk3,wk4,wk5,wk6,wk7
+           WK1 =  ST15F->sh_c_sales+ST15F->cash_debt;
+          + ST15F->cash_work+ST15F->cash_shop+ST15F->cash_cards+ST15F->CASH_CANT;
+          + ST15F->cash_soda;
+           + ST15F->vs_others + ST15F->chqs_sale + ST15F->fc_c_sales && total cash
+          wk4 = ST15F->CASH_MERCH + ST15F->cash_motor + ST15F->cash_food;  && total payments
+             + ST15F->cash_withd + ST15F->cash_staff + ST15F->cash_lubes;
+             + ST15F->cash_gen + ST15F->cash_coy + ST15F->vs_company + ST15F->vs_barclay 
+          wk2 = wk1 - wk4 && net cash
+          wk6 = ST15F->a_c_inhand
+          wk5 = ST15F->CL_C_HAND  && cash in hand carried forward
+          wk3 = wk6 - wk2  && cash shortage
+          wk3 = ST15F->a_c_inhand - ((ST15F->Cash_cards + ST15F->c_sh_fuels;
+        + ST15F->c_sh_work +  ST15F->cash_soda;
+        + ST15F->c_sh_shop+ST15F->c_sh_cards+ST15F->c_sh_cant + ST15F->fc_c_sales;
+        +ST15F->cash_debt+ST15F->CASH_CANT+ST15F->Cash_shop + ST15F->cash_work);
+        - (ST15F->CASH_COY+ST15F->cash_staff+ST15F->cash_gen;
+        +ST15F->cash_withd+ST15F->VS_COMPANY+ST15F->VS_BARCLAY ;
+        +ST15F->cash_lubes+ST15F->cash_food+ST15F->cash_motor))
+        
+          wk7 = ST15F->sh_c_sales+ST15F->cash_debt;
+        + ST15F->cash_work+ST15F->cash_shop+ST15F->cash_cards+ST15F->CASH_CANT ;
+        + ST15F->cash_soda ;
+        + ST15F->vs_others + ST15F->chqs_sale + ST15F->fc_c_sales && total cash
+          replace total_cash with wk1
+          replace cash_short with wk3
+          replace net_cash with wk2
+          replace ST15F->t_cash_pay with wk4
+          replace t_cash_rec with wk7
+          if mm_sold < 0 
+           replace ST15F->errors with "Check Manual Litres"
+             REPLACE SHIFT_POST WITH DATE()
+           endif
+              if .not. typ = "00" .and. .not. cl_mm_qty = 0
+               replace ST15F->errors with "Check Manual Litres"
+             REPLACE SHIFT_POST WITH DATE()
+         endif
+         LOCAL LNQTY
+         LNQTY = MM_SOLD
+         IF TOTAL_QTY > MM_SOLD
+         LNQTY = TOTAL_QTY
+         ENDIF
+          if TEST_QTY > LNQTY 
+           replace ST15F->errors with "Check RTT"
+             REPLACE SHIFT_POST WITH DATE()
+           endif
+           if meter_amt > 0 .and. sold_amt <=0 
+           replace ST15F->errors with "Check Ltrs Mtrs"
+             REPLACE SHIFT_POST WITH DATE()
+           endif
+      *     if form.blevel > 4
+           if  typ = "00" .and.  (op_mm_qty = cl_mm_qty .or. op_m_q = op_m_q)  ;
+            .and. .not.  (op_mm_qty = 0 .or. op_m_q = 0) .and.   ;
+          (mm_qty_var > 10 .or. mm_qty_var < -10) 
+           replace shift_post with date()
+           replace errors with "Lt1 Mtr Out of Range"
+           endif
+           
+           if typ = "00" .and. op_m_a = cl_m_a  .and. .not. op_m_a = 0  .and.  ;
+            (meter_var > 1000 .or. meter_var < -1000)
+             replace shift_post with date()
+           replace errors with "Sh1 Mtr Out of Range"
+           endif
+            if  typ = "00"  .and. .not.  (op_mm_qty = 0 .or. op_m_q = 0) .and.;
+   (mm_qty_var > 10 .or. mm_qty_var < -10)
+           replace errors with "Lt2 Mtr Out of Range"
+            replace shift_post with date()
+           endif
+   if typ = "00"   .and. .not. op_m_a = 0 .and. (meter_var > 1000 .or. meter_var < -1000)
+   replace errors with "Sh2 Mtr Out of Range"
+    replace shift_post with date()
+           endif
+            if  typ = "00"  .and. .not.  (op_mm_qty  = cl_mm_qty  .and.  op_m_q = cl_m_q) .and.;
+   (mm_qty_var > 10 .or. mm_qty_var < -10) 
+           replace errors with "Lt3 Mtr Out of Range"
+            replace shift_post with date()
+           endif
+           if typ = "00" .and. .not.  (op_m_a = cl_m_a);
+           .and. (meter_var > 1000 .or. meter_var < -1000) 
+           replace errors with "Sh3 Mtr Out of Range"
+            replace shift_post with date()
+           endif
+         *  endif
+   *         if ST15F->
+          SELECT SHIFTID
+        SEEK ST15F->CEN
+        IF .NOT. FOUND() 
+        APPEND BLANK
+        REPLACE ID WITH ST15F->CEN
+        IF .NOT. BOF()
+        REPLACE TOTAL_SALE WITH 0
+        ENDIF
+        ENDIF
+        REPLACE TOTAL_SALE WITH TOTAL_SALE + ST15F->EXP_SALES
+       
+        select shifttyp
+        seek ST15F->typ
+        if .not. found()
+        append blank
+        replace typ with ST15F->typ
+        replace total_sale with 0
+        replace total_qty with 0
+        endif
+         REPLACE TOTAL_SALE WITH TOTAL_SALE + ST15F->EXP_SALES
+         REPLACE TOTAL_QTY WITH TOTAL_QTY + ST15F->SOLD_QTY 
+     
+     select shTYPCLA
+        seek ST15F->typ+ST15F->CLA
+        if .not. found()
+        append blank
+        replace typ with ST15F->typ
+        REPLACE CLA WITH ST15F->CLA
+        replace total_sale with 0
+        replace total_qty with 0
+        endif
+         REPLACE TOTAL_SALE WITH TOTAL_SALE + ST15F->EXP_SALES
+         REPLACE TOTAL_QTY WITH TOTAL_QTY + ST15F->SOLD_QTY 
+        SELECT ST15F
+    ENDSCAN
+    SELECT ST15F
+    go top
+    refresh
+     form.childbrowse2.setfocus()
+
+endclass
+

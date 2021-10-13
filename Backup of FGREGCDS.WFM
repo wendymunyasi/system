@@ -1,0 +1,838 @@
+////////////////////////////////////////////////////////////////////////////////
+// Output Filename: C:\KENSERVICE\IDSSYS\FGREGCDS_FCV.WFM                     //
+// Created By:      dBASE Form Converter Wizard                               //
+// Created On:      Monday September 27, 2021 At 17:00:29                     //
+// Object Count:    22                                                        //
+////////////////////////////////////////////////////////////////////////////////
+*******************************************************************************
+*  PROGRAM:      fgregcds.wfm
+*
+*  WRITTEN BY:   W Nyongesa
+*
+*  DATE:         05/2000
+*
+*  UPDATED:     04/2014
+*
+*  REVISION:     $Revision:   1.0
+*
+*  VERSION:      Visual dBASE
+*
+*  DESCRIPTION:  This program maintains the companies master file
+*
+*  PARAMETERS:   None
+*
+*  CALLS:        fgregcds.mnu         (Menu file)
+*                Buttons.CC          (Custom Controls file)
+*                fgregcds.qbe         (View of tables)
+*
+*  USAGE:        DO fgregcds.wfm
+*
+*******************************************************************************
+#include <messdlg.h>
+shell(.F.)
+create session
+set talk off
+set design off
+_app.FrameWin.Visible = .F.
+_app.FrameWin.Text = "fgregcds"
+set century on
+set ldCheck off && To avoid language driver conflicts
+#define Maxcoy 999
+** END HEADER -- do not remove this line*
+* Generated on 07/05/2020
+*
+parameter bUser,bLevel,bModal
+local f
+f = new fgregcdsFORM()
+if (bModal)
+   f.mdi = .F. && ensure not MDI
+   f.ReadModal()
+else
+   f.Open()
+endif
+CLASS fgregcdsFORM OF FORM
+   Set Procedure To BUTTONS.CC additive
+   this.Metric = 6  // Pixels
+   this.MenuFile = "FGREGCDS.MNU"
+   this.Left = 31
+   this.View = "fgregcds.QBE"
+   this.OnClose = CLASS::ONCLOSE
+   this.Sizeable = .F.
+   this.Maximize = .F.
+   this.Minimize = .F.
+   this.Text = "Card/Vehicles Maintenance Form"
+   this.WindowState = 2
+   this.MDI = .F.
+   this.EscExit = .F.
+   this.Top = 12
+   this.MousePointer = 1
+   this.ColorNormal = "N+"
+   this.Height = 334
+   this.Width = 642
+   this.Moveable = .F.
+
+   DEFINE TEXTLABEL CODETEXT OF THIS;
+       PROPERTY;
+         Left 6,;
+         Text "Registration ID No:",;
+         FontSize 10,;
+         Top 9,;
+         ColorNormal "B/BtnFace",;
+         Height 21,;
+         Width 240,;
+       FontName "MS Sans Serif",;
+       FontBold .T.,;
+       AlignHorizontal 2,;
+       AlignVertical 1
+
+   DEFINE ENTRYFIELD PTYP OF THIS;
+       PROPERTY;
+         Left 252,;
+         FontSize 10,;
+         DataLink "fgregcds->order_no",;
+         Enabled .F.,;
+         ColorHighLight "B+/W*",;
+         Top 9,;
+         ColorNormal "N/BtnFace",;
+         Height 21,;
+         Width 72,;
+       FontName "MS Sans Serif",;
+       FontBold .T.
+
+   DEFINE TEXTLABEL TEXT8 OF THIS;
+       PROPERTY;
+         Left 396,;
+         Text "Action:",;
+         FontSize 10,;
+         Top 9,;
+         ColorNormal "B/BtnFace",;
+         Height 21,;
+         Width 60,;
+       FontName "MS Sans Serif",;
+       FontBold .T.,;
+       AlignHorizontal 2,;
+       AlignVertical 1
+
+   DEFINE ENTRYFIELD SACTION OF THIS;
+       PROPERTY;
+         Left 468,;
+         FontSize 10,;
+         Function "!",;
+         DataLink "FGREGCDS->ACTION",;
+         Enabled .F.,;
+         ColorHighLight "B+/W*",;
+         Top 9,;
+         ColorNormal "N/BtnFace",;
+         Height 21,;
+         Width 60,;
+       FontName "MS Sans Serif",;
+       FontBold .T.
+
+   DEFINE TEXTLABEL TEXT3 OF THIS;
+       PROPERTY;
+         Left 6,;
+         Text "Customer:",;
+         FontSize 10,;
+         Top 40,;
+         ColorNormal "B/BtnFace",;
+         Height 21,;
+         Width 240,;
+       FontName "MS Sans Serif",;
+       FontBold .T.,;
+       AlignHorizontal 2,;
+       AlignVertical 1
+
+   DEFINE COMBOBOX SCUSTYPE OF THIS;
+       PROPERTY;
+         Style 2,;
+         Left 252,;
+         DataLink "fgregcds->name",;
+         OnChange CLASS::SCUSTYPE_ONCHANGE,;
+         Enabled .F.,;
+         Top 38,;
+         ColorNormal "N/BtnFace",;
+         FontBold .F.,;
+         Height 21,;
+         DataSource "FIELD FRIGTMES->NAME",;
+         Width 468,;
+       FontName "MS Sans Serif",;
+       FontSize 8
+
+   DEFINE TEXTLABEL TEXT2 OF THIS;
+       PROPERTY;
+         Left 6,;
+         Text "Card Number:",;
+         FontSize 10,;
+         Top 71,;
+         ColorNormal "B/BtnFace",;
+         Height 21,;
+         Width 240,;
+       FontName "MS Sans Serif",;
+       FontBold .T.,;
+       AlignHorizontal 2,;
+       AlignVertical 1
+
+   DEFINE ENTRYFIELD SNAME OF THIS;
+       PROPERTY;
+         Left 252,;
+         Valid CLASS::SNAME_VALID,;
+         Picture "99999999",;
+         FontSize 10,;
+         DataLink "fgregcds->card_no",;
+         OnChange CLASS::SNAME_ONCHANGE,;
+         Enabled .F.,;
+         ColorHighLight "B+/W*",;
+         Top 71,;
+         ColorNormal "N/BtnFace",;
+         Height 21,;
+         Width 120,;
+       FontName "MS Sans Serif",;
+       FontBold .T.
+
+   DEFINE TEXTLABEL TEXT6 OF THIS;
+       PROPERTY;
+         Left 6,;
+         Text "Vehicle Registration No.:",;
+         FontSize 10,;
+         Top 103,;
+         ColorNormal "B/BtnFace",;
+         Height 21,;
+         Width 240,;
+       FontName "MS Sans Serif",;
+       FontBold .T.,;
+       AlignHorizontal 2,;
+       AlignVertical 1
+
+   DEFINE ENTRYFIELD SPOSTAL OF THIS;
+       PROPERTY;
+         Left 252,;
+         FontSize 10,;
+         Function "!",;
+         DataLink "fgregcds->reg",;
+         OnChange CLASS::SPOSTAL_ONCHANGE,;
+         Enabled .F.,;
+         ColorHighLight "B+/W*",;
+         Top 103,;
+         ColorNormal "N/BtnFace",;
+         Height 21,;
+         Width 156,;
+       FontName "MS Sans Serif",;
+       FontBold .T.
+
+   DEFINE TEXTLABEL TEXT5 OF THIS;
+       PROPERTY;
+         Left 6,;
+         Text "Card Vehicle Reference Number:",;
+         FontSize 10,;
+         Top 127,;
+         ColorNormal "B/BtnFace",;
+         Height 21,;
+         Width 240,;
+       FontName "MS Sans Serif",;
+       FontBold .T.,;
+       AlignHorizontal 2,;
+       AlignVertical 1
+
+   DEFINE ENTRYFIELD SCUSACC OF THIS;
+       PROPERTY;
+         Left 252,;
+         FontSize 10,;
+         Function "!",;
+         DataLink "fgregcds->cardvehno",;
+         Enabled .F.,;
+         ColorHighLight "B+/W*",;
+         Top 127,;
+         ColorNormal "N/BtnFace",;
+         Height 21,;
+         Width 240,;
+       FontName "MS Sans Serif",;
+       FontBold .T.
+
+   DEFINE TEXTLABEL TEXT1 OF THIS;
+       PROPERTY;
+         Left 6,;
+         Text "Date Closed:",;
+         FontSize 10,;
+         Top 169,;
+         ColorNormal "B/BtnFace",;
+         Height 21,;
+         Width 240,;
+       FontName "MS Sans Serif",;
+       FontBold .T.,;
+       AlignHorizontal 2,;
+       AlignVertical 1
+
+   DEFINE ENTRYFIELD SDATE OF THIS;
+       PROPERTY;
+         Left 255,;
+         FontSize 10,;
+         Function "!",;
+         DataLink "fgregcds->close_date",;
+         OnChange CLASS::SDATE_ONCHANGE,;
+         Enabled .F.,;
+         ColorHighLight "B+/W*",;
+         Top 169,;
+         ColorNormal "N/BtnFace",;
+         Height 21,;
+         Width 99,;
+       FontName "MS Sans Serif",;
+       FontBold .T.
+
+   DEFINE PREVBUTTON PREVCOYBUTTON OF THIS;
+       PROPERTY;
+         Group .T.,;
+         Left 8,;
+         Default .T.,;
+         Text "Previous",;
+         OnClick CLASS::PREVIOUS,;
+         Top 519,;
+         Height 26,;
+         Width 85,;
+       FontName "MS Sans Serif",;
+       FontSize 8,;
+       FontBold .T.
+
+   DEFINE NEXTBUTTON NEXTCOYBUTTON OF THIS;
+       PROPERTY;
+         Group .F.,;
+         Left 98,;
+         Text "Next",;
+         OnClick CLASS::NEXT,;
+         Top 519,;
+         Height 26,;
+         Width 85,;
+       FontName "MS Sans Serif",;
+       FontSize 8,;
+       FontBold .T.
+
+   DEFINE PUSHBUTTON FIRFGREGCDSBUTTON OF THIS;
+       PROPERTY;
+         Group .F.,;
+         Left 186,;
+         Text "First",;
+         StatusMessage "Go to the first record.",;
+         OnClick {;form.CheckCommit(form.inEditMode);go top},;
+         Top 519,;
+         Height 26,;
+         Width 85,;
+       FontName "MS Sans Serif",;
+       FontSize 8,;
+       FontBold .T.
+
+   DEFINE PUSHBUTTON LAFGREGCDSBUTTON OF THIS;
+       PROPERTY;
+         Group .F.,;
+         Left 276,;
+         Text "Last",;
+         StatusMessage "Go to the last Type.",;
+         OnClick {;form.CheckCommit(form.inEditMode);go bottom},;
+         Top 519,;
+         Height 26,;
+         Width 86,;
+       FontName "MS Sans Serif",;
+       FontSize 8,;
+       FontBold .T.
+
+   DEFINE TEXTLABEL TEXT4 OF THIS;
+       PROPERTY;
+         Left 6,;
+         Text "Date Posted:",;
+         FontSize 10,;
+         Top 203,;
+         ColorNormal "B/BtnFace",;
+         Height 21,;
+         Width 240,;
+       FontName "MS Sans Serif",;
+       FontBold .T.,;
+       AlignHorizontal 2,;
+       AlignVertical 1
+
+   DEFINE ENTRYFIELD SPDATE OF THIS;
+       PROPERTY;
+         Left 255,;
+         FontSize 10,;
+         Function "!",;
+         DataLink "FGREGCDS->POST_DATE",;
+         Enabled .F.,;
+         ColorHighLight "B+/W*",;
+         Top 203,;
+         ColorNormal "N/BtnFace",;
+         Height 21,;
+         Width 99,;
+       FontName "MS Sans Serif",;
+       FontBold .T.
+
+   DEFINE TEXTLABEL TEXT7 OF THIS;
+       PROPERTY;
+         Left 6,;
+         Text "Total Amount Posted:",;
+         FontSize 10,;
+         Top 246,;
+         ColorNormal "B/BtnFace",;
+         Height 21,;
+         Width 240,;
+       FontName "MS Sans Serif",;
+       FontBold .T.,;
+       AlignHorizontal 2,;
+       AlignVertical 1
+
+   DEFINE ENTRYFIELD SAMT OF THIS;
+       PROPERTY;
+         Left 252,;
+         Picture "999,999,999,999.99",;
+         FontSize 10,;
+         DataLink "FGREGCDS->TOTAL",;
+         Enabled .F.,;
+         ColorHighLight "B+/W*",;
+         Top 246,;
+         ColorNormal "N/BtnFace",;
+         Height 21,;
+         Width 240,;
+       FontName "MS Sans Serif",;
+       FontBold .T.
+
+   procedure Open
+   ****************************************************************************
+   private CodeField
+   form.firstime = .T.
+   form.buser=BUSER
+   FORM.BLEVEL=BLEVEL
+   IF EMPTY(form.buser) .OR. EMPTY(FORM.BLEVEL)
+      QUIT
+      ENDIF
+   if type("form.init") = "U"
+      form.init = .T.
+
+      set skip to                     && fgregcds.qbe contains set skip to gldtl
+      set exact off                   && the .qbe file contains SET EXACT ON
+
+      set procedure to sampProc.prg additive
+    Form.duplicate = .F.
+      form.inEditMode = .F.           && indicator of view/edit state
+      form.changesMade = .F.          && indicator of changes made to field values
+      form.previousRecord = .F.       && Save record number when appending
+        *** do calculations in another area so form doesn't get updated
+        form.updated = .f.
+       select fgregcds
+      set order to order_no
+    GO TOP                                  && new Receipts
+   if Empty(order_no)
+   delete
+   endif
+   select frigtmes
+   set order to name
+   select fgregcds3
+  * set order to cardvehno
+  set order to mkey
+   select fgregcds
+      *** Open table for calculating totals and balance due in another work area
+      *** so that datalinks are not affected by record movements
+
+
+      ***
+    *  if type("form.parentpayeeForm") <> "U" && Esc ok if have parent
+    *     form.escExit = .T.
+   *   endif
+
+   endif
+   * form.CoyInfoButton.KenpName = "fgregcds.WFM"
+
+   form::Open()                         && Now the form actually opens
+   *    form.BrowseOnNavigate()              && calculate totals
+   *       form.codingerrors()                        && check coding errors
+
+   *      form.next.setfocus()
+   ****************************************************************************
+
+   procedure OnClose
+
+   * Clean up.
+   ****************************************************************************
+
+   if this.inEditMode
+      form.ViewEdit()                      && Finish transaction
+   endif
+   select fgregcds
+   delete all for Empty(order_no)
+     CLOSE PROCEDURE sampProc.prg
+        close databases
+
+
+
+   ****************************************************************************
+
+   procedure BrowseOnNavigate
+   ****************************************************************************
+
+       if eof()
+      form.root.fgregcds.viewEdit.enabled = .F.
+   else
+      form.root.fgregcds.viewEdit.enabled = .T.
+   endif
+
+
+
+   ****************************************************************************
+
+   procedure ChangesMade
+
+   * Indicate that changes have been made to the current record
+   ****************************************************************************
+   Form.ChangesMade = .T.
+   ****************************************************************************
+
+   procedure Next
+
+   * Go to next record.
+   ****************************************************************************
+
+   form.CheckCommit(form.inEditMode)
+   if .not. eof()
+      NEXTBUTTON::OnClick()
+    endif
+
+   ****************************************************************************
+
+   procedure Previous
+
+   * Go to previous record.
+   ****************************************************************************
+
+   form.CheckCommit(form.inEditMode)
+
+     PREVBUTTON::OnClick()
+
+
+   ****************************************************************************
+
+
+   procedure CheckCommit (newInEditMode)
+
+        * Finish transaction, if it has been started.
+   ****************************************************************************
+   private CodeField, changesMade
+    local lk1
+    lk1 = form.ptyp.value
+   changesMade = form.changesMade
+   if form.changesMade
+      CodeField = field(1)  && Field period
+      if     ConfirmationMessage("Commit changes?",;
+                FormatStr("Customer Code %1",&CodeField)) = YES
+         commit()
+        form.updated = .T.
+      else
+         rollback()
+         if .not. bof()
+       *  if .not. empty(form.previousRecord)
+   *            go bookmark()
+           * form.previousRecord
+            form.previousRecord = .F.
+         endif
+      endif
+
+       form.ptyp.enabled = .F.
+    if form.inEditMode .and. newInEditMode
+         begintrans()
+      endif
+      form.changesMade = .F.
+   endif
+   if form.inEditMode <> newInEditMode
+      if newInEditMode                       && Going to Edit mode
+         begintrans()
+      else                                   && Going to View mode
+         if .not. changesMade .AND. .NOT. FORM.DUPLICATE
+            rollback()
+         endif
+      endif
+      form.inEditMode = newInEditMode
+   endif
+
+   * form.root.Receipt.add.enabled = .T.
+   *form.codingerrors()
+   ****************************************************************************
+
+   procedure ViewEdit
+
+   * Toggle between View and Edit modes.
+   ****************************************************************************
+   local inEditMode, editMenu, control
+
+   editMenu = form.root.fgregcds.VIEWEdit
+
+   *** If ending edit mode then close transaction, otherwise open it.
+   if form.inEditMode
+      form.checkChanged(.F.)
+      editMenu.text = "&Edit"
+      editMenu.shortcut = "Ctrl-E"
+      editMenu.statusMessage = "Edit data."
+      form.CheckCommit(.F.)                        && Check transaction and
+      form.text = "Card/Vehicles Maintenance Form -- View Mode"          && change mode to View
+   *       form.notesEditor.colorNormal = "N/W"
+   *      form.childBrowse.modify = .F.
+   *     form.notesEditor.modify = .F.
+    *form.root.fgregcds.DeleteCus.enabled = .F.
+      form.statusmessage = "In View Mode. " + ;
+                           "Select Hq Customers - Edit menu to " + ;
+                           "edit/delete data."
+      form.nextCOYBUTTON.SetFocus()
+   else                                            && Switch to edit mode
+      editMenu.text = "Vi&ew"
+      editMenu.shortcut = "Ctrl-E"
+      editMenu.statusMessage = "View data."
+      form.CheckCommit(.T.)                        && Check transaction and
+      form.text = "Card/Vehicles Maintenance Form -- Edit Mode"          && change mode to Edit
+
+   *      form.notesEditor.modify = .T.
+    *form.root.fgregcds.DeleteCus.enabled = .f.
+      form.statusmessage = "In Edit Mode.  " + ;
+                           "Select menu order_nos - View to switch " + ;
+                           "to View mode."
+        form.ptyp.Enabled = .F.
+
+       form.SCUSACC.SetFocus()
+
+   endif
+
+   inEditMode = form.inEditMode     && Faster if we don't reference a form
+   control = form.first             &&    variable each time through the loop
+   do
+      if .not. control.classname $ "BROWSE,EDITOR,NEXTBUTTON,PREVBUTTON,PUSHBUTTON,IMAGE,TEXT"
+         control.enabled = inEditMode
+      endif
+      control = control.before
+   until control.name = form.first.name
+   *           form.gltyp.enabled = .f.
+   *    form.glname.Enabled = .F.
+   form.ptyp.Enabled = .F.
+   form.scusacc.enabled = .f.
+   form.spdate.enabled = .f.
+   form.samt.enabled = .f.
+   if .not. empty(fgregcds->cardvehno)
+   form.scustype.enabled = .f.
+   form.sname.enabled = .f.
+   form.spostal.enabled = .f.
+   endif
+   form.saction.enabled = .f.
+   ****************************************************************************
+
+   procedure CheckChanged(callCommit)
+
+   * Check if changes have been made to the current entryfield.  This procedure
+   * is called from menu routines to make sure the form.changesMade gets
+   * updated when a menu is selected while the changed control has focus.
+   ****************************************************************************
+   private control, fieldValue, controlValue, typeText, typeValue
+
+   if form.inEditMode
+      control = form.activeControl
+      if type("control.datalink") <> "U"
+         fieldValue = control.datalink          && name of table field
+
+         typeText = type("control.text")
+         typeValue = type("control.value")
+         do case
+            case typeValue = "C"
+               controlValue = control.value
+            case typeValue $ "LU" .and. typeText = "C"
+               controlValue = control.text
+            otherwise
+               controlValue = Null
+         endcase
+         if controlValue <> &fieldValue
+            form.changesMade = .T.
+         endif
+      endif
+   endif
+   if form.changesMade .and. callCommit
+      CLASS::CheckCommit(form.inEditMode)     && Check transactions
+   endif
+
+
+
+
+      Procedure valid_name
+      if empty(this.value)
+      isvalid = .f.
+      else
+      isvalid = .t.
+      endif
+      return isvalid
+
+   Procedure GLTYP_OnChange
+         form.changesmade = .t.
+
+   Procedure EFDAT_OnChange
+      Form.ChangesMade = .t.
+
+   Procedure RMKS_OnChange
+    Form.ChangesMade = .t.
+
+   Procedure STITLE_OnLostFocus
+
+   Procedure SDATE_OnChange
+   select fgregcds
+   if .not. empty(this.value)
+   replace close_date with date()
+   replace close_user with form.buser
+   replace close_time with time()
+   endif
+
+      form.changesmade = .t.
+
+   Procedure ENTRYFIELD1_OnChange
+     form.changesmade = .t.
+
+   Procedure ENTRYFIELD4_OnChange
+    form.changesmade = .t.
+
+   Procedure ENTRYFIELD3_OnChange
+    form.changesmade = .t.
+
+   Procedure ENTRYFIELD5_OnChange
+    form.changesmade = .t.
+
+   Procedure ENTRYFIELD2_OnChange
+    form.changesmade = .t.
+
+
+
+
+   Procedure SID_OnChange
+    form.changesmade = .t.
+
+   Procedure SVEH_OnChange
+      FORM.CHANGESMADE = .T.
+
+
+   Procedure SCUSACC_Valid
+   if empty(this.value)
+            isvalid = .f.
+            else
+            isvalid = .t.
+            endif
+            return isvalid
+
+   Procedure SNAME_OnChange
+
+   LOCAL L1,L2,L3,L4,L5,L6,L7,L8,LT
+   SELECT FGREGCDS
+   LT = THIS.VALUE && 12345678
+   L1 = LEFT(LT,1) && 1
+   L8 = RIGHT(LT,8) && 8
+   LT = RIGHT(LT,7) && 2345678
+   L2 = LEFT(LT,1) && 2
+   LT = RIGHT(LT,6) && 345678
+   L3 = LEFT(LT,1) && 3
+   LT = RIGHT(LT,5) &&   45678
+   L4 = LEFT(LT,1) && 4
+   LT = RIGHT(LT,4) &&    5678
+   L5 = LEFT(LT,1) && 5
+   LT = RIGHT(LT,3) &&     678
+   L6 = LEFT(LT,1) && 6
+   LT = RIGHT(LT,2) &&      78
+   L7 = LEFT(LT,1) && 7
+   IF EMPTY(L1) .OR. EMPTY(L2)  .OR. EMPTY(L3)  .OR. EMPTY(L4)  .OR. EMPTY(L5)  .OR. EMPTY(L6)  .OR. EMPTY(L7)  .OR. EMPTY(L8) .OR. VAL(THIS.VALUE) = 0
+   REPLACE CARD_NO WITH ''
+   ELSE
+   REPLACE CARD_NO WITH THIS.VALUE
+   ENDIF
+   REPLACE REG WITH ''
+
+   Form.Changesmade = .t.
+
+   Procedure SNAME_Valid
+   if empty(this.value)
+            isvalid = .f.
+            else
+            isvalid = .t.
+            endif
+            return isvalid
+
+   Procedure SCUSTYPE_OnChange
+   select frigtmes
+   seek this.value
+   if found()
+      select fgregcds
+      replace name with this.value
+      replace source with frigtmes->source
+      replace ftyp  with frigtmes->ftyp
+      replace pmod   with frigtmes->pmod
+      replace frighter_n with frigtmes->frighter_n
+      else
+      select fgregcds
+      replace name with ''
+      replace source with ''
+      replace ftyp  with ''
+      replace pmod   with ''
+      replace frighter_n with ''
+      endif
+       select fgregcds
+     REPLACE CARD_NO   WITH ''
+     REPLACE REG WITH ''
+   form.changesmade = .t.
+
+   Procedure SCUSCAT_OnChange
+   form.changesmade = .t.
+
+   Procedure SPOSTAL_OnChange
+    local lkey,lkey1,lkey2,lkey3,lkey4,lkey5,lkey6
+   Form.Changesmade = .t.
+   select fgregcds
+   if .not. empty(this.value)
+   replace reg with this.value
+   else
+   replace reg with ''
+   endif
+
+   lkey1  = fgregcds->source
+    lkey2  = fgregcds->ftyp
+     lkey3  = fgregcds->pmod
+      lkey4  = fgregcds->frighter_n
+       lkey5  = fgregcds->reg
+        lkey6  = fgregcds->card_no
+        lkey = lkey6+lkey5
+   if .not.  empty(lkey1) .aND. .NOT. EMPTY(lkey2) .and. .not. empty(lkey3) .and. .not. empty(lkey4) .and. .not. empty(lkey5) .and. .not. empty(lkey6)
+   select fgregcds3
+   seek  lkey1+lkey2+lkey3+lkey4+lkey5+lkey6
+   if found()  .AND. .NOT. order_no = fgregcds->order_no
+   InformationMessage("Duplicate Card/Vehicle/Customer Number not allowed", "Note!")
+   select fgregcds
+   replace card_no with ''
+   replace reg with ''
+   else
+   select fgregcds
+   if .not. empty (reg) .and. .not. empty(card_no)
+   replace cardvehno with lkey
+   endif
+   endif
+   ENDIF
+   select  fgregcds
+       form.changesmade = .t.
+
+   Procedure SCITY_OnChange
+   form.changesmade = .t.
+
+   Procedure SPAY_OnChange
+   form.changesmade = .t.
+
+   Procedure SCREDIT_OnChange
+   form.changesmade =.t.
+
+   Procedure SCREDIT_Valid
+   if this.value < 0
+   isvalid = .f.
+   else
+   isvalid = .t.
+   endif
+   return isvalid
+
+   Procedure SCNAME_OnChange
+   form.changesmade =.t.
+
+   Procedure SMOBILE_OnChange
+   form.changesmade =.t.
+
+   Procedure SEMAIL_OnChange
+   form.changesmade = .t.
+
+ENDCLASS

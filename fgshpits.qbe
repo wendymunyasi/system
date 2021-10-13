@@ -1,0 +1,43 @@
+* Visual dBASE .QBE file 9
+close databases
+on error do  fgjcstr.PRG
+use \kenservice\data\FGJOBCAD.dbf 
+? SREP
+ON ERROR DO QBEERR WITH ERROR(), MESSAGE(),;
+PROGRAM(), LINENO()
+CLOSE DATABASES
+SET EXACT ON
+*SET  ON
+set safety off
+SELECT 1
+USE \KENSERVICE\DATA\FGTRAN.DBF 
+SELECT 2
+USE \KENSERVICE\DATA\FGPITSVC.DBF 
+SELECT 3
+USE \KENSERVICE\DATA\FGINVTRN.DBF 
+SELECT 4
+USE \KENSERVICE\DATA\FGJOBCAD.DBF 
+SELECT 5
+USE \KENSERVICE\DATA\FGVISTRN.DBF 
+select 7
+use \kenservice\data\fgcod.dbf
+select 8
+use \kenservice\data\fgfilter.dbf 
+select 9
+if .not. file("\kenservice\data\fgsalrep.dbf")
+    use \kenserve\idssys\fgsalrep.dbf
+copy stru to \kenservice\data\fgsalrep dbase prod
+endif
+use \kenservice\data\fgsalrep.dbf
+select 10
+if .not. file("\kenservice\data\fgoffsal.dbf")
+    use \kenserve\idssys\fgoffsal.dbf
+copy stru to \kenservice\data\fgoffsal dbase prod
+endif
+use \kenservice\data\fgoffsal.dbf
+select 11
+use \kenservice\data\fgshtran.dbf
+select 12
+use \kenservice\data\hcashrec.dbf
+select 13
+use \kenservice\data\fgLpGcad.dbf

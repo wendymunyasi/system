@@ -1,0 +1,91 @@
+* Visual dBASE .QBE file 9
+CLOSE DATABASES
+on error do  fordersn.prg
+use  \kenservice\data\fordersn.dbf
+close databases
+ON ERROR DO QBEERR WITH ERROR(), MESSAGE(),;
+PROGRAM(), LINENO()
+CLOSE DATABASES
+set safety off
+SET EXACT ON
+SELECT 1
+if .not. file('\KENSERVICE\DATA\forders.DBF')
+use \kenserve\idssys\forders.dbf
+copy stru to \kenservice\data\forders dbase prod
+copy stru to \kenservice\sysdata\data\forders dbase prod
+endif
+USE \KENSERVICE\DATA\forders.DBF ORDER TAG ORDER_NO
+delete all for empty(order_no)
+set filter to empty(post_date)
+SELECT 2
+if .not. file('\KENSERVICE\DATA\FODRLINE.DBF')
+use \kenserve\idssys\fodrline.dbf
+copy stru to \kenservice\data\fodrline dbase prod
+copy stru to \kenservice\sysdata\data\fodrline dbase prod
+endif
+USE \KENSERVICE\DATA\FODRLINE.DBF ORDER TAG ORDER_NO
+delete all for empty(order_no)
+set filter to empty(post_date)
+select 9
+USE \KENSERVICE\DATA\fgcods.DBF order tag name  && despatch product selection  04/02/13
+SET FILTER TO TYP='05'  .AND. ACTIVE = 'Yes'
+go top
+select 10
+use \kenservice\data\ststos.dbf order tag name again alias ststos2 && receiving tank/store 04/02/13
+SET FILT TO LEFT(STO,1) = 'T' .and. left(sname,2) ='00' .AND. USED = 'Yes'
+SELECT 15
+USE \KENSERVICE\DATA\fgmast.DBF ORDER TAG MKEY  && receiving/despatch
+select 16
+use \kenservice\data\fgoffs.dbf order tag name
+set filter to .not. empty(cashier_no) .and. empty(date_left)
+select 17
+if .not. file('\KENSERVICE\DATA\fordersl.DBF')
+use \kenserve\idssys\fordersl.dbf
+copy stru to \kenservice\data\fordersl dbase prod
+copy stru to \kenservice\sysdata\data\fordersl dbase prod
+endif
+use \kenservice\data\fordersl.dbf
+select 19
+USE \KENSERVICE\DATA\fodrline.DBF  again alias xorder3
+SELECT 5
+USE \KENSERVICE\DATA\FGMASTP.DBF order tag name  && despatch
+set filter to (div = "2" .and. (CEN = '0' .OR. CEN = '5'))  .and. ACTIVE = 'Yes' .and. typ='00'
+SELECT 6
+USE \KENSERVICE\DATA\FGMASTP.DBF AGAIN alias FGMASTP2 order tag name  && receiving
+set filter to (div = "2" .and. (CEN = '0' .OR. CEN = '5'))  .and. ACTIVE = 'Yes' .and. typ = '00'
+SELECT 7
+USE \KENSERVICE\DATA\fgcods.DBF order tag name  again alias fgcods2 && receiving product selection
+SET FILTER TO TYP='00' .AND. ACTIVE = 'Yes'
+go top
+SELECT 1
+SET RELATION TO ORDER_NO INTO fodrline CONSTRAIN INTEGRITY
+SET SKIP TO fodrline
+SELECT 4
+USE \KENSERVICE\DATA\st15f.DBf
+
+select 23
+use \kenservice\data\forders.dbf again alias forders3
+select 30
+USE \KENSERVICE\DATA\fodrline.DBF again alias fodrline3
+select 31
+use \kenservice\data\fgcoy.dbf
+SELECT 127
+ use \kenservice\data\fodrline.DBF again alias fodrline2 order tag order_no
+ select 126
+ if .not. file('\KENSERVICE\DATA\FODUPD.DBF')
+use \kenserve\idssys\FODUPD.dbf
+copy stru to \kenservice\data\FODUPD dbase prod
+copy stru to \kenservice\sysdata\data\FODUPD dbase prod
+endif
+use \kenservice\data\fODUPD.dbf
+delete all for empty(order_no)
+set filter to .not. empty(post_date)
+ select 128
+ if .not. file('\KENSERVICE\DATA\fordersn.DBF')
+use \kenserve\idssys\fordersn.dbf
+copy stru to \kenservice\data\fordersn dbase prod
+endif
+ use \kenservice\data\fordersN.dbf
+     
+SELECT 130
+use \kenservice\data\ststos.dbf

@@ -1,0 +1,45 @@
+* Visual dBASE .QBE file 9
+ON ERROR DO QBEERR WITH ERROR(), MESSAGE(),;
+  PROGRAM(), LINENO()
+CLOSE DATABASES
+SET EXACT ON
+set safety off
+SELECT 1
+USE \KENSERVICE\DATA\ST15F.DBf exclusive
+SELECT 2
+USE \KENSERVICE\DATA\ST15FWKF.DBf EXCLUSIVE
+zap
+SELECT 3
+USE \KENSERVICE\DATA\ST15FHIS.DBf
+select 5
+use \kenservice\data\fgcoy.dbf
+select 25
+use \kenservice\data\shsum.dbf
+SELECT 26
+USE \kenservice\data\fgsshift.DBf
+select 27
+use \kenservice\data\shcongt2.dbf exclusive
+select 132
+use \kenservice\data\fgdacash.dbf
+select 139
+use \kenservice\data\shiftmtr.dbf
+? date_close
+select 140
+use \kenservice\data\shiftVAR.dbf exclusive order tag mkey
+select 141
+use \kenservice\data\fgmocash.dbf 
+select 142
+if .not. file("\kenservice\data\st15fsmr.dbf")
+use \kenserve\idssys\st15fsmr.dbf
+copy stru to \kenservice\data\st15fsmr dbase prod
+endif
+use \kenservice\data\st15fsmr.dbf
+select 143
+if .not. file("\kenservice\data\st15dmtr.dbf")
+use \kenserve\idssys\st15dmtr.dbf
+copy stru to \kenservice\data\st15dmtr dbase prod
+endif
+use \kenservice\data\st15dmtr.dbf
+SELECT 1
+GO TOP
+set safety on

@@ -1,0 +1,242 @@
+* Visual dBASE .QBE file 9
+close databases
+on error do fgcodsr.prg
+use  \kenservice\data\st15f.dbf
+? op_capital
+close databases
+set safety off
+use  \kenserve\idssys\shifttop.dbf
+copy stru to \kenservice\data\shifttop dbase prod
+use  \kenserve\idssys\shiftcla.dbf
+copy stru to \kenservice\data\shiftcla dbase prod
+use  \kenserve\idssys\hshiftbk.dbf
+copy stru to \kenservice\data\hshiftbk dbase prod
+use  \kenserve\idssys\shtypcla.dbf
+copy stru to \kenservice\data\shtypcla dbase prod
+use  \kenserve\idssys\shiftcas.dbf
+copy stru to \kenservice\data\shiftcas dbase prod
+use  \kenserve\idssys\shiftcoy.dbf
+copy stru to \kenservice\data\shiftcoy dbase prod
+set safety off
+on error do fgflags.prg
+use \kenservice\data\arvisflg.dbf 
+use \kenservice\data\arinvflg.dbf 
+use \kenservice\data\shcongt0.dbf 
+use \kenservice\data\shcongt1.dbf 
+use \kenservice\data\shcongt2.dbf 
+use \kenservice\data\shcongt3.dbf 
+use \kenservice\data\shcongt4.dbf 
+use \kenservice\data\shcongt5.dbf 
+on erro do shiftstr.prg
+use \kenservice\data\shiftbk.dbf
+? mobilesals
+close databases
+CLOSE DATABASES
+ON ERROR DO QBEERR WITH ERROR(), MESSAGE(),;
+PROGRAM(), LINENO()
+set safety off
+use \kenserve\idssys\kensback.dbf exclusive
+copy stru to \kenservice\data\kensback dbase prod
+set reprocess to 10000
+close databases
+use \kenservice\data\vendor.dbf
+go top
+if eof()
+wait "Error with vendor masterfile!"
+    QUIT
+    ENDIF
+ use \kenservice\data\frighter.dbf
+go top
+if eof()
+wait "Error with customer masterfile!"
+    QUIT
+    ENDIF
+    use \kenservice\data\fgcod.dbf
+go top
+if eof()
+wait "Error with product masterfile!"
+    QUIT
+    ENDIF
+    use \kenservice\data\fgmast.dbf
+go top
+if eof()
+wait "Error with stock masterfile!"
+    QUIT
+    ENDIF
+USE \KENSERVICE\DATA\shcongt0.dbf 
+ GO TOP
+    IF .NOT. EOF()
+    wait "Error encountered during shift closing in phase 0!"
+    QUIT
+    ENDIF
+USE \KENSERVICE\DATA\shcongt1.dbf 
+GO TOP
+    IF .NOT. EOF()
+    wait "Error encountered during shift closing in phase 1!"
+    QUIT
+    ENDIF
+USE \KENSERVICE\DATA\shcongt2.dbf 
+GO TOP
+    IF .NOT. EOF()
+    wait "Error encountered during shift closing in phase 2!"
+    QUIT
+    ENDIF
+USE \KENSERVICE\DATA\shcongt3.dbf 
+GO TOP
+    IF .NOT. EOF()
+    wait "Error encountered during shift closing in phase 3!"
+    QUIT
+    ENDIF
+USE \KENSERVICE\DATA\shcongt4.dbf 
+GO TOP
+    IF .NOT. EOF()
+    wait "Error encountered during shift closing in phase 4!"
+    QUIT
+    ENDIF
+USE \KENSERVICE\DATA\shcongt5.dbf
+GO TOP
+    IF .NOT. EOF()
+    wait "Error encountered during shift closing in phase 5!"
+    QUIT
+    ENDIF
+USE \KENSERVICE\DATA\fgshupst.dbf
+go top
+    if .not. eof()
+     wait "Update Stocks Reports First!"
+    QUIT
+    ENDIF
+USE \KENSERVICE\DATA\fgshupiv.dbf
+if .not. eof()
+     wait "Update Inventory Reports First!"
+    QUIT
+    ENDIF
+USE \KENSERVICE\DATA\fgshupsl.dbf
+ go top
+    if .not. eof()
+     wait "Update Sales Reports First!"
+    QUIT
+    ENDIF
+USE \KENSERVICE\DATA\fgshuppu.dbf
+ go top
+    if .not. eof()
+     wait "Update Purchases Reports First!"
+    QUIT
+    ENDIF
+USE \KENSERVICE\DATA\fgshupdr.dbf
+go top
+    if .not. eof()
+     wait "Update Debtors Reports First!"
+    QUIT
+    ENDIF
+CLOSE DATABASES
+SET EXACT ON
+SELECT 2
+USE \KENSERVICE\DATA\SHIFTID.DBF ORDER TAG ID
+SELECT 6
+USE \KENSERVICE\DATA\ST15F.DBF ORDER TAG mkey
+SELECT 3
+USE \KENSERVICE\DATA\FGCODS.DBF ORDER TAG MKEY  ALIAS FGCOD && to shiftdet
+
+SELECT 21
+USE \KENSERVICE\DATA\CASHIERS.DBF order tag cashier
+SELECT 26
+USE \KENSERVICE\DATA\SCASHREC.DBF order tag mkey 
+SELECT 10
+USE \KENSERVICE\DATA\FGDIV.DBF ORDER TAG MKEY
+SELECT 8
+USE \KENSERVICE\DATA\FGCEN.DBF ORDER TAG MKEY
+SELECT 9
+USE \KENSERVICE\DATA\STSTO.DBF ORDER TAG STO
+SELECT 131
+ USE \KENSERVICE\DATA\STSTOS.DBF ORDER TAG STO
+SELECT 6
+SET RELATION TO Coy+DIV INTO FGDIV, Coy+DIV+CEN INTO FGCEN, Sto INTO STSTOS, Typ+CLA+COD ;
+INTO FGCOD
+
+
+SELECT 5
+USE \KENSERVICE\DATA\FGTYP.DBF ORDER TAG TYP
+
+SELECT 7
+set safety off
+use \kenserve\idssys\fgmast.dbf
+copy stru to \kenservice\data\fgmasshm dbase prod
+use \kenservice\data\fgmasshm.dbf exclusive alias fgmast order tag mkey
+appe from \kenservice\data\fgmast.dbf for typ<="9Z"  .and. .not. left(typ,1)='7'
+go top
+SELECT 11
+USE \KENSERVICE\DATA\SHIFTCOY.DBF exclusive
+
+SELECT 12
+USE \KENSERVICE\DATA\SHIFTCLA.DBF EXCLUSIVE
+SELECT 14
+USE \KENSERVICE\DATA\HSHIFTBK.DBF exclusive
+? mobilesals
+SELECT 15
+USE \KENSERVICE\DATA\STPUM.DBF ORDER TAG PUM
+
+SELECT 16
+USE \KENSERVICE\DATA\SHIFTCAS.DBF  exclusive
+
+SELECT 18
+USE \KENSERVICE\DATA\SHIFTBK.DBF 
+go bottom
+if  .not. coy= "1" .or. empty(shift_date) .or. empty(shift_id) .or. empty(shift_no)
+delete
+endif
+SELECT 19
+USE \KENSERVICE\DATA\SHSUM.DBf
+
+SELECT 28
+USE \KENSERVICE\DATA\SCASHREC.DBF AGAIN alias SCASHREC2
+
+
+SELECT 55
+USE \KENSERVICE\DATA\SHIFTCLS.DBF
+
+
+SELECT 56
+USE \kenSERVICE\DATA\SHIFTCLS.DBF AGAIN alias SHIFTCLS2
+
+select 57
+use \kenservice\data\fgtaxtyp.dbf order tag tax_type
+
+select 3
+set relation to tax_type into fgtaxtyp additive
+SELECT 100
+USE \KENSERVICE\DATA\FGCOY.DBF
+GO TOP
+select 101
+use \kenservice\data\shifttop.dbf exclusive
+
+select 102
+use \kenservice\data\fgsshift.dbf
+
+select 103
+use \kenservice\data\fgcods.dbf AGAIN ALIAS FGCODS  && on its own
+SELECT 106
+*USE \KENSERVICE\DATA\SHIFTMN.DBF
+select 107
+use \kenservice\data\st15f.dbf again alias st15f2
+  select 130
+ use \kenservice\data\fgsstop.dbf 
+ select 107
+ set relation to  Dtos(shift_date)+shift_no+shift_id+cashier_no+cen+sto+typ+cla+cod INTO SCASHREC
+ select 133
+ use \kenservice\data\fgcens.dbf order tag mkey
+  select 147
+if .not. file("\kenservice\data\arinvflg.dbf")
+use \kenserve\idssys\arinvflg.dbf
+copy stru to \kenservice\data\arinvflg dbase prod
+endif
+use \kenservice\data\arinvflg.dbf  
+ select 148
+if .not. file("\kenservice\data\arvisflg.dbf")
+use \kenserve\idssys\arvisflg.dbf
+copy stru to \kenservice\data\arvisflg dbase prod
+endif
+use \kenservice\data\arvisflg.dbf 
+select 149
+use \kenservice\data\shtypcla.dbf exclusive
+SELECT 2
+GO TOP

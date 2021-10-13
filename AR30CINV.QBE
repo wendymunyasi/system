@@ -1,0 +1,33 @@
+* Visual dBASE .QBE file 9
+*set exclusive on
+
+ON ERROR DO QBEERR WITH ERROR(), MESSAGE(),;
+PROGRAM(), LINENO()
+CLOSE DATABASES
+SET EXACT ON
+*Set exclusive on
+SELECT 24
+USE \KENSERVICE\DATA\ARCINVSL.dbf
+*ZAP
+SELECT 1
+USE \KENSERVICE\DATA\ARCINVS.DBF
+*ZAP
+set filter to empty(post_date) .and. order_no = ARCINVSL->order_no
+
+SELECT 2
+USE \KENSERVICE\DATA\ARCILINE.DBF
+
+
+select 55
+if .not. file("\kenservice\data\fgquotrs.dbf")
+use \kenserve\idssys\fgquotrs.dbf 
+copy stru to \kenservice\data\fgquotrs dbase prod
+endif
+use \kenservice\data\fgquotrs.dbf 
+select 120
+use \kenservice\data\fgcoy.dbf
+select 123
+select 106
+use \kenservice\data\ARCINVUP.dbf
+select 130
+use \kenservice\data\ARCINVSn.dbf

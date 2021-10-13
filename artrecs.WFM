@@ -1,0 +1,1052 @@
+////////////////////////////////////////////////////////////////////////////////
+// Output Filename: C:\KENSERVICE\IDSSYS\ARTRECS_FCV.WFM                      //
+// Created By:      dBASE Form Converter Wizard                               //
+// Created On:      Sunday October 3, 2021 At 10:14:02                        //
+// Object Count:    25                                                        //
+////////////////////////////////////////////////////////////////////////////////
+                                                                                                                  *******************************************************************************
+*  PROGRAM:      artrecs.WFM
+*
+*  WRITTEN BY:   W Nyongesa
+*  DATE:         10/2003
+*
+*  UPDATED:      03/2015
+*
+*  REVISION:     $Revision:   1.97  $
+*
+*  VERSION:      Visual dBASE
+*
+*  DESCRIPTION:  This form displays information about an order from a company.
+*                It allows traversing through artrecs and going to the top and
+*                bottom.  This form also has a corresponding menu, OrdCust.mnu,
+*                which allows adding,deleting and searching for an order.
+*                When an unknown customer number is entered, a dialog will come
+*                up asking you if you want to add a new customer.  If you
+*                selecte the Yes button, the customer form (in stcusj.Wfm)
+*                will be opened, so a new customer can be added.
+*
+*  PARAMETERS:   None
+*
+*  CALLS:        artrecs.mnu       (Menu file)
+*                Buttons.cc       (Custom controls file)
+*                stcusj.Wfm     (Form for displaying customer information)
+*                artrecs.qbe       (View of tables)
+*
+*  USAGE:        DO artrecs.WFM    && Note that you can also DO stcusj.Wfm
+*
+*******************************************************************************
+#include <Messdlg.h>
+shell(.F.)
+create session
+set talk off
+*ET DESIGN OFF
+*if .not. user() = "WYCLIFFE"
+_app.FrameWin.Visible = .F.
+set design off
+*ENDIF
+_app.FrameWin.Text = "artrecs"
+set ldCheck off                        && To avoid language driver conflicts
+*SET DBTYPE TO PARADOX
+SET CUAENTER OFF
+SET CENTURY ON
+SET DATE TO BRITISH
+** END HEADER -- do not remove this line*
+* Generated on 17/10/2020
+*
+parameter bUser,bLevel,BLADMIN,bModal
+local f
+f = new artrecsFORM()
+if (bModal)
+   f.mdi = .F. && ensure not MDI
+   f.ReadModal()
+else
+   f.Open()
+endif
+CLASS artrecsFORM OF FORM
+   Set Procedure To BUTTONS.CC additive
+   this.Metric = 6  // Pixels
+   this.ColorNormal = "N+"
+   this.View = "artrecs.QBE"
+   this.MenuFile = "ARTRECS.MNU"
+   this.OnClose = CLASS::ONCLOSE
+   this.Text = "VISA TOP UP RECEIPTS -- View Mode"
+   this.MDI = .F.
+   this.CanClose = CLASS::FORM_CANCLOSE
+   this.WindowState = 2
+   this.Left = 0
+   this.MousePointer = 1
+   this.Top = 3
+   this.Moveable = .F.
+   this.Sizeable = .F.
+   this.Maximize = .F.
+   this.Minimize = .F.
+   this.Height = 444
+   this.EscExit = .F.
+   this.Width = 746
+
+   DEFINE TEXTLABEL TEXT9 OF THIS;
+       PROPERTY;
+         ColorNormal "R+/W",;
+         FontName "Verdana",;
+         Text "No.:",;
+       BorderStyle 7,;
+         FontSize 12,;
+         Top 4,;
+         Height 21,;
+         Width 54,;
+       FontBold .T.,;
+       AlignHorizontal 1,;
+       AlignVertical 1
+
+   DEFINE ENTRYFIELD ORDERNOENTRY OF THIS;
+       PROPERTY;
+         ColorNormal "R+/W",;
+         FontName "MS Sans Serig",;
+         FontSize 12,;
+         Left 60,;
+         Enabled .F.,;
+         ColorHighLight "GB+/W",;
+         DataLink "artrecs->ORDER_NO",;
+         Top 4,;
+         Height 21,;
+         Width 63,;
+       FontBold .T.
+
+   DEFINE TEXTLABEL TEXT2 OF THIS;
+       PROPERTY;
+         ColorNormal "R+/W",;
+         FontName "Verdana",;
+         Text "Date:",;
+       BorderStyle 7,;
+         FontSize 12,;
+         Left 128,;
+         Height 25,;
+         Width 64,;
+       FontBold .T.,;
+       AlignHorizontal 1,;
+       AlignVertical 1
+
+   DEFINE SPINBOX SDATE OF THIS;
+       PROPERTY;
+         ColorNormal "R+/W",;
+         FontSize 12,;
+         Left 192,;
+         Enabled .F.,;
+         ColorHighLight "W+/N",;
+         DataLink "artrecs->order_date",;
+         Top 3,;
+         Rangemax {16/07/2020},;
+         ValidErrorMsg "Date out of Range",;
+         Height 21,;
+         Rangemin {05/11/2019},;
+         Width 120,;
+       FontName "MS Sans Serif",;
+       FontBold .T.
+
+   DEFINE TEXTLABEL TEXT10 OF THIS;
+       PROPERTY;
+         ColorNormal "0x400000/W",;
+         FontName "Verdana",;
+         Text "Cashier:",;
+       BorderStyle 7,;
+         FontSize 12,;
+         Left 12,;
+         Top 34,;
+         Height 31,;
+         Width 168,;
+       FontBold .T.,;
+       AlignHorizontal 1,;
+       AlignVertical 1
+
+   DEFINE COMBOBOX SOFF OF THIS;
+       PROPERTY;
+         ColorNormal "0xc08000/W",;
+         Style 1,;
+         DataSource "FIELD fgoffs->NAME",;
+         FontSize 10,;
+         Left 192,;
+         MousePointer 1,;
+         Enabled .F.,;
+         OnChange CLASS::SEMP1_ONCHANGE,;
+         DataLink "artrecs->ANAME",;
+         Top 36,;
+         Height 24,;
+         Width 276,;
+       FontName "MS Sans Serif",;
+       FontBold .T.
+
+   DEFINE TEXTLABEL TEXT4 OF THIS;
+       PROPERTY;
+         ColorNormal "0x400000/W",;
+         FontName "Verdana",;
+         Text "Customer:",;
+       BorderStyle 7,;
+         FontSize 11,;
+         Left 12,;
+         Top 81,;
+         Height 21,;
+         Width 108,;
+       FontBold .T.,;
+       AlignHorizontal 1,;
+       AlignVertical 1
+
+   DEFINE COMBOBOX SCUST OF THIS;
+       PROPERTY;
+         ColorNormal "0x400040/W+",;
+         Style 1,;
+         DataSource "FIELD FRIGTMES->NAME",;
+         FontSize 10,;
+         Left 120,;
+         MousePointer 1,;
+         Enabled .F.,;
+         OnChange CLASS::SCUST_ONCHANGE,;
+         DataLink "artrecln->CUSTOMER",;
+         Top 81,;
+         FontBold .F.,;
+         Height 24,;
+         Width 600,;
+       FontName "MS Sans Serif"
+
+   DEFINE TEXTLABEL TEXT3 OF THIS;
+       PROPERTY;
+         ColorNormal "0x400000/W",;
+         FontName "Verdana",;
+         Text "Receipt No:",;
+       BorderStyle 7,;
+         FontSize 12,;
+         Left 11,;
+         Top 105,;
+         Height 31,;
+         Width 169,;
+       FontBold .T.,;
+       AlignHorizontal 1,;
+       AlignVertical 1
+
+   DEFINE ENTRYFIELD SSERIAL OF THIS;
+       PROPERTY;
+         ColorNormal "0x400000/W",;
+         FontName "MS Sans Serig",;
+         FontSize 12,;
+         Function "999999",;
+         Picture "9999999",;
+         Left 192,;
+         Enabled .F.,;
+         ColorHighLight "G+/N",;
+         OnChange CLASS::SSERIAL_ONCHANGE,;
+         DataLink "artrecs->SERIALNO",;
+         Top 105,;
+         Height 31,;
+         Width 120,;
+       FontBold .T.
+
+   DEFINE TEXTLABEL TEXT12 OF THIS;
+       PROPERTY;
+         ColorNormal "0x400000/W",;
+         FontName "Verdana",;
+         Text "Card No/Veh No:",;
+       BorderStyle 7,;
+         FontSize 12,;
+         Left 11,;
+         Top 156,;
+         Height 31,;
+         Width 169,;
+       FontBold .T.,;
+       AlignHorizontal 1,;
+       AlignVertical 1
+
+   DEFINE ENTRYFIELD SCARD OF THIS;
+       PROPERTY;
+         ColorNormal "0x400000/W",;
+         FontName "MS Sans Serig",;
+         FontSize 12,;
+         Function "!",;
+         Left 192,;
+         Enabled .F.,;
+         ColorHighLight "G+/N",;
+         OnChange CLASS::SCARD_ONCHANGE,;
+         DataLink "ARTRECS->LPO",;
+         Top 156,;
+         Height 31,;
+         Width 276,;
+       FontBold .T.
+
+   DEFINE TEXTLABEL TEXT5 OF THIS;
+       PROPERTY;
+         ColorNormal "0x400000/0xffff80",;
+         FontName "Verdana",;
+         Text "NetTotal:",;
+       BorderStyle 7,;
+         FontSize 12,;
+         Left 12,;
+         Top 207,;
+         Height 31,;
+         Width 168,;
+       FontBold .T.,;
+       AlignHorizontal 1,;
+       AlignVertical 1
+
+   DEFINE ENTRYFIELD SHTOTAL OF THIS;
+       PROPERTY;
+         ColorNormal "0x400000/0xffff80",;
+         FontName "arial",;
+         FontSize 12,;
+         Picture "99,999,999,999.99",;
+         Left 192,;
+         Enabled .F.,;
+         ColorHighLight "G+/0xc08000",;
+         OnChange CLASS::SHTOTAL_ONCHANGE,;
+         DataLink "artrecs->NETT_TOTAL",;
+         Top 207,;
+         Height 31,;
+         Width 162,;
+       FontBold .T.
+
+   DEFINE TEXTLABEL TEXT8 OF THIS;
+       PROPERTY;
+         ColorNormal "N/W",;
+         FontName "Verdana",;
+         Text "Total Receipts:",;
+       BorderStyle 7,;
+         FontSize 12,;
+         Left 12,;
+         Top 254,;
+         Height 26,;
+         Width 144,;
+       FontBold .T.,;
+       AlignHorizontal 1,;
+       AlignVertical 1
+
+   DEFINE ENTRYFIELD SRECT OF THIS;
+       PROPERTY;
+         ColorNormal "N/W",;
+         FontSize 12,;
+         Picture "9,999,999,999.99",;
+         Left 192,;
+         Enabled .F.,;
+         ColorHighLight "0x40/W",;
+         OnChange CLASS::SRECT_ONCHANGE,;
+         DataLink "ARTRECLN->TOTAL",;
+         Top 254,;
+         Height 26,;
+         Width 180,;
+       FontName "MS Sans Serif",;
+       FontBold .T.
+
+   DEFINE TEXTLABEL TEXT7 OF THIS;
+       PROPERTY;
+         ColorNormal "0x400000/0xffff80",;
+         FontName "Verdana",;
+         Text "Document Total:",;
+       BorderStyle 7,;
+         FontSize 12,;
+         Left 385,;
+         Top 258,;
+         Height 25,;
+         Width 168,;
+       FontBold .T.,;
+       AlignHorizontal 1,;
+       AlignVertical 1
+
+   DEFINE ENTRYFIELD STOTAL OF THIS;
+       PROPERTY;
+         ColorNormal "0x400000/0xffff80",;
+         FontName "arial",;
+         FontSize 12,;
+         Picture "99,999,999,999.99",;
+         Left 564,;
+         Enabled .F.,;
+         ColorHighLight "G+/0xc08000",;
+         DataLink "artrecs->TOTAL",;
+         Top 258,;
+         Height 25,;
+         Width 156,;
+       FontBold .T.
+
+   DEFINE TEXTLABEL TEXT14 OF THIS;
+       PROPERTY;
+         ColorNormal "N/W",;
+         FontName "Verdana",;
+         Text "DL Total:",;
+       BorderStyle 7,;
+         FontSize 12,;
+         Left 372,;
+         Top 288,;
+         Height 26,;
+         Width 144,;
+       FontBold .T.,;
+       AlignHorizontal 1,;
+       AlignVertical 1
+
+   DEFINE ENTRYFIELD SDTOTAL OF THIS;
+       PROPERTY;
+         ColorNormal "N/W",;
+         FontSize 12,;
+         Picture "9,999,999,999.99",;
+         Left 522,;
+         Enabled .F.,;
+         ColorHighLight "0x40/W",;
+         OnChange CLASS::SDTOTAL_ONCHANGE,;
+         DataLink "artrecln->TOTAL",;
+         Top 288,;
+         Height 26,;
+         Width 210,;
+       FontName "MS Sans Serif",;
+       FontBold .T.
+
+   DEFINE PUSHBUTTON FIRSTORDERBUTTON OF THIS;
+       PROPERTY;
+         ColorNormal "0x40/W",;
+         Text "First",;
+         FontSize 12,;
+         Left 42,;
+         OnClick CLASS::GO_TOP,;
+         Top 452,;
+         Group .F.,;
+         Height 26,;
+         Width 120,;
+       FontName "MS Sans Serif",;
+       FontBold .T.
+
+   DEFINE PUSHBUTTON LASTORDERBUTTON OF THIS;
+       PROPERTY;
+         ColorNormal "0x40/W",;
+         Text "Last",;
+         FontSize 12,;
+         Left 192,;
+         OnClick CLASS::GO_LAST,;
+         Top 452,;
+         Group .F.,;
+         Height 26,;
+         Width 120,;
+       FontName "MS Sans Serif",;
+       FontBold .T.
+
+   DEFINE PREVBUTTON PREVORDERBUTTON OF THIS;
+       PROPERTY;
+         ColorNormal "0x40/W",;
+         Text "Previous",;
+         FontSize 12,;
+         Left 342,;
+         OnClick CLASS::PREVIOUS,;
+         Top 452,;
+         Group .T.,;
+         Height 26,;
+         Width 120,;
+       FontName "MS Sans Serif",;
+       FontBold .T.
+
+   DEFINE NEXTBUTTON NEXTORDERBUTTON OF THIS;
+       PROPERTY;
+         ColorNormal "0x40/W",;
+         Default .T.,;
+         Text "Next",;
+         FontSize 12,;
+         Left 492,;
+         OnClick CLASS::NEXT,;
+         Top 452,;
+         Group .F.,;
+         Height 26,;
+         Width 120,;
+       FontName "MS Sans Serif",;
+       FontBold .T.
+
+   DEFINE BROWSE CHILDBROWSE OF THIS;
+       PROPERTY;
+         ColorNormal "R/W",;
+         Text "DETAIL LINES",;
+         Append .F.,;
+         ShowDeleted .F.,;
+         Delete .F.,;
+         FontSize 9,;
+         Fields 'artrecln->STOCK_NO\H="NO."\4\P="99"\R\C="N/0xffff80",artrecln->REF\H="REF NO."\10\R\C="N/0xffff80",artrecln->TOTAL\H="AMOUNT"\18\P="99,999,999,999.99"\R\C="N/0xffff80",ARTRECLN->CUSTOMER\H="Customer"\25\R,ARTRECLN->SOURCE\H="Srce"\5\R,ARTRECLN->FTYP\H="Ftyp"\5\R,ARTRECLN->PMOD\H="Pmod"\5\R,ARTRECLN->FRIGHTER_N\H="Acc No"\7\R,artrecLN->SVC_TOTAL\H="Charge Amt"\15\P="99,999,999,999.99"\R,Nettamt = artrecs->NETT_TOTAL\H="Nett Amt"\15\P="99,999,999,999.99"',;
+         Left 36,;
+         Modify .F.,;
+         CUATab .T.,;
+         ColorHighLight "R/BTNFACE",;
+         ScrollBar 1,;
+         Top 322,;
+         Alias "artrecln",;
+         ShowRecNo .F.,;
+         Height 111,;
+         Width 780,;
+       FontName "MS Sans Serif"
+
+   procedure Open
+   ****************************************************************************
+   private orderNoField
+      on error DO ddeerr WITH ERROR(), MESSAGE(),;
+   PROGRAM(), LINENO()
+                    set safety off
+   FORM.BLUSER = BUSER
+   FORM.BLEVEL = BLEVEL
+   FORM.BLADMIN = BLADMIN
+    IF EMPTY(FORM.BLUSER) .OR. EMPTY(FORM.BLEVEL)
+   QUIT
+   ENDIF
+
+                     SET REPROCESS TO 10
+                       SELECT FRIGTMES2
+                     SET ORDER TO FRIGHTER
+                      SELECT FGVISNOS
+                     SET ORDER TO MKEY
+                     select artrecsn
+    go top
+    if eof()
+    append blank
+    replace order_no with "0"
+    endif
+                         select artrecup
+    set order to orderdate
+
+                  select artrecln3
+                  set order to order_no
+
+                     SELECT artrecs3
+                     SET ORDER TO ORDER_NO
+                     GO BOTTOM
+   SET SAFETY ON
+   select st15f
+   set order to mkey
+   GO TOP
+     select frigtmes
+   set order to name
+
+   select artrecln
+   go top
+   if .not. eof()
+   if empty(order_no)
+   delete
+   endif
+   endif
+   select artrecs
+   go top
+   if .not. eof()
+   if empty(order_no)
+   delete
+   endif
+   endif
+      select fgoffs
+   set order to name
+    select artrecs3
+    SET ORDER TO ORDER_NO
+   go bottom
+    form.maxOrder = order_no
+   if type("form.init") = "U"
+      form.init = .T.
+    ENDIF
+   SELECT FGCOY
+   GO TOP
+   FORM.PSHIFTDATE = DATE()
+   FORM.PSHIFTNO = "0"
+   FORM.PSHIFTID = "0"
+   form.pfc = .f.
+   IF POSPOST = "Yes"
+    FORM.PSHIFTDATE = st15f->shift_date
+   FORM.PSHIFTNO = st15f->shift_no
+   SELECT FGCOY
+   REPLACE START_DATE WITH ST15F->SHIFT_DATE
+   REPLACE END_DATE WITH START_DATE
+   FORM.PSHIFTID = st15f->shift_id
+   form.pfc = .t.
+
+   endif
+   if .not. form.pfc  && not forecourt
+      if .not. empty(artrecs3->order_date)
+      form.PSHIFTDATE = artrecs3->order_date
+      select fgcoy
+      replace start_date with FORM.PSHIFTDATE
+      else
+      form.PSHIFTDATE = fgcoy->start_date
+      if empty(form.PSHIFTDATE)
+       InformationMessage("Missing Data Entry Dates Range in the company info file.", "Sorry")
+       quit
+       endif
+
+      endif
+   endif
+
+   FORM.PDIV = ""
+   FORM.PCOY = ""
+   FORM.OKEXIT = .F.
+   FORM.PVATPRICE = "Inclusive"
+   FORM.PCEN = ""
+    form.pcashierno = ""
+    form.pemp1 = ""
+    form.pf1name = ""
+    FORM.PSERVED = ""
+   FORM.PSTO = ""
+   form.pclass = ""
+   FORM.PTYP = ""
+   form.pcard = "B/V"
+   form.ptypname = ""
+   form.pclaname = ""
+   form.pcodname = ""
+   form.pcod = ""
+   form.pf1dr = "No"
+
+
+   *
+
+
+   FORM.PCLA = ""
+      set skip to                     && artrecs.qbe contains set skip to artrecln
+      set exact off                   && the .qbe file contains SET EXACT ON
+
+      set procedure to Sampproc.prg additive
+
+      form.inEditMode = .F.           && indicator of view/edit state
+      form.changesMade = .F.          && indicator of changes made to field values
+      form.previousRecord = .F.       && Save record number when appending
+      form.pspdiv = "1"
+      form.pspdivname = "Depot"
+      *** do calculations in another area so form doesn't get updated
+         select artrecs
+      set order to order_no
+
+
+        && max value for key field -- for creating
+
+          local lmax
+
+       ***
+       select artrecsL
+       go top
+       if eof()
+       append blank
+       endif
+
+   form.Psdate = FORM.PSHIFTDATE
+   form.pserialno = ""
+          select artrecs
+       go top
+
+      *** Open table for calculating totals and balance due in another work area
+      *** so that datalinks are not affected by record movements
+
+       select artrecs
+      set relation to order_no into artrecln2 constrain integrity additive
+
+      ***
+
+
+   go top
+   refresh
+    form::Open()
+     shell(.F.)
+
+
+   ****************************************************************************
+
+   procedure OnClose
+   ****************************************************************************
+   *  form.CheckCommit(form.inEditMode)
+      if form.inEditMode
+      form.ViewEdit()
+   endif
+          && Close customer form if it exists
+                                             && leave shell(.F.)
+        shell(.f.)
+   *  endif
+   close procedure SampProc.prg
+    if .not. empty(artrecs->order_no)
+   select artrecup
+   seek artrecs->order_no+dtos(artrecs->order_date)
+   if found() .and. .not. empty(post_date)
+   select artrecs
+   replace post_date with date()
+   endif
+   endif
+     COMMIT()
+   close databases
+   clear program
+   do arptRECS.prg
+     form.close()
+    close databases
+     ****************************************************************************
+
+     procedure ChangesMade
+
+   * Indicate that changes have been made to current record.
+   ****************************************************************************
+
+   form.changesMade = .T.
+
+   procedure BrowseChangesMade
+   ****************************************************************************
+   local t,t2,t3,t4,T5,t6,t7,t8
+     if form.changesmade = .t.
+   select artrecln
+   IF .NOT. EOF()
+   *  form.changesMade = .T.
+     go recno("artrecln") in artrecln    && Make sure change is posted
+
+   select artrecln2  && recalculate totals in other workarea
+   calculate sum(artrecln2->total), sum(artrecln2->invtotal), sum(artrecln2->paytotal),;
+   sum(artrecln2->deptotal) to t, t2,t3,t4
+   FORM.STOTAL.VALUE = t
+           ENDIF
+     SELECT artrecs
+   endif
+
+
+
+   procedure Next
+   ****************************************************************************
+
+   form.CheckCommit(form.inEditMode)
+   if .not. empty(artrecs->order_no)
+   select artrecup
+   seek artrecs->order_no+dtos(artrecs->order_date)
+   if found() .and. .not. empty(post_date)
+   select artrecs
+   replace post_date with date()
+   flush
+   endif
+   endif
+   form.root.order.viewEdit.enabled = .t.
+   form.root.order.ADDorder.enabled = .t.
+    form.root.order.ADDline.enabled = .t.
+
+
+   select artrecs
+   if .not. eof()
+      NEXTBUTTON::OnClick()
+   endif
+   form.root.file.exit.enabled =   .t.
+
+   ****************************************************************************
+
+   procedure Previous
+   ****************************************************************************
+
+   form.CheckCommit(form.inEditMode)
+   if .not. empty(artrecs->order_no)
+   select artrecup
+   seek artrecs->order_no+dtos(artrecs->order_date)
+   if found() .and. .not. empty(post_date)
+   select artrecs
+   replace post_date with date()
+   flush
+   endif
+   endif
+   form.root.order.viewEdit.enabled = .t.
+   form.root.order.ADDorder.enabled = .t.
+    form.root.order.ADDline.enabled = .t.
+
+   select artrecs
+   if .not. bof()
+   PREVBUTTON::OnClick()
+   endif
+     form.root.file.exit.enabled =   .t.
+    ****************************************************************************
+
+   procedure CheckCommit (newInEditMode)
+
+    * Finish transaction, if it has been started.
+    ****************************************************************************
+    private orderField, changesMade,prcoy,prdiv,prcen,prsto,prtyp,prcla,prcod,prqty,;
+    pcoy,pdiv,pcen,psto,ptyp,pcla,pcod
+
+
+    changesMade = form.changesMade
+     if form.changesMade
+       orderField = field(1)                  && Field Order_no
+            commit()
+            on error DO ddeerr WITH ERROR(), MESSAGE(),;
+   PROGRAM(), LINENO()
+          if form.inEditMode .and. newInEditMode
+          begintrans()
+               on error DO transerr WITH ERROR(), MESSAGE(),;
+   PROGRAM(), LINENO()
+       endif
+       form.changesMade = .F.
+    endif
+
+
+    if form.inEditMode <> newInEditMode
+       if newInEditMode                       && Going to Edit mode
+          begintrans()
+            on error DO transerr WITH ERROR(), MESSAGE(),;
+   PROGRAM(), LINENO()
+       else                                   && Going to View mode
+          if .not. changesMade
+             rollback()
+            on error   DO ddeerr WITH ERROR(), MESSAGE(),;
+   PROGRAM(), LINENO()
+          endif
+       endif
+       form.inEditMode = newInEditMode
+    endif
+   *   select artrecs
+    ****************************************************************************
+
+   procedure ViewEdit
+   ****************************************************************************
+   local inEditMode, control, editMenu
+
+   editMenu = form.root.ORDER.viewEdit
+   *** If editing is completed, close transaction, otherwise open a transaction
+   if form.inEditMode                           && Change to View mode
+      form.checkChanged(.F.)
+      editMenu.text = "&Edit"
+      editMenu.shortcut = "Ctrl-E"
+      editMenu.statusMessage = "Edit data."
+      form.root.order.deleteline.enabled = .F.
+   *     form.root.order.REPLACECUST.enabled = .f.
+      form.CheckCommit(.F.)                     && Check transaction and
+      form.text = "VISA TOP UP RECEIPTS -- View Mode"         && change mode to View
+      form.childBrowse.modify = .F.
+      form.statusMessage = "Select RECEIPT - Edit menu choice to " +;
+                           "edit/delete data."
+   else                                         && Change to Edit mode
+      editMenu.text = "&View"
+      editMenu.shortcut = "Ctrl-E"
+      editMenu.statusMessage = "View data."
+        form.root.order.deleteline.enabled = .t.
+      form.CheckCommit(.T.)                     && Check transaction and
+      form.text = "VISA TOP UP RECEIPTS -- Edit Mode"         && change mode to Edit
+      form.childBrowse.modify = .F.
+      form.statusMessage = "In Edit Mode.  " +;
+                           "Select RECEIPT - View menu choice to switch " +;
+                           "to View mode."
+   endif
+   control = form.first
+   inEditMode = form.inEditMode    && so don't have to reference many times
+   do
+      do case
+         case control.name $ "ORDERNOENTRY,cno,TOTINVENTRY,BALDUEENTRY"
+            * these are never editable
+            control.enabled = .F.
+         case .not. control.className $ "BROWSE,NEXTBUTTON,PREVBUTTON,PUSHBUTTON,IMAGE,TEXT"
+            * doesn't make sense to make the above classes enabled/not
+            control.enabled = inEditMode
+         case control.className = "BROWSE"
+            control.Modify = inEditMode
+            control.Delete = inEditMode
+            control.Append = inEditMode
+      endcase
+      control = control.before
+   until control.name = form.first.name
+   form.OrderNoEntry.enabled = .F.          && Key field is always disabled
+   form.childBrowse.append = .F.
+   form.childBrowse.delete = .F.
+    FORM.CHILDBROWSE.MODIFY = .F.
+   form.stotal.enabled = .f.
+    FORM.STOTAL.ENABLED = .F.
+   *   if fgcoy->pospost = "Yes"
+   FORM.SDATE.ENABLED = .F.
+   form.Sdtotal.enabled = .f.
+
+   procedure CheckChanged(callCommit)
+    private control, fieldValue, controlValue, typeText, typeValue
+   if form.inEditMode
+      control = form.activeControl
+      if type("control.datalink") <> "U"
+         fieldValue = control.datalink          && name of table field
+
+         typeText = type("control.text")
+         typeValue = type("control.value")
+         do case
+            case typeValue = "C0"
+               controlValue = control.value
+            case typeValue $ "LU" .and. typeText = "C0"
+               controlValue = control.text
+            otherwise
+               controlValue = Null
+         endcase
+         if controlValue <> &fieldValue
+            form.changesMade = .T.
+         endif
+      endif
+   endif
+   if form.changesMade .and. callCommit
+      CLASS::CheckCommit(form.inEditMode)     && Check transactions
+   endif
+
+   Procedure Go_last
+      form.CheckCommit(form.inEditMode)
+      if .not. empty(artrecs->order_no)
+   select artrecup
+   seek artrecs->order_no+dtos(artrecs->order_date)
+   if found() .and. .not. empty(post_date)
+   select artrecs
+   replace post_date with date()
+   flush
+   endif
+   endif
+   form.root.order.viewEdit.enabled = .t.
+   form.root.order.ADDorder.enabled = .t.
+    form.root.order.ADDline.enabled = .t.
+   select artrecs
+      go bottom
+   form.root.file.exit.enabled =   .t.
+
+      Procedure Go_Top
+     form.CheckCommit(form.inEditMode)
+     if .not. empty(artrecs->order_no)
+   select artrecup
+   seek artrecs->order_no+dtos(artrecs->order_date)
+   if found() .and. .not. empty(post_date)
+   select artrecs
+   replace post_date with date()
+   flush
+   endif
+   endif
+   form.root.order.viewEdit.enabled = .t.
+   form.root.order.ADDorder.enabled = .t.
+    form.root.order.ADDline.enabled = .t.
+
+
+   select artrecs
+     go top
+    form.root.file.exit.enabled =   .t.
+
+     Procedure Form_CanClose
+      RETURN IIF(form.changesmade = .F., .F., .T.)
+
+    Procedure SEMP1_ONCHANGE
+         local l1,l2
+
+         l1 = this.value
+         select fgoffs
+         seek l1
+
+           select artrecs
+           replace aname with fgoffs->name
+         replace off with fgoffs->off
+         replace cashier_no with fgoffs->cashier_no
+          form.changesmade = .t.
+
+       Procedure SCUST_ONCHANGE
+         select frigtmes
+         seek this.value
+         if found()
+           select artrecLN
+            replace customer with frigtmes->name
+            replace source with frigtmes->source
+             replace ftyp   with frigtmes->ftyp
+              replace pmod   with frigtmes->pmod
+               replace frighter_n with frigtmes->frighter_n
+               replace total with 0
+                  SELECT FRIGTMES2
+                SEEK '3'+'3'+'3'+'0001'
+                IF FOUND()
+                SELECT artrecs
+                REPLACE MAXSERIAL WITH FRIGTMES2->MAXSERIAL
+                replace serialno with ''
+                else
+                select artrecs
+                replace maxserial with 0
+                replace serialno with ''
+                endif
+                else
+                select artrecLN
+            replace customer with ""
+            replace source with ""
+             replace ftyp   with ""
+              replace pmod   with ""
+               replace frighter_n with ""
+               replace total with 0
+                 endif
+                  select artrecs
+           replace ssource with artrecLN->source
+               replace sftyp with artrecLN->ftyp
+               replace spmod with artrecLN->pmod
+               replace sfrighter with artrecLN->frighter_n
+               replace nett_total with 0
+               replace lpo with ''
+          form.changesmade = .t.
+
+
+    Procedure SREF_OnChange
+        form.changesmade = .t.
+        select artrecln
+        replace ref with this.value
+        select artrecs
+
+   Procedure SCHQD_OnChange
+       form.changesmade = .t.
+       select artrecs
+       if year(this.value) < 2012 .or. this.value > order_date
+       replace recdate with order_date
+       else
+       replace recdate with this.value
+       endif
+
+
+   Procedure SDTOTAL_OnChange
+   SELECT artrecln
+        REPLACE total with  this.value
+           form.changesmade = .t.
+        form.browsechangesmade()
+        select artrecs
+
+
+
+   Procedure SSERIAL_OnChange
+          form.changesmade = .t.
+         SELECT artrecs
+         REPLACE SERIALNO WITH THIS.VALUE
+         PSERIAL = VAL(SERIALNO)
+        PS = '3'
+        PF = '0001'
+        IF .NOT. (FORM.BLEVEL = 1 .AND. FORM.BLADMIN)
+        IF MAXSERIAL > 0
+          SELECT FGVISNOS
+          SEEK PS+PS+PS+PF+STR(PSERIAL)
+          IF FOUND() .AND. .NOT.  EMPTY(ORDER_DATE)
+                 InformationMessage("Receipt ALREADY USED", "Sorry!")
+                 SELECT artrecs
+        replace serialno with ''
+        ELSE
+           IF .NOT. FOUND()
+         InformationMessage("Receipt Does Not Exist", "Sorry!")
+                 SELECT artrecs
+        replace serialno with ''
+        ENDIF
+        ENDIF
+        ENDIF
+        ENDIF
+         select artrecs
+
+
+   Procedure SHTOTAL_OnChange
+   select artrecs
+   replace nett_total with this.value
+   form.changesmade = .t.
+   if this.value < 0 .and. form.blevel > 4
+   replace nett_total with 0
+   endif
+      form.changesmade = .t.
+
+   Procedure SRECT_OnChange
+   SELECT artrecln
+          REPLACE total with  this.value
+           replace rec_total with total
+         form.changesmade = .t.
+        form.browsechangesmade()
+        select artrecs
+
+
+   Procedure SCARD_OnChange
+      local l1,l2,l3,l4,l5,l6
+     select artrecLN
+            l1 = source
+            l2 = ftyp
+            l3 = pmod
+            l4 = frighter_n
+            l5 = right(this.value,17) && reg
+            l6 = left(this.value,8) && card_no
+   select fgregcds
+   seek l1+l2+l3+l4+l5+l6
+   if found()
+      select artrecs
+         replace lpo with this.value
+           else
+          select artrecs
+         replace lpo with ''
+           endif
+        form.changesmade = .t.
+
+
+ENDCLASS

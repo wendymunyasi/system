@@ -1,0 +1,36 @@
+* Visual dBASE .QBE file 9
+
+ON ERROR DO QBEERR WITH ERROR(), MESSAGE(),;
+PROGRAM(), LINENO()
+set reprocess to 10
+CLOSE DATABASES
+SET EXACT ON
+
+SELECT 24
+USE \KENSERVICE\DATA\arcashsL.DBF
+SELECT 1
+USE \KENSERVICE\DATA\arcashs.DBF
+set filter to empty(post_date) .and. order_no = arcashsL->order_no
+SELECT 2
+USE \KENSERVICE\DATA\aracasln.DBF
+select 3
+use \kenservice\data\fgtran.dbf
+SELECT 60
+USE \KENSERVICE\DATA\SCASHREC.DBF 
+
+SELECT 70
+USE \KENSERVICE\DATA\ST15F.DBF
+
+SELECT 93
+USE \KENSERVICE\DATA\FGCOY.DBF
+
+SELECT 90
+USE \KENSERVICE\DATA\CASHIERS.DBF
+
+select 101
+use \kenservice\data\arcasupd.dbf
+select 105
+use \kenservice\data\arcasupd.dbf again alias arcasupd2
+select 106
+use \kenservice\data\arcashsn.dbf
+

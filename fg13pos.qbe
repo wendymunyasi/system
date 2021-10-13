@@ -1,0 +1,30 @@
+* Visual dBASE .QBE file 9
+close databases
+ON ERROR DO QBEERR WITH ERROR(), MESSAGE(),;
+PROGRAM(), LINENO()
+CLOSE DATABASES
+SET EXACT ON
+select 17
+use \kenservice\data\TORDERSL.dbf
+SELECT 1
+USE \KENSERVICE\DATA\TORders.DBF 
+set filter to empty(post_date) .and.  TORDERSL->ORDER_NO = ORDER_NO
+GO TOP
+SELECT 2
+USE \KENSERVICE\DATA\TODRLINE.DBF
+SELECT 15
+USE \KENSERVICE\DATA\fgmast.DBF
+SELECT 4
+USE \KENSERVICE\DATA\st15f.DBf
+select 25
+if .not. file("\kenservice\data\fgtransf.dbf")
+use \kenserve\idssys\fgtransf.dbf
+copy stru to \kenservice\data\fgtransf dbase prod
+endif
+use \kenservice\data\fgtransf.dbf 
+select 31
+use \kenservice\data\fgcoy.dbf
+select 104
+use \kenservice\data\TODUPD.dbf
+select 130
+use \kenservice\data\Tordersn.dbf

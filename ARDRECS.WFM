@@ -1,0 +1,1884 @@
+////////////////////////////////////////////////////////////////////////////////
+// Output Filename: C:\KENSERVICE\IDSSYS\ARDRECS_FCV.WFM                      //
+// Created By:      dBASE Form Converter Wizard                               //
+// Created On:      Sunday October 3, 2021 At 10:12:26                        //
+// Object Count:    46                                                        //
+////////////////////////////////////////////////////////////////////////////////
+                                                                                                                  *******************************************************************************
+*  PROGRAM:      ARDRECS.WFM
+*
+*  WRITTEN BY:   W Nyongesa
+*  DATE:         10/2003
+*
+*  UPDATED:      03/2015
+*
+*  REVISION:     $Revision:   1.97  $
+*
+*  VERSION:      Visual dBASE
+*
+*  DESCRIPTION:  This form displays information about an order from a company.
+*                It allows traversing through ARDRECS and going to the top and
+*                bottom.  This form also has a corresponding menu, OrdCust.mnu,
+*                which allows adding,deleting and searching for an order.
+*                When an unknown customer number is entered, a dialog will come
+*                up asking you if you want to add a new customer.  If you
+*                selecte the Yes button, the customer form (in stcusj.Wfm)
+*                will be opened, so a new customer can be added.
+*
+*  PARAMETERS:   None
+*
+*  CALLS:        ARDRECS.mnu       (Menu file)
+*                Buttons.cc       (Custom controls file)
+*                stcusj.Wfm     (Form for displaying customer information)
+*                ARDRECS.qbe       (View of tables)
+*
+*  USAGE:        DO ARDRECS.WFM    && Note that you can also DO stcusj.Wfm
+*
+*******************************************************************************
+#include <Messdlg.h>
+shell(.F.)
+create session
+set talk off
+*ET DESIGN OFF
+*if .not. user() = "WYCLIFFE"
+_app.FrameWin.Visible = .F.
+set design off
+*ENDIF
+_app.FrameWin.Text = "ARDRECS"
+set ldCheck off                        && To avoid language driver conflicts
+*SET DBTYPE TO PARADOX
+SET CUAENTER OFF
+SET CENTURY ON
+SET DATE TO BRITISH
+** END HEADER -- do not remove this line*
+* Generated on 11/02/2021
+*
+parameter bUser,bLevel,blDoc13,blAdmin,bModal
+local f
+f = new ARDRECSFORM()
+if (bModal)
+   f.mdi = .F. && ensure not MDI
+   f.ReadModal()
+else
+   f.Open()
+endif
+CLASS ARDRECSFORM OF FORM
+   Set Procedure To BUTTONS.CC additive
+   this.Metric = 6  // Pixels
+   this.MDI = .F.
+   this.OnClose = CLASS::ONCLOSE
+   this.ColorNormal = "N+"
+   this.Text = "CUSTOMER RECEIPTS -- View Mode"
+   this.CanClose = CLASS::FORM_CANCLOSE
+   this.View = "ARDRECS.QBE"
+   this.WindowState = 2
+   this.MenuFile = "ARDRECS.MNU"
+   this.Left = 0
+   this.MousePointer = 1
+   this.Top = 3
+   this.Moveable = .F.
+   this.Sizeable = .F.
+   this.Maximize = .F.
+   this.Minimize = .F.
+   this.Height = 339
+   this.EscExit = .F.
+   this.Width = 659
+
+   DEFINE TEXTLABEL TEXT9 OF THIS;
+       PROPERTY;
+       BorderStyle 7,;
+         FontSize 12,;
+         FontName "Verdana",;
+         ColorNormal "R+/W",;
+         Text "No.:",;
+         Top 4,;
+         Height 21,;
+         Width 54,;
+       FontBold .T.,;
+       AlignHorizontal 1,;
+       AlignVertical 1
+
+   DEFINE ENTRYFIELD ORDERNOENTRY OF THIS;
+       PROPERTY;
+         FontSize 12,;
+         FontName "MS Sans Serig",;
+         ColorNormal "R+/W",;
+         Enabled .F.,;
+         ColorHighLight "GB+/W",;
+         DataLink "ARDRECS->ORDER_NO",;
+         Left 60,;
+         Top 4,;
+         Height 21,;
+         Width 63,;
+       FontBold .T.
+
+   DEFINE TEXTLABEL TEXT2 OF THIS;
+       PROPERTY;
+       BorderStyle 7,;
+         FontSize 12,;
+         FontName "Verdana",;
+         ColorNormal "R+/W",;
+         Text "Date:",;
+         Left 128,;
+         Height 25,;
+         Width 64,;
+       FontBold .T.,;
+       AlignHorizontal 1,;
+       AlignVertical 1
+
+   DEFINE SPINBOX SDATE OF THIS;
+       PROPERTY;
+         FontSize 12,;
+         ColorNormal "R+/W",;
+         Enabled .F.,;
+         ColorHighLight "W+/N",;
+         DataLink "ARDRECS->order_date",;
+         Left 192,;
+         Rangemin {11/02/2021},;
+         Top 3,;
+         Rangemax {22/05/2021},;
+         ValidErrorMsg "Date out of Range",;
+         Height 21,;
+         Width 120,;
+       FontName "MS Sans Serif",;
+       FontBold .T.
+
+   DEFINE TEXTLABEL TEXT10 OF THIS;
+       PROPERTY;
+       BorderStyle 7,;
+         FontSize 12,;
+         FontName "Verdana",;
+         ColorNormal "0x400000/W",;
+         Text "Cashier:",;
+         Left 404,;
+         Height 28,;
+         Width 76,;
+       FontBold .T.,;
+       AlignHorizontal 1,;
+       AlignVertical 1
+
+   DEFINE COMBOBOX SOFF OF THIS;
+       PROPERTY;
+         DataSource "FIELD fgoffs->NAME",;
+         FontSize 10,;
+         ColorNormal "0xc08000/W",;
+         Enabled .F.,;
+         DataLink "ARDRECS->ANAME",;
+         Left 492,;
+         MousePointer 1,;
+         OnChange CLASS::SEMP1_ONCHANGE,;
+         Top 2,;
+         Height 24,;
+         Style 1,;
+         Width 228,;
+       FontName "MS Sans Serif",;
+       FontBold .T.
+
+   DEFINE TEXTLABEL TEXT4 OF THIS;
+       PROPERTY;
+       BorderStyle 7,;
+         FontSize 11,;
+         FontName "Verdana",;
+         ColorNormal "0x400000/W",;
+         Text "Customer:",;
+         Left 12,;
+         Top 30,;
+         Height 21,;
+         Width 108,;
+       FontBold .T.,;
+       AlignHorizontal 1,;
+       AlignVertical 1
+
+   DEFINE COMBOBOX SCUST OF THIS;
+       PROPERTY;
+         DataSource "FIELD FRIGTMES->NAME",;
+         FontSize 10,;
+         FontBold .F.,;
+         ColorNormal "0x400040/W+",;
+         Enabled .F.,;
+         DataLink "ARDRECS->CUSTOMER",;
+         Left 120,;
+         MousePointer 1,;
+         OnChange CLASS::SCUST_ONCHANGE,;
+         Top 30,;
+         Height 24,;
+         Style 1,;
+         Width 600,;
+       FontName "MS Sans Serif"
+
+   DEFINE TEXTLABEL TEXT5 OF THIS;
+       PROPERTY;
+       BorderStyle 7,;
+         FontSize 12,;
+         FontName "Verdana",;
+         ColorNormal "0x400000/0xffff80",;
+         Text "NetTotal:",;
+         Left 12,;
+         Top 54,;
+         Height 23,;
+         Width 144,;
+       FontBold .T.,;
+       AlignHorizontal 1,;
+       AlignVertical 1
+
+   DEFINE ENTRYFIELD SHTOTAL OF THIS;
+       PROPERTY;
+         FontSize 12,;
+         FontName "arial",;
+         ColorNormal "0x400000/0xffff80",;
+         Enabled .F.,;
+         ColorHighLight "G+/0xc08000",;
+         DataLink "ARDRECS->NETT_TOTAL",;
+         Left 168,;
+         Picture "99,999,999,999.99",;
+         OnChange CLASS::SHTOTAL_ONCHANGE,;
+         Top 54,;
+         Height 23,;
+         Width 162,;
+       FontBold .T.
+
+   DEFINE TEXTLABEL TEXT3 OF THIS;
+       PROPERTY;
+       BorderStyle 7,;
+         FontSize 12,;
+         FontName "Verdana",;
+         ColorNormal "0x400000/W",;
+         Text "Ref.:",;
+         Left 335,;
+         Top 54,;
+         Height 23,;
+         Width 73,;
+       FontBold .T.,;
+       AlignHorizontal 1,;
+       AlignVertical 1
+
+   DEFINE ENTRYFIELD SSERIAL OF THIS;
+       PROPERTY;
+         FontSize 12,;
+         FontName "MS Sans Serig",;
+         ColorNormal "0x400000/W",;
+         Enabled .F.,;
+         ColorHighLight "G+/N",;
+         DataLink "ARDRECS->SERIALNO",;
+         Left 408,;
+         OnChange CLASS::SSERIAL_ONCHANGE,;
+         Top 54,;
+         Function "!",;
+         Height 23,;
+         Width 228,;
+       FontBold .T.
+
+   DEFINE RECTANGLE SPRICING OF THIS;
+       PROPERTY;
+         FontSize 12,;
+         ColorNormal "N/0xc8d0d8",;
+         Text "Payment for",;
+         Left 12,;
+         Top 83,;
+         Height 51,;
+         Width 636,;
+       FontName "MS Sans Serif",;
+       FontBold .T.
+
+   DEFINE RADIOBUTTON SINCL OF THIS;
+       PROPERTY;
+         OnGotFocus CLASS::SINCL_ONGOTFOCUS,;
+         Group .T.,;
+         FontSize 11,;
+         Text "Invoice",;
+         Enabled .F.,;
+         DataLink "ARDRECS->PAYTYPE",;
+         Left 24,;
+         Top 104,;
+         Height 19,;
+         Width 84,;
+       FontName "MS Sans Serif",;
+       FontBold .T.
+
+   DEFINE RADIOBUTTON RADIOBUTTON1 OF THIS;
+       PROPERTY;
+         OnGotFocus CLASS::RADIOBUTTON1_ONGOTFOCUS,;
+         Group .F.,;
+         FontSize 11,;
+         Text "Deposit",;
+         Enabled .F.,;
+         DataLink "ARDRECS->PAYTYPE",;
+         Left 120,;
+         Top 104,;
+         Height 19,;
+         Width 84,;
+       FontName "MS Sans Serif",;
+       FontBold .T.
+
+   DEFINE RADIOBUTTON SEQUITY OF THIS;
+       PROPERTY;
+         OnGotFocus CLASS::SEQUITY_ONGOTFOCUS,;
+         Group .F.,;
+         FontSize 11,;
+         Text "Ownequity",;
+         Enabled .F.,;
+         DataLink "ARDRECS->PAYTYPE",;
+         Left 228,;
+         Top 104,;
+         Height 19,;
+         Width 108,;
+       FontName "MS Sans Serif",;
+       FontBold .T.
+
+   DEFINE RADIOBUTTON SLOAN OF THIS;
+       PROPERTY;
+         OnGotFocus CLASS::SLOAN_ONGOTFOCUS,;
+         Group .F.,;
+         FontSize 11,;
+         Text "Loan",;
+         Enabled .F.,;
+         DataLink "ARDRECS->PAYTYPE",;
+         Left 348,;
+         Top 104,;
+         Height 19,;
+         Width 72,;
+       FontName "MS Sans Serif",;
+       FontBold .T.
+
+   DEFINE RADIOBUTTON SCAPITAL OF THIS;
+       PROPERTY;
+         OnGotFocus CLASS::SCAPITAL_ONGOTFOCUS,;
+         Group .F.,;
+         FontSize 11,;
+         Text "Capital",;
+         Enabled .F.,;
+         DataLink "ARDRECS->PAYTYPE",;
+         Left 432,;
+         Top 104,;
+         Height 19,;
+         Width 72,;
+       FontName "MS Sans Serif",;
+       FontBold .T.
+
+   DEFINE RECTANGLE RECTANGLE1 OF THIS;
+       PROPERTY;
+         FontSize 12,;
+         ColorNormal "N/0xc8d0d8",;
+         Text "Payment Method",;
+         Left 12,;
+         Top 142,;
+         Height 51,;
+         Width 708,;
+       FontName "MS Sans Serif",;
+       FontBold .T.
+
+   DEFINE RADIOBUTTON SCASH OF THIS;
+       PROPERTY;
+         OnGotFocus CLASS::SCASH_ONGOTFOCUS,;
+         Group .T.,;
+         FontSize 11,;
+         Text "Cash",;
+         Enabled .F.,;
+         DataLink "ARDRECS->PAY_METHOD",;
+         Left 24,;
+         Top 163,;
+         Height 19,;
+         Width 60,;
+       FontName "MS Sans Serif",;
+       FontBold .T.
+
+   DEFINE RADIOBUTTON RADIOBUTTON3 OF THIS;
+       PROPERTY;
+         OnGotFocus CLASS::RADIOBUTTON3_ONGOTFOCUS,;
+         Group .F.,;
+         FontSize 11,;
+         Text "Cheque",;
+         Enabled .F.,;
+         DataLink "ARDRECS->PAY_METHOD",;
+         Left 108,;
+         Top 163,;
+         Height 19,;
+         Width 72,;
+       FontName "MS Sans Serif",;
+       FontBold .T.
+
+   DEFINE RADIOBUTTON RADIOBUTTON5 OF THIS;
+       PROPERTY;
+         OnGotFocus CLASS::RADIOBUTTON5_ONGOTFOCUS,;
+         Group .F.,;
+         FontSize 11,;
+         Text "Directcredit",;
+         Enabled .F.,;
+         DataLink "ARDRECS->PAY_METHOD",;
+         Left 192,;
+         Top 163,;
+         Height 19,;
+         Width 108,;
+       FontName "MS Sans Serif",;
+       FontBold .T.
+
+   DEFINE RADIOBUTTON SDDEPOSIT OF THIS;
+       PROPERTY;
+         OnGotFocus CLASS::SDDEPOSIT_ONGOTFOCUS,;
+         Group .F.,;
+         FontSize 11,;
+         Text "Directdepsit",;
+         Enabled .F.,;
+         DataLink "ARDRECS->PAY_METHOD",;
+         Left 312,;
+         Top 163,;
+         Height 19,;
+         Width 108,;
+       FontName "MS Sans Serif",;
+       FontBold .T.
+
+   DEFINE RADIOBUTTON SMOB OF THIS;
+       PROPERTY;
+         OnGotFocus CLASS::SMOB_ONGOTFOCUS,;
+         Group .F.,;
+         FontSize 11,;
+         Text "M-Money",;
+         Enabled .F.,;
+         DataLink "ARDRECS->PAY_METHOD",;
+         Left 444,;
+         Top 163,;
+         Height 19,;
+         Width 108,;
+       FontName "MS Sans Serif",;
+       FontBold .T.
+
+   DEFINE RADIOBUTTON SFASSET OF THIS;
+       PROPERTY;
+         OnGotFocus CLASS::SFASSET_ONGOTFOCUS,;
+         Group .F.,;
+         FontSize 11,;
+         Text "Assets",;
+         Enabled .F.,;
+         DataLink "ARDRECS->PAY_METHOD",;
+         Left 564,;
+         Top 163,;
+         Height 19,;
+         Width 108,;
+       FontName "MS Sans Serif",;
+       FontBold .T.
+
+   DEFINE TEXTLABEL TEXT1 OF THIS;
+       PROPERTY;
+       BorderStyle 7,;
+         FontSize 11,;
+         FontName "Verdana",;
+         ColorNormal "0x400000/W",;
+         Text "Vendor:",;
+         Left 12,;
+         Top 198,;
+         Height 21,;
+         Width 96,;
+       FontBold .T.,;
+       AlignHorizontal 1,;
+       AlignVertical 1
+
+   DEFINE COMBOBOX SVENDOR OF THIS;
+       PROPERTY;
+         DataSource "FIELD VENNAMES->NAME",;
+         FontSize 10,;
+         FontBold .F.,;
+         ColorNormal "0x400040/W+",;
+         Enabled .F.,;
+         DataLink "ARDRECLN->VNAME",;
+         Left 120,;
+         MousePointer 1,;
+         OnChange CLASS::SVENDOR_ONCHANGE,;
+         Top 198,;
+         Height 24,;
+         Style 1,;
+         Width 600,;
+       FontName "MS Sans Serif"
+
+   DEFINE TEXTLABEL TEXT8 OF THIS;
+       PROPERTY;
+       BorderStyle 7,;
+         FontSize 12,;
+         FontName "Verdana",;
+         ColorNormal "N/W",;
+         Text "Total Receipts:",;
+         Left 12,;
+         Top 220,;
+         Height 26,;
+         Width 144,;
+       FontBold .T.,;
+       AlignHorizontal 1,;
+       AlignVertical 1
+
+   DEFINE ENTRYFIELD SRECT OF THIS;
+       PROPERTY;
+         FontSize 12,;
+         ColorNormal "N/W",;
+         Enabled .F.,;
+         ColorHighLight "0x40/W",;
+         DataLink "ardrecln->rec_total",;
+         Left 192,;
+         Picture "9,999,999,999.99",;
+         OnChange CLASS::SRECT_ONCHANGE,;
+         Top 220,;
+         Height 26,;
+         Width 180,;
+       FontName "MS Sans Serif",;
+       FontBold .T.
+
+   DEFINE TEXTLABEL TEXT7 OF THIS;
+       PROPERTY;
+       BorderStyle 7,;
+         FontSize 12,;
+         FontName "Verdana",;
+         ColorNormal "0x400000/0xffff80",;
+         Text "Document Total:",;
+         Left 385,;
+         Top 224,;
+         Height 25,;
+         Width 168,;
+       FontBold .T.,;
+       AlignHorizontal 1,;
+       AlignVertical 1
+
+   DEFINE ENTRYFIELD STOTAL OF THIS;
+       PROPERTY;
+         FontSize 12,;
+         FontName "arial",;
+         ColorNormal "0x400000/0xffff80",;
+         Enabled .F.,;
+         ColorHighLight "G+/0xc08000",;
+         DataLink "ARDRECS->TOTAL",;
+         Left 564,;
+         Picture "99,999,999,999.99",;
+         Top 224,;
+         Height 25,;
+         Width 156,;
+       FontBold .T.
+
+   DEFINE RECTANGLE RECTANGLE3 OF THIS;
+       PROPERTY;
+         FontSize 12,;
+         ColorNormal "N/0xc8d0d8",;
+         Text "Select Charge Account",;
+         Left 12,;
+         Top 262,;
+         Height 43,;
+         Width 708,;
+       FontName "MS Sans Serif",;
+       FontBold .T.
+
+   DEFINE COMBOBOX SCREDIT OF THIS;
+       PROPERTY;
+         DataSource "FIELD fgcodds->NAME",;
+         FontSize 10,;
+         ColorNormal "0xc08000/W",;
+         Enabled .F.,;
+         DataLink "ARDRECS->BNAME",;
+         Left 24,;
+         MousePointer 1,;
+         OnChange CLASS::SCREDIT_ONCHANGE,;
+         Top 279,;
+         Height 24,;
+         Style 1,;
+         Width 672,;
+       FontName "MS Sans Serif",;
+       FontBold .T.
+
+   DEFINE TEXTLABEL TEXT11 OF THIS;
+       PROPERTY;
+       BorderStyle 7,;
+         FontSize 12,;
+         FontName "Verdana",;
+         ColorNormal "N/W",;
+         Text "Charge Amount:",;
+         Left 12,;
+         Top 305,;
+         Height 26,;
+         Width 168,;
+       FontBold .T.,;
+       AlignHorizontal 1,;
+       AlignVertical 1
+
+   DEFINE ENTRYFIELD SSVC OF THIS;
+       PROPERTY;
+         FontSize 12,;
+         ColorNormal "N/W",;
+         Enabled .F.,;
+         ColorHighLight "0x40/W",;
+         DataLink "ARDRECLN->SVC_TOTAL",;
+         Left 192,;
+         Picture "9,999,999,999.99",;
+         OnChange CLASS::SSVC_ONCHANGE,;
+         Top 305,;
+         Height 26,;
+         Width 180,;
+       FontName "MS Sans Serif",;
+       FontBold .T.
+
+   DEFINE RECTANGLE RECTANGLE2 OF THIS;
+       PROPERTY;
+         FontSize 12,;
+         ColorNormal "N/0xc8d0d8",;
+         Text "Select Debit Account",;
+         Left 12,;
+         Top 347,;
+         Height 43,;
+         Width 708,;
+       FontName "MS Sans Serif",;
+       FontBold .T.
+
+   DEFINE COMBOBOX SBANKA OF THIS;
+       PROPERTY;
+         DataSource "FIELD FGCOD->NAME",;
+         FontSize 10,;
+         ColorNormal "0xc08000/W",;
+         Enabled .F.,;
+         DataLink "ARDRECLN->BNAME",;
+         Left 24,;
+         MousePointer 1,;
+         OnChange CLASS::SBANKA_ONCHANGE,;
+         Top 364,;
+         Height 24,;
+         Style 1,;
+         Width 672,;
+       FontName "MS Sans Serif",;
+       FontBold .T.
+
+   DEFINE TEXTLABEL TEXT6 OF THIS;
+       PROPERTY;
+       BorderStyle 7,;
+         FontSize 10,;
+         FontName "Verdana",;
+         ColorNormal "N/W",;
+         Text "Chq No/Card Holder Name for Top Up:",;
+         Left 12,;
+         Top 398,;
+         Height 26,;
+         Width 300,;
+       FontBold .T.,;
+       AlignHorizontal 1,;
+       AlignVertical 1
+
+   DEFINE ENTRYFIELD SREF OF THIS;
+       PROPERTY;
+         FontSize 10,;
+         FontName "arial",;
+         ColorNormal "0x400000/W",;
+         Enabled .F.,;
+         ColorHighLight "G+/N",;
+         DataLink "ardrecln->REF",;
+         Left 312,;
+         OnChange CLASS::SREF_ONCHANGE,;
+         Top 398,;
+         Function "!",;
+         Height 26,;
+         Width 384,;
+       FontBold .T.
+
+   DEFINE TEXTLABEL TEXT14 OF THIS;
+       PROPERTY;
+       BorderStyle 7,;
+         FontSize 12,;
+         FontName "Verdana",;
+         ColorNormal "N/W",;
+         Text "DL Total:",;
+         Left 372,;
+         Top 424,;
+         Height 26,;
+         Width 144,;
+       FontBold .T.,;
+       AlignHorizontal 1,;
+       AlignVertical 1
+
+   DEFINE ENTRYFIELD SDTOTAL OF THIS;
+       PROPERTY;
+         FontSize 12,;
+         ColorNormal "N/W",;
+         Enabled .F.,;
+         ColorHighLight "0x40/W",;
+         DataLink "ardrecln->TOTAL",;
+         Left 522,;
+         Picture "9,999,999,999.99",;
+         OnChange CLASS::SDTOTAL_ONCHANGE,;
+         Top 424,;
+         Height 26,;
+         Width 210,;
+       FontName "MS Sans Serif",;
+       FontBold .T.
+
+   DEFINE PUSHBUTTON FIRSTORDERBUTTON OF THIS;
+       PROPERTY;
+         Group .F.,;
+         FontSize 12,;
+         ColorNormal "0x40/W",;
+         Text "First",;
+         Left 42,;
+         OnClick CLASS::GO_TOP,;
+         Top 588,;
+         Height 26,;
+         Width 120,;
+       FontName "MS Sans Serif",;
+       FontBold .T.
+
+   DEFINE PUSHBUTTON LASTORDERBUTTON OF THIS;
+       PROPERTY;
+         Group .F.,;
+         FontSize 12,;
+         ColorNormal "0x40/W",;
+         Text "Last",;
+         Left 192,;
+         OnClick CLASS::GO_LAST,;
+         Top 588,;
+         Height 26,;
+         Width 120,;
+       FontName "MS Sans Serif",;
+       FontBold .T.
+
+   DEFINE PREVBUTTON PREVORDERBUTTON OF THIS;
+       PROPERTY;
+         Group .T.,;
+         FontSize 12,;
+         ColorNormal "0x40/W",;
+         Text "Previous",;
+         Left 342,;
+         OnClick CLASS::PREVIOUS,;
+         Top 588,;
+         Height 26,;
+         Width 120,;
+       FontName "MS Sans Serif",;
+       FontBold .T.
+
+   DEFINE NEXTBUTTON NEXTORDERBUTTON OF THIS;
+       PROPERTY;
+         Default .T.,;
+         Group .F.,;
+         FontSize 12,;
+         ColorNormal "0x40/W",;
+         Text "Next",;
+         Left 492,;
+         OnClick CLASS::NEXT,;
+         Top 588,;
+         Height 26,;
+         Width 120,;
+       FontName "MS Sans Serif",;
+       FontBold .T.
+
+   DEFINE BROWSE CHILDBROWSE OF THIS;
+       PROPERTY;
+         FontSize 9,;
+         Text "DETAIL LINES",;
+         ColorNormal "R/W",;
+         ShowDeleted .F.,;
+         Delete .F.,;
+         ColorHighLight "R/BTNFACE",;
+         Fields "ardrecln->STOCK_NO\H=" + '"' + "NO." + '"' + "\4\P=" + '"' + "99" + '"' + "\R\C=" + '"' + "N/0xffff80" + '"' + ",ardrecln->REF\H=" + '"' + "REF NO." + '"' + "\10\R\C=" + '"' + "N/0xffff80" + '"' + ",ardrecln->TOTAL\H=" + '"' + "AMOUNT" + '"' + "\18\P=" + '"' + "99,999,999,999.99" + '"' + "\R\C=" + '"' + "N/0xffff80" + '"' + ",cracc = ARDRECS->BCOY+ARDRECS->BDIV+ARDRECS->bcen+ARDRECS->BSTO+' -'+ARDRECS->BTYP+ARDRECS->BCLA+ARDRECS->BCOD\H=" + '"' + "Cr Acct" + '"' + "\15,dracc = ARDRECS->BCOY+ARDRECS->BDIV+ARDRECS->BCEN+ARDRECS->BSTO+' - '+ARDRECS->BTYP+ARDRECS->BCLA+ARDRECS->BCOD\H=" + '"' + "Dr Acct" + '"' + "\15,Charge = ARDRECS->COY+ARDRECS->DIV+ARDRECS->CEN+ARDRECS->STO+' - '+ARDRECS->TYP+ARDRECS->CLA+ARDRECS->COD\H=" + '"' + "Charge Acct" + '"' + "\15,ARDRECLN->SVC_TOTAL\H=" + '"' + "Charge Amt" + '"' + "\15\P=" + '"' + "99,999,999,999.99" + '"' + "\R,Nettamt = ARDRECS->NETT_TOTAL\H=" + '"' + "Nett Amt" + '"' + "\15\P=" + '"' + "99,999,999,999.99" + '"',;
+         Left 36,;
+         Modify .F.,;
+         CUATab .T.,;
+         ScrollBar 1,;
+         Alias "ardrecln",;
+         Top 458,;
+         ShowRecNo .F.,;
+         Append .F.,;
+         Height 111,;
+         Width 780,;
+       FontName "MS Sans Serif"
+
+   procedure Open
+   ****************************************************************************
+   private orderNoField
+      *on error DO ddeerr WITH ERROR(), MESSAGE(),;
+   PROGRAM(), LINENO()
+                    set safety off
+
+
+   FORM.BLADMIN = BLADMIN
+   FORM.BLUSER = BUSER
+   FORM.BLEVEL = BLEVEL
+   form.BLDOC13 = BLDOC13
+    IF EMPTY(FORM.BLUSER) .OR. EMPTY(FORM.BLEVEL)
+   QUIT
+   ENDIF
+
+                     SET REPROCESS TO 10
+                     SELECT FRIGTMES2
+                     SET ORDER TO FRIGHTER
+                     SELECT FGVISNOS
+                     SET ORDER TO MKEY
+                     select ardrecsn
+    go top
+    if eof()
+    append blank
+    replace order_no with "0"
+    endif
+                         select ardredup
+    set order to orderdate
+   select fgcods
+   set order to mkey
+                  select ardrecln3
+                  set order to order_no
+                  select fgcod
+                  set order to name
+                     SELECT ardrecs3
+                     SET ORDER TO ORDER_NO
+                     GO BOTTOM
+   SET SAFETY ON
+   select st15f
+   set order to mkey
+   GO TOP
+   select vennames
+   set order to name
+   select fgcodds
+   set order to name
+     select frigtmes
+   set order to name
+
+   select ardrecln
+   go top
+   if .not. eof()
+   if empty(order_no)
+   delete
+   endif
+   endif
+   select ARDRECS
+   go top
+   if .not. eof()
+   if empty(order_no)
+   delete
+   endif
+   endif
+      select fgoffs
+   set order to name
+    select ARDRECS3
+    SET ORDER TO ORDER_NO
+   go bottom
+    form.maxOrder = order_no
+   if type("form.init") = "U"
+      form.init = .T.
+    ENDIF
+   SELECT FGCOY
+   GO TOP
+   FORM.PSHIFTDATE = DATE()
+   FORM.PSHIFTNO = "0"
+   FORM.PSHIFTID = "0"
+   form.pfc = .f.
+   IF POSPOST = "Yes"
+    FORM.PSHIFTDATE = st15f->shift_date
+   FORM.PSHIFTNO = st15f->shift_no
+   SELECT FGCOY
+   REPLACE START_DATE WITH ST15F->SHIFT_DATE
+   REPLACE END_DATE WITH START_DATE
+   FORM.PSHIFTID = st15f->shift_id
+   form.pfc = .t.
+
+   endif
+   if .not. form.pfc  && not forecourt
+      if .not. empty(ardrecs3->order_date)
+      form.PSHIFTDATE = ardrecs3->order_date
+      select fgcoy
+      replace start_date with FORM.PSHIFTDATE
+      else
+      form.PSHIFTDATE = fgcoy->start_date
+      if empty(form.PSHIFTDATE)
+       InformationMessage("Missing Data Entry Dates Range in the company info file.", "Sorry")
+       quit
+       endif
+
+      endif
+   endif
+
+   FORM.PDIV = ""
+   FORM.PCOY = ""
+   FORM.OKEXIT = .F.
+   FORM.PVATPRICE = "Inclusive"
+   FORM.PCEN = ""
+    form.pcashierno = ""
+    form.pemp1 = ""
+    form.pf1name = ""
+    FORM.PSERVED = ""
+   FORM.PSTO = ""
+   form.pclass = ""
+   FORM.PTYP = ""
+   form.pcard = "B/V"
+   form.ptypname = ""
+   form.pclaname = ""
+   form.pcodname = ""
+   form.pcod = ""
+   form.pf1dr = "No"
+
+
+   *
+
+
+   FORM.PCLA = ""
+      set skip to                     && ARDRECS.qbe contains set skip to ardrecln
+      set exact off                   && the .qbe file contains SET EXACT ON
+
+      set procedure to Sampproc.prg additive
+
+      form.inEditMode = .F.           && indicator of view/edit state
+      form.changesMade = .F.          && indicator of changes made to field values
+      form.previousRecord = .F.       && Save record number when appending
+      form.pspdiv = "1"
+      form.pspdivname = "Depot"
+      *** do calculations in another area so form doesn't get updated
+         select ARDRECS
+      set order to order_no
+
+
+        && max value for key field -- for creating
+
+          local lmax
+
+       ***
+       select ARDRECSL
+       go top
+       if eof()
+       append blank
+       endif
+
+   form.Psdate = FORM.PSHIFTDATE
+   form.pserialno = ""
+          select ARDRECS
+       go top
+
+      *** Open table for calculating totals and balance due in another work area
+      *** so that datalinks are not affected by record movements
+
+       select ARDRECS
+      set relation to order_no into ardrecln2 constrain integrity additive
+
+      ***
+
+
+   go top
+   refresh
+    form::Open()
+     shell(.F.)
+
+
+   ****************************************************************************
+
+   procedure OnClose
+   ****************************************************************************
+   *  form.CheckCommit(form.inEditMode)
+      if form.inEditMode
+      form.ViewEdit()
+   endif
+          && Close customer form if it exists
+                                             && leave shell(.F.)
+        shell(.f.)
+   *  endif
+   close procedure SampProc.prg
+    if .not. empty(ardrecs->order_no)
+   select ardredup
+   seek ardrecs->order_no+dtos(ardrecs->order_date)
+   if found() .and. .not. empty(post_date)
+   select ardrecs
+   replace post_date with date()
+   endif
+   endif
+
+   close databases
+   clear program
+   do arpDRECS.prg
+   form.close()
+    close databases
+     ****************************************************************************
+
+     procedure ChangesMade
+
+   * Indicate that changes have been made to current record.
+   ****************************************************************************
+
+   form.changesMade = .T.
+
+   procedure BrowseChangesMade
+   ****************************************************************************
+   local t,t2,t3,t4,T5,t6,t7,t8
+     if form.changesmade = .t.
+   select ardrecln
+   IF .NOT. EOF()
+   *  form.changesMade = .T.
+     go recno("ardrecln") in ardrecln    && Make sure change is posted
+
+   select ardrecln2  && recalculate totals in other workarea
+   calculate sum(ardrecln2->total), sum(ardrecln2->invtotal), sum(ardrecln2->paytotal),;
+   sum(ardrecln2->deptotal) to t, t2,t3,t4
+   FORM.STOTAL.VALUE = t
+           ENDIF
+     SELECT ARDRECS
+     REPLACE TOTAL WITH T
+   endif
+
+
+
+   procedure Next
+   ****************************************************************************
+
+   form.CheckCommit(form.inEditMode)
+   if .not. empty(ARDRECS->order_no)
+   select ardredup
+   seek ARDRECS->order_no+dtos(ARDRECS->order_date)
+   if found() .and. .not. empty(post_date)
+   select ARDRECS
+   replace post_date with date()
+   flush
+   endif
+   endif
+   form.root.order.viewEdit.enabled = .t.
+   form.root.order.ADDorder.enabled = .t.
+    form.root.order.ADDline.enabled = .t.
+
+
+   select ARDRECS
+   if .not. eof()
+      NEXTBUTTON::OnClick()
+   endif
+   form.root.file.exit.enabled =   .t.
+
+   ****************************************************************************
+
+   procedure Previous
+   ****************************************************************************
+
+   form.CheckCommit(form.inEditMode)
+   if .not. empty(ARDRECS->order_no)
+   select ardredup
+   seek ARDRECS->order_no+dtos(ARDRECS->order_date)
+   if found() .and. .not. empty(post_date)
+   select ARDRECS
+   replace post_date with date()
+   flush
+   endif
+   endif
+   form.root.order.viewEdit.enabled = .t.
+   form.root.order.ADDorder.enabled = .t.
+    form.root.order.ADDline.enabled = .t.
+
+   select ARDRECS
+   if .not. bof()
+   PREVBUTTON::OnClick()
+   endif
+     form.root.file.exit.enabled =   .t.
+    ****************************************************************************
+
+   procedure CheckCommit (newInEditMode)
+
+    * Finish transaction, if it has been started.
+    ****************************************************************************
+    private orderField, changesMade,prcoy,prdiv,prcen,prsto,prtyp,prcla,prcod,prqty,;
+    pcoy,pdiv,pcen,psto,ptyp,pcla,pcod
+
+
+    changesMade = form.changesMade
+     if form.changesMade
+       orderField = field(1)                  && Field Order_no
+            *commit()
+            *on error DO ddeerr WITH ERROR(), MESSAGE(),;
+   PROGRAM(), LINENO()
+          if form.inEditMode .and. newInEditMode
+         * begintrans()
+               *on error DO transerr WITH ERROR(), MESSAGE(),;
+   PROGRAM(), LINENO()
+       endif
+       form.changesMade = .F.
+    endif
+
+
+    if form.inEditMode <> newInEditMode
+       if newInEditMode                       && Going to Edit mode
+         * begintrans()
+            *on error DO transerr WITH ERROR(), MESSAGE(),;
+   PROGRAM(), LINENO()
+       else                                   && Going to View mode
+          if .not. changesMade
+             *rollback()
+            *on error   DO ddeerr WITH ERROR(), MESSAGE(),;
+   PROGRAM(), LINENO()
+          endif
+       endif
+       form.inEditMode = newInEditMode
+    endif
+   *   select ARDRECS
+    ****************************************************************************
+
+   procedure ViewEdit
+   ****************************************************************************
+   local inEditMode, control, editMenu
+
+   editMenu = form.root.ORDER.viewEdit
+   *** If editing is completed, close transaction, otherwise open a transaction
+   if form.inEditMode                           && Change to View mode
+      form.checkChanged(.F.)
+      editMenu.text = "&Edit"
+      editMenu.shortcut = "Ctrl-E"
+      editMenu.statusMessage = "Edit data."
+      form.root.order.deleteline.enabled = .F.
+   *     form.root.order.REPLACECUST.enabled = .f.
+      form.CheckCommit(.F.)                     && Check transaction and
+      form.text = "CUSTOMER RECEIPTS -- View Mode"         && change mode to View
+      form.childBrowse.modify = .F.
+      form.statusMessage = "Select RECEIPT - Edit menu choice to " +;
+                           "edit/delete data."
+   else                                         && Change to Edit mode
+      editMenu.text = "&View"
+      editMenu.shortcut = "Ctrl-E"
+      editMenu.statusMessage = "View data."
+        form.root.order.deleteline.enabled = .t.
+      form.CheckCommit(.T.)                     && Check transaction and
+      form.text = "CUSTOMER RECEIPTS -- Edit Mode"         && change mode to Edit
+      form.childBrowse.modify = .F.
+      form.statusMessage = "In Edit Mode.  " +;
+                           "Select RECEIPT - View menu choice to switch " +;
+                           "to View mode."
+   endif
+   control = form.first
+   inEditMode = form.inEditMode    && so don't have to reference many times
+   do
+      do case
+         case control.name $ "ORDERNOENTRY,cno,TOTINVENTRY,BALDUEENTRY"
+            * these are never editable
+            control.enabled = .F.
+         case .not. control.className $ "BROWSE,NEXTBUTTON,PREVBUTTON,PUSHBUTTON,IMAGE,TEXT"
+            * doesn't make sense to make the above classes enabled/not
+            control.enabled = inEditMode
+         case control.className = "BROWSE"
+            control.Modify = inEditMode
+            control.Delete = inEditMode
+            control.Append = inEditMode
+      endcase
+      control = control.before
+   until control.name = form.first.name
+   form.OrderNoEntry.enabled = .F.          && Key field is always disabled
+   form.childBrowse.append = .F.
+   form.childBrowse.delete = .F.
+    FORM.CHILDBROWSE.MODIFY = .F.
+   form.stotal.enabled = .f.
+    FORM.STOTAL.ENABLED = .F.
+   *   if fgcoy->pospost = "Yes"
+   FORM.SDATE.ENABLED = .F.
+   form.Sdtotal.enabled = .f.
+
+   procedure CheckChanged(callCommit)
+    private control, fieldValue, controlValue, typeText, typeValue
+   if form.inEditMode
+      control = form.activeControl
+      if type("control.datalink") <> "U"
+         fieldValue = control.datalink          && name of table field
+
+         typeText = type("control.text")
+         typeValue = type("control.value")
+         do case
+            case typeValue = "C0"
+               controlValue = control.value
+            case typeValue $ "LU" .and. typeText = "C0"
+               controlValue = control.text
+            otherwise
+               controlValue = Null
+         endcase
+         if controlValue <> &fieldValue
+            form.changesMade = .T.
+         endif
+      endif
+   endif
+   if form.changesMade .and. callCommit
+      CLASS::CheckCommit(form.inEditMode)     && Check transactions
+   endif
+
+   Procedure Go_last
+      form.CheckCommit(form.inEditMode)
+      if .not. empty(ARDRECS->order_no)
+   select ardredup
+   seek ARDRECS->order_no+dtos(ARDRECS->order_date)
+   if found() .and. .not. empty(post_date)
+   select ARDRECS
+   replace post_date with date()
+   flush
+   endif
+   endif
+   form.root.order.viewEdit.enabled = .t.
+   form.root.order.ADDorder.enabled = .t.
+    form.root.order.ADDline.enabled = .t.
+   select ARDRECS
+      go bottom
+   form.root.file.exit.enabled =   .t.
+
+      Procedure Go_Top
+     form.CheckCommit(form.inEditMode)
+     if .not. empty(ARDRECS->order_no)
+   select ardredup
+   seek ARDRECS->order_no+dtos(ARDRECS->order_date)
+   if found() .and. .not. empty(post_date)
+   select ARDRECS
+   replace post_date with date()
+   flush
+   endif
+   endif
+   form.root.order.viewEdit.enabled = .t.
+   form.root.order.ADDorder.enabled = .t.
+    form.root.order.ADDline.enabled = .t.
+
+
+   select ARDRECS
+     go top
+    form.root.file.exit.enabled =   .t.
+
+     Procedure Form_CanClose
+      RETURN IIF(form.changesmade = .F., .F., .T.)
+
+    Procedure SEMP1_ONCHANGE
+         local l1,l2
+
+         l1 = this.value
+         select fgoffs
+         seek l1
+
+           select ARDRECS
+           replace aname with fgoffs->name
+         replace off with fgoffs->off
+         replace cashier_no with fgoffs->cashier_no
+          form.changesmade = .t.
+
+       Procedure SCUST_ONCHANGE
+         select frigtmes
+         seek this.value
+         if found()
+            select ARDRECS
+            replace customer with this.value
+            replace source with frigtmes->source
+             replace ftyp   with frigtmes->ftyp
+              replace pmod   with frigtmes->pmod
+               replace frighter_n with frigtmes->frighter_n
+                replace err_cust with .t.
+                REPLACE MAXSERIAL WITH 0
+                REPLACE SERIALNO WITH ''
+                IF SOURCE = '7' && TOP UP
+                SELECT FRIGTMES2
+                SEEK '3'+'3'+'3'+'0001'
+                IF FOUND() .AND. MAXSERIAL > 0
+                SELECT ARDRECS
+                REPLACE MAXSERIAL WITH FRIGTMES2->MAXSERIAL
+                ENDIF
+                ENDIF
+                else
+            select ARDRECS
+            replace customer with ""
+            replace source with ""
+             replace ftyp   with ""
+              replace pmod   with ""
+               replace frighter_n with ""
+                replace err_cust with .f.
+                REPLACE SERIALNO WITH ''
+                REPLACE MAXSERIAL WITH 0
+                endif
+
+          form.changesmade = .t.
+
+
+    Procedure SREF_OnChange
+        form.changesmade = .t.
+        select ardrecln
+        replace ref with this.value
+        select ardrecs
+
+
+
+   Procedure SDTOTAL_OnChange
+   SELECT ardrecln
+        REPLACE total with  this.value
+        if this.value < 0
+        if (FORM.BLDOC13 .AND. .not. (FORM.BLEVEL = 3  .OR. FORM.BLEVEL = 2)) .or. form.blevel > 4  && TM + DLRS only
+        replace total with 0
+        endif
+        endif
+        form.changesmade = .t.
+        form.browsechangesmade()
+        select ARDRECS
+
+
+
+   Procedure SSERIAL_OnChange
+         form.changesmade = .t.
+         SELECT ARDRECS
+         REPLACE SERIALNO WITH THIS.VALUE
+         PSERIAL = VAL(SERIALNO)
+        PS = '3'
+        PF = '0001'
+        if .not. (form.blevel = 1 .and. FORM.BLADMIN)
+        IF MAXSERIAL > 0
+          SELECT FGVISNOS
+          SEEK PS+PS+PS+PF+STR(PSERIAL)
+          IF FOUND() .AND. .NOT.  EMPTY(ORDER_DATE)
+                 InformationMessage("Receipt No ALREADY USED", "Sorry!")
+                 SELECT ARDRECS
+        replace serialno with ''
+        ELSE
+           IF .NOT. FOUND()
+         InformationMessage("Receipt No Does Not Exist", "Sorry!")
+                 SELECT ARDRECS
+        replace serialno with ''
+        ENDIF
+        ENDIF
+        ENDIF
+        endif
+         select ardrecs
+
+     Procedure SBANKA_ONCHANGE
+      select fgcod
+      seek this.value
+      if found()
+         select fgcods
+         seek fgcod->typ+fgcod->cla+fgcod->cod
+          select ardrecln
+       replace coy with fgcod->coy
+      replace div with fgcod->div
+      replace cen with fgcod->cen
+      replace sto with fgcod->sto
+      replace typ with fgcod->typ
+      replace cla with fgcod->cla
+      replace cod with fgcod->cod
+      REPLACE bNAME WITH THIS.VALUE
+    else
+         select ardrecln
+       replace coy with ""
+      replace div with ""
+      replace cen with ""
+      replace sto with ""
+      replace typ with ""
+      replace cla with ""
+      replace cod with ""
+      REPLACE bNAME WITH ""
+      endif
+     if ardrecs->pay_method = "Cash" .and. .not. (ardrecln->typ='C0' .and. ardrecln->cla='00' .and. ardrecln->cod='01')
+     select ardrecln
+       replace coy with ""
+      replace div with ""
+      replace cen with ""
+      replace sto with ""
+      replace typ with ""
+      replace cla with ""
+      replace cod with ""
+      REPLACE bNAME WITH ""
+      endif
+   if .not. ardrecs->pay_method = "Cash" .and.  (ardrecln->typ='C0' .and. ardrecln->cla='00' .and. ardrecln->cod='01')
+     select ardrecln
+       replace coy with ""
+      replace div with ""
+      replace cen with ""
+      replace sto with ""
+      replace typ with ""
+      replace cla with ""
+      replace cod with ""
+      REPLACE bNAME WITH ""
+      endif
+
+
+       if  ardrecs->pay_method = 'M-Money';
+       .and. .not. (left(fgcods->name,13) = 'M-MPESA FLOAT' .OR. left(fgcods->name,15) = 'M-MPESA CAPITAL')
+      select ardrecln
+       replace coy with ""
+      replace div with ""
+      replace cen with ""
+      replace sto with ""
+      replace typ with ""
+      replace cla with ""
+      replace cod with ""
+      REPLACE bNAME WITH ""
+      endif
+      if (left(fgcods->name,13) = 'M-MPESA FLOAT' .OR. left(fgcods->name,15) = 'M-MPESA CAPITAL') ;
+      .and. .not.  ardrecs->pay_method = 'M-Money'
+      select ardrecln
+       replace coy with ""
+      replace div with ""
+      replace cen with ""
+      replace sto with ""
+      replace typ with ""
+      replace cla with ""
+      replace cod with ""
+      REPLACE bNAME WITH ""
+      endif
+       select ardrecs
+      form.changesmade = .t.
+
+    Procedure SVENDOR_OnChange
+    form.scredit.enabled = .f.
+      select vennames
+      seek this.value
+      if found()
+      select ARDRECLN
+      replace vname with this.value
+      replace vsrce with vennames->vsrce
+      replace vtyp with vennames->vtyp
+      replace vpmod with vennames->vpmod
+      replace vendor_n with vennames->vendor_n
+      replace svc_total with 0
+      else
+       select ARDRECLN
+      replace vname with ""
+      replace vsrce with ""
+      replace vtyp with ""
+      replace vpmod with ""
+      replace vendor_n with ""
+       replace svc_total with 0
+     endif
+     select ardrecs
+     replace typ with ''
+     replace cla with ''
+     replace cod with ''
+     replace coy with ''
+     replace div with ''
+     replace cen with ''
+     replace sto with ''
+     replace name with ''
+     form.changesmade = .t.
+
+   Procedure SCREDIT_OnChange
+     select fgcodds
+      seek this.value
+      if found()
+          select ardrecs
+      replace coy with fgcodds->coy
+      replace div with fgcodds->div
+      replace cen with fgcodds->cen
+      replace sto with fgcodds->sto
+      replace typ with fgcodds->typ
+      replace cla with fgcodds->cla
+      replace cod with fgcodds->cod
+      replace NAME WITH THIS.VALUE
+      else
+        select ardrecs
+      replace coy with ""
+      replace div with ""
+      replace cen with ""
+      replace sto with ""
+      replace typ with ""
+      replace cla with ""
+      replace cod with ""
+      replace NAME WITH ""
+      endif
+      IF PAY_METHOD = 'Assets' .and. paytype = 'Capital'
+       replace coy with ""
+      replace div with ""
+      replace cen with ""
+      replace sto with ""
+      replace typ with ""
+      replace cla with ""
+      replace cod with ""
+      replace NAME WITH ""
+      replace bcoy with fgcodds->coy
+      replace bdiv with fgcodds->div
+      replace bcen with fgcodds->cen
+      replace bsto with fgcodds->sto
+      replace btyp with fgcodds->typ
+      replace bcla with fgcodds->cla
+      replace bcod with fgcodds->cod
+      replace bNAME WITH THIS.VALUE
+      endif
+      IF paytype = 'Capital' .and. .not. (pay_method = 'M-Money' .or. pay_method = 'Assets')
+       replace coy with ""
+      replace div with ""
+      replace cen with ""
+      replace sto with ""
+      replace typ with ""
+      replace cla with ""
+      replace cod with ""
+      replace NAME WITH ""
+      replace bcoy with fgcodds->coy
+      replace bdiv with fgcodds->div
+      replace bcen with fgcodds->cen
+      replace bsto with fgcodds->sto
+      replace btyp with fgcodds->typ
+      replace bcla with fgcodds->cla
+      replace bcod with fgcodds->cod
+      replace bNAME WITH THIS.VALUE
+      endif
+      form.changesmade = .t.
+
+
+   Procedure SLOAN_OnChange
+         form.changesmade = .t.
+
+   Procedure SCASH_OnGotFocus
+      form.changesmade = .t.
+        select ARDRECLN
+        go top
+       replace coy with ""
+      replace div with ""
+      replace cen with ""
+      replace sto with ""
+      replace typ with ""
+      replace cla with ""
+      replace cod with ""
+      replace total with 0
+      REPLACE BNAME WITH ""
+    replace svc_total with 0
+    select ARDRECS
+     replace coy with ""
+      replace div with ""
+      replace cen with ""
+      replace sto with ""
+      replace typ with ""
+      replace cla with ""
+      replace cod with ""
+      replace name with ''
+     form.browsechangesmade()
+       form.CheckCommit(form.inEditMode)
+
+   Procedure RADIOBUTTON3_OnGotFocus
+      form.changesmade = .t.
+       select ARDRECLN
+       go top
+       replace coy with ""
+      replace div with ""
+      replace cen with ""
+      replace sto with ""
+      replace typ with ""
+      replace cla with ""
+      replace cod with ""
+      REPLACE BNAME WITH ""
+    replace total with 0
+    replace svc_total with 0
+    select ARDRECS
+    replace coy with ''
+    replace div with ''
+    replace cen with ''
+    replace sto with ''
+    replace typ with ''
+    replace cla with ''
+    replace cod with ''
+    replace name with ''
+     form.browsechangesmade()
+       form.CheckCommit(form.inEditMode)
+
+   Procedure RADIOBUTTON5_OnGotFocus
+      form.changesmade = .t.
+       select ARDRECLN
+       go top
+       replace total with 0
+       replace coy with ""
+      replace div with ""
+      replace cen with ""
+      replace sto with ""
+      replace typ with ""
+      replace cla with ""
+      replace cod with ""
+      REPLACE BNAME WITH ""
+    replace svc_total with 0
+    select ARDRECS
+    replace coy with ''
+    replace div with ''
+    replace cen with ''
+    replace sto with ''
+    replace typ with ''
+    replace cla with ''
+    replace cod with ''
+    replace name with ''
+     form.browsechangesmade()
+       form.CheckCommit(form.inEditMode)
+
+   Procedure SDDEPOSIT_OnGotFocus
+      form.changesmade = .t.
+       select ARDRECLN
+       go top
+       replace coy with ""
+      replace div with ""
+      replace cen with ""
+      replace sto with ""
+      replace typ with ""
+      replace cla with ""
+      replace cod with ""
+      REPLACE BNAME WITH ""
+    replace total with 0
+    replace svc_total with 0
+    select ARDRECS
+    replace coy with ''
+    replace div with ''
+    replace cen with ''
+    replace sto with ''
+    replace typ with ''
+    replace cla with ''
+    replace cod with ''
+    replace name with ''
+     form.browsechangesmade()
+       form.CheckCommit(form.inEditMode)
+
+   Procedure SINCOM_OnGotFocus
+         form.changesmade = .t.
+
+   Procedure SINCOM_OnGotFocus1
+         form.changesmade = .t.
+
+   Procedure SINCO_OnGotFocus
+    form.changesmade = .t.
+        select ARDRECLN
+       replace coy with ""
+      replace div with ""
+      replace cen with ""
+      replace sto with ""
+      replace typ with ""
+      replace cla with ""
+      replace cod with ""
+      REPLACE BNAME WITH ""
+
+    select ARDRECS
+       form.CheckCommit(form.inEditMode)
+
+   Procedure SINCL_OnGotFocus
+    form.changesmade = .t.
+    form.scredit.enabled = .t.
+      select ARDRECLN
+      replace coy with ""
+      replace div with ""
+      replace cen with ""
+      replace sto with ""
+      replace typ with ""
+      replace cla with ""
+      replace cod with ""
+      REPLACE BNAME WITH ""
+      replace svc_total with 0
+    select ARDRECS
+    replace coy with ""
+      replace div with ""
+      replace cen with ""
+      replace sto with ""
+      replace typ with ""
+      replace cla with ""
+      replace cod with ""
+      REPLACE NAME WITH ""
+    REPLACE BCOY WITH '1'
+    REPLACE BDIV WITH '5'
+    REPLACE BCEN WITH '1'
+    REPLACE BSTO WITH 'A1'
+    REPLACE BTYP WITH 'C0'
+    REPLACE BCLA WITH '10'
+    REPLACE BCOD WITH '00'
+       form.CheckCommit(form.inEditMode)
+
+   Procedure RADIOBUTTON1_OnGotFocus
+   form.changesmade = .t.
+   form.scredit.enabled = .f.
+        select ARDRECLN
+       replace coy with ""
+      replace div with ""
+      replace cen with ""
+      replace sto with ""
+      replace typ with ""
+      replace cla with ""
+      replace cod with ""
+      REPLACE BNAME WITH ""
+    replace svc_total with 0
+    select ARDRECS
+    REPLACE BCOY WITH '1'
+    REPLACE BDIV WITH '5'
+    REPLACE BCEN WITH '1'
+    REPLACE BSTO WITH 'A1'
+    REPLACE BTYP WITH 'L0'
+    REPLACE BCLA WITH '00'
+    REPLACE BCOD WITH '00'
+     replace coy with ""
+      replace div with ""
+      replace cen with ""
+      replace sto with ""
+      replace typ with ""
+      replace cla with ""
+      replace cod with ""
+      replace name with ''
+       form.CheckCommit(form.inEditMode)
+
+   Procedure SEQUITY_OnGotFocus
+   form.changesmade = .t.
+   *form.scredit.enabled = .f.
+        select ARDRECLN
+       replace coy with ""
+      replace div with ""
+      replace cen with ""
+      replace sto with ""
+      replace typ with ""
+      replace cla with ""
+      replace cod with ""
+      REPLACE BNAME WITH ""
+    replace svc_total with 0
+    select ARDRECS
+     replace coy with ""
+      replace div with ""
+      replace cen with ""
+      replace sto with ""
+      replace typ with ""
+      replace cla with ""
+      replace cod with ""
+      REPLACE NAME WITH ""
+    REPLACE BCOY WITH '1'
+    REPLACE BDIV WITH '5'
+    REPLACE BCEN WITH '1'
+    REPLACE BSTO WITH ''
+    REPLACE BTYP WITH ''
+    REPLACE BCLA WITH ''
+    REPLACE BCOD WITH ''
+       form.CheckCommit(form.inEditMode)
+
+   Procedure SLOAN_OnGotFocus
+   form.changesmade = .t.
+   form.scredit.enabled = .f.
+
+        select ARDRECLN
+       replace coy with ""
+      replace div with ""
+      replace cen with ""
+      replace sto with ""
+      replace typ with ""
+      replace cla with ""
+      replace cod with ""
+      REPLACE BNAME WITH ""
+    replace svc_total with 0
+    select ARDRECS
+       replace coy with ""
+      replace div with ""
+      replace cen with ""
+      replace sto with ""
+      replace typ with ""
+      replace cla with ""
+      replace cod with ""
+      REPLACE NAME WITH ""
+    REPLACE BCOY WITH '1'
+    REPLACE BDIV WITH '5'
+    REPLACE BCEN WITH '1'
+    REPLACE BSTO WITH 'A1'
+    REPLACE BTYP WITH 'L0'
+    REPLACE BCLA WITH '00'
+    REPLACE BCOD WITH '00'
+       form.CheckCommit(form.inEditMode)
+
+   Procedure PREPAYMENT_OnGotFocus
+   form.changesmade = .t.
+        select ARDRECLN
+       replace coy with ""
+      replace div with ""
+      replace cen with ""
+      replace sto with ""
+      replace typ with ""
+      replace cla with ""
+      replace cod with ""
+      REPLACE BNAME WITH ""
+
+    select ARDRECS
+       form.CheckCommit(form.inEditMode)
+
+   Procedure SMOB_OnGotFocus
+   form.changesmade = .t.
+       select ARDRECLN
+       go top
+       replace coy with ""
+      replace div with ""
+      replace cen with ""
+      replace sto with ""
+      replace typ with ""
+      replace cla with ""
+      replace cod with ""
+      REPLACE BNAME WITH ""
+    replace total with 0
+    replace svc_total with 0
+    select ARDRECS
+    replace coy with ''
+    replace div with ''
+    replace cen with ''
+    replace sto with ''
+    replace typ with ''
+    replace cla with ''
+    replace cod with ''
+    replace name with ''
+     form.browsechangesmade()
+       form.CheckCommit(form.inEditMode)
+
+
+
+   Procedure SHTOTAL_OnChange
+   select ardrecs
+   replace nett_total with this.value
+   form.changesmade = .t.
+   if this.value < 0 .and. form.blevel > 4
+   replace nett_total with 0
+   endif
+      form.changesmade = .t.
+
+   Procedure SRECT_OnChange
+   SELECT ardrecln
+          REPLACE rec_total with  this.value
+          **
+          if this.value < 0
+        if (FORM.BLDOC13 .AND. .not. (FORM.BLEVEL = 3  .OR. FORM.BLEVEL = 2)) .or. form.blevel > 4  && TM + DLRS only
+        REPLACE REC_TOTAL WITH 0
+        endif
+        endif
+
+          replace total with rec_total - svc_total
+
+         form.changesmade = .t.
+        form.browsechangesmade()
+        select ardrecs
+
+   Procedure SSVC_OnChange
+    select ARDRECLN
+    if .not. empty(ardrecs->typ)
+      replace svc_total with this.value
+      else
+      replace svc_total with 0
+      endif
+       replace total with rec_total - svc_total
+        form.changesmade = .t.
+        form.browsechangesmade()
+        select ardrecs
+
+   Procedure SFASSET_OnGotFocus
+   form.changesmade = .t.
+       select ARDRECLN
+       go top
+       replace total with 0
+       replace coy with ""
+      replace div with ""
+      replace cen with ""
+      replace sto with ""
+      replace typ with ""
+      replace cla with ""
+      replace cod with ""
+      REPLACE BNAME WITH ""
+    replace svc_total with 0
+    select ARDRECS
+    replace bcoy with '1'
+    replace bdiv with '5'
+    replace bcen with '1'
+    replace Bsto with 'A1'
+    replace Btyp with ''
+    replace Bcla with ''
+    replace Bcod with ''
+    replace name with ''
+     form.browsechangesmade()
+       form.CheckCommit(form.inEditMode)
+
+   Procedure SCAPITAL_OnGotFocus
+   form.changesmade = .t.
+   *form.scredit.enabled = .f.
+        select ARDRECLN
+       replace coy with ""
+      replace div with ""
+      replace cen with ""
+      replace sto with ""
+      replace typ with ""
+      replace cla with ""
+      replace cod with ""
+      REPLACE BNAME WITH ""
+    replace svc_total with 0
+    select ARDRECS
+     replace coy with ""
+      replace div with ""
+      replace cen with ""
+      replace sto with ""
+      replace typ with ""
+      replace cla with ""
+      replace cod with ""
+      REPLACE NAME WITH ""
+    REPLACE BCOY WITH '1'
+    REPLACE BDIV WITH '5'
+    REPLACE BCEN WITH '1'
+    REPLACE BSTO WITH ''
+    REPLACE BTYP WITH ''
+    REPLACE BCLA WITH ''
+    REPLACE BCOD WITH ''
+       form.CheckCommit(form.inEditMode)
+
+ENDCLASS

@@ -1,0 +1,33 @@
+* Visual dBASE .QBE file 9
+ON ERROR DO QBEERR WITH ERROR(), MESSAGE(),;
+PROGRAM(), LINENO()
+CLOSE DATABASES
+SET EXACT ON
+SELECT 57
+USE \KENSERVICE\DATA\FGUCntsl.DBF
+go top
+SELECT 51
+USE \KENSERVICE\DATA\FGUCnts.DBF ORDER TAG ORDER_NO
+set filter to order_no = FGUCntsl->order_no 
+SELECT 54
+USE \KENSERVICE\DATA\frighter.DBF ORDER TAG frighter
+SELECT 53
+USE \KENSERVICE\DATA\fgoff.DBf order tag off
+SELECT 52
+USE \KENSERVICE\DATA\FGUCnlin.DBF ORDER TAG ORDER_NO
+set filter to order_no = FGUCntsl->order_no .and. .not. (total = 0 .and. qty = 0) ;
+ .and. .not.  empty(post_date)
+SELECT 55
+USE \KENSERVICE\DATA\fgcods.DBF ORDER TAG mkey
+SELECT 51
+SET RELATION TO source+ftyp+pmod+frighter_n INTO frighter, off into fgoff
+SELECT 52
+SET RELATION TO TYP+cla+cod INTO fgcods
+SET SKIP TO FGUCnlin
+SELECT 58
+USE \KENSERVICE\DATA\fgCOY.DBf
+SET SKIP TO FGUCnlin
+select 59
+use \kenservice\data\fgprint.dbf
+select 60
+use \kenservice\data\FGUCRup.dbf

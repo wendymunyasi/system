@@ -1,0 +1,1179 @@
+////////////////////////////////////////////////////////////////////////////////
+// Output Filename: C:\KENSERVICE\IDSSYS\FG12_FCV.WFM                         //
+// Created By:      dBASE Form Converter Wizard                               //
+// Created On:      Saturday October 2, 2021 At 17:07:05                      //
+// Object Count:    29                                                        //
+////////////////////////////////////////////////////////////////////////////////
+*******************************************************************************
+*  PROGRAM:      Fg12.WFM
+*
+*  WRITTEN BY:   W Nyongesa
+*
+*  DATE:         1/94
+*
+*  UPDATED:      09/2011
+*
+*  REVISION:     $Revision:   1.97  $
+*
+*  VERSION:      Visual dBASE
+*
+*  DESCRIPTION:  This form displays information about an order from a company.
+*                It allows traversing through xorders and going to the top and
+*                bottom.  This form also has a corresponding menu, OrdCust.mnu,
+*                which allows adding,deleting and searching for an order.
+*                When an unknown customer number is entered, a dialog will come
+*                up asking you if you want to add a new customer.  If you
+*                selecte the Yes button, the Customer form (in Stcus.Wfm)
+*                will be opened, so a new customer can be added.
+*
+*  PARAMETERS:   None
+*
+*  CALLS:        xorders.mnu       (Menu file)
+*                Buttons.cc       (Custom controls file)
+*                Stcus.Wfm     (Form for displaying customer information)
+*                xorders.qbe       (View of tables)
+*
+*  USAGE:        DO Fg12.WFM    && Note that you can also DO Stcus.Wfm
+*
+*******************************************************************************
+#include <Messdlg.h>
+shell(.F.)
+create session
+set design off
+_app.FrameWin.Text = "Fg12"
+set talk off
+set ldCheck off                        && To avoid language driver conflicts
+** END HEADER -- do not remove this line*
+* Generated on 07/01/2013
+*
+parameter bUser,bLevel,bModal
+local f
+f = new xordersFORM()
+if (bModal)
+   f.mdi = .F. && ensure not MDI
+   f.ReadModal()
+else
+   f.Open()
+endif
+CLASS xordersFORM OF FORM
+   Set Procedure To BUTTONS.CC additive
+   this.Metric = 6  // Pixels
+   this.MenuFile = "FG12.MNU"
+   this.OnClose = CLASS::ONCLOSE
+   this.MDI = .F.
+   this.Text = "Transfers From Forecourt To Store --  View Mode"
+   this.WindowState = 2
+   this.ColorNormal = "n+"
+   this.Minimize = .F.
+   this.Maximize = .F.
+   this.Moveable = .F.
+   this.Sizeable = .F.
+   this.View = "Fg12.QBE"
+   this.Left = -46
+   this.EscExit = .F.
+   this.Top = 35
+   this.Height = 262
+   this.MousePointer = 1
+   this.Width = 446
+
+   DEFINE RECTANGLE ORDERCUSTRECT OF THIS;
+       PROPERTY;
+         Text "TRANSFER FROM FORECOURT TO STORE",;
+         ColorNormal "BtnFace",;
+         Left 12,;
+         Height 53,;
+         Width 396,;
+       FontName "MS Sans Serif",;
+       FontSize 8,;
+       FontBold .T.
+
+   DEFINE TEXTLABEL ORDERNOTEXT OF THIS;
+       PROPERTY;
+         Text "No.:",;
+         ColorNormal "B/BtnFace",;
+         Left 15,;
+         Top 26,;
+         Height 21,;
+         Width 30,;
+       FontName "MS Sans Serif",;
+       FontSize 8,;
+       FontBold .T.,;
+       AlignHorizontal 2,;
+       AlignVertical 1
+
+   DEFINE ENTRYFIELD ORDERNOENTRY OF THIS;
+       PROPERTY;
+         Enabled .F.,;
+         DataLink "xorders->ORDER_NO",;
+         ColorNormal "N/BtnFace",;
+         Left 48,;
+         Top 26,;
+         Height 20,;
+         Width 48,;
+       FontName "MS Sans Serif",;
+       FontSize 8,;
+       FontBold .T.
+
+   DEFINE TEXTLABEL SALEDATETEXT OF THIS;
+       PROPERTY;
+         Text "Date:",;
+         ColorNormal "B/BtnFace",;
+         Left 96,;
+         Top 26,;
+         Height 21,;
+         Width 34,;
+       FontName "MS Sans Serif",;
+       FontSize 8,;
+       FontBold .T.,;
+       AlignHorizontal 2,;
+       AlignVertical 1
+
+   DEFINE SPINBOX ORDERDATESPIN OF THIS;
+       PROPERTY;
+         Enabled .F.,;
+         DataLink "xorders->ORDER_DATE",;
+         ColorNormal "N/BtnFace",;
+         ColorHighLight "B+/W*",;
+         Rangemax {17/04/2013},;
+         Rangemin {07/01/2013},;
+         Left 127,;
+         Top 26,;
+         Height 17,;
+         Width 101,;
+       FontName "MS Sans Serif",;
+       FontSize 8,;
+       FontBold .T.
+
+   DEFINE TEXTLABEL TEXT1 OF THIS;
+       PROPERTY;
+         Text "D/Posted:",;
+         ColorNormal "B/BtnFace",;
+         Left 228,;
+         Top 26,;
+         Height 17,;
+         Width 60,;
+       FontName "MS Sans Serif",;
+       FontSize 8,;
+       FontBold .T.,;
+       AlignHorizontal 2,;
+       AlignVertical 1
+
+   DEFINE SPINBOX DPOST OF THIS;
+       PROPERTY;
+         Enabled .F.,;
+         DataLink "xorders->POST_DATE",;
+         ColorNormal "N/BtnFace",;
+         ColorHighLight "B+/W*",;
+         Rangemax {17/04/2013},;
+         Rangemin {07/01/2013},;
+         Left 295,;
+         Top 26,;
+         Height 20,;
+         Width 101,;
+       FontName "MS Sans Serif",;
+       FontSize 8,;
+       FontBold .T.
+
+   DEFINE RECTANGLE RECTANGLE1 OF THIS;
+       PROPERTY;
+         Text "Select Despatch Centre/Authorising Officer",;
+         ColorNormal "BtnFace",;
+         Left 408,;
+         Height 68,;
+         Width 324,;
+       FontName "MS Sans Serif",;
+       FontSize 8,;
+       FontBold .T.
+
+   DEFINE COMBOBOX SDCEN OF THIS;
+       PROPERTY;
+         Style 1,;
+         FontBold .F.,;
+         Enabled .F.,;
+         DataLink "XORDERS->DESPATCH",;
+         OnChange CLASS::SDCEN_ONCHANGE,;
+         Left 420,;
+         Top 17,;
+         Height 21,;
+         DataSource "FIELD FgcenS->NAME",;
+         Width 300,;
+       FontName "MS Sans Serif",;
+       FontSize 8
+
+   DEFINE COMBOBOX SAUTH OF THIS;
+       PROPERTY;
+         Style 1,;
+         FontBold .F.,;
+         Enabled .F.,;
+         DataLink "XORDERS->OFFNAME",;
+         OnChange CLASS::SAUTH_ONCHANGE,;
+         Left 420,;
+         Top 43,;
+         Height 21,;
+         DataSource "FIELD FGOFFS->NAME",;
+         Width 300,;
+       FontName "MS Sans Serif",;
+       FontSize 8
+
+   DEFINE RECTANGLE RECTANGLE7 OF THIS;
+       PROPERTY;
+         Text "Select Receiving Centre",;
+         FontSize 12,;
+         ColorNormal "BtnFace",;
+         Left 2,;
+         Height 51,;
+         Top 68,;
+         Width 730,;
+       FontName "MS Sans Serif",;
+       FontBold .T.
+
+   DEFINE COMBOBOX SRCEN OF THIS;
+       PROPERTY;
+         Style 1,;
+         FontBold .F.,;
+         Enabled .F.,;
+         FontSize 12,;
+         DataLink "XODRLINE->RECEIVING",;
+         OnChange CLASS::SRCEN_ONCHANGE,;
+         Left 12,;
+         Top 85,;
+         Height 28,;
+         DataSource "FIELD FgcenS2->NAME",;
+         Width 696,;
+       FontName "MS Sans Serif"
+
+   DEFINE RECTANGLE RECTANGLE4 OF THIS;
+       PROPERTY;
+         Text "Select Product Code",;
+         FontSize 12,;
+         ColorNormal "BtnFace",;
+         Height 51,;
+         Top 119,;
+         Width 732,;
+       FontName "MS Sans Serif",;
+       FontBold .T.
+
+   DEFINE COMBOBOX SCOD OF THIS;
+       PROPERTY;
+         Style 1,;
+         FontBold .F.,;
+         Enabled .F.,;
+         FontSize 12,;
+         DataLink "XODRLINE->PRODUCT",;
+         OnChange CLASS::SCOD_ONCHANGE,;
+         Left 12,;
+         Top 136,;
+         Height 28,;
+         DataSource "FIELD fgcods->Name",;
+         Width 708,;
+       FontName "MS Sans Serif"
+
+   DEFINE RECTANGLE RECTANGLE3 OF THIS;
+       PROPERTY;
+         Text "Quantity In Stock",;
+         FontSize 12,;
+         ColorNormal "BtnFace",;
+         Left 12,;
+         Height 60,;
+         Top 170,;
+         Width 504,;
+       FontName "MS Sans Serif",;
+       FontBold .T.
+
+   DEFINE TEXTLABEL TEXT19 OF THIS;
+       PROPERTY;
+         Text "Desp.",;
+         FontSize 12,;
+         ColorNormal "B/BtnFace",;
+         Left 24,;
+         Top 204,;
+         Height 17,;
+         Width 60,;
+       FontName "MS Sans Serif",;
+       FontBold .T.,;
+       AlignHorizontal 2,;
+       AlignVertical 2
+
+   DEFINE ENTRYFIELD AVAILABLE OF THIS;
+       PROPERTY;
+         Enabled .F.,;
+         FontSize 12,;
+         DataLink "FGMAST2->ON_HAND",;
+         ColorNormal "N/BtnFace",;
+         Left 96,;
+         ValidErrorMsg "Record Contains Coding Errors",;
+         Top 204,;
+         Height 20,;
+         Picture "9,999.99",;
+         Width 84,;
+       FontName "MS Sans Serif",;
+       FontBold .T.
+
+   DEFINE TEXTLABEL TEXT5 OF THIS;
+       PROPERTY;
+         Text "Rec.",;
+         FontSize 12,;
+         ColorNormal "B/BtnFace",;
+         Left 288,;
+         Top 204,;
+         Height 17,;
+         Width 36,;
+       FontName "MS Sans Serif",;
+       FontBold .T.,;
+       AlignHorizontal 2,;
+       AlignVertical 2
+
+   DEFINE ENTRYFIELD RECQTY OF THIS;
+       PROPERTY;
+         Enabled .F.,;
+         FontSize 12,;
+         DataLink "FGMAST->ON_HAND",;
+         ColorNormal "N/BtnFace",;
+         Left 336,;
+         ValidErrorMsg "Record Contains Coding Errors",;
+         Top 204,;
+         Height 20,;
+         Picture "9,999.99",;
+         Width 84,;
+       FontName "MS Sans Serif",;
+       FontBold .T.
+
+   DEFINE TEXTLABEL TEXT11 OF THIS;
+       PROPERTY;
+         Text "Trans Qty:",;
+         FontSize 12,;
+         ColorNormal "B/BtnFace",;
+         Left 528,;
+         Top 204,;
+         Height 17,;
+         Width 96,;
+       FontName "MS Sans Serif",;
+       FontBold .T.,;
+       AlignHorizontal 2,;
+       AlignVertical 2
+
+   DEFINE ENTRYFIELD QTYENTRY OF THIS;
+       PROPERTY;
+         Valid CLASS::QTYENTRY_VALID,;
+         Enabled .F.,;
+         ValidRequired .T.,;
+         FontSize 12,;
+         DataLink "XODRLINE->QTY",;
+         ColorNormal "N/BtnFace",;
+         OnChange CLASS::CHANGE_QTY,;
+         Left 624,;
+         ValidErrorMsg "Negative Quanties Not Required",;
+         Top 204,;
+         Height 20,;
+         Picture "9,999.99",;
+         Width 84,;
+       FontName "MS Sans Serif",;
+       FontBold .T.
+
+   DEFINE ENTRYFIELD ITEMENTRY OF THIS;
+       PROPERTY;
+         Enabled .F.,;
+         DataLink "XODRLINE->STOCK_NO",;
+         ColorNormal "N/BtnFace",;
+         Left 1440,;
+         Top 272,;
+         Height 17,;
+         Picture "99",;
+         Width 24,;
+       FontName "MS Sans Serif",;
+       FontSize 8,;
+       FontBold .T.
+
+   DEFINE BROWSE CHILDBROWSE OF THIS;
+       PROPERTY;
+         Fields 'XODRLINE->STOCK_NO\H="No"\3\R,XODRLINE->QTY\H="Qty"\5\P="999"\R,XODRLINE->product\H="Product"\25\R,Deps = xorders->div+xorders->cen+xorders->sto\H="Desp."\7,Recs = XODRLINE->div+XODRLINE->cen+XODRLINE->sto\H="Rec."\7,dess = dtoc(xorders->d_s_date)+" - "+xorders->d_s_no+" - "+xorders->shift_id\H="D/Shift"\14,recs = dtoc(XODRLINE->SHIFT_DATE)+" - "+XODRLINE->SHIFT_NO+" - "+XODRLINE->SHIFT_ID\H="R/Shift"\14',;
+         Alias "XODRLINE",;
+         ShowRecNo .F.,;
+         CUATab .T.,;
+         Delete .F.,;
+         Modify .F.,;
+         Text "Products Transfered - Display Area",;
+         ShowDeleted .F.,;
+         FontSize 10,;
+         ColorNormal "BtnText/BtnFace",;
+         ColorHighLight "B+/W*",;
+         ScrollBar 1,;
+         Left 12,;
+         Top 238,;
+         Height 289,;
+         Width 708,;
+       FontName "MS Sans Serif"
+
+   DEFINE PREVBUTTON PREVORDERBUTTON OF THIS;
+       PROPERTY;
+         Text "Previous",;
+         Group .T.,;
+         FontSize 10,;
+         OnClick CLASS::PREVIOUS,;
+         Left 32,;
+         Top 540,;
+         Height 26,;
+         Width 96,;
+       FontName "MS Sans Serif",;
+       FontBold .T.
+
+   DEFINE NEXTBUTTON NEXTORDERBUTTON OF THIS;
+       PROPERTY;
+         Text "Next",;
+         Group .F.,;
+         FontSize 10,;
+         Default .T.,;
+         OnClick CLASS::NEXT,;
+         Left 272,;
+         Top 540,;
+         Height 26,;
+         Width 96,;
+       FontName "MS Sans Serif",;
+       FontBold .T.
+
+   DEFINE PUSHBUTTON FIRSTORDERBUTTON OF THIS;
+       PROPERTY;
+         Text "First",;
+         Group .F.,;
+         FontSize 10,;
+         ColorNormal "",;
+         OnClick CLASS::FIRST_RTN,;
+         Left 152,;
+         Top 540,;
+         Height 26,;
+         Width 96,;
+       FontName "MS Sans Serif",;
+       FontBold .T.
+
+   DEFINE PUSHBUTTON LASTORDERBUTTON OF THIS;
+       PROPERTY;
+         Text "Last",;
+         Group .F.,;
+         FontSize 10,;
+         ColorNormal "",;
+         OnClick CLASS::LAST_RTN,;
+         Left 392,;
+         Top 540,;
+         Height 26,;
+         Width 96,;
+       FontName "MS Sans Serif",;
+       FontBold .T.
+
+   DEFINE ENTRYFIELD DNEXT OF THIS;
+       PROPERTY;
+         Enabled .F.,;
+         FontSize 12,;
+         DataLink "FGMAST2->m_var",;
+         ColorNormal "N/BtnFace",;
+         Left 192,;
+         ValidErrorMsg "Record Contains Coding Errors",;
+         Top 204,;
+         Height 20,;
+         Picture "9,999.99",;
+         Width 84,;
+       FontName "MS Sans Serif",;
+       FontBold .T.
+
+   DEFINE ENTRYFIELD RNEXT OF THIS;
+       PROPERTY;
+         Enabled .F.,;
+         FontSize 12,;
+         DataLink "FGMAST->m_Var",;
+         ColorNormal "N/BtnFace",;
+         Left 420,;
+         ValidErrorMsg "Record Contains Coding Errors",;
+         Top 204,;
+         Height 20,;
+         Picture "9,999.99",;
+         Width 84,;
+       FontName "MS Sans Serif",;
+       FontBold .T.
+
+   procedure Open
+   ****************************************************************************
+   private orderNoField
+       on error DO ddeerr WITH ERROR(), MESSAGE(),;
+   PROGRAM(), LINENO()
+      FORM.BLUSER = BUSER
+   FORM.BLEVEL = BLEVEL
+
+   if empty(form.bluser) .or. empty(form.blevel)
+   quit
+   endif
+
+   if type("form.init") = "U"
+      form.init = .T.
+
+      set skip to                     && xorders.qbe contains set skip to XODRLINE
+      set exact on               && the .qbe file contains SET EXACT ON
+
+      set procedure to Sampproc.prg additive
+
+      form.inEditMode = .F.           && indicator of view/edit state
+      form.changesMade = .F.          && indicator of changes made to field values
+      form.previousRecord = .F.       && Save record number when appending
+   FORM.PRSHIFTDATE = {}
+   FORM.PRSHIFTNO = ""
+   FORM.PRDIV = ""
+   FORM.PRCEN = ""
+   FORM.PRSTO = ""
+   form.punit = ""
+   FORM.PTYP = ""
+   form.select = 0
+   form.prshiftid = ""
+   FORM.PCLA = ""
+   form.dcoy = "1"
+   form.ddiv = ""
+   form.dcen = ""
+   form.dsto = ""
+   form.ptyp = ""
+   form.pcla = ""
+   form.pcod = ""
+   form.rcoy = "1"
+   form.rdiv = ""
+   form.rcen = ""
+   form.rsto = ""
+    FORM.DSHDATE = {}
+   FORM.DSHNO = ""
+   FORM.DSHID = ""
+   SET REPROCESS TO 10
+    select xordersn
+    go top
+    if eof()
+    append blank
+    replace order_no with "0"
+    endif
+     select xordersl
+     go top
+     if eof()
+     append blank
+     endif
+      select xodupd
+    set order to orderdate
+        *** do calculations in another area so form doesn't get updated
+        select xorders
+      set order to order_no
+
+
+        && max value for key field -- for creating
+
+          local lmax
+          select st15f
+          set order to MKEY
+      select xorders3
+     * delete all for empty(order_no)
+      go top
+      lmax = order_no
+        refresh
+         go bottom
+    form.maxOrder = order_no
+    if empty(order_no)
+    form.maxOrder = "0"
+    endif
+    select XODRLINE3
+    set order to order_no
+
+         select xorders
+      set relation to order_no into XODRLINE2 constrain integrity additive
+
+      ***
+
+     
+   endif
+   select xorder3
+   set order to dkey
+   SELECT FgcodS
+   set order to MKEY
+   select Fgmast
+   SET ORDER TO MKEY
+   SELECT fgmast2
+   SET ORDER TO MKEY
+   select Fgcens
+   set order to name
+   select Fgcens2
+   set order to name
+   SELECT fgcods
+   set order to name
+   select st15f
+   GO TOP
+   FORM.PSHDATE  = SHIFT_DATE
+   form.pshno = shift_no
+   form.pshid = shift_id
+   select  xorders
+   go bottom          && calculate totals
+   form::Open()                         && Now the form actually opens
+   *  form.BrowseOnNavigate()
+   ****************************************************************************
+
+   procedure OnClose
+   ****************************************************************************
+   select XODRLINE
+   *     if .not. eof()
+      delete all for empty(order_no) .or. empty(stock_no) .OR.;
+       empty(coy) .or. empty(div) .or. empty(cen) .or. empty(sto) .or. ;
+       empty(typ) .or. empty(cla) .or. empty(cod) .or. qty = 0
+   *     endif
+   if form.inEditMode
+      form.ViewEdit()
+   endif
+                                             && Close Customer form if it exists
+   if .not. type ("form.childCustomerForm") $ "U,L"
+      form.childCustomerForm.Release()
+      close procedure Stcus.Wfm
+   endif
+   close procedure SampProc.prg
+      if .not. empty(xorders->order_no)
+   select xodupd
+   seek xorders->order_no+dtos(xorders->order_date)
+   if found() .and. .not. empty(post_date)
+   select xorders
+   replace post_date with date()
+   endif
+   endif
+          commit()
+     CLOSE DATABASES
+     do fgp12.prg
+    form.close()
+   ****************************************************************************
+
+   procedure BrowseOnNavigate
+
+   * calculate total invoice and balance
+   ****************************************************************************
+
+
+      select xordersl
+      go top
+      if eof()
+      append blank
+      endif
+      replace order_no with xorders->order_no
+      replace order_date with xorders->order_date
+   *   form.changesmade = .t.
+       select xorders
+
+
+   ****************************************************************************
+
+   procedure ChangesMade
+
+   * Indicate that changes have been made to current record.
+   ****************************************************************************
+
+   form.changesMade = .T.
+
+   ****************************************************************************
+
+   procedure BrowseChangesMade
+   ****************************************************************************
+   *   local t
+
+
+     Procedure last_rtn
+   form.CheckCommit(form.inEditMode)
+   if .not. empty(xorders->order_no)
+   select xodupd
+   seek xorders->order_no+dtos(xorders->order_date)
+   if found() .and. .not. empty(post_date)
+   select xorders
+   replace post_date with date()
+   flush
+   endif
+   endif
+    form.root.order.viewEdit.enabled = .t.
+     form.root.order.ADDorder.enabled = .T.
+    form.root.order.ADDline.enabled = .T.
+    SELECT xorders
+   go bottom
+   form.BrowseOnNavigate()
+
+    Procedure first_rtn
+   form.CheckCommit(form.inEditMode)
+   if .not. empty(xorders->order_no)
+   select xodupd
+   seek xorders->order_no+dtos(xorders->order_date)
+   if found() .and. .not. empty(post_date)
+   select xorders
+   replace post_date with date()
+   flush
+   endif
+   endif
+    form.root.order.viewEdit.enabled = .t.
+     form.root.order.ADDorder.enabled = .T.
+    form.root.order.ADDline.enabled = .T.
+    SELECT xorders
+   go top
+   form.BrowseOnNavigate()
+   ****************************************************************************
+
+   procedure Next
+   ****************************************************************************
+
+   form.CheckCommit(form.inEditMode)
+   if .not. empty(xorders->order_no)
+   select xodupd
+   seek xorders->order_no+dtos(xorders->order_date)
+   if found() .and. .not. empty(post_date)
+   select xorders
+   replace post_date with date()
+   flush
+   endif
+   endif
+    form.root.order.viewEdit.enabled = .t.
+     form.root.order.ADDorder.enabled = .T.
+    form.root.order.ADDline.enabled = .T.
+    SELECT xorders
+   if .not. eof()
+      NEXTBUTTON::OnClick()
+   endif
+   form.BrowseOnNavigate()
+
+   ****************************************************************************
+
+   procedure Previous
+   ****************************************************************************
+
+   form.CheckCommit(form.inEditMode)
+   if .not. empty(xorders->order_no)
+   select xodupd
+   seek xorders->order_no+dtos(xorders->order_date)
+   if found() .and. .not. empty(post_date)
+   select xorders
+   replace post_date with date()
+   flush
+   endif
+   endif
+    form.root.order.viewEdit.enabled = .t.
+     form.root.order.ADDorder.enabled = .T.
+    form.root.order.ADDline.enabled = .T.
+    SELECT xorders
+   PREVBUTTON::OnClick()
+   form.BrowseOnNavigate()
+
+   ****************************************************************************
+
+   procedure CheckCommit (newInEditMode)
+
+   * Finish transaction, if it has been started.
+   ****************************************************************************
+   private orderField, changesMade
+   changesMade = form.changesMade
+    form.BrowseOnNavigate()
+   if form.changesMade
+      orderField = field(1)                  && Field Order_no
+          commit()
+                  on error DO ddeerr WITH ERROR(), MESSAGE(),;
+   PROGRAM(), LINENO()
+        if form.inEditMode .and. newInEditMode
+         begintrans()
+                     on error DO transerr WITH ERROR(), MESSAGE(),;
+   PROGRAM(), LINENO()
+
+      endif
+      form.changesMade = .F.
+   endif
+   if form.inEditMode <> newInEditMode
+      if newInEditMode                       && Going to Edit mode
+         begintrans()
+                     on error DO transerr WITH ERROR(), MESSAGE(),;
+   PROGRAM(), LINENO()
+
+      else                                   && Going to View mode
+         if .not. changesMade
+            rollback()
+         endif
+      endif
+      form.inEditMode = newInEditMode
+   endif
+   select fgcoy
+   flush
+   select xorders
+   ****************************************************************************
+
+   procedure ViewEdit
+   ****************************************************************************
+   local inEditMode, control, editMenu
+
+   editMenu = form.root.order.viewEdit
+
+   *** If editing is completed, close transaction, otherwise open a transaction
+   if form.inEditMode                           && Change to View mode
+      form.checkChanged(.F.)
+      editMenu.text = "&Edit"
+      editMenu.shortcut = "Ctrl-E"
+      editMenu.statusMessage = "Edit data."
+      form.root.order.deleteorder.enabled = .F.      && disabled in view mode
+      form.root.order.deleteline.enabled = .F.
+      form.CheckCommit(.F.)                     && Check transaction and
+      form.text = "Stock Trasnfer from Forecourt to Store -- View Mode"         && change mode to View
+      form.childBrowse.modify = .F.
+      form.statusMessage = "Select Transfer Order - Edit menu choice to " +;
+                           "edit/delete data."
+   else                                         && Change to Edit mode
+      editMenu.text = "&View"
+      editMenu.shortcut = "Ctrl-E"
+      editMenu.statusMessage = "View data."
+      form.root.order.deleteorder.enabled = .f.      && enabled in edit mode
+      form.root.order.deleteline.enabled = .t.
+      form.CheckCommit(.T.)                     && Check transaction and
+      form.text = "Stock Trasnfer from Forecourt to Store -- Edit Mode"         && change mode to Edit
+      form.childBrowse.modify = .F.
+      form.statusMessage = "In Edit Mode.  " +;
+                           "Select Transfer Order - View menu choice to switch " +;
+                           "to View mode."
+   endif
+   form.childBrowse.setFocus()
+   control = form.first
+
+   inEditMode = form.inEditMode    && so don't have to reference many times
+   do
+      do case
+         case control.name $ "ORDERNOENTRY,CUSTOMERNOENTRY,TOTINVENTRY,BALDUEENTRY"
+            * these are never editable
+            control.enabled = .F.
+         case .not. control.className $ "BROWSE,NEXTBUTTON,PREVBUTTON,PUSHBUTTON,IMAGE,TEXT"
+            * doesn't make sense to make the above classes enabled/not
+            control.enabled = inEditMode
+         case control.className = "BROWSE"
+            control.Modify = inEditMode
+            control.Delete = inEditMode
+            control.Append = inEditMode
+      endcase
+      control = control.before
+   until control.name = form.first.name
+    form.OrderNoEntry.enabled = .F.          && Key field is always disabled
+       form.recqty.enabled = .F.
+   form.available.enabled =.f.
+     FORM.ORDERDATESPIN.ENABLED = .F.
+     if empty(XODRLINE->post_date)
+   form.qtyentry.enabled = .f.
+   else
+     form.qtyentry.enabled = .f.
+   endif
+
+       form.dpost.enabled = .F.
+
+   FORM.CHILDBROWSE.MODIFY = .F.
+
+            IF .not. empty(XODRLINE->order_no)
+   FORM.SDCEN.ENABLED = .F.
+   ELSE
+   FORM.SDCEN.ENABLED = .T.
+   ENDIF
+    form.dnext.enabled = .f.
+   form.rnext.enabled = .f.
+
+
+   form.setFocus()
+
+
+   ****************************************************************************
+
+   procedure CheckChanged(callCommit)
+   private control, fieldValue, controlValue, typeText, typeValue
+
+   if form.inEditMode
+      control = form.activeControl
+      if type("control.datalink") <> "U"
+         fieldValue = control.datalink          && name of table field
+
+         typeText = type("control.text")
+         typeValue = type("control.value")
+         do case
+            case typeValue = "C"
+               controlValue = control.value
+            case typeValue $ "LU" .and. typeText = "C"
+               controlValue = control.text
+            otherwise
+               controlValue = Null
+         endcase
+      endif
+   endif
+   if form.changesMade .and. callCommit
+      CLASS::CheckCommit(form.inEditMode)     && Check transactions
+   endif
+
+    Procedure Change_qty
+      local lcoy,ldiv,lcen,lsto,ltyp,lcla,lcod,lqty,lcoy1,ldiv1,lcen1,lsto1
+      LOCAL WK1,WK2,WK3,WK4,le
+      le = .f.
+
+        select XODRLINE
+        replace XODRLINE->QTY WITH THIS.VALUE
+        if qty < 0
+        replace qty with 0
+        endif
+        if this.value > fgmast2->on_hand + fgmast2->m_Var
+      select XODRLINE
+       replace qty with 0
+       InformationMessage("Insufficient Stock On Hand ", "Sorry")
+       ENDIF
+   select xorders
+      FORM.CHANGESMADE = .T.
+
+
+   Procedure SDCEN_ONCHANGE
+    local l1,le
+   le = .f.
+
+   l1 = this.value
+   select Fgcens
+   seek l1
+   if found()
+   form.dcoy = coy
+   form.ddiv = div
+   form.dcen = cen
+   else
+   orm.dcoy = ""
+   form.ddiv = ""
+   form.dcen = ""
+   endif
+
+
+     FORM.DSHDATE = {}
+   FORM.DSHNO = ""
+   FORM.DSHID = ""
+   FORM.rSHDATE = {}
+   FORM.rSHNO = ""
+   FORM.rSHID = ""
+      IF FORM.DDIV = "1"
+   FORM.DSHDATE = st15f->SHIFT_DATE
+   FORM.DSHNO = st15f->SHIFT_NO
+   FORM.DSHID = st15f->SHIFT_ID
+   FORM.DSTO = "F1"
+   ELSE
+   if form.ddiv = "2" .AND. FORM.DCEN = "1"  && STORES MAIN
+   FORM.DSTO = "S1"
+   else
+   if form.ddiv = "2" .AND. FORM.DCEN = "6"  && Repackaged lubes
+   FORM.DSTO = "H1"
+   else
+   form.dsto = "W1"
+   endif
+   ENDIF
+   endif
+     SELECT xorders
+     replace despatch with this.value
+     replace coy with form.dcoy
+     replace div with form.ddiv
+     replace cen with form.dcen
+     replace sto with form.dsto
+     replace d_s_date with form.dshdate
+     replace d_s_no with form.dshno
+     replace d_s_id with form.dshid
+     select XODRLINE
+     replace x_coy with xorders->coy
+           replace x_div with xorders->div
+           replace x_cen with xorders->cen
+           replace x_sto with xorders->sto
+           replace all qty with 0
+           select xorders
+   form.changesmade = .t.
+   IF .NOT. EMPTY(THIS.VALUE)
+   *  FORM.SDCEN.ENABLED = .F.
+   form.srcen.enabled = .t.
+   form.scod.enabled = .t.
+   form.qtyentry.enabled = .f.
+   ELSE
+   FORM.SDCEN.ENABLED = .T.
+   form.srcen.enabled = .f.
+   form.scod.enabled = .f.
+   form.qtyentry.enabled = .f.
+   ENDIF
+
+
+   Procedure SRCEN_ONCHANGE
+         LOCAL L1,LE,ln
+         L1 = THIS.VALUE
+         SELECT FgcenS2
+         SEEK L1
+         if found()
+         FORM.RCOY = COY
+         FORM.RDIV = DIV
+         FORM.RCEN = CEN
+         ln = this.value
+         else
+         FORM.RCOY = ""
+         FORM.RDIV = ""
+         FORM.RCEN = ""
+         ln = ""
+         endif
+         FORM.RSHDATE = {}
+         FORM.RSHNO = ""
+         FORM.RSHID = ""
+         LE = .F.
+         IF FORM.RDIV = "1"
+          FORM.RSHDATE = st15f->SHIFT_DATE
+         FORM.RSHNO = st15f->SHIFT_NO
+         FORM.RSHID = st15f->SHIFT_ID
+         FORM.RSTO = "F1"
+         ELSE
+         if form.rdiv = "2" .and. form.rcen = "1"  && stores main
+         FORM.RSTO = "S1"
+         else
+         if form.rdiv = "2" .and. form.rcen = "6"  && repackaged lubes
+         FORM.RSTO = "H1"
+         else
+         form.rsto = "W1"
+         endif
+         ENDIF
+         endif
+         SELECT XODRLINE
+         replace qty with 0
+         replace receiving with ln
+         REPLACE COY WITH FORM.RCOY
+         REPLACE DIV WITH FORM.RDIV
+         REPLACE CEN WITH FORM.RCEN
+         REPLACE STO WITH FORM.RSTO
+         REPLACE SHIFT_DATE WITH FORM.RSHDATE
+         REPLACE SHIFT_NO WITH FORM.RSHNO
+         REPLACE SHIFT_ID WITH FORM.RSHID
+         FORM.CHANGESMADE = .T.
+         if le
+   form.scod.enabled = .f.
+   form.qtyentry.enabled = .f.
+   else
+   form.scod.enabled = .t.
+   form.qtyentry.enabled = .f.
+   endif
+   form.CheckCommit(form.inEditMode)
+         select xorders
+
+
+   Procedure SCOD_ONCHANGE
+        local LE,LWK1,L1,l11,l12,l13,l14,l15,l16,l17,l21,l22,l23,l24,l25,l26,l27,ln
+         l11 = xorders->coy  && despatch
+         l12 = xorders->div
+         l13 = xorders->cen
+         l14 = xorders->sto
+         l15 = xorders->shift_date
+         l16 = xorders->shift_no
+         l17 = xorders->shift_id
+         l21 = xorders->coy  && despatch
+         l22 = XODRLINE->div
+         l23 = XODRLINE->cen
+         l24 = XODRLINE->sto
+         l25 = XODRLINE->shift_date
+         l26 = XODRLINE->shift_no
+         l27 = XODRLINE->shift_id
+
+
+         LE = .F.
+         L1 = THIS.VALUE
+         SELECT fgcods
+         seek this.value
+         IF .NOT. FOUND()
+         LE = .T.
+          FORM.PTYP = ""
+         FORM.PCLA = ""
+         FORM.PCOD = ""
+         ln = ""
+         else
+          FORM.PTYP = TYP
+         FORM.PCLA = CLA
+         ln = this.value
+         FORM.PCOD = COD
+         ENDIF
+        * SEEK L1
+             select xorder3
+         seek l21+l22+l23+l24+l11+l12+l13+l14+form.ptyp+form.pcla+form.pcod
+         if found()
+         ? "error 1"
+         le = .t.
+         endif
+         SELECT XODRLINE
+         replace qty with 0
+         replace product with ln
+         REPLACE TYP WITH FORM.PTYP
+         REPLACE CLA WITH FORM.PCLA
+         REPLACE COD WITH FORM.PCOD
+         replace x_coy with l11
+         replace x_div with l12
+         replace x_cen with l13
+         replace x_sto with l14
+         replace shift_date with l15
+         replace shift_no with l16
+         replace shift_id with l17
+
+         FORM.CHANGESMADE = .T.
+         form.CheckCommit(form.inEditMode)
+
+          SELECT fgmast
+         SEEK l21+l22+l23+l24+FORM.PTYP+FORM.PCLA+FORM.PCOD  && receiving
+         IF .NOT. FOUND()
+         LE = .T.
+              ENDIF
+         SELECT Fgmast2
+         SEEK l11+l12+l13+l14+FORM.PTYP+FORM.PCLA+FORM.PCOD
+         IF .NOT. FOUND()
+         LE = .T.
+         ? "error 3"
+         ENDIF
+         IF l11 = l21 .AND. l12 = l22 .AND.;
+          l13 = l23 .AND. l14 = l24
+          LE = .T.
+          ? "error 4"
+          ENDIF
+          IF l12 = "1"
+          select st15f
+          SEEK dtos(l15)+l16+l17+l13+FORM.PTYP+;
+          FORM.PCLA+FORM.PCOD+l14+l11+l12
+          IF .NOT. FOUND()
+          LE = .T.
+          ? "error 5"
+          ENDIF
+          ENDIF
+           IF l22 = "1"
+          select st15f
+          SEEK dtos(l25)+l26+l27+l23+FORM.PTYP+;
+          FORM.PCLA+FORM.PCOD+l24+l21+l22
+          IF .NOT. FOUND()
+          ? "error 6"
+          LE = .T.
+          ENDIF
+          ENDIF
+          SELECT ST15F
+          GO TOP
+          if le
+         select XODRLINE
+         replace qty with 0
+         form.qtyentry.enabled = .f.
+         else
+         form.qtyentry.enabled = .t.
+         endif
+          SELECT xorders
+
+   Procedure QTYENTRY_Valid
+         if this.value < 0
+         Isvalid = .f.
+         else
+        isvalid = .t.
+        endif
+        return isvalid
+
+   Procedure SAUTH_ONCHANGE
+         select fgoffs
+         seek this.value
+         if found()
+         select xorders
+         replace offname with this.value
+         replace off with fgoffs->off
+         else
+         select xorders
+         replace offname with ""
+         replace off with ""
+         endif
+         form.changesmade = .t.
+
+ENDCLASS
+
+
+
+
+
+
+
+
+
+
+

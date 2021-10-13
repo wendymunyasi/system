@@ -451,13 +451,13 @@ class FgdivFORM of FORM
 
        form.DIVCODE.Enabled = .F.
     if form.inEditMode .and. newInEditMode
-         begintrans()
+     *    begintrans()
       endif
       form.changesMade = .F.
    endif
    if form.inEditMode <> newInEditMode
       if newInEditMode                       && Going to Edit mode
-         begintrans()
+   *      begintrans()
       else                                   && Going to View mode
          if .not. changesMade
             rollback()

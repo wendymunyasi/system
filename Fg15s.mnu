@@ -1,0 +1,255 @@
+******************************************************************************
+*  PROGRAM:      Fg15s.mnu
+*
+*  WRITTEN BY:   W Nyongesa
+*
+*  DATE:         03/2001
+*
+*  UPDATED:      11/2014
+*
+*  REVISION:     $Revision:   1.58  $
+*
+*  VERSION:      Visual dBASE
+*
+*  DESCRIPTION:  This is a menu file used by Fg15s.WFM for
+*                performing simple tasks.  It allows adding and deleting
+*                records, searching for a value in the StokMaster field of the
+*                current table viewed, and exiting the form in view.
+*
+*  PARAMETERS:   FormObj -- the form to which this menu will belong.
+*
+*  CALLS:        None
+*
+*  USAGE:        form.menuFile = "Fg15s.mnu"
+*
+*******************************************************************************
+#include <messdlg.h>
+
+** END HEADER -- do not remove this line*
+* Generated on 07/03/2001
+*
+Parameter FormObj
+NEW StokMasterS(FormObj,"Root")
+CLASS StokMasterS(FormObj,Name) OF MENUBAR(FormObj,Name)
+   this.Text = ""
+   this.OnInit = {;set procedure to sampProc.prg}
+
+   DEFINE MENU FILE OF THIS;
+       PROPERTY;
+         Text "&File"
+
+          DEFINE MENU EXIT OF THIS.FILE;
+                PROPERTY; 
+          StatusMessage "Return to the Previous Menu.",;
+          Text "&RETURN TO PREVIOUS MENU",;
+          SHORTCUT "F4",;
+          OnClick CLASS::ONEXIT
+  
+      
+       DEFINE MENU SEPARATOR000 OF THIS.FILE;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+
+            
+   DEFINE MENU QUITALL OF THIS.FILE;
+       PROPERTY; 
+          StatusMessage "Leave Kenserve System.",;
+          Text "EXIT",;
+          SHORTCUT "F8",;
+          OnClick CLASS::ONQUITALL
+          
+   DEFINE MENU Fg15s OF THIS;
+       PROPERTY;
+         Text "&Code"
+
+         DEFINE MENU VIEWEDIT OF THIS.Fg15s;
+             PROPERTY;
+               OnClick CLASS::VIEWEDITONCLICK,;
+               Text "&Edit",;
+               Shortcut "Ctrl-E",;
+               StatusMessage "Edit data."
+
+         DEFINE MENU SEPARATOR2 OF THIS.Fg15s;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+
+         DEFINE MENU SEARCH OF THIS.Fg15s;
+             PROPERTY;
+               OnClick CLASS::SEARCHONCLICK,;
+               Text "&Search ...",;
+               Shortcut "Ctrl-S",;
+               StatusMessage "Search for a Stock Master code."
+         
+
+   DEFINE MENU REPORT OF THIS;
+       PROPERTY;
+         Text "&Reports"
+
+         DEFINE MENU STOCKHOLDINGREPORT OF THIS.REPORT;
+             PROPERTY;
+               OnClick {;create session ;set lock off ;report form Fg15st},;
+               Text "&1. Stock Status Report  - All Items"
+     DEFINE MENU SEPARREPO01 OF THIS.REPORT;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+               
+          
+     DEFINE MENU STOCKPOSITIONREPORT OF THIS.REPORT;
+             PROPERTY;
+               OnClick {;create session ;set lock off ;report form Fg15rod},;
+               Text "&2. Stock Reorder Advisory Report"
+                    DEFINE MENU SEPARREPO02 OF THIS.REPORT;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+               
+                          
+     DEFINE MENU leCHHARTSTOCKPOSITIONREPORT OF THIS.REPORT;
+             PROPERTY;
+               OnClick {;create session ;set lock off ;report form Fg15},;
+               Text "&3. Stock Ledger Print for Selected Product and Period Rage"
+          
+        DEFINE MENU SEPARREPO03 OF THIS.REPORT;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+               
+          DEFINE MENU lstockpoeCHHARTSTOCKPOSITIONREPORT OF THIS.REPORT;
+             PROPERTY;
+               OnClick {;create session ;set lock off ;report form Fg15stv},;
+               Text "&4. Stock Position Report"
+          
+               DEFINE MENU SEPARREPO04 OF THIS.REPORT;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+               
+             DEFINE MENU syummlstockpoeCHHARTSTOCKPOSITIONREPORT OF THIS.REPORT;
+             PROPERTY;
+               OnClick {;create session ;set lock off ;report form Fg15sts},;
+               Text "&5. Summary Inventory Status Report"
+                    DEFINE MENU SEPARREPO05 OF THIS.REPORT;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+               
+                
+             DEFINE MENU stockinvyummlstockpoeCHHARTSTOCKPOSITIONREPORT OF THIS.REPORT;
+             PROPERTY;
+               OnClick {;create session ;set lock off ;report form Fg15sinv},;
+               Text "&6. Stock Take Inventory Sheet"
+                    DEFINE MENU SEPARREPO06 OF THIS.REPORT;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+               
+               
+                 DEFINE MENU STOCKLOSSFOLLOWUP OF THIS.REPORT;
+             PROPERTY;
+               OnClick {;create session ;set lock off ;report form Fgstklos},;
+               Text "&7. Stock Gain and Loss Follow Up for selected period"
+               
+                    DEFINE MENU SEPARREPO07 OF THIS.REPORT;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+               
+                DEFINE MENU STOCKHOLDINGREPORT22 OF THIS.REPORT;
+             PROPERTY;
+               OnClick {;create session ;set lock off ;report form Fg15sta},;
+               Text "&8. Stock Status Report  - Available Stock"
+
+      DEFINE MENU SEPARREPO0P7 OF THIS.REPORT;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+               
+                DEFINE MENU STOCKPRCS OF THIS.REPORT;
+             PROPERTY;
+               OnClick {;create session ;set lock off ;report form Fg15stVP},;
+               Text "&9. Stock Position and Price List"
+
+      DEFINE MENU SEPARREPO0P710 OF THIS.REPORT;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+               
+                DEFINE MENU STOCKPRCS10 OF THIS.REPORT;
+             PROPERTY;
+               OnClick {;create session ;set lock off ;report form shiftwpd},;
+               Text "1&0. Shift Wet Stock Report for Selected Period"
+               
+               **
+               
+   ****************************************************************************
+   procedure SearchOnClick
+
+   * Bring up Search.WFM.
+   ****************************************************************************
+   private searchForm, searchItem, saveRec, saveFilt, searchcoy,;
+           searchdiv, searchcen,searchsto,searchtyp,searchcla,searchcod
+      local l1
+   if reccount() = 0                     && If table is empty, don't search
+      InformationMessage("This table is empty.", "Sorry!")
+   else
+      form.CheckChanged(.T.)
+      set procedure to Search.WFM additive
+      searchForm = new SearchForm()
+      searchForm.keyName = "TypClaCod"  && Indicator of key expression
+        searchForm.formatting = "@X"
+      searchForm.mdi = .F.
+      searchItem = searchForm.Readmodal()
+      if type("searchItem") = "O" .and. searchItem.id <> 0
+                                      && If search wasn't cancelled
+         saveRec = Bookmark()            && save current record in case seek is
+                                      && unsuccessful
+        l1 = left(searchform.value,6) && 999999
+       searchtyp = LEFT(l1,2)
+         searchcod = right(l1,2)
+        l1 = left(searchform.value,4)
+       searchcla = right(l1,2)
+       
+       form.enabled = .F.
+         seek searchtyp+searchcla+searchcod
+* locate for period = searchcoy .and. doctype = searchdiv
+         if .not. found()
+            InformationMessage(FormatStr("Item Id Code %1 \n Was not Found.",;
+                                         searchForm.value),;
+                               "Info")
+            if .not. eof()
+               go saverec()
+            else
+               go bottom
+            endif
+         endif
+         form.enabled = .T.
+      endif
+
+      searchForm.Release()
+      close procedure Search.WFM
+   endif
+form.BrowseOnNavigate()
+
+  
+   ***************************************************************************
+   procedure ViewEditOnClick
+   ****************************************************************************
+
+   form.ViewEdit()
+
+    ****************************************************************************
+    procedure OnExit
+     form.Release()
+
+    procedure OnQuitAll
+   
+     form.Release()
+
+ quit
+
+ENDCLASS
+
+    

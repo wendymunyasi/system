@@ -1,0 +1,712 @@
+*****************************************************************************
+*  PROGRAM:      dshiftbk.mnu
+*
+*  WRITTEN BY:   W Nyongesa
+*
+*  DATE:         03/2001
+*
+*  UPDATED:      03/2014
+*
+*  REVISION:     $Revision:   1.58  $
+*
+*  VERSION:      Visual dBASE
+*
+*  DESCRIPTION:  This is a menu file used by dshiftbk.WFM for
+*                performing simple tasks.  It allows adding and deleting
+*                records, searching for a value in the Division field of the
+*                current table viewed, and exiting the form in view.
+*
+*  PARAMETERS:   FormObj -- the form to which this menu will belong.
+*
+*  CALLS:        None
+*
+*  USAGE:        form.menuFile = "dshiftbk.mnu"
+*
+*******************************************************************************
+#include <messdlg.h>
+
+** END HEADER -- do not remove this line*
+* Generated on 07/03/2001
+*
+Parameter FormObj
+NEW DivisionS(FormObj,"Root")
+CLASS DivisionS(FormObj,Name) OF MENUBAR(FormObj,Name)
+   this.Text = ""
+   this.OnInit = {;set procedure to SampProc.prg}
+
+   DEFINE MENU FILE OF THIS;
+       PROPERTY;
+         Text "&File"
+         
+  DEFINE MENU EXIT OF THIS.FILE;
+                PROPERTY; 
+          StatusMessage "Return to the Previous Menu.",;
+          Text "&RETURN TO PREVIOUS MENU",;
+          SHORTCUT "F4",;
+          OnClick CLASS::ONEXIT
+  
+      
+       DEFINE MENU SEPARATOR000 OF THIS.FILE;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+
+            
+   DEFINE MENU QUITALL OF THIS.FILE;
+       PROPERTY; 
+          StatusMessage "Leave Kenserve System.",;
+          Text "EXIT",;
+          SHORTCUT "F8",;
+          OnClick CLASS::ONQUITALL
+          
+
+   DEFINE MENU dshiftbk OF THIS;
+       PROPERTY;
+         Text "Date"
+
+         DEFINE MENU SEARCH OF THIS.dshiftbk;
+             PROPERTY;
+               OnClick CLASS::SEARCHONCLICK,;
+               Text "&Search ...",;
+               Shortcut "Ctrl-S",;
+               StatusMessage "Search for a Division."
+
+         DEFINE MENU SEPARATOR3 OF THIS.dshiftbk;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+
+
+   DEFINE MENU REPORT OF THIS;
+       PROPERTY;
+         Text "&Reports"
+    DEFINE MENU DSHFTBKREPTS OF THIS.REPORT;
+             PROPERTY;
+               OnClick {;create session ;set lock off ;report form SHIFTMRD},;
+               Text "01a. Detailed Sales of Main &Product Report."
+               
+               DEFINE MENU SEPARREP01 OF THIS.REPORT;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+    DEFINE MENU DSHFTBKREPTSa OF THIS.REPORT;
+             PROPERTY;
+               OnClick {;create session ;set lock off ;report form dSHIFTMR},;
+               Text "01b. &Summary Sales of Main Product Report."
+               
+               DEFINE MENU SEPARREP01a OF THIS.REPORT;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+         DEFINE MENU sendsummERRORDivisionSREPORT OF THIS.REPORT;
+             PROPERTY;
+               OnClick {;create session ;set lock off ;report form dshiftvc},;
+               Text "0&2. Daily Invoices by Customer."
+               
+                DEFINE MENU SEPARREP02 OF THIS.REPORT;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+               
+                DEFINE MENU sendsummminvs OF THIS.REPORT;
+             PROPERTY;
+               OnClick {;create session ;set lock off ;report form mshiftiv},;
+               Text "0&2b Monthly Invoices by Customer."
+               
+                DEFINE MENU SEPARREP02MINVS OF THIS.REPORT;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+               
+                 DEFINE MENU sendsummmjcs OF THIS.REPORT;
+             PROPERTY;
+               OnClick {;create session ;set lock off ;report form mshiftjv},;
+               Text "0&2c Monthly Job Cards."
+               
+                DEFINE MENU SEPARREP02MJCSS OF THIS.REPORT;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+               *
+                 DEFINE MENU sendsummERRORDivisionSREPORTd OF THIS.REPORT;
+             PROPERTY;
+               OnClick {;create session ;set lock off ;report form dshftvcp},;
+               enabled .f.,;
+               Text "0&2d. Daily Invoices by product."
+               
+                DEFINE MENU SEPARREP02d OF THIS.REPORT;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+            
+                DEFINE MENU sendsummminvse OF THIS.REPORT;
+             PROPERTY;
+               OnClick {;create session ;set lock off ;report form mshftivp},;
+                enabled .f.,;
+               Text "0&2e Monthly Invoices by Product."
+               
+                DEFINE MENU SEPARREP02MINVSe OF THIS.REPORT;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+               
+             *
+         DEFINE MENU srecerendsummERRORDivisionSREPORT OF THIS.REPORT;
+             PROPERTY;
+               OnClick {;create session ;set lock off ;report form darecpt},;
+               Text "0&3. Daily Receipts.",;
+               enabled .T.
+               
+                DEFINE MENU SEPARREP03 OF THIS.REPORT;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+               
+               DEFINE MENU ddebtirpo OF THIS.REPORT;
+             PROPERTY;
+               OnClick {;create session ;set lock off ;report form ddebtorp},;
+               Text "0&4a1. Daily Credit Situation (Overall) - all accounts."
+               
+                DEFINE MENU SEPARREP04 OF THIS.REPORT;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+               **
+                 DEFINE MENU ddebtirpo4a1 OF THIS.REPORT;
+             PROPERTY;
+               OnClick {;create session ;set lock off ;report form dadebts},;
+               Text "0&4a2. Daily Summary Debtors Position."
+               
+                DEFINE MENU SEPARREP04a1 OF THIS.REPORT;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+               **
+                   DEFINE MENU ddebtpos OF THIS.REPORT;
+             PROPERTY;
+                 OnClick {;create session ;set lock off ;report form ddebtpos},;
+               Text "04&b. DAILY DEBTORS SUMMARY."
+               
+                 DEFINE MENU SEPARREP04C OF THIS.REPORT;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+               
+               DEFINE MENU ddebtirpo4C OF THIS.REPORT;
+             PROPERTY;
+               OnClick {;create session ;set lock off ;report form ddebtorb},;
+               Text "04&c. Daily Credit Situation (Overall) - With Balances Only."
+               
+                DEFINE MENU SEPARREP04b OF THIS.REPORT;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+               **
+                 DEFINE MENU ddebtirpo4d OF THIS.REPORT;
+             PROPERTY;
+               OnClick {;create session ;set lock off ;report form frmageda},;
+               Text "04&d. Monthly Debtors Position."
+               
+                DEFINE MENU SEPARREP04d OF THIS.REPORT;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+               **
+                DEFINE MENU ddestaff OF THIS.REPORT;
+             PROPERTY;
+               OnClick {;create session ;set lock off ;report form dshiftjb},;
+               enabled .t.,;
+               Text "0&5. Daily Job Cards"
+                DEFINE MENU SEPARREP05 OF THIS.REPORT;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+ DEFINE MENU dadebtorspo OF THIS.REPORT;
+             PROPERTY;
+               OnClick {;create session ;set lock off ;report form dadebtor},;
+               Text "0&6. Daily Detailed Summary Debtors Position."
+                DEFINE MENU SEPARREP06 OF THIS.REPORT;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+
+         DEFINE MENU DAILSTCALC OF THIS.REPORT;
+             PROPERTY;
+               OnClick {;create session ;set lock off ;report form dshiftNU},;
+               Text "0&7. DAREP01 - Daily Stock Calculations - WITH NO ULLAGE"
+                DEFINE MENU SEPARREP07 OF THIS.REPORT;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+
+         DEFINE MENU DAILSTOPOS OF THIS.REPORT;
+             PROPERTY;
+               OnClick {;create session ;set lock off ;report form dshiftSW},;
+               Text "0&8. Sales and Stock Position of Inventory Items"
+                DEFINE MENU SEPARREP08 OF THIS.REPORT;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+               
+               DEFINE MENU SLODAILSTOPOS OF THIS.REPORT;
+             PROPERTY;
+               OnClick {;create session ;set lock off ;report form mshiftNU},;
+               Text "0&9. Monthly Stock Calculations WITH NO ULLAGE"
+                DEFINE MENU SEPARREP09 OF THIS.REPORT;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+               
+                  DEFINE MENU SLSERVODAILSTOPOS OF THIS.REPORT;
+             PROPERTY;
+               OnClick {;create session ;set lock off ;report form dshiftPS},;
+               Text "1&0. Stock Position of Service Bay and Tyre Centre Items"
+                DEFINE MENU SEPARREP10 OF THIS.REPORT;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+               
+    DEFINE MENU DAILYCASHSUM OF THIS.REPORT;
+             PROPERTY;
+               OnClick {;create session ;set lock off ;report form Dshcsm},;
+               Text "11. Cash Su&mmary"
+                DEFINE MENU SEPARREP11 OF THIS.REPORT;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+               
+    DEFINE MENU cashiersrecT OF THIS.REPORT;
+             PROPERTY;
+               OnClick {;create session ;set lock off ;report form DSHCASHR},;
+               Text "12. Daily &Cashiers' Reconciliation (Shortage)"
+               
+                DEFINE MENU SEPARREP12 OF THIS.REPORT;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+
+          DEFINE MENU cashiersrecT12b OF THIS.REPORT;
+             PROPERTY;
+               OnClick {;create session ;set lock off ;report form DCASHR12},;
+               Text "12b. Daily &Cashiers' Reconciliation (Shortage)"
+               
+                DEFINE MENU SEPARREP12b OF THIS.REPORT;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+               
+    DEFINE MENU mcashiersrecT OF THIS.REPORT;
+             PROPERTY;
+               OnClick {;create session ;set lock off ;report form mSHCASHR},;
+               Text "13. Monthly Cashiers' Reco&nciliation (Shortage)"
+               
+ DEFINE MENU SEPARREP13 OF THIS.REPORT;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+
+
+            
+    DEFINE MENU mcashiersrecT13b OF THIS.REPORT;
+             PROPERTY;
+               OnClick {;create session ;set lock off ;report form mCASHR13},;
+               Text "13b. Monthly Cashiers' Reco&nciliation (Shortage)"
+               
+ DEFINE MENU SEPARREP13b OF THIS.REPORT;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+               
+ DEFINE MENU DAILYSALSUM OF THIS.REPORT;
+             PROPERTY;
+               OnClick {;create session ;set lock off ;report form dshiftcs},;
+               Text "14. DAREP02 - Sales S&ummary"
+               
+                DEFINE MENU SEPARREP14 OF THIS.REPORT;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+ 
+ DEFINE MENU cashbvEmonthlysaless OF THIS.REPORT;
+             PROPERTY;
+               OnClick {;create session ;set lock off ;report form mcasbank},;
+                Text "15. Monthly Cash &Bankings, Credit Notes, Receipts, Debit notes, Cheques etc"
+                DEFINE MENU SEPARREP15 OF THIS.REPORT;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+               
+  deFINE MENU DAILYPURS OF THIS.REPORT;
+             PROPERTY;
+               OnClick {;create session ;set lock off ;report form dapur},;
+               enabled .T.,;
+               Text "16. DAREP05 - Daily Purc&hases/Expenses"
+                DEFINE MENU SEPARREP16 OF THIS.REPORT;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+               
+ DEFINE MENU DAILYDRECTS OF THIS.REPORT;
+             PROPERTY;
+               OnClick {;create session ;set lock off ;report form morecpt},;
+               enabled .t.,;
+               Text "17. Mon&thly Detailed Receipts"
+                DEFINE MENU SEPARREP17 OF THIS.REPORT;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+ DEFINE MENU DAILYTRNS OF THIS.REPORT;
+             PROPERTY;
+               OnClick {;create session ;set lock off ;report form datran},;
+               enabled .t.,;
+               Text "18. DAREP06 - Daily &Stock Transfers"
+                DEFINE MENU SEPARREP18 OF THIS.REPORT;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+               
+                DEFINE MENU FLOATEXPS OF THIS.REPORT;
+             PROPERTY;
+               OnClick {;create session ;set lock off ;report form FLOATPYD},;
+               enabled .t.,;
+               Text "19. Daily &Float Expenses Sorted By Department"
+                DEFINE MENU SEPARREP19 OF THIS.REPORT;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+               DEFINE MENU DAILYBANKS OF THIS.REPORT;
+             PROPERTY;
+               OnClick {;create session ;set lock off ;report form banking},;
+               enabled .t.,;
+               Text "20. Bankin&gs"
+                DEFINE MENU SEPARREP20 OF THIS.REPORT;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+                       
+               DEFINE MENU MONTHLYPURCDAILYBANKS OF THIS.REPORT;
+             PROPERTY;
+               OnClick {;create session ;set lock off ;report form DASWHITE},;
+               enabled .t.,;
+               Text "21. Monthl&y Purchases"
+                DEFINE MENU SEPARREP21 OF THIS.REPORT;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+               
+                 DEFINE MENU monDailyadjs OF THIS.REPORT;
+             PROPERTY;
+               OnClick {;create session ;set lock off ;report form Dshiftad},;
+               enabled .t.,;
+               Text "22. Monthly Stock Ad&Justments/Assembly"
+                DEFINE MENU SEPARREP22 OF THIS.REPORT;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+               
+                  DEFINE MENU MONTHLYPURCHASESBYPAYMETHOD OF THIS.REPORT;
+             PROPERTY;
+               OnClick {;create session ;set lock off ;report form MOPUR},;
+               enabled .t.,;
+               Text "23. Monthly Purchases BY PAYMENT METHOD"
+               
+       DEFINE MENU SEPARREP23 OF THIS.REPORT;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+              
+                  DEFINE MENU MONTHLYSTAFFSHORT OF THIS.REPORT;
+             PROPERTY;
+               OnClick {;create session ;set lock off ;report form mosshort},;
+               enabled .t.,;
+               Text "24. Monthly Staff Shortages/Recoveries"
+                  DEFINE MENU SEPARREP24 OF THIS.REPORT;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+              
+                    DEFINE MENU MONTHLCUSTDEP OF THIS.REPORT;
+             PROPERTY;
+               OnClick {;create session ;set lock off ;report form mosDEP},;
+               enabled .t.,;
+               Text "25. Monthly Customer Security Deposits"
+                  DEFINE MENU SEPARREP25 OF THIS.REPORT;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+              
+               DEFINE MENU visareport OF THIS.REPORT;
+             PROPERTY;
+               OnClick {;create session ;set lock off ;report form dshiftvs},;
+               Text "26. Daily Credit Card Receipts."
+                  DEFINE MENU SEPARREP26 OF THIS.REPORT;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+              
+                  DEFINE MENU vcashpoisareport OF THIS.REPORT;
+             PROPERTY;
+               OnClick {;create session ;set lock off ;report form fgdacash},;
+               Text "27. DSSR - Cash Position."
+                DEFINE MENU SEPARREP27 OF THIS.REPORT;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+              
+                     DEFINE MENU monthlyvcashpoisareport OF THIS.REPORT;
+             PROPERTY;
+               OnClick {;create session ;set lock off ;report form fgmocash},;
+               Text "28. Monthly - Cash Position."
+                  DEFINE MENU SEPARREP28 OF THIS.REPORT;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+              
+                           DEFINE MENU monthlychqsales OF THIS.REPORT;
+             PROPERTY;
+               Text "29. Monthly - Cheque Sales."
+                  DEFINE MENU SEPARREP29 OF THIS.REPORT;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+              
+           
+                              DEFINE MENU monthlyCSALES OF THIS.REPORT;
+             PROPERTY;
+               OnClick {;create session ;set lock off ;report form dcashsal},;
+               Text "30. Daily Cash Sales - Old"
+                  DEFINE MENU SEPARREP30 OF THIS.REPORT;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+              **
+                                DEFINE MENU monthlyCSALESn OF THIS.REPORT;
+             PROPERTY;
+               OnClick {;create session ;set lock off ;report form dcashsan},;
+               Text "30b. Daily Cash Sales - New"
+                  DEFINE MENU SEPARREP30n OF THIS.REPORT;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+               **
+              DEFINE MENU monthlyWSALES OF THIS.REPORT;
+             PROPERTY;
+               OnClick {;create session ;set lock off ;report form shiftdcs},;
+               Text "31. Monthly Daily White Product Cash Sales"
+       
+          DEFINE MENU SEPARREP31 OF THIS.REPORT;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+              
+         DEFINE MENU monthlyWetstock OF THIS.REPORT;
+             PROPERTY;
+               OnClick {;create session ;set lock off ;report form shiftwet},;
+               Text "32. Monthly Summary We&t Stock Report"
+       
+          DEFINE MENU SEPARREP32 OF THIS.REPORT;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+              
+                DEFINE MENU monthlydetWetstock OF THIS.REPORT;
+             PROPERTY;
+               OnClick {;create session ;set lock off ;report form shiftwst},;
+               Text "33. Monthly Detailed &Wet Stock Report"
+               
+                DEFINE MENU SEPARREP3233 OF THIS.REPORT;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+              
+                DEFINE MENU monthlyDAILYCASH OF THIS.REPORT;
+             PROPERTY;
+               OnClick {;create session ;set lock off ;report form mocaspos},;
+               Text "34. Monthly Detailed (Daily) Cash Pos&ition"
+
+               
+
+    DEFINE MENU SEPARREP3235 OF THIS.REPORT;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+              
+                DEFINE MENU monthlyDAILYCASH35 OF THIS.REPORT;
+             PROPERTY;
+               OnClick {;create session ;set lock off ;do dsshrep.prg with form.bluser},;
+               Text "35. C&Ombined DSSR for Current Date - MUST CHOOSE A4 PAPER SIZE."
+
+   DEFINE MENU SEPARREP3236 OF THIS.REPORT;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+              
+                DEFINE MENU monthlyDAILYCASH36 OF THIS.REPORT;
+             PROPERTY;
+             OnClick {;create session ;set lock off ;report form daycyl},;
+                  Text "36. Daily LPG & Lubes Cash Sales Ordered by Cashier."
+                  
+   DEFINE MENU SEPARREP3237 OF THIS.REPORT;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+              
+                DEFINE MENU monthlyDAILYCASH37 OF THIS.REPORT;
+             PROPERTY;
+             OnClick {;create session ;set lock off ;report form daylub},;
+                  Text "37. Daily LPG & Lubes Cash Sales Ordered by Item Type"
+
+  DEFINE MENU SEPARREP3238 OF THIS.REPORT;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+              
+                DEFINE MENU monthlyDAILYCASH38 OF THIS.REPORT;
+             PROPERTY;
+             OnClick {;create session ;set lock off ;report form dayivlub},;
+                  Text "38. Daily LPG & Lubes CRT Sales Ordered by Item Type"
+
+ DEFINE MENU SEPARREP3239 OF THIS.REPORT;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+              
+                DEFINE MENU monthlyDAILYCASH39 OF THIS.REPORT;
+             PROPERTY;
+             OnClick {;create session ;set lock off ;report form dayvslub},;
+                  Text "39. Daily LPG & Lubes CR Card Sales Ordered by Item Type"
+                  
+ DEFINE MENU SEPARREP3240 OF THIS.REPORT;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+
+                  
+                     DEFINE MENU monthlyDAILYCASH40 OF THIS.REPORT;
+             PROPERTY;
+             OnClick {;create session ;set lock off ;report form dshiftcd},;
+                  Text "40. Monthly Summary Credit Card Sales"
+                  
+ DEFINE MENU SEPARREP3241 OF THIS.REPORT;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+
+                  
+                    DEFINE MENU monthlyDAILYCASH41 OF THIS.REPORT;
+             PROPERTY;
+             OnClick {;create session ;set lock off ;report form dshiftin},;
+                  Text "41. Monthly Summary Invoice Sales"
+           
+             DEFINE MENU DAILSTCALC42 OF THIS.REPORT;
+             PROPERTY;
+               OnClick {;create session ;set lock off ;report form dshiftsc},;
+               Text "42. DAREP01 - Daily Stock Calculations  - WITH ULLAGE."
+               
+                DEFINE MENU SEPARREP42 OF THIS.REPORT;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+
+
+   DEFINE MENU SLODAILSTOPOS43 OF THIS.REPORT;
+             PROPERTY;
+               OnClick {;create session ;set lock off ;report form mshiftsc},;
+               Text "43. Monthly Stock Calculations - WITH ULLAGE"
+               
+                DEFINE MENU SEPARREP43 OF THIS.REPORT;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+               
+               
+   ****************************************************************************
+   procedure SearchOnClick
+
+   * Bring up Search3.WFM.
+   ****************************************************************************
+   private searchForm, searchItem, saveRec, saveFilt, searchcoy,;
+           searchdiv, searchcen
+      local l1
+      
+   if reccount() = 0                     && If table is empty, don't search
+      InformationMessage("This table is empty.", "Sorry!")
+   else
+      form.CheckChanged(.T.)
+      set procedure to Search.WFM additive
+      searchForm = new SearchForm()
+      searchForm.keyName = "ddmmyyyy"  && Indicator of key expression
+        searchForm.formatting = "@X"
+      searchForm.mdi = .F.
+      searchItem = searchForm.Readmodal()
+      if type("searchItem") = "O" .and. searchItem.id <> 0
+                                      && If search wasn't cancelled
+         saveRec = Bookmark()            && save current record in case seek is
+                                      && unsuccessful
+       local l1,l2,l3,l4
+       
+       l1 = left(searchform.value,8) && ddmmyyyy
+       l2 = right(l1,4) && yyyyy
+       l3 = left(l1,2) && dd
+       l1 = left(l1,4)
+       l4 = right(l1,2) && mm
+       l5 = l3+"/"+l4+"/"+l2
+       l6 = ctod(l5)
+      *  searchcen = right(searchform.value,6)
+       form.enabled = .F.
+       go top
+        seek "1"+dtos(l6)
+        
+* locate for period = searchcoy .and. doctype = searchdiv
+         if .not. found()
+            InformationMessage(FormatStr("Shift Date %1 \n Was not Found.",;
+                                         searchForm.value),;
+                               "Info")
+            if .not. eof()
+               go saverec()
+            else
+               go bottom
+            endif
+         endif
+         form.enabled = .T.
+      endif
+
+      searchForm.Release()
+      close procedure Search.WFM
+   endif
+ LOCAL L1,L2,L3,L4,L5
+   L1 = DTOS(DSHIFTBK->SHIFT_DATE)  && YYYYMMDD
+   L2 = LEFT(L1,4) && YYYY
+   L3 = RIGHT(L1,2) && DD
+   L4 = LEFT(L1,6)
+   L5 = RIGHT(L4,2) && MM
+   SELECT DASUM
+   if .not. empty(dshiftbk->shift_date)
+   REPLACE DASUM->shift_date WITH dshiftbk->shift_date
+   REPLACE DASUM->COY WITH dshiftbk->COY
+   REPLACE YY WITH L2
+   REPLACE MM WITH L5
+   select dshiftbk
+   endif
+select dshiftbk
+  
+   ***************************************************************************
+   procedure ViewEditOnClick
+   ****************************************************************************
+
+   form.ViewEdit()
+
+    ****************************************************************************
+    procedure OnExit
+     form.Release()
+
+    procedure OnQuitAll
+   
+     form.Release()
+
+ quit
+
+ENDCLASS
+
+
+

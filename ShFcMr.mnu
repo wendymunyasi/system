@@ -1,0 +1,80 @@
+******************************************************************************
+*  PROGRAM:      ShFcMr.mnu
+*
+*  WRITTEN BY:    W M NYONGESA
+*
+*  DATE:         12/2008
+*
+*  UPDATED:      10/2010
+*
+*  REVISION:     $Revision:   1.55  $
+*
+*  VERSION:      Visual dBASE
+*
+*  DESCRIPTION:  This menu file is used by ShiftMaster.wfm for performing simple
+*                tasks.  It allows adding, deleting, and searching for
+*                ShiftMasters, brings up the PORDERS form for a ShiftMaster,
+*                and runs reports.
+*
+*  PARAMETERS:   FormObj -- the form to which this menu is attached.
+*
+*  CALLS:        None
+*
+*  USAGE:        form.menuFile = "ShFcMr.mnu"
+*
+*******************************************************************************
+#include <Messdlg.h>
+
+** END HEADER -- do not remove this line*
+* Generated on 06/21/94
+*
+Parameter FormObj
+NEW ShiftMasterMENU(FormObj,"Root")
+CLASS ShiftMasterMENU(FormObj,Name) OF MENUBAR(FormObj,Name)
+   this.Text = ""
+   this.OnInit = {;set procedure to Sampproc.prg}
+
+   DEFINE MENU FILE OF THIS;
+       PROPERTY;
+         Text "&File"
+         
+ DEFINE MENU EXIT OF THIS.FILE;
+       PROPERTY; 
+          StatusMessage "Return to the Previous Menu.",;
+          Text "&RETURN TO PREVIOUS MENU",;
+          SHORTCUT "F4",;
+          OnClick CLASS::ONEXIT
+  
+      
+       DEFINE MENU SEPARATOR000 OF THIS.FILE;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+
+            
+   DEFINE MENU QUITALL OF THIS.FILE;
+       PROPERTY; 
+          StatusMessage "Leave Kenserve System.",;
+          Text "Exit",;
+          SHORTCUT "F8",;
+          OnClick CLASS::ONQUITALL
+
+  
+
+  
+  
+   ****************************************************************************
+   
+   procedure OnExit
+   
+  
+   ****************************************************************************
+     form.Release()
+
+    procedure OnQuitAll
+   
+     form.Release()
+
+ quit
+
+ENDCLASS

@@ -1,0 +1,107 @@
+* Visual dBASE .QBE file 9
+*set exclusive on
+
+ON ERROR DO QBEERR WITH ERROR(), MESSAGE(),;
+PROGRAM(), LINENO()
+CLOSE DATABASES
+SET EXACT ON
+*Set exclusive on
+SELECT 1
+USE \KENSERVICE\DATA\arrinvs.DBF ORDER TAG ORDER_NO
+? j_mkey
+delete all for empty(order_no)
+set filter to empty(post_date)
+SELECT 2
+USE \KENSERVICE\DATA\arrinvln.DBF ORDER TAG ORDER_NO
+delete all for empty(order_no)
+set filter to empty(post_date)
+SELECT 3
+USE \KENSERVICE\DATA\FRIGTMES.DBF order tag FRIGHTER
+SET FILTER TO SOURCE > "3" .and. .not. source = "9" .and. .not. source = "7" ;
+  .AND. .NOT. SOURCE = "B" .and. empty(close_Date)
+  select 4
+use \kenservice\data\fgtrnref.dbf order tag mkey
+set filter to doctype = "18" .and. system = "OP" .and. empty(post_date) ;
+ .and. .not. (total = 0 .and. qty = 0)
+select 5
+use \kenservice\data\fginvtrn.dbf
+set filter to doctype = "18" .and. system = "OP" .and. .not. (total = 0 .and. qty = 0)
+select 6
+if .not. file("\kenservice\data\fccashrs.dbf")
+use \kenserve\idssys\cashiers.dbf
+copy stru to \kenservice\data\fccashrs dbase prod
+use  \kenservice\data\fccashrs.dbf
+appe from \kenservice\data\cashiers.dbf
+endif
+use  \kenservice\data\fccashrs.dbf
+select 7
+use \kenservice\data\FGOFFS.dbf order tag name
+set filter to  .not. empty(cashier_no) .and. empty(Date_left) 
+SELECT 18
+use \kenservice\data\FGOFFS.dbf order tag name AGAIN ALIAS FGOFFS2
+set filter to empty(date_left)
+SELECT 19
+use \kenservice\data\FGOFFS.dbf order tag name AGAIN ALIAS FGOFFS3
+set filter to  .not. empty(cashier_no) .and. empty(Date_left)
+select 53
+use \kenservice\data\fgtaxtyp.dbf order tag tax_type
+select 54
+set safety off
+use \kenserve\idssys\fgmast.dbf
+copy stru to \kenservice\data\fgmastlk dbase prod
+use \kenservice\data\fgmastlk.dbf alias fgmast order tag mkey
+appe from \kenservice\data\fgmast.dbf for typ <='9Z' .or. typ = 'C0'
+go top
+select 120
+use \kenservice\data\fgcoy.dbf
+go top
+***ZAP
+SELECT 1
+SET RELATION TO ORDER_NO INTO arrinvln constrain INTEGRITY, mkeyref into fgtrnref
+SELECT 20
+USE \KENSERVICE\DATA\fgmastp.DBF order tag name
+set filter to typ <='9Z' .or. typ = 'C0'
+go top
+SELECT 21
+USE \KENSERVICE\DATA\fgcod.dbf  order tag mkey
+SELECT 22
+USE \KENSERVICE\DATA\fgcods.dbf  order tag mkey
+SELECT 24
+USE \KENSERVICE\DATA\arrinvl.dbf
+*ZAP
+SELECT 25
+USE \KENSERVICE\DATA\arrinvs.DBF AGAIN alias arrinvs3
+***ZAP
+SELECT 70
+set safety off
+use \kenserve\idssys\st15f.dbf
+copy stru to \kenservice\data\st15flkp dbase prod
+use \kenservice\data\st15flkp.dbf exclusive alias st15f
+appe from \kenservice\data\st15f.dbf
+select 121
+use \kenservice\data\arrinvln.dbf again alias arrinvln3
+select 122
+use \kenservice\data\arrinvln.dbf again alias arrinvln4
+select 126
+use \kenservice\data\arrinvsp.dbf
+delete all for empty(order_no)
+set filter to .not. empty(post_date)
+SELECT 127
+use \KENSERVICE\DATA\arrinvln.DBF again  alias arrinvln2 order tag order_no
+ select 128
+ use \kenservice\data\arrinvsn.dbf
+ SELECT 129
+ USE \KENSERVICE\DATA\FGSTKNOS.DBF
+  select 130
+ use \kenservice\data\fgsstop.dbf
+  select 131
+ SET SAFETY OFF
+ USE \KENSERVE\IDSSYS\FRIGHTER.DBF
+ COPY STRU TO \KENSERVICE\DATA\FRIGRINV DBASE PROD
+ USE  \KENSERVICE\DATA\FRIGRINV.DBF  ALIAS FRIGHTER ORDER TAG FRIGHTER
+ APPE FROM \kenservice\data\frighter.dbf FOR .NOT. SOURCE ='1' .AND. .NOT. SOURCE='2' .AND. .NOT. SOURCE='3' ;
+  .AND. .NOT. SOURCE='7' .AND. .NOT. SOURCE='9' .AND. .NOT. SOURCE = 'B' .AND. .NOT. SOURCE = 'L'
+  GO TOP
+
+SELECT 1
+GO TOP

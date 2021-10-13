@@ -1,0 +1,41 @@
+* Visual dBASE .QBE file 9
+CLOSE DATABASES
+on error do FGNFPS.PRG
+use \kenservice\data\FGPURCH.dbf 
+? nonvat
+close databases
+ON ERROR DO QBEERR WITH ERROR(), MESSAGE(),;
+PROGRAM(), LINENO()
+CLOSE DATABASES
+SET EXACT ON
+SELECT 1
+USE \KENSERVICE\DATA\fgnfpur.DBF 
+SELECT 2
+USE \KENSERVICE\DATA\FGPURCH.DBF 
+go top
+if eof()
+pglpur = .t.
+else
+pglpur = .f.
+endif
+select 99
+ use \kenservice\data\fgshuppu.dbf exclusive
+ select 10
+if .not. file("\kenservice\data\fgglpurs.dbf")
+    use \kenserve\idssys\fgglpurs.dbf
+copy stru to \kenservice\data\fgglpurs dbase prod
+endif
+use \kenservice\data\fgglpurs.dbf exclusive
+if pglpur
+set safety off
+zap
+endif
+set safety on
+SELECT 1
+set filter to empty(purch_date)  ;
+ .and. .not. empty(order_date) .and. .not. empty(system) ;
+ .and. .not. empty(TYP)  .AND. .NOT. EMPTY(CLA) .AND. .NOT. EMPTY(COD) ;
+  .and. .not. empty(doctype) .and. .not. empty(order_no) ;
+   .and. .not. empty(stock_no) .and. .not. (qty = 0 .and. total = 0 ;
+    .and. gross_amt = 0 .and. tax_amt = 0) 
+GO TOP

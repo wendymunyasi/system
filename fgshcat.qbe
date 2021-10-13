@@ -1,0 +1,103 @@
+* Visual dBASE .QBE file 9
+on error do fgjcstrc.prg
+USE \KENSERVICE\DATA\SHCATSUM.dbf
+? NONVAT
+ CLOSE DATABASES
+ON ERROR DO QBEERR WITH ERROR(), MESSAGE(),;
+PROGRAM(), LINENO()
+CLOSE DATABASES
+SET EXACT ON
+*SET EXCLUSIVE ON
+set safety off
+
+select 1
+use \kenservice\data\fgcoy.dbf
+SELECT 3 
+USE \KENSERVICE\DATA\shcatsum.DBF EXCLUSIVE
+SELECT 4
+USE \KENSERVICE\DATA\moCATSUM.DBF EXCLUSIVE
+*select 5
+*use \kenservice\data\FGMMPERF.dbf EXCLUSIVE
+*? sal_cr_qty
+*select 6
+*use \kenservice\data\FGMMPERF.dbf AGAIN ALIAS FGMMPERF2
+SELECT 7
+IF .NOT. FILE("\kenservice\data\monpurch.dbf")
+ USE  \kenserve\idssys\monpurch.dbf
+ copy stru to \kenservice\data\monpurch dbase prod
+ endif
+USE \Kenservice\data\monpurch.DBF
+SELECT 8
+ IF .NOT. FILE("\kenservice\data\monsales.dbf")
+ USE  \kenserve\idssys\monsales.dbf
+ copy stru to \kenservice\data\monsales dbase prod
+ endif
+USE \Kenservice\data\monsales.DBF EXCLUSIVE
+*select 30
+*use \kenservice\data\FGddPERF.dbf 
+*? mmcs_sal_q
+*select 40
+*use \kenservice\data\FGddPERF.dbf AGAIN ALIAS FGddPERF2
+*?    LM_SAL_SHS
+select 9
+use \kenservice\data\dacatsum.dbF  exclusive
+? NET_VAT
+? SALE_PRICE
+*ZAP
+*ZAP
+select 13
+use \kenservice\data\dacatpur.dbf exclusive
+select 14
+use \kenservice\data\mocatpur.dbf 
+SELECT 12
+USE \KENSERVICE\DATA\FGCOD.DBF 
+select 17
+
+if .not. file("\kenservice\data\mocoysum.dbf")
+use \kenserve\idssys\mocoysum.dbf
+copy stru to \kenservice\data\mocoysum dbase prod
+endif
+use \kenservice\data\mocoysum.dbf EXCLUSIVE
+select 99
+ use \kenservice\data\fgshupsl.dbf exclusive
+
+select 132
+use \kenservice\data\fgdacash.dbf EXCLUSIVE
+select 133
+use \kenservice\data\dshiftbk.dbf EXCLUSIVE
+select 134
+use \kenservice\data\dasalsum.dbf EXCLUSIVE
+SELECT 136
+USE \KENSERVICE\DATA\FGFCSALS.DBF 
+SELECT 137
+USE \KENSERVICE\DATA\FGCENALL.DBF 
+SELECT 138
+USE \KENSERVICE\DATA\FGCEN.DBF 
+? DAY_RATE
+SELECT 139
+USE \KENSERVICE\DATA\FGFILTER.DBF EXCLUSIVE
+select 140
+use \kenservice\data\fgmocash.dbf EXCLUSIVE
+select 141
+use \kenservice\data\fgmocash.dbf EXCLUSIVE
+select 142
+if .not. file("\kenservice\data\fgmonsal.dbf")
+use \kenserve\idssys\fgmonsal.dbf
+copy stru to \kenservice\data\fgmonsal dBase Prod
+endif
+use \kenservice\data\fgmonsal.dbf
+select 143
+if  .not. file("\kenservice\data\fgdasal.dbf")
+use \kenserve\idssys\fgdasal.dbf
+copy stru to \kenservice\data\fgdasal dBase Prod
+endif
+use \kenservice\data\fgdasal.dbf 
+select 144
+use \kenservice\data\fgdasal.dbf again alias fgdasal2
+
+SELECT 148
+IF .NOT. FILE('\KENSERVICE\DATA\DACATSAL.DBF')
+USE  \KENSERVE\IDSSYS\DACATSAL.DBF
+COPY STRU TO \KENSERVICE\DATA\DACATSAL DBASE PROD
+ENDIF
+use \kenservice\data\DACATSAL.dbF  exclusive

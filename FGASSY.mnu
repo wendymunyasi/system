@@ -1,0 +1,326 @@
+******************************************************************************
+*  PROGRAM:      FGASSY.mnu
+*
+*  WRITTEN BY:   W Nyongesa
+*
+*  DATE:         12/93
+*
+*  UPDATED:      10/2011
+*
+*  REVISION:     $Revision:   1.58  $
+*
+*  VERSION:      Visual dBASE
+*
+*  DESCRIPTION:  This is a menu file used by FGASSY.wfm for
+*                performing simple tasks.  It allows adding and deleting
+*                records, searching for a value in the order field of the
+*                current table viewed, and exiting the form in view.
+*
+*  PARAMETERS:   FormObj -- the form to which this menu will belong.
+*
+*  CALLS:        None
+*
+*  USAGE:        form.menuFile = "FGASSY.mnu"
+*
+*******************************************************************************
+#include <Messdlg.h>
+
+** END HEADER -- do not remove this line*
+* Generated on 05/06/94
+*
+Parameter FormObj
+NEW FGASSY(FormObj,"Root")
+CLASS FGASSY(FormObj,Name) OF MENUBAR(FormObj,Name)
+   this.Text = ""
+   this.OnInit = {;set procedure to Sampproc.prg}
+
+   DEFINE MENU FILE OF THIS;
+       PROPERTY;
+         Text "&File"
+
+         DEFINE MENU EXIT OF THIS.FILE;
+             PROPERTY; 
+               StatusMessage "Return to the Previous Menu.",;
+               Text "&Return to Previous Menu",;
+               ShortCut "F4",;
+               OnClick CLASS::ONEXITALL
+
+        
+       DEFINE MENU SEPARATOR000 OF THIS.FILE;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+
+
+         DEFINE MENU QUITS OF THIS.FILE;
+             PROPERTY; 
+               StatusMessage "Leave Kenserve Integrated System.",;
+               Text "Exit",;
+               ShortCut "F8",;
+               OnClick CLASS::QUITALL
+               
+
+   DEFINE MENU ORDER OF THIS;
+       PROPERTY;
+         Text "Assy"
+
+         DEFINE MENU VIEWEDIT OF THIS.ORDER;
+             PROPERTY;
+               OnClick CLASS::VIEWEDITONCLICK,;
+               Text "&Edit",;
+               Shortcut "Ctrl-E",;
+               StatusMessage "Edit data."
+
+         DEFINE MENU SEPARATOR1 OF THIS.ORDER;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+
+         DEFINE MENU ADDORDER OF THIS.ORDER;
+             PROPERTY;
+               OnClick CLASS::ADDORDERONCLICK,;
+               Text "Add Assy Form",;
+               Enabled .t.,;
+               Shortcut "F3",;
+               StatusMessage "Add a new Assembly Form."
+
+               
+         DEFINE MENU DELETEORDER OF THIS.ORDER;
+             PROPERTY;
+               OnClick CLASS::DELETEORDERONCLICK,;
+               Text "&Delete Form",;
+               Enabled .F.,;
+               Shortcut "Ctrl-D",;
+               StatusMessage "Delete the current Assembly Form."
+      
+         DEFINE MENU SEPARATOR2 OF THIS.ORDER;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+
+  DEFINE MENU REPORT OF THIS;
+       PROPERTY; 
+         Text "Tasks"
+
+         DEFINE MENU REPORT OF THIS.report;
+       PROPERTY;
+         Text "1. Save",;
+         enabled .t.,;
+        OnClick CLASS::F5_RTN,;
+               Shortcut "F5"
+        
+         DEFINE MENU REPORT2 OF THIS.report;
+       PROPERTY;
+         Text "2. Save and Print",;
+         enabled .t.,;
+        OnClick CLASS::F9_RTN,;
+               Shortcut "F9"
+               
+                
+         DEFINE MENU REPORT3 OF THIS.report;
+       PROPERTY;
+         Text "3. Priot Duplicate",;
+         enabled .f.,;
+        OnClick {; do FGASSYP.PRG},;
+               Shortcut "F1"
+   
+
+
+   ****************************************************************************
+   procedure DeleteOrderOnClick
+
+   * Delete current record.
+   ****************************************************************************
+
+   if ConfirmationMessage("Are you sure you want to delete this Assembly Form?",;
+                          "Confirm") = YES
+      delete  && DELETED is ON, so deleted records are still there until
+              && a PACK is executed
+      commit()
+      form.changesMade = .F.
+      begintrans()
+                   on error DO transerr WITH ERROR(), MESSAGE(),;
+   PROGRAM(), LINENO()
+ 
+      if type("form.nextOrderButton") <> "U"    && (FGASSY.wfm)
+         form.prevOrderButton.OnClick()  && Move to prev record
+      else
+         form.vcrPrevButton.OnClick()           && (custord.wfm)
+      endif
+   endif
+
+*******************************************************
+
+   ****************************************************************************
+   procedure ADDORDERONCLICK
+
+   * Add new record.
+   ****************************************************************************
+   private addForm, newOrder, saleDateField, orderNoField, custNoField, custNo,;
+           inEditMode, integrityInEffect
+   
+   form.CheckChanged(.T.)
+   SELECT FGASSY3
+   GO BOTTOM
+   if .not. empty(post_date) .or. empty(order_no)
+
+      orderNoField = field(1)                 && Customer_n field
+   *   custNoField = field(2)                  && Order_no field
+      saleDateField = field(3)                && Sale_date field
+     
+  
+  if type("form.curPage") <> "U"
+         inEditMode = form.curPage.inEditMode
+         integrityInEffect = .T.              && Table integrity rules are used
+      else
+         inEditMode = form.inEditMode
+         integrityInEffect = .F.
+      endif
+   form.changesMade = .T.
+      form.previousRecord = recno()
+      select FGASSY3
+          GO BOTTOM
+          
+     FORM.MAXORDER = ORDER_NO
+     if empty(form.maxOrder)
+      form.maxOrder = FGASSYN->order_no  && start of first operator
+      endif
+      
+     SELECT FGASSY
+      append blank
+      orderNoField = field(1)
+      newOrder = val(form.maxOrder) + 1
+        local wk1,wk2
+       wk1 = neworder
+      if wk1 > 0 .and. wk1 < 10
+      wk2 = "00000"+str(wk1,1)
+      else
+      if wk1 > 9 .and. wk1 < 100
+      wk2 = "0000"+str(wk1,2)
+      else
+       if wk1 > 99 .and. wk1 < 1000
+      wk2 = "000"+str(wk1,3)
+      else
+       if wk1 > 999 .and. wk1 < 10000
+      wk2 = "00"+str(wk1,4)
+      else
+       if wk1 > 9999 .and. wk1 < 100000
+      wk2 = "0"+str(wk1,5)
+      else
+      wk2 = str(wk1,6)
+      endif
+      endif
+      endif
+      endif
+      endif
+      
+      form.select = 0
+      replace &orderNoField with wk2     && Assign new order number
+       form.maxOrder = ORDER_NO
+           replace dde_user with FORM.BLUSER
+        replace dde_date with date()
+        replace dde_time with time()
+        replace post_user with ""
+        replace post_date with {}
+        replace post_time with ""
+     replace order_date with FORM.PSHDATE 
+     REPLACE QTY WITH 0
+     REPLACE TOTAL WITH 0
+     REPLACE UNIT_COST WITH 0
+     REPLACE NEW_BAL WITH 0
+     replace actype with "8"
+     replace reason with FGASSY3->reason
+     replace off with FGASSY3->off
+     replace offname with FGASSY3->offname
+     replace shift_no with form.psno
+     replace shift_id with form.psid
+       replace rname with FGASSY3->rname
+  
+      select FGASSYl
+    replace order_no with FGASSY->order_no
+    replace order_date with FGASSY->order_date
+    
+   
+   select FGASSY
+   REFRESH
+    endif
+      form.soff.setfocus()
+ 
+   ***************************************************************************
+   procedure ViewEditOnClick
+   ****************************************************************************
+if .not. empty(FGASSY->order_no)
+   form.ViewEdit()
+   endif
+
+   ****************************************************************************
+   procedure Exit_OnClick
+   ****************************************************************************
+
+   if type ("form.parentCustomerForm") <> "U"
+      * Release parent form, which releases this child
+      form.parentCustomerForm.Release()
+   else
+      form.Release()
+   endif
+
+procedure F9_rtn
+form.CheckCommit(form.inEditMode)
+if    form.inEditMode
+      form.ViewEdit()
+      form.root.order.viewEdit.enabled = .F.
+   endif
+    form.root.order.ADDorder.enabled = .f.      
+    
+   
+ form.SAQTY.enabled = .f.
+select FGASSY
+         IF .not. empty(order_no)  .and. .not. empty(reason) ;
+          .and.  .not. SAqty = 0 .and. .not. empty(order_date) ;
+           .and. .not. empty(coy) .and. .not. empty(div) .and. .not. empty(cen) ;
+            .and. .not. empty(typ) .and. .not. empty(cla) .and. .not. empty(cod) ;
+             .and. .not. empty(sto) .and. .not. empty(off) .AND. .NOT. AAQTY = 0 ;
+             .and. .not. empty(coy1) .and. .not. empty(div1) .and. .not. empty(cen1) ;
+            .and. .not. empty(typ1) .and. .not. empty(cla1) .and. .not. empty(cod1) ;
+             .and. .not. empty(sto1) .and. .not. empty(SHIFT_NO) .and. .not. empty(SHIFT_ID) ;
+             .and. .not. order_date > fgcoy->end_date  .and. .not. order_date < fgcoy->start_date
+      do FG30Assy.PRG WITH FORM.BLUSER,FORM.BLEVEL
+      DO FGASSYP.PRG
+      form.bottoM_rtn()
+ENDIF
+
+procedure F5_rtn
+form.CheckCommit(form.inEditMode)
+if    form.inEditMode
+      form.ViewEdit()
+      form.root.order.viewEdit.enabled = .F.
+   endif
+    form.root.order.ADDorder.enabled = .f.      
+ form.SAQTY.enabled = .f.
+select FGASSY
+         IF .not. empty(order_no)  .and. .not. empty(reason) ;
+          .and.  .not. SAqty = 0 .and. .not. empty(order_date) ;
+           .and. .not. empty(coy) .and. .not. empty(div) .and. .not. empty(cen) ;
+            .and. .not. empty(typ) .and. .not. empty(cla) .and. .not. empty(cod) ;
+             .and. .not. empty(sto) .and. .not. empty(off) .AND. .NOT. AAQTY = 0 ;
+             .and. .not. empty(coy1) .and. .not. empty(div1) .and. .not. empty(cen1) ;
+            .and. .not. empty(typ1) .and. .not. empty(cla1) .and. .not. empty(cod1) ;
+             .and. .not. empty(sto1) .and. .not. empty(SHIFT_NO) .and. .not. empty(SHIFT_ID) ;
+             .and. .not. order_date > fgcoy->end_date  .and. .not. order_date < fgcoy->start_date
+      do FG30Assy.PRG WITH FORM.BLUSER,FORM.BLEVEL
+      form.bottoM_rtn()
+ENDIF
+
+  procedure OnExitALL
+   
+  
+   ****************************************************************************
+   *      form.close()  
+     form.Release()
+   Procedure QUITALL
+            form.Release()
+            QUIT
+  
+ENDCLASS
+
+            

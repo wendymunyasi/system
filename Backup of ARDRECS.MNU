@@ -1,0 +1,770 @@
+
+******************************************************************************
+*  PROGRAM:      ardrecs.mnu
+*
+*  WRITTEN BY:   W M Nyongesa
+*
+*  DATE:         12/93
+*
+*  UPDATED:     03/2015
+*
+*  REVISION:     $Revision:   1.58  $
+*
+*  VERSION:      Visual dBASE
+*
+*  DESCRIPTION:  This is a menu file used by ardrecs.wfm for
+*                performing simple tasks.  It allows adding and deleting
+*                records, searching for a value in the order field of the
+*                current table viewed, and exiting the form in view.
+*
+*  PARAMETERS:   FormObj -- the form to which this menu will belong.
+*
+*  CALLS:        None
+*
+*  USAGE:        form.menuFile = "ardrecs.mnu"
+*
+*******************************************************************************
+#include <Messdlg.h>
+
+** END HEADER -- do not remove this line*
+* Generated on 05/06/94
+*
+Parameter FormObj
+NEW ardrecs(FormObj,"Root")
+CLASS ardrecs(FormObj,Name) OF MENUBAR(FormObj,Name)
+   this.Text = ""
+   this.OnInit = {;set procedure to Sampproc.prg}
+
+   DEFINE MENU FILE OF THIS;
+       PROPERTY;
+         Text "&FILE"
+
+         
+         DEFINE MENU EXIT OF THIS.FILE;
+                PROPERTY; 
+          StatusMessage "Return to the Previous Menu.",;
+          Text "&RETURN TO PREVIOUS MENU",;
+          SHORTCUT "F4",;
+          OnClick CLASS::ONEXIT
+  
+      
+       DEFINE MENU SEPARATOR000 OF THIS.FILE;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+
+            
+   DEFINE MENU QUITALL OF THIS.FILE;
+       PROPERTY; 
+          StatusMessage "Leave Kenserve System.",;
+          Text "EXIT",;
+          SHORTCUT "F8",;
+          OnClick CLASS::ONQUITALL
+          
+
+   DEFINE MENU ORDER OF THIS;
+       PROPERTY;
+         Text "Receipt"
+
+         DEFINE MENU VIEWEDIT OF THIS.ORDER;
+             PROPERTY;
+               OnClick CLASS::VIEWEDITONCLICK,;
+               Text "&EDIT",;
+               Shortcut "Ctrl-E",;
+               StatusMessage "Edit data."
+
+         DEFINE MENU SEPARATOR1 OF THIS.ORDER;
+             PROPERTY;
+               Separator .T.,;
+                  Text ""
+
+         DEFINE MENU ADDORDER OF THIS.ORDER;
+             PROPERTY;
+               OnClick CLASS::ADDORDERONCLICK,;
+               Text "ADD- New Receipt",;
+               Enabled .T.,;
+               Shortcut "F3",;
+               StatusMessage "Add order."
+
+       DEFINE MENU ADDLINE OF THIS.ORDER;
+             PROPERTY;
+               OnClick CLASS::ADDLINEONCLICK,;
+               Text "ADD-ITEM",;
+               Enabled .T.,;
+               Shortcut "F7",;
+               StatusMessage "Add a new product, item or service to the Receipt."
+               
+           DEFINE MENU DELETELINE OF THIS.ORDER;
+             PROPERTY;
+               OnClick CLASS::DELETELINEONCLICK,;
+               Text "Delete IteM",;
+               Enabled .F.,;
+               Shortcut "Ctrl-M",;
+               StatusMessage "Delete the current product."
+          
+         DEFINE MENU SEPARATOR2 OF THIS.ORDER;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+
+        
+               
+DEFINE MENU REPORT OF THIS;
+       PROPERTY; 
+         Text "Tasks"
+
+   DEFINE MENU REPORT OF THIS.report;
+       PROPERTY;
+         Text "Save",;
+         enabled .t.,;
+        OnClick CLASS::F5_RTN,;
+               Shortcut "F5"
+           DEFINE MENU REPORT2 OF THIS.report;
+       PROPERTY;
+         Text "Save and Print",;
+         enabled .t.,;
+        OnClick class::f9_rtn,;
+               Shortcut "F9"
+               
+                  DEFINE MENU REPORT3 OF THIS.report;
+       PROPERTY;
+       Text "Print Duplicate",;
+         enabled .t.,;
+        OnClick class::F1_rtn,;
+               Shortcut "F1"
+
+      
+ 
+  
+    procedure DeleteLineOnClick
+   PRIVATE Ppcoy,Ppdiv,Ppcen,Ppsto,Pptyp,Ppcla,Ppcod,PPRQTY,pamt
+   * Delete current record.
+   ****************************************************************************
+      select ardrecln
+   if ConfirmationMessage("Are you sure you want to delete this Item?",;
+                          "Confirm") = YES .AND. EMPTY(ardrecs->post_date) ;
+                           .and. .not. eof()
+            
+     select ardrecln
+            
+             pamt = total
+      delete  && DELETED is ON, so deleted records are still there until
+              && a PACK is executed
+              select ardrecs
+              replace ardrecs->items with ardrecs->items - 1
+              replace total with total - pamt
+              IF ardrecs->ITEMS = 0
+              REPLACE ardrecs->TOTAL WITH 0
+    
+              ENDIF
+           SELECT ardrecs
+              
+      commit()
+      form.changesMade = .F.
+      begintrans()
+           on error DO transerr WITH ERROR(), MESSAGE(),;
+  PROGRAM(), LINENO()
+   endif
+   SELECT ardrecln
+   IF .NOT. EOF() .and. .not. bof()
+     FORM.BROWSECHANGESMADE()
+     ELSE
+     SELECT ardrecs
+      replace ardrecs->total with 0
+   replace ardrecs->items with 0
+ ENDIF
+   SELECT ardrecs
+   ****************************************************************************
+   procedure ADDORDERONCLICK
+
+   * Add new record.
+   ****************************************************************************
+   private addForm, newOrder, saleDateField, orderNoField, custNoField, custNo,;
+           inEditMode, integrityInEffect,CustTyp,pdate1,pvatp
+   form.CheckChanged(.T.)
+                          pvatp = FORM.PVATPRICE
+                          pdate1 = FORM.PSHIFTDATE
+  
+      orderNoField = field(1)                 && order_no field
+          OrderDateField = field(7)                && Order_date field
+ select ardrecln2
+ go bottom
+      select ardrecs3
+      go bottom
+       IF empty(order_no) .or. (.not. empty(order_no) .and. .not. empty(post_date))
+       if type("form.curPage") <> "U"
+         inEditMode = form.curPage.inEditMode
+         integrityInEffect = .T.              && Table integrity rules are used
+      else
+         inEditMode = form.inEditMode
+         integrityInEffect = .F.
+      endif
+
+      if .not. inEditMode
+         form.ViewEdit()                      && Make sure record is editable
+      else if type("form.childBrowse") <> "U" && If calling from Customer/ardrecs
+         form.childBrowse.setFocus()
+      endif
+      form.changesMade = .T.
+        form.previousRecord = recno()
+         select ardrecs3
+      go bottom
+    
+      
+    form.maxOrder = order_no
+     local ls1,ls2,ls3,ls4,ls5,LSH,LID
+      SELECT ardrecs
+     
+        if empty(form.maxOrder)
+      form.maxOrder = ardrecsn->order_no  && start of first operator
+      endif
+   
+      append blank
+      orderNoField = field(1)
+      newOrder = val(form.maxOrder) + 1
+      local wk1,wk2
+       wk1 = neworder
+      if wk1 > 0 .and. wk1 < 10
+      wk2 = "00000"+str(wk1,1)
+      else
+      if wk1 > 9 .and. wk1 < 100
+      wk2 = "0000"+str(wk1,2)
+      else
+       if wk1 > 99 .and. wk1 < 1000
+      wk2 = "000"+str(wk1,3)
+      else
+       if wk1 > 999 .and. wk1 < 10000
+      wk2 = "00"+str(wk1,4)
+      else
+       if wk1 > 9999 .and. wk1 < 100000
+      wk2 = "0"+str(wk1,5)
+      else
+      wk2 = str(wk1,6)
+      endif
+      endif
+      endif
+      endif
+      endif
+     replace order_no with wk2     && Assign new order number
+      replace items with 0
+       replace  total with 0
+       replace order_date with  pdate1
+       replace paytype with ardrecs3->paytype
+         
+       
+         replace bl_amt with 0
+        replace al_amt with 0
+        replace l_amt with 0
+        replace pay_method with ardrecs3->pay_method
+          replace pay_method with "Cash"
+          replace paytype  with "Invoice"
+      
+        replace invtotal with 0
+        replace paytotal with 0
+        replace deptotal with 0
+        LSH = FORM.PSHIFTNO
+        LID = FORM.PSHIFTID
+           REPLACE SHIFTNO WITH  LSH
+        REPLACE SHIFTID WITH LID
+   if order_date = ardrecs3->order_date .and. shiftno = ardrecs3->shiftno ;
+    .and. shiftid = ardrecs3->shiftid
+        REPLACE OFF WITH ardrecs3->OFF
+        REPLACE CASHIER_NO WITH ardrecs3->CASHIER_NO
+        REPLACE ANAME WITH ardrecs3->ANAME
+        endif
+        REPLACE DDE_DATE WITH DATE()
+        REPLACE DDE_TIME WITH TIME()
+        REPLACE DDE_USER WITH FORM.BLUSER
+          
+     *  replace recdate with ardrecs3->recdate
+     *  if empty(recdate)
+        replace recdate with order_date
+      * endif
+          select ardrecsL
+    replace order_no with ardrecs->order_no
+    replace order_date with ardrecs->order_date
+  
+          
+      select ardrecln3
+     append blank
+     replace order_no with ardrecs->order_no
+     replace stock_no with "01"
+      replace order_date with ardrecs->order_date
+       replace other_date with order_date
+        replace total with 0
+           replace invtotal with 0
+        replace paytotal with 0
+        replace deptotal with 0
+ REPLACE DDE_DATE WITH DATE()
+        REPLACE DDE_TIME WITH TIME()
+        REPLACE DDE_USER WITH FORM.BLUSER
+      selec ardrecln
+refresh
+go bottom
+         select ardrecs
+        replace ardrecs->items with ardrecs->items + 1
+         form.soff.enabled = .t.
+        if fgcoy->pospost = "Yes"
+        form.CheckCommit(form.inEditMode)
+        select ardrecs
+        seek ardrecsl->order_no
+          REPLACE SHIFTNO WITH FORM.PSHIFTNO
+        REPLACE SHIFTID WITH FORM.PSHIFTID
+         replace pay_method with "Cash"
+          replace paytype  with "Invoice"
+      
+       refresh
+         form.soff.setfocus()
+         else
+         form.sdate.enabled = .t.
+         form.CheckCommit(form.inEditMode)
+         select ardrecs
+        seek ardrecsl->order_no
+         REPLACE SHIFTNO WITH FORM.PSHIFTNO
+        REPLACE SHIFTID WITH FORM.PSHIFTID
+        replace pay_method with "Cash"
+          replace paytype  with "Invoice"
+      
+         refresh
+         form.sdate.setfocus()
+         endif
+   
+   endif
+   
+   procedure ADDLINEONCLICK
+      LOCAL L1,wk1,wk2,l2,l3,l4,ls3,ls4,ls5,LNAME
+ 
+   form.CheckChanged(.T.)
+      form.changesMade = .T.
+      select ardrecs3
+      go bottom
+         select ardrecln
+        go bottom
+        if (empty(stock_no)  .and. .not. empty(order_no) ;
+         .and. .not. empty(ardrecs->order_no) .and. .not. ardrecln->total = 0) ;
+          .or. (stock_no = '01' .and. (ardrecs->paytype='Invoice' .and. .not. empty(ardrecln->bname) ;
+          .and. .not. empty(aRDRECS->ORDER_NO) .and. ardrecln->total > 0)) .and. .not. ardrecs->pay_method ='Cash'
+         L1 = val(STOCK_NO) + 1
+         wk1 = l1
+         if wk1 > 99
+         quit
+         endif
+          if wk1 > 0 .and. wk1 < 10
+      wk2 = "0"+str(wk1,1)
+      else
+      wk2 = str(wk1,2)
+      endif
+      select ardrecln3
+         append blank
+         replace order_no with ardrecs->order_no
+      replace stock_no with wk2
+            replace order_date with ardrecs->order_date
+       replace total with 0
+        replace other_date with ardrecln2->other_date
+        if empty(other_date)
+        replace other_date with ardrecs->order_date
+        endif
+            replace invtotal with 0
+        replace paytotal with 0
+        replace deptotal with 0
+       replace  coy with "1"
+ REPLACE DDE_DATE WITH DATE()
+        REPLACE DDE_TIME WITH TIME()
+        REPLACE DDE_USER WITH FORM.BLUSER
+        
+select ardrecln
+refresh
+go bottom
+          select ardrecs
+          if .not. eof()
+  
+        replace ardrecs->items with ardrecs->items + 1
+         REPLACE SHIFTNO WITH FORM.PSHIFTNO
+        REPLACE SHIFTID WITH FORM.PSHIFTID
+     REPLACE ORDER_DATE WITH FORM.PSHIFTDATE
+        if order_date = ardrecs3->order_date .and. shiftno = ardrecs3->shiftno ;
+    .and. shiftid = ardrecs3->shiftid
+        REPLACE OFF WITH ardrecs3->OFF
+        REPLACE CASHIER_NO WITH ardrecs3->CASHIER_NO
+        REPLACE ANAME WITH ardrecs3->ANAME
+        else
+        replace off with ""
+        replace cashier_no with ""
+        replace aname with ""
+        endif
+       
+           FORM.SBANKA.setfocus()
+  
+   endif
+   endif
+  
+   ***************************************************************************
+   procedure ViewEditOnClick
+   ****************************************************************************
+if .not. empty(ardrecs->order_no)
+   form.ViewEdit()
+   endif
+
+   ****************************************************************************
+   procedure Exit_OnClick
+   ****************************************************************************
+FORM.OKEXIT = .T.
+        form.Release()
+  
+Procedure F1_rtn
+      do ARDRECSP.PRG  WITH FORM.BLUSER
+      
+Procedure F9_rtn
+
+form.CheckCommit(form.inEditMode)
+if    form.inEditMode
+      form.ViewEdit()
+      form.root.order.viewEdit.enabled = .F.
+   endif
+   
+   form.SDTOTAL.enabled = .f.
+   form.root.order.ADDorder.enabled = .f.      
+    form.root.order.ADDline.enabled = .f.
+   select ARDRECS
+   
+local lerr
+lerr = .f.
+
+if  total = 0  .or. .not. EMPTY(post_DATE) 
+lerr = .t.
+? "err 0"
+endif
+
+if .not.  (PAY_METHOD = "Cash" .or. pay_method = "Cheque" .or. pay_method = 'Assets';
+.or. pay_method = "Directcredit" .or. pay_method ="Directdepsit" .or. pay_method = "M-Money")
+ lerr = .t.
+ ? "err 1"
+ endif
+ 
+  
+  if EMPTY(BCOY)  .or.    EMPTY(BTYP);
+      .or. EMPTY(BCLA) .or. EMPTY(BCOD) .or. EMPTY(SOURCE) .or. EMPTY(FTYP);
+       .or. EMPTY(PMOD) .or.  EMPTY(FRIGHTER_N) .or. EMPTY(OFF)  .or. empty(cashier_no) ;
+       .or.  EMPTY(SHIFTNO) .or.  EMPTY(SHIFTID)  .or. empty(serialno)
+       lerr = .t.
+       ? "err 2"
+       endif
+      
+       
+       if .not. (ardrecln->typ =  'E0' .or. ardrecln->typ =  'F0'.or. (ardrecln->typ = 'C0' .and. ardrecln->cla = '00'))
+       lerr = .t.
+       ? "err3"
+       endif
+       
+       
+    if ardrecln->stock_no = '01' .and. pay_method = "Cash"  .and.  .not. (ardrecln->typ="C0" .and. ardrecln->cod = "01")
+     lerr = .t.
+     ? "err 4"
+     endif
+     
+       if ardrecln->stock_no = '01' .and. ((pay_method = "Cheque" .or.;
+       pay_method = "Directcredit" .or. pay_method = "M-Money" ;
+       .or. pay_method ="Directdepsit" )  .and.;
+       (.not. (ardrecln->typ="C0" .and. ardrecln->cla = "00") .or. ardrecln->cod = "01" .or. ardrecln->cod = "11"))
+       lerr = .t.
+       ? "err 5"
+       endif
+   if .not. (paytype = "Invoice" .or. paytype = "Prepayment" .or. paytype = "Ownequity" ;
+   .or. paytype = "Loan" .or. paytype = "Deposit" .or. paytype = "Income" .or. paytype = 'Capital')
+        lerr = .t.
+       ? "err 6"
+       endif
+   if source = "9" .and. .not. (pay_method = "Cash";
+   .or. pay_method = "Cheque" .or. pay_method = "Directcredit" .or. pay_method = "M-Money" .or. ;
+   pay_method ="Directdepsit") && staff only cash/cheque accepted
+     lerr = .t.
+       ? "err 7"
+       endif
+   if (paytype = "Invoice" .or. paytype = "Prepayment" .or. paytype = "Ownequity") ;
+        .and. .not. empty(ARDRECLN->VNAME)
+        lerr = .t.
+       ? "err 8"
+       endif
+       
+       if (paytype = "Loan" .or. paytype = "Deposit") .and. (empty(ARDRECLN->VNAME) .or. .not. btyp = "L0")
+        lerr = .t.
+       ? "err 10"
+       endif
+  if  (ARDRECLN->typ = "L0" .or. .not. empty(ARDRECLN->VNAME)) .and. .not. (paytype = "Loan" .or. paytype = "Deposit")
+   lerr = .t.
+       ? "err 11"
+       endif
+       
+       if paytype = "Ownequity" .and.  .not. btyp = "W0"  
+        lerr = .t.
+       ? "err 12"
+        endif
+  if  ARDRECLN->typ = "W0"  .and. .not. paytype = "Ownequity" 
+   lerr = .t.
+       ? "err 13"
+       endif
+
+ if (paytype = "Ownequity" .or.  paytype = "Loan" .or.  paytype = "Deposit") .and. btyp = "C0"
+  lerr = .t.
+       ? "err 14"
+      endif
+  if btyp = "C0"  .and. (paytype = "Ownequity" .or.  paytype = "Loan" .or.  paytype = "Deposit") 
+  lerr = .t.
+       ? "err 15"
+      endif
+       if (btyp = "W0" .or. btyp = "L0")   .and. (paytype = "Invoice" .or.  paytype = "Prepayment")
+  lerr = .t.
+       ? "err 16"
+      endif
+      IF PAYTYPE = "Deposit" .and. (SOURCE = "9".OR. SOURCE = "3")
+      lerr = .t.
+      ? "Error 17"
+      endif
+      if paytype = "Income" .and.  .not. empty(ARDRECLN->VNAME)
+       lerr = .t.
+      ? "Error 18"
+      endif
+     if  left(btyp,1) = "7" .and. .not. paytype = "Income"
+       lerr = .t.
+      ? "Error 19"
+      endif
+         
+    if pay_method = "M-Money"  .and.  .not. righ(left(ARDRECLN->bname,10),2) = 'M-'
+     lerr = .t.
+     ? "err 20"
+     endif
+      if  righ(left(ARDRECLN->bname,10),2) = 'M-' .and.  .not. pay_method = "M-Money" 
+     lerr = .t.
+     ? "err 21"
+     endif
+     if source = '7' .and. empty(ARDRECLN->ref)
+     lerr = .t.
+     ? "err 22"
+     endif
+      IF SOURCE = '7' .AND. .NOT. (paytype = "Invoice" .or. paytype = "Prepayment")
+      lerr = .t.
+     ? "err 23"
+     endif
+       If .not. ardrecs->total = ardrecs->nett_total
+      lerr = .t.
+     ? "err 24"
+     endif
+     if .not. (btyp = 'C0' .and. bcla = '10') .and. (paytype = "Invoice" .or. paytype = "Prepayment");
+     .and. .not. form.blevel = 1
+      lerr = .t.
+     ? "err 25"
+     endif
+     if paytype = "Income" .and. .not. left(btyp,1)='7'
+      lerr = .t.
+     ? "err 26"
+     endif
+            if btyp = "L0"   .and. empty(ARDRECLN->VNAME)
+  lerr = .t.
+       ? "err 27"
+      endif
+if paytype = 'Capital' .and. pay_method = 'M-Money'
+lerr = .t.
+? 'err 28'
+endif
+if  pay_method = 'Assets' .and. .not. paytype = 'Capital' .and. .not. btyp = 'F0'
+lerr = .t.
+? 'err 29'
+endif
+if  btyp = 'F0' .and. .not. pay_method = 'Assets' .and. .not. paytype = 'Capital' 
+lerr = .t.
+? 'err 30'
+endif
+  if .not. lerr
+
+DO ARDRCPST.PRG WITH FORM.BLUSER,FORM.BLEVEL
+do ARDRECSP.PRG  WITH FORM.BLUSER
+ form.Go_Top()
+ else
+ 
+  ENDIF
+
+
+Procedure F5_rtn
+
+form.CheckCommit(form.inEditMode)
+if    form.inEditMode
+      form.ViewEdit()
+      form.root.order.viewEdit.enabled = .F.
+   endif
+local lerr
+
+form.SDTOTAL.enabled = .f.
+  form.root.order.ADDorder.enabled = .f.      
+    form.root.order.ADDline.enabled = .f.
+   
+SELECT ARDRECS
+    
+
+lerr = .f.
+
+
+if  total = 0  .or. .not. EMPTY(post_DATE) 
+lerr = .t.
+? "err 0"
+endif
+
+if .not.  (PAY_METHOD = "Cash" .or. pay_method = "Cheque" .or. pay_method = 'Assets' ;
+.or. pay_method = "Directcredit" .or. pay_method ="Directdepsit" .or. pay_method = "M-Money")
+ lerr = .t.
+ ? "err 1"
+ endif
+ 
+  
+  if EMPTY(BCOY)  .or.    EMPTY(BTYP);
+      .or. EMPTY(BCLA) .or. EMPTY(BCOD) .or. EMPTY(SOURCE) .or. EMPTY(FTYP);
+       .or. EMPTY(PMOD) .or.  EMPTY(FRIGHTER_N) .or. EMPTY(OFF)  .or. empty(cashier_no) ;
+       .or.  EMPTY(SHIFTNO) .or.  EMPTY(SHIFTID)  .or. empty(serialno)
+       lerr = .t.
+       ? "err 2"
+       endif
+     
+       
+       if .not. (ardrecln->typ =  'E0' .or. ardrecln->typ =  'F0'.or. (ardrecln->typ = 'C0' .and. ardrecln->cla = '00'))
+       lerr = .t.
+       ? "err3"
+       endif
+       
+       
+     if ardrecln->stock_no = '01' .and. pay_method = "Cash"  .and.  .not. (ardrecln->typ="C0" .and. ardrecln->cod = "01")
+     lerr = .t.
+     ? "err 4"
+     endif
+     
+       if ardrecln->stock_no = '01' .and. ((pay_method = "Cheque" .or.;
+       pay_method = "Directcredit" .or. pay_method = "M-Money" ;
+       .or. pay_method ="Directdepsit" )  .and.;
+       (.not. (ardrecln->typ="C0" .and. ardrecln->cla = "00") .or. ardrecln->cod = "01" .or. ardrecln->cod = "11"))
+       lerr = .t.
+       ? "err 5"
+       endif
+   if .not. (paytype = "Invoice" .or. paytype = "Prepayment" .or. paytype = "Ownequity" ;
+   .or. paytype = "Loan" .or. paytype = "Deposit" .or. paytype = "Income" .or. paytype = 'Capital')
+        lerr = .t.
+       ? "err 6"
+       endif
+   if source = "9" .and. .not. (pay_method = "Cash";
+   .or. pay_method = "Cheque" .or. pay_method = "Directcredit" .or. pay_method = "M-Money" .or. ;
+   pay_method ="Directdepsit") && staff only cash/cheque accepted
+     lerr = .t.
+       ? "err 7"
+       endif
+   if (paytype = "Invoice" .or. paytype = "Prepayment" .or. paytype = "Ownequity") ;
+        .and. .not. empty(ARDRECLN->VNAME)
+        lerr = .t.
+       ? "err 8"
+       endif
+       
+       if (paytype = "Loan" .or. paytype = "Deposit") .and. (empty(ARDRECLN->VNAME) .or. .not. btyp = "L0")
+        lerr = .t.
+       ? "err 10"
+       endif
+  if  (ARDRECLN->typ = "L0" .or. .not. empty(ARDRECLN->VNAME)) .and. .not. (paytype = "Loan" .or. paytype = "Deposit")
+   lerr = .t.
+       ? "err 11"
+       endif
+       
+       if paytype = "Ownequity" .and.  .not. btyp = "W0"  
+        lerr = .t.
+       ? "err 12"
+        endif
+  if  ARDRECLN->typ = "W0"  .and. .not. paytype = "Ownequity" 
+   lerr = .t.
+       ? "err 13"
+       endif
+
+ if (paytype = "Ownequity" .or.  paytype = "Loan" .or.  paytype = "Deposit") .and. btyp = "C0"
+  lerr = .t.
+       ? "err 14"
+      endif
+  if btyp = "C0"  .and. (paytype = "Ownequity" .or.  paytype = "Loan" .or.  paytype = "Deposit") 
+  lerr = .t.
+       ? "err 15"
+      endif
+       if (btyp = "W0" .or. btyp = "L0")   .and. (paytype = "Invoice" .or.  paytype = "Prepayment")
+  lerr = .t.
+       ? "err 16"
+      endif
+      IF PAYTYPE = "Deposit" .and. (SOURCE = "9".OR. SOURCE = "3")
+      lerr = .t.
+      ? "Error 17"
+      endif
+      if paytype = "Income" .and.  .not. empty(ARDRECLN->VNAME) 
+       lerr = .t.
+      ? "Error 18"
+      endif
+     if  left(btyp,1) = "7" .and. .not. paytype = "Income"
+       lerr = .t.
+      ? "Error 19"
+      endif
+           
+    if pay_method = "M-Money"  .and.  .not. righ(left(ARDRECLN->bname,10),2) = 'M-'
+     lerr = .t.
+     ? "err 20"
+     endif
+      if  righ(left(ARDRECLN->bname,10),2) = 'M-' .and.  .not. pay_method = "M-Money" 
+     lerr = .t.
+     ? "err 21"
+     endif  
+     if source = '7' .and. empty(ARDRECLN->ref)
+     lerr = .t.
+     ? "err 22"
+     endif
+     IF SOURCE = '7' .AND. .NOT. (paytype = "Invoice" .or. paytype = "Prepayment")
+      lerr = .t.
+     ? "err 23"
+     endif
+      If .not. ardrecs->total = ardrecs->nett_total
+      lerr = .t.
+     ? "err 24"
+     endif
+         if .not. (btyp = 'C0' .and. bcla = '10') .and. (paytype = "Invoice" .or. paytype = "Prepayment");
+         .and. .not. form.blevel = 1
+      lerr = .t.
+     ? "err 25"
+     endif
+      if paytype = "Income" .and. .not. left(btyp,1)='7'
+      lerr = .t.
+     ? "err 26"
+     endif
+             if btyp = "L0"   .and. empty(ARDRECLN->VNAME)
+  lerr = .t.
+       ? "err 27"
+      endif
+    if paytype = 'Capital' .and. pay_method = 'M-Money'
+lerr = .t.
+? 'err 28'
+endif
+if  pay_method = 'Assets' .and. .not. paytype = 'Capital' .and. .not. btyp = 'F0'
+lerr = .t.
+? 'err 29'
+endif
+if  btyp = 'F0' .and. .not. pay_method = 'Assets' .and. .not. paytype = 'Capital' 
+lerr = .t.
+? 'err 30'
+endif
+  if .not. lerr
+
+DO ARDRCPST.PRG WITH FORM.BLUSER,FORM.BLEVEL
+ form.Go_Top()
+ else
+ ? "errors"
+ 
+  ENDIF
+
+  ****************************************************************************
+    procedure OnExit
+     form.Release()
+
+    procedure OnQuitAll
+   
+     form.Release()
+
+ quit
+
+ENDCLASS
+       

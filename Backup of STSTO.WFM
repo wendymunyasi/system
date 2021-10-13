@@ -1,0 +1,1319 @@
+////////////////////////////////////////////////////////////////////////////////
+// Output Filename: C:\KENSERVICE\IDSSYS\STSTO_FCV.WFM                        //
+// Created By:      dBASE Form Converter Wizard                               //
+// Created On:      Sunday June 12, 2016 At 16:20:59                          //
+// Object Count:    45                                                        //
+////////////////////////////////////////////////////////////////////////////////
+*******************************************************************************
+*  PROGRAM:      Ststo.wfm
+*
+*  WRITTEN BY:   W Nyongesa
+*
+*  DATE:         05/2000
+*
+*  UPDATED:    01/2016
+*
+*  REVISION:     $Revision:   1.0
+*
+*  VERSION:      Visual dBASE
+*
+*  DESCRIPTION:  This program maintains the Stores master file
+*
+*  PARAMETERS:   None
+*
+*  CALLS:        Ststo.mnu         (Menu file)
+*                KBUTTONS.CC          (Custom Controls file)
+*                Stores Code.qbe         (View of tables)
+*
+*  USAGE:        DO Ststo.wfm
+*BUSER,BLEVEL,BLADMIN,bModal
+*******************************************************************************
+#include <messdlg.h>
+shell(.F.)
+create session
+set talk off
+*et DBTYPE to PARADOX
+set century on
+_app.FrameWin.Visible = .F.
+_app.FrameWin.Text = "Ststo"
+set design off
+set ldCheck off && To avoid language driver conflicts
+#define Maxcoy 999
+** END HEADER -- do not remove this line
+//
+// Generated on 10/07/2016
+//
+parameter   BUSER,BLEVEL,BLADMIN,bModal
+local f
+f = new StstoFORM()
+if (bModal)
+   f.mdi = false // ensure not MDI
+   f.readModal()
+else
+   f.open()
+endif
+
+class StstoFORM of FORM
+   with (this)
+      onClose = class::ONCLOSE
+      open = class::OPEN
+      metric = 6	// Pixels
+      colorNormal = "N+"
+      height = 932.0
+      left = 71.0
+      top = 20.0
+      width = 1284.0
+      text = "Stores Maintenance Form"
+      windowState = 2	// Normal
+      mdi = false
+      sizeable = false
+      moveable = false
+      view = "Ststo.QBE"
+      menuFile = "STSTO.MNU"
+      escExit = false
+      mousePointer = 1	// Arrow
+      maximize = false
+      minimize = false
+   endwith
+
+   this.RECTANGLE1 = new RECTANGLE(this)
+   with (this.RECTANGLE1)
+      left = 336.0
+      top = 17.0
+      width = 384.0
+      height = 204.0
+      text = "CURRENT STORE INFORMATION"
+      fontName = "MS Sans Serif"
+      fontBold = true
+   endwith
+
+   this.TEXT2 = new TEXTLABEL(this)
+   with (this.TEXT2)
+      height = 25.0
+      left = 348.0
+      top = 43.0
+      width = 60.0
+      text = "CODE:"
+      colorNormal = "B/BtnFace"
+      fontName = "MS Sans Serif"
+      fontBold = true
+      alignVertical = 1	// Middle
+      alignHorizontal = 2	// Right
+   endwith
+
+   this.STOCOD = new ENTRYFIELD(this)
+   with (this.STOCOD)
+      dataLink = "Ststo->STO"
+      enabled = false
+      height = 26.0
+      left = 420.0
+      top = 51.0
+      width = 36.0
+      function = "!"
+      colorNormal = "N/BtnFace"
+      colorHighLight = "B+/W*"
+      fontName = "MS Sans Serif"
+      fontBold = true
+   endwith
+
+   this.TEXT5 = new TEXTLABEL(this)
+   with (this.TEXT5)
+      height = 25.0
+      left = 480.0
+      top = 43.0
+      width = 132.0
+      text = "Other Store Code:"
+      colorNormal = "B/BtnFace"
+      fontName = "MS Sans Serif"
+      fontBold = true
+      alignVertical = 1	// Middle
+      alignHorizontal = 2	// Right
+   endwith
+
+   this.STO1 = new ENTRYFIELD(this)
+   with (this.STO1)
+      dataLink = "STSTO->Sto1"
+      enabled = false
+      height = 26.0
+      left = 624.0
+      top = 51.0
+      width = 48.0
+      function = "!"
+      colorNormal = "N/BtnFace"
+      colorHighLight = "B+/W*"
+      fontName = "MS Sans Serif"
+      fontBold = true
+   endwith
+
+   this.TEXT1 = new TEXTLABEL(this)
+   with (this.TEXT1)
+      height = 25.0
+      left = 360.0
+      top = 77.0
+      width = 168.0
+      text = "ENTER DESCRIPTION"
+      colorNormal = "B/BtnFace"
+      fontName = "MS Sans Serif"
+      fontBold = true
+      alignVertical = 1	// Middle
+      alignHorizontal = 2	// Right
+   endwith
+
+   this.LNAMEENTRY = new ENTRYFIELD(this)
+   with (this.LNAMEENTRY)
+      onChange = class::LNAMEENTRY_ONCHANGE
+      valid = class::LNAMEENTRY_VALID
+      dataLink = "STSTO->Name"
+      enabled = false
+      height = 18.0
+      left = 360.0
+      top = 102.0
+      width = 312.0
+      function = "!"
+      colorNormal = "N/BtnFace"
+      colorHighLight = "B+/W*"
+      fontName = "MS Sans Serif"
+      fontBold = true
+      validErrorMsg = "Description Required"
+   endwith
+
+   this.TEXT3 = new TEXTLABEL(this)
+   with (this.TEXT3)
+      height = 25.0
+      left = 360.0
+      top = 128.0
+      width = 132.0
+      text = "FUEL PUMP NO.:"
+      colorNormal = "B/BtnFace"
+      fontName = "MS Sans Serif"
+      fontBold = true
+      alignVertical = 1	// Middle
+      alignHorizontal = 2	// Right
+   endwith
+
+   this.PUM = new ENTRYFIELD(this)
+   with (this.PUM)
+      dataLink = "STSTO->PUM"
+      enabled = false
+      height = 26.0
+      left = 504.0
+      top = 136.0
+      width = 36.0
+      function = "!"
+      colorNormal = "N/BtnFace"
+      colorHighLight = "B+/W*"
+      fontName = "MS Sans Serif"
+      fontBold = true
+   endwith
+
+   this.TEXT6 = new TEXTLABEL(this)
+   with (this.TEXT6)
+      height = 18.0
+      left = 24.0
+      top = 17.0
+      width = 180.0
+      text = "Select Other Store/Tank"
+      colorNormal = "B/BtnFace"
+      fontName = "MS Sans Serif"
+      fontBold = true
+      alignVertical = 1	// Middle
+      alignHorizontal = 2	// Right
+   endwith
+
+   this.STANK = new COMBOBOX(this)
+   with (this.STANK)
+      onChange = class::STANK_ONCHANGE
+      dataLink = "STSTO->STO1"
+      enabled = false
+      height = 26.0
+      left = 12.0
+      top = 34.0
+      width = 312.0
+      fontName = "Arial Black"
+      fontBold = true
+      colorNormal = "B/BtnFace"
+      dataSource = "FIELD STSTOS->STO"
+      style = 1	// DropDown
+      dropDownHeight = 132.0
+   endwith
+
+   this.TEXT4 = new TEXTLABEL(this)
+   with (this.TEXT4)
+      height = 18.0
+      left = 12.0
+      top = 68.0
+      width = 168.0
+      text = "Select Fuel Pump No.:"
+      colorNormal = "B/BtnFace"
+      fontName = "MS Sans Serif"
+      fontBold = true
+      alignVertical = 1	// Middle
+      alignHorizontal = 2	// Right
+   endwith
+
+   this.PUMNO = new COMBOBOX(this)
+   with (this.PUMNO)
+      onChange = class::PUMNO_ONCHANGE
+      dataLink = "STSTO->PUM"
+      enabled = false
+      height = 26.0
+      left = 12.0
+      top = 85.0
+      width = 216.0
+      fontName = "Arial Black"
+      fontBold = true
+      colorNormal = "B/BtnFace"
+      dataSource = "FIELD STPUMS->PUM"
+      style = 1	// DropDown
+      dropDownHeight = 132.0
+   endwith
+
+   this.RECTANGLE2 = new RECTANGLE(this)
+   with (this.RECTANGLE2)
+      left = 12.0
+      top = 153.0
+      width = 282.0
+      height = 68.0
+      text = "Dips at The Current Pump No."
+      fontName = "MS Sans Serif"
+      fontSize = 12.0
+      fontBold = true
+   endwith
+
+   this.SDIPPING = new RADIOBUTTON(this)
+   with (this.SDIPPING)
+      onGotFocus = class::SDIPPING_ONGOTFOCUS
+      dataLink = "STSTO->F1CASHR"
+      enabled = false
+      height = 19.0
+      left = 42.0
+      top = 187.0
+      width = 75.0
+      text = "Yes"
+      fontName = "MS Sans Serif"
+      fontSize = 12.0
+      fontBold = true
+      group = true
+   endwith
+
+   this.SDIPPINGNO = new RADIOBUTTON(this)
+   with (this.SDIPPINGNO)
+      onGotFocus = class::SDIPPINGNO_ONGOTFOCUS
+      dataLink = "STSTO->F1CASHR"
+      enabled = false
+      height = 19.0
+      left = 126.0
+      top = 187.0
+      width = 75.0
+      text = "No"
+      fontName = "MS Sans Serif"
+      fontSize = 12.0
+      fontBold = true
+   endwith
+
+   this.PUMNAME = new ENTRYFIELD(this)
+   with (this.PUMNAME)
+      dataLink = "STPUM->Name"
+      enabled = false
+      height = 18.0
+      left = 360.0
+      top = 170.0
+      width = 312.0
+      function = "!"
+      colorNormal = "N/BtnFace"
+      colorHighLight = "B+/W*"
+      fontName = "MS Sans Serif"
+      fontBold = true
+   endwith
+
+   this.PREVBUTTON = new PUSHBUTTON(this)
+   with (this.PREVBUTTON)
+      onClick = class::PREVIOUS
+      height = 26.0
+      left = 8.0
+      top = 663.0
+      width = 85.0
+      text = "&PREVIOUS"
+      fontName = "MS Sans Serif"
+      fontSize = 8.0
+      fontBold = true
+   endwith
+
+   this.NEXTBUTTON = new PUSHBUTTON(this)
+   with (this.NEXTBUTTON)
+      onClick = class::NEXT
+      height = 26.0
+      left = 98.0
+      top = 663.0
+      width = 85.0
+      text = "&NEXT"
+      fontName = "MS Sans Serif"
+      fontSize = 8.0
+      fontBold = true
+   endwith
+
+   this.FIRSTBUTTON = new PUSHBUTTON(this)
+   with (this.FIRSTBUTTON)
+      onClick = class::GO_FIRST
+      height = 26.0
+      left = 186.0
+      top = 663.0
+      width = 85.0
+      text = "F&IRST"
+      fontName = "MS Sans Serif"
+      fontSize = 8.0
+      fontBold = true
+   endwith
+
+   this.LASTBUTTON = new PUSHBUTTON(this)
+   with (this.LASTBUTTON)
+      onClick = class::GO_LAST
+      height = 26.0
+      left = 276.0
+      top = 663.0
+      width = 85.0
+      text = "&LAST"
+      fontName = "MS Sans Serif"
+      fontSize = 8.0
+      fontBold = true
+   endwith
+
+   this.SOTH = new ENTRYFIELD(this)
+   with (this.SOTH)
+      onChange = class::SOTH_ONCHANGE
+      dataLink = "STSTO->SNAME"
+      enabled = false
+      height = 26.0
+      left = 456.0
+      top = 191.0
+      width = 216.0
+      function = "!"
+      colorNormal = "N/BtnFace"
+      colorHighLight = "B+/W*"
+      fontName = "MS Sans Serif"
+      fontBold = true
+   endwith
+
+   this.TEXT7 = new TEXTLABEL(this)
+   with (this.TEXT7)
+      height = 26.0
+      left = 366.0
+      top = 188.0
+      width = 72.0
+      text = "Other Info:"
+      colorNormal = "B/BtnFace"
+      fontName = "MS Sans Serif"
+      fontBold = true
+      alignVertical = 1	// Middle
+      alignHorizontal = 2	// Right
+   endwith
+
+   this.RECTANGLE3 = new RECTANGLE(this)
+   with (this.RECTANGLE3)
+      left = 12.0
+      top = 448.0
+      width = 378.0
+      height = 64.0
+      text = "Store In Use"
+      fontName = "MS Sans Serif"
+      fontSize = 12.0
+      fontBold = true
+   endwith
+
+   this.SUSED = new RADIOBUTTON(this)
+   with (this.SUSED)
+      onChange = class::SUSED_ONCHANGE
+      dataLink = "STSTO->USED"
+      enabled = false
+      height = 19.0
+      left = 132.0
+      top = 487.0
+      width = 75.0
+      text = "Yes"
+      fontName = "MS Sans Serif"
+      fontSize = 12.0
+      fontBold = true
+      group = true
+   endwith
+
+   this.SUNUSED = new RADIOBUTTON(this)
+   with (this.SUNUSED)
+      onChange = class::SUNUSED_ONCHANGE
+      dataLink = "STSTO->USED"
+      enabled = false
+      height = 19.0
+      left = 252.0
+      top = 487.0
+      width = 75.0
+      text = "No"
+      fontName = "MS Sans Serif"
+      fontSize = 12.0
+      fontBold = true
+   endwith
+
+   this.RECTANGLE4 = new RECTANGLE(this)
+   with (this.RECTANGLE4)
+      left = 12.0
+      top = 329.0
+      width = 378.0
+      height = 102.0
+      text = "COMMISSION RATES"
+      fontName = "MS Sans Serif"
+      fontSize = 12.0
+      fontBold = true
+   endwith
+
+   this.TEXT8 = new TEXTLABEL(this)
+   with (this.TEXT8)
+      height = 25.0
+      left = 42.0
+      top = 389.0
+      width = 96.0
+      text = "DAY SHIFT:"
+      colorNormal = "B/BtnFace"
+      fontName = "MS Sans Serif"
+      fontBold = true
+      alignVertical = 1	// Middle
+      alignHorizontal = 2	// Right
+   endwith
+
+   this.SDAY = new ENTRYFIELD(this)
+   with (this.SDAY)
+      onChange = class::SDAY_ONCHANGE
+      dataLink = "STSTO->DAY_rATE"
+      enabled = false
+      height = 26.0
+      left = 138.0
+      top = 389.0
+      width = 48.0
+      picture = ".9999"
+      colorNormal = "N/BtnFace"
+      colorHighLight = "B+/W*"
+      fontName = "MS Sans Serif"
+      fontBold = true
+   endwith
+
+   this.TEXT9 = new TEXTLABEL(this)
+   with (this.TEXT9)
+      height = 25.0
+      left = 186.0
+      top = 389.0
+      width = 108.0
+      text = "NIGHT SHIFT:"
+      colorNormal = "B/BtnFace"
+      fontName = "MS Sans Serif"
+      fontBold = true
+      alignVertical = 1	// Middle
+      alignHorizontal = 2	// Right
+   endwith
+
+   this.SNIGHT = new ENTRYFIELD(this)
+   with (this.SNIGHT)
+      onChange = class::SNIGHT_ONCHANGE
+      dataLink = "STSTO->NIGHT_RATE"
+      enabled = false
+      height = 26.0
+      left = 306.0
+      top = 389.0
+      width = 48.0
+      picture = ".9999"
+      colorNormal = "N/BtnFace"
+      colorHighLight = "B+/W*"
+      fontName = "MS Sans Serif"
+      fontBold = true
+   endwith
+
+   this.TEXT10 = new TEXTLABEL(this)
+   with (this.TEXT10)
+      height = 25.0
+      left = 30.0
+      top = 355.0
+      width = 96.0
+      text = "Allow:"
+      colorNormal = "B/BtnFace"
+      fontName = "MS Sans Serif"
+      fontBold = true
+      alignVertical = 1	// Middle
+      alignHorizontal = 2	// Right
+   endwith
+
+   this.ONYES = new RADIOBUTTON(this)
+   with (this.ONYES)
+      onChange = class::ONYES_ONCHANGE
+      dataLink = "STSTO->RATE_ON"
+      enabled = false
+      height = 26.0
+      left = 138.0
+      top = 355.0
+      width = 75.0
+      text = "Yes"
+      fontName = "MS Sans Serif"
+      fontSize = 12.0
+      fontBold = true
+      group = true
+   endwith
+
+   this.ONOFF = new RADIOBUTTON(this)
+   with (this.ONOFF)
+      onChange = class::ONOFF_ONCHANGE
+      dataLink = "STSTO->RATE_ON"
+      enabled = false
+      height = 26.0
+      left = 246.0
+      top = 355.0
+      width = 75.0
+      text = "No"
+      fontName = "MS Sans Serif"
+      fontSize = 12.0
+      fontBold = true
+   endwith
+
+   this.RECTANGLE5 = new RECTANGLE(this)
+   with (this.RECTANGLE5)
+      left = 12.0
+      top = 231.0
+      width = 522.0
+      height = 92.0
+      text = "WHOLE SALE DISCOUNT (K2,K3,U6,U7,U8,U9,L6,L7,L8,L9)"
+      fontName = "MS Sans Serif"
+      fontSize = 12.0
+      fontBold = true
+   endwith
+
+   this.SDISC = new ENTRYFIELD(this)
+   with (this.SDISC)
+      onChange = class::SDISC_ONCHANGE
+      dataLink = "STSTO->MAXAMT"
+      enabled = false
+      height = 26.0
+      left = 162.0
+      top = 289.0
+      width = 66.0
+      picture = "999.99"
+      colorNormal = "N/BtnFace"
+      colorHighLight = "B+/W*"
+      fontName = "MS Sans Serif"
+      fontBold = true
+   endwith
+
+   this.STCAP = new ENTRYFIELD(this)
+   with (this.STCAP)
+      onChange = class::STCAP_ONCHANGE
+      dataLink = "STSTO->TANK_CAP"
+      enabled = false
+      height = 26.0
+      left = 162.0
+      top = 119.0
+      width = 132.0
+      function = "999,999.99"
+      colorNormal = "N/BtnFace"
+      colorHighLight = "B+/W*"
+      fontName = "MS Sans Serif"
+      fontBold = true
+   endwith
+
+   this.TEXT11 = new TEXTLABEL(this)
+   with (this.TEXT11)
+      height = 26.0
+      left = 14.0
+      top = 119.0
+      width = 142.0
+      text = "Tank Capacity(Ltrs):"
+      colorNormal = "B/BtnFace"
+      fontName = "MS Sans Serif"
+      fontBold = true
+      alignVertical = 1	// Middle
+      alignHorizontal = 2	// Right
+   endwith
+
+   this.TEXT12 = new TEXTLABEL(this)
+   with (this.TEXT12)
+      height = 26.0
+      left = 18.0
+      top = 284.0
+      width = 132.0
+      text = "Disc Rate/Ltr:"
+      colorNormal = "B/BtnFace"
+      fontName = "MS Sans Serif"
+      fontBold = true
+      alignVertical = 1	// Middle
+      alignHorizontal = 2	// Right
+   endwith
+
+   this.TEXT13 = new TEXTLABEL(this)
+   with (this.TEXT13)
+      height = 26.0
+      left = 60.0
+      top = 260.0
+      width = 102.0
+      text = "Allow:"
+      colorNormal = "B/BtnFace"
+      fontName = "MS Sans Serif"
+      fontBold = true
+      alignVertical = 1	// Middle
+      alignHorizontal = 2	// Right
+   endwith
+
+   this.SDY = new RADIOBUTTON(this)
+   with (this.SDY)
+      onGotFocus = class::SDY_ONGOTFOCUS
+      dataLink = "STSTO->SALES_DISC"
+      enabled = false
+      height = 27.0
+      left = 180.0
+      top = 259.0
+      width = 75.0
+      text = "Yes"
+      fontName = "MS Sans Serif"
+      fontSize = 12.0
+      fontBold = true
+      group = true
+   endwith
+
+   this.SDN = new RADIOBUTTON(this)
+   with (this.SDN)
+      onGotFocus = class::SDN_ONGOTFOCUS
+      dataLink = "STSTO->SALES_DISC"
+      enabled = false
+      height = 26.0
+      left = 288.0
+      top = 259.0
+      width = 75.0
+      text = "No"
+      fontName = "MS Sans Serif"
+      fontSize = 12.0
+      fontBold = true
+   endwith
+
+   this.RECTANGLE6 = new RECTANGLE(this)
+   with (this.RECTANGLE6)
+      left = 402.0
+      top = 336.0
+      width = 276.0
+      height = 96.0
+      text = "Expense Store"
+      fontName = "MS Sans Serif"
+      fontSize = 12.0
+      fontBold = true
+   endwith
+
+   this.SEXPY = new RADIOBUTTON(this)
+   with (this.SEXPY)
+      onChange = class::SEXPY_ONCHANGE
+      dataLink = "STSTO->EXPENSE"
+      enabled = false
+      height = 19.0
+      left = 420.0
+      top = 383.0
+      width = 75.0
+      text = "Yes"
+      fontName = "MS Sans Serif"
+      fontSize = 12.0
+      fontBold = true
+      group = true
+   endwith
+
+   this.SEXPN = new RADIOBUTTON(this)
+   with (this.SEXPN)
+      onChange = class::SEXPN_ONCHANGE
+      dataLink = "STSTO->EXPENSE"
+      enabled = false
+      height = 19.0
+      left = 504.0
+      top = 383.0
+      width = 75.0
+      text = "No"
+      fontName = "MS Sans Serif"
+      fontSize = 12.0
+      fontBold = true
+   endwith
+
+
+   procedure Open
+   ****************************************************************************
+   private CodeField
+     FORM.BLUSER=BUSER
+   FORM.BLEVEL=BLEVEL
+   form.BLADMIN = BLADMIN
+   IF EMPTY(FORM.BLUSER) .OR. EMPTY(FORM.BLEVEL)
+      QUIT
+      ENDIF
+      FORM.OLDTANK = .F.
+   form.firstime = .T.
+   if type("form.init") = "U"
+      form.init = .T.
+
+      set skip to                     && Ststo.qbe contains set skip to gldtl
+      set exact off                   && the .qbe file contains SET EXACT ON
+
+      set procedure to sampProc.prg additive
+    Form.duplicate = .F.
+      form.inEditMode = .F.           && indicator of view/edit state
+      form.changesMade = .F.          && indicator of changes made to field values
+      form.previousRecord = .F.       && Save record number when appending
+      form.updated = .f.
+        *** do calculations in another area so form doesn't get updated
+        SELECT STSTO3
+        SET ORDER TO STO
+        SELECT STPUMS
+        SET ORDER TO NAME
+
+        form.PPREFX = ""
+        FORM.PSTO1 = ""
+        select Ststo
+      set order to sto
+    GO TOP   && new Receipts
+    if .not.  eof()
+   delete all for  empty(STO)
+    endif
+   go top
+
+      *** Open table for calculating totals and balance due in another work area
+      *** so that datalinks are not affected by record movements
+
+
+      ***
+    *  if type("form.parentpayeeForm") <> "U" && Esc ok if have parent
+    *     form.escExit = .T.
+   *   endif
+
+   endif
+   * form.CoyInfoButton.KenpName = "Ststo.WFM"
+
+   form::Open()                         && Now the form actually opens
+   *    form.BrowseOnNavigate()              && calculate totals
+   *       form.codingerrors()                        && check coding errors
+
+   *      form.next.setfocus()
+   if form.blevel > 4 .or. .not. (STSTO->STO = "K2" .OR. STSTO->STO = 'K3';
+   .OR. STSTO->STO = 'U6'.OR. STSTO->STO = 'U7' .OR. STSTO->STO = 'U8'.OR. STSTO->STO ='U9';
+   .OR. STSTO->STO = 'L6'.OR. STSTO->STO = 'L7' .OR. STSTO->STO = 'L8'.OR. STSTO->STO ='L9');
+   .or. .not.  STSTO->SALES_DISC = 'Yes'
+   form.SDISC.enabled =.f.
+   endif
+   IF (STSTO->STO = "K2" .OR. STSTO->STO = 'K3';
+   .OR. STSTO->STO = 'U6'.OR. STSTO->STO = 'U7' .OR. STSTO->STO = 'U8'.OR. STSTO->STO ='U9';
+   .OR. STSTO->STO = 'L6'.OR. STSTO->STO = 'L7' .OR. STSTO->STO = 'L8'.OR. STSTO->STO ='L9');
+   .AND.  STSTO->SALES_DISC = 'Yes' .and. form.blevel < 4
+   form.SDISC.enabled =.T.
+   ENDIF
+      if .not. form.blevel = 1 .or. .not. (STSTO->STO = "K2" .OR. STSTO->STO = 'K3';
+   .OR. STSTO->STO = 'U6'.OR. STSTO->STO = 'U7' .OR. STSTO->STO = 'U8'.OR. STSTO->STO ='U9';
+   .OR. STSTO->STO = 'L6'.OR. STSTO->STO = 'L7' .OR. STSTO->STO = 'L8'.OR. STSTO->STO ='L9')
+      form.sdy.enabled = .f.
+      form.sdn.enabled = .f.
+      endif
+   ****************************************************************************
+
+   procedure OnClose
+
+   * Clean up.
+   ****************************************************************************
+        form.CheckCommit(form.inEditMode)
+   if this.inEditMode
+      form.ViewEdit()                      && Finish transaction
+   endif
+   select Ststo
+   delete all for Empty(Ststo->STO)
+       if form.updated  .and. .not. validdrive("Z:") .and.  .not. validdrive("W:")  .and.  .not. validdrive("Y:");
+        .and.  .not. validdrive("X:")
+    do Ststos_rtn
+    endif
+     close procedure SAMPProc.prg
+   close databases
+   SET SAFETY OFF
+   USE \KENSERVICE\DATA\STSTOS.DBF EXCL
+   ZAP
+   APPE FROM \KENSERVICE\DATA\STSTO.DBF
+   SET SAFETY ON
+    commit()
+   CLOSE DATABASES
+
+   ****************************************************************************
+
+   procedure BrowseOnNavigate
+   ****************************************************************************
+       form.CoyCombobox.Enabled = .F.
+       form.DIVCODE.Enabled = .F.
+       if eof()
+      form.root.Ststo.viewEdit.enabled = .F.
+   else
+      form.root.Ststo.viewEdit.enabled = .T.
+   endif
+
+
+
+   ****************************************************************************
+
+   procedure ChangesMade
+
+   * Indicate that changes have been made to the current record
+   ****************************************************************************
+   Form.ChangesMade = .T.
+   ****************************************************************************
+
+procedure Next
+
+   * Go to next record.
+   ****************************************************************************
+
+   form.CheckCommit(form.inEditMode)
+   if .not. empty(dbf())  .and. .not. eof()      && if a table is open in the current workarea
+      skip
+      if eof()
+         go bottom
+         AlertMessage("At the last record","Alert")
+      endif
+   else
+      InformationMessage("There is no table open in the current workarea.",;
+         "Info")
+   endif
+   form.gen_rtn ()
+    ****************************************************************************
+
+   procedure Previous
+
+   * Go to previous record.
+   ****************************************************************************
+
+   form.CheckCommit(form.inEditMode)
+ if .not. empty(dbf())  .and. .not. eof() && if a table is open in the current workarea
+      skip - 1
+      if bof()
+         go top
+         AlertMessage("At the first record","Alert")
+      endif
+   else
+      InformationMessage("There is no table open in the current workarea.",;
+         "Info")
+   endif
+    form.gen_rtn ()
+
+    procedure gen_rtn
+    IF .NOT. LEFT(STSTO->STO,1) = 'T'
+    FORM.STCAP.ENABLED = .F.
+    ENDIF
+      IF .NOT. (LEFT(STSTO->STO,1) = "U" .OR. LEFT(STSTO->STO,1) = "P";
+    .OR. LEFT(STSTO->STO,1) = "D" .OR. LEFT(STSTO->STO,1) = "Q" .OR. LEFT(STSTO->STO,1) = "X";
+    .OR. LEFT(STSTO->STO,1) = "L" ;
+    .OR. LEFT(STSTO->STO,1) = "K" .OR. LEFT(STSTO->STO,1) = "R") .OR. EMPTY(STSTO->STO1)
+    FORM.STANK.ENABLED = .F.
+    FORM.SDIPPING.ENABLED = .F.
+   FORM.SDIPPINGNO.ENABLED = .F.
+    ENDIF
+     if form.blevel > 4 .or. .not. (STSTO->STO = "K2" .OR. STSTO->STO = 'K3';
+   .OR. STSTO->STO = 'U6'.OR. STSTO->STO = 'U7' .OR. STSTO->STO = 'U8'.OR. STSTO->STO ='U9';
+   .OR. STSTO->STO = 'L6'.OR. STSTO->STO = 'L7' .OR. STSTO->STO = 'L8'.OR. STSTO->STO ='L9');
+   .or. .not.  STSTO->SALES_DISC = 'Yes'
+   form.SDISC.enabled =.f.
+   endif
+   IF (STSTO->STO = "K2" .OR. STSTO->STO = 'K3';
+   .OR. STSTO->STO = 'U6'.OR. STSTO->STO = 'U7' .OR. STSTO->STO = 'U8'.OR. STSTO->STO ='U9';
+   .OR. STSTO->STO = 'L6'.OR. STSTO->STO = 'L7' .OR. STSTO->STO = 'L8'.OR. STSTO->STO ='L9');
+   .AND.  STSTO->SALES_DISC = 'Yes' .and. form.blevel < 4
+   form.SDISC.enabled =.T.
+   ENDIF
+      if .not. form.blevel = 1 .or. .not. (STSTO->STO = "K2" .OR. STSTO->STO = 'K3';
+   .OR. STSTO->STO = 'U6'.OR. STSTO->STO = 'U7' .OR. STSTO->STO = 'U8'.OR. STSTO->STO ='U9';
+   .OR. STSTO->STO = 'L6'.OR. STSTO->STO = 'L7' .OR. STSTO->STO = 'L8'.OR. STSTO->STO ='L9')
+      form.sdy.enabled = .f.
+      form.sdn.enabled = .f.
+      endif
+   if .NOT. form.blevel = 1
+   FORM.PUMNO.ENABLED = .F.
+   endif
+   IF .NOT.  LEFT(STO,1) = 'P' .AND. .NOT.  LEFT(STO,1) = 'R' .AND. .NOT.  LEFT(STO,1) = 'D' ;
+    .AND. .NOT.  LEFT(STO,1) = 'U'.AND. .NOT.  LEFT(STO,1) = 'L' .AND. .NOT.  LEFT(STO,1) = 'K'
+   FORM.PUMNO.ENABLED = .F.
+   ENDIF
+      IF  FORM.BLEVEL > 3
+   FORM.STCAP.ENABLED = .F.
+   ENDIF
+   form.SDISC.enabled =.f.
+
+   procedure go_last
+   form.CheckCommit(form.inEditMode)
+   go bottom
+   form.gen_rtn()
+
+    procedure go_first
+   form.CheckCommit(form.inEditMode)
+   go top
+   form.gen_rtn()
+
+   procedure CheckCommit (newInEditMode)
+
+        * Finish transaction, if it has been started.
+   ****************************************************************************
+   private CodeField, changesMade
+     changesMade = form.changesMade
+   if form.changesMade
+      CodeField = field(2)  && Field Ststo
+      if     ConfirmationMessage("Commit changes?",;
+                FormatStr("Stores %1",&CodeField)) = YES
+         commit()
+       form.updated = .t.
+      else
+         rollback()
+         if .not. bof()
+       *  if .not. empty(form.previousRecord)
+   *            go bookmark()
+           * form.previousRecord
+            form.previousRecord = .F.
+         endif
+      endif
+
+      if form.inEditMode .and. newInEditMode
+         begintrans()
+      endif
+      form.changesMade = .F.
+   endif
+   if form.inEditMode <> newInEditMode
+      if newInEditMode                       && Going to Edit mode
+         begintrans()
+      else                                   && Going to View mode
+         if .not. changesMade .AND. .NOT. FORM.DUPLICATE
+            rollback()
+         endif
+      endif
+      form.inEditMode = newInEditMode
+   endif
+
+   * form.root.Receipt.add.enabled = .T.
+   *form.codingerrors()
+   ****************************************************************************
+
+   procedure ViewEdit
+
+   * Toggle between View and Edit modes.
+   ****************************************************************************
+   local inEditMode, editMenu, control
+
+   editMenu = form.root.Ststo.VIEWEdit
+
+   *** If ending edit mode then close transaction, otherwise open it.
+   if form.inEditMode
+      form.checkChanged(.F.)
+      editMenu.text = "&Edit"
+      editMenu.shortcut = "Ctrl-E"
+      editMenu.statusMessage = "Edit data."
+      form.CheckCommit(.F.)                        && Check transaction and
+      form.text = "Stores Maintenance Form -- View Mode"          && change mode to View
+       form.statusmessage = "In View Mode. " + ;
+                           "Select Stores Code - Edit menu to " + ;
+                           "edit/delete data."
+*      form.nextCOYBUTTON.SetFocus()
+   else                                            && Switch to edit mode
+      editMenu.text = "Vi&ew"
+      editMenu.shortcut = "Ctrl-E"
+      editMenu.statusMessage = "View data."
+      form.CheckCommit(.T.)                        && Check transaction and
+      form.text = "Stores Maintenance Form -- Edit Mode"          && change mode to Edit
+
+   *     form.notesEditor.modify = .T.
+      form.statusmessage = "In Edit Mode.  " + ;
+                           "Select menu Stores Code - View to switch " + ;
+                           "to View mode."
+        form.LnameEntry.SetFocus()
+
+   endif
+
+   inEditMode = form.inEditMode     && Faster if we don't reference a form
+   control = form.first             &&    variable each time through the loop
+   do
+      if .not. control.className $ "BROWSE,EDITOR,NEXTBUTTON,PREVBUTTON,PUSHBUTTON,IMAGE,TEXT"
+         control.enabled = inEditMode
+      endif
+      control = control.before
+   until control.name = form.first.name
+   FORM.STOCOD.ENABLED = .F.
+   FORM.PUM.ENABLED = .F.
+   FORM.PUMNAME.ENABLED = .F.
+   form.sto1.enabled = .f.
+   LOCAL LP
+   LP = LEFT(STSTO->STO,1)
+   IF (LP = "P" .OR. LP = "U" .or. LP = "K" .OR. LP = "D" .or. LP = "R";
+   .or. LP = "L" .or. LP = "Q" .or. LP = "X" ) .AND. FORM.BLEVEL < 4
+   *  FORM.PUMNO.ENABLED = .T.
+   FORM.SDAY.ENABLED = .T.
+   FORM.SNIGHT.ENABLED = .T.
+    FORM.ONYES.ENABLED = .T.
+   FORM.ONOFF.ENABLED = .T.
+
+   ELSE
+   *  FORM.PUMNO.ENABLED = .F.
+    FORM.SDAY.ENABLED = .F.
+   FORM.SNIGHT.ENABLED = .F.
+   FORM.ONYES.ENABLED = .F.
+   FORM.ONOFF.ENABLED = .F.
+
+   ENDIF
+    if form.blevel > 4 .or. .not. (STSTO->STO = "K2" .OR. STSTO->STO = 'K3';
+   .OR. STSTO->STO = 'U6'.OR. STSTO->STO = 'U7' .OR. STSTO->STO = 'U8'.OR. STSTO->STO ='U9';
+   .OR. STSTO->STO = 'L6'.OR. STSTO->STO = 'L7' .OR. STSTO->STO = 'L8'.OR. STSTO->STO ='L9');
+   .or. .not.  STSTO->SALES_DISC = 'Yes'
+   form.SDISC.enabled =.f.
+   endif
+   IF (STSTO->STO = "K2" .OR. STSTO->STO = 'K3';
+   .OR. STSTO->STO = 'U6'.OR. STSTO->STO = 'U7' .OR. STSTO->STO = 'U8'.OR. STSTO->STO ='U9';
+   .OR. STSTO->STO = 'L6'.OR. STSTO->STO = 'L7' .OR. STSTO->STO = 'L8'.OR. STSTO->STO ='L9');
+   .AND.  STSTO->SALES_DISC = 'Yes' .and. form.blevel < 4
+   form.SDISC.enabled =.T.
+   ENDIF
+      if .not. form.blevel = 1 .or. .not. (STSTO->STO = "K2" .OR. STSTO->STO = 'K3';
+   .OR. STSTO->STO = 'U6'.OR. STSTO->STO = 'U7' .OR. STSTO->STO = 'U8'.OR. STSTO->STO ='U9';
+   .OR. STSTO->STO = 'L6'.OR. STSTO->STO = 'L7' .OR. STSTO->STO = 'L8'.OR. STSTO->STO ='L9')
+      form.sdy.enabled = .f.
+      form.sdn.enabled = .f.
+      endif
+   IF .NOT. (LEFT(STSTO->STO,1) = "U" .OR. LEFT(STSTO->STO,1) = "P" .OR. LEFT(STSTO->STO,1) = "X" ;
+    .OR. LEFT(STSTO->STO,1) = "D" .OR. LEFT(STSTO->STO,1) = "L" .OR. LEFT(STSTO->STO,1) = "Q"  ;
+    .OR. LEFT(STSTO->STO,1) = "K" .OR. LEFT(STSTO->STO,1) = "R")
+    FORM.STANK.ENABLED = .F.
+    FORM.SDIPPING.ENABLED = .F.
+   FORM.SDIPPINGNO.ENABLED = .F.
+    ENDIF
+    IF .NOT. LEFT(STSTO->STO,1) = 'T'
+    FORM.STCAP.ENABLED = .F.
+    ENDIF
+   if .NOT. form.blevel = 1
+   FORM.PUMNO.ENABLED = .F.
+   endif
+   IF .NOT.  LEFT(STO,1) = 'P' .AND. .NOT.  LEFT(STO,1) = 'R' .AND. .NOT.  LEFT(STO,1) = 'D' ;
+    .AND. .NOT.  LEFT(STO,1) = 'U'.AND. .NOT.  LEFT(STO,1) = 'L' .AND. .NOT.  LEFT(STO,1) = 'K'
+   FORM.PUMNO.ENABLED = .F.
+   ENDIF
+    IF  FORM.BLEVEL > 3
+   FORM.STCAP.ENABLED = .F.
+   ENDIF
+   if form.blevel > 3
+   form.LNAMEENTRY.enabled = .f.
+   form.sexpy.ebabled = .f.
+   form.sexpn.ebabled = .f.
+   endif
+   if .NOT. form.blevel = 1
+   FORM.PUMNO.ENABLED = .F.
+   endif
+   IF .NOT.  LEFT(STO,1) = 'P' .AND. .NOT.  LEFT(STO,1) = 'R' .AND. .NOT.  LEFT(STO,1) = 'D' ;
+    .AND. .NOT.  LEFT(STO,1) = 'U'.AND. .NOT.  LEFT(STO,1) = 'L' .AND. .NOT.  LEFT(STO,1) = 'K'
+   FORM.PUMNO.ENABLED = .F.
+   ENDIF
+        form.LnameEntry.SetFocus()
+
+
+   ****************************************************************************
+
+   procedure CheckChanged(callCommit)
+
+   * Check if changes have been made to the current entryfield.  This procedure
+   * is called from menu routines to make sure the form.changesMade gets
+   * updated when a menu is selected while the changed control has focus.
+   ****************************************************************************
+   private control, fieldValue, controlValue, typeText, typeValue
+
+   if form.inEditMode
+      control = form.activeControl
+      if type("control.datalink") <> "U"
+         fieldValue = control.datalink          && name of table field
+
+         typeText = type("control.text")
+         typeValue = type("control.value")
+         do case
+            case typeValue = "C"
+               controlValue = control.value
+            case typeValue $ "LU" .and. typeText = "C"
+               controlValue = control.text
+            otherwise
+               controlValue = Null
+         endcase
+         if controlValue <> &fieldValue
+            form.changesMade = .T.
+         endif
+      endif
+   endif
+   if form.changesMade .and. callCommit
+      CLASS::CheckCommit(form.inEditMode)     && Check transactions
+   endif
+
+
+
+   ****************************************************************************
+
+   Procedure LNAMEENTRY_OnChange
+            if .not. empty(this.value)
+            form.changesmade = .t.
+            else
+             form.changesmade = .f.
+            endif
+
+   Procedure LNAMEENTRY_Valid
+         if empty(this.value)
+         isvalid = .f.
+         else
+         isvalid = .t.
+         endif
+         return isvalid
+
+   Procedure STANK_OnChange
+        LOCAL L1,L2,LERR
+
+        L1 = THIS.VALUE
+         PVALSTOS = L1
+
+         select STSTOS
+      seEK L1
+      if found() .AND.  used = "Yes" .AND. left(sname,6) = left(ststo->sname,6)
+      select ststo
+      replace sto1 with STSTOS->sto
+      SELECT ST15F
+      SET FILTER TO STO = STSTO->STO
+      GO TOP
+      IF .NOT. EOF()
+      REPLACE ST_STO WITH STSTO->STO1
+      replace f1cashr with ststo->f1cashr
+      ENDIF
+      ELSE
+      SELECT STSTO3
+      SEEK STSTO->STO
+      SELECT STSTO
+      REPLACE STO1 WITH STSTO3->STO1
+      replace f1cashr with ststo3->f1cashr
+      endif
+
+         FORM.CHANGESMADE = .T.
+   select ststo
+
+   Procedure PUMNO_ONCHANGE
+    LOCAL L1,L2
+      L1 = LEFT(STSTO->STO,1)
+         select stPUMS
+         SEEK THIS.VALUE
+         IF FOUND()
+         SELECT STSTO
+         if L1 = "P" .OR. L1 = "U" .OR. L1 = "K";
+         .OR. L1 = "D" .OR. L1 = "R" .OR. L1 = "G" .OR. L1 = "M"
+         REPLACE PUM WITH STPUMS->PUM
+         ELSE
+         REPLACE PUM WITH ""
+         ENDIF
+         ENDIF
+         FORM.CHANGESMADE = .T.
+         select ststo
+
+   Procedure SDIPPING_OnGotFocus
+    form.changesmade = .t.
+            select ststo
+   replace f1cashr with 'Yes'
+
+   Procedure SDIPPINGNO_OnGotFocus
+       form.changesmade = .t.
+            select ststo
+   replace f1cashr with 'No'
+
+   Procedure SOTH_OnChange
+         form.changesmade = .t.
+         select ststo
+         replace sname with this.value
+
+   Procedure SUSED_OnChange
+         form.changesmade = .t.
+         SELECT STSTO
+         REPLACE USED WITH 'Yes'
+
+   Procedure SUNUSED_OnChange
+     form.changesmade = .t.
+     select ststo
+     replace used with 'No'
+
+   Procedure SNIGHT_OnChange
+      FORM.CHANGESMADE = .T.
+
+   Procedure SDAY_OnChange
+    FORM.CHANGESMADE = .T.
+
+   Procedure ONYES_OnChange
+         FORM.CHANGESMADE = .T.
+         select ststo
+   replace rate_on with 'Yes'
+
+   Procedure ONOFF_OnChange
+     FORM.CHANGESMADE = .T.
+           select ststo
+   replace rate_on with 'No'
+
+   Procedure SDISC_OnChange
+   select ststo
+   replace maxamt with this.value
+     IF  THIS.VALUE < 0
+     form.sdisc.value =0
+     replace maxamt with 0
+     endif
+         FORM.CHANGESMADE = .T.
+
+   Procedure STWIN_OnChange
+         FORM.CHANGESMADE = .T.
+
+   Procedure STCAP_OnChange
+         if left(ststo->sto,1) = 'T' .and. this.value > 0
+         select ststo
+         replace tank_cap with this.value
+         else
+         select ststo
+         replace tank_cap with 0
+         endif
+         form.changesmade = .t.
+
+   Procedure SDY_OnGotFocus
+   form.changesmade = .t.
+   select ststo
+   replace sales_disc with 'Yes'
+
+   Procedure SDN_OnGotFocus
+   form.changesmade = .t.
+   select ststo
+   replace sales_disc with 'No'
+
+   Procedure SEXPY_OnGotFocus
+   form.changesmade = .t.
+
+   function SEXPY_onChange
+   form.changesmade = .t.
+            select ststo
+   replace expense with 'Yes'
+      return
+
+   Procedure SEXPN_OnGotFocus
+   form.changesmade = .t.
+
+   function SEXPN_onChange
+       form.changesmade = .t.
+            select ststo
+   replace expense with 'No'
+      return
+
+endclass
+
+Procedure Ststos_rtn
+   private eofStsto,p1,p2
+   eofStsto = .f.
+
+     select fgmastp
+     replace all stopsto with ""
+     eofststo =.f.
+     select ststo
+     set filter to used ="No"
+     go  top
+     if .not. eof()
+        do
+           do fgmastp_bad
+       until eofststo
+       endif
+
+procedure fgmastp_bad
+   select fgmastp
+    replace all stopsto with "Yes" for sto = ststo->sto
+    select ststo
+    skip
+    if eof()
+    eofststo = .t.
+    endif

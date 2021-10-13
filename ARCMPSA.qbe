@@ -1,0 +1,95 @@
+* Visual dBASE .QBE file 9
+on error do fgcodsr.prg
+use  \kenservice\data\st15f.dbf
+? op_capital
+on error do arcmpss.prg
+ use \kenservice\data\arcmpsn.dbf
+close databases
+use  \kenservice\data\st15f.dbf
+set order to mkey
+go top
+pcen = cen
+ptyp = typ
+pcla = cla
+pcod = cod
+psto = sto
+CLOSE DATABASES
+ON ERROR DO QBEERR WITH ERROR(), MESSAGE(),;
+PROGRAM(), LINENO()
+
+SET EXACT ON
+*set exclusive on
+SELECT 1
+IF .NOT. FILE("\kenservice\data\arcmps.dbf")
+ USE  \KENSERVE\IDSSYS\arcmps.DBF
+ COPY STRU TO \KENSERVICE\DATA\arcmps DBASE PROD
+ ENDIF
+USE \KENSERVICE\DATA\arcmps.DBF ORDER TAG ORDER_NO
+delete all for empty(order_no)
+set filter to empty(post_date)
+SELECT 2
+IF .NOT. FILE("\kenservice\data\arcmpln.dbf")
+ USE  \KENSERVE\IDSSYS\arcmpln.DBF
+ COPY STRU TO \KENSERVICE\DATA\arcmpln DBASE PROD
+ ENDIF
+USE \KENSERVICE\DATA\arcmpln.DBF ORDER TAG ORDER_NO
+delete all for empty(order_no)
+set filter to empty(post_date)
+SELECT 7
+USE \KENSERVICE\DATA\FGOFFS.DBF ORDER TAG NAME
+set filter to .not. empty(shift_date) .and. .not. empty(Cashier_no) .and. empty(date_left)
+SELECT 3
+USE \KENSERVICE\DATA\FRIGTMES.DBF ORDER TAG NAME
+set filter to source = "9"   .and. empty(close_date)
+select 100
+use \kenservice\data\fgcods.dbf order tag name
+set filter to TYP="C0" .AND. CLA="00" .and. .not. (cod = "11" .OR. COD = "01");
+.and.left(name,13)="M-MPESA FLOAT" .and. active = "Yes"
+SELECT 5
+use \kenservice\data\fgcods.dbf order tag name AGAIN ALIAS FGCOD
+set filter to (TYP="C0" .AND. CLA="00"  .and. active = "Yes" .AND. LEFT(NAME,14) = 'M-MPESA LIQUID');
+.or. (typ='C0' .and. cla='00' .and. cod = '01')
+SELECT 1
+SET RELATION TO ORDER_NO INTO arcmpln CONSTRAIN INTEGRITY
+SET SKIP TO arcmpln
+SELECT 24
+IF .NOT. FILE("\kenservice\data\arcmpsl.dbf")
+ USE  \KENSERVE\IDSSYS\arcmpsl.DBF
+ COPY STRU TO \KENSERVICE\DATA\arcmpsl DBASE PROD
+ ENDIF
+USE \KENSERVICE\DATA\arcmpsL.DBF
+**zap
+SET SKIP TO arcmpln
+SELECT 25
+USE \KENSERVICE\DATA\arcmps.DBF AGAIN alias arcmps3
+SET SKIP TO arcmpln
+SELECT 70
+set safety off
+use \kenserve\idssys\st15f.dbf
+copy stru to \kenservice\data\st15fmpr dbase prod
+use \kenservice\data\st15fmpr.dbf exclusive alias st15f
+appe from \kenservice\data\st15f.dbf for cen = pcen .and. typ = ptyp .and. cod = pcod .and. sto = psto
+SET SKIP TO arcmpln
+SELECT 93
+USE \KENSERVICE\DATA\FGCOY.DBF
+SET SKIP TO arcmpln
+select 101
+USE \KENSERVICE\DATA\arcmpln.DBF again alias arcmpln3
+select 102
+USE \KENSERVICE\DATA\arcmpln.DBF again alias arcmpln2 order tag order_no
+select 126
+IF .NOT. FILE("\kenservice\data\arcmpdup.dbf")
+ USE  \KENSERVE\IDSSYS\arcmpdup.DBF
+ COPY STRU TO \KENSERVICE\DATA\arcmpdup DBASE PROD
+ ENDIF
+use \kenservice\data\arcmpdup.dbf
+delete all for empty(order_no)
+set filter to .not. empty(post_date)
+ select 128
+ IF .NOT. FILE("\kenservice\data\arcmpsn.dbf")
+ USE  \kenserve\idssys\arcmpsn.dbf
+ copy stru to \kenservice\data\arcmpsn dbase prod
+ endif
+ use \kenservice\data\arcmpsn.dbf
+SELECT 1
+GO TOP
