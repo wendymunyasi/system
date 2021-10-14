@@ -1,4 +1,4 @@
-Project File generated 10/12/2021 19:04:58
+Project File generated 10/14/2021 17:41:33
 
 [Project]
 Name=kenslog
@@ -684,6 +684,59 @@ kenslog.rsp,0,0,1,0
 FGCODAD.WFK,0,0,1,0
 VENNAMES.WFK,0,0,1,0
 kenslogz.dbf,0,0,1,0
+FRCRUMTC.wfm,1,0,1,0
+Fredtcrn.wfm,1,0,1,0
+FRSTATMR.wfm,1,0,1,0
+FRSTATMC.wfm,1,0,1,0
+vnstat.wfm,1,0,1,0
+FRCRUMTC.mnu,1,0,1,0
+Fredtcrn.mnu,1,0,1,0
+FRSTATMR.mnu,1,0,1,0
+FRSTATMC.mnu,1,0,1,0
+preview.wfm,1,0,1,0
+fgrjobcd.prg,1,0,1,0
+APPYMTSR.PRG,1,0,1,0
+APOGRNSR.prg,1,0,1,0
+fgjcdrpt.prg,1,0,1,0
+fglpgsrp.prg,1,0,1,0
+arrinvrp.prg,1,0,1,0
+ARINVSRP.PRG,1,0,1,0
+FGDIV.REP,1,0,1,0
+FRVEREGS.REP,1,0,1,0
+FGUNIT.REP,1,0,1,0
+FGTYP.REP,1,0,1,0
+FGTAXTYP.REP,1,0,1,0
+FGSVCES.REP,1,0,1,0
+FGREGCDV.REP,1,0,1,0
+FGREGCDS.REP,1,0,1,0
+FGREGCDC.REP,1,0,1,0
+FGCODREV.REP,1,0,1,0
+FGCODPRC.REP,1,0,1,0
+FGCODNM.REP,1,0,1,0
+FGCODNAM.REP,1,0,1,0
+FGCODMP.REP,1,0,1,0
+FGCODM.REP,1,0,1,0
+FGCODER.REP,1,0,1,0
+FGCOD.REP,1,0,1,0
+FGCLAN.REP,1,0,1,0
+FGCLA.REP,1,0,1,0
+FGCHART.REP,1,0,1,0
+FG15P.REP,1,0,1,0
+FG15H.REP,1,0,1,0
+STSTOUSE.REP,1,0,1,0
+STSTO.REP,1,0,1,0
+fgrjobcd.qbe,1,0,1,0
+APPYMTSR.qbe,1,0,1,0
+APOGRNSR.qbe,1,0,1,0
+FRCRUMTC.qbe,1,0,1,0
+Fredtcrn.qbe,1,0,1,0
+FRSTATMR.qbe,1,0,1,0
+FRSTATMC.qbe,1,0,1,0
+fgjcdrpt.qbe,1,0,1,0
+arrinvrp.qbe,1,0,1,0
+FGLPGSRP.qbe,1,0,1,0
+ARINVSRP.qbe,1,0,1,0
+vnstat.qbe,1,0,1,0
 
 [DEO]
 DEO0=C:\kenslog\idssys\deploy
@@ -1443,3 +1496,56 @@ Files666=VENNAMES.WFK >> DestDir: {app}
 Files667=kenslogz.dbf >> DestDir: {app}
 Files668=kenslogz.mdx >> DestDir: {app}
 Files669=kenslogz.dbt >> DestDir: {app}
+Files670=FRCRUMTC.wfO >> DestDir: {app}
+Files671=Fredtcrn.wfO >> DestDir: {app}
+Files672=FRSTATMR.wfO >> DestDir: {app}
+Files673=FRSTATMC.wfO >> DestDir: {app}
+Files674=vnstat.wfO >> DestDir: {app}
+Files675=FRCRUMTC.mnO >> DestDir: {app}
+Files676=Fredtcrn.mnO >> DestDir: {app}
+Files677=FRSTATMR.mnO >> DestDir: {app}
+Files678=FRSTATMC.mnO >> DestDir: {app}
+Files679=preview.wfO >> DestDir: {app}
+Files680=fgrjobcd.prO >> DestDir: {app}
+Files681=APPYMTSR.PRO >> DestDir: {app}
+Files682=APOGRNSR.prO >> DestDir: {app}
+Files683=fgjcdrpt.prO >> DestDir: {app}
+Files684=fglpgsrp.prO >> DestDir: {app}
+Files685=arrinvrp.prO >> DestDir: {app}
+Files686=ARINVSRP.PRO >> DestDir: {app}
+Files687=FGDIV.REO >> DestDir: {app}
+Files688=FRVEREGS.REO >> DestDir: {app}
+Files689=FGUNIT.REO >> DestDir: {app}
+Files690=FGTYP.REO >> DestDir: {app}
+Files691=FGTAXTYP.REO >> DestDir: {app}
+Files692=FGSVCES.REO >> DestDir: {app}
+Files693=FGREGCDV.REO >> DestDir: {app}
+Files694=FGREGCDS.REO >> DestDir: {app}
+Files695=FGREGCDC.REO >> DestDir: {app}
+Files696=FGCODREV.REO >> DestDir: {app}
+Files697=FGCODPRC.REO >> DestDir: {app}
+Files698=FGCODNM.REO >> DestDir: {app}
+Files699=FGCODNAM.REO >> DestDir: {app}
+Files700=FGCODMP.REO >> DestDir: {app}
+Files701=FGCODM.REO >> DestDir: {app}
+Files702=FGCODER.REO >> DestDir: {app}
+Files703=FGCOD.REO >> DestDir: {app}
+Files704=FGCLAN.REO >> DestDir: {app}
+Files705=FGCLA.REO >> DestDir: {app}
+Files706=FGCHART.REO >> DestDir: {app}
+Files707=FG15P.REO >> DestDir: {app}
+Files708=FG15H.REO >> DestDir: {app}
+Files709=STSTOUSE.REO >> DestDir: {app}
+Files710=STSTO.REO >> DestDir: {app}
+Files711=fgrjobcd.qbO >> DestDir: {app}
+Files712=APPYMTSR.qbO >> DestDir: {app}
+Files713=APOGRNSR.qbO >> DestDir: {app}
+Files714=FRCRUMTC.qbO >> DestDir: {app}
+Files715=Fredtcrn.qbO >> DestDir: {app}
+Files716=FRSTATMR.qbO >> DestDir: {app}
+Files717=FRSTATMC.qbO >> DestDir: {app}
+Files718=fgjcdrpt.qbO >> DestDir: {app}
+Files719=arrinvrp.qbO >> DestDir: {app}
+Files720=FGLPGSRP.qbO >> DestDir: {app}
+Files721=ARINVSRP.qbO >> DestDir: {app}
+Files722=vnstat.qbO >> DestDir: {app}

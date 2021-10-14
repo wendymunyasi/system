@@ -97,7 +97,7 @@ CLASS ProdCode(FormObj,Name) OF MENUBAR(FormObj,Name)
 
        DEFINE MENU ERRORProdCodeREPORT OF THIS.REPORT;
              PROPERTY;
-               OnClick {;create session ;set lock off ;report form Fgcod},;
+               OnClick {;create session ;set lock off ;do Fgcod.rep},;
                Text "1. List Codes sorted by code."
                
                
@@ -109,7 +109,7 @@ CLASS ProdCode(FormObj,Name) OF MENUBAR(FormObj,Name)
                
                DEFINE MENU ERRORProdCodeerrsT OF THIS.REPORT;
              PROPERTY;
-               OnClick {;create session ;set lock off ;report form Fgcoder},;
+               OnClick {;create session ;set lock off ;do Fgcoder.rep},;
                Text "2. Error Codes."
                
                 DEFINE MENU SEPARATORREP2 OF THIS.REPORT;
@@ -119,7 +119,7 @@ CLASS ProdCode(FormObj,Name) OF MENUBAR(FormObj,Name)
                
                  DEFINE MENU materialcodes OF THIS.REPORT;
              PROPERTY;
-               OnClick {;create session ;set lock off ;report form Fgcodm},;
+               OnClick {;create session ;set lock off ;do Fgcodm.rep},;
                Text "3. Material Codes."
                
                 DEFINE MENU SEPARATORREP3 OF THIS.REPORT;
@@ -129,7 +129,7 @@ CLASS ProdCode(FormObj,Name) OF MENUBAR(FormObj,Name)
                
              DEFINE MENU SERVICESCODES OF THIS.REPORT;
              PROPERTY;
-               OnClick {;create session ;set lock off ;report form FgSVCES},;
+               OnClick {;create session ;set lock off ;do FgSVCES.rep},;
                Text "4. Revenue Services Codes."
                
                 DEFINE MENU SEPARATORREP4 OF THIS.REPORT;
@@ -139,7 +139,7 @@ CLASS ProdCode(FormObj,Name) OF MENUBAR(FormObj,Name)
 
        DEFINE MENU SERVICESCODESrev oF THIS.REPORT;
              PROPERTY;
-               OnClick {;create session ;set lock off ;report form fgcodrev},;
+               OnClick {;create session ;set lock off ;do fgcodrev.rep},;
                Text "5. Revenue Service Classification Codes."
 
     DEFINE MENU SEPARATORREP5 OF THIS.REPORT;
@@ -149,7 +149,7 @@ CLASS ProdCode(FormObj,Name) OF MENUBAR(FormObj,Name)
       
                DEFINE MENU ERRORProdCodename OF THIS.REPORT;
              PROPERTY;
-               OnClick {;create session ;set lock off ;report form Fgcodnam},;
+               OnClick {;create session ;set lock off ;do Fgcodnam.rep},;
                Text "6. List Codes sorted by name."
                
                

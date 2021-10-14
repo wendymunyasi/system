@@ -1,0 +1,513 @@
+******************************************************************************
+*  PROGRAM:      Frstat.mnu
+*
+*  WRITTEN BY:   W M Nyongesa
+*
+*  DATE:         12/93
+*
+*  UPDATED:     04/2015
+*
+*  REVISION:     $Revision:   1.55  $
+*
+*  VERSION:      Visual dBASE
+*
+*  DESCRIPTION:  This menu file is used by Frstat.wfm for performing simple
+*                tasks.  It allows adding, deleting, and searching for
+*                Frstats, brings up the orders form for a Customer,
+*                and runs reports.
+*
+*  PARAMETERS:   FormObj -- the form to which this menu is attached.
+*
+*  CALLS:        None
+*
+*  USAGE:        form.menuFile = "Frstat.mnu"
+*
+*******************************************************************************
+#include <Messdlg.h>
+
+** END HEADER -- do not remove this line*
+* Generated on 06/21/94
+*
+Parameter FormObj
+NEW FrstatMENU(FormObj,"Root")
+CLASS FrstatMENU(FormObj,Name) OF MENUBAR(FormObj,Name)
+   this.Text = ""
+   this.OnInit = {;set procedure to Sampproc.prg}
+
+   DEFINE MENU FILE OF THIS;
+       PROPERTY;
+         Text "&File"
+
+          DEFINE MENU EXIT OF THIS.FILE;
+                PROPERTY; 
+          StatusMessage "Return to the Previous Menu.",;
+          Text "&RETURN TO PREVIOUS MENU",;
+          SHORTCUT "F4",;
+          OnClick CLASS::ONEXIT
+  
+      
+       DEFINE MENU SEPARATOR000 OF THIS.FILE;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+
+            
+   DEFINE MENU QUITALL OF THIS.FILE;
+       PROPERTY; 
+          StatusMessage "Leave Kenserve System.",;
+          Text "Exit",;
+          SHORTCUT "F8",;
+          OnClick CLASS::ONQUITALL
+          
+   DEFINE MENU Frstat OF THIS;
+       PROPERTY;
+         Text "Customer"
+
+         DEFINE MENU VIEWEDIT OF THIS.Frstat;
+             PROPERTY;
+               OnClick CLASS::VIEWEDITONCLICK,;
+               Text "&Edit",;
+               Shortcut "Ctrl-E",;
+               StatusMessage "Edit data."
+
+         DEFINE MENU SEPARATOR1 OF THIS.Frstat;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+
+        
+         DEFINE MENU SEARCH OF THIS.Frstat;
+             PROPERTY;
+               OnClick CLASS::SEARCHONCLICK,;
+               Text "&Search ...",;
+               Shortcut "Ctrl-S",;
+               StatusMessage "Search for a Customer."
+
+         DEFINE MENU SEPARATOR3 OF THIS.Frstat;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+
+    
+   DEFINE MENU REPORT OF THIS;
+       PROPERTY;
+         Text "&Reports"
+         
+  
+         DEFINE MENU Frstat_REPORT OF THIS.REPORT;
+             PROPERTY;
+               OnClick {;create session ;set lock off ;report form Frstats},;
+               Text "&1. Listing of UnMatched Amounts for selected period",;
+               ENABLED .F.,;
+               StatusMessage "Selected customer Statements."
+               
+                    DEFINE MENU SEPARREPO01 OF THIS.REPORT;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+               
+               DEFINE MENU Frstat_expREPORT OF THIS.REPORT;
+             PROPERTY;
+               OnClick {;create session ;set lock off ;report form Frstatop},;
+               Text "&2. Consumption by Vehicles",;
+                ENABLED .t.,;
+               StatusMessage "Selected Frstat Statements."
+               
+                    DEFINE MENU SEPARREPO02 OF THIS.REPORT;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+               
+         DEFINE MENU Frstat_rangeexpREPORT OF THIS.REPORT;
+             PROPERTY;
+               OnClick {;create session ;set lock off ;report form drstats},;
+               Text "&3.  Statement selected customer and date range - consumption/Portrait",;
+                enabled .T.,;
+               StatusMessage "Selected Frstat Statements."
+               
+                    DEFINE MENU SEPARREPO03 OF THIS.REPORT;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+               
+                     
+         DEFINE MENU Frstat_rangeexpREPORTcardno OF THIS.REPORT;
+             PROPERTY;
+               OnClick {;create session ;set lock off ;report form drstatsl},;
+               Text "&3b.  Statement selected customer and date range - consumption/landscape",;
+                enabled .T.,;
+               StatusMessage "Selected Frstat Statements."
+               
+                    DEFINE MENU SEPARREPO033b OF THIS.REPORT;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+               
+               *
+                DEFINE MENU Frstat_rangeexpREPORTcardno3c OF THIS.REPORT;
+             PROPERTY;
+               OnClick {;create session ;set lock off ;report form drstatp1},;
+               Text "&3c. SELECTED CUSTOMER SUMMARY RECEIPTS FOR SELECTED PERIOD",;
+               enabled .T.,;
+               StatusMessage "Selected customer payments."
+               
+                    DEFINE MENU SEPARREPO033b3c OF THIS.REPORT;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+               *
+                 DEFINE MENU Frstat_rangeexpREPORTcardno3d OF THIS.REPORT;
+             PROPERTY;
+               OnClick {;create session ;set lock off ;report form drstatp2},;
+               Text "&3d. SELECTED CUSTOMER DETAILED RECEIPTS/DEBIT/CREDIT NOTES FOR SELECTED PERIOD",;
+               enabled .T.,;
+               StatusMessage "Selected customer RECEIPTS/DEBIT/CREDIT NOTES."
+               
+                    DEFINE MENU SEPARREPO033b3d OF THIS.REPORT;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+                *
+                DEFINE MENU Frstat_rangeexpREPORTcardno3e OF THIS.REPORT;
+             PROPERTY;
+               OnClick {;create session ;set lock off ;report form drstatp3},;
+               Text "&3e. SELECTED STAFF SHORTAGES FOR SELECTED PERIOD",;
+               enabled .T.,;
+               StatusMessage "Selected staff shortages."
+               
+                    DEFINE MENU SEPARREPO033b3e OF THIS.REPORT;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+               *
+                     DEFINE MENU Frstat_rangeexpREPORTcardno3f OF THIS.REPORT;
+             PROPERTY;
+               OnClick {;create session ;set lock off ;report form dbnotes},;
+               Text "&3f. SELECTED CUSTOMER DEBIT NOTES NOTES FOR SELECTED PERIOD",;
+               enabled .T.,;
+               StatusMessage "Selected customer DEBIT NOTES."
+               
+                    DEFINE MENU SEPARREPO033b3f OF THIS.REPORT;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+               *
+                       DEFINE MENU Frstat_rangeexpREPORTcardno3g OF THIS.REPORT;
+             PROPERTY;
+               OnClick {;create session ;set lock off ;report form crnotes},;
+               Text "&3g. SELECTED CUSTOMER CREDIT NOTES NOTES FOR SELECTED PERIOD",;
+               enabled .T.,;
+               StatusMessage "Selected customer CREDIT NOTES."
+               
+                    DEFINE MENU SEPARREPO033b3g OF THIS.REPORT;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+               *
+               DEFINE MENU bimonthly OF THIS.REPORT;
+             PROPERTY;
+               OnClick {;create session ;set lock off ;report form Frbimon},;
+               Text "&4. Summary",;
+               StatusMessage "Debtors Summary."
+               
+                    DEFINE MENU SEPARREPO04 OF THIS.REPORT;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+               
+                    DEFINE MENU debtorsagedary OF THIS.REPORT;
+             PROPERTY;
+               OnClick {;create session ;set lock off ;report form custpo},;
+               Text "&5. Daily Aged Analysis Ordered by Category, name",;
+               StatusMessage "Aged Analysis."
+               
+                    DEFINE MENU SEPARREPO06 OF THIS.REPORT;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+               
+                     DEFINE MENU debtorsagedary5A OF THIS.REPORT;
+             PROPERTY;
+               OnClick {;create session ;set lock off ;report form frmageda},;
+               Text "5&a. Monthly Debtors Position as at Aged Date.",;
+               ENABLED .t.,;
+               StatusMessage "Monthy Debtors Position."
+               
+                    DEFINE MENU SEPARREPO065A OF THIS.REPORT;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+               
+               
+                  DEFINE MENU overduedebtorssummary OF THIS.REPORT;
+             PROPERTY;
+               OnClick {;create session ;set lock off ;report form custp2},;
+               Text "&6. Daily Aged Over Due Accounts",;
+               StatusMessage "Overdue accounts."
+               
+                    DEFINE MENU SEPARREPO07 OF THIS.REPORT;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+               
+               
+                     DEFINE MENU nobal OF THIS.REPORT;
+             PROPERTY;
+               OnClick {;create session ;set lock off ;report form drstatsn},;
+               Text "&7. Statement - No Balances",;
+               StatusMessage "Statement - No Balances."
+               
+                    DEFINE MENU SEPARREPO08 OF THIS.REPORT;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+               
+               
+                     
+                     DEFINE MENU vehconsrep OF THIS.REPORT;
+             PROPERTY;
+               OnClick {;create session ;set lock off ;report form frstatvh},;
+               Text "&8.  Statement - detailed consumption",;
+               StatusMessage "Statement - detailed consumption."
+          
+                  DEFINE MENU SEPARREPO081 OF THIS.REPORT;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+            
+               
+            DEFINE MENU vehconsrep1 OF THIS.REPORT;
+             PROPERTY;
+               OnClick {;create session ;set lock off ;report form frstatPD},;
+               Text "&9.   Detailed Customer Consumption by Product Class Report",;
+               StatusMessage "Detailed Customer Consumption by Product Class Report."
+          
+          
+                    DEFINE MENU SEPADEP01 OF THIS.REPORT;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+               
+               DEFINE MENU Frstat_DEP01 OF THIS.REPORT;
+             PROPERTY;
+               OnClick {;create session ;set lock off ;report form Frstatdp},;
+               Text "1&0. Consumption by Department for selected period",;
+                ENABLED .t.,;
+               StatusMessage "Consumption by Department for selected period"
+       
+                DEFINE MENU SEPARREPO049e OF THIS.REPORT;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+               
+                    DEFINE MENU debtorsagedary9e OF THIS.REPORT;
+             PROPERTY;
+               OnClick {;create session ;set lock off ;report form custpd},;
+               Text "11. Aged Analysis Ordered by Category, &balance due",;
+               StatusMessage "Aged Analysis Ordered by Category, balance due."
+              
+          
+              DEFINE MENU SEPARREPO049eOD OF THIS.REPORT;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+               
+                    DEFINE MENU debtorsagedary9eOD OF THIS.REPORT;
+             PROPERTY;
+               OnClick {;create session ;set lock off ;report form FRSTATOD},;
+               Text "12. &Statement of Account as at Aged date.",;
+               StatusMessage "Statement of Account as at Aged date"
+              
+               DEFINE MENU SEPARPRINV OF THIS.REPORT;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+     * if .not. blevel > 4
+                    DEFINE MENU debtorsRPRINV OF THIS.REPORT;
+             PROPERTY;
+               OnClick {;create session ;set lock off ;DO ARINVSRP.PRG WITH FORM.BLUSER},;
+               Text "13 Re&print Selected Customer Invoice for Selected Date.",;
+               StatusMessage "Reprint Selected Customer Invoice for Selected Date."
+         
+              DEFINE MENU SEPAMATCHING1 OF THIS.REPORT;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+      *endif
+                  DEFINE MENU SEPARREPO0401 OF THIS.REPORT;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+          
+          
+               DEFINE MENU bimonthlyO OF THIS.REPORT;
+             PROPERTY;
+               OnClick {;create session ;set lock off ;report form Frbimono},;
+               Text "14. &Owing Debtors Summary",;
+               StatusMessage "Owing Debtors Summary."
+               
+                    DEFINE MENU SEPARREPO040 OF THIS.REPORT;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+               *
+                DEFINE MENU bimonthlyO14b OF THIS.REPORT;
+             PROPERTY;
+               OnClick {;create session ;set lock off ;report form Frbimonc},;
+               Text "14b. &Credit Balance - Debtors Summary",;
+               StatusMessage "Credit Balance - Debtors Summary."
+               
+                    DEFINE MENU SEPARREPO04014b OF THIS.REPORT;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+             *
+              DEFINE MENU Frstat_rangeexp15 OF THIS.REPORT;
+             PROPERTY;
+               OnClick {;create session ;set lock off ;report form drstatsg},;
+               Text "15.  Statement selected customer &Category and date range - consumption",;
+                enabled .T.,;
+               StatusMessage "Statement selected customer category and date range - consumption."
+               
+                    DEFINE MENU SEPARREPO15 OF THIS.REPORT;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+               
+               
+              DEFINE MENU Frstat_rangeexp16 OF THIS.REPORT;
+             PROPERTY;
+               OnClick {;create session ;set lock off ;report form posaudit},;
+               Text "16.  Credit Cards Point of Sale for Selected Period",;
+                enabled .T.,;
+               StatusMessage "Credit Cards Point of Sale for Selected Period"
+               
+                    DEFINE MENU SEPARREPO16 OF THIS.REPORT;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+               
+                      
+         DEFINE MENU Frstat_rangeexp17 OF THIS.REPORT;
+             PROPERTY;
+               OnClick {;create session ;set lock off ;report form drstatsp},;
+               Text "17  Statement selected customer and date range - consumption/Landscape",;
+                enabled .T.,;
+               StatusMessage "Selected Customer Statements."
+               
+                    DEFINE MENU SEPARREPO17 OF THIS.REPORT;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+               DEFINE MENU Frstat_rangeexp18 OF THIS.REPORT;
+             PROPERTY;
+               OnClick {;create session ;set lock off ;report form drstatss},;
+               Text "18  Customer Daily Transactions for selected date range",;
+                enabled .T.,;
+               StatusMessage "Selected Customer Daily Transactions."
+               
+                    DEFINE MENU SEPARREPO18 OF THIS.REPORT;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+          
+       *  if .not. blevel > 4
+                    DEFINE MENU debtorsRPRINVlpg OF THIS.REPORT;
+             PROPERTY;
+               OnClick {;create session ;set lock off ;DO FGLPGSRP.PRG WITH FORM.BLUSER},;
+               Text "19 Reprint Selected LPG Cash Sale for Selected Date.",;
+               StatusMessage "Reprint Selected LPG Cash Sale for Selected Date."
+         
+              DEFINE MENU SEPAMATCHING1lpg OF THIS.REPORT;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+               
+                      DEFINE MENU debtorsRPRINV20 OF THIS.REPORT;
+             PROPERTY;
+               OnClick {;create session ;set lock off ;DO arrinvrp.prg WITH FORM.BLUSER},;
+               Text "20 Reprint Selected Customer Invoice Reversal/Credit Note for Selected Date.",;
+               StatusMessage "Reprint Selected Customer Invoice Credit Note for Selected Date."
+               *
+                 DEFINE MENU SEPAMATCHING1lpg21 OF THIS.REPORT;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+               
+                      DEFINE MENU debtorsRPRINV2021 OF THIS.REPORT;
+             PROPERTY;
+               OnClick {;create session ;set lock off ;DO fgjcdrpt.prg WITH FORM.BLUSER},;
+               Text "21 Reprint Job Card Selected Order, Date.",;
+               StatusMessage "Reprint Selected Date/Number Job Card."
+               *
+         
+              DEFINE MENU SEPAMATCHING120 OF THIS.REPORT;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+   *   endif
+   ****************************************************************************
+   procedure SearchOnClick
+
+   * Bring up Search.wfm modally.
+   ****************************************************************************
+   private searchForm, searchItem, saveRec,ssrc,sftyp,spmod,sno,sitem
+  select frigtmes
+  set order to name
+   if reccount() = 0                    && If table is empty, don't search
+      InformationMessage("This table is empty.", "Oops")
+   else
+      form.CheckChanged(.T.)
+      set procedure to Search.wfm additive
+    *  set order to custno
+      searchForm = new SearchForm()
+      searchForm.keyName = "NAME"       && Indicate to user expression to enter
+      searchForm.formatting = "@X"
+      searchForm.mdi = .F.              && Necessary for a modal form
+      searchItem = searchForm.Readmodal()
+      if type("searchItem") = "O" .and. searchItem.id <> 0;
+                                  .and. .not. empty(searchForm.value)
+         *** If Cancel or ESC wasn't used to exit Search.wfm
+         saveRec = recno()
+         form.enabled = .F.
+        seek upper(ltrim(rtrim(searchForm.value)))
+         if .not. found()
+            InformationMessage(FormatStr("customer %1 \n Was not Found.",;
+                                         searchForm.value),;
+                               "Info")
+            if saveRec <= reccount()    && If weren't at eof(), go to saveRec
+               go saveRec
+            else
+               go bottom
+            endif
+         endif
+         form.enabled = .T.
+      endif
+
+      searchForm.Release()
+      close procedure Search.wfm
+   endif
+   form.BrowseOnNavigate()  
+SET NEAR OFF
+
+  
+   ****************************************************************************
+   procedure ViewEditOnClick
+
+   * Toggle View/Edit modes.
+   ****************************************************************************
+
+   form.ViewEdit()
+
+
+  
+   ****************************************************************************
+    procedure OnExit
+     form.Release()
+
+    procedure OnQuitAll
+   
+     form.Release()
+
+ quit
+ENDCLASS

@@ -105,7 +105,7 @@ DEFINE MENU EXIT OF THIS.FILE;
  
          DEFINE MENU STOCKHOLDINGREPORT OF THIS.REPORT;
              PROPERTY;
-               OnClick {;create session ;set lock off ;report form Fg15h},;
+               OnClick {;create session ;set lock off ;do Fg15h.rep},;
                Text "1. Stock Holding"
                
  DEFINE MENU SEPARAREP2 OF THIS.REPORT;
@@ -115,7 +115,7 @@ DEFINE MENU EXIT OF THIS.FILE;
           
      DEFINE MENU STOCKPOSITIONREPORT OF THIS.REPORT;
              PROPERTY;
-               OnClick {;create session ;set lock off ;report form Fg15p},;
+               OnClick {;create session ;set lock off ;do Fg15p.rep},;
                Text "2. Stock Position"
                
                 DEFINE MENU SEPARAREP3 OF THIS.REPORT;
@@ -125,7 +125,7 @@ DEFINE MENU EXIT OF THIS.FILE;
                
      DEFINE MENU CHHARTSTOCKPOSITIONREPORT OF THIS.REPORT;
              PROPERTY;
-               OnClick {;create session ;set lock off ;report form fgChart},;
+               OnClick {;create session ;set lock off ;do fgChart.rep},;
                Text "3. Chart of Accounts"
                
                 DEFINE MENU SEPARAREP4 OF THIS.REPORT;
@@ -156,7 +156,7 @@ DEFINE MENU EXIT OF THIS.FILE;
       set procedure to Search.WFM additive
       searchForm = new SearchForm()
       searchForm.keyName = "TypeClassCode"  && Indicator of key expression
-        searchForm.formatting = "@X"
+     *   searchForm.formatting = "@X"
       searchForm.mdi = .F.
       searchItem = searchForm.Readmodal()
       if type("searchItem") = "O" .and. searchItem.id <> 0

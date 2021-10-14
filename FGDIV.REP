@@ -1,0 +1,257 @@
+//////////////////////////////////////////////////////////////////////////////
+// Filename:     FGDIV.REP                                                  //
+// Created By:   Report Conversion Wizard                                   //
+// Created From: C:\kenservice\idssys\FGDIV.RPT                             //
+// Data File:    C:\kenservice\idssys\fgdivp.qbe                            //
+// Created On:   14/10/2021 At 16:56:11                                     //
+//////////////////////////////////////////////////////////////////////////////
+//
+//////////////////////////////////////////////////////////////////////////////
+// Conversion Exception Log:                                                //
+// Report contains related tables. SQL may need adjustment.                 //
+//////////////////////////////////////////////////////////////////////////////
+//
+** END HEADER -- do not remove this line
+//
+// Converted on 14/10/2021
+//
+LOCAL r
+r = new FGDIVREPORT()
+r.render()
+CLASS FGDIVREPORT OF REPORT
+
+   With (this)
+      AutoSort = false
+   EndWith
+
+   this.FGDIV1 = new QUERY()
+   this.FGDIV1.Parent = this
+   With (this.FGDIV1)
+      Top = 50
+      Left = 50
+      SQL = 'SELECT * FROM "\KENSERVICE\DATA\FGDIV.DBF"'
+      RequestLive = false
+      Active = true
+   EndWith
+
+   this.FGCOY1 = new QUERY()
+   this.FGCOY1.Parent = this
+   With (this.FGCOY1)
+      Top = 50
+      Left = 550
+      SQL = 'SELECT * FROM "\KENSERVICE\DATA\FGCOY.DBF"'
+      RequestLive = false
+      Active = true
+   EndWith
+
+   With (this.FGCOY1.ROWSET)
+      IndexName = "COY"
+      MasterFields = "COY"
+      MasterRowset = form.FGDIV1.Rowset
+   EndWith
+
+   this.GLCC1 = new QUERY()
+   this.GLCC1.Parent = this
+   With (this.GLCC1)
+      Top = 50
+      Left = 1050
+      SQL = 'SELECT * FROM "\KENSERVICE\DATA\GLCC.DBF"'
+      RequestLive = false
+      Active = true
+   EndWith
+
+   With (this.PRINTER)
+      Resolution = 0
+      PaperSource = 7
+      Orientation = 1
+      Duplex = 2
+      TrueTypeFonts = 2
+      PaperSize = 1
+      Color = 0
+   EndWith
+
+   this.PAGETEMPLATE1 = new PAGETEMPLATE(this)
+   With (this.PAGETEMPLATE1)
+      GridLineWidth = 0
+      Width = 12240
+      MarginRight = 360
+      Height = 15840
+      MarginBottom = 360
+      MarginTop = 360
+      MarginLeft = 360
+   EndWith
+
+   this.PAGETEMPLATE1.STREAMFRAME1 = new STREAMFRAME(this.PAGETEMPLATE1)
+   With (this.PAGETEMPLATE1.STREAMFRAME1)
+      Top = 1560
+      Width = 11520
+      Height = 12840
+      Metric = 1
+   EndWith
+
+   this.PAGETEMPLATE1.TEXTDATE1 = new TEXT(this.PAGETEMPLATE1)
+   With (this.PAGETEMPLATE1.TEXTDATE1)
+      Top = 240
+      FontBold = true
+      Width = 1740
+      Height = 280
+      ColorNormal = "BtnText"
+      FontName = "Times New Roman"
+      Text = {|| DToC(Date())}
+      FontSize = 12
+      Metric = 1
+   EndWith
+
+   this.PAGETEMPLATE1.TEXTSTREET1 = new TEXT(this.PAGETEMPLATE1)
+   With (this.PAGETEMPLATE1.TEXTSTREET1)
+      Top = 240
+      FontBold = true
+      Width = 8280
+      Height = 280
+      Left = 1740
+      AlignHorizontal = 1
+      Wrap = false
+      ColorNormal = "BtnText"
+      FontName = "Times New Roman"
+      Text = {|| this.Form.FGCOY1.RowSet.Fields["STREET"].Value }
+      FontSize = 12
+      Metric = 1
+   EndWith
+
+   this.PAGETEMPLATE1.TEXT1 = new TEXT(this.PAGETEMPLATE1)
+   With (this.PAGETEMPLATE1.TEXT1)
+      Top = 760
+      FontBold = true
+      Width = 6780
+      Height = 280
+      FontUnderline = true
+      AlignHorizontal = 1
+      Wrap = false
+      ColorNormal = "BtnText"
+      FontName = "Times New Roman"
+      Text = "LISTING OF DIVISIONS"
+      FontSize = 12
+      Metric = 1
+   EndWith
+
+   this.PAGETEMPLATE1.TEXTPAGE1 = new TEXT(this.PAGETEMPLATE1)
+   With (this.PAGETEMPLATE1.TEXTPAGE1)
+      Top = 760
+      Width = 780
+      Height = 280
+      Left = 7440
+      ColorNormal = "BtnText"
+      FontName = "Times New Roman"
+      Text = {|| Str(form.reportPage, 5)}
+      FontSize = 12
+      Metric = 1
+   EndWith
+
+   this.PAGETEMPLATE1.TEXT2 = new TEXT(this.PAGETEMPLATE1)
+   With (this.PAGETEMPLATE1.TEXT2)
+      Top = 1280
+      FontBold = true
+      Width = 4800
+      Height = 280
+      Left = 4980
+      Wrap = false
+      ColorNormal = "BtnText"
+      FontName = "Times New Roman"
+      Text = "Division"
+      FontSize = 12
+      Metric = 1
+   EndWith
+
+   this.PAGETEMPLATE1.TEXT3 = new TEXT(this.PAGETEMPLATE1)
+   With (this.PAGETEMPLATE1.TEXT3)
+      Top = 1280
+      FontBold = true
+      Width = 3240
+      Height = 280
+      Left = 180
+      Wrap = false
+      ColorNormal = "BtnText"
+      FontName = "Times New Roman"
+      Text = "Company"
+      FontSize = 12
+      Metric = 1
+   EndWith
+
+   this.PAGETEMPLATE1.LINE1 = new LINE(this.PAGETEMPLATE1)
+   With (this.PAGETEMPLATE1.LINE1)
+      Top = 1559
+      Width = 0
+      Pen = 0
+      Left = 0
+      Right = 11519
+      ColorNormal = "black"
+      Bottom = 1559
+      Metric = 1
+   EndWith
+
+   this.STREAMSOURCE1 = new STREAMSOURCE(this)
+
+   this.STREAMSOURCE1.DETAILBAND.TEXTCOY1 = new TEXT(this.STREAMSOURCE1.DETAILBAND)
+   With (this.STREAMSOURCE1.DETAILBAND.TEXTCOY1)
+      Width = 300
+      Height = 280
+      Left = 180
+      SuppressIfDuplicate = true
+      Wrap = false
+      ColorNormal = "BtnText"
+      FontName = "Times New Roman"
+      SuppressIfBlank = true
+      Text = {|| this.Form.FGDIV1.RowSet.Fields["COY"].Value }
+      FontSize = 12
+      Metric = 1
+   EndWith
+
+   this.STREAMSOURCE1.DETAILBAND.TEXTDIV1 = new TEXT(this.STREAMSOURCE1.DETAILBAND)
+   With (this.STREAMSOURCE1.DETAILBAND.TEXTDIV1)
+      Width = 300
+      Height = 280
+      Left = 5040
+      Wrap = false
+      ColorNormal = "BtnText"
+      FontName = "Times New Roman"
+      SuppressIfBlank = true
+      Text = {|| this.Form.FGDIV1.RowSet.Fields["DIV"].Value }
+      FontSize = 12
+      Metric = 1
+   EndWith
+
+   this.STREAMSOURCE1.DETAILBAND.TEXTNAME1 = new TEXT(this.STREAMSOURCE1.DETAILBAND)
+   With (this.STREAMSOURCE1.DETAILBAND.TEXTNAME1)
+      Width = 4560
+      Height = 280
+      Left = 5340
+      Wrap = false
+      ColorNormal = "BtnText"
+      FontName = "Times New Roman"
+      SuppressIfBlank = true
+      Text = {|| this.Form.FGDIV1.RowSet.Fields["NAME"].Value }
+      FontSize = 12
+      Metric = 1
+   EndWith
+
+   this.STREAMSOURCE1.DETAILBAND.TEXTNAME2 = new TEXT(this.STREAMSOURCE1.DETAILBAND)
+   With (this.STREAMSOURCE1.DETAILBAND.TEXTNAME2)
+      Width = 3720
+      Height = 280
+      Left = 600
+      SuppressIfDuplicate = true
+      Wrap = false
+      ColorNormal = "BtnText"
+      FontName = "Times New Roman"
+      SuppressIfBlank = true
+      Text = {|| this.Form.FGCOY1.RowSet.Fields["NAME"].Value }
+      FontSize = 12
+      Metric = 1
+   EndWith
+
+   this.FirstPageTemplate = this.form.PAGETEMPLATE1
+   this.form.PAGETEMPLATE1.NextPageTemplate = this.form.PAGETEMPLATE1
+   this.form.PAGETEMPLATE1.STREAMFRAME1.StreamSource = this.form.STREAMSOURCE1
+   this.form.STREAMSOURCE1.RowSet = this.form.FGDIV1.RowSet
+ENDCLASS
+

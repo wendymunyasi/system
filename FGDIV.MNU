@@ -25,68 +25,74 @@
 *******************************************************************************
 #include <messdlg.h>
 
-** END HEADER -- do not remove this line*
-* Generated on 07/03/2001
-*
-Parameter FormObj
-NEW DivisionS(FormObj,"Root")
-CLASS DivisionS(FormObj,Name) OF MENUBAR(FormObj,Name)
-   this.Text = ""
-   this.OnInit = {;set procedure to KenpProc.prg}
+** END HEADER -- do not remove this line
+//
+// Generated on 10/14/2021
+//
+parameter formObj
+new DIVISIONS(formObj, "root")
 
-   DEFINE MENU FILE OF THIS;
-       PROPERTY;
-         Text "&File"
+class DIVISIONS(formObj, name) of MENUBAR(formObj, name)
+   this.FILE = new MENU(this)
+   with (this.FILE)
+      text = "&File"
+   endwith
 
-        
-         DEFINE MENU EXIT OF THIS.FILE;
-                PROPERTY; 
-          StatusMessage "Return to the Previous Menu.",;
-          Text "&RETURN TO PREVIOUS MENU",;
-          SHORTCUT "F4",;
-          OnClick CLASS::ONEXIT
+   this.FILE.EXIT = new MENU(this.FILE)
+   with (this.FILE.EXIT)
+      onClick = class::ONEXIT
+      text = "&RETURN TO PREVIOUS MENU"
+      shortCut = "F4"
+      statusMessage = "Return to the Previous Menu."
+   endwith
+
+   this.FILE.SEPARATOR000 = new MENU(this.FILE)
+   with (this.FILE.SEPARATOR000)
+      text = ""
+      separator = true
+   endwith
+
+   this.FILE.QUITALL = new MENU(this.FILE)
+   with (this.FILE.QUITALL)
+      onClick = class::ONQUITALL
+      text = "Exit"
+      shortCut = "F8"
+      statusMessage = "Leave Kenserve System."
+   endwith
+
+   this.FGDIV = new MENU(this)
+   with (this.FGDIV)
+      text = "&Division"
+   endwith
+
+   this.FGDIV.VIEWEDIT = new MENU(this.FGDIV)
+   with (this.FGDIV.VIEWEDIT)
+      onClick = class::VIEWEDITONCLICK
+      text = "&Edit"
+      shortCut = "Ctrl-E"
+      statusMessage = "Edit data."
+   endwith
+
+   this.FGDIV.SEPARATOR1 = new MENU(this.FGDIV)
+   with (this.FGDIV.SEPARATOR1)
+      text = ""
+      separator = true
+   endwith
+
+   this.REPORT = new MENU(this)
+   with (this.REPORT)
+      text = "&Reports"
+   endwith
+
+   this.REPORT.ERRORDIVISIONSREPORT = new MENU(this.REPORT)
+   with (this.REPORT.ERRORDIVISIONSREPORT)
+      onClick = class::ERRORDIVISIONSREPORT_ONCLICK
+      text = "&List Divisions."
+      shortCut = "Ctrl-L"
+   endwith
+
+
   
-      
-       DEFINE MENU SEPARATOR000 OF THIS.FILE;
-             PROPERTY;
-               Separator .T.,;
-               Text ""
-
-            
-   DEFINE MENU QUITALL OF THIS.FILE;
-       PROPERTY; 
-          StatusMessage "Leave Kenserve System.",;
-          Text "Exit",;
-          SHORTCUT "F8",;
-          OnClick CLASS::ONQUITALL
-   DEFINE MENU fGDIV OF THIS;
-       PROPERTY;
-         Text "&Division"
-
-         DEFINE MENU VIEWEDIT OF THIS.fGDIV;
-             PROPERTY;
-               OnClick CLASS::VIEWEDITONCLICK,;
-               Text "&Edit",;
-               Shortcut "Ctrl-E",;
-               StatusMessage "Edit data."
-
-         DEFINE MENU SEPARATOR1 OF THIS.fGDIV;
-             PROPERTY;
-               Separator .T.,;
-               Text ""
-
-       
-
-   DEFINE MENU REPORT OF THIS;
-       PROPERTY;
-         Text "&Reports"
-
-         DEFINE MENU ERRORDivisionSREPORT OF THIS.REPORT;
-             PROPERTY;
-                Text "&List Divisins.",;
-               Shortcut "Ctrl-L"
-
-    
    ***************************************************************************
    procedure ViewEditOnClick
    ****************************************************************************
@@ -95,7 +101,13 @@ CLASS DivisionS(FormObj,Name) OF MENUBAR(FormObj,Name)
 
   
    ****************************************************************************
-    procedure OnExit
+
+    function ERRORDIVISIONSREPORT_onClick()
+      create session
+		do preview.wfm with "fgdiv.rep"
+      return
+
+   procedure OnExit
      form.Release()
 
     procedure OnQuitAll
@@ -104,7 +116,5 @@ CLASS DivisionS(FormObj,Name) OF MENUBAR(FormObj,Name)
 
  quit
 
-ENDCLASS
-
-
+endclass
 

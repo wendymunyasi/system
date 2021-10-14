@@ -1,0 +1,32 @@
+* Visual dBASE .QBE file 9
+close databases
+ON ERROR DO QBEERR WITH ERROR(), MESSAGE(),;
+PROGRAM(), LINENO()
+CLOSE DATABASES
+SET EXACT ON
+SELECT 1
+USE \KENSERVICE\DATA\frigtmes.DBf order tag NAME
+SET FILTER TO SOURCE>'1'
+GO TOP
+SELECT 2
+USE \KENSERVICE\DATA\frstat.DBf ORDER frighter
+SET FILTER TO SOURCE>'1' .AND. TOTAL < 0 .and. .not. cust
+SELECT 4
+USE \KENSERVICE\DATA\DOCTYP.DBF ORDER TAG DOCTYPE
+SELECT 1
+SET RELATION TO source+fTYP+pmod+frighter_N INTO frstat CONSTRAIN
+SELECT 2
+SET RELATION TO Doctype INTO DOCTYP
+SET SKIP TO frstat
+
+SELECT 6
+USE \KENSERVICE\DATA\fgcoy.DBf
+SET SKIP TO frstat
+SELECT 7
+USE \KENSERVICE\DATA\frcustat.DBf
+select 8
+use \kenservice\data\dasum.dbf && trans_date for aging up to this period
+SET SKIP TO frstat
+
+SELECT 1
+GO TOP

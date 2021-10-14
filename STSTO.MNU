@@ -95,13 +95,13 @@ CLASS StoreS(FormObj,Name) OF MENUBAR(FormObj,Name)
 
          DEFINE MENU ERRORStoreSREPORT OF THIS.REPORT;
              PROPERTY;
-               OnClick {;create session ;set lock off ;report form Ststo},;
+               OnClick {;create session ;set lock off ;do Ststo.rep},;
                Text "&1. List Stores.",;
                Shortcut "Ctrl-1"
 
      DEFINE MENU ERRORSALESREPORT OF THIS.REPORT;
              PROPERTY;
-               OnClick {;create session ;set lock off ;report form ststouse},;
+               OnClick {;create session ;set lock off ;do ststouse.rep},;
                Text "&2. List Used Stores",;
                Shortcut "Ctrl-2"
 

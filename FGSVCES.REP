@@ -1,0 +1,204 @@
+//////////////////////////////////////////////////////////////////////////////
+// Filename:     FGSVCES.REP                                                //
+// Created By:   Report Conversion Wizard                                   //
+// Created From: \kenservice\data\FGSVCES.RPT                           //
+// Data File:    \kenservice\data\fgsvces                               //
+// Created On:   14/10/2021 At 10:10:51                                     //
+//////////////////////////////////////////////////////////////////////////////
+//
+** END HEADER -- do not remove this line
+//
+// Converted on 14/10/2021
+//
+LOCAL r
+r = new FGSVCESREPORT()
+r.render()
+CLASS FGSVCESREPORT OF REPORT
+
+   this.FGSVCES1 = new QUERY()
+   this.FGSVCES1.Parent = this
+   With (this.FGSVCES1)
+      Top = 50
+      Left = 50
+      SQL = 'SELECT * FROM "\kenservice\data\FGSVCES"'
+      RequestLive = false
+      Active = true
+   EndWith
+
+   this.FGCOY1 = new QUERY()
+   this.FGCOY1.Parent = this
+   With (this.FGCOY1)
+      Top = 50
+      Left = 550
+      SQL = 'SELECT * FROM "\kenservice\data\FGCOY"'
+      RequestLive = false
+      Active = true
+   EndWith
+
+   With (this.PRINTER)
+      Copies = 1
+      Resolution = 1
+      PaperSource = 7
+      Orientation = 1
+*      PrinterName = "HP LaserJet P1005"
+      Duplex = 0
+      TrueTypeFonts = 1
+      PaperSize = 1
+      PrinterSource = 2
+      Color = 0
+   EndWith
+
+   this.PAGETEMPLATE1 = new PAGETEMPLATE(this)
+   With (this.PAGETEMPLATE1)
+      GridLineWidth = 0
+      Width = 12240
+      MarginRight = 720
+      Height = 15840
+      MarginBottom = 720
+      MarginTop = 720
+      MarginLeft = 720
+   EndWith
+
+   this.PAGETEMPLATE1.STREAMFRAME1 = new STREAMFRAME(this.PAGETEMPLATE1)
+   With (this.PAGETEMPLATE1.STREAMFRAME1)
+      Top = 1280
+      Width = 10800
+      Height = 12400
+      Metric = 1
+   EndWith
+
+   this.PAGETEMPLATE1.TEXTPAGE1 = new TEXT(this.PAGETEMPLATE1)
+   With (this.PAGETEMPLATE1.TEXTPAGE1)
+      Top = 40
+      FontBold = true
+      Width = 540
+      Height = 240
+      Left = 9840
+      ColorNormal = "BtnText"
+      FontName = "Times New Roman"
+      Text = {|| Str(form.reportPage, 5)}
+      Metric = 1
+   EndWith
+
+   this.PAGETEMPLATE1.TEXTNAME1 = new TEXT(this.PAGETEMPLATE1)
+   With (this.PAGETEMPLATE1.TEXTNAME1)
+      Width = 9600
+      Height = 280
+      AlignHorizontal = 1
+      Wrap = false
+      ColorNormal = "BtnText"
+      FontName = "Arial Black"
+      Text = {|| this.Form.FGCOY1.RowSet.Fields["NAME"].Value }
+      FontSize = 12
+      Metric = 1
+   EndWith
+
+   this.PAGETEMPLATE1.TEXTDATE1 = new TEXT(this.PAGETEMPLATE1)
+   With (this.PAGETEMPLATE1.TEXTDATE1)
+      Top = 580
+      FontBold = true
+      Width = 2040
+      Height = 220
+      ColorNormal = "BtnText"
+      FontName = "Times New Roman"
+      Text = {|| DToC(Date())}
+      FontItalic = true
+      Metric = 1
+   EndWith
+
+   this.PAGETEMPLATE1.TEXT1 = new TEXT(this.PAGETEMPLATE1)
+   With (this.PAGETEMPLATE1.TEXT1)
+      Top = 520
+      FontBold = true
+      Width = 8400
+      Height = 280
+      FontUnderline = true
+      Left = 2160
+      AlignHorizontal = 1
+      Wrap = false
+      ColorNormal = "BtnText"
+      FontName = "Times New Roman"
+      Text = "LISTING OF REVENUE SERVICE CODES"
+      FontSize = 12
+      Metric = 1
+   EndWith
+
+   this.PAGETEMPLATE1.TEXT2 = new TEXT(this.PAGETEMPLATE1)
+   With (this.PAGETEMPLATE1.TEXT2)
+      Top = 1040
+      FontBold = true
+      Width = 1620
+      Height = 240
+      Left = 2220
+      AlignHorizontal = 1
+      Wrap = false
+      ColorNormal = "BtnText"
+      FontName = "Arial"
+      Text = "Name"
+      FontSize = 11
+      Metric = 1
+   EndWith
+
+   this.PAGETEMPLATE1.TEXT3 = new TEXT(this.PAGETEMPLATE1)
+   With (this.PAGETEMPLATE1.TEXT3)
+      Top = 1040
+      FontBold = true
+      Width = 840
+      Height = 240
+      Left = 720
+      Wrap = false
+      ColorNormal = "BtnText"
+      FontName = "Arial"
+      Text = "Code "
+      FontSize = 11
+      Metric = 1
+   EndWith
+
+   this.PAGETEMPLATE1.LINE1 = new LINE(this.PAGETEMPLATE1)
+   With (this.PAGETEMPLATE1.LINE1)
+      Top = 1279
+      Width = 0
+      Pen = 0
+      Left = 0
+      Right = 10799
+      ColorNormal = "black"
+      Bottom = 1279
+      Metric = 1
+   EndWith
+
+   this.STREAMSOURCE1 = new STREAMSOURCE(this)
+
+   this.STREAMSOURCE1.DETAILBAND.TEXTNAME1 = new TEXT(this.STREAMSOURCE1.DETAILBAND)
+   With (this.STREAMSOURCE1.DETAILBAND.TEXTNAME1)
+      Width = 3960
+      Height = 280
+      Left = 2220
+      Wrap = false
+      ColorNormal = "BtnText"
+      FontName = "Times New Roman"
+      SuppressIfBlank = true
+      Text = {|| this.Form.FGSVCES1.RowSet.Fields["NAME"].Value }
+      FontSize = 12
+      Metric = 1
+   EndWith
+
+   this.STREAMSOURCE1.DETAILBAND.TEXTCOST_MODE1 = new TEXT(this.STREAMSOURCE1.DETAILBAND)
+   With (this.STREAMSOURCE1.DETAILBAND.TEXTCOST_MODE1)
+      Width = 600
+      Height = 280
+      Left = 1080
+      Wrap = false
+      ColorNormal = "BtnText"
+      FontName = "Times New Roman"
+      SuppressIfBlank = true
+      Text = {|| this.Form.FGSVCES1.RowSet.Fields["COST_MODE"].Value }
+      FontSize = 12
+      Metric = 1
+   EndWith
+
+   this.FirstPageTemplate = this.form.PAGETEMPLATE1
+   this.form.PAGETEMPLATE1.NextPageTemplate = this.form.PAGETEMPLATE1
+   this.form.PAGETEMPLATE1.STREAMFRAME1.StreamSource = this.form.STREAMSOURCE1
+   this.form.STREAMSOURCE1.RowSet = this.form.FGSVCES1.RowSet
+ENDCLASS
+
