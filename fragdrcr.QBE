@@ -1,0 +1,26 @@
+* Visual dBASE .QBE file 9
+ON ERROR DO QBEERR WITH ERROR(), MESSAGE(),;
+PROGRAM(), LINENO()
+CLOSE DATABASES
+set safety on
+close databases
+SET EXACT ON
+select 1
+set safety off
+use \kenserve\idssys\frageddr.dbf
+copy stru to \kenservice\data\frageddr dbase prod
+use \kenservice\data\frageddr.dbf exclusive
+select 2
+use \kenservice\data\fragedrs.dbf
+select 3
+use \kenservice\data\fragecrs.dbf
+select 4
+use \kenservice\data\dasum.dbf && trans_date for aging up to this period
+go top
+select 5
+use \kenservice\data\frighter.dbf
+select 6
+use \kenserve\idssys\frmtrage.dbf
+copy stru to \kenservice\data\frmtrage dbase prod
+use \kenservice\data\frmtrage.dbf exclusive
+set safety on

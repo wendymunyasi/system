@@ -1,0 +1,58 @@
+* Visual dBASE .QBE file 9
+ON ERROR DO QBEERR WITH ERROR(), MESSAGE(),;
+PROGRAM(), LINENO()
+CLOSE DATABASES
+SET EXACT ON
+SELECT 1
+USE \KENSERVICE\DATA\frigtmes.DBf order tag NAME
+SELECT 2
+USE \KENSERVICE\DATA\frstat.DBf ORDER frighter
+if bLevel = 8 .or. bLevel = 7
+SET FILTER TO EMPTY(STAT_DATE)
+else
+if .not. bLevel = 1 .and. .not. bLevel = 3 .and. .not. bLevel = 2
+SET FILTER TO EMPTY(STAT_DATE) .or. year(stat_date) = year(date())
+endif
+endif
+select 3
+use \kenservice\data\frighter.dbf order tag frighter
+select 50
+use \kenservice\data\frighter.dbf again alias frighter2 order tag frighter
+SELECT 4
+USE \KENSERVICE\DATA\DOCTYP.DBF ORDER TAG DOCTYPE
+select 30
+use \kenservice\data\frcategs.dbf order tag name
+select 32
+use \kenservice\data\frcateg.dbf order tag category
+SELECT 31
+USE \KENSERVICE\DATA\frpymod.dbf
+SELECT 1
+SET RELATION TO source+fTYP+pmod+frighter_N INTO frstat CONSTRAIN, category INTO frcateg, ;
+source+fTYP+pmod+frighter_N INTO frighter
+SELECT 2
+SET RELATION TO Doctype INTO DOCTYP
+SET SKIP TO frstat
+select 5
+if .not. file('\kenservice\data\frglbmsg.dbf')
+use \kenserve\idssys\frglbmsg.dbf
+copy stru to \kenservice\data\frglbmsg dbase prod
+endif
+use \kenservice\data\frglbmsg.dbf
+
+SELECT 6
+USE \KENSERVICE\DATA\fgcoy.DBf
+SET SKIP TO frstat
+SELECT 7
+USE \KENSERVICE\DATA\frcustat.DBf
+select 8
+use \kenservice\data\dasum.dbf && trans_date for aging up to this period
+SET SKIP TO frstat
+select 9
+if .not. file('\kenservice\data\frlocmsg.dbf')
+use \kenserve\idssys\frlocmsg.dbf
+copy stru to \kenservice\data\frlocmsg dbase prod
+endif
+use \kenservice\data\frlocmsg.dbf
+
+SELECT 1
+GO TOP

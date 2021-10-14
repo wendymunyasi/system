@@ -1,0 +1,41 @@
+* Visual dBASE .QBE file 9
+close databases
+ON ERROR DO QBEERR WITH ERROR(), MESSAGE(),;
+PROGRAM(), LINENO()
+CLOSE DATABASES
+SET EXACT ON
+SELECT 1
+USE \KENSERVICE\DATA\vennames.DBf order tag NAME
+SELECT 2
+USE \KENSERVICE\DATA\vnstat.DBf ORDER vendor
+if blevel = 8 .or. blevel = 7
+SET FILTER TO EMPTY(STAT_DATE)
+else
+if .not. blevel = 1 .and. .not. blevel = 3 .and. .not. blevel = 2
+SET FILTER TO EMPTY(STAT_DATE) .or. year(stat_date) = year(date())
+endif
+endif
+select 3
+use \kenservice\data\vendor.dbf order tag vendor
+SELECT 4
+USE \KENSERVICE\DATA\DOCTYP.DBF ORDER TAG DOCTYPE
+SELECT 5
+USE \KENSERVICE\DATA\frpymod.DBF ORDER TAG pmod
+select 30
+use \kenservice\data\frsource.dbf
+SELECT 31
+USE \KENSERVICE\DATA\FRPYMOD.DBF
+SELECT 1
+SET RELATION TO VSRCE+VTYP+Vpmod+vendor_N INTO vnstat CONSTRAIN, Vpmod INTO frpymod,;
+vsrce+vTYP+vpmod+vendor_N INTO vendor
+SELECT 2
+SET RELATION TO Doctype INTO DOCTYP
+SET SKIP TO vnstat
+SELECT 6
+USE \KENSERVICE\DATA\fgCOY.DBf
+SET SKIP TO vnstat
+SELECT 7
+USE \KENSERVICE\DATA\vncustat.DBf
+SET SKIP TO vnstat
+SELECT 1
+GO TOP

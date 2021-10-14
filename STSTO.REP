@@ -1,0 +1,355 @@
+//////////////////////////////////////////////////////////////////////////////
+// Filename:     STSTO.REP                                                  //
+// Created By:   Report Conversion Wizard                                   //
+// Created From: C:\kenservice\idssys\STSTO.RPT                             //
+// Data File:    C:\kenservice\idssys\ststop.qbe                            //
+// Created On:   14/10/2021 At 09:29:32                                     //
+//////////////////////////////////////////////////////////////////////////////
+//
+//////////////////////////////////////////////////////////////////////////////
+// Conversion Exception Log:                                                //
+// Report contains a formula which may need adjustment. - TEXTDIPP1         //
+//////////////////////////////////////////////////////////////////////////////
+//
+** END HEADER -- do not remove this line
+//
+// Converted on 14/10/2021
+//
+LOCAL r
+r = new STSTOREPORT()
+r.render()
+CLASS STSTOREPORT OF REPORT
+
+   this.STSTO1 = new QUERY()
+   this.STSTO1.Parent = this
+   With (this.STSTO1)
+      Top = 50
+      Left = 50
+      SQL = 'SELECT * FROM "\KENSERVICE\DATA\STSTO.DBF" ORDER BY STO ASC'
+      RequestLive = false
+      Active = true
+   EndWith
+
+   this.FGCOY1 = new QUERY()
+   this.FGCOY1.Parent = this
+   With (this.FGCOY1)
+      Top = 50
+      Left = 550
+      SQL = 'SELECT * FROM "\KENSERVICE\DATA\FGCOY.DBF"'
+      RequestLive = false
+      Active = true
+   EndWith
+
+   this.STOPREFX1 = new QUERY()
+   this.STOPREFX1.Parent = this
+   With (this.STOPREFX1)
+      Top = 50
+      Left = 1050
+      SQL = 'SELECT * FROM "\KENSERVICE\DATA\STOPREFX.DBF"'
+      RequestLive = false
+      Active = true
+   EndWith
+
+   With (this.PRINTER)
+      Copies = 1
+      Resolution = 4
+      PaperSource = 7
+      Orientation = 1
+*      PrinterName = "HP LaserJet P2014"
+      Duplex = 1
+      TrueTypeFonts = 1
+      PaperSize = 1
+      PrinterSource = 2
+      Color = 1
+   EndWith
+
+   this.PAGETEMPLATE1 = new PAGETEMPLATE(this)
+   With (this.PAGETEMPLATE1)
+      GridLineWidth = 0
+      Width = 12240
+      MarginRight = 360
+      Height = 15840
+      MarginBottom = 360
+      MarginTop = 360
+      MarginLeft = 360
+   EndWith
+
+   this.PAGETEMPLATE1.STREAMFRAME1 = new STREAMFRAME(this.PAGETEMPLATE1)
+   With (this.PAGETEMPLATE1.STREAMFRAME1)
+      Top = 1280
+      Width = 11520
+      Height = 13120
+      Metric = 1
+   EndWith
+
+   this.PAGETEMPLATE1.TEXTSTREET1 = new TEXT(this.PAGETEMPLATE1)
+   With (this.PAGETEMPLATE1.TEXTSTREET1)
+      FontBold = true
+      Width = 11340
+      Height = 280
+      Left = 60
+      AlignHorizontal = 1
+      Wrap = false
+      ColorNormal = "BtnText"
+      FontName = "Verdana"
+      Text = {|| this.Form.FGCOY1.RowSet.Fields["STREET"].Value }
+      FontSize = 12
+      Metric = 1
+   EndWith
+
+   this.PAGETEMPLATE1.TEXTPAGE1 = new TEXT(this.PAGETEMPLATE1)
+   With (this.PAGETEMPLATE1.TEXTPAGE1)
+      Top = 560
+      Width = 960
+      Height = 240
+      Left = 7800
+      ColorNormal = "BtnText"
+      FontName = "Times New Roman"
+      Text = {|| Str(form.reportPage, 5)}
+      Metric = 1
+   EndWith
+
+   this.PAGETEMPLATE1.TEXT1 = new TEXT(this.PAGETEMPLATE1)
+   With (this.PAGETEMPLATE1.TEXT1)
+      Top = 520
+      FontBold = true
+      Width = 7680
+      Height = 280
+      FontUnderline = true
+      Left = 1080
+      AlignHorizontal = 1
+      Wrap = false
+      ColorNormal = "BtnText"
+      FontName = "Times New Roman"
+      Text = "LISTING OF STORES"
+      FontSize = 12
+      Metric = 1
+   EndWith
+
+   this.PAGETEMPLATE1.TEXTDATE1 = new TEXT(this.PAGETEMPLATE1)
+   With (this.PAGETEMPLATE1.TEXTDATE1)
+      Top = 800
+      Width = 3480
+      Height = 240
+      Left = 60
+      ColorNormal = "BtnText"
+      FontName = "Times New Roman"
+      Text = {|| DToC(Date())}
+      Metric = 1
+   EndWith
+
+   this.PAGETEMPLATE1.TEXT2 = new TEXT(this.PAGETEMPLATE1)
+   With (this.PAGETEMPLATE1.TEXT2)
+      Top = 1040
+      FontBold = true
+      Width = 1980
+      Height = 240
+      Left = 1260
+      AlignHorizontal = 1
+      Wrap = false
+      ColorNormal = "BtnText"
+      FontName = "Times New Roman"
+      Text = "Name"
+      Metric = 1
+   EndWith
+
+   this.PAGETEMPLATE1.TEXT3 = new TEXT(this.PAGETEMPLATE1)
+   With (this.PAGETEMPLATE1.TEXT3)
+      Top = 1040
+      FontBold = true
+      Width = 660
+      Height = 240
+      Left = 240
+      AlignHorizontal = 1
+      Wrap = false
+      ColorNormal = "BtnText"
+      FontName = "Times New Roman"
+      Text = "Sto"
+      Metric = 1
+   EndWith
+
+   this.PAGETEMPLATE1.TEXT4 = new TEXT(this.PAGETEMPLATE1)
+   With (this.PAGETEMPLATE1.TEXT4)
+      Top = 1040
+      FontBold = true
+      Width = 1020
+      Height = 240
+      Left = 3480
+      AlignHorizontal = 1
+      Wrap = false
+      ColorNormal = "BtnText"
+      FontName = "Times New Roman"
+      Text = "Pump No."
+      Metric = 1
+   EndWith
+
+   this.PAGETEMPLATE1.TEXT5 = new TEXT(this.PAGETEMPLATE1)
+   With (this.PAGETEMPLATE1.TEXT5)
+      Top = 1040
+      FontBold = true
+      Width = 780
+      Height = 240
+      Left = 5640
+      Wrap = false
+      ColorNormal = "BtnText"
+      FontName = "Times New Roman"
+      Text = "Dippings"
+      Metric = 1
+   EndWith
+
+   this.PAGETEMPLATE1.TEXT6 = new TEXT(this.PAGETEMPLATE1)
+   With (this.PAGETEMPLATE1.TEXT6)
+      Top = 1040
+      FontBold = true
+      Width = 780
+      Height = 240
+      Left = 4560
+      AlignHorizontal = 1
+      Wrap = false
+      ColorNormal = "BtnText"
+      FontName = "Times New Roman"
+      Text = "Sto1"
+      Metric = 1
+   EndWith
+
+   this.PAGETEMPLATE1.TEXT7 = new TEXT(this.PAGETEMPLATE1)
+   With (this.PAGETEMPLATE1.TEXT7)
+      Top = 1040
+      FontBold = true
+      Width = 3300
+      Height = 240
+      Left = 7080
+      AlignHorizontal = 1
+      Wrap = false
+      ColorNormal = "BtnText"
+      FontName = "Times New Roman"
+      Text = "Name1"
+      Metric = 1
+   EndWith
+
+   this.PAGETEMPLATE1.TEXT8 = new TEXT(this.PAGETEMPLATE1)
+   With (this.PAGETEMPLATE1.TEXT8)
+      Top = 1040
+      FontBold = true
+      Width = 960
+      Height = 240
+      Left = 10440
+      AlignHorizontal = 1
+      Wrap = false
+      ColorNormal = "BtnText"
+      FontName = "Times New Roman"
+      Text = "Used"
+      Metric = 1
+   EndWith
+
+   this.PAGETEMPLATE1.LINE1 = new LINE(this.PAGETEMPLATE1)
+   With (this.PAGETEMPLATE1.LINE1)
+      Top = 1220
+      Width = 0
+      Pen = 0
+      Left = 0
+      Right = 11519
+      ColorNormal = "black"
+      Bottom = 1220
+      Metric = 1
+   EndWith
+
+   this.STREAMSOURCE1 = new STREAMSOURCE(this)
+
+   this.STREAMSOURCE1.DETAILBAND.TEXTSTO1 = new TEXT(this.STREAMSOURCE1.DETAILBAND)
+   With (this.STREAMSOURCE1.DETAILBAND.TEXTSTO1)
+      Width = 420
+      Height = 240
+      Left = 300
+      Wrap = false
+      ColorNormal = "BtnText"
+      FontName = "Times New Roman"
+      SuppressIfBlank = true
+      Text = {|| this.Form.STSTO1.RowSet.Fields["STO"].Value }
+      Metric = 1
+   EndWith
+
+   this.STREAMSOURCE1.DETAILBAND.TEXTPUM1 = new TEXT(this.STREAMSOURCE1.DETAILBAND)
+   With (this.STREAMSOURCE1.DETAILBAND.TEXTPUM1)
+      Width = 360
+      Height = 240
+      Left = 3540
+      Wrap = false
+      ColorNormal = "BtnText"
+      FontName = "Times New Roman"
+      SuppressIfBlank = true
+      Text = {|| this.Form.STSTO1.RowSet.Fields["PUM"].Value }
+      Metric = 1
+   EndWith
+
+   this.STREAMSOURCE1.DETAILBAND.TEXTNAME1 = new TEXT(this.STREAMSOURCE1.DETAILBAND)
+   With (this.STREAMSOURCE1.DETAILBAND.TEXTNAME1)
+      Width = 2340
+      Height = 240
+      Left = 960
+      Wrap = false
+      ColorNormal = "BtnText"
+      FontName = "Times New Roman"
+      SuppressIfBlank = true
+      Text = {|| this.Form.STSTO1.RowSet.Fields["NAME"].Value }
+      Metric = 1
+   EndWith
+
+   this.STREAMSOURCE1.DETAILBAND.TEXTSTO11 = new TEXT(this.STREAMSOURCE1.DETAILBAND)
+   With (this.STREAMSOURCE1.DETAILBAND.TEXTSTO11)
+      Width = 600
+      Height = 240
+      Left = 4620
+      Wrap = false
+      ColorNormal = "BtnText"
+      FontName = "Times New Roman"
+      SuppressIfBlank = true
+      Text = {|| this.Form.STSTO1.RowSet.Fields["STO1"].Value }
+      Metric = 1
+   EndWith
+
+   this.STREAMSOURCE1.DETAILBAND.TEXTDIPP1 = new TEXT(this.STREAMSOURCE1.DETAILBAND)
+   With (this.STREAMSOURCE1.DETAILBAND.TEXTDIPP1)
+      Width = 1020
+      Height = 240
+      Left = 5580
+      Wrap = false
+      ColorNormal = "BtnText"
+      FontName = "Times New Roman"
+      SuppressIfBlank = true
+      Text = {|| this.Form.STSTO1.RowSet.Fields["F1CASHR"].Value }
+      Metric = 1
+   EndWith
+
+   this.STREAMSOURCE1.DETAILBAND.TEXTNAME11 = new TEXT(this.STREAMSOURCE1.DETAILBAND)
+   With (this.STREAMSOURCE1.DETAILBAND.TEXTNAME11)
+      Width = 3480
+      Height = 240
+      Left = 7080
+      Wrap = false
+      ColorNormal = "BtnText"
+      FontName = "Times New Roman"
+      SuppressIfBlank = true
+      Text = {|| this.Form.STSTO1.RowSet.Fields["NAME1"].Value }
+      Metric = 1
+   EndWith
+
+   this.STREAMSOURCE1.DETAILBAND.TEXTUSED1 = new TEXT(this.STREAMSOURCE1.DETAILBAND)
+   With (this.STREAMSOURCE1.DETAILBAND.TEXTUSED1)
+      Width = 540
+      Height = 240
+      Left = 10860
+      Wrap = false
+      ColorNormal = "BtnText"
+      FontName = "Times New Roman"
+      SuppressIfBlank = true
+      Text = {|| this.Form.STSTO1.RowSet.Fields["USED"].Value }
+      Metric = 1
+   EndWith
+
+   this.FirstPageTemplate = this.form.PAGETEMPLATE1
+   this.form.PAGETEMPLATE1.NextPageTemplate = this.form.PAGETEMPLATE1
+   this.form.PAGETEMPLATE1.STREAMFRAME1.StreamSource = this.form.STREAMSOURCE1
+   this.form.STREAMSOURCE1.RowSet = this.form.STSTO1.RowSet
+ENDCLASS
+

@@ -114,7 +114,7 @@ CLASS FgClass(FormObj,Name) OF MENUBAR(FormObj,Name)
                
          DEFINE MENU ERRORFgClassREPORT OF THIS.REPORT;
              PROPERTY;
-               OnClick {;create session ;set lock off ;report form FGCLA},;
+               OnClick {;create session ;set lock off ;do FGCLA.rep},;
                Text "1. List Classes by Item Type",;
                 ENABLED .t.
  
@@ -126,7 +126,7 @@ CLASS FgClass(FormObj,Name) OF MENUBAR(FormObj,Name)
                
          DEFINE MENU FgClassREPORT2 OF THIS.REPORT;
              PROPERTY;
-               OnClick {;create session ;set lock off ;report form FGCLAN},;
+               OnClick {;create session ;set lock off ;do FGCLAN.rep},;
                Text "1. List Classes by Item Name",;
                 ENABLED .t.
                 

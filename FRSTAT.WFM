@@ -1,0 +1,1079 @@
+////////////////////////////////////////////////////////////////////////////////
+// Output Filename: C:\KENSERVICE\IDSSYS\FRSTAT_FCV.WFM                       //
+// Created By:      dBASE Form Converter Wizard                               //
+// Created On:      Tuesday October 12, 2021 At 17:56:59                      //
+// Object Count:    41                                                        //
+////////////////////////////////////////////////////////////////////////////////
+*******************************************************************************
+*  PROGRAM:      FRSTAT.wfm
+*
+*  WRITTEN BY:   W Nyongesa
+*
+*  DATE:         05/2000
+*
+*  UPDATED:     02/2014
+*
+*  REVISION:     $Revision:   1.0
+*
+*  VERSION:      Visual dBASE
+*
+*  DESCRIPTION:  This program maintains the StockMaster master file
+*
+*  PARAMETERS:   None
+*
+*  CALLS:        FRSTAT.mnu         (Menu file)
+*                KBUTTONS.CC          (Custom Controls file)
+*                FRIGHTER.qbe         (View of tables)
+*
+*  USAGE:        DO FRSTAT.wfm
+*
+*******************************************************************************
+#include <messdlg.h>
+shell(.F.)
+create session
+set talk off
+_app.FrameWin.Visible = .F.
+_app.FrameWin.Text = "FRSTAT"
+*set DBTYPE to PARADOX
+set century on
+SET DATE TO BRITISH
+set ldCheck off && To avoid language driver conflicts
+#define Maxcoy 999
+** END HEADER -- do not remove this line
+//
+// Generated on 12/10/2021
+//
+parameter bUser,bLevel,bModal
+local f
+f = new FRSTATFORM()
+if (bModal)
+   f.mdi = false // ensure not MDI
+   f.readModal()
+else
+   f.open()
+endif
+
+class FRSTATFORM of FORM
+   set procedure to BUTTONS.CC additive
+   with (this)
+      onClose = class::ONCLOSE
+      open = class::OPEN
+      metric = 6	// Pixels
+      colorNormal = "n+"
+      height = 932.0
+      left = -25.0
+      top = -120.0
+      width = 1296.0
+      text = "Customer Statements - View Mode"
+      windowState = 2	// Maximized
+      mdi = false
+      moveable = false
+      view = "FRSTAT.qbe"
+      menuFile = "FRSTAT.MNU"
+      escExit = false
+      mousePointer = 1	// Arrow
+      scrollBar = 1	// On
+      maximize = false
+      minimize = false
+   endwith
+
+   this.CENRECT = new RECTANGLE(this)
+   with (this.CENRECT)
+      left = 14.0
+      top = 7.0
+      width = 1036.0
+      height = 70.0
+      text = "Customer Account Information"
+      colorNormal = "r/btnface"
+      fontName = "MS Sans Serif"
+      fontSize = 12.0
+      fontBold = true
+   endwith
+
+   this.SSOURCE = new ENTRYFIELD(this)
+   with (this.SSOURCE)
+      dataLink = "FRIGTMES->SOURCE"
+      enabled = false
+      height = 20.0
+      left = 33.0
+      top = 31.0
+      width = 33.0
+      colorNormal = "black/silver"
+      colorHighLight = "B+/W*"
+      fontName = "MS Sans Serif"
+      fontBold = true
+   endwith
+
+   this.CTYP = new ENTRYFIELD(this)
+   with (this.CTYP)
+      dataLink = "FRIGTMES->ftyp"
+      enabled = false
+      height = 20.0
+      left = 66.0
+      top = 31.0
+      width = 33.0
+      colorNormal = "black/silver"
+      colorHighLight = "B+/W*"
+      fontName = "MS Sans Serif"
+      fontBold = true
+   endwith
+
+   this.SPMOD = new ENTRYFIELD(this)
+   with (this.SPMOD)
+      dataLink = "FRIGTMES->PMOD"
+      enabled = false
+      height = 20.0
+      left = 99.0
+      top = 31.0
+      width = 33.0
+      colorNormal = "black/silver"
+      colorHighLight = "B+/W*"
+      fontName = "MS Sans Serif"
+      fontBold = true
+   endwith
+
+   this.CUSTNO = new ENTRYFIELD(this)
+   with (this.CUSTNO)
+      dataLink = "FRIGTMES->FRIGHTER_N"
+      enabled = false
+      height = 20.0
+      left = 146.0
+      top = 31.0
+      width = 57.0
+      colorNormal = "black/silver"
+      colorHighLight = "B+/W*"
+      fontName = "MS Sans Serif"
+      fontBold = true
+   endwith
+
+   this.CUSTNAME = new ENTRYFIELD(this)
+   with (this.CUSTNAME)
+      dataLink = "FRIGTMES->NAME"
+      enabled = false
+      height = 20.0
+      left = 231.0
+      top = 31.0
+      width = 602.0
+      function = "!"
+      colorNormal = "black/silver"
+      colorHighLight = "B+/W*"
+      fontName = "MS Sans Serif"
+      fontBold = true
+   endwith
+
+   this.TEXT11 = new TEXTLABEL(this)
+   with (this.TEXT11)
+      height = 20.0
+      left = 315.0
+      top = 55.0
+      width = 233.0
+      text = "Month Opening Balance:"
+      colorNormal = "black/silver"
+      fontName = "MS Sans Serif"
+      fontBold = true
+      alignVertical = 1	// Middle
+      alignHorizontal = 1	// Center
+   endwith
+
+   this.BBF = new ENTRYFIELD(this)
+   with (this.BBF)
+      dataLink = "FRIGHTER->BBF"
+      enabled = false
+      height = 20.0
+      left = 560.0
+      top = 55.0
+      width = 161.0
+      picture = "999,999,999,999.99"
+      colorNormal = "black/silver"
+      colorHighLight = "B+/W*"
+      fontName = "MS Sans Serif"
+      fontBold = true
+      validErrorMsg = "Code Does Not Exist"
+   endwith
+
+   this.TEXT3 = new TEXTLABEL(this)
+   with (this.TEXT3)
+      height = 20.0
+      left = 742.0
+      top = 55.0
+      width = 140.0
+      text = "Balance Due:"
+      colorNormal = "black/silver"
+      fontName = "MS Sans Serif"
+      fontBold = true
+      alignVertical = 1	// Middle
+      alignHorizontal = 1	// Center
+   endwith
+
+   this.SBALDUE = new ENTRYFIELD(this)
+   with (this.SBALDUE)
+      dataLink = "FRIGHTER->Bal_due"
+      enabled = false
+      height = 20.0
+      left = 896.0
+      top = 55.0
+      width = 137.0
+      picture = "999,999,999,999.99"
+      colorNormal = "black/silver"
+      colorHighLight = "B+/W*"
+      fontName = "MS Sans Serif"
+      fontBold = true
+      validErrorMsg = "Code Does Not Exist"
+   endwith
+
+   this.SRECREP = new RECTANGLE(this)
+   with (this.SRECREP)
+      left = 14.0
+      top = 88.0
+      width = 520.0
+      height = 51.0
+      text = "Edit SYS Inv/LPG CS/JC/Reversal No. and S/Date Captured to Reprint"
+      colorNormal = "0x80ffff/N+"
+      fontName = "MS Sans Serif"
+      fontBold = true
+   endwith
+
+   this.SRTXT1 = new TEXTLABEL(this)
+   with (this.SRTXT1)
+      height = 20.0
+      left = 28.0
+      top = 110.0
+      width = 84.0
+      text = "Order No.:"
+      colorNormal = "W+/N+"
+      fontName = "MS Sans Serif"
+      fontBold = true
+      alignVertical = 1	// Middle
+      alignHorizontal = 2	// Right
+   endwith
+
+   this.SCOMPNO = new ENTRYFIELD(this)
+   with (this.SCOMPNO)
+      onChange = class::SCOMPNO_ONCHANGE
+      dataLink = "FRCUSTAT->ORDER_NO"
+      enabled = false
+      height = 20.0
+      left = 126.0
+      top = 110.0
+      width = 116.0
+      colorNormal = "black/silver"
+      colorHighLight = "B+/W*"
+      fontName = "MS Sans Serif"
+      fontBold = true
+      validErrorMsg = "Code Does Not Exist"
+   endwith
+
+   this.SRTXT2 = new TEXTLABEL(this)
+   with (this.SRTXT2)
+      height = 20.0
+      left = 245.0
+      top = 110.0
+      width = 147.0
+      text = "Shift Date Captured:"
+      colorNormal = "W+/N+"
+      fontName = "MS Sans Serif"
+      fontBold = true
+      alignVertical = 1	// Middle
+      alignHorizontal = 2	// Right
+   endwith
+
+   this.SRDATE = new SPINBOX(this)
+   with (this.SRDATE)
+      onChange = class::SRDATE_ONCHANGE
+      dataLink = "FRCUSTAT->ORDER_DATE"
+      enabled = false
+      height = 20.0
+      left = 399.0
+      top = 110.0
+      width = 126.0
+      colorNormal = "black/silver"
+      rangeMax = {20/01/2022}
+      rangeMin = {12/10/2020}
+      fontName = "MS Sans Serif"
+      fontBold = true
+   endwith
+
+   this.RECTANGLE2 = new RECTANGLE(this)
+   with (this.RECTANGLE2)
+      left = 14.0
+      top = 143.0
+      width = 574.0
+      height = 77.0
+      text = "Filter Statements by CUSTOMER and Transaction Date Range"
+      colorNormal = "r/btnface"
+      fontName = "MS Sans Serif"
+      fontBold = true
+   endwith
+
+   this.TEXT15 = new TEXTLABEL(this)
+   with (this.TEXT15)
+      height = 22.0
+      left = 35.0
+      top = 165.0
+      width = 119.0
+      text = "Start Customer:"
+      colorNormal = "W+/N+"
+      fontName = "MS Sans Serif"
+      fontBold = true
+      alignVertical = 1	// Middle
+      alignHorizontal = 2	// Right
+   endwith
+
+   this.SNO = new ENTRYFIELD(this)
+   with (this.SNO)
+      onChange = class::SNO_ONCHANGE
+      dataLink = "FRCUSTAT->Start_cust"
+      enabled = false
+      height = 22.0
+      left = 161.0
+      top = 165.0
+      width = 108.0
+      colorNormal = "W+/N+"
+      colorHighLight = "B+/W*"
+      fontName = "MS Sans Serif"
+      fontBold = true
+      validErrorMsg = "Code Does Not Exist"
+   endwith
+
+   this.TEXT16 = new TEXTLABEL(this)
+   with (this.TEXT16)
+      height = 22.0
+      left = 336.0
+      top = 165.0
+      width = 112.0
+      text = "End Customer:"
+      colorNormal = "W+/N+"
+      fontName = "MS Sans Serif"
+      fontBold = true
+      alignVertical = 1	// Middle
+      alignHorizontal = 2	// Right
+   endwith
+
+   this.ENTRYFIELD2 = new ENTRYFIELD(this)
+   with (this.ENTRYFIELD2)
+      onChange = class::ENTRYFIELD2_ONCHANGE
+      dataLink = "FRCUSTAT->End_cust"
+      enabled = false
+      height = 22.0
+      left = 462.0
+      top = 165.0
+      width = 98.0
+      colorNormal = "W+/N+"
+      colorHighLight = "B+/W*"
+      fontName = "MS Sans Serif"
+      fontBold = true
+      validErrorMsg = "Code Does Not Exist"
+   endwith
+
+   this.TEXT8 = new TEXTLABEL(this)
+   with (this.TEXT8)
+      height = 22.0
+      left = 35.0
+      top = 187.0
+      width = 84.0
+      text = "Start Date:"
+      colorNormal = "W+/N+"
+      fontName = "MS Sans Serif"
+      fontBold = true
+      alignVertical = 1	// Middle
+      alignHorizontal = 2	// Right
+   endwith
+
+   this.STARTDATE = new SPINBOX(this)
+   with (this.STARTDATE)
+      onChange = class::STARTDATE_ONCHANGE
+      dataLink = "FRCUSTAT->START_DATE"
+      enabled = false
+      height = 22.0
+      left = 161.0
+      top = 187.0
+      width = 133.0
+      colorNormal = "W+/N+"
+      rangeMax = {20/01/2022}
+      rangeMin = {30/10/2018}
+      fontName = "MS Sans Serif"
+      fontBold = true
+   endwith
+
+   this.TEXT17 = new TEXTLABEL(this)
+   with (this.TEXT17)
+      height = 22.0
+      left = 336.0
+      top = 187.0
+      width = 112.0
+      text = "End Date:"
+      colorNormal = "W+/N+"
+      fontName = "MS Sans Serif"
+      fontBold = true
+      alignVertical = 1	// Middle
+      alignHorizontal = 2	// Right
+   endwith
+
+   this.ENDDATE = new SPINBOX(this)
+   with (this.ENDDATE)
+      onChange = class::ENDDATE_ONCHANGE
+      dataLink = "FRCUSTAT->END_DATE"
+      enabled = false
+      height = 22.0
+      left = 462.0
+      top = 187.0
+      width = 112.0
+      colorNormal = "W+/N+"
+      rangeMax = {20/01/2022}
+      rangeMin = {11/10/2020}
+      fontName = "MS Sans Serif"
+      fontBold = true
+   endwith
+
+   this.TEXT1 = new TEXTLABEL(this)
+   with (this.TEXT1)
+      height = 26.0
+      left = 609.0
+      top = 132.0
+      width = 222.0
+      text = "Edit Age Debtors UP TO Date:"
+      colorNormal = "W+/B+"
+      fontName = "MS Sans Serif"
+      fontBold = true
+      alignVertical = 1	// Middle
+      alignHorizontal = 1	// Center
+   endwith
+
+   this.SAGE = new SPINBOX(this)
+   with (this.SAGE)
+      onChange = class::SAGE_ONCHANGE
+      dataLink = "DASUM->TRANS_DATE"
+      enabled = false
+      height = 22.0
+      left = 616.0
+      top = 154.0
+      width = 175.0
+      colorNormal = "B+/W+"
+      rangeMax = {20/01/2022}
+      rangeMin = {10/10/2020}
+      fontName = "MS Sans Serif"
+      fontSize = 12.0
+      fontBold = true
+   endwith
+
+   this.SOK = new OKBUTTON(this)
+   with (this.SOK)
+      onClick = class::SOK_ONCLICK
+      enabled = false
+      height = 22.0
+      left = 609.0
+      top = 176.0
+      width = 166.0
+      text = "Click Here (OK) To Age"
+      fontName = "MS Sans Serif"
+      fontSize = 8.0
+      fontBold = true
+      statusMessage = "Ok to Age"
+      speedTip = "Ok To Age"
+      group = true
+   endwith
+
+   this.NOTESEDITOR = new EDITOR(this)
+   with (this.NOTESEDITOR)
+      onGotFocus = {;if this.Modify;this.colorNormal = "B+/W*";endif}
+      onLostFocus = {;if this.Modify;this.colorNormal = "N/BtnFace";endif}
+      onChange = class::EDITOR1_ONCHANGE
+      height = 33.0
+      left = 168.0
+      top = 231.0
+      width = 237.0
+      colorNormal = "N/BtnFace"
+      modify = false
+      fontName = "MS Sans Serif"
+      fontSize = 8.0
+      fontBold = true
+      dataLink = "FRGLBMSG->MESSAGE"
+   endwith
+
+   this.CHILDBROWSE = new BROWSE(this)
+   with (this.CHILDBROWSE)
+      onChange = class::CHANGESMADE
+      fontName = "MS Sans Serif"
+      fontSize = 7.0
+      height = 506.0
+      left = 14.0
+      top = 275.0
+      width = 1029.0
+      append = false
+      alias = "FRSTAT"
+      fields = 'FRSTAT->Sdate\H="Date"\10\R,FRSTAT->Stime\H="Cnt"\6\R,DOCTYP->Name\H="Trcd"\10\R,FRSTAT->Docref\H="Ref"\7\R,FRSTAT->REG\H="Veh."\10,FRSTAT->LPO\H="Order"\15,FRSTAT->Serialno\H="R/No."\7,FRSTAT->Amt_dr\H="Debit"\13\P="99,999,999,999.99"\R,FRSTAT->Amt_cr\H="Credit"\13\P="99,999,999,999.99"\R,FRSTAT->Bal_due_dr\H="Bal. Due/Dr"\12\P="99,999,999,999.99"\R\C="R+/W+",FRSTAT->Bal_due_cr\H="Bal. Due/Cr"\14\P="99,999,999,999.99"\R\C="R+/W",PAYM = FRSTAT->PAY_METHOD\H="PAY MODE"\13,FRSTAT->SYSTEM\H="SYS"\5\R'
+      delete = false
+      modify = false
+      showRecNo = false
+      text = "DETAILED  TRANSACTIONS"
+   endwith
+
+   this.PREVCOYBUTTON = new PREVBUTTON(this)
+   with (this.PREVCOYBUTTON)
+      onClick = class::PREVIOUS
+      height = 22.0
+      left = 154.0
+      top = 818.0
+      width = 102.0
+      default = true
+      fontName = "MS Sans Serif"
+      fontSize = 8.0
+      fontBold = true
+      group = true
+   endwith
+
+   this.NEXTCOYBUTTON = new NEXTBUTTON(this)
+   with (this.NEXTCOYBUTTON)
+      onClick = class::NEXT
+      height = 22.0
+      left = 287.0
+      top = 818.0
+      width = 67.0
+      fontName = "MS Sans Serif"
+      fontSize = 8.0
+      fontBold = true
+   endwith
+
+   this.FIRFRSTATBUTTON = new PUSHBUTTON(this)
+   with (this.FIRFRSTATBUTTON)
+      onClick = {;form.CheckCommit(form.inEditMode);go top; form.BrowseOnNavigate()}
+      height = 22.0
+      left = 371.0
+      top = 818.0
+      width = 81.0
+      text = "F&irst"
+      fontName = "MS Sans Serif"
+      fontSize = 8.0
+      fontBold = true
+      statusMessage = "Go to the first record."
+   endwith
+
+   this.LAFRSTATBUTTON = new PUSHBUTTON(this)
+   with (this.LAFRSTATBUTTON)
+      onClick = {;form.CheckCommit(form.inEditMode);go bottom; form.BrowseOnNavigate()}
+      height = 22.0
+      left = 469.0
+      top = 818.0
+      width = 74.0
+      text = "&Last"
+      fontName = "MS Sans Serif"
+      fontSize = 8.0
+      fontBold = true
+      statusMessage = "Go to the last campany."
+   endwith
+
+   this.AGETEXT = new TEXTLABEL(this)
+   with (this.AGETEXT)
+      visible = false
+      height = 22.0
+      left = 609.0
+      top = 198.0
+      width = 182.0
+      text = "Please Wait.. Aging"
+      colorNormal = "G+/0x8000ff"
+      fontName = "MS Sans Serif"
+      fontSize = 12.0
+      fontBold = true
+      alignVertical = 1	// Middle
+      alignHorizontal = 1	// Center
+   endwith
+
+   this.RECTANGLE3 = new RECTANGLE(this)
+   with (this.RECTANGLE3)
+      left = 546.0
+      top = 88.0
+      width = 455.0
+      height = 44.0
+      text = "Edit Category to Print/View"
+      colorNormal = "0x80ffff/N+"
+      fontName = "MS Sans Serif"
+      fontBold = true
+   endwith
+
+   this.SCATEG = new COMBOBOX(this)
+   with (this.SCATEG)
+      onChange = class::SCATEG_ONCHANGE
+      dataLink = "FRCUSTAT->NAME"
+      enabled = false
+      height = 20.0
+      left = 567.0
+      top = 105.0
+      width = 399.0
+      fontName = "MS Sans Serif"
+      fontBold = true
+      colorNormal = "B+/W"
+      dataSource = "FIELD FRCATEGS->NAME"
+      style = 1	// DropDown
+      dropDownHeight = 132.0
+   endwith
+
+   this.SCAT = new ENTRYFIELD(this)
+   with (this.SCAT)
+      dataLink = "FRIGTMES->CATEGORY"
+      enabled = false
+      height = 20.0
+      left = 840.0
+      top = 33.0
+      width = 66.0
+      function = "!"
+      colorNormal = "black/silver"
+      colorHighLight = "B+/W*"
+      fontName = "MS Sans Serif"
+      fontBold = true
+   endwith
+
+   this.SCATNAME = new ENTRYFIELD(this)
+   with (this.SCATNAME)
+      dataLink = "FRCATEG->NAME"
+      enabled = false
+      height = 20.0
+      left = 917.0
+      top = 33.0
+      width = 112.0
+      function = "!"
+      colorNormal = "black/silver"
+      colorHighLight = "B+/W*"
+      fontName = "MS Sans Serif"
+      fontBold = true
+   endwith
+
+   this.TEXT2 = new TEXTLABEL(this)
+   with (this.TEXT2)
+      height = 22.0
+      left = 28.0
+      top = 231.0
+      width = 123.0
+      text = "Global Message:"
+      colorNormal = "W+/N+"
+      fontName = "MS Sans Serif"
+      fontBold = true
+      alignVertical = 1	// Middle
+      alignHorizontal = 2	// Right
+   endwith
+
+   this.NOTESEDITOR2 = new EDITOR(this)
+   with (this.NOTESEDITOR2)
+      onGotFocus = {;if this.Modify;this.colorNormal = "B+/W*";endif}
+      onLostFocus = {;if this.Modify;this.colorNormal = "N/BtnFace";endif}
+      onChange = class::NOTESEDITOR2_ONCHANGE
+      height = 33.0
+      left = 553.0
+      top = 231.0
+      width = 238.0
+      colorNormal = "N/BtnFace"
+      modify = false
+      fontName = "MS Sans Serif"
+      fontSize = 8.0
+      fontBold = true
+      dataLink = "FRLOCMSG->MESSAGE"
+   endwith
+
+   this.TEXT4 = new TEXTLABEL(this)
+   with (this.TEXT4)
+      height = 22.0
+      left = 406.0
+      top = 231.0
+      width = 133.0
+      text = "Local Message:"
+      colorNormal = "W+/N+"
+      fontName = "MS Sans Serif"
+      fontBold = true
+      alignVertical = 1	// Middle
+      alignHorizontal = 2	// Right
+   endwith
+
+
+   procedure Open
+   ****************************************************************************
+   private CodeField
+      FORM.BLUSER=bUser
+   FORM.BLEVEL=bLevel
+    if form.blevel > 4
+        form.srtxt1.visible = .f.
+        form.scompno.visible = .f.
+        form.srtxt2.visible = .f.
+        form.srdate.visible =.f.
+         form.SRECREP.visible =.f.
+        endif
+   IF EMPTY(FORM.BLUSER) .OR. EMPTY(FORM.BLEVEL)
+      QUIT
+   ENDIF
+    if type("form.init") = "U"
+      form.init = .T.
+
+      set skip to                     && FRSTAT.qbe contains set skip to gldtl
+      set exact OFF                && the .qbe file contains SET EXACT ON
+
+      set procedure to sampProc.prg additive
+    Form.duplicate = .F.
+      form.inEditMode = .F.           && indicator of view/edit state
+      form.changesMade = .F.          && indicator of changes made to field values
+      form.previousRecord = .F.       && Save record number when appending
+        *** do calculations in another area so form doesn't get updated
+         select FRLOCMSG
+      go top
+      if eof()
+      append blank
+      endif
+       select FRGLBMSG
+      go top
+      if eof()
+      append blank
+      endif
+      select FRCUSTAT
+      go top
+      if eof()
+      append blank
+      endif
+      replace category with ''
+      replace name with ''
+         select DASUM
+      go top
+      if eof()
+      append blank
+      endif
+       select FRIGTMES
+       set order to NAME
+
+      *** Open table for calculating totals and balance due in another work area
+      *** so that datalinks are not affected by record movements
+
+
+      ***
+    *  if type("form.parentpayeeForm") <> "U" && Esc ok if have parent
+    *     form.escExit = .T.
+   *   endif
+
+   endif
+   * form.CoyInfoButton.KenpName = "FRSTAT.WFM"
+
+   form::Open() && Now the form actually opens
+   select FRIGTMES
+   GO TOP
+   * form.changesmade = .t.
+       form.BrowseOnNavigate()
+
+      * replace FRCUSTAT->message with ""
+       && calculate totals
+   *       form.codingerrors()                        && check coding errors
+
+   *      form.next.setfocus()
+   ****************************************************************************
+
+   procedure OnClose
+
+   * Clean up.
+   ****************************************************************************
+
+   if this.inEditMode
+      form.ViewEdit()                      && Finish transaction
+   endif
+   close procedure  sampproc.prg
+   close databases
+
+   clear program
+
+   ****************************************************************************
+
+   procedure BrowseOnNavigate
+   ****************************************************************************
+   local lx,ly,ld
+   select FRCUSTAT
+   replace FRIGHTER_n with FRIGTMES->FRIGHTER_n
+   replace ftyp with FRIGTMES->ftyp
+   replace pmod with FRIGTMES->pmod
+   replace source with FRIGTMES->source
+    replace start_cust with source+ftyp+pmod+FRIGHTER_n
+   replace end_cust with start_cust
+   lx = mm
+   ly = yy
+   ld = DD+"/"+lx+"/"+ly
+   replace stat_date with ctod(ld)
+   select frlocmsg
+   replace message with ''
+   replace FRIGHTER_n with ''
+   replace ftyp with ''
+   replace pmod with ''
+   replace source with ''
+   select FRIGTMES
+   form.changesmade = .t.
+      form.CheckCommit(form.inEditMode)
+   ****************************************************************************
+
+   procedure ChangesMade
+
+   * Indicate that changes have been made to the current record
+   ****************************************************************************
+   Form.ChangesMade = .T.
+   ****************************************************************************
+
+   procedure Next
+
+   * Go to next record.
+   ****************************************************************************
+
+    if .not. eof()
+      NEXTBUTTON::OnClick()
+    endif
+    form.BrowseOnNavigate()
+   ****************************************************************************
+
+   procedure Previous
+
+   * Go to previous record.
+   ****************************************************************************
+
+
+     PREVBUTTON::OnClick()
+    form.BrowseOnNavigate()
+
+   ****************************************************************************
+
+   procedure CheckCommit (newInEditMode)
+
+        * Finish transaction, if it has been started.
+   ****************************************************************************
+   private CodeField, changesMade
+   changesMade = form.changesMade
+   if form.changesMade
+      CodeField = field(3)  && Field Center
+   *    if     ConfirmationMessage("Commit changes?",;
+                FormatStr("FRIGHTER %1",&CodeField)) = YES
+         commit()
+
+   *   else
+   *      *rollback()
+    *     if .not. bof()
+       *  if .not. empty(form.previousRecord)
+   *            go bookmark()
+           * form.previousRecord
+     *       form.previousRecord = .F.
+     *    endif
+    *  endif
+
+
+    if form.inEditMode .and. newInEditMode
+         *begintrans()
+      endif
+      form.changesMade = .F.
+   endif
+   if form.inEditMode <> newInEditMode
+      if newInEditMode                       && Going to Edit mode
+         *begintrans()
+      else
+         if .not. empty(dbf())
+            *rollback()
+            endif
+         endif
+     * endif
+      form.inEditMode = newInEditMode
+   endif
+
+   * form.root.Receipt.add.enabled = .T.
+   *form.codingerrors()
+   ****************************************************************************
+
+   procedure ViewEdit
+
+   * Toggle between View and Edit modes.
+   ****************************************************************************
+   local inEditMode, editMenu, control
+
+   editMenu = form.root.FRSTAT.VIEWEdit
+
+   *** If ending edit mode then close transaction, otherwise open it.
+   if form.inEditMode
+      form.checkChanged(.F.)
+      editMenu.text = "&Edit"
+      editMenu.shortcut = "Ctrl-E"
+      editMenu.statusMessage = "Edit data."
+      *form.root.FRSTAT.delete.enabled = .F.      && disabled in view mode
+      form.CheckCommit(.F.)                        && Check transaction and
+      form.text = "CUSTOMERS -- View Mode"          && change mode to View
+   *        form.notesEditor.colorNormal = "N/W"
+         form.childBrowse.modify = .F.
+     form.notesEditor.modify = .F.
+      form.notesEditor2.modify = .F.
+      form.statusmessage = "In View Mode. " + ;
+                           "select FRIGTMES - Edit menu to " + ;
+                           "edit/delete data."
+      form.nextCOYBUTTON.SetFocus()
+   else                                            && Switch to edit mode
+      editMenu.text = "Vi&ew"
+      editMenu.shortcut = "Ctrl-E"
+      editMenu.statusMessage = "View data."
+      *form.root.FRSTAT.delete.enabled = .f.      && enabled in edit mode
+      form.CheckCommit(.T.)                        && Check transaction and
+      form.text = "CUSTOMERS -- Edit Mode"
+      && change mode to Edit
+       IF FORM.BLEVEL < 5
+          form.childBrowse.modify = .T.
+   form.notesEditor.modify = .T.
+   form.notesEditor2.modify = .T.
+   ENDIF
+      form.statusmessage = "In Edit Mode.  " + ;
+                           "Select menu FRIGHTER - View to switch " + ;
+                           "to View mode."
+
+
+
+   endif
+
+   inEditMode = form.inEditMode     && Faster if we don't reference a form
+   control = form.first             &&    variable each time through the loop
+   do
+      if .not. control.className $ "BROWSE,EDITOR,NEXTBUTTON,PREVBUTTON,PUSHBUTTON,IMAGE,TEXT"
+         control.enabled = inEditMode
+      endif
+      control = control.before
+   until control.name = form.first.name
+   *    form.COYentry.Enabled = .F.
+      *  form.bal_due.Enabled = .f.
+      *  form.bal_this.Enabled = .f.
+      *  form.bal_15.Enabled = .f.
+      *  form.bal_30.Enabled = .f.
+      *  form.bal_60.Enabled = .f.
+      *  form.bal_90.Enabled = .f.
+      *  form.bal_120.Enabled = .f.
+      *  form.bal_due.Enabled = .f.
+      *  FORM.YEAR.ENABLED = .F.
+      * FORM.MONTH.ENABLED = .F.
+        FORM.BBF.ENABLED = .F.
+        form.custno.Enabled = .f.
+        form.custname.enabled = .f.
+        form.ssource.enabled = .f.
+        form.spmod.enabled = .f.
+        form.sbaldue.enabled = .f.
+        form.sok.enabled = .f.
+        if form.blevel > 4
+        form.srtxt1.visible = .f.
+        form.scompno.visible = .f.
+        form.srtxt2.visible = .f.
+        form.srdate.visible =.f.
+        form.SRECREP.visible =.f.
+        endif
+        form.scat.enabled = .f.
+        form.scatname.enabled = .f.
+   form.notesEditor.setfocus()
+   ****************************************************************************
+
+   procedure CheckChanged(callCommit)
+
+   * Check if changes have been made to the current entryfield.  This procedure
+   * is called from menu routines to make sure the form.changesMade gets
+   * updated when a menu is selected while the changed control has focus.
+   ****************************************************************************
+   private control, fieldValue, controlValue, typeText, typeValue
+
+   if form.inEditMode
+      control = form.activeControl
+      if type("control.datalink") <> "U"
+         fieldValue = control.datalink          && name of table field
+
+         typeText = type("control.text")
+         typeValue = type("control.value")
+         do case
+            case typeValue = "C"
+               controlValue = control.value
+            case typeValue $ "LU" .and. typeText = "C"
+               controlValue = control.text
+            otherwise
+               controlValue = Null
+         endcase
+         if controlValue <> &fieldValue
+            form.changesMade = .T.
+         endif
+      endif
+   endif
+   if form.changesMade .and. callCommit
+      CLASS::CheckCommit(form.inEditMode)     && Check transactions
+   endif
+
+
+
+   ****************************************************************************
+
+   Procedure EDITOR1_OnChange
+   form.changesmade = .t.
+    select frglbmsg
+    replace frighter_n with FRIGTMES->NAME
+    replace ftyp with FRIGTMES->ftyp
+    replace pmod with FRIGTMES->pmod
+    replace source with FRIGTMES->source
+    select frigtmes
+    form.CheckCommit(form.inEditMode)
+
+   Procedure ENTRYFIELD2_OnChange
+      form.changesmade = .t.
+       form.CheckCommit(form.inEditMode)
+
+   Procedure SNO_OnChange
+   form.changesmade = .t.
+    form.CheckCommit(form.inEditMode)
+
+   Procedure STARTDATE_OnChange
+      form.changesmade = .t.
+       form.CheckCommit(form.inEditMode)
+
+   Procedure ENDDATE_OnChange
+      form.changesmade = .t.
+       form.CheckCommit(form.inEditMode)
+
+   Procedure SAGE_OnChange
+    form.changesmade = .t.
+    select DASUM
+    replace trans_date with this.value
+    replace yy with left(dtos(trans_date),4)
+    replace mm with right(left(dtos(trans_date),6),2)
+       form.CheckCommit(form.inEditMode)
+
+      form.sok.enabled = .t.
+
+   Procedure SOK_OnClick
+   form.agetext.visible = .t.
+   form.changesmade = .t.
+   *   do  fr30agen.prg WITH FORM.BLUSER,FORM.BLEVEL
+    do  fragdrcr.prg WITH FORM.BLUSER,FORM.BLEVEL
+      form.sok.enabled = .f.
+      form.agetext.visible = .f.
+
+   Procedure SCOMPNO_OnChange
+      FORM.CHANGESMADE = .T.
+       form.CheckCommit(form.inEditMode)
+
+   Procedure SRDATE_OnChange
+         FORM.CHANGESMADE = .T.
+          form.CheckCommit(form.inEditMode)
+
+   Procedure ENTRYFIELD1_OnChange
+          FORM.CHANGESMADE = .T.
+          form.CheckCommit(form.inEditMode)
+
+   Procedure SCATEG_OnChange
+      select frcategs
+      seek this.value
+      if found()
+      select frcustat
+      replace name with this.value
+      replace category with frcategs->category
+      else
+        select frcustat
+      replace name with ""
+      replace category with ""
+   endif
+   select frigtmes
+   form.changesmade = .t.
+   form.CheckCommit(form.inEditMode)
+
+   Procedure NOTESEDITOR2_OnChange
+   form.changesmade = .t.
+    select frlocmsg
+    replace frighter_n with FRIGTMES->NAME
+    replace ftyp with FRIGTMES->ftyp
+    replace pmod with FRIGTMES->pmod
+    replace source with FRIGTMES->source
+    select frigtmes
+    form.CheckCommit(form.inEditMode)
+
+endclass
+

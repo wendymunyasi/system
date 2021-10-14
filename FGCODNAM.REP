@@ -1,0 +1,476 @@
+//////////////////////////////////////////////////////////////////////////////
+// Filename:     FGCODNAM.REP                                               //
+// Created By:   Report Conversion Wizard                                   //
+// Created From: \kenservice\data\FGCODNAM.RPT                          //
+// Data File:    \kenservice\data\fgcodp.qbe                            //
+// Created On:   14/10/2021 At 10:11:26                                     //
+//////////////////////////////////////////////////////////////////////////////
+//
+//////////////////////////////////////////////////////////////////////////////
+// Conversion Exception Log:                                                //
+// Report contains related tables. SQL may need adjustment.                 //
+// Report contains a formula which may need adjustment. - TEXTtim1          //
+// Report contains a formula which may need adjustment. - TEXTmat1          //
+//////////////////////////////////////////////////////////////////////////////
+//
+** END HEADER -- do not remove this line
+//
+// Converted on 14/10/2021
+//
+LOCAL r
+r = new FGCODNAMREPORT()
+r.render()
+CLASS FGCODNAMREPORT OF REPORT
+
+   With (this)
+      AutoSort = false
+   EndWith
+
+   this.FGCOD1 = new QUERY()
+   this.FGCOD1.Parent = this
+   With (this.FGCOD1)
+      Top = 50
+      Left = 50
+      SQL = 'SELECT * FROM "\KENSERVICE\DATA\FGCOD.DBF" ORDER BY NAME ASC'
+      RequestLive = false
+      Active = true
+   EndWith
+
+   this.FGTYP1 = new QUERY()
+   this.FGTYP1.Parent = this
+   With (this.FGTYP1)
+      Top = 50
+      Left = 550
+      SQL = 'SELECT * FROM "\KENSERVICE\DATA\FGTYP.DBF"'
+      RequestLive = false
+      Active = true
+   EndWith
+
+   With (this.FGTYP1.ROWSET)
+      IndexName = "TYP"
+      MasterFields = "TYP"
+      MasterRowset = form.FGCOD1.Rowset
+   EndWith
+
+   this.FGCLA1 = new QUERY()
+   this.FGCLA1.Parent = this
+   With (this.FGCLA1)
+      Top = 50
+      Left = 1050
+      SQL = 'SELECT * FROM "\KENSERVICE\DATA\FGCLA.DBF"'
+      RequestLive = false
+      Active = true
+   EndWith
+
+   With (this.FGCLA1.ROWSET)
+      IndexName = "MKEY"
+   EndWith
+
+   this.FGUNITS1 = new QUERY()
+   this.FGUNITS1.Parent = this
+   With (this.FGUNITS1)
+      Top = 50
+      Left = 1550
+      SQL = 'SELECT * FROM "\KENSERVICE\DATA\FGUNITS.DBF"'
+      RequestLive = false
+      Active = true
+   EndWith
+
+   With (this.FGUNITS1.ROWSET)
+      IndexName = "UNIT"
+      MasterFields = "UNIT"
+      MasterRowset = form.FGCOD1.Rowset
+   EndWith
+
+   this.FGTAXTYP1 = new QUERY()
+   this.FGTAXTYP1.Parent = this
+   With (this.FGTAXTYP1)
+      Top = 50
+      Left = 2050
+      SQL = 'SELECT * FROM "\KENSERVICE\DATA\FGTAXTYP.DBF"'
+      RequestLive = false
+      Active = true
+   EndWith
+
+   With (this.FGTAXTYP1.ROWSET)
+      IndexName = "TAX_TYPE"
+      MasterFields = "TAX_TYPE"
+      MasterRowset = form.FGCOD1.Rowset
+   EndWith
+
+   this.VENNAMES1 = new QUERY()
+   this.VENNAMES1.Parent = this
+   With (this.VENNAMES1)
+      Top = 50
+      Left = 2550
+      SQL = 'SELECT * FROM "\KENSERVICE\DATA\VENNAMES.DBF"'
+      RequestLive = false
+      Active = true
+   EndWith
+
+   With (this.VENNAMES1.ROWSET)
+      IndexName = "VENDOR"
+   EndWith
+
+   this.FGMCOST1 = new QUERY()
+   this.FGMCOST1.Parent = this
+   With (this.FGMCOST1)
+      Top = 50
+      Left = 3050
+      SQL = 'SELECT * FROM "\KENSERVICE\DATA\FGMCOST.DBF"'
+      RequestLive = false
+      Active = true
+   EndWith
+
+   With (this.FGMCOST1.ROWSET)
+      IndexName = "COST"
+   EndWith
+
+   this.FGITEMUS1 = new QUERY()
+   this.FGITEMUS1.Parent = this
+   With (this.FGITEMUS1)
+      Top = 50
+      Left = 3550
+      SQL = 'SELECT * FROM "\KENSERVICE\DATA\FGITEMUS.DBF"'
+      RequestLive = false
+      Active = true
+   EndWith
+
+   With (this.FGITEMUS1.ROWSET)
+      IndexName = "USE"
+   EndWith
+
+   this.FGCOY1 = new QUERY()
+   this.FGCOY1.Parent = this
+   With (this.FGCOY1)
+      Top = 50
+      Left = 4050
+      SQL = 'SELECT * FROM "\KENSERVICE\DATA\FGCOY.DBF"'
+      RequestLive = false
+      Active = true
+   EndWith
+
+   this.FGMCODS1 = new QUERY()
+   this.FGMCODS1.Parent = this
+   With (this.FGMCODS1)
+      Top = 50
+      Left = 4550
+      SQL = 'SELECT * FROM "\kenservice\data\FGMCODS"'
+      RequestLive = false
+      Active = true
+   EndWith
+
+   this.FGMTYPS1 = new QUERY()
+   this.FGMTYPS1.Parent = this
+   With (this.FGMTYPS1)
+      Top = 50
+      Left = 5050
+      SQL = 'SELECT * FROM "\kenservice\data\FGMTYPS"'
+      RequestLive = false
+      Active = true
+   EndWith
+
+   With (this.PRINTER)
+      Copies = 1
+      Resolution = 4
+      PaperSource = 15
+      Orientation = 1
+*      PrinterName = "HP LaserJet P2014"
+      Duplex = 1
+      TrueTypeFonts = 1
+      PaperSize = 1
+      PrinterSource = 2
+      Color = 2
+   EndWith
+
+   this.PAGETEMPLATE1 = new PAGETEMPLATE(this)
+   With (this.PAGETEMPLATE1)
+      GridLineWidth = 0
+      Width = 12240
+      MarginRight = 431
+      Height = 15840
+      MarginBottom = 720
+      MarginTop = 720
+      MarginLeft = 720
+   EndWith
+
+   this.PAGETEMPLATE1.STREAMFRAME1 = new STREAMFRAME(this.PAGETEMPLATE1)
+   With (this.PAGETEMPLATE1.STREAMFRAME1)
+      Top = 800
+      Width = 11089
+      Height = 12880
+      Metric = 1
+   EndWith
+
+   this.PAGETEMPLATE1.TEXT1 = new TEXT(this.PAGETEMPLATE1)
+   With (this.PAGETEMPLATE1.TEXT1)
+      Top = 60
+      Width = 660
+      Height = 220
+      Left = 60
+      Wrap = false
+      ColorNormal = "BtnText"
+      FontName = "Times New Roman"
+      Text = "Printed:"
+      FontItalic = true
+      FontSize = 9
+      Metric = 1
+   EndWith
+
+   this.PAGETEMPLATE1.TEXTtim1 = new TEXT(this.PAGETEMPLATE1)
+   With (this.PAGETEMPLATE1.TEXTtim1)
+      Top = 60
+      Width = 660
+      Height = 220
+      Left = 1560
+      Wrap = false
+      ColorNormal = "BtnText"
+      FontName = "Arial"
+      Text = {|| time()}
+      FontItalic = true
+      FontSize = 9
+      Metric = 1
+   EndWith
+
+   this.PAGETEMPLATE1.TEXTDATE1 = new TEXT(this.PAGETEMPLATE1)
+   With (this.PAGETEMPLATE1.TEXTDATE1)
+      Top = 80
+      Width = 840
+      Height = 200
+      Left = 720
+      ColorNormal = "BtnText"
+      FontName = "Arial"
+      Text = {|| DToC(Date())}
+      FontItalic = true
+      FontSize = 8
+      Metric = 1
+   EndWith
+
+   this.PAGETEMPLATE1.TEXTSTREET1 = new TEXT(this.PAGETEMPLATE1)
+   With (this.PAGETEMPLATE1.TEXTSTREET1)
+      FontBold = true
+      Width = 7800
+      Height = 280
+      Left = 2400
+      AlignHorizontal = 1
+      Wrap = false
+      ColorNormal = "BtnText"
+      FontName = "Verdana"
+      Text = {|| this.Form.FGCOY1.RowSet.Fields["STREET"].Value }
+      FontSize = 12
+      Metric = 1
+   EndWith
+
+   this.PAGETEMPLATE1.TEXT2 = new TEXT(this.PAGETEMPLATE1)
+   With (this.PAGETEMPLATE1.TEXT2)
+      Top = 280
+      FontBold = true
+      Width = 7800
+      Height = 280
+      FontUnderline = true
+      Left = 900
+      AlignHorizontal = 1
+      Wrap = false
+      ColorNormal = "BtnText"
+      FontName = "Times New Roman"
+      Text = "LIST OF PRODUCT CODES SORTED BY NAME"
+      FontSize = 12
+      Metric = 1
+   EndWith
+
+   this.PAGETEMPLATE1.TEXT3 = new TEXT(this.PAGETEMPLATE1)
+   With (this.PAGETEMPLATE1.TEXT3)
+      Top = 320
+      Width = 660
+      Height = 240
+      Left = 8940
+      Wrap = false
+      ColorNormal = "BtnText"
+      FontName = "Arial"
+      Text = "Page :"
+      Metric = 1
+   EndWith
+
+   this.PAGETEMPLATE1.TEXTPAGE1 = new TEXT(this.PAGETEMPLATE1)
+   With (this.PAGETEMPLATE1.TEXTPAGE1)
+      Top = 320
+      Width = 660
+      Height = 240
+      Left = 9660
+      ColorNormal = "BtnText"
+      FontName = "Times New Roman"
+      Text = {|| Str(form.reportPage, 5)}
+      Metric = 1
+   EndWith
+
+   this.PAGETEMPLATE1.TEXT4 = new TEXT(this.PAGETEMPLATE1)
+   With (this.PAGETEMPLATE1.TEXT4)
+      Top = 560
+      FontBold = true
+      Width = 3180
+      Height = 240
+      Left = 60
+      Wrap = false
+      ColorNormal = "BtnText"
+      FontName = "Times New Roman"
+      Text = "Item Name"
+      FontSize = 11
+      Metric = 1
+   EndWith
+
+   this.PAGETEMPLATE1.TEXT5 = new TEXT(this.PAGETEMPLATE1)
+   With (this.PAGETEMPLATE1.TEXT5)
+      Top = 560
+      FontBold = true
+      Width = 2280
+      Height = 240
+      Left = 8640
+      AlignHorizontal = 1
+      Wrap = false
+      ColorNormal = "BtnText"
+      FontName = "Times New Roman"
+      Text = "Item Class"
+      Metric = 1
+   EndWith
+
+   this.PAGETEMPLATE1.TEXT6 = new TEXT(this.PAGETEMPLATE1)
+   With (this.PAGETEMPLATE1.TEXT6)
+      Top = 560
+      FontBold = true
+      Width = 1260
+      Height = 240
+      Left = 6720
+      AlignHorizontal = 1
+      Wrap = false
+      ColorNormal = "BtnText"
+      FontName = "Times New Roman"
+      Text = "Product Type"
+      Metric = 1
+   EndWith
+
+   this.PAGETEMPLATE1.TEXT7 = new TEXT(this.PAGETEMPLATE1)
+   With (this.PAGETEMPLATE1.TEXT7)
+      Top = 560
+      FontBold = true
+      Width = 1260
+      Height = 240
+      Left = 5340
+      AlignHorizontal = 1
+      Wrap = false
+      ColorNormal = "BtnText"
+      FontName = "Times New Roman"
+      Text = "LookUp Code"
+      Metric = 1
+   EndWith
+
+   this.PAGETEMPLATE1.TEXT8 = new TEXT(this.PAGETEMPLATE1)
+   With (this.PAGETEMPLATE1.TEXT8)
+      Top = 560
+      FontBold = true
+      Width = 960
+      Height = 240
+      Left = 4320
+      AlignHorizontal = 1
+      Wrap = false
+      ColorNormal = "BtnText"
+      FontName = "Arial"
+      Text = "Item Code"
+      Metric = 1
+   EndWith
+
+   this.PAGETEMPLATE1.LINE1 = new LINE(this.PAGETEMPLATE1)
+   With (this.PAGETEMPLATE1.LINE1)
+      Top = 799
+      Width = 0
+      Pen = 0
+      Left = 0
+      Right = 11040
+      ColorNormal = "black"
+      Bottom = 799
+      Metric = 1
+   EndWith
+
+   this.STREAMSOURCE1 = new STREAMSOURCE(this)
+
+   this.STREAMSOURCE1.DETAILBAND.TEXTNAME1 = new TEXT(this.STREAMSOURCE1.DETAILBAND)
+   With (this.STREAMSOURCE1.DETAILBAND.TEXTNAME1)
+      Top = 40
+      Width = 2340
+      Height = 200
+      Left = 8700
+      SuppressIfDuplicate = true
+      Wrap = false
+      ColorNormal = "BtnText"
+      FontName = "Times New Roman"
+      SuppressIfBlank = true
+      Text = {|| this.Form.FGCLA1.RowSet.Fields["NAME"].Value }
+      FontSize = 9
+      Metric = 1
+   EndWith
+
+   this.STREAMSOURCE1.DETAILBAND.TEXTNAME2 = new TEXT(this.STREAMSOURCE1.DETAILBAND)
+   With (this.STREAMSOURCE1.DETAILBAND.TEXTNAME2)
+      Top = 40
+      Width = 1920
+      Height = 200
+      Left = 6720
+      SuppressIfDuplicate = true
+      Wrap = false
+      ColorNormal = "BtnText"
+      FontName = "Times New Roman"
+      SuppressIfBlank = true
+      Text = {|| this.Form.FGTYP1.RowSet.Fields["NAME"].Value }
+      FontSize = 9
+      Metric = 1
+   EndWith
+
+   this.STREAMSOURCE1.DETAILBAND.TEXTSCODE1 = new TEXT(this.STREAMSOURCE1.DETAILBAND)
+   With (this.STREAMSOURCE1.DETAILBAND.TEXTSCODE1)
+      Top = 40
+      Width = 840
+      Height = 200
+      Left = 5700
+      SuppressIfDuplicate = true
+      Wrap = false
+      ColorNormal = "BtnText"
+      FontName = "Arial"
+      SuppressIfBlank = true
+      Text = {|| this.Form.FGCOD1.RowSet.Fields["SCODE"].Value }
+      FontSize = 9
+      Metric = 1
+   EndWith
+
+   this.STREAMSOURCE1.DETAILBAND.TEXTmat1 = new TEXT(this.STREAMSOURCE1.DETAILBAND)
+   With (this.STREAMSOURCE1.DETAILBAND.TEXTmat1)
+      Width = 900
+      Height = 240
+      Left = 4380
+      Wrap = false
+      ColorNormal = "BtnText"
+      FontName = "Times New Roman"
+      SuppressIfBlank = true
+      Text = {|| this.Form.FGCOD1.RowSet.Fields["TYP"].Value +this.Form.FGCOD1.RowSet.Fields["CLA"].Value +this.Form.FGCOD1.RowSet.Fields["COD"].Value }
+      Metric = 1
+   EndWith
+
+   this.STREAMSOURCE1.DETAILBAND.TEXTNAME3 = new TEXT(this.STREAMSOURCE1.DETAILBAND)
+   With (this.STREAMSOURCE1.DETAILBAND.TEXTNAME3)
+      Top = 40
+      Width = 4200
+      Height = 200
+      Left = 60
+      Wrap = false
+      ColorNormal = "BtnText"
+      FontName = "Arial"
+      SuppressIfBlank = true
+      Text = {|| this.Form.FGCOD1.RowSet.Fields["NAME"].Value }
+      FontSize = 9
+      Metric = 1
+   EndWith
+
+   this.FirstPageTemplate = this.form.PAGETEMPLATE1
+   this.form.PAGETEMPLATE1.NextPageTemplate = this.form.PAGETEMPLATE1
+   this.form.PAGETEMPLATE1.STREAMFRAME1.StreamSource = this.form.STREAMSOURCE1
+   this.form.STREAMSOURCE1.RowSet = this.form.FGCOD1.RowSet
+ENDCLASS
+

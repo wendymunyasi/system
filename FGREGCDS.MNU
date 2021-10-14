@@ -110,7 +110,7 @@ CLASS TypeS(FormObj,Name) OF MENUBAR(FormObj,Name)
 
          DEFINE MENU ERRORTypeSREPORT OF THIS.REPORT;
              PROPERTY;
-               OnClick {;create session ;set lock off ;report form Fgregcds},;
+               OnClick {;create session ;set lock off ;do Fgregcds.rep},;
                Text "&1. List Card/Vehicles sorted by Customer."
                
                 DEFINE MENU SEPARATOR4 OF THIS.REPORT;
@@ -121,7 +121,7 @@ CLASS TypeS(FormObj,Name) OF MENUBAR(FormObj,Name)
 
                 DEFINE MENU ERRORTypeSREPORT2 OF THIS.REPORT;
              PROPERTY;
-               OnClick {;create session ;set lock off ;report form Fgregcdv},;
+               OnClick {;create session ;set lock off ;do Fgregcdv.rep},;
                Text "&2. List Card/Vehicles sorted by Vehicle."
 
  DEFINE MENU SEPARATOR5 OF THIS.REPORT;
@@ -131,7 +131,7 @@ CLASS TypeS(FormObj,Name) OF MENUBAR(FormObj,Name)
 
          DEFINE MENU ERRORTypeSREPORT3 OF THIS.REPORT;
              PROPERTY;
-               OnClick {;create session ;set lock off ;report form Fgregcdc},;
+               OnClick {;create session ;set lock off ;do Fgregcdc.rep},;
                Text "&3. List Card/Vehicles sorted by Card Number."
 
 
