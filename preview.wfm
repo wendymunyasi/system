@@ -1,0 +1,1061 @@
+// ---------------------------------------------------------------------------
+// This is an older version of the Preview form, if you want a newer version,
+// use the one in the dUFLP. That was not included here because it relies on
+// your having the :dUFLP: source code alias and the dUFLP installed on your
+// machine, for the tutorial it was decided that was too much ...
+// ---------------------------------------------------------------------------
+#define PROGRAMVERSION "2.15"
+/* 
+   File....: PREVIEW.WFM
+             ** WARNING ** 
+             Version 2.14 and later versions will only work in 
+             dB2K releases .02 and later -- this is due to 
+             the use of the PERSISTENT option for the SET 
+             PROCEDURE command.
+             ** END OF WARNING **
+   Author..: Ken Mayer
+   Date....:  1/27/1998
+   Updated.:  4/22/1998 -- Gary White -- see form_onSize event
+              8/18/1998 -- Ken M:
+                           * Anchored main container at bottom of
+                             form, so the need of form's onSize to 
+                             update this container is gone.
+                           * Added collate checkbox and
+                             appropriate code for enabling it,
+                             and handling multiple copies of
+                             report ...
+             10/07/1998 -- Ken M. 
+                           Modified so that when actually
+                           printing the report, a new instance
+                           of it is created -- this makes
+                           it possible to have running totals
+                           and things of that nature and not
+                           have those totals generated twice
+                           (once for the preview and once
+                           for the actual print ...)
+             12/22/1998 -- Ken M.
+                           Added the "set procedure to ..."
+                           to ensure that methods of the
+                           report class were available,
+                           such as canRender events ...
+             12/28/1998 -- Minor addition to the 
+                           collate routine to re-instantiate
+                           the report for each rendering ...
+             February, 1999 -- minor changes based on 
+                           working with the tutorial,
+                           includes a check for the
+                           title of the report, and if
+                           set, displaying it in the titlebar
+                           of the form ...
+             April, 1999   -- fixed more problems with
+                           multiple copies
+                           * some printer drivers don't
+                             (for whatever reason) handle
+                             the copies property being set
+                             here to multiple copies. 
+                             -- use "Collate"
+                           * Collate is set as the default
+                             for multiple copies
+                           * Made sure that a problem with
+                             custom reports got resolved --
+                             there's a bug where if you
+                             release the report and reinstantiate
+                             it, the procedure file for the
+                             report gets closed, but NOT the
+                             one for the custom report --
+                             and the new report is the custom
+                             report instead -- it's a very
+                             strange one ... see code in the
+                             collate routine ...
+             January, 2000 - Minor fix for problem with FILE()
+                             in RUNTIME ...
+             March, 2000   - * Attempt to make it possible to pass
+                               parameters via a params array, which
+                               can be used by the report ...
+                               This is based on a suggestion
+                               by Todd Kreuter in the Visual
+                               dBASE newsgroups (Todd also pointed
+                               out some places I was making things
+                               too difficult, etc ...). See notes
+                               below on using a parameter array ...
+                             * Overrode the readmodal/open
+                               to handle changing the form's
+                               size in the designer ...
+             April, 2000   - * Added ability to assign a 'modal'
+                               property ...
+             July, 2000   --  (Vers. 2.10) Claude Bell (CBB)
+                             * Enforced range checking on firstpage,
+                               lastpage, and number of copies which 
+                               alleviated unnecessary coding.
+                             * Changed collation to be the default 
+                               printing method which again 
+                               alleviated unnessary coding.
+                             * Removed artifact variable rRep from 
+                               PushPrint_onclick
+
+            October, 2000 -- Juan Manuel Espinosa added
+                             an "HTML" button for reports --
+                             this should stream out an HTML
+                             version of the report.
+
+                             Be careful designing reports you
+                             wish to do this with, as overlapping
+                             controls stream in an odd way 
+                             (you have to see it to understand)
+                             and places where you don't think
+                             they will overlap, they do.
+
+                             Ken turned off the "topmost" property
+                             as it was making him nuts ... 
+
+            May, 2001     -- Added missing speedtip to 
+                             PushFirstPage button
+
+            July, 2001    -- (Ver. 2.13) Modified preprocessor 
+                             definition of "VERSION" to 
+                             "PROGRAMVERSION", due to an oversite 
+                             ... with VERSION being a keyword in 
+                             dB2K, this was a problem. Noted 
+                             by Claude Bell.
+
+            October, 2001 -- (Ver. 2.14) Changed SET PROCEDURE 
+                             for the report to add the PERSISTENT 
+                             parameter, and then close the report 
+                             when closing the form. 
+                             This should resolve several problems
+                             that were popping up. -- KJM
+
+            December, 2001 -- Claude Bell discovered a minor bug
+                              in the preprocessor code to determine
+                              the version of dB2K in use that
+                              was fixed after the initial posting
+                              of this version of the form. 
+
+            February, 2002 -- Bruce Beacham added a bunch of 
+                              LOCAL/PRIVATE commands for variables
+                              used in methods of this form.
+
+            March, 2002    -- Added code in bootstrap section
+                              to allow passing a report using
+                              a source alias in the report
+                              name:
+                              do preview.wfm with ":myalias:myreport.rep"
+
+                              Modified code so that when opened,
+                              the titlebar sets the appropriate
+                              version number, both in the designer
+                              (onDesignOpen) and in the form's
+                              onOpen (OpenThis method).
+
+   =============================================================
+   There are several sets of controls at the bottom of the
+   form. 
+
+     The first collection (begin Page, end Page, # of copies,
+     collate checkbox, and the printer button) only affect 
+     printing from this form. You can specify a range of pages, 
+     and/or # of copies (and whether or not to print them
+     collated) here, and then print.
+
+     The next set of controls is the current page number -- you
+     can change this here, or by using the previous/next page
+     buttons to the right.
+
+     Next over is the 'last page' button -- this will take
+     your report to the last page -- but it takes time -- see
+     warning below.
+
+     There are buttons further over to navigate through the 
+     report, and an exit button to close the form.
+   =============================================================
+
+   In the method: PUSHPRINT_onClick
+     You can change the behavior of this form -- if the user
+     decides to print the report, you can either have this
+     form close (the current setting), or re-render the report
+     on the first page -- all you have to do is comment out
+     the line you don't want to happen, and uncomment the one
+     you do. In other words, if you want to change the behavior
+     from the default, uncomment the statement that says:
+            // CLASS::PUSHFIRSTPAGE_onClick()
+     and comment the line that says:
+            form.close()
+
+   ========================================================
+   WARNING: The Last Page button will take some time to
+   do it's trick, as it is generating (to a temp disk file)
+   the report, in order to determine the actual last page
+   number, and then it is re-rending the report at that
+   page, so it's really running the full report twice.
+   ========================================================
+
+   -------
+   USAGE NOTES:
+
+   set procedure to preview.wfm additive
+   aParams = new AssocArray()
+   aParams[ "Filter" ] = "SomeTest" 
+   fPreview = new PreviewForm()
+   // if you wish this to open with ReadModal()
+   fPreview.bModal = true 
+   // Bernd Hohenester notes that these next two
+   // commands must be in this sequence:
+   fPreview.params = aParams // parameter associative array
+   fPreview.viewer.fileName := "reportname.rep" // use lab for labels
+   fPreview.Open()
+
+   OR:
+
+   do preview.wfm with "cRepName.rep"[, bModal [, aParams ]]
+   
+   (i.e., (Example assumes an associative array named
+           'aMyParams')
+           do preview.wfm with "myrep.rep",true  or
+           do preview.wfm with "myrep.rep"       or
+           // modal with parameter array
+           do preview.wfm with "myrep.rep", true, aMyParams   OR
+           // modeless with parameter array
+           do preview.wfm with "myrep.rep", false, aMyParams  )
+
+   Special Note: a parameter array must be an associative
+   array, (assocarray) ... it contains name/value pairs, i.e.,
+      aMyParams = new assocarray()
+      aMyParams[ "Filter" ] = "lastname = 'Smith'"
+
+   If this array exists, and is passed either as a parameter,
+   or is created as shown in the first example above, this
+   array is passed along to the report. Your report needs to
+   have code that looks for this array, and if it exists,
+   uses it ...
+
+   **** WARNING WARNING WARNING WARNING WARNING WARNING ****
+   Associative Arrays are *case sensitive* for the key name,
+   so if you use "Filter", make sure you use the exact
+   case when you look for it in your report ... if you look
+   for "filter", it's not the same as "Filter", and it
+   won't be found ...
+
+   VERY IMPORTANT: If you use this parameter array, your report
+   needs to check for it in an overriden render() event, so that
+   it can find the parameter array before rendering the report --
+   anything that can be done in the reportViewer happens after
+   the report gets rendered, making it useless, which is why you
+   must override the render event. The example below is fairly
+   simple - it uses a filter based on a value passed ... but
+   you can do a lot more, setting headers, footers, and tons
+   of other things ... just insert all that in the render
+   event ... (You place this *before* the ENDCLASS statement
+   in the report's source code file)
+
+   Example:
+
+   function Render // sample from Vesper 7.51, ROSTER.REP
+      // this is an overriden render event -- the idea
+      // being that in order to use a params array
+      // for a report, we need to check to see if it
+      // exists ... either here or in a reportViewer
+      // (i.e., PREVIEW.WFM)
+      // The 'runonce' property checks to make sure
+      // that the render event code based on the params
+      // array is only called once -- when the report is
+      // first loaded ... reportViewers call this when
+      // rendering each page, which could cause problems,
+      // depending on your code.
+      if type( "this.runOnce" ) # "L"
+         this.runOnce = true
+         if type( "this.reportViewer" ) == "O"
+            // we are being called from a reportViewer
+            // check to see if the reportViewer's form has
+            // a params array:
+            if type( "this.reportViewer.form.params" ) == "O" 
+               // set params array:
+               this.params = this.reportViewer.form.params
+            endif
+         endif
+         // if we have a params array, we need to set the
+         // filter for the report:
+         if type( "this.params" ) == "O" and ;
+            this.params.isKey( "Filter" )
+
+            // assign the filter property of the
+            // rowset being used for the report:
+            this.address1.rowset.filter := ;
+                                this.params[ "Filter" ]
+         endif
+
+      endif // this.runOnce
+
+      super::render() // call the overridden render code
+                      // don't forget this or report will never
+                      // render!
+   --------
+
+   For more information on using preview.wfm see preview.zip
+   in the dUFLP library, which is a set of documentation provided
+   by Steve Hawkins (also published in dBulletin).
+
+*/
+
+parameter cRepName, bModal, aParams
+local lOK, cExt
+
+// Check version of dB2K:
+lOK = true
+#ifndef __version__ // using Visual dBASE 7.x
+   lOK := false
+// fix found by Claude Bell
+#else
+   #if __version__ < 0.2 // dB2K release 0.1
+       lOK := false
+   #endif
+#endif
+if not lOK
+   msgbox( "You are using Visual dBASE 7.x or dB2K release 0.1."+chr(13)+;
+           "Preview.wfm version 2.14 and later cannot run under"+chr(13)+;
+           "these releases. Either use Preview 2.13 or upgrade"+chr(13)+;
+           "your version of dBASE ...", "PREVIEW.WFM::Can't do it!", 16 )
+   return
+endif
+
+// Error checking:
+if pCount() == 0 
+   msgbox( 'I need a report name!', "Can't do it!", 16 )
+   return
+endif
+
+if pCount() == 3
+   // check to see that we have an object which is an AssocArray ...
+   if type( "aParams" ) == "O" and aParams.className # "ASSOCARRAY"
+      msgbox( 'Parameter array must be an associative array', ;
+              "Preview.wfm::Can't do it!", 16 )
+      return
+   endif
+endif
+
+// instantiate the form ...      
+local f
+f = new previewForm()
+
+// check for only a single parameter
+if pCount() == 1
+   // if it's logical, and we have only one, there's
+   // a problem (no report name):
+   if type( 'cRepName' ) == "L"
+      msgbox( 'I need a report name!', "Preview.wfm::Can't do it!", 16 )
+      return
+   else
+      bModal = false
+   endif
+endif
+
+// assign the params array:
+if pCount() == 3 // error checking already done
+   f.params = aParams
+endif
+
+// Check for extension:
+cExt = cRepName.right( 4 ).toUpperCase()
+if cExt # ".REP" and cExt # ".LAB"
+   msgbox( "Filename must include .REP or .LAB as extension", ;
+           "Preview.wfm::Can't do it!", 16 )
+   return
+endif
+
+// check for file if not in runtime ... (if in runtime finding
+// the file is problematic ... it's part of the .EXE but not
+// really a separate file ...):
+if not "RUNTIME" $ upper(version(1))
+   local cFile, cAlias, cPath, cKey, lExists
+   // Source Alias
+   if left( cRepName, 1 ) == ":" and ;
+      at( ":", cRepName, 2 ) > 0
+      cFile = right( cRepName, len( cRepName ) - ;
+                                rat( ":", cRepName ) )
+      // get alias, and remove : from it
+      cAlias = left( cRepName, at(":",cRepName,2) -1 )
+      cAlias = right(cAlias,len(cAlias) -1 )
+      // search the Source Alias array, but we can't just use IsKey,
+      // because Source Aliases are by their nature case sensitive
+      cKey = _app.SourceAliases.firstKey
+      lExists = false
+      for i = 1 to _app.SourceAliases.count()
+          if cKey.toLowerCase() == cAlias.toLowerCase()
+             lExists := true
+             cPath = _app.SourceAliases[ cKey ]
+             exit
+          endif
+          cKey = _app.SourceAliases.nextKey( cKey )
+      next
+      // Problem:
+      if not lExists
+         msgbox( "Error, Source Alias: "+cAlias+" does not exist!",;
+                 "Preview.wfm::Problem With Source Alias", 48 )
+         return
+      endif
+      cFile = cPath+"\"+cFile             
+   else
+      cFile = cRepName
+   endif
+   if not file( cFile ) 
+      msgbox( "File: "+cRepName+" doesn't exist!", ;
+              "Preview.wfm::Can't do it!", 16 )
+      return
+   endif
+endif
+
+// assign viewer's filename property:
+f.viewer.filename := cRepName
+
+if (bModal)
+   f.bModal = true
+   f.mdi = false // ensure not MDI
+//   f.topMost := true
+   f.readModal()
+else
+   f.bModal = false
+   f.open()
+endif
+return
+** END HEADER -- do not remove this line
+//
+// Generated on 01/29/2002
+//
+parameter bModal
+local f
+f = new previewForm()
+if (bModal)
+   f.mdi = false // ensure not MDI
+   f.readModal()
+else
+   f.open()
+endif
+
+class previewForm of FORM
+   with (this)
+      onSize = class::FORM_ONSIZE
+      onDesignOpen = class::FORM_ONDESIGNOPEN
+      open = class::OPENTHIS
+      readModal = class::OPENTHIS
+      height = 25.6364
+      left = 12.4286
+      top = 0
+      width = 110.7143
+      text = "Report Previewer - ver. "+PROGRAMVERSION
+      autoCenter = true
+      icon = "resource #270"
+   endwith
+
+   this.VIEWER = new REPORTVIEWER(this)
+   with (this.VIEWER)
+      height = 23.2364
+      left = 0.1429
+      top = 0
+      width = 110.5743
+   endwith
+
+   this.CONTAINER1 = new CONTAINER(this)
+   with (this.CONTAINER1)
+      transparent = true
+      left = 0
+      top = 23.4091
+      width = 110.7143
+      height = 2.2273
+      borderStyle = 3	// None
+      anchor = 1	// Bottom
+   endwith
+
+   this.CONTAINER1.RECTANGLE4 = new RECTANGLE(this.CONTAINER1)
+   with (this.CONTAINER1.RECTANGLE4)
+      left = 54.2857
+      top = 0.0455
+      width = 15.8571
+      height = 2
+      text = ""
+      pageno = 0
+   endwith
+
+   this.CONTAINER1.RECTANGLE3 = new RECTANGLE(this.CONTAINER1)
+   with (this.CONTAINER1.RECTANGLE3)
+      left = 70.4286
+      top = 0.0455
+      width = 14.5714
+      height = 2
+      text = ""
+      pageno = 0
+   endwith
+
+   this.CONTAINER1.RECTANGLE2 = new RECTANGLE(this.CONTAINER1)
+   with (this.CONTAINER1.RECTANGLE2)
+      left = 40.1429
+      top = 0.0455
+      width = 13.7143
+      height = 2
+      text = ""
+      pageno = 0
+   endwith
+
+   this.CONTAINER1.RECTANGLE1 = new RECTANGLE(this.CONTAINER1)
+   with (this.CONTAINER1.RECTANGLE1)
+      left = 0.2857
+      top = 0.0455
+      width = 39.2857
+      height = 2
+      text = ""
+      pageno = 0
+   endwith
+
+   this.CONTAINER1.TPAGES = new TEXT(this.CONTAINER1)
+   with (this.CONTAINER1.TPAGES)
+      height = 0.6818
+      left = 1.2857
+      top = 0.3182
+      width = 8.2857
+      fontSize = 8
+      text = "Start Page:"
+      pageno = 0
+   endwith
+
+   this.CONTAINER1.SPINSTARTPAGE = new SPINBOX(this.CONTAINER1)
+   with (this.CONTAINER1.SPINSTARTPAGE)
+      height = 0.8182
+      left = 1.1429
+      top = 0.9545
+      width = 6.2857
+      speedTip = "Starting Page number when printing"
+      picture = "999"
+      rangeMax = 999
+      rangeMin = 1
+      fontSize = 8
+      value = 1
+      rangeRequired = true
+      pageno = 0
+      borderStyle = 7	// Client
+   endwith
+
+   this.CONTAINER1.SPINENDPAGE = new SPINBOX(this.CONTAINER1)
+   with (this.CONTAINER1.SPINENDPAGE)
+      valid = class::SPINENDPAGE_VALID
+      height = 0.8182
+      left = 9.8571
+      top = 0.9545
+      width = 7.2857
+      speedTip = "Ending Page number when printing (-1 means no end)"
+      picture = "999"
+      rangeMax = 999
+      rangeMin = -1
+      fontSize = 8
+      value = -1
+      rangeRequired = true
+      pageno = 0
+      borderStyle = 7	// Client
+   endwith
+
+   this.CONTAINER1.TCOPIES = new TEXT(this.CONTAINER1)
+   with (this.CONTAINER1.TCOPIES)
+      height = 0.6364
+      left = 18.1429
+      top = 0.3636
+      width = 5.2857
+      fontSize = 8
+      text = "Copies:"
+      pageno = 0
+   endwith
+
+   this.CONTAINER1.SPINCOPIES = new SPINBOX(this.CONTAINER1)
+   with (this.CONTAINER1.SPINCOPIES)
+      height = 0.8182
+      left = 18.5714
+      top = 0.9545
+      width = 6.2857
+      speedTip = "# of copies to print"
+      picture = "999"
+      rangeMax = 999
+      rangeMin = 1
+      fontSize = 8
+      value = 1
+      rangeRequired = true
+      pageno = 0
+      borderStyle = 7	// Client
+   endwith
+
+   this.CONTAINER1.TCOLLATE = new TEXT(this.CONTAINER1)
+   with (this.CONTAINER1.TCOLLATE)
+      height = 0.6364
+      left = 25.1429
+      top = 0.3636
+      width = 5.2857
+      fontSize = 8
+      text = "Collate:"
+      pageno = 0
+   endwith
+
+   this.CONTAINER1.COLLATECHECKBOX = new CHECKBOX(this.CONTAINER1)
+   with (this.CONTAINER1.COLLATECHECKBOX)
+      height = 1
+      left = 26.7143
+      top = 0.9091
+      width = 2.5714
+      text = ""
+      speedTip = "Collate report if multiple copies?"
+      fontSize = 8
+      value = true
+      pageno = 0
+   endwith
+
+   this.CONTAINER1.PUSHPRINT = new PUSHBUTTON(this.CONTAINER1)
+   with (this.CONTAINER1.PUSHPRINT)
+      onClick = class::PUSHPRINT_ONCLICK
+      height = 1.1818
+      left = 34.8571
+      top = 0.4545
+      width = 4.1429
+      text = ""
+      speedBar = true
+      upBitmap = "RESOURCE #857"
+      downBitmap = "RESOURCE #867"
+      speedTip = "Print this report"
+      pageno = 0
+   endwith
+
+   this.CONTAINER1.PUSHFIRSTPAGE = new PUSHBUTTON(this.CONTAINER1)
+   with (this.CONTAINER1.PUSHFIRSTPAGE)
+      onClick = class::PUSHFIRSTPAGE_ONCLICK
+      height = 1.1818
+      left = 55.1429
+      top = 0.4545
+      width = 4.1429
+      text = ""
+      speedBar = true
+      upBitmap = "RESOURCE:2 PS_RFIRST"
+      speedTip = "First Page of report"
+      pageno = 0
+   endwith
+
+   this.CONTAINER1.PUSHPREVPAGE = new PUSHBUTTON(this.CONTAINER1)
+   with (this.CONTAINER1.PUSHPREVPAGE)
+      onClick = class::PUSHPREVPAGE_ONCLICK
+      height = 1.1818
+      left = 60
+      top = 0.4545
+      width = 4.1429
+      text = ""
+      speedBar = true
+      upBitmap = "RESOURCE:2 PS_RPREV"
+      speedTip = "Previous Page of report"
+      pageno = 0
+   endwith
+
+   this.CONTAINER1.PUSHNEXTPAGE = new PUSHBUTTON(this.CONTAINER1)
+   with (this.CONTAINER1.PUSHNEXTPAGE)
+      onClick = class::PUSHNEXTPAGE_ONCLICK
+      height = 1.1818
+      left = 65.1429
+      top = 0.4545
+      width = 4.1429
+      text = ""
+      speedBar = true
+      upBitmap = "RESOURCE:2 PS_RNEXT"
+      speedTip = "Next Page of report"
+      pageno = 0
+   endwith
+
+   this.CONTAINER1.PUSHHTML = new PUSHBUTTON(this.CONTAINER1)
+   with (this.CONTAINER1.PUSHHTML)
+      onClick = class::PUSHHTML_ONCLICK
+      height = 1.1818
+      left = 30.2857
+      top = 0.4545
+      width = 4.1429
+      text = ""
+      speedBar = true
+      upBitmap = "RESOURCE #1430"
+      downBitmap = "RESOURCE #1440"
+      speedTip = "Save as HTML"
+      pageno = 0
+   endwith
+
+   this.CONTAINER1.PUSHEXIT = new PUSHBUTTON(this.CONTAINER1)
+   with (this.CONTAINER1.PUSHEXIT)
+      onClick = class::PUSHEXIT_ONCLICK
+      height = 1.1818
+      left = 86.5714
+      top = 0.4545
+      width = 4.1429
+      text = ""
+      speedBar = true
+      upBitmap = "RESOURCE #1005"
+      downBitmap = "RESOURCE #1006"
+      speedTip = "Exit (close form ...)"
+      pageno = 0
+   endwith
+
+   this.CONTAINER1.PUSHRERENDER = new PUSHBUTTON(this.CONTAINER1)
+   with (this.CONTAINER1.PUSHRERENDER)
+      onClick = class::PUSHRERENDER_ONCLICK
+      height = 1.1818
+      left = 49.1429
+      top = 0.4545
+      width = 4.1429
+      text = ""
+      speedBar = true
+      upBitmap = "RESOURCE #2060"
+      downBitmap = "RESOURCE #2061"
+      speedTip = "Redisplay Report"
+      pageno = 0
+   endwith
+
+   this.CONTAINER1.TVIEW = new TEXT(this.CONTAINER1)
+   with (this.CONTAINER1.TVIEW)
+      height = 0.6364
+      left = 41.4286
+      top = 0.3636
+      width = 5.2857
+      fontSize = 8
+      text = "View:"
+      pageno = 0
+   endwith
+
+   this.CONTAINER1.SPINVIEWPAGE = new SPINBOX(this.CONTAINER1)
+   with (this.CONTAINER1.SPINVIEWPAGE)
+      height = 0.8182
+      left = 41.2857
+      top = 0.9545
+      width = 7.2857
+      speedTip = "View page number ..."
+      picture = "999"
+      rangeMax = 999
+      rangeMin = 1
+      fontSize = 8
+      value = 1
+      rangeRequired = true
+      pageno = 0
+      borderStyle = 7	// Client
+   endwith
+
+   this.CONTAINER1.TENDPAGE = new TEXT(this.CONTAINER1)
+   with (this.CONTAINER1.TENDPAGE)
+      height = 0.6364
+      left = 9.8571
+      top = 0.3182
+      width = 8
+      fontSize = 8
+      text = "End Page:"
+      pageno = 0
+   endwith
+
+   this.CONTAINER1.PUSHFINDLAST = new PUSHBUTTON(this.CONTAINER1)
+   with (this.CONTAINER1.PUSHFINDLAST)
+      onClick = class::PUSHFINDLAST_ONCLICK
+      height = 1.1818
+      left = 80.2857
+      top = 0.4545
+      width = 4.1429
+      text = ""
+      speedBar = true
+      upBitmap = "RESOURCE #7060"
+      speedTip = "Find last page number -- WARNING: this takes time!!"
+      pageno = 0
+   endwith
+
+   this.CONTAINER1.TEXTLASTPAGE = new TEXT(this.CONTAINER1)
+   with (this.CONTAINER1.TEXTLASTPAGE)
+      height = 0.6364
+      left = 71.7143
+      top = 0.9545
+      width = 5.5714
+      picture = "99999"
+      fontSize = 8
+      text = "-1"
+      pageno = 0
+   endwith
+
+   this.CONTAINER1.TLPAGE = new TEXT(this.CONTAINER1)
+   with (this.CONTAINER1.TLPAGE)
+      height = 0.7273
+      left = 71.7143
+      top = 0.2727
+      width = 7.8571
+      fontSize = 8
+      text = "Last page:"
+      pageno = 0
+   endwith
+
+
+   function PUSHEXIT_onClick
+      private cRepFile
+
+      // vers. 2.14:
+      cRepFile = form.viewer.fileName
+      close procedure &cRepFile. 
+      // back to original code
+      form.close()
+   return
+
+   function PUSHFINDLAST_onClick
+      // special button -- this will render the report
+      // to a printer file, find the last page number, and
+      // return that here ... then delete the printer file:
+      local rRep
+
+      // shorten object reference
+      rRep = this.parent.parent.Viewer.ref
+
+      // Save these so we can reset them:
+      rRep.oldOutPutFileName = rRep.outPutFileName
+      rRep.oldOnPage    = rRep.onPage
+
+      // change necessary values:
+      rRep.startPage := 1                   // we want all 
+      rRep.endPage   := -1                    // pages
+      rRep.outPutFileName := "findlast.prn" // to temp file
+      rRep.outPut    := 2                   // printer file   
+      nPages = 0                            // set counter
+      rRep.onPage    := {|| nPages++ }      // increment for each page
+      rRep.render()                         // render it
+
+      // we have the last page number:
+      this.parent.textLastPage.text = nPages // display page num
+      this.parent.spinViewPage.value = nPages
+
+      // done -- cleanup
+      erase "findlast.prn"                  // not needed anymore
+
+      // Go to last Page:
+      rRep.startPage := nPages
+      rRep.endPage   := nPages
+      // reset:
+      rRep.outPutFileName = iif( not empty( rRep.oldOutPutFileName ), ;
+                           rRep.oldOutPutFileName, "" )
+      rRep.outPut         = 3
+      rRep.onPage         = rRep.oldOnPage
+      // render it
+      rRep.render()
+   return
+
+   function PUSHFIRSTPAGE_onClick
+      with ( this.parent.parent.viewer.ref )
+           startPage := 1
+           endPage   := 1
+      endwith
+      this.parent.spinViewPage.value = ;
+           this.parent.parent.viewer.ref.startPage
+      this.parent.parent.viewer.ref.render()
+   return null
+
+   function PUSHNEXTPAGE_onClick
+      with ( this.parent.parent.viewer.ref )
+           if not isLastPage()
+              startPage++ // increment
+              endPage := this.parent.parent.viewer.ref.startPage
+           endif
+      endwith
+      this.parent.spinViewPage.value = ;
+           this.parent.parent.viewer.ref.startPage
+      this.parent.parent.viewer.ref.render()
+   return null
+
+   function PUSHPREVPAGE_onClick
+      with ( this.parent.parent.viewer.ref )
+           if not reportPage = 1
+              startPage-- // decrement
+              endPage := this.parent.parent.viewer.ref.startPage
+           endif
+      endwith
+      this.parent.spinViewPage.value = ;
+           this.parent.parent.viewer.ref.startPage
+      this.parent.parent.viewer.ref.render()
+   return null
+
+   function PUSHPRINT_onClick
+      // Due to problems with rendering *directly* from
+      // here, including such things as running totals
+      // getting totaled twice, we're going to
+      // create a new instance of the report,
+      // and generate it from here:
+      private r   // CBB 07/2000 removed artifact variable rRep
+      private cRepName, cRep
+      local nCopies
+
+      cRepName = this.parent.parent.viewer.ref.className
+      r = new &cRepName.()
+      // if we have a params array, we need to assign
+      // to this instance of the report:
+      if type( "form.params" ) == "O"
+         r.params = form.params
+      endif
+
+      if r.printer.CHOOSEPRINTER()
+
+         r.startPage := form.CONTAINER1.spinStartPage.value
+         r.endPage   := form.CONTAINER1.spinEndPage.value
+         r.outPut    := 1 // printer
+
+         // deal with collation if number of copies > 1
+         if this.parent.spinCopies.value > 1 AND;
+            this.parent.collateCheckBox.value == true
+            // makes it an easier reference:
+            nCopies = this.parent.spinCopies.value
+            // set it to 1 for the moment:
+            r.printer.copies := 1
+            // loop through the report, rendering it nCopies times --
+            // this will ensure it is "collated" properly
+            cRep = this.parent.parent.viewer.ref.className
+            for i = 1 to nCopies
+                // reinstantiate the report to avoid problems
+                // with running totals:
+                r = new &cRep.()
+                // if we have a params array, we need to assign
+                // to this instance of the report:
+                if type( "form.params" ) == "O"
+                   r.params = form.params
+                endif
+                // start/endpage, etc.
+                r.startPage      := form.CONTAINER1.spinStartPage.value
+                r.endPage        := form.CONTAINER1.spinEndPage.value
+                r.outPut         := 1 // printer
+                r.printer.copies := 1
+                try
+                   r.render()
+                catch (exception e)
+                   // do nothing
+                endtry
+                r.release()
+            next
+         else
+            // render it normally
+            r.printer.copies := this.parent.spinCopies.value
+            r.render()
+            r.release()
+         endif
+
+// -----------------------------------------------
+// NOTE: Uncomment one of the two following lines
+// of code, based on your preference ...:
+// -----------------------------------------------
+         // rerender on first page of report:
+         // CLASS::PUSHFIRSTPAGE_onClick()
+//   OR:
+         // close the form
+         form.close()
+      endif
+
+   function PUSHRERENDER_onClick
+      // re-render the report ...
+      // CBB 07/2000 Removed check for spinViewPage value < 1
+      // due to the value now being constrained
+      this.parent.parent.viewer.ref.startPage      := form.CONTAINER1.spinViewPage.value
+      this.parent.parent.viewer.ref.endPage        := form.CONTAINER1.spinViewPage.value
+      this.parent.parent.viewer.ref.render()
+
+   function SPINENDPAGE_valid
+      // CBB 07/2000 Removed < -1 check due to value 
+      // being constrained
+      if (this.value == 0)
+         this.value = -1
+      endif
+   return true
+
+   function form_onDesignOpen(bFromPalette)
+      // Set the version number ...
+      form.text := "Report Previewer - ver. "+PROGRAMVERSION
+      // resize the reporViewer object ...
+      form.form_onSize( null, form.width, form.height )
+   return
+
+   function form_onSize(nSizeType, nWidth, nHeight)
+      /* 
+         New Code by Gary White, posted on the 
+         Borland VdBASE newsgroups, 4/22/1998.
+         This code handles resizing if the form
+         gets maximized, and a touch of protection
+         to deal with the form getting too small
+         for scaling ...
+      */
+
+      // suggestion by Chris Thompson, due to
+      // a problem encountered if the form is
+      // sized too small.
+      if nHeight <= 2.59
+         form.height := 2.27
+         form.width = 84.14
+         nWidth = form.width
+         nHeight = form.height
+      endif
+
+      // deal with width
+      if nWidth > .15
+         form.viewer.width   := nWidth - 0.14
+      endif
+
+      // deal with height
+      if nHeight > 2.4
+         form.viewer.height  := nHeight - 2.4 // leave a touch of room
+                                              // between bottom of viewer
+                                              // and button container
+      endif
+
+   function OpenThis // the form
+      private cRepName
+
+      // make sure that the report file is open:
+      if empty( this.viewer.fileName )
+         msgbox( 'I need a report name!', "Preview.wfm::Can't do it!", 16 )
+      else
+         cRepName = this.viewer.fileName
+      endif
+      // vers. 2.14 change:
+      set procedure to &cRepName. additive persistent
+
+      // set values based on those that might be set in the report
+      form.container1.collateCheckBox.value := true
+      form.CONTAINER1.spinStartPage.value := form.viewer.ref.StartPage
+      form.CONTAINER1.spinEndPage.value   := form.viewer.ref.endPage
+      form.CONTAINER1.spinCopies.value    := form.viewer.ref.printer.copies
+      // Set the version number ...
+      form.text := "Report Previewer - ver. "+PROGRAMVERSION
+      // modify the form's text if the report has a title ...
+      if not empty( form.viewer.ref.title )
+         form.text += "    ["+ form.viewer.ref.title + "]"
+      endif
+
+      // suggestion by Lee Camp:
+      form.form_onSize( null, form.width, form.height )
+
+      // check bModal:
+      if not form.inDesign
+         if type( "form.bModal" ) == "U"
+            form.bModal = false
+         endif
+         if form.bModal
+            form.mdi := false // can't be true if modal
+            super::readModal()
+         else
+            super::open()
+         endif
+      endif
+
+   function PUSHHTML_onClick
+      local cOutFile
+      private cRepName
+
+      // Get Filename to save as HTML
+      cOutFile=putfile("Save as","FileName.html","*.html",true)
+
+      if isblank(cOutFile) // check if not empty 
+         msgbox( 'I need a file name!', "Preview.wfm::Can't export to HTML!", 16 )
+         return
+      endif
+
+      cRepName = this.parent.parent.viewer.ref.className
+
+      rRep = new &cRepName.()
+      rRep.output := 4 // HTML File
+      rRep.outputFileName := cOutFile
+      rRep.render()
+   return
+endclass
+/*
+   --------------------------------------------------------------------
+   End of Program: PREVIEW.WFM
+   --------------------------------------------------------------------
+*/

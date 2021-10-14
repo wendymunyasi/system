@@ -96,7 +96,7 @@ CLASS TypeS(FormObj,Name) OF MENUBAR(FormObj,Name)
 
          DEFINE MENU ERRORTypeSREPORT OF THIS.REPORT;
              PROPERTY;
-               OnClick {;create session ;set lock off ;report form Fgtyp},;
+               OnClick {;create session ;set lock off ;do Fgtyp.rep},;
                Text "&List Item Types.",;
                ENABLED .t.,;
                Shortcut "Ctrl-L"

@@ -1,0 +1,757 @@
+////////////////////////////////////////////////////////////////////////////////
+// Output Filename: C:\KENSERVICE\IDSSYS\FREDTCRN_FCV.WFM                     //
+// Created By:      dBASE Form Converter Wizard                               //
+// Created On:      Wednesday October 13, 2021 At 12:15:38                    //
+// Object Count:    25                                                        //
+////////////////////////////////////////////////////////////////////////////////
+*******************************************************************************
+*  PROGRAM:      Fredtcrn.wfm
+*
+*  WRITTEN BY:   W Nyongesa
+*
+*  DATE:         05/2000
+*
+*  UPDATED:     02/2014
+*
+*  REVISION:     $Revision:   1.0
+*
+*  VERSION:      Visual dBASE
+*
+*  DESCRIPTION:  This program maintains the StockMaster master file
+*
+*  PARAMETERS:   None
+*
+*  CALLS:        FRSTAT.mnu         (Menu file)
+*                KBUTTONS.CC          (Custom Controls file)
+*                FRIGHTER.qbe         (View of tables)
+*
+*  USAGE:        DO FRSTAT.wfm
+*
+*******************************************************************************
+#include <messdlg.h>
+shell(.F.)
+create session
+set talk off
+_app.FrameWin.Visible = .F.
+_app.FrameWin.Text = "Fredtcrn"
+*set DBTYPE to PARADOX
+set century on
+SET DATE TO BRITISH
+set ldCheck off && To avoid language driver conflicts
+#define Maxcoy 999
+** END HEADER -- do not remove this line*
+* Generated on 24/01/2018
+*
+parameter bUser,bLevel,bModal
+local f
+f = new FRSTATFORM()
+if (bModal)
+   f.mdi = .F. && ensure not MDI
+   f.ReadModal()
+else
+   f.Open()
+endif
+CLASS FRSTATFORM OF FORM
+   Set Procedure To BUTTONS.CC additive
+   this.Metric = 6  // Pixels
+   this.Top = 0
+   this.ColorNormal = "n+"
+   this.Left = 20
+   this.OnClose = CLASS::ONCLOSE
+   this.Text = "UnMark Paid Valid Invoices/Debits - View Mode"
+   this.WindowState = 2
+   this.MDI = .F.
+   this.EscExit = .F.
+   this.Moveable = .F.
+   this.Maximize = .F.
+   this.Minimize = .F.
+   this.View = "Fredtcrn.qbe"
+   this.MenuFile = "Fredtcrn.MNU"
+   this.Height = 303
+   this.MousePointer = 1
+   this.Width = 458
+
+   DEFINE RECTANGLE CENRECT OF THIS;
+       PROPERTY;
+         Top 1,;
+         ColorNormal "r/btnface",;
+         FontSize 12,;
+         Text "Customer Account Information",;
+         Height 67,;
+         Width 720,;
+       FontName "MS Sans Serif",;
+       FontBold .T.
+
+   DEFINE ENTRYFIELD SSOURCE OF THIS;
+       PROPERTY;
+         Top 21,;
+         ColorNormal "W+/0x808040",;
+         Left 12,;
+         FontSize 10,;
+         Enabled .F.,;
+         DataLink "FRIGTMES->SOURCE",;
+         ColorHighLight "B+/W*",;
+         Height 21,;
+         Width 12,;
+       FontName "MS Sans Serif",;
+       FontBold .T.
+
+   DEFINE ENTRYFIELD CTYP OF THIS;
+       PROPERTY;
+         Top 21,;
+         ColorNormal "W+/0x808040",;
+         Left 24,;
+         FontSize 10,;
+         Enabled .F.,;
+         DataLink "FRIGTMES->ftyp",;
+         ColorHighLight "B+/W*",;
+         Height 21,;
+         Width 12,;
+       FontName "MS Sans Serif",;
+       FontBold .T.
+
+   DEFINE ENTRYFIELD SPMOD OF THIS;
+       PROPERTY;
+         Top 21,;
+         ColorNormal "W+/0x808040",;
+         Left 36,;
+         FontSize 10,;
+         Enabled .F.,;
+         DataLink "FRIGTMES->PMOD",;
+         ColorHighLight "B+/W*",;
+         Height 21,;
+         Width 12,;
+       FontName "MS Sans Serif",;
+       FontBold .T.
+
+   DEFINE ENTRYFIELD CUSTNO OF THIS;
+       PROPERTY;
+         Top 21,;
+         ColorNormal "W+/0x808040",;
+         Left 48,;
+         FontSize 10,;
+         Enabled .F.,;
+         DataLink "FRIGTMES->FRIGHTER_N",;
+         ColorHighLight "B+/W*",;
+         Height 21,;
+         Width 36,;
+       FontName "MS Sans Serif",;
+       FontBold .T.
+
+   DEFINE ENTRYFIELD CUSTNAME OF THIS;
+       PROPERTY;
+         Top 21,;
+         ColorNormal "W+/0x808040",;
+         Left 84,;
+         FontSize 10,;
+         Enabled .F.,;
+         DataLink "FRIGTMES->NAME",;
+         ColorHighLight "B+/W*",;
+         Function "!",;
+         Height 21,;
+         Width 444,;
+       FontName "MS Sans Serif",;
+       FontBold .T.
+
+
+
+   DEFINE RECTANGLE SRECREP OF THIS;
+       PROPERTY;
+         Top 64,;
+         ColorNormal "0x80ffff/N+",;
+         Left 12,;
+         FontSize 10,;
+         Text "Edit SYS Inv/LPG CS No. and S/Date Captured to Reprint",;
+         Height 47,;
+         Width 432,;
+       FontName "MS Sans Serif",;
+       FontBold .T.
+
+   DEFINE TEXTLABEL SRTXT1 OF THIS;
+       PROPERTY;
+         Top 85,;
+         ColorNormal "W+/N+",;
+         Left 18,;
+         FontSize 10,;
+         Text "Inv/CS No.:",;
+         Height 21,;
+         Width 90,;
+       FontName "MS Sans Serif",;
+       FontBold .T.,;
+       AlignHorizontal 2,;
+       AlignVertical 1
+
+   DEFINE ENTRYFIELD SCOMPNO OF THIS;
+       PROPERTY;
+         ValidErrorMsg "Code Does Not Exist",;
+         Top 85,;
+         ColorNormal "W+/N+",;
+         Left 108,;
+         FontSize 10,;
+         Enabled .F.,;
+         DataLink "FRCUSTAT->ORDER_NO",;
+         ColorHighLight "B+/W*",;
+         OnChange CLASS::SCOMPNO_ONCHANGE,;
+         Height 21,;
+         Width 84,;
+       FontName "MS Sans Serif",;
+       FontBold .T.
+
+   DEFINE TEXTLABEL SRTXT2 OF THIS;
+       PROPERTY;
+         Top 85,;
+         ColorNormal "W+/N+",;
+         Left 198,;
+         FontSize 10,;
+         Text "Shift Date Captured:",;
+         Height 21,;
+         Width 108,;
+       FontName "MS Sans Serif",;
+       FontBold .T.,;
+       AlignHorizontal 2,;
+       AlignVertical 1
+
+   DEFINE SPINBOX SRDATE OF THIS;
+       PROPERTY;
+         Top 85,;
+         ColorNormal "W+/N+",;
+         Left 312,;
+         FontSize 10,;
+         Enabled .F.,;
+         DataLink "FRCUSTAT->ORDER_DATE",;
+         Rangemax {04/05/2018},;
+         Rangemin {21/05/2011},;
+         OnChange CLASS::SRDATE_ONCHANGE,;
+         Height 21,;
+         Width 126,;
+       FontName "MS Sans Serif",;
+       FontBold .T.
+
+   DEFINE RECTANGLE RECTANGLE2 OF THIS;
+       PROPERTY;
+         Top 111,;
+         ColorNormal "r/btnface",;
+         FontSize 10,;
+         Text "Filter Reports by CUSTOMER and Transaction Date Range",;
+         Height 73,;
+         Width 720,;
+       FontName "MS Sans Serif",;
+       FontBold .T.
+
+   DEFINE TEXTLABEL TEXT15 OF THIS;
+       PROPERTY;
+         Top 129,;
+         ColorNormal "W+/N+",;
+         FontSize 10,;
+         Text "Start Customer:",;
+         Height 21,;
+         Width 132,;
+       FontName "MS Sans Serif",;
+       FontBold .T.,;
+       AlignHorizontal 2,;
+       AlignVertical 1
+
+   DEFINE ENTRYFIELD SNO OF THIS;
+       PROPERTY;
+         ValidErrorMsg "Code Does Not Exist",;
+         Top 129,;
+         ColorNormal "W+/N+",;
+         Left 144,;
+         FontSize 10,;
+         Enabled .F.,;
+         DataLink "FRCUSTAT->Start_cust",;
+         ColorHighLight "B+/W*",;
+         OnChange CLASS::SNO_ONCHANGE,;
+         Height 21,;
+         Width 120,;
+       FontName "MS Sans Serif",;
+       FontBold .T.
+
+   DEFINE TEXTLABEL TEXT16 OF THIS;
+       PROPERTY;
+         Top 129,;
+         ColorNormal "W+/N+",;
+         Left 276,;
+         FontSize 10,;
+         Text "End Customer:",;
+         Height 21,;
+         Width 120,;
+       FontName "MS Sans Serif",;
+       FontBold .T.,;
+       AlignHorizontal 2,;
+       AlignVertical 1
+
+   DEFINE ENTRYFIELD ENTRYFIELD2 OF THIS;
+       PROPERTY;
+         ValidErrorMsg "Code Does Not Exist",;
+         Top 129,;
+         ColorNormal "W+/N+",;
+         Left 408,;
+         FontSize 10,;
+         Enabled .F.,;
+         DataLink "FRCUSTAT->End_cust",;
+         ColorHighLight "B+/W*",;
+         OnChange CLASS::ENTRYFIELD2_ONCHANGE,;
+         Height 21,;
+         Width 84,;
+       FontName "MS Sans Serif",;
+       FontBold .T.
+
+   DEFINE TEXTLABEL TEXT8 OF THIS;
+       PROPERTY;
+         Top 153,;
+         ColorNormal "W+/N+",;
+         FontSize 10,;
+         Text "Start Date:",;
+         Height 21,;
+         Width 108,;
+       FontName "MS Sans Serif",;
+       FontBold .T.,;
+       AlignHorizontal 2,;
+       AlignVertical 1
+
+   DEFINE SPINBOX STARTDATE OF THIS;
+       PROPERTY;
+         Top 153,;
+         ColorNormal "W+/N+",;
+         Left 132,;
+         FontSize 10,;
+         Enabled .F.,;
+         DataLink "FRCUSTAT->START_DATE",;
+         Rangemax {09/09/2017},;
+         Rangemin {21/05/2011},;
+         OnChange CLASS::STARTDATE_ONCHANGE,;
+         Height 21,;
+         Width 132,;
+       FontName "MS Sans Serif",;
+       FontBold .T.
+
+   DEFINE TEXTLABEL TEXT17 OF THIS;
+       PROPERTY;
+         Top 153,;
+         ColorNormal "W+/N+",;
+         Left 276,;
+         FontSize 10,;
+         Text "End Date:",;
+         Height 21,;
+         Width 72,;
+       FontName "MS Sans Serif",;
+       FontBold .T.,;
+       AlignHorizontal 2,;
+       AlignVertical 1
+
+   DEFINE SPINBOX ENDDATE OF THIS;
+       PROPERTY;
+         Top 153,;
+         ColorNormal "W+/N+",;
+         Left 360,;
+         FontSize 10,;
+         Enabled .F.,;
+         DataLink "FRCUSTAT->END_DATE",;
+         Rangemax {06/10/2017},;
+         Rangemin {21/05/2011},;
+         OnChange CLASS::ENDDATE_ONCHANGE,;
+         Height 21,;
+         Width 132,;
+       FontName "MS Sans Serif",;
+       FontBold .T.
+
+   DEFINE BROWSE CHILDBROWSE OF THIS;
+       PROPERTY;
+         Alias "FRSTAT",;
+         Top 200,;
+         Delete .F.,;
+         Append .F.,;
+         Left 23,;
+         Fields 'FRSTAT->Sdate\H="Date"\12\R,DOCTYP->Name\H="Trcd"\10\R,FRSTAT->Docref\H="Ref"\8\R,FRSTAT->LPO\H="Order"\10\R,FRSTAT->Serialno\H="R/No."\10\R,FRSTAT->Amt_dr\H="Debit"\12\P="999,999,999.99"\R,FRSTAT->CUST\H="Paid"\5\C="W+/B+",FRSTAT->Amt_cr\H="Credit"\11\P="999,999,999.99"\R,FRSTAT->Bal_due_dr\H="Bal. Due/Dr"\12\P="999,999,999.99"\R\C="R+/W+",FRSTAT->Bal_due_cr\H="Bal. Due/Cr"\12\P="999,999,999.99"\R\C="R+/W",PAYM = FRSTAT->PAY_METHOD\H="PAY MODE"\13',;
+         Modify .F.,;
+         Text "DETAILED  TRANSACTIONS",;
+         OnChange CLASS::CHANGESMADE,;
+         CUATab .T.,;
+         Height 336,;
+         ShowRecNo .F.,;
+         Width 829,;
+       FontName "MS Sans Serif",;
+       FontSize 8
+
+   DEFINE PREVBUTTON PREVCOYBUTTON OF THIS;
+       PROPERTY;
+         Top 544,;
+         Left 9,;
+         Default .T.,;
+         Group .T.,;
+         OnClick CLASS::PREVIOUS,;
+         Height 26,;
+         Width 85,;
+       FontName "MS Sans Serif",;
+       FontSize 8,;
+       FontBold .T.
+
+   DEFINE NEXTBUTTON NEXTCOYBUTTON OF THIS;
+       PROPERTY;
+         Top 544,;
+         Left 98,;
+         Group .F.,;
+         OnClick CLASS::NEXT,;
+         Height 26,;
+         Width 85,;
+       FontName "MS Sans Serif",;
+       FontSize 8,;
+       FontBold .T.
+
+   DEFINE PUSHBUTTON FIRFRSTATBUTTON OF THIS;
+       PROPERTY;
+         Top 544,;
+         StatusMessage "Go to the first record.",;
+         Left 186,;
+         Text "F&irst",;
+         Group .F.,;
+         OnClick {;form.CheckCommit(form.inEditMode);go top; form.BrowseOnNavigate()},;
+         Height 26,;
+         Width 85,;
+       FontName "MS Sans Serif",;
+       FontSize 8,;
+       FontBold .T.
+
+   DEFINE PUSHBUTTON LAFRSTATBUTTON OF THIS;
+       PROPERTY;
+         Top 544,;
+         StatusMessage "Go to the last campany.",;
+         Left 276,;
+         Text "&Last",;
+         Group .F.,;
+         OnClick {;form.CheckCommit(form.inEditMode);go bottom; form.BrowseOnNavigate()},;
+         Height 26,;
+         Width 85,;
+       FontName "MS Sans Serif",;
+       FontSize 8,;
+       FontBold .T.
+
+   procedure Open
+   ****************************************************************************
+   private CodeField
+      FORM.BLUSER=BUSER
+   FORM.BLEVEL=BLEVEL
+    if form.blevel > 4
+        form.srtxt1.visible = .f.
+        form.scompno.visible = .f.
+        form.srtxt2.visible = .f.
+        form.srdate.visible =.f.
+         form.SRECREP.visible =.f.
+        endif
+   IF EMPTY(FORM.BLUSER) .OR. EMPTY(FORM.BLEVEL)
+      QUIT
+   ENDIF
+    if type("form.init") = "U"
+      form.init = .T.
+
+      set skip to                     && FRSTAT.qbe contains set skip to gldtl
+      set exact OFF                && the .qbe file contains SET EXACT ON
+
+      set procedure to sampProc.prg additive
+    Form.duplicate = .F.
+      form.inEditMode = .F.           && indicator of view/edit state
+      form.changesMade = .F.          && indicator of changes made to field values
+      form.previousRecord = .F.       && Save record number when appending
+        *** do calculations in another area so form doesn't get updated
+
+      select FRCUSTAT
+      go top
+      if eof()
+      append blank
+      endif
+      replace category with ''
+      replace name with ''
+         select DASUM
+      go top
+      if eof()
+      append blank
+      endif
+       select FRIGTMES
+       set order to NAME
+
+      *** Open table for calculating totals and balance due in another work area
+      *** so that datalinks are not affected by record movements
+
+
+      ***
+    *  if type("form.parentpayeeForm") <> "U" && Esc ok if have parent
+    *     form.escExit = .T.
+   *   endif
+
+   endif
+   * form.CoyInfoButton.KenpName = "FRSTAT.WFM"
+
+   form::Open() && Now the form actually opens
+   select FRIGTMES
+   GO TOP
+   * form.changesmade = .t.
+       form.BrowseOnNavigate()
+
+      * replace FRCUSTAT->message with ""
+       && calculate totals
+   *       form.codingerrors()                        && check coding errors
+
+   *      form.next.setfocus()
+   ****************************************************************************
+
+   procedure OnClose
+
+   * Clean up.
+   ****************************************************************************
+
+   if this.inEditMode
+      form.ViewEdit()                      && Finish transaction
+   endif
+   close procedure  sampproc.prg
+  close databases
+
+   clear program
+
+   ****************************************************************************
+
+   procedure BrowseOnNavigate
+   ****************************************************************************
+   local lx,ly,ld
+   select FRCUSTAT
+   replace FRIGHTER_n with FRIGTMES->FRIGHTER_n
+   replace ftyp with FRIGTMES->ftyp
+   replace pmod with FRIGTMES->pmod
+   replace source with FRIGTMES->source
+    replace start_cust with source+ftyp+pmod+FRIGHTER_n
+   replace end_cust with start_cust
+   lx = mm
+   ly = yy
+   ld = DD+"/"+lx+"/"+ly
+   replace stat_date with ctod(ld)
+     select FRIGTMES
+   form.changesmade = .t.
+      form.CheckCommit(form.inEditMode)
+   ****************************************************************************
+
+   procedure ChangesMade
+
+   * Indicate that changes have been made to the current record
+   ****************************************************************************
+   Form.ChangesMade = .T.
+   ****************************************************************************
+
+   procedure Next
+
+   * Go to next record.
+   ****************************************************************************
+
+    if .not. eof()
+      NEXTBUTTON::OnClick()
+    endif
+    form.BrowseOnNavigate()
+   ****************************************************************************
+
+   procedure Previous
+
+   * Go to previous record.
+   ****************************************************************************
+
+
+     PREVBUTTON::OnClick()
+    form.BrowseOnNavigate()
+
+   ****************************************************************************
+
+
+   procedure CheckCommit (newInEditMode)
+
+        * Finish transaction, if it has been started.
+   ****************************************************************************
+   private CodeField, changesMade
+   changesMade = form.changesMade
+   if form.changesMade
+      CodeField = field(3)  && Field Center
+   *    if     ConfirmationMessage("Commit changes?",;
+                FormatStr("FRIGHTER %1",&CodeField)) = YES
+         commit()
+
+   *   else
+   *      *rollback()
+    *     if .not. bof()
+       *  if .not. empty(form.previousRecord)
+   *            go bookmark()
+           * form.previousRecord
+     *       form.previousRecord = .F.
+     *    endif
+    *  endif
+
+
+    if form.inEditMode .and. newInEditMode
+         *begintrans()
+      endif
+      form.changesMade = .F.
+   endif
+   if form.inEditMode <> newInEditMode
+      if newInEditMode                       && Going to Edit mode
+         *begintrans()
+      else
+         if .not. empty(dbf())
+            *rollback()
+            endif
+         endif
+     * endif
+      form.inEditMode = newInEditMode
+   endif
+
+   * form.root.Receipt.add.enabled = .T.
+   *form.codingerrors()
+   ****************************************************************************
+
+   procedure ViewEdit
+
+   * Toggle between View and Edit modes.
+   ****************************************************************************
+   local inEditMode, editMenu, control
+
+   editMenu = form.root.FRSTAT.VIEWEdit
+
+   *** If ending edit mode then close transaction, otherwise open it.
+   if form.inEditMode
+      form.checkChanged(.F.)
+      editMenu.text = "&Edit"
+      editMenu.shortcut = "Ctrl-E"
+      editMenu.statusMessage = "Edit data."
+      *form.root.FRSTAT.delete.enabled = .F.      && disabled in view mode
+      form.CheckCommit(.F.)                        && Check transaction and
+      form.text = "UnMark Paid Valid Invoices/Debits -- View Mode"          && change mode to View
+   *        *form.notesEditor.colorNormal = "N/W"
+         form.childBrowse.modify = .F.
+     *form.notesEditor.modify = .F.
+      *form.notesEditor2.modify = .F.
+      form.statusmessage = "In View Mode. " + ;
+                           "select FRIGTMES - Edit menu to " + ;
+                           "edit/delete data."
+      form.nextCOYBUTTON.SetFocus()
+   else                                            && Switch to edit mode
+      editMenu.text = "Vi&ew"
+      editMenu.shortcut = "Ctrl-E"
+      editMenu.statusMessage = "View data."
+      *form.root.FRSTAT.delete.enabled = .f.      && enabled in edit mode
+      form.CheckCommit(.T.)                        && Check transaction and
+      form.text = "UnMark Paid Valid Invoices/Debits -- Edit Mode"
+      && change mode to Edit
+       IF FORM.BLEVEL < 5
+          form.childBrowse.modify = .T.
+   *form.notesEditor.modify = .T.
+   *form.notesEditor2.modify = .T.
+   ENDIF
+      form.statusmessage = "In Edit Mode.  " + ;
+                           "Select menu Customer - View to switch " + ;
+                           "to View mode."
+
+
+
+   endif
+
+   inEditMode = form.inEditMode     && Faster if we don't reference a form
+   control = form.first             &&    variable each time through the loop
+   do
+      if .not. control.className $ "BROWSE,EDITOR,NEXTBUTTON,PREVBUTTON,PUSHBUTTON,IMAGE,TEXT"
+         control.enabled = inEditMode
+      endif
+      control = control.before
+   until control.name = form.first.name
+   *    form.COYentry.Enabled = .F.
+      *  form.bal_due.Enabled = .f.
+      *  form.bal_this.Enabled = .f.
+      *  form.bal_15.Enabled = .f.
+      *  form.bal_30.Enabled = .f.
+      *  form.bal_60.Enabled = .f.
+      *  form.bal_90.Enabled = .f.
+      *  form.bal_120.Enabled = .f.
+      *  form.bal_due.Enabled = .f.
+      *  FORM.YEAR.ENABLED = .F.
+      * FORM.MONTH.ENABLED = .F.
+*        FORM.BBF.ENABLED = .F.
+        form.custno.Enabled = .f.
+        form.custname.enabled = .f.
+        form.ssource.enabled = .f.
+        form.spmod.enabled = .f.
+      *  form.sbaldue.enabled = .f.
+        *form.sok.enabled = .f.
+        if form.blevel > 4
+        form.srtxt1.visible = .f.
+        form.scompno.visible = .f.
+        form.srtxt2.visible = .f.
+        form.srdate.visible =.f.
+        form.SRECREP.visible =.f.
+        endif
+   *        form.scat.enabled = .f.
+   *     form.scatname.enabled = .f.
+   *form.notesEditor.setfocus()
+   ****************************************************************************
+
+   procedure CheckChanged(callCommit)
+
+   * Check if changes have been made to the current entryfield.  This procedure
+   * is called from menu routines to make sure the form.changesMade gets
+   * updated when a menu is selected while the changed control has focus.
+   ****************************************************************************
+   private control, fieldValue, controlValue, typeText, typeValue
+
+   if form.inEditMode
+      control = form.activeControl
+      if type("control.datalink") <> "U"
+         fieldValue = control.datalink          && name of table field
+
+         typeText = type("control.text")
+         typeValue = type("control.value")
+         do case
+            case typeValue = "C"
+               controlValue = control.value
+            case typeValue $ "LU" .and. typeText = "C"
+               controlValue = control.text
+            otherwise
+               controlValue = Null
+         endcase
+         if controlValue <> &fieldValue
+            form.changesMade = .T.
+         endif
+      endif
+   endif
+   if form.changesMade .and. callCommit
+      CLASS::CheckCommit(form.inEditMode)     && Check transactions
+   endif
+
+
+
+   ****************************************************************************
+
+
+
+   Procedure ENTRYFIELD2_OnChange
+      form.changesmade = .t.
+       form.CheckCommit(form.inEditMode)
+
+   Procedure SNO_OnChange
+   form.changesmade = .t.
+    form.CheckCommit(form.inEditMode)
+
+   Procedure STARTDATE_OnChange
+      form.changesmade = .t.
+       form.CheckCommit(form.inEditMode)
+
+   Procedure ENDDATE_OnChange
+      form.changesmade = .t.
+       form.CheckCommit(form.inEditMode)
+
+
+     Procedure SCOMPNO_OnChange
+      FORM.CHANGESMADE = .T.
+       form.CheckCommit(form.inEditMode)
+
+   Procedure SRDATE_OnChange
+         FORM.CHANGESMADE = .T.
+          form.CheckCommit(form.inEditMode)
+
+
+
+ENDCLASS
+
+

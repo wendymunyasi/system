@@ -1,0 +1,235 @@
+//////////////////////////////////////////////////////////////////////////////
+// Filename:     FGTAXTYP.REP                                               //
+// Created By:   Report Conversion Wizard                                   //
+// Created From: \kenservice\data\FGTAXTYP.RPT                          //
+// Data File:    \kenservice\data\fgtaxp                                //
+// Created On:   14/10/2021 At 10:06:49                                     //
+//////////////////////////////////////////////////////////////////////////////
+//
+** END HEADER -- do not remove this line
+//
+// Converted on 14/10/2021
+//
+LOCAL r
+r = new FGTAXTYPREPORT()
+r.render()
+CLASS FGTAXTYPREPORT OF REPORT
+
+   this.FGTAXTYP1 = new QUERY()
+   this.FGTAXTYP1.Parent = this
+   With (this.FGTAXTYP1)
+      Top = 50
+      Left = 50
+      SQL = 'SELECT * FROM "\kenservice\data\FGTAXTYP"'
+      RequestLive = false
+      Active = true
+   EndWith
+
+   this.FGCOY1 = new QUERY()
+   this.FGCOY1.Parent = this
+   With (this.FGCOY1)
+      Top = 50
+      Left = 550
+      SQL = 'SELECT * FROM "\kenservice\data\FGCOY"'
+      RequestLive = false
+      Active = true
+   EndWith
+
+   With (this.PRINTER)
+      Copies = 1
+      Resolution = 4
+      PaperSource = 265
+      Orientation = 1
+*      PrinterName = "HP LaserJet 4"
+      Duplex = 0
+      TrueTypeFonts = 4
+      PaperSize = 1
+      PrinterSource = 2
+      Color = 0
+   EndWith
+
+   this.PAGETEMPLATE1 = new PAGETEMPLATE(this)
+   With (this.PAGETEMPLATE1)
+      GridLineWidth = 0
+      Width = 12240
+      MarginRight = 720
+      Height = 15840
+      MarginBottom = 720
+      MarginTop = 720
+      MarginLeft = 720
+   EndWith
+
+   this.PAGETEMPLATE1.STREAMFRAME1 = new STREAMFRAME(this.PAGETEMPLATE1)
+   With (this.PAGETEMPLATE1.STREAMFRAME1)
+      Top = 1320
+      Width = 10800
+      Height = 12360
+      Metric = 1
+   EndWith
+
+   this.PAGETEMPLATE1.TEXTSTREET1 = new TEXT(this.PAGETEMPLATE1)
+   With (this.PAGETEMPLATE1.TEXTSTREET1)
+      FontBold = true
+      Width = 10260
+      Height = 280
+      Left = 360
+      AlignHorizontal = 1
+      Wrap = false
+      ColorNormal = "BtnText"
+      FontName = "Verdana"
+      Text = {|| this.Form.FGCOY1.RowSet.Fields["STREET"].Value }
+      FontSize = 12
+      Metric = 1
+   EndWith
+
+   this.PAGETEMPLATE1.TEXTDATE1 = new TEXT(this.PAGETEMPLATE1)
+   With (this.PAGETEMPLATE1.TEXTDATE1)
+      Top = 560
+      Width = 720
+      Height = 240
+      ColorNormal = "BtnText"
+      FontName = "Times New Roman"
+      Text = {|| DToC(Date())}
+      Metric = 1
+   EndWith
+
+   this.PAGETEMPLATE1.TEXTPAGE1 = new TEXT(this.PAGETEMPLATE1)
+   With (this.PAGETEMPLATE1.TEXTPAGE1)
+      Top = 520
+      Width = 780
+      Height = 280
+      Left = 9420
+      ColorNormal = "BtnText"
+      FontName = "Times New Roman"
+      Text = {|| Str(form.reportPage, 5)}
+      FontSize = 12
+      Metric = 1
+   EndWith
+
+   this.PAGETEMPLATE1.TEXT1 = new TEXT(this.PAGETEMPLATE1)
+   With (this.PAGETEMPLATE1.TEXT1)
+      Top = 520
+      FontBold = true
+      Width = 8220
+      Height = 280
+      FontUnderline = true
+      Left = 1020
+      AlignHorizontal = 1
+      Wrap = false
+      ColorNormal = "BtnText"
+      FontName = "Arial"
+      Text = "LISTING OF TAX TYPES"
+      FontSize = 12
+      Metric = 1
+   EndWith
+
+   this.PAGETEMPLATE1.TEXT2 = new TEXT(this.PAGETEMPLATE1)
+   With (this.PAGETEMPLATE1.TEXT2)
+      Top = 1040
+      FontBold = true
+      Width = 2040
+      Height = 280
+      Left = 6300
+      AlignHorizontal = 1
+      Wrap = false
+      ColorNormal = "BtnText"
+      FontName = "Times New Roman"
+      Text = "Rate"
+      FontSize = 12
+      Metric = 1
+   EndWith
+
+   this.PAGETEMPLATE1.TEXT3 = new TEXT(this.PAGETEMPLATE1)
+   With (this.PAGETEMPLATE1.TEXT3)
+      Top = 1040
+      FontBold = true
+      Width = 720
+      Height = 280
+      Left = 300
+      Wrap = false
+      ColorNormal = "BtnText"
+      FontName = "Times New Roman"
+      Text = "Code"
+      FontSize = 12
+      Metric = 1
+   EndWith
+
+   this.PAGETEMPLATE1.TEXT4 = new TEXT(this.PAGETEMPLATE1)
+   With (this.PAGETEMPLATE1.TEXT4)
+      Top = 1040
+      FontBold = true
+      Width = 3780
+      Height = 280
+      Left = 1320
+      AlignHorizontal = 1
+      Wrap = false
+      ColorNormal = "BtnText"
+      FontName = "Times New Roman"
+      Text = "Name"
+      FontSize = 12
+      Metric = 1
+   EndWith
+
+   this.PAGETEMPLATE1.LINE1 = new LINE(this.PAGETEMPLATE1)
+   With (this.PAGETEMPLATE1.LINE1)
+      Top = 1280
+      Width = 0
+      Pen = 0
+      Left = 60
+      Right = 10799
+      ColorNormal = "black"
+      Bottom = 1280
+      Metric = 1
+   EndWith
+
+   this.STREAMSOURCE1 = new STREAMSOURCE(this)
+
+   this.STREAMSOURCE1.DETAILBAND.TEXTRATE1 = new TEXT(this.STREAMSOURCE1.DETAILBAND)
+   With (this.STREAMSOURCE1.DETAILBAND.TEXTRATE1)
+      Width = 1380
+      Height = 280
+      Left = 6960
+      AlignHorizontal = 2
+      Wrap = false
+      ColorNormal = "BtnText"
+      FontName = "Times New Roman"
+      SuppressIfBlank = true
+      Text = {|| this.Form.FGTAXTYP1.RowSet.Fields["RATE"].Value }
+      FontSize = 12
+      Metric = 1
+   EndWith
+
+   this.STREAMSOURCE1.DETAILBAND.TEXTTAX_TYPE1 = new TEXT(this.STREAMSOURCE1.DETAILBAND)
+   With (this.STREAMSOURCE1.DETAILBAND.TEXTTAX_TYPE1)
+      Width = 300
+      Height = 280
+      Left = 360
+      Wrap = false
+      ColorNormal = "BtnText"
+      FontName = "Times New Roman"
+      SuppressIfBlank = true
+      Text = {|| this.Form.FGTAXTYP1.RowSet.Fields["TAX_TYPE"].Value }
+      FontSize = 12
+      Metric = 1
+   EndWith
+
+   this.STREAMSOURCE1.DETAILBAND.TEXTNAME1 = new TEXT(this.STREAMSOURCE1.DETAILBAND)
+   With (this.STREAMSOURCE1.DETAILBAND.TEXTNAME1)
+      Width = 4020
+      Height = 280
+      Left = 1380
+      Wrap = false
+      ColorNormal = "BtnText"
+      FontName = "Times New Roman"
+      SuppressIfBlank = true
+      Text = {|| this.Form.FGTAXTYP1.RowSet.Fields["NAME"].Value }
+      FontSize = 12
+      Metric = 1
+   EndWith
+
+   this.FirstPageTemplate = this.form.PAGETEMPLATE1
+   this.form.PAGETEMPLATE1.NextPageTemplate = this.form.PAGETEMPLATE1
+   this.form.PAGETEMPLATE1.STREAMFRAME1.StreamSource = this.form.STREAMSOURCE1
+   this.form.STREAMSOURCE1.RowSet = this.form.FGTAXTYP1.RowSet
+ENDCLASS
+

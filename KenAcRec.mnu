@@ -88,7 +88,7 @@ CLASS KenAcRecMENU(FormObj,Name) OF MENUBAR(FormObj,Name)
                Text ""
             
                
-          DEFINE MENU bfstat1 OF THIS.ARSYS3;
+       *   DEFINE MENU bfstat1 OF THIS.ARSYS3;
              PROPERTY; 
                Text "0&3. B/Forward Modified for Matching. ",;
                ENABLED .F.,;
@@ -155,31 +155,31 @@ CLASS KenAcRecMENU(FormObj,Name) OF MENUBAR(FormObj,Name)
                
                   endif
                     
-            DEFINE MENU bfstatA9a1201 OF THIS.ARSYS3M;
+        *    DEFINE MENU bfstatA9a1201 OF THIS.ARSYS3M;
              PROPERTY; 
                Text "&4. View Customer Unmatched Debits.",;
                enabled .F.,;
                OnClick {;do FRDRUMTC.WFM WITH FORM.BLUSER,FORM.BLEVEL}
          
-           DEFINE MENU SEPARA1203 OF THIS.ARSYS3M;
+         *  DEFINE MENU SEPARA1203 OF THIS.ARSYS3M;
              PROPERTY;
                Separator .T.,;
                Text ""
                
                        
-            DEFINE MENU bf1203 OF THIS.ARSYS3M;
+          *  DEFINE MENU bf1203 OF THIS.ARSYS3M;
              PROPERTY; 
                Text "&5. View Customer Matched Credits.",;
                enabled .F.,;
                OnClick {;do FRCRUMT.WFM WITH FORM.BLUSER,FORM.BLEVEL}
          
-                DEFINE MENU SEPAR1203 OF THIS.ARSYS3M;
+           *     DEFINE MENU SEPAR1203 OF THIS.ARSYS3M;
              PROPERTY;
                Separator .T.,;
                Text ""
                
                        
-            DEFINE MENU bfstatA9a1203 OF THIS.ARSYS3M;
+           * DEFINE MENU bfstatA9a1203 OF THIS.ARSYS3M;
              PROPERTY; 
                Text "&6. View Customer Matched Debits.",;
                enabled .F.,;

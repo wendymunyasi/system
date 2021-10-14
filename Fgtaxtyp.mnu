@@ -104,7 +104,7 @@ CLASS FgTaxTyp(FormObj,Name) OF MENUBAR(FormObj,Name)
 
          DEFINE MENU ERRORFgTaxTypREPORT OF THIS.REPORT;
              PROPERTY;
-               OnClick {;create session ;set lock off ;report form Fgtaxtyp},;
+               OnClick {;create session ;set lock off ;do Fgtaxtyp.rep},;
                Text "&List Tax Type.",;
                enabled .t.,;
                Shortcut "Ctrl-L"

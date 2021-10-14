@@ -105,7 +105,7 @@ DEFINE MENU EXIT OF THIS.FILE;
 
          DEFINE MENU ERRORFgUnitREPORT OF THIS.REPORT;
              PROPERTY;
-               OnClick {;create session ;set lock off ;report form Fgunit},;
+               OnClick {;create session ;set lock off ;do Fgunit.rep},;
                Text "&List Units.",;
                enabled .t.,;
                Shortcut "Ctrl-L"

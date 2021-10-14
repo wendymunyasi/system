@@ -1,0 +1,280 @@
+//////////////////////////////////////////////////////////////////////////////
+// Filename:     FGDIV.REP                                                  //
+// Created By:   Report Conversion Wizard                                   //
+// Created From: C:\kenservice\idssys\FGDIV.RPT                             //
+// Data File:    C:\kenservice\idssys\fgdivp.qbe                            //
+// Created On:   13/10/2021 At 14:29:55                                     //
+//////////////////////////////////////////////////////////////////////////////
+//
+//////////////////////////////////////////////////////////////////////////////
+// Conversion Exception Log:                                                //
+// Report contains related tables. SQL may need adjustment.                 //
+//////////////////////////////////////////////////////////////////////////////
+//
+** END HEADER -- do not remove this line
+//
+// Generated on 10/13/2021
+//
+local r
+r = new FGDIVREPORT()
+r.render()
+
+class FGDIVREPORT of REPORT
+   set procedure to customreportcontrols.cc additive
+   with (this)
+      metric = 3	// Inches
+      autoSort = false
+   endwith
+
+   this.GLCC1 = new QUERY(this)
+   with (this.GLCC1)
+      sql = 'SELECT * FROM "\KENSERVICE\DATA\GLCC.DBF"'
+      requestLive = false
+      active = true
+   endwith
+
+   this.FGDIV1 = new QUERY(this)
+   with (this.FGDIV1)
+      sql = 'SELECT * FROM "\KENSERVICE\DATA\FGDIV.DBF"'
+      requestLive = false
+      active = true
+   endwith
+
+   this.FGCOY1 = new QUERY(this)
+   with (this.FGCOY1)
+      sql = 'SELECT * FROM "\KENSERVICE\DATA\FGCOY.DBF"'
+      requestLive = false
+      active = true
+   endwith
+
+   with (this.FGCOY1.rowset)
+      indexName = "COY"
+      masterRowset = form.form.fgdiv1.rowset
+      masterFields = "COY"
+   endwith
+
+   this.PAGETEMPLATE1 = new PAGETEMPLATE(this)
+   with (this.PAGETEMPLATE1)
+      height = 11.0
+      width = 8.5
+      marginTop = 0.5
+      marginLeft = 0.5
+      marginBottom = 0.5
+      marginRight = 0.5
+      gridLineWidth = 0
+   endwith
+
+   this.PAGETEMPLATE1.STREAMFRAME1 = new STREAMFRAME(this.PAGETEMPLATE1)
+   with (this.PAGETEMPLATE1.STREAMFRAME1)
+      height = 1.0
+      left = 0.0
+      top = 1.25
+      width = 7.5
+      form.STREAMFRAME1 = form.pagetemplate1.streamframe1
+   endwith
+
+   this.PAGETEMPLATE1.TEXTDATE1 = new TEXT(this.PAGETEMPLATE1)
+   with (this.PAGETEMPLATE1.TEXTDATE1)
+      height = 0.1979
+      left = 0.0
+      top = 0.1667
+      width = 1.2083
+      prefixEnable = false
+      colorNormal = "BtnText"
+      fontName = "Times New Roman"
+      fontSize = 12.0
+      fontBold = true
+      text = {|| DToC(Date())}
+      form.TEXTDATE1 = form.pagetemplate1.textdate1
+   endwith
+
+   this.PAGETEMPLATE1.TEXTSTREET1 = new TEXT(this.PAGETEMPLATE1)
+   with (this.PAGETEMPLATE1.TEXTSTREET1)
+      height = 0.1979
+      left = 0.875
+      top = 0.1875
+      width = 5.75
+      wrap = false
+      prefixEnable = false
+      colorNormal = "BtnText"
+      alignHorizontal = 1	// Center
+      fontName = "Times New Roman"
+      fontSize = 12.0
+      fontBold = true
+      text = {|| this.Form.FGCOY1.RowSet.Fields["STREET"].Value}
+      form.TEXTSTREET1 = form.pagetemplate1.textstreet1
+   endwith
+
+   this.PAGETEMPLATE1.TEXT1 = new TEXT(this.PAGETEMPLATE1)
+   with (this.PAGETEMPLATE1.TEXT1)
+      height = 0.1979
+      left = 0.0
+      top = 0.5313
+      width = 4.7083
+      wrap = false
+      prefixEnable = false
+      colorNormal = "BtnText"
+      alignHorizontal = 1	// Center
+      fontName = "Times New Roman"
+      fontSize = 12.0
+      fontBold = true
+      fontUnderline = true
+      text = "LISTING OF DIVISIONS"
+      form.TEXT1 = form.pagetemplate1.text1
+   endwith
+
+   this.PAGETEMPLATE1.TEXTPAGE1 = new TEXT(this.PAGETEMPLATE1)
+   with (this.PAGETEMPLATE1.TEXTPAGE1)
+      height = 0.1979
+      left = 5.1667
+      top = 0.5313
+      width = 0.5417
+      prefixEnable = false
+      colorNormal = "BtnText"
+      fontName = "Times New Roman"
+      fontSize = 12.0
+      text = {|| Str(form.reportPage, 5)}
+      form.TEXTPAGE1 = form.pagetemplate1.textpage1
+   endwith
+
+   this.PAGETEMPLATE1.TEXT2 = new TEXT(this.PAGETEMPLATE1)
+   with (this.PAGETEMPLATE1.TEXT2)
+      height = 0.1979
+      left = 3.4583
+      top = 0.8854
+      width = 3.3333
+      wrap = false
+      prefixEnable = false
+      colorNormal = "BtnText"
+      fontName = "Times New Roman"
+      fontSize = 12.0
+      fontBold = true
+      text = "Division"
+      form.TEXT2 = form.pagetemplate1.text2
+   endwith
+
+   this.PAGETEMPLATE1.TEXT3 = new TEXT(this.PAGETEMPLATE1)
+   with (this.PAGETEMPLATE1.TEXT3)
+      height = 0.1979
+      left = 0.125
+      top = 0.8854
+      width = 2.25
+      wrap = false
+      prefixEnable = false
+      colorNormal = "BtnText"
+      fontName = "Times New Roman"
+      fontSize = 12.0
+      fontBold = true
+      text = "Company"
+      form.TEXT3 = form.pagetemplate1.text3
+   endwith
+
+   this.PAGETEMPLATE1.LINE1 = new LINE(this.PAGETEMPLATE1)
+   with (this.PAGETEMPLATE1.LINE1)
+      left = 0.0
+      right = 8.0
+      top = 1.0833
+      bottom = 1.0833
+      width = 0
+      colorNormal = "black"
+      form.LINE1 = form.pagetemplate1.line1
+   endwith
+
+   this.PAGETEMPLATE1.MYLINE1 = new MYLINE(this.PAGETEMPLATE1)
+   with (this.PAGETEMPLATE1.MYLINE1)
+      left = 9.3333
+      right = 4.5
+      top = 9.9896
+      bottom = 10.7604
+      width = 0
+      form.MYLINE1 = form.pagetemplate1.myline1
+   endwith
+
+   this.STREAMSOURCE1 = new STREAMSOURCE(this)
+   this.STREAMSOURCE1.detailBand.TEXTCOY1 = new TEXT(this.STREAMSOURCE1.detailBand)
+   with (this.STREAMSOURCE1.detailBand.TEXTCOY1)
+      height = 0.1979
+      left = 0.125
+      top = 0.0
+      width = 0.2083
+      wrap = false
+      prefixEnable = false
+      colorNormal = "BtnText"
+      suppressIfDuplicate = true
+      suppressIfBlank = true
+      fontName = "Times New Roman"
+      fontSize = 12.0
+      text = {|| this.Form.FGDIV1.RowSet.Fields["COY"].Value}
+   endwith
+
+   this.STREAMSOURCE1.detailBand.TEXTDIV1 = new TEXT(this.STREAMSOURCE1.detailBand)
+   with (this.STREAMSOURCE1.detailBand.TEXTDIV1)
+      height = 0.1979
+      left = 3.5
+      top = 0.0
+      width = 0.2083
+      wrap = false
+      prefixEnable = false
+      colorNormal = "BtnText"
+      suppressIfBlank = true
+      fontName = "Times New Roman"
+      fontSize = 12.0
+      text = {|| this.Form.FGDIV1.RowSet.Fields["DIV"].Value}
+   endwith
+
+   this.STREAMSOURCE1.detailBand.TEXTNAME1 = new TEXT(this.STREAMSOURCE1.detailBand)
+   with (this.STREAMSOURCE1.detailBand.TEXTNAME1)
+      height = 0.1979
+      left = 3.7083
+      top = 0.0
+      width = 3.1667
+      wrap = false
+      prefixEnable = false
+      colorNormal = "BtnText"
+      suppressIfBlank = true
+      fontName = "Times New Roman"
+      fontSize = 12.0
+      text = {|| this.Form.FGDIV1.RowSet.Fields["NAME"].Value}
+   endwith
+
+   this.STREAMSOURCE1.detailBand.TEXTNAME2 = new TEXT(this.STREAMSOURCE1.detailBand)
+   with (this.STREAMSOURCE1.detailBand.TEXTNAME2)
+      height = 0.1979
+      left = 0.4167
+      top = 0.0
+      width = 2.5833
+      wrap = false
+      prefixEnable = false
+      colorNormal = "BtnText"
+      suppressIfDuplicate = true
+      suppressIfBlank = true
+      fontName = "Times New Roman"
+      fontSize = 12.0
+      text = {|| this.Form.FGCOY1.RowSet.Fields["NAME"].Value}
+   endwith
+
+   this.STREAMSOURCE1.detailBand.MYRECTANGLESHAPE1 = new MYRECTANGLESHAPE(this.STREAMSOURCE1.detailBand)
+   with (this.STREAMSOURCE1.detailBand.MYRECTANGLESHAPE1)
+      left = 4.4167
+      top = 5.0208
+      width = 0.5313
+      height = 0.3333
+   endwith
+
+   with (this.printer)
+      duplex = 2	// Vertical
+      orientation = 1	// Portrait
+      paperSource = 7
+      paperSize = 1
+      resolution = 0	// Default
+      color = 1	// Monochrome
+      trueTypeFonts = 2	// Download
+   endwith
+
+   this.firstPageTemplate = this.form.pagetemplate1
+   this.form.pagetemplate1.nextPageTemplate = this.form.pagetemplate1
+   this.form.pagetemplate1.streamframe1.streamSource = this.form.streamsource1
+   this.form.streamsource1.rowset = this.form.fgdiv1.rowset
+
+endclass
+

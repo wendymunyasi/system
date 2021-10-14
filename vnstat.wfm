@@ -1,0 +1,752 @@
+////////////////////////////////////////////////////////////////////////////////
+// Output Filename: C:\KENSERVICE\IDSSYS\VNSTAT_FCV.WFM                       //
+// Created By:      dBASE Form Converter Wizard                               //
+// Created On:      Tuesday October 12, 2021 At 19:33:54                      //
+// Object Count:    39                                                        //
+////////////////////////////////////////////////////////////////////////////////
+*******************************************************************************
+*  PROGRAM:      vnstat.wfm
+*
+*  WRITTEN BY:   W Nyongesa
+*
+*  DATE:         05/2000
+*
+*  UPDATED:     12/2012
+*
+*  REVISION:     $Revision:   1.0
+*
+*  VERSION:      Visual dBASE
+*
+*  DESCRIPTION:  This program maintains the StockMaster master file
+*
+*  PARAMETERS:   None
+*
+*  CALLS:        vnstat.mnu         (Menu file)
+*                KBUTTONS.CC          (Custom Controls file)
+*                Vendor.qbe         (View of tables)
+*
+*  USAGE:        DO vnstat.wfm
+*
+*******************************************************************************
+#include <messdlg.h>
+shell(.F.)
+create session
+set talk off
+_app.FrameWin.Visible = .F.
+set design off
+_app.FrameWin.Text = "vnstat"
+*set DBTYPE to PARADOX
+set century on
+SET DATE TO BRITISH
+set ldCheck off && To avoid language driver conflicts
+#define Maxcoy 999
+** END HEADER -- do not remove this line
+//
+// Generated on 12/10/2021
+//
+parameter bUser,bLevel,bModal
+local f
+f = new vnstatFORM()
+if (bModal)
+   f.mdi = false // ensure not MDI
+   f.readModal()
+else
+   f.open()
+endif
+
+class vnstatFORM of FORM
+   set procedure to BUTTONS.CC additive
+   with (this)
+      onClose = class::ONCLOSE
+      open = class::OPEN
+      metric = 6	// Pixels
+      colorNormal = "n+"
+      height = 932.0
+      left = -44.0
+      top = 0.0
+      width = 1280.0
+      text = "Vendor Statements - View Mode"
+      windowState = 2	// Normal
+      mdi = false
+      sizeable = false
+      moveable = false
+      view = "vnstat.qbe"
+      menuFile = "VNSTAT.MNU"
+      escExit = false
+      mousePointer = 1	// Arrow
+      maximize = false
+      minimize = false
+   endwith
+
+   this.CENRECT = new RECTANGLE(this)
+   with (this.CENRECT)
+      left = 77.0
+      top = 11.0
+      width = 875.0
+      height = 121.0
+      text = "Vendor Statement Information"
+      colorNormal = "r/btnface"
+      fontName = "MS Sans Serif"
+      fontBold = true
+   endwith
+
+   this.CODETEXT = new TEXTLABEL(this)
+   with (this.CODETEXT)
+      height = 20.0
+      left = 140.0
+      top = 33.0
+      width = 63.0
+      text = "Vendor:"
+      colorNormal = "B/BtnFace"
+      fontName = "MS Sans Serif"
+      fontSize = 8.0
+      fontBold = true
+      alignVertical = 1	// Middle
+      alignHorizontal = 2	// Right
+   endwith
+
+   this.SVSRCE = new ENTRYFIELD(this)
+   with (this.SVSRCE)
+      dataLink = "vennames->vsrce"
+      enabled = false
+      height = 20.0
+      left = 217.0
+      top = 33.0
+      width = 24.0
+      colorNormal = "N/BtnFace"
+      colorHighLight = "B+/W*"
+      fontName = "MS Sans Serif"
+      fontSize = 8.0
+      fontBold = true
+   endwith
+
+   this.VTYP = new ENTRYFIELD(this)
+   with (this.VTYP)
+      dataLink = "vennames->vtyp"
+      enabled = false
+      height = 20.0
+      left = 252.0
+      top = 33.0
+      width = 24.0
+      colorNormal = "N/BtnFace"
+      colorHighLight = "B+/W*"
+      fontName = "MS Sans Serif"
+      fontSize = 8.0
+      fontBold = true
+   endwith
+
+   this.SVPMOD = new ENTRYFIELD(this)
+   with (this.SVPMOD)
+      dataLink = "vennames->vpmod"
+      enabled = false
+      height = 20.0
+      left = 280.0
+      top = 33.0
+      width = 24.0
+      colorNormal = "N/BtnFace"
+      colorHighLight = "B+/W*"
+      fontName = "MS Sans Serif"
+      fontSize = 8.0
+      fontBold = true
+   endwith
+
+   this.CUSTNO = new ENTRYFIELD(this)
+   with (this.CUSTNO)
+      dataLink = "vennames->Vendor_N"
+      enabled = false
+      height = 20.0
+      left = 315.0
+      top = 33.0
+      width = 50.0
+      colorNormal = "N/BtnFace"
+      colorHighLight = "B+/W*"
+      fontName = "MS Sans Serif"
+      fontSize = 8.0
+      fontBold = true
+   endwith
+
+   this.CUSTNAME = new ENTRYFIELD(this)
+   with (this.CUSTNAME)
+      dataLink = "vennames->NAME"
+      enabled = false
+      height = 20.0
+      left = 378.0
+      top = 33.0
+      width = 238.0
+      function = "!"
+      colorNormal = "N/BtnFace"
+      colorHighLight = "B+/W*"
+      fontName = "MS Sans Serif"
+      fontSize = 8.0
+      fontBold = true
+   endwith
+
+   this.VTYPN = new ENTRYFIELD(this)
+   with (this.VTYPN)
+      dataLink = "frpymod->NAME"
+      enabled = false
+      height = 20.0
+      left = 665.0
+      top = 33.0
+      width = 243.0
+      function = "!"
+      colorNormal = "N/BtnFace"
+      colorHighLight = "B+/W*"
+      fontName = "MS Sans Serif"
+      fontSize = 8.0
+      fontBold = true
+   endwith
+
+   this.TEXT14 = new TEXTLABEL(this)
+   with (this.TEXT14)
+      height = 20.0
+      left = 392.0
+      top = 55.0
+      width = 96.0
+      text = "Enter Statement:"
+      colorNormal = "B/BtnFace"
+      fontName = "MS Sans Serif"
+      fontSize = 8.0
+      fontBold = true
+      alignVertical = 1	// Middle
+      alignHorizontal = 2	// Right
+   endwith
+
+   this.TEXT8 = new TEXTLABEL(this)
+   with (this.TEXT8)
+      height = 20.0
+      left = 511.0
+      top = 55.0
+      width = 72.0
+      text = "Start Date:"
+      colorNormal = "B/BtnFace"
+      fontName = "MS Sans Serif"
+      fontSize = 8.0
+      fontBold = true
+      alignVertical = 1	// Middle
+      alignHorizontal = 2	// Right
+   endwith
+
+   this.STARTDATE = new SPINBOX(this)
+   with (this.STARTDATE)
+      onChange = class::STARTDATE_ONCHANGE
+      dataLink = "vncustat->START_DATE"
+      height = 20.0
+      left = 602.0
+      top = 55.0
+      width = 105.0
+      rangeMax = {11/04/2008}
+      rangeMin = {02/01/2008}
+      fontName = "MS Sans Serif"
+      fontSize = 8.0
+   endwith
+
+   this.TEXT17 = new TEXTLABEL(this)
+   with (this.TEXT17)
+      height = 20.0
+      left = 714.0
+      top = 55.0
+      width = 60.0
+      text = "End Date:"
+      colorNormal = "B/BtnFace"
+      fontName = "MS Sans Serif"
+      fontSize = 8.0
+      fontBold = true
+      alignVertical = 1	// Middle
+      alignHorizontal = 2	// Right
+   endwith
+
+   this.ENDDATE = new SPINBOX(this)
+   with (this.ENDDATE)
+      onChange = class::ENDDATE_ONCHANGE
+      dataLink = "vncustat->END_DATE"
+      height = 20.0
+      left = 784.0
+      top = 55.0
+      width = 119.0
+      rangeMax = {28/11/2009}
+      rangeMin = {20/08/2009}
+      fontName = "MS Sans Serif"
+      fontSize = 8.0
+   endwith
+
+   this.TEXT11 = new TEXTLABEL(this)
+   with (this.TEXT11)
+      height = 20.0
+      left = 315.0
+      top = 110.0
+      width = 156.0
+      text = "Balance Brought Forward"
+      colorNormal = "B/BtnFace"
+      fontName = "MS Sans Serif"
+      fontSize = 8.0
+      fontBold = true
+      fontUnderline = true
+      alignVertical = 1	// Middle
+      alignHorizontal = 1	// Center
+   endwith
+
+   this.BBF = new ENTRYFIELD(this)
+   with (this.BBF)
+      dataLink = "vendor->BBF"
+      enabled = false
+      height = 20.0
+      left = 476.0
+      top = 110.0
+      width = 126.0
+      picture = "9999,999,999.99"
+      colorNormal = "N/BtnFace"
+      colorHighLight = "B+/W*"
+      fontName = "MS Sans Serif"
+      fontSize = 8.0
+      fontBold = true
+      validErrorMsg = "Code Does Not Exist"
+   endwith
+
+   this.TEXT15 = new TEXTLABEL(this)
+   with (this.TEXT15)
+      height = 17.0
+      left = 630.0
+      top = 88.0
+      width = 84.0
+      text = "From Cust no.:"
+      colorNormal = "B/BtnFace"
+      fontName = "MS Sans Serif"
+      fontSize = 8.0
+      fontBold = true
+      alignVertical = 1	// Middle
+      alignHorizontal = 2	// Right
+   endwith
+
+   this.SNO = new ENTRYFIELD(this)
+   with (this.SNO)
+      onChange = class::SNO_ONCHANGE
+      dataLink = "vncustat->Start_cust"
+      height = 17.0
+      left = 714.0
+      top = 88.0
+      width = 60.0
+      colorNormal = "N/BtnFace"
+      colorHighLight = "B+/W*"
+      fontName = "MS Sans Serif"
+      fontSize = 8.0
+      fontBold = true
+      validErrorMsg = "Code Does Not Exist"
+   endwith
+
+   this.TEXT16 = new TEXTLABEL(this)
+   with (this.TEXT16)
+      height = 17.0
+      left = 777.0
+      top = 88.0
+      width = 72.0
+      text = "To Cust no.:"
+      colorNormal = "B/BtnFace"
+      fontName = "MS Sans Serif"
+      fontSize = 8.0
+      fontBold = true
+      alignVertical = 1	// Middle
+      alignHorizontal = 2	// Right
+   endwith
+
+   this.ENTRYFIELD2 = new ENTRYFIELD(this)
+   with (this.ENTRYFIELD2)
+      onChange = class::ENTRYFIELD2_ONCHANGE
+      dataLink = "vncustat->End_cust"
+      enabled = false
+      height = 17.0
+      left = 861.0
+      top = 88.0
+      width = 60.0
+      colorNormal = "N/BtnFace"
+      colorHighLight = "B+/W*"
+      fontName = "MS Sans Serif"
+      fontSize = 8.0
+      fontBold = true
+      validErrorMsg = "Code Does Not Exist"
+   endwith
+
+   this.CHILDBROWSE = new BROWSE(this)
+   with (this.CHILDBROWSE)
+      fontName = "MS Sans Serif"
+      fontSize = 8.0
+      height = 572.0
+      left = 14.0
+      top = 143.0
+      width = 1225.0
+      append = false
+      alias = "vnstat"
+      fields = 'vnstat->Sdate\H="Date"\12\R,vnstat->Stime\H="Cnt"\6\R,DocTyp->Name\H="Trcd"\12\R,vnstat->Docref\H="Ref"\12\R,vnstat->REG\H="Veh."\12\R,vnstat->LPO\H="Order"\15\R,vnstat->Serialno\H="R/No."\12,VNSTAT->INV_NO\H="Inv No"\12\R,vnstat->Amt_dr\H="Debit"\14\P="999,999,999.99"\R,vnstat->Amt_cr\H="Credit"\14\P="999,999,999.99"\R,vnstat->Bal_due_dr\H="Bal. Due/Dr"\14\P="999,999,999.99"\R\C="R+/W+",vnstat->Bal_due_cr\H="Bal. Due/Cr"\14\P="999,999,999.99"\R\C="R+/W",VNSTAT->PAY_METHOD\H="Pay Mode"\12\R,VNSTAT->SYSTEM\H="SYS"\7\R'
+      delete = false
+      modify = false
+      showRecNo = false
+      text = "DETAILED  TRANSACTIONS"
+   endwith
+
+   this.SNAMETEXT = new TEXTLABEL(this)
+   with (this.SNAMETEXT)
+      height = 20.0
+      left = 623.0
+      top = 110.0
+      width = 84.0
+      text = "Balance Due"
+      colorNormal = "B/BtnFace"
+      fontName = "MS Sans Serif"
+      fontSize = 8.0
+      fontBold = true
+      fontUnderline = true
+      alignVertical = 1	// Middle
+      alignHorizontal = 1	// Center
+   endwith
+
+   this.PREVCOYBUTTON = new PREVBUTTON(this)
+   with (this.PREVCOYBUTTON)
+      onClick = class::PREVIOUS
+      height = 26.0
+      left = 126.0
+      top = 748.0
+      width = 85.0
+      default = true
+      fontName = "MS Sans Serif"
+      fontSize = 8.0
+      fontBold = true
+      group = true
+   endwith
+
+   this.NEXTCOYBUTTON = new NEXTBUTTON(this)
+   with (this.NEXTCOYBUTTON)
+      onClick = class::NEXT
+      height = 26.0
+      left = 217.0
+      top = 748.0
+      width = 85.0
+      fontName = "MS Sans Serif"
+      fontSize = 8.0
+      fontBold = true
+   endwith
+
+   this.FIRVNSTATBUTTON = new PUSHBUTTON(this)
+   with (this.FIRVNSTATBUTTON)
+      onClick = {;form.CheckCommit(form.inEditMode);go top; form.BrowseOnNavigate()}
+      height = 26.0
+      left = 308.0
+      top = 748.0
+      width = 85.0
+      text = "F&irst"
+      fontName = "MS Sans Serif"
+      fontSize = 8.0
+      fontBold = true
+      statusMessage = "Go to the first record."
+   endwith
+
+   this.LAVNSTATBUTTON = new PUSHBUTTON(this)
+   with (this.LAVNSTATBUTTON)
+      onClick = {;form.CheckCommit(form.inEditMode);go bottom; form.BrowseOnNavigate()}
+      height = 26.0
+      left = 399.0
+      top = 748.0
+      width = 85.0
+      text = "&Last"
+      fontName = "MS Sans Serif"
+      fontSize = 8.0
+      fontBold = true
+      statusMessage = "Go to the last campany."
+   endwith
+
+   this.BAL_DUE = new ENTRYFIELD(this)
+   with (this.BAL_DUE)
+      dataLink = "vendor->BAL_DUE"
+      enabled = false
+      height = 20.0
+      left = 721.0
+      top = 110.0
+      width = 147.0
+      picture = "999,999,999,999.99"
+      colorNormal = "black/silver"
+      colorHighLight = "R+/0x808040"
+      fontName = "MS Sans Serif"
+      fontSize = 8.0
+      fontBold = true
+   endwith
+
+
+   procedure Open
+   ****************************************************************************
+   private CodeField
+    FORM.BLUSER=bUser
+   FORM.BLEVEL=bLevel
+   IF EMPTY(FORM.BLUSER) .OR. EMPTY(FORM.BLEVEL)
+      QUIT
+   ENDIF
+    if type("form.init") = "U"
+      form.init = .T.
+
+      set skip to                     && vnstat.qbe contains set skip to gldtl
+      set exact ON                && the .qbe file contains SET EXACT ON
+
+      set procedure to sampProc.prg additive
+    Form.duplicate = .F.
+      form.inEditMode = .F.           && indicator of view/edit state
+      form.changesMade = .F.          && indicator of changes made to field values
+      form.previousRecord = .F.       && Save record number when appending
+        *** do calculations in another area so form doesn't get updated
+          select vncustat
+      go top
+      if eof()
+      append blank
+      endif
+      select Vennames
+       set order to NAME
+
+      *** Open table for calculating totals and balance due in another work area
+      *** so that datalinks are not affected by record movements
+
+
+      ***
+    *  if type("form.parentpayeeForm") <> "U" && Esc ok if have parent
+    *     form.escExit = .T.
+   *   endif
+
+   endif
+   * form.CoyInfoButton.KenpName = "vnstat.WFM"
+
+   form::Open() && Now the form actually opens
+   select vennames
+   GO TOP
+   * form.changesmade = .t.
+       form.BrowseOnNavigate()
+
+      * replace vncustat->message with ""
+       && calculate totals
+   *       form.codingerrors()                        && check coding errors
+
+   *      form.next.setfocus()
+   ****************************************************************************
+
+   procedure OnClose
+
+   * Clean up.
+   ****************************************************************************
+
+   if this.inEditMode
+      form.ViewEdit()                      && Finish transaction
+   endif
+   close procedure  sampproc.prg
+
+   clear program
+   form.close()
+   ****************************************************************************
+
+   procedure BrowseOnNavigate
+   ****************************************************************************
+   local lx,ly,ld
+   select vncustat
+    replace vendor_n with vennames->vendor_n
+   replace vtyp with vennames->vtyp
+   replace vpmod with vennames->vpmod
+   replace vsrce with vennames->vsrce
+    replace start_cust with vsrce+vtyp+vpmod+vendor_n
+   replace end_cust with start_cust
+
+
+   select Vennames
+    form.changesmade = .t.
+      form.CheckCommit(form.inEditMode)
+   ****************************************************************************
+
+   procedure ChangesMade
+
+   * Indicate that changes have been made to the current record
+   ****************************************************************************
+   Form.ChangesMade = .T.
+   ****************************************************************************
+
+   procedure Next
+
+   * Go to next record.
+   ****************************************************************************
+
+   form.CheckCommit(form.inEditMode)
+   if .not. eof()
+      NEXTBUTTON::OnClick()
+    endif
+    form.BrowseOnNavigate()
+   ****************************************************************************
+
+   procedure Previous
+
+   * Go to previous record.
+   ****************************************************************************
+
+   form.CheckCommit(form.inEditMode)
+     PREVBUTTON::OnClick()
+    form.BrowseOnNavigate()
+
+   ****************************************************************************
+
+   procedure CheckCommit (newInEditMode)
+
+        * Finish transaction, if it has been started.
+   ****************************************************************************
+   private CodeField, changesMade
+   changesMade = form.changesMade
+   if form.changesMade
+      CodeField = field(3)  && Field Center
+   *      if     ConfirmationMessage("Commit changes?",;
+                FormatStr("Vendor %1",&CodeField)) = YES
+         commit()
+
+   *     else
+   *       rollback()
+   *      if .not. bof()
+       *  if .not. empty(form.previousRecord)
+   *            go bookmark()
+           * form.previousRecord
+    *        form.previousRecord = .F.
+   *      endif
+   *   endif
+
+
+    if form.inEditMode .and. newInEditMode
+         begintrans()
+      endif
+      form.changesMade = .F.
+   endif
+   if form.inEditMode <> newInEditMode
+      if newInEditMode                       && Going to Edit mode
+         begintrans()
+      else                                   && Going to View mode
+            rollback()
+         endif
+     * endif
+      form.inEditMode = newInEditMode
+   endif
+
+   * form.root.Receipt.add.enabled = .T.
+   *form.codingerrors()
+   ****************************************************************************
+
+   procedure ViewEdit
+
+   * Toggle between View and Edit modes.
+   ****************************************************************************
+   local inEditMode, editMenu, control
+
+   editMenu = form.root.vnstat.VIEWEdit
+
+   *** If ending edit mode then close transaction, otherwise open it.
+   if form.inEditMode
+      form.checkChanged(.F.)
+      editMenu.text = "&Edit"
+      editMenu.shortcut = "Ctrl-E"
+      editMenu.statusMessage = "Edit data."
+      form.CheckCommit(.F.)                        && Check transaction and
+      form.text = "Vendor -- View Mode"          && change mode to View
+         *form.notesEditor.colorNormal = "N/W"
+         form.childBrowse.modify = .F.
+         *form.notesEditor.modify = .F.
+      form.statusmessage = "In View Mode. " + ;
+                           "select vennames - Edit menu to " + ;
+                           "edit/delete data."
+      form.nextCOYBUTTON.SetFocus()
+   else                                            && Switch to edit mode
+      editMenu.text = "Vi&ew"
+      editMenu.shortcut = "Ctrl-E"
+      editMenu.statusMessage = "View data."
+       form.CheckCommit(.T.)                        && Check transaction and
+      form.text = "Vendor -- Edit Mode"          && change mode to Edit
+          form.childBrowse.modify = .T.
+       *form.notesEditor.modify = .T.
+      form.statusmessage = "In Edit Mode.  " + ;
+                           "Select menu Vendor - View to switch " + ;
+                           "to View mode."
+
+
+
+   endif
+
+   inEditMode = form.inEditMode     && Faster if we don't reference a form
+   control = form.first             &&    variable each time through the loop
+   do
+      if .not. control.className $ "BROWSE,EDITOR,NEXTBUTTON,PREVBUTTON,PUSHBUTTON,IMAGE,TEXT"
+         control.enabled = inEditMode
+      endif
+      control = control.before
+   until control.name = form.first.name
+   *    form.COYentry.Enabled = .F.
+        form.bal_due.Enabled = .f.
+       * form.bal_this.Enabled = .f.
+       * form.bal_15.Enabled = .f.
+       * form.bal_30.Enabled = .f.
+       * form.bal_60.Enabled = .f.
+       * form.bal_90.Enabled = .f.
+       * form.bal_120.Enabled = .f.
+       * form.bal_due.Enabled = .f.
+   *        FORM.YEAR.ENABLED = .F.
+   *       FORM.MONTH.ENABLED = .F.
+        FORM.BBF.ENABLED = .F.
+        form.custno.Enabled = .f.
+        form.custname.enabled = .f.
+        form.svsrce.enabled = .f.
+        form.svpmod.enabled = .f.
+        FORM.VTYPN.ENABLED = .F.
+        *form.notesEdITOR.setfocus()
+   ****************************************************************************
+
+   procedure CheckChanged(callCommit)
+
+   * Check if changes have been made to the current entryfield.  This procedure
+   * is called from menu routines to make sure the form.changesMade gets
+   * updated when a menu is selected while the changed control has focus.
+   ****************************************************************************
+   private control, fieldValue, controlValue, typeText, typeValue
+
+   if form.inEditMode
+      control = form.activeControl
+      if type("control.datalink") <> "U"
+         fieldValue = control.datalink          && name of table field
+
+         typeText = type("control.text")
+         typeValue = type("control.value")
+         do case
+            case typeValue = "C"
+               controlValue = control.value
+            case typeValue $ "LU" .and. typeText = "C"
+               controlValue = control.text
+            otherwise
+               controlValue = Null
+         endcase
+         if controlValue <> &fieldValue
+            form.changesMade = .T.
+         endif
+      endif
+   endif
+   if form.changesMade .and. callCommit
+      CLASS::CheckCommit(form.inEditMode)     && Check transactions
+   endif
+
+    Procedure ENTRYFIELD2_OnChange
+      form.changesmade = .t.
+   form.CheckCommit(form.inEditMode)
+
+   Procedure SNO_OnChange
+   form.changesmade = .t.
+
+   Procedure STARTDATE_OnChange
+      form.changesmade = .t.
+       form.CheckCommit(form.inEditMode)
+
+   Procedure ENDDATE_OnChange
+      form.changesmade = .t.
+       form.CheckCommit(form.inEditMode)
+
+   Procedure NOTESEDITOR_OnChange
+   form.changesmade = .t.
+    form.CheckCommit(form.inEditMode)
+
+   Procedure SLMSG_OnChange
+   form.changesmade = .t.
+   form.CheckCommit(form.inEditMode)
+
+endclass
+

@@ -1,0 +1,243 @@
+//////////////////////////////////////////////////////////////////////////////
+// Filename:     FGUNIT.REP                                                 //
+// Created By:   Report Conversion Wizard                                   //
+// Created From: \kenservice\data\FGUNIT.RPT                            //
+// Data File:    \kenservice\data\fgunitp                               //
+// Created On:   14/10/2021 At 10:08:57                                     //
+//////////////////////////////////////////////////////////////////////////////
+//
+//////////////////////////////////////////////////////////////////////////////
+// Conversion Exception Log:                                                //
+// Report contains a formula which may need adjustment. - TEXTglc1          //
+//////////////////////////////////////////////////////////////////////////////
+//
+** END HEADER -- do not remove this line
+//
+// Converted on 14/10/2021
+//
+LOCAL r
+r = new FGUNITREPORT()
+r.render()
+CLASS FGUNITREPORT OF REPORT
+
+   this.FGUNIT1 = new QUERY()
+   this.FGUNIT1.Parent = this
+   With (this.FGUNIT1)
+      Top = 50
+      Left = 50
+      SQL = 'SELECT * FROM "\kenservice\data\FGUNIT"'
+      RequestLive = false
+      Active = true
+   EndWith
+
+   this.FGCOY1 = new QUERY()
+   this.FGCOY1.Parent = this
+   With (this.FGCOY1)
+      Top = 50
+      Left = 550
+      SQL = 'SELECT * FROM "\kenservice\data\FGCOY"'
+      RequestLive = false
+      Active = true
+   EndWith
+
+   With (this.PRINTER)
+      Copies = 1
+      Resolution = 1
+      PaperSource = 7
+      Orientation = 1
+*      PrinterName = "Brother HJ-100"
+      Duplex = 0
+      TrueTypeFonts = 1
+      PaperSize = 1
+      PrinterSource = 2
+      Color = 0
+   EndWith
+
+   this.PAGETEMPLATE1 = new PAGETEMPLATE(this)
+   With (this.PAGETEMPLATE1)
+      GridLineWidth = 0
+      Width = 12240
+      MarginRight = 720
+      Height = 15840
+      MarginBottom = 720
+      MarginTop = 720
+      MarginLeft = 720
+   EndWith
+
+   this.PAGETEMPLATE1.STREAMFRAME1 = new STREAMFRAME(this.PAGETEMPLATE1)
+   With (this.PAGETEMPLATE1.STREAMFRAME1)
+      Top = 1320
+      Width = 10800
+      Height = 12360
+      Metric = 1
+   EndWith
+
+   this.PAGETEMPLATE1.TEXTSTREET1 = new TEXT(this.PAGETEMPLATE1)
+   With (this.PAGETEMPLATE1.TEXTSTREET1)
+      FontBold = true
+      Width = 11040
+      Height = 280
+      Left = -240
+      AlignHorizontal = 1
+      Wrap = false
+      ColorNormal = "BtnText"
+      FontName = "Verdana"
+      Text = {|| this.Form.FGCOY1.RowSet.Fields["STREET"].Value }
+      FontSize = 12
+      Metric = 1
+   EndWith
+
+   this.PAGETEMPLATE1.TEXTDATE1 = new TEXT(this.PAGETEMPLATE1)
+   With (this.PAGETEMPLATE1.TEXTDATE1)
+      Top = 520
+      FontBold = true
+      Width = 1320
+      Height = 280
+      FontUnderline = true
+      ColorNormal = "BtnText"
+      FontName = "Times New Roman"
+      Text = {|| DToC(Date())}
+      FontSize = 12
+      Metric = 1
+   EndWith
+
+   this.PAGETEMPLATE1.TEXTPAGE1 = new TEXT(this.PAGETEMPLATE1)
+   With (this.PAGETEMPLATE1.TEXTPAGE1)
+      Top = 520
+      FontBold = true
+      Width = 660
+      Height = 280
+      Left = 9780
+      ColorNormal = "BtnText"
+      FontName = "Times New Roman"
+      Text = {|| Str(form.reportPage, 5)}
+      FontSize = 12
+      Metric = 1
+   EndWith
+
+   this.PAGETEMPLATE1.TEXT1 = new TEXT(this.PAGETEMPLATE1)
+   With (this.PAGETEMPLATE1.TEXT1)
+      Top = 520
+      FontBold = true
+      Width = 7020
+      Height = 280
+      FontUnderline = true
+      Left = 2040
+      AlignHorizontal = 1
+      Wrap = false
+      ColorNormal = "BtnText"
+      FontName = "Times New Roman"
+      Text = "LISTING OF ITEM UNITS"
+      FontSize = 12
+      Metric = 1
+   EndWith
+
+   this.PAGETEMPLATE1.TEXT2 = new TEXT(this.PAGETEMPLATE1)
+   With (this.PAGETEMPLATE1.TEXT2)
+      Top = 1040
+      FontBold = true
+      Width = 960
+      Height = 280
+      Left = 240
+      Wrap = false
+      ColorNormal = "BtnText"
+      FontName = "Arial"
+      Text = "Code "
+      FontSize = 12
+      Metric = 1
+   EndWith
+
+   this.PAGETEMPLATE1.TEXT3 = new TEXT(this.PAGETEMPLATE1)
+   With (this.PAGETEMPLATE1.TEXT3)
+      Top = 1040
+      FontBold = true
+      Width = 3000
+      Height = 280
+      Left = 1080
+      AlignHorizontal = 1
+      Wrap = false
+      ColorNormal = "BtnText"
+      FontName = "Arial"
+      Text = "Unit Name"
+      FontSize = 12
+      Metric = 1
+   EndWith
+
+   this.PAGETEMPLATE1.TEXT4 = new TEXT(this.PAGETEMPLATE1)
+   With (this.PAGETEMPLATE1.TEXT4)
+      Top = 1040
+      FontBold = true
+      Width = 4140
+      Height = 280
+      Left = 4200
+      AlignHorizontal = 1
+      Wrap = false
+      ColorNormal = "BtnText"
+      FontName = "Arial"
+      Text = "Volume"
+      FontSize = 12
+      Metric = 1
+   EndWith
+
+   this.PAGETEMPLATE1.LINE1 = new LINE(this.PAGETEMPLATE1)
+   With (this.PAGETEMPLATE1.LINE1)
+      Top = 1280
+      Width = 0
+      Pen = 0
+      Left = 0
+      Right = 10799
+      ColorNormal = "black"
+      Bottom = 1280
+      Metric = 1
+   EndWith
+
+   this.STREAMSOURCE1 = new STREAMSOURCE(this)
+
+   this.STREAMSOURCE1.DETAILBAND.TEXTUNIT1 = new TEXT(this.STREAMSOURCE1.DETAILBAND)
+   With (this.STREAMSOURCE1.DETAILBAND.TEXTUNIT1)
+      Width = 540
+      Height = 280
+      Left = 180
+      Wrap = false
+      ColorNormal = "BtnText"
+      FontName = "Arial"
+      SuppressIfBlank = true
+      Text = {|| this.Form.FGUNIT1.RowSet.Fields["UNIT"].Value }
+      FontSize = 12
+      Metric = 1
+   EndWith
+
+   this.STREAMSOURCE1.DETAILBAND.TEXTNAME1 = new TEXT(this.STREAMSOURCE1.DETAILBAND)
+   With (this.STREAMSOURCE1.DETAILBAND.TEXTNAME1)
+      Width = 2880
+      Height = 280
+      Left = 2100
+      Wrap = false
+      ColorNormal = "BtnText"
+      FontName = "Arial"
+      SuppressIfBlank = true
+      Text = {|| this.Form.FGUNIT1.RowSet.Fields["NAME"].Value }
+      FontSize = 12
+      Metric = 1
+   EndWith
+
+   this.STREAMSOURCE1.DETAILBAND.TEXTglc1 = new TEXT(this.STREAMSOURCE1.DETAILBAND)
+   With (this.STREAMSOURCE1.DETAILBAND.TEXTglc1)
+      Width = 1740
+      Height = 280
+      Left = 5280
+      Wrap = false
+      ColorNormal = "BtnText"
+      FontName = "Arial"
+      SuppressIfBlank = true
+      Text = {|| this.Form.FGUNIT1.RowSet.Fields["VOLUME"].Value }
+      FontSize = 12
+      Metric = 1
+   EndWith
+
+   this.FirstPageTemplate = this.form.PAGETEMPLATE1
+   this.form.PAGETEMPLATE1.NextPageTemplate = this.form.PAGETEMPLATE1
+   this.form.PAGETEMPLATE1.STREAMFRAME1.StreamSource = this.form.STREAMSOURCE1
+   this.form.STREAMSOURCE1.RowSet = this.form.FGUNIT1.RowSet
+ENDCLASS
+

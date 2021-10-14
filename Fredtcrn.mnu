@@ -1,0 +1,174 @@
+******************************************************************************
+*  PROGRAM:      Fredtcrn.mnu
+*
+*  WRITTEN BY:   W M Nyongesa
+*
+*  DATE:         12/93
+*
+*  UPDATED:     04/2015
+*
+*  REVISION:     $Revision:   1.55  $
+*
+*  VERSION:      Visual dBASE
+*
+*  DESCRIPTION:  This menu file is used by Fredtcrn.WFM for performing simple
+*                tasks.  It allows adding, deleting, and searching for
+*                Frstats, brings up the orders form for a Customer,
+*                and runs reports.
+*
+*  PARAMETERS:   FormObj -- the form to which this menu is attached.
+*
+*  CALLS:        None
+*
+*  USAGE:        form.menuFile = "Fredtcrn.mnu"
+*
+*******************************************************************************
+#include <Messdlg.h>
+
+** END HEADER -- do not remove this line*
+* Generated on 06/21/94
+*
+Parameter FormObj
+NEW FrstatMENU(FormObj,"Root")
+CLASS FrstatMENU(FormObj,Name) OF MENUBAR(FormObj,Name)
+   this.Text = ""
+   this.OnInit = {;set procedure to Sampproc.prg}
+
+   DEFINE MENU FILE OF THIS;
+       PROPERTY;
+         Text "&File"
+
+          DEFINE MENU EXIT OF THIS.FILE;
+                PROPERTY; 
+          StatusMessage "Return to the Previous Menu.",;
+          Text "&RETURN TO PREVIOUS MENU",;
+          SHORTCUT "F4",;
+          OnClick CLASS::ONEXIT
+  
+      
+       DEFINE MENU SEPARATOR000 OF THIS.FILE;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+
+            
+   DEFINE MENU QUITALL OF THIS.FILE;
+       PROPERTY; 
+          StatusMessage "Leave Kenserve System.",;
+          Text "Exit",;
+          SHORTCUT "F8",;
+          OnClick CLASS::ONQUITALL
+          
+   DEFINE MENU Frstat OF THIS;
+       PROPERTY;
+         Text "Customer"
+
+         DEFINE MENU VIEWEDIT OF THIS.Frstat;
+             PROPERTY;
+               OnClick CLASS::VIEWEDITONCLICK,;
+               Text "&Edit",;
+               Shortcut "Ctrl-E",;
+               StatusMessage "Edit data."
+
+         DEFINE MENU SEPARATOR1 OF THIS.Frstat;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+
+        
+         DEFINE MENU SEARCH OF THIS.Frstat;
+             PROPERTY;
+               OnClick CLASS::SEARCHONCLICK,;
+               Text "&Search ...",;
+               Shortcut "Ctrl-S",;
+               StatusMessage "Search for a Customer."
+
+         DEFINE MENU SEPARATOR3 OF THIS.Frstat;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+
+    
+   DEFINE MENU REPORT OF THIS;
+       PROPERTY;
+         Text "&Reports"
+         
+  
+         DEFINE MENU Frstat_REPORT OF THIS.REPORT;
+             PROPERTY;
+               OnClick {;create session ;set lock off ;report form Fredtdrs},;
+               Text "&1. Listing of Marked Invoices/Debits for selected period",;
+               ENABLED .t.,;
+               StatusMessage "Marked Invoices/Debits."
+               
+                    DEFINE MENU SEPARREPO01 OF THIS.REPORT;
+             PROPERTY;
+               Separator .T.,;
+               Text ""
+               
+    
+   ****************************************************************************
+   procedure SearchOnClick
+
+   * Bring up Search.wfm modally.
+   ****************************************************************************
+   private searchForm, searchItem, saveRec,ssrc,sftyp,spmod,sno,sitem
+  select frigtmes
+  set order to name
+   if reccount() = 0                    && If table is empty, don't search
+      InformationMessage("This table is empty.", "Oops")
+   else
+      form.CheckChanged(.T.)
+      set procedure to Search.wfm additive
+    *  set order to custno
+      searchForm = new SearchForm()
+      searchForm.keyName = "NAME"       && Indicate to user expression to enter
+      searchForm.formatting = "@X"
+      searchForm.mdi = .F.              && Necessary for a modal form
+      searchItem = searchForm.Readmodal()
+      if type("searchItem") = "O" .and. searchItem.id <> 0;
+                                  .and. .not. empty(searchForm.value)
+         *** If Cancel or ESC wasn't used to exit Search.wfm
+         saveRec = recno()
+         form.enabled = .F.
+        seek upper(ltrim(rtrim(searchForm.value)))
+         if .not. found()
+            InformationMessage(FormatStr("customer %1 \n Was not Found.",;
+                                         searchForm.value),;
+                               "Info")
+            if saveRec <= reccount()    && If weren't at eof(), go to saveRec
+               go saveRec
+            else
+               go bottom
+            endif
+         endif
+         form.enabled = .T.
+      endif
+
+      searchForm.Release()
+      close procedure Search.wfm
+   endif
+   form.BrowseOnNavigate()  
+SET NEAR OFF
+
+  
+   ****************************************************************************
+   procedure ViewEditOnClick
+
+   * Toggle View/Edit modes.
+   ****************************************************************************
+
+   form.ViewEdit()
+
+
+  
+   ****************************************************************************
+    procedure OnExit
+     form.Release()
+
+    procedure OnQuitAll
+   
+     form.Release()
+
+ quit
+ENDCLASS

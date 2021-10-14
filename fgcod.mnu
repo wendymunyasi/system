@@ -95,7 +95,7 @@ CLASS FgCode(FormObj,Name) OF MENUBAR(FormObj,Name)
 
          DEFINE MENU ERRORProdCodeREPORT OF THIS.REPORT;
              PROPERTY;
-               OnClick {;create session ;set lock off ;report form Fgcod},;
+               OnClick {;create session ;set lock off ;do preview.wfm with "Fgcod.rep"},;
                Text "1. List Codes sorted by code."
                
                
@@ -107,7 +107,7 @@ CLASS FgCode(FormObj,Name) OF MENUBAR(FormObj,Name)
                
                DEFINE MENU ERRORProdCodeerrsT OF THIS.REPORT;
              PROPERTY;
-               OnClick {;create session ;set lock off ;report form Fgcoder},;
+               OnClick {;create session ;set lock off ;do preview.wfm with "Fgcoder.rep"},;
                Text "2. Error Codes."
                
                 DEFINE MENU SEPARATORREP2 OF THIS.REPORT;
@@ -117,7 +117,7 @@ CLASS FgCode(FormObj,Name) OF MENUBAR(FormObj,Name)
                
                  DEFINE MENU materialcodes OF THIS.REPORT;
              PROPERTY;
-               OnClick {;create session ;set lock off ;report form Fgcodm},;
+               OnClick {;create session ;set lock off ;do preview.wfm with "Fgcodm.rep"},;
                Text "3. Items with Material Codes."
                
                 DEFINE MENU SEPARATORREP3 OF THIS.REPORT;
@@ -127,7 +127,7 @@ CLASS FgCode(FormObj,Name) OF MENUBAR(FormObj,Name)
                
              DEFINE MENU SERVICESCODES OF THIS.REPORT;
              PROPERTY;
-               OnClick {;create session ;set lock off ;report form FgSVCES},;
+               OnClick {;create session ;set lock off ;do preview.wfm with "FgSVCES.rep"},;
                Text "4. Revenue Services Codes."
                
                 DEFINE MENU SEPARATORREP4 OF THIS.REPORT;
@@ -137,7 +137,7 @@ CLASS FgCode(FormObj,Name) OF MENUBAR(FormObj,Name)
 
        DEFINE MENU SERVICESCODESrev oF THIS.REPORT;
              PROPERTY;
-               OnClick {;create session ;set lock off ;report form fgcodrev},;
+               OnClick {;create session ;set lock off ;do preview.wfm with "fgcodrev.rep"},;
                Text "5. Revenue Service Classification Codes."
 
     DEFINE MENU SEPARATORREP5 OF THIS.REPORT;
@@ -147,7 +147,7 @@ CLASS FgCode(FormObj,Name) OF MENUBAR(FormObj,Name)
       
                DEFINE MENU ERRORProdCodename OF THIS.REPORT;
              PROPERTY;
-               OnClick {;create session ;set lock off ;report form Fgcodnam},;
+               OnClick {;create session ;set lock off ;do preview.wfm with "Fgcodnam.rep"},;
                Text "6. List Codes sorted by name."
                
                
@@ -159,7 +159,7 @@ CLASS FgCode(FormObj,Name) OF MENUBAR(FormObj,Name)
                
                DEFINE MENU ERRORProdCodepric OF THIS.REPORT;
              PROPERTY;
-               OnClick {;create session ;set lock off ;report form Fgcodprc},;
+               OnClick {;create session ;set lock off ;do preview.wfm with "Fgcodprc.rep"},;
                Text "7. List Product Prices."
                 
                 DEFINE MENU SEPARATORREP8 OF THIS.REPORT;
@@ -169,7 +169,7 @@ CLASS FgCode(FormObj,Name) OF MENUBAR(FormObj,Name)
                  
                  DEFINE MENU materialcodes8 OF THIS.REPORT;
              PROPERTY;
-               OnClick {;create session ;set lock off ;report form Fgcodnm},;
+               OnClick {;create session ;set lock off ;do preview.wfm with "Fgcodnm.rep"},;
                Text "8. Items with No Material Codes."
               
                  DEFINE MENU SEPARATORREP9 OF THIS.REPORT;
@@ -179,7 +179,7 @@ CLASS FgCode(FormObj,Name) OF MENUBAR(FormObj,Name)
                  
                  DEFINE MENU materialcodes9 OF THIS.REPORT;
              PROPERTY;
-               OnClick {;create session ;set lock off ;report form Fgcodmp},;
+               OnClick {;create session ;set lock off ;do preview.wfm with "Fgcodmp.rep"},;
                Text "9. Material Code Sales Price."
                 
          DEFINE MENU SEPARATORREP1pric OF THIS.REPORT;
